@@ -1,0 +1,35 @@
+
+{
+  "name": "my-turborepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "start:he": "npm run start --workspace=he",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build-and-start": "turbo run build --filter=<app_name> && turbo run start --filter=<app_name>",
+    "start:another": "npm run start --workspace=another"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.7",
+    "eslint-config-prettier": "^9.1.0",
+    "open-next": "^3.1.1",
+    "prettier": "^3.2.5",
+    "turbo": "^2.1.1",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.8.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@repo/typescript-config": "^0.0.0",
+    "tailwindcss": "^3.4.10"
+  }
+}
