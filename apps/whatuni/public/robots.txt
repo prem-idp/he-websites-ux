@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://mdev.dev.aws.whatuni.com
+
+# Sitemaps
+Sitemap: https://mdev.dev.aws.whatuni.com/sitemap.xml
