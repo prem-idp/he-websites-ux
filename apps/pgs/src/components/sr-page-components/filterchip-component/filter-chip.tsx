@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 interface dataProps {
-  Title: String;
+  Title: string;
   value: string[];
 }
 const FilterChip: React.FC<{ data: dataProps }> = ({ data }) => {

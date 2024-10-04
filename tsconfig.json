@@ -52,7 +52,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./pages/*"]
     }
   },
   "include": [
@@ -62,5 +62,5 @@
     ".next/types/**/*.ts",
     "@types/aws-amplify"
   ],
-  "exclude": ["node_modules", ".next", ",turbo", "test"]
+  "exclude": ["node_modules"]
 }

@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        {/* <GoogleTagManager gtmId="GTM-PKPN9P9" /> */}
+        <GoogleTagManager gtmId="GTM-PKPN9P9" />
         <GoogleAnalytics gaId="G-NZBQJ9J4H2" />
         {children}
       </body>

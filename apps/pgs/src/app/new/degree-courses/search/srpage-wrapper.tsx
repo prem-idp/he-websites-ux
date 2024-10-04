@@ -15,7 +15,7 @@ const AdBanner = dynamic(() => import("@/lib/ads-banner/Adbanner"), {
   ssr: false,
 });
 const SrPageContent = async ({ sub }: any) => {
-  let data: any = await fetchSrPageData(sub);
+  const data: any = await fetchSrPageData(sub);
   return (
     <>
       <Hero inputProps={data?.browseCatDesc} />
