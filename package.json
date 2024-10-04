@@ -1,33 +1,43 @@
 {
   "name": "my-turborepo",
   "private": true,
+  "workspaces": [
+    "apps/whatuni",
+    "apps/pgs"
+  ],
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
+    "dev:pgs": "npm run dev --workspace=pgs",
+    "dev:whatuni": "npm run dev --workspace=whatuni",
+    "build:pgs": "npm run build --workspace=pgs",
+    "build:whatuni": "npm run build --workspace=watuni",
+    "lint:pgs": "npm run eslint apps/pgs/src",
+    "lint:whatuni": "npx eslint apps/whatuni",
     "test": "jest",
-    "start:he": "npm run start --workspace=he",
+    "start:pgs": "npm run start --workspace=pgs",
+    "start:whatuni": "npm run start --workspace=whatuni",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build-and-start": "turbo run build --filter=<app_name> && turbo run start --filter=<app_name>",
-    "start:another": "npm run start --workspace=another"
+    "build-and-start:pgs": "turbo run build --filter=pgs && turbo run start --filter=pgs",
+    "build-and-start:whatuni": "turbo run build --filter=whatuni && turbo run start --filter=whatuni"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "@eslint/js": "^9.11.1",
+    "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.7",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.1",
+    "globals": "^15.10.0",
     "open-next": "^3.1.1",
     "prettier": "^3.2.5",
     "turbo": "^2.1.1",
-    "typescript": "^5.4.5"
+    "typescript": "5.5.x",
+    "typescript-eslint": "^8.8.0"
   },
   "engines": {
     "node": ">=18"
   },
   "packageManager": "npm@10.8.2",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "dependencies": {
     "@repo/typescript-config": "^0.0.0",
     "tailwindcss": "^3.4.10"
