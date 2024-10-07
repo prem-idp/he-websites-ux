@@ -11,5 +11,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "analyze": "next build && next-bundle-analyzer"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.11"
   }
 }
