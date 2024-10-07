@@ -13,7 +13,7 @@
     "build": "turbo build && npm run build:cdk",
     "dev": "turbo dev",
     "lint": "eslint .",
-    "test": "jest",
+    "test": "jest --coverage",
     "dev:pgs": "npm run dev --workspace=pgs",
     "build:pgs": "npm run build --workspace=pgs",
     "start:pgs": "npm run start --workspace=pgs",
@@ -32,6 +32,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.12",
     "@types/node": "20.14.9",
     "autoprefixer": "^10.4.20",
