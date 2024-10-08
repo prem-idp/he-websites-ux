@@ -18,15 +18,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./pages/*"]
+      "@common/*": ["./apps/common-components/*"], // Path alias for common components
+      "@psg/*": ["./apps/psg/src/*"], // Path alias for PSG app
+      "@whatuni/*": ["./apps/whatuni/src/*"] // Path alias for Whatuni app
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "@types/aws-amplify"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
