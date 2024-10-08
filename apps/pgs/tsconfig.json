@@ -18,7 +18,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shared-components/*": ["../../packages/shared-components/*"], // Path alias for common components
+      "@whatuni/*": ["../whatuni/src/*"] // Path alias for Whatuni app
     }
   },
   "include": [

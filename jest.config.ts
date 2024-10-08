@@ -19,8 +19,8 @@ const config: Config = {
   collectCoverageFrom: [
     // Collect coverage from app1 (whatuni)
     // Collect coverage from app2 (pgs) - add your other app here
-    "apps/whatuni/**/*.{ts,tsx}",
-    "apps/pgs/**/*.{ts,tsx}",
+    "apps/whatuni/src/**/*.{ts,tsx}",
+    "apps/pgs/src/**/*.{ts,tsx}",
     "packages/components/**/*.{ts,tsx}",
 
     // Exclude common directories
