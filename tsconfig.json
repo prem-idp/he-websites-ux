@@ -19,9 +19,9 @@
     ],
 
     "paths": {
-      "@shared-components/*": ["./packages/shared-components/*"], // Path alias for common components
-      "@psg/*": ["./apps/psg/src/*"], // Path alias for PSG app
-      "@whatuni/*": ["./apps/whatuni/src/*"] // Path alias for Whatuni app
+      "@shared-components/*": ["./packages/shared-components/*"],
+      "@psg/*": ["./apps/psg/src/*"],
+      "@whatuni/*": ["./apps/whatuni/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
