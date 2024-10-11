@@ -1,9 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import { GoogleTagManager } from "@next/third-parties/google";
+
 import "./global.css";
-import Header from "@/components/shared-components/header/navbar";
 export const metadata: Metadata = {
   title: "Higher Eductaion",
   description:
@@ -17,12 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <GoogleTagManager gtmId="GTM-PKPN9P9" />
-        <GoogleAnalytics gaId="G-NZBQJ9J4H2" />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
