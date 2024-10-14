@@ -1,10 +1,6 @@
 import React from "react";
 const page = () => {
-  return (
-    <div>
-      <h1>PGS page</h1>
-    </div>
-  );
+  return <div>PGS</div>;
 };
 
 export default page;
