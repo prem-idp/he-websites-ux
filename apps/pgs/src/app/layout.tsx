@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "@shared-components/footer/footercomponents";
+import Footer from "@packages/shared-components/footer/footercomponents";
 import type { Metadata } from "next";
 import "./global.css";
 

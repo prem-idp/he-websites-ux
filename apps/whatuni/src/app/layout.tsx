@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import Footer from "@shared-components/footer/footercomponents";
+import Footer from "@packages/shared-components/footer/footercomponents";
 import "./global.css";
 export const metadata: Metadata = {
   title: "Higher Eductaion",
