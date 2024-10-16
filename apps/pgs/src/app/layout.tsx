@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "@packages/shared-components/footer/footercomponents";
 import type { Metadata } from "next";
 import "./global.css";
 
@@ -16,10 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

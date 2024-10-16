@@ -1,6 +1,5 @@
 import React from "react";
 import type { Metadata } from "next";
-import Footer from "@packages/shared-components/footer/footercomponents";
 import "./global.css";
 export const metadata: Metadata = {
   title: "Higher Eductaion",
@@ -15,10 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
