@@ -1,6 +1,42 @@
+"use server";
 import React from "react";
-
+import Link from "next/link";
 const Footer = () => {
+  const quickLinks: string[] = [
+    "Editor@whatuni.com",
+    "Contact us",
+    "About Whatuni",
+    "Student Choice Awards",
+    "The Whatuni Team",
+    "Our Partners",
+    "Terms & Conditions",
+    "Privacy Notice",
+    "Cookies Notice",
+  ];
+  const courseLinks: string[] = [
+    "Courses",
+    "Universities",
+    "Degree subject guides",
+    "Student Choice Awards",
+    "Advertisers",
+    "UCAS Tariff Calculator",
+    "Terms & Conditions",
+    "Sitemap",
+    "Whatuni App",
+  ];
+  const popularSubjectsLinks: string[] = [
+    "Popular subjects",
+    "Acting",
+    "Physics",
+    "Art Drawing",
+    "Biology",
+    "Business",
+    "Chemical engineering",
+    "English language",
+    "English law",
+    "English literature",
+  ];
+
   return (
     <footer className="footer bg-primary-100">
       <div className="container max-w-container mx-auto px-[16px] md:px-[24px] pt-[34px] pb-[40px] xl:px-[0]">
@@ -13,7 +49,10 @@ const Footer = () => {
             <div className="flex flex-col gap-[16px]">
               <ul className="flex flex-row gap-[16px]">
                 <li>
-                  <a href="https://www.facebook.com/whatuni" aria-label="facebook">
+                  <Link
+                    href="https://www.facebook.com/whatuni"
+                    aria-label="facebook"
+                  >
                     <svg
                       width="24"
                       height="24"
@@ -33,15 +72,29 @@ const Footer = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="https://twitter.com/whatuni" aria-label="twitter">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.8114 10.5791L21.8253 1.26367H19.9263L12.9679 9.35224L7.41019 1.26367H1L9.4043 13.4949L1 23.2637H2.89921L10.2476 14.722L16.1169 23.2637H22.5271L13.8112 10.5791H13.8118H13.8114ZM11.2102 13.6027L10.3587 12.3849L3.58341 2.69324H6.50031L11.9682 10.5145L12.8197 11.7324L19.9272 21.8989H17.0103L11.2104 13.6029V13.6024L11.2102 13.6027Z" fill="#0F172A"></path></svg>
-                  </a>
+                  <Link href="https://twitter.com/whatuni" aria-label="twitter">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.8114 10.5791L21.8253 1.26367H19.9263L12.9679 9.35224L7.41019 1.26367H1L9.4043 13.4949L1 23.2637H2.89921L10.2476 14.722L16.1169 23.2637H22.5271L13.8112 10.5791H13.8118H13.8114ZM11.2102 13.6027L10.3587 12.3849L3.58341 2.69324H6.50031L11.9682 10.5145L12.8197 11.7324L19.9272 21.8989H17.0103L11.2104 13.6029V13.6024L11.2102 13.6027Z"
+                        fill="#0F172A"
+                      ></path>
+                    </svg>
+                  </Link>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/whatuni/?hl=en" aria-label="instagram">
+                  <Link
+                    href="https://www.instagram.com/whatuni/?hl=en"
+                    aria-label="instagram"
+                  >
                     <svg
                       width="24"
                       height="24"
@@ -69,10 +122,13 @@ const Footer = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="https://www.tiktok.com/@whatuni" aria-label="tiktok">
+                  <Link
+                    href="https://www.tiktok.com/@whatuni"
+                    aria-label="tiktok"
+                  >
                     <svg
                       width="24"
                       height="24"
@@ -85,12 +141,12 @@ const Footer = () => {
                         fill="#0F172A"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <ul className="flex flex-col gap-[16px]">
                 <li>
-                  <a href="#" aria-label="App Store">
+                  <Link href="#" aria-label="App Store">
                     <svg
                       width="120"
                       height="41"
@@ -207,10 +263,10 @@ const Footer = () => {
                         fill="white"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" aria-label="Google Play">
+                  <Link href="#" aria-label="Google Play">
                     <svg
                       width="135"
                       height="41"
@@ -490,7 +546,7 @@ const Footer = () => {
                         </linearGradient>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -503,78 +559,16 @@ const Footer = () => {
             </p>
             <div className="flex flex-col">
               <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Editor@whatuni.com
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Contact us
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    About Whatuni
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Student Choice Awards
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    The Whatuni Team
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Our Partners
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Privacy Notice
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="small text-grey-300 hover:underline"
-                  >
-                    Cookies Notice
-                  </a>
-                </li>
+                {quickLinks?.map((item, index) => (
+                  <li key={index + 1}>
+                    <Link
+                      href="#"
+                      className="small text-grey-300 hover:underline"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -586,33 +580,16 @@ const Footer = () => {
             </p>
             <div className="flex flex-col">
               <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Courses</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Universities</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Degree subject guides</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Student Choice Awards</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Advertisers</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">UCAS Tariff Calculator</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Terms & Conditions</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Sitemap</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Whatuni App</a>
-                </li>
+                {courseLinks?.map((item, index) => (
+                  <li key={index + 1}>
+                    <Link
+                      href="#"
+                      className="small text-grey-300 hover:underline"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -624,36 +601,16 @@ const Footer = () => {
             </p>
             <div className="flex flex-col">
               <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Popular subjects</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Acting</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Physics</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Art Drawing</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Biology</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Business</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">Chemical engineering</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">English language</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">English law</a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey-300 hover:underline">English literature</a>
-                </li>
+                {popularSubjectsLinks?.map((item, index) => (
+                  <li key={index + 1}>
+                    <Link
+                      href="#"
+                      className="small text-grey-300 hover:underline"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -661,9 +618,10 @@ const Footer = () => {
         </div>
         {/* Copy rights */}
         <div className="copyrights mt-[40px]">
-          <p className="font-regular x-small text-neutral-700 text-center">© 2007-2023 IDP Connect Ltd. All rights reserved</p>
+          <p className="font-regular x-small text-neutral-700 text-center">
+            © 2007-2023 IDP Connect Ltd. All rights reserved
+          </p>
         </div>
-
       </div>
     </footer>
   );
