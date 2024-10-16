@@ -42,9 +42,9 @@ const CourseCard = ({
               <path
                 d="M1 11L11 1M1 1L11 11"
                 stroke="#333333"
-                stroke-width="1.67"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.67"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </span>
@@ -69,9 +69,9 @@ const CourseCard = ({
                   <path
                     d="M8.55556 10.2222H8V8H7.44444M8 5.77778H8.00556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z"
                     stroke="#FFEEEE"
-                    stroke-width="1.13"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.13"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
@@ -124,9 +124,9 @@ const CourseCard = ({
                   d="M10.7778 13.6111H10V10.5H9.22222M10 7.38889H10.0078M17 10.5C17 14.366 13.866 17.5 10 17.5C6.13401 17.5 3 14.366 3 10.5C3 6.63401 6.13401 3.5 10 3.5C13.866 3.5 17 6.63401 17 10.5Z"
                   // className="hover:fill-[#333F48]  hover:stroke-[#fff] "
                   stroke="#333F48"
-                  stroke-width="1.67"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <svg

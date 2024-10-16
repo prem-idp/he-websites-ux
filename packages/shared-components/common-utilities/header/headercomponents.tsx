@@ -1,76 +1,106 @@
 "use client";
 
-import React from "react";
+import React, { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import Megamenucomponents from "../topnav/megamenucomponents";
 
 const Header = () => {
   // Toggle Menu
-  const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const mobileToggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
+// Check screen width
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 991);
+  };
+
+  // Initial check
+  handleResize();
+  // Add event listener on resize
+  window.addEventListener('resize', handleResize);
+
+  // Cleanup event listener on unmount
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
   // search click
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-  const searchClick = () => {
-    setIsSearchClicked(!isSearchClicked);
-    setIsUserClicked(false);
-    setIsShortlistClicked(false);
+  const [isUserClicked, setIsUserClicked] = useState(false);
+  const [isShortlistClicked, setIsShortlistClicked] = useState(false);
+
+  // right menu actions
+  const rightMenuAction = (actionName: string) => {
+    if (actionName == "SEARCH") {
+      setIsSearchClicked(!isSearchClicked);
+      setIsUserClicked(false);
+      setIsShortlistClicked(false);
+    } else if (actionName == "USER") {
+      setIsUserClicked(!isUserClicked);
+      setIsSearchClicked(false);
+      setIsShortlistClicked(false);
+    } else if (actionName == "SHORTLIST") {
+      setIsShortlistClicked(!isShortlistClicked);
+      setIsSearchClicked(false);
+      setIsUserClicked(false);
+    }
   };
 
-  // user click
-  const [isUserClicked, setIsUserClicked] = useState(true);
-  const userClick = () => {
-    setIsUserClicked(!isUserClicked);
-    setIsSearchClicked(false);
-    setIsShortlistClicked(false);
-  };
-
-  // shortlist click
-  const [isShortlistClicked, setIsShortlistClicked] = useState(true);
-  const shortlistClick = () => {
-    setIsShortlistClicked(!isShortlistClicked);
-    setIsSearchClicked(false);
-    setIsUserClicked(false);
-  };
-
-  // course tab
+  // course tab click
   const [activeTab, setActiveTab] = useState("tab1");
   const searchTabClick = (tabName: any) => {
     setActiveTab(tabName);
   };
 
-  // undergratuate click
+  // course tab actions
   const [isUndergratuateClicked, setIsUndergratuateClicked] = useState(false);
-  const undergratuateClick = () => {
-    setIsUndergratuateClicked(!isUndergratuateClicked);
-    setIsSubjectClicked(false);
-    setIsLocationClicked(false);
-  };
-
-  // subject click
   const [isSubjectClicked, setIsSubjectClicked] = useState(false);
-  const subjectClick = () => {
-    setIsSubjectClicked(!isSubjectClicked);
-    setIsUndergratuateClicked(false);
-    setIsLocationClicked(false);
-  };
-
-  // location click
   const [isLocationClicked, setIsLocationClicked] = useState(false);
-  const locationClick = () => {
-    setIsLocationClicked(!isLocationClicked);
-    setIsUndergratuateClicked(false);
-    setIsSubjectClicked(false);
-  };
+  const [isUniversityClicked, setIsUniversityClicked] = useState(false);
+  const [isAdviceClicked, setIsAdviceClicked] = useState(false);
 
+  const courseActions = (tabName: string) => {
+    if (tabName == "UG") {
+      setIsUndergratuateClicked(!isUndergratuateClicked);
+      setIsSubjectClicked(false);
+      setIsLocationClicked(false);
+      setIsUniversityClicked(false);
+      setIsAdviceClicked(false);
+    } else if (tabName == "Subject") {
+      setIsSubjectClicked(!isSubjectClicked);
+      setIsUndergratuateClicked(false);
+      setIsLocationClicked(false);
+      setIsUniversityClicked(false);
+      setIsAdviceClicked(false);
+    } else if (tabName == "Location") {
+      setIsLocationClicked(!isLocationClicked);
+      setIsUndergratuateClicked(false);
+      setIsSubjectClicked(false);
+      setIsUniversityClicked(false);
+      setIsAdviceClicked(false);
+    } else if (tabName == "University") {
+      setIsUniversityClicked(!isUniversityClicked);
+      setIsUndergratuateClicked(false);
+      setIsSubjectClicked(false);
+      setIsLocationClicked(false);
+      setIsAdviceClicked(false);
+    } else if (tabName == "Advice") {
+      setIsAdviceClicked(!isAdviceClicked);
+      setIsUndergratuateClicked(false);
+      setIsSubjectClicked(false);
+      setIsLocationClicked(false);
+      setIsUniversityClicked(false);
+    }
+  };
   return (
     <>
-      <header className="bg-white pl-[16px] pr-[21px] py-[4px] lg:px-0 lg:py-[8px]">
+      <header className="bg-white pl-[16px] pr-[21px] py-[4px] xl:px-0 xl:py-[8px]">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[70px]">
             <Link href="#">
@@ -85,12 +115,8 @@ const Header = () => {
             </Link>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
-            <button
-              className="mr-[16px] block lg:hidden"
-              onClick={mobileToggleOpen}
-              aria-label="Mobile Toggle"
-            >
-              {isOpen ? (
+            {isMobile && (
+            <button className="mr-[16px] block lg:hidden" onClick={mobileToggleOpen} aria-label="Mobile Toggle">
                 <svg
                   width="24"
                   height="24"
@@ -106,33 +132,27 @@ const Header = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              ) : (
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4 6H20M4 12H20M4 18H20"
-                    stroke="#333F48"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
             </button>
-            <div className={`megamenu-container h-[100vh] lg:h-auto bg-neutral400 lg:bg-transparent lg:block transition-all duration-300 ease-in-out`}>
+            )}
+            {isMobile ? (
+               <div className={`megamenu-container fixed left-0 top-0 z-[1] w-full h-[100vh] lg:h-auto bg-neutral400 lg:bg-transparent lg:block transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0 ' :'-translate-x-full'}`}>
+              <Fragment>
+              { isOpen && (
+                <div>
+                  <Megamenucomponents />
+                </div>                            
+               )}                         
+            </Fragment>
+            </div>
+              ) : (
                 <Megamenucomponents />
-            </div>  
+              )}
           </div>
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px]">
               <li>
                 <Link
-                  onClick={searchClick}
+                  onClick={() => rightMenuAction("SEARCH")}
                   href="#"
                   aria-label="Search"
                   className="border border-gray-500 rounded-[34px] p-[14px] w-[48px] h-[48px] block"
@@ -155,11 +175,11 @@ const Header = () => {
                 </Link>
                 {/* course tab section */}
                 {isSearchClicked && (
-                  <div className="bg-white absolute top-[94px] left-0 right-0">
+                  <div className="bg-white absolute top-0 left-0 right-0 min-h-[222px] z-10 lg:top-[94px]">
                     <div className="max-w-container w-full mx-auto flex flex-col px-[16px] py-[8px] cursor-pointer lg:py-[16px]">
                       <div
                         className="flex justify-end mr-[-8px]"
-                        onClick={searchClick}
+                        onClick={() => rightMenuAction("SEARCH")}
                       >
                         <svg
                           width="32"
@@ -219,15 +239,15 @@ const Header = () => {
                             </Link>
                           </li>
                         </ul>
-                        <div className="w-full lg:w-[804px]">
+                        <div className="w-full lg:max-w-[804px]">
                           {activeTab === "tab1" && (
                             <div className="flex flex-col gap-[24px]">
-                              <div className="bg-white rounded-[32px] px-[16px] pt-[21px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:px-[10px] lg:pt-0">
-                                <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
-                                  <div className="w-full relative mb-[14px] md:w-fit md:mr-[16px] md:mb-[0] ">
+                              <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:pr-[10px] md:py-[7px]">
+                                <div className="flex flex-col items-stretch md:flex-row md:items-center">
+                                  <div className="relative mb-[24px] md:mb-[0]">
                                     <button
-                                      onClick={undergratuateClick}
-                                      className="flex items-center justify-between gap-[4px] w-full small text-black pl-[0px] md:pl-[20px] md:pr-[17px]"
+                                      onClick={() => courseActions("UG")}
+                                      className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[124px] md:mr-[16px]"
                                       type="button"
                                     >
                                       Undergraduate
@@ -239,7 +259,7 @@ const Header = () => {
                                       />
                                     </button>
                                     {isUndergratuateClicked && (
-                                      <div className="w-full z-[1] bg-slate-400 shadow-custom-3 rounded-[4px] absolute left-[-15px] top-[40px] overflow-hidden lg:w-[230px] lg:left-[-8px]">
+                                      <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[40px] overflow-hidden lg:w-[230px]">
                                         <ul>
                                           <li>
                                             <Link
@@ -286,10 +306,10 @@ const Header = () => {
                                     )}
                                   </div>
                                   <div
-                                    className="w-full relative md:w-fit"
-                                    onClick={subjectClick}
+                                    className="w-full relative border-y-[1px] border-neutral200 grow md:border-l md:border-y-0"
+                                    onClick={() => courseActions("Subject")}
                                   >
-                                    <div className="flex items-center w-full my-[12px] md:my-[0] border-l-0 lg:border-l border-neutral-200">
+                                    <div className="flex items-center w-full my-[12px] md:my-[0]">
                                       <input
                                         type="text"
                                         className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
@@ -298,7 +318,7 @@ const Header = () => {
                                       />
                                     </div>
                                     {isSubjectClicked && (
-                                      <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-[8px] top-[50px] max-h-[311px] overflow-y-scroll custom-vertical-scrollbar overflow-hidden">
+                                      <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] max-h-[311px] overflow-y-scroll custom-vertical-scrollbar overflow-hidden">
                                         <Link href="">
                                           <div className="px-[16px] py-[12px]">
                                             <p className="x-small font-semibold text-black tracking-[1px] leading-[18px]">
@@ -363,8 +383,8 @@ const Header = () => {
                                     )}
                                   </div>
                                   <div
-                                    className="w-full relative md:w-fit"
-                                    onClick={locationClick}
+                                    className="w-full relative grow md:border-l border-neutral200"
+                                    onClick={() => courseActions("Location")}
                                   >
                                     <div className="flex items-center w-full my-[12px] md:my-[0] border-l-0 lg:border-l border-neutral-200">
                                       <input
@@ -375,7 +395,7 @@ const Header = () => {
                                       />
                                     </div>
                                     {isLocationClicked && (
-                                      <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-[18px] top-[50px] overflow-hidden">
+                                      <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] overflow-hidden">
                                         <ul>
                                           <li>
                                             <Link
@@ -421,11 +441,10 @@ const Header = () => {
                                       </div>
                                     )}
                                   </div>
-
-                                  <div className="search-btn pt-[24px] md:pt-[0]">
+                                  <div className="pt-[2px] md:pt-[0]">
                                     <button
                                       type="submit"
-                                      className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[138px]"
+                                      className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
                                     >
                                       <Image
                                         src="/assets/icons/search_icon.svg"
@@ -454,125 +473,131 @@ const Header = () => {
                                     strokeLinejoin="round"
                                   />
                                 </svg>
-                                <div className="ml-[4px] mr-[8px]">
+                                <div className="ml-[1px] mr-[8px] lg:ml-[4px]">
                                   Don’t know your UCAS points?
                                 </div>
-                                <div className="text-blue-500 font-semibold">
+                                <Link
+                                  href="#"
+                                  className="text-blue-500 font-semibold hover:underline"
+                                >
                                   Calculate them
-                                </div>
+                                </Link>
                               </div>
                             </div>
                           )}
                           {activeTab === "tab2" && (
                             <div className="flex flex-col gap-[24px]">
-                              <div className="bg-white rounded-[32px] border-[1px] border-solid border-neutral-300 p-[8px] hover:border-secondary-500 shadow-custom-1">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex flex-col justify-between w-full lg:flex-row relative">
-                                    <div className="flex items-center">
-                                      <input
-                                        type="text"
-                                        className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 rounded-tl-[24px] rounded-bl-[24px] px-[16px] py-[10px]"
-                                        aria-label=""
-                                        placeholder="University name"
+                              <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
+                                <div className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row">
+                                  <div className="grow">
+                                    <input
+                                      onClick={() =>
+                                        courseActions("University")
+                                      }
+                                      type="text"
+                                      className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
+                                      aria-label=""
+                                      placeholder="University name"
+                                    />
+                                  </div>
+                                  <div className="pt-[16px] md:pt-[0]">
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
+                                    >
+                                      <Image
+                                        src="/assets/icons/search_icon.svg"
+                                        width="18"
+                                        height="18"
+                                        alt="Search icon"
                                       />
-                                    </div>
-                                    <div className="search-btn pt-[24px] md:pt-[0]">
-                                      <button
-                                        type="submit"
-                                        className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
-                                      >
-                                        <Image
-                                          src="/assets/icons/search_icon.svg"
-                                          width="18"
-                                          height="18"
-                                          alt="Search icon"
-                                        />
-                                        Search
-                                      </button>
-                                    </div>
-                                    <div className="dropdown-menu flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-[0px_1px_2px_-1px_rgba(16,24,40,0.1),0px_1px_3px_0px_rgba(16,24,40,0.1)] rounded-[8px] left-[-8px] top-[53px] overflow-hidden hidden">
+                                      Search
+                                    </button>
+                                  </div>
+                                  {isUniversityClicked && (
+                                    <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
                                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                                         UNIVERSITIES
                                       </div>
                                       <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Law
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Manchester
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Liverpool
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Barnsley
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Burnley
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Bristol, University of the West of
                                             England
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             INTO Manchester (The University of
                                             Manchester)
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Courtauld Institute of Art,
                                             University of London
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Cardiff Metropolitan University
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Institute of Advanced Legal Studies,
@@ -582,10 +607,13 @@ const Header = () => {
                                         </li>
                                       </ul>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               </div>
-                              <div className="flex items-center justify-center gap-[4px] text-blue-500 small font-semibold">
+                              <Link
+                                href="#"
+                                className="flex items-center justify-center gap-[4px] text-blue-500 small font-semibold hover:underline"
+                              >
                                 Browse unis A-Z
                                 <Image
                                   src="/assets/icons/arrow-right.svg"
@@ -593,119 +621,120 @@ const Header = () => {
                                   height={20}
                                   alt="Right Arrow"
                                 />
-                              </div>
+                              </Link>
                             </div>
                           )}
                           {activeTab === "tab3" && (
                             <div className="flex flex-col gap-[24px]">
-                              <div className="bg-white rounded-[32px] border-[1px] border-solid border-neutral-300 p-[8px] hover:border-secondary-500 shadow-custom-1">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex justify-between w-[100%] relative">
-                                    <div className="flex items-center w-[calc(100%-44px)]">
-                                      <input
-                                        type="text"
-                                        className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 rounded-tl-[24px] rounded-bl-[24px] px-[16px] py-[10px]"
-                                        aria-label=""
-                                        placeholder="Enter keyword"
+                              <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
+                                <div className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row">
+                                  <div className="grow">
+                                    <input
+                                      onClick={() => courseActions("Advice")}
+                                      type="text"
+                                      className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
+                                      aria-label=""
+                                      placeholder="Enter keyword"
+                                    />
+                                  </div>
+                                  <div className="pt-[16px] md:pt-[0]">
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
+                                    >
+                                      <Image
+                                        src="/assets/icons/search_icon.svg"
+                                        width="18"
+                                        height="18"
+                                        alt="Search icon"
                                       />
-                                    </div>
-                                    <div className="search-btn pt-[24px] md:pt-[0]">
-                                      <button
-                                        type="submit"
-                                        className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
-                                      >
-                                        <Image
-                                          src="/assets/icons/search_icon.svg"
-                                          width="18"
-                                          height="18"
-                                          alt="Search icon"
-                                        />
-                                        Search
-                                      </button>
-                                    </div>
-                                    <div className="dropdown-menu flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-[0px_1px_2px_-1px_rgba(16,24,40,0.1),0px_1px_3px_0px_rgba(16,24,40,0.1)] rounded-[8px] left-[-8px] top-[53px] overflow-hidden hidden">
+                                      Search
+                                    </button>
+                                  </div>
+                                  {isAdviceClicked && (
+                                    <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
                                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                                         UNIVERSITIES
                                       </div>
                                       <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Law
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Manchester
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Liverpool
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Barnsley
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             University of Burnley
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Bristol, University of the West of
                                             England
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             INTO Manchester (The University of
                                             Manchester)
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Courtauld Institute of Art,
                                             University of London
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Cardiff Metropolitan University
                                           </Link>
                                         </li>
-                                        <li className="px-[16px] py-[10px]">
+                                        <li>
                                           <Link
-                                            className="dropdown-item w-fit block small text-grey300 hover:underline"
+                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline"
                                             href="#"
                                           >
                                             Institute of Advanced Legal Studies,
@@ -715,10 +744,13 @@ const Header = () => {
                                         </li>
                                       </ul>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               </div>
-                              <div className="flex items-center justify-center gap-[4px] text-blue-500 small font-semibold">
+                              <Link
+                                href="#"
+                                className="flex items-center justify-center gap-[4px] text-blue-500 small font-semibold hover:underline"
+                              >
                                 Browse advice
                                 <Image
                                   src="/assets/icons/arrow-right.svg"
@@ -726,7 +758,7 @@ const Header = () => {
                                   height={20}
                                   alt="Right Arrow"
                                 />
-                              </div>
+                              </Link>
                             </div>
                           )}
                         </div>
@@ -737,7 +769,7 @@ const Header = () => {
               </li>
               <li className="relative">
                 <Link
-                  onClick={userClick}
+                  onClick={() => rightMenuAction("USER")}
                   href="#"
                   aria-label="User"
                   className="border border-gray-500 rounded-[34px] p-[14px] w-[48px] h-[48px] block"
@@ -767,7 +799,7 @@ const Header = () => {
                 </Link>
                 {/* user section */}
                 {isUserClicked && (
-                  <div className="flex justify-between p-[16px] absolute top-[72px] right-[-39px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px]">
+                  <div className="flex justify-between p-[16px] absolute top-[56px] right-[-39px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] lg:top-[71px] lg:right-0">
                     <ul className="small">
                       <li className="mb-[16px] hover:underline">
                         <Link href="#">My profile</Link>
@@ -792,7 +824,11 @@ const Header = () => {
                 )}
               </li>
               <li className="relative min-h-[48px] flex items-center">
-                <Link onClick={shortlistClick} href="#" className="relative block">
+                <Link
+                  onClick={() => rightMenuAction("SHORTLIST")}
+                  href="#"
+                  className="relative block"
+                >
                   <svg
                     width="24"
                     height="24"
@@ -816,7 +852,7 @@ const Header = () => {
 
                 {/* shortlist section */}
                 {isShortlistClicked && (
-                  <div className="flex justify-between p-[16px] absolute top-[72px] right-[-5px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px]">
+                  <div className="flex justify-between p-[16px] absolute top-[56px] right-[-5px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] lg:top-[71px]">
                     <ul className="small">
                       <li className="mb-[16px] hover:underline">
                         <Link href="#">

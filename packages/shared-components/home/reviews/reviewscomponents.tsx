@@ -8,8 +8,8 @@ const Reviewscomponents = () => {
   return (
     <div className="reviews-container bg-neutral-50">
       <div className="max-w-container mx-auto">
-        <div className="reviews-card-container px-[16px] md:px-[20px] py-[64px] lg:px-[0]">
-            <div className="reviews-header mb-[26px] md:mb-[32px]">
+        <div className="reviews-card-container py-[64px] lg:px-[0]">
+            <div className="reviews-header px-[16px] md:px-[20px] mb-[26px] md:mb-[32px]">
                 <h2 className="font-bold">Honest reviews from real students</h2>
                 <p className="font-normal small mt-[8px]">Subheading</p>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Menucategory1card from '../megamenu/menucategory1card';
 import Menucategory2card from '../megamenu/menucategory2card';
 import Menucategory3card from '../megamenu/menucategory3card';
@@ -18,14 +18,29 @@ const Megamenucomponents = () => {
     // Menu open/close state
     const [isOpen, setIsOpen] = useState(false);
 
+    const closeMegamenu = () => {
+        setIsOpen(isOpen)
+     }
+
+     const [isMobile, setIsMobile] = useState(false);
+     // Check screen width
+    useEffect(() => {
+    const handleResize = () => {
+        setIsMobile(window.innerWidth <= 991);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener on resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
   return (
     <>
-        {/* <div className='back-navigation flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Link 1
-        </div> */}
         <div className='flex lg:items-center lg:justify-center'>
         <nav className="p-[16px] w-[335px] h-[100vh] bg-white lg:w-fit lg:h-auto">
             <ul className="flex flex-col lg:flex-row gap-[10px] lg:gap-[24px] justify-center">
@@ -37,6 +52,14 @@ const Megamenucomponents = () => {
 
                     {openMenu === 'menu1' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        {isMobile && (
+                        <div className={`back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>
+                        )}
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -54,6 +77,12 @@ const Megamenucomponents = () => {
                     </Link>
                     {openMenu === 'menu2' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-[610px_auto_auto] lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1x2card />
@@ -70,6 +99,12 @@ const Megamenucomponents = () => {
                     </Link>
                     {openMenu === 'menu3' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -87,6 +122,12 @@ const Megamenucomponents = () => {
                     </Link>
                     {openMenu === 'menu4' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -104,6 +145,12 @@ const Megamenucomponents = () => {
                     </Link>
                     {openMenu === 'menu5' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -121,6 +168,12 @@ const Megamenucomponents = () => {
                     </Link>
                     {openMenu === 'menu6' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -137,6 +190,12 @@ const Megamenucomponents = () => {
                 </Link>
                 {openMenu === 'menu7' && (
                     <div className="megamenu bg-neutral-50 lg:bg-white shadow-custom-5 absolute top-[94px] left-[0] right-[0]">
+                        <div className='back-navigation lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300'>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 12.4444L1 6.99999M1 6.99999L6.44444 1.55554M1 6.99999L15 6.99999" stroke="#0F172A" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            Link 1
+                        </div>                        
                         <div className="max-w-container mx-auto">
                             <section className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]">
                                 <Menucategory1card />
@@ -150,7 +209,7 @@ const Megamenucomponents = () => {
                 </li>
             </ul>
         </nav>
-        <div className='menu-close-card lg:hidden' onClick={()=>setIsOpen(isOpen)}>
+        <div className='menu-close-card lg:hidden'>
             <div className='menu-close bg-neutral-900 p-[8px]'>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
