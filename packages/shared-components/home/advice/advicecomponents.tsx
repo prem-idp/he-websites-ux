@@ -1,5 +1,5 @@
 import React from "react";
-import Advicecourseslidercomponents from "@shared-components/common-utilities/slider/advicecourseslidercomponents";
+import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 const Advicecomponents = () => {
   return (
     <div className="advice-container bg-white">

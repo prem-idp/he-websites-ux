@@ -19,7 +19,7 @@
     ],
 
     "paths": {
-      "@shared-components/*": ["./packages/shared-components/*"],
+      "@packages/*": ["./packages/*"],
       "@psg/*": ["./apps/psg/src/*"],
       "@whatuni/*": ["./apps/whatuni/src/*"]
     }
