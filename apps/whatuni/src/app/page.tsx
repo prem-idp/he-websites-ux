@@ -1,10 +1,7 @@
 "use server";
 import Herocomponents from "@packages/shared-components/home/hero/herocomponents";
 import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
-import Testimonialcomponents from "@packages/shared-components/home/testimonials/testimonialcomponents";
 import React from "react";
-import Herocomponents from "@packages/shared-components/home/hero/herocomponents";
-import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
 import Discovercomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
 import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
 import Testimonialcomponents from "@packages/shared-components/home/testimonials/testimonialcomponents";
