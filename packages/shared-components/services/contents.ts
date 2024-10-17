@@ -1,5 +1,3 @@
-import { FastlaneCardProps } from "@/component/Call-to-action/fastlaneCta";
-import { ScholarshipCardProps } from "@/component/Call-to-action/scholarshipCta";
 import {  homepageBanner } from "../types/types";
 
 export const homepageBannerContents: homepageBanner[] = [
@@ -10,30 +8,6 @@ export const homepageBannerContents: homepageBanner[] = [
     desktopImg: "/images/desktop-Hero-Banner2.webp",
     mobileImg: "/images/mobile-Hero-Banner.webp",
     ctaText: "Start my journey",
-  },
-];
-
-
-export const fastlaneCardItems: FastlaneCardProps[] = [
-  {
-    bannerImg: "/images/fastlaneBanner.png",
-    title: "Less is more with IDP FastLane!",
-    content:
-      "Your express pass to studying abroad is here. Let IDP fastlane match you to the best university.",
-    ctaBtn: "Find courses",
-    tagline: "Product of",
-    link: "/",
-  },
-];
-
-export const scholarshipCardItems: ScholarshipCardProps[] = [
-  {
-    bannerImg: "/images/scholarshipBanner.png",
-    title: "Find a scholarship",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipiscing elit lacus fermentum cursus, proin bibendum sem feugiat cubilia sapien turpis id egestas tortor, morbi cras et commodo",
-    ctaBtn: "Find scholarships",
-    link: "/",
   },
 ];
 
@@ -87,19 +61,6 @@ const dropdownData = {
 
 export default dropdownData;
 
-export const optionsStep1: CheckboxOption[] = [
-  { id: "postgraduate", label: "Postgraduate" },
-  { id: "undergraduate", label: "Undergraduate" },
-  { id: "premasters", label: "Pre-masters and Vocational" },
-];
-export const optionsStep3: CheckboxOption[] = [
-  { id: "australia", label: "Australia" },
-  { id: "canada", label: "Canada" },
-  { id: "ireland", label: "Ireland" },
-  { id: "newzealand", label: "New Zealand" },
-  { id: "uk", label: "UK" },
-  { id: "usa", label: "USA" },
-];
 export const optionsStep4 = [
   {
     title: "Speak to an expert",

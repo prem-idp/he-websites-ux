@@ -139,7 +139,7 @@ useEffect(() => {
               <Fragment>
               { isOpen && (
                 <div>
-                  <Megamenucomponents />
+                  <Megamenucomponents/>
                 </div>                            
                )}                         
             </Fragment>
