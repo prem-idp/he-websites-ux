@@ -1,3 +1,4 @@
+"uses server";
 import React from "react";
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 const Advicecomponents = () => {

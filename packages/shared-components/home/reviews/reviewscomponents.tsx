@@ -1,4 +1,4 @@
-"use client";
+"use server";
 import Reviewslidercomponents from "@packages/shared-components/common-utilities/slider/reviewslidercomponents";
 import React from "react";
 

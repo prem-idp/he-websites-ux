@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import Footer from "@packages/shared-components/common-utilities/header/headercomponents";
+import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import "./global.css";
 import Header from "@packages/shared-components/common-utilities/header/headercomponents";
 export const metadata: Metadata = {

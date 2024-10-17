@@ -1,3 +1,4 @@
+"use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
 
