@@ -22,7 +22,6 @@ const TopRightMenu = () => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isUserClicked, setIsUserClicked] = useState(false);
   const [isShortlistClicked, setIsShortlistClicked] = useState(false);
-
   return (
     <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
       <ul className="flex items-center justify-end gap-[10px]">
