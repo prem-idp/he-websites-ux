@@ -154,40 +154,14 @@ p,.para {@apply text-para}
 /* Menu active classes */
 .menu-active{@apply lg:shadow-custom-7}
 /* Menu active classes */
-
-/* Slick slider */
-.slick-list {@apply !-mx-[8px]}
-.slick-slide > div {@apply !px-[8px]}
-.slick-prev,.slick-next{@apply flex !w-[40px] !h-[40px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-secondary-500 !bg-white hover:!bg-secondary-500  !bg-no-repeat !bg-center z-[2] !top-[66%]}
-.slick-prev::before,.slick-next::before{content:''!important}
-.slick-prev{@apply !left-[-20px]}
-.slick-prev{@apply !bg-[url(/assets/icons/arrow-left.svg)] hover:!bg-[url(/assets/icons/arrow-left-white.svg)]}
-.slick-next{@apply !bg-[url(/assets/icons/arrow-right.svg)] hover:!bg-[url(/assets/icons/arrow-right-white.svg)]}
-.slick-disabled{@apply !border-neutral-300 !bg-neutral-100 pointer-events-none}
-.slick-prev.slick-disabled{@apply !bg-[url(/assets/icons/arrow-left-grey.svg)]}
-.slick-next.slick-disabled{@apply !bg-[url(/assets/icons/arrow-right-grey.svg)]}
-.slick-dots li button:before{@apply !text-[9px] !opacity-[1] !text-neutral-200}
-.slick-dots li{@apply !m-[0]}
-.slick-dots li,.slick-dots li button,.slick-dots li button:before{@apply !w-[12px] !h-[12px] !leading-[12px]}
-.slick-dots li.slick-active button:before{@apply !text-blue-200}
-/* Desktop CSS  */
-.discover-card-container .slick-slider .slick-list{@apply lg:!m-[0]}
-.discover-card-container .slick-slider .slick-track{@apply lg:grid lg:grid-cols-3 lg:gap-[20px]}
-.discover-card-container .slick-track:before, .slick-track:after{@apply lg:!hidden}
-.discover-card-container .slick-slide{@apply lg:!w-[100%]}
-.discover-card-container .slick-slide > div{@apply lg:!flex lg:!p-[0]}
-/* Desktop CSS  */
-/* Slick slider */
-
 /* Swiper Styles */
-.mySwiper {@apply xs:!px-[16px] !pb-[30px] lg:!px-[0] md:!pl-[20px] md:!pr-[32px]}
-.swiper-slide{@apply md:!w-[350px] lg:!w-[392px] lg:!mr-[20px]}
+.MultiSwiper{@apply xs:!px-[16px] md:!px-[20px] lg:!px-[0] !pb-[30px]}
 .swiper-button-prev:after, .swiper-button-next:after{display: none}
 .swiper-button-prev{@apply !bg-[url(/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-left-white.svg)] !left-0}
 .swiper-button-next{@apply !bg-[url(/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-right-white.svg)] !right-0}
 .swiper-button-disabled{visibility: hidden}
 .swiper-button-prev,.swiper-button-next{@apply flex !w-[40px] !h-[40px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%]
-!m-[0] translate-y-[-32%]}
+!m-[0] translate-y-[-32%] !hidden lg:!block}
 .swiper-pagination{@apply !bottom-[0]}
 .swiper-pagination-bullet{@apply !bg-grey-200 !opacity-[1] !mx-[2px]}
 .swiper-pagination-bullet-active{@apply !bg-blue-300} 
@@ -195,6 +169,7 @@ p,.para {@apply text-para}
 
 /* For testing purpose */
 
-/* .wusca-container, .reviews-container {@apply bg-black} */
+/* .wusca-container, .reviews-container, .advice-container {@apply bg-black}
+.discover-container, .testimonials-container{@apply bg-neutral-300} */
 
 

@@ -1,19 +1,18 @@
-import React from 'react'
 import Discoverslidercomponents from '@/app/components/slider/discoverslidercomponents'
-import Discoverslidercomponents1 from '@/app/components/slider/discoverslidercomponents1'
+import React from 'react'
 
 const Discovercomponents = () => {
   return (
     <div className='discover-container bg-white'> 
       <div className="max-w-container mx-auto">
-          <div className='discover-card-container px-[0] py-[64px]'>
+          <div className='discover-card-container px-[0] py-[34px] md:py-[60px]'>
               <div className='discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]'>
                   <h2 className='font-bold'>Discover</h2>
                   <p className='font-normal small mt-[8px]'>Subheading</p>
               </div>
                 <div className="discover-inner-wrap"> 
                   <Discoverslidercomponents />
-                  <div className='flex justify-center mt-[34px]'>
+                  <div className='flex justify-center mt-[16px] lg:mt-[28px]'>
                   <a href='#' className='flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]'>
                   View more
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
