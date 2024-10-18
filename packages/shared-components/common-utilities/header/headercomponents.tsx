@@ -135,15 +135,27 @@ useEffect(() => {
             </button>
             )}
             {isMobile ? (
-               <div className={`megamenu-container fixed left-0 top-0 z-[1] w-full h-[100vh] lg:h-auto bg-neutral400 lg:bg-transparent lg:block transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0 ' :'-translate-x-full'}`}>
+              <>
+              <div className={`${isOpen ? 'animate-fadeIn block' : 'hidden'} bg-neutral400 lg:bg-transparent fixed top-0 left-0 right-0 bottom-0 z-[5]`}></div>
+               <div className={`megamenu-container fixed left-0 top-0 z-[6] w-full h-[100vh] lg:h-auto transition-all duration-300 ease-in-out ${isOpen ? 'animate-fadeInLeft' :'-translate-x-full'}`}>
+                
               <Fragment>
               { isOpen && (
-                <div>
+                <div className="relative z-[6] w-fit">
+                    <div onClick={mobileToggleOpen} className={`menu-close-card lg:hidden absolute right-[-40px]`}>
+                      <div className='menu-close bg-neutral-900 p-[8px]'>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M18 6L6 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                      </div>
+                  </div>
                   <Megamenucomponents/>
-                </div>                            
+                </div>                         
                )}                         
             </Fragment>
             </div>
+            </>
               ) : (
                 <Megamenucomponents />
               )}
