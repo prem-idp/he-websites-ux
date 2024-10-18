@@ -5,3 +5,17 @@ export interface User {
   age?: number;
   isActive: boolean;
 }
+
+export interface UcasFormHandle {
+  activeTab: string;
+  isCourseType: boolean;
+  isSubjectClicked: boolean;
+  isLocationClicked: boolean;
+  isAdviceClicked: boolean;
+  isUniversityClicked: boolean;
+  courseType: string;
+  university: string;
+  subject: string;
+  location: string;
+  advice: string;
+}
