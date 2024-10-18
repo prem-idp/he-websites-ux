@@ -1,7 +1,6 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-
 const Discovercomponents = () => {
   return (
     <div className="discover-container bg-white">
