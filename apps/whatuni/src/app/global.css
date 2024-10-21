@@ -156,7 +156,7 @@ p,.para {@apply text-para}
 /* Menu active classes */
 /* Swiper Styles */
 .MultiSwiper{@apply xs:!px-[16px] md:!px-[20px] lg:!px-[0] !pb-[30px]}
-.MultiSwiper .swiper-button-prev:after,.MultiSwiper.swiper-button-next:after{display: none}
+.MultiSwiper .swiper-button-prev:after,.MultiSwiper .swiper-button-next:after{@apply !hidden}
 .MultiSwiper .swiper-button-prev{@apply !bg-[url(/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-left-white.svg)] !left-0}
 .MultiSwiper .swiper-button-next{@apply !bg-[url(/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-right-white.svg)] !right-0}
 .MultiSwiper .swiper-button-disabled{visibility: hidden}
@@ -166,7 +166,58 @@ p,.para {@apply text-para}
 .MultiSwiper .swiper-pagination-bullet{@apply !bg-grey-200 !opacity-[1] !mx-[2px]}
 .MultiSwiper .swiper-pagination-bullet-active{@apply !bg-blue-300} 
 /* Swiper Styles */
+.animate-fadeIn{
+  animation: fadeIn .2s ease-in;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate-fadeOut{
+  animation: fadeIn .2s ease-out;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.animate-fadeInLeft{
+  animation: fadeInLeft .3s;
+}
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
 
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate-fadeOutLeft{
+  animation: fadeOutLeft 0.3s;
+}
+@keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
 /* For testing purpose */
 
 /* .wusca-container, .reviews-container, .advice-container {@apply bg-black}
