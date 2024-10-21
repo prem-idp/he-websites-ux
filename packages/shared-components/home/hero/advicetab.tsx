@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { UcasFormHandle } from "@packages/lib/types/interfaces";
@@ -30,6 +31,12 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
           <div className="grow">
             <input
               onClick={() => courseActions("Advice")}
+              onChange={(event) =>
+                setucasFormHandle((preData) => ({
+                  ...preData,
+                  advice: event.target.value,
+                }))
+              }
               type="text"
               className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
               aria-label=""

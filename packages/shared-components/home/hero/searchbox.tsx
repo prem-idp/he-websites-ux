@@ -5,7 +5,7 @@ import Image from "next/image";
 import CourseTab from "./coursetab";
 import UniversityTab from "./universitytab";
 import AdviceTab from "./advicetab";
-const UcasCalculator = () => {
+const SearchBox = () => {
   const searchTabClick = (tabName: string) => {
     setucasFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
@@ -139,4 +139,4 @@ const UcasCalculator = () => {
   );
 };
 
-export default UcasCalculator;
+export default SearchBox;

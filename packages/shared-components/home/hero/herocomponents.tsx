@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import UcasCalculator from "./ucas-calculator";
+import SearchBox from "./searchbox";
 const Herocomponents = () => {
   return (
     <>
@@ -56,7 +56,7 @@ const Herocomponents = () => {
             </div>
           </div>
           <div className="bg-white rounded-none p-[16px] mx-[-16px] min-h-[160px] z-0 relative mt-[40px] mb-[0px] shadow-custom-5 md:mx-0 md:mt-[-40px] md:mb-[-40px] md:rounded-[32px] md:p-[24px] lg:mt-[-80px] lg:mb-[-80px]">
-            <UcasCalculator />
+            <SearchBox />
           </div>
         </div>
       </div>
