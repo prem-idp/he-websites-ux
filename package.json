@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "turbo build && npm run build:cdk",
-    "dev": "turbo dev",
+    "dev": "npm run dev --workspace=whatuni",
     "lint": "eslint .",
     "test": "jest",
     "dev:pgs": "npm run dev --workspace=pgs",
@@ -61,14 +61,15 @@
   "dependencies": {
     "@babel/preset-react": "^7.25.7",
     "@next/third-parties": "^14.2.14",
-    "@repo/typescript-config": "^0.0.0",
     "aws-cdk-lib": "2.149.0",
     "constructs": "^10.0.0",
     "i": "^0.3.7",
     "next": "^14.2.14",
     "npm": "^10.9.0",
+    "react-device-detect": "^2.2.3",
     "react-facebook-pixel": "^1.0.4",
     "source-map-support": "^0.5.21",
+    "swiper": "^11.1.14",
     "tailwindcss": "^3.4.10"
   },
   "engines": {
