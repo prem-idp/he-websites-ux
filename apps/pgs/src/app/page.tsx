@@ -1,16 +1,11 @@
-"use server";
 import React from "react";
-import CookieConsent from "./cookie";
-import { isBrowser, isMobile } from "react-device-detect";
+import Herocomponents from "@packages/shared-components/home/hero/herocomponents";
 const page = () => {
-  console.log(isBrowser);
-  console.log(isMobile);
   return (
-    <>
-      <div>PGS</div>
-      <CookieConsent />
-      {/* <div id="onetrust-consent-sdk"></div> */}
-    </>
+    <div>
+      <h1>PGS</h1>
+      <Herocomponents />
+    </div>
   );
 };
 

@@ -47,7 +47,7 @@ const Herocomponents = () => {
             <div className="w-[495px] pt-[15px] px-[37px] hidden md:block">
               <div className="flex items-center justify-end">
                 <Image
-                  src="/assets/images/hero-banner.png"
+                  src="/static/assets/images/hero-banner.png"
                   width={362}
                   height={420}
                   alt="Here Banner"

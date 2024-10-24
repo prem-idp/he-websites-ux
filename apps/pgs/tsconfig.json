@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,16 +20,9 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/*": ["../../packages/*"], // Path alias for common components
-      "@whatuni/*": ["../whatuni/src/*"] // Path alias for Whatuni app
+      "@packages/*": ["../../packages/*"] // Path alias for common components
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "@types/aws-amplify"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
