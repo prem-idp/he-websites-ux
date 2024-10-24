@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CarouselItem } from "@/app/types/types";
-
+import { CarouselItem } from "@packages/lib/types/interfaces";
 const ArticleCard = ({
   articleImg = "",
   articleTitle,

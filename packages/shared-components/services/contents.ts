@@ -1,5 +1,4 @@
-import {  homepageBanner } from "../types/types";
-
+import { homepageBanner } from "@packages/lib/types/interfaces";
 export const homepageBannerContents: homepageBanner[] = [
   {
     title: "Your study abroad dream starts here",
@@ -80,20 +79,19 @@ export const optionsStep4 = [
   },
 ];
 
-
 export const navLinks = [
   "About Us",
   "Hotcourses Abroad",
   "IDP Connect",
   "Cookies",
-]
+];
 
 export const socialLinks = [
   "Terms and Conditions",
   "Sitemap",
   "IDP Connect",
   "Manage cookies",
-]
+];
 
 export const options = [
   "English - Global",
@@ -106,10 +104,10 @@ export const options = [
   "Español - Latinoamerica",
   "Россия - Russia",
   "Türkiye  - Turkey",
-  "عربي"  
-]
+  "عربي",
+];
 
-export const logoImgArray  = [
+export const logoImgArray = [
   "/assets/images/our-partner/partner1.png",
   "/assets/images/our-partner/partner2.png",
   "/assets/images/our-partner/partner3.png",

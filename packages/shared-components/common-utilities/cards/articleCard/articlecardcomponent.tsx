@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CarouselItem } from "@/app/types/types";
-
+import { CarouselItem } from "@packages/lib/types/interfaces";
 const ArticleCardComponent = ({
   articleImg = "",
   articleTitle,
@@ -26,7 +25,9 @@ const ArticleCardComponent = ({
           <p className="font-semibold font-farro para-lg mb-[8px] lg:group-hover:text-primary-400">
             {articleTitle}
           </p>
-          <p className="line-clamp-2 mb-[16px] text-grey500">{articleContent}</p>
+          <p className="line-clamp-2 mb-[16px] text-grey500">
+            {articleContent}
+          </p>
           <p>{articlePostedDate}</p>
         </div>
       </div>

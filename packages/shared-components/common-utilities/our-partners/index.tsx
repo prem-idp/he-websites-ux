@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
-import { logoSliderProps } from "@/app/types/types";
-
+import { logoSliderProps } from "@packages/lib/types/interfaces";
 export const Logoslider = ({ imgSrc }: logoSliderProps) => {
   const carouselRef = useRef<HTMLUListElement>(null);
 
