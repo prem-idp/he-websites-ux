@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
+// /* eslint-disable prettier/prettier */
 
-import { CarouselItem } from "../types/types";
-
+import { CarouselItem } from "@packages/lib/types/interfaces";
 export const videoArticleContents: CarouselItem[] = [
   {
     type: "videoCard",
@@ -74,7 +73,11 @@ export const destinationItems: CarouselItem[] = [
     src: "/assets/images/article_image1.jpg",
     alt: "Study in Ireland",
   },
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "Study in UK" },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "Study in UK",
+  },
   {
     type: "pictureCard",
     src: "/assets/images/article_image1.jpg",
@@ -83,16 +86,36 @@ export const destinationItems: CarouselItem[] = [
 ];
 
 export const subjectItems: CarouselItem[] = [
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "Mathematics" },
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "Physics" },
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "Chemistry" },
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "Biology" },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "Mathematics",
+  },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "Physics",
+  },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "Chemistry",
+  },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "Biology",
+  },
   {
     type: "pictureCard",
     src: "/assets/images/article_image1.jpg",
     alt: "Computer Science",
   },
-  { type: "pictureCard", src: "/assets/images/article_image1.jpg", alt: "History" },
+  {
+    type: "pictureCard",
+    src: "/assets/images/article_image1.jpg",
+    alt: "History",
+  },
 ];
 
 export const articleItems: CarouselItem[] = [
