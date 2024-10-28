@@ -40,7 +40,6 @@ export class CdkStack extends cdk.Stack {
     // Create a new S3 bucket to store Next.js build artifacts
     const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
       bucketName: process.env.AWS_WHATUNI_S3_BUCKET_NAME,
-
       // Replace with your desired name
       enforceSSL: true,
       versioned: true,
@@ -80,7 +79,10 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
     cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add("Name", process.env.AWS_S3_BUCKET_NAME || "");
+    cdk.Tags.of(myBucket).add(
+      "Name",
+      process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
+    );
     cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
