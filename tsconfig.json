@@ -21,8 +21,8 @@
 
     "paths": {
       "@packages/*": ["./packages/*"],
-      "@psg/*": ["./apps/psg/src/*"],
-      "@whatuni/*": ["./apps/whatuni/src/*"]
+      "@psg/*": ["./apps/psg/*"],
+      "@whatuni/*": ["./apps/whatuni/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

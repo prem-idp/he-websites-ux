@@ -93,7 +93,7 @@ const SearchBox = () => {
         >
           Browse unis A-Z
           <Image
-            src="/assets/icons/arrow-right.svg"
+            src="/static/assets/icons/arrow-right.svg"
             width={20}
             height={20}
             alt="Right Arrow"
@@ -107,7 +107,7 @@ const SearchBox = () => {
         >
           Browse advice
           <Image
-            src="/assets/icons/arrow-right.svg"
+            src="/static/assets/icons/arrow-right.svg"
             width={20}
             height={20}
             alt="Right Arrow"
