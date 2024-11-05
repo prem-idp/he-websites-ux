@@ -4,29 +4,24 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import {isMobile} from 'react-device-detect';
-
-
+import { isMobile } from 'react-device-detect';
 import Megamenucomponents from "../topnav/megamenucomponents";
 
 const Header = () => {
 
-  console.log(isMobile);
-
-  // Toggle Menu
+   // Toggle Menu
   const [isMobileView, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+    
   const mobileToggleOpen = () => {
     setIsOpen(!isOpen);
   };
   useEffect(() => {
+    setIsMobile(isMobile);
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 991);
+      setIsMobile(isMobile);
     };
-    handleResize();
     window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -124,7 +119,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
-            {isMobile && (
+            {isMobileView && (
               <button
                 className="mr-[16px] block lg:hidden"
                 onClick={mobileToggleOpen}
@@ -147,7 +142,7 @@ const Header = () => {
                 </svg>
               </button>
             )}
-            {isMobile ? (
+            {isMobileView ? (
               <>
                 <div onClick={mobileToggleOpen}
                   className={`${

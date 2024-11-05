@@ -7,7 +7,7 @@ const Wuscascomponents = () => {
     <section className='wusca-container bg-neutral-50'>
       <div className="max-w-container mx-auto">
         {/* container */}
-        <div className="wusca-card-container grid  xs:grid-rows-[3_minmax(0_auto)] md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px] py-[40px] md:px-[20px] md:pt-[0] md:pb-[64px] xl:p-[0] xs:gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px]">
+        <div className="wusca-card-container grid  grid-rows-[3_minmax(0_auto)] md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px] py-[40px] md:px-[20px] md:pt-[0] md:pb-[64px] xl:p-[0] gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px]">
           <div className="wusca-content flex flex-col justify-center xl:justify-end col-start-1 row-start-2 md:row-start-1 xl:col-span-1 gap-[16px] md:gap-[24px]">
               <div className='flex flex-col gap-[8px]'>
                 <h2 className="font-bold">Nam vitae porttitor lorem.</h2>

@@ -8,6 +8,7 @@ import Menucategory3card from '../megamenu/menucategory3card';
 import Menucategory4card from '../megamenu/menucategory4card';
 import Menucategory1x2card from '../megamenu/menucategory1x2card';
 import Menucategory1x1card from '../megamenu/menucategory1x1card';
+import { isMobile } from 'react-device-detect';
 
 const Megamenucomponents = () => {
 
@@ -20,20 +21,17 @@ const Megamenucomponents = () => {
         else{
             document.body.classList.remove("overflow-y-hidden");
         }
-       
     };
 
-     const [isMobile, setIsMobile] = useState(false);
-     useEffect(() => {
-    const handleResize = () => {
-        setIsMobile(window.innerWidth <= 991);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-
-
-    }, []);
+    const [isMobileView, setIsMobile] = useState(false);
+    useEffect(() => {
+        setIsMobile(isMobile);
+        const handleResize = () => {
+          setIsMobile(isMobile);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
 
 
   return (
@@ -46,7 +44,7 @@ const Megamenucomponents = () => {
                         lg:hover:shadow-custom-7`}>Find a course
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img1.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                         
                         <div className={`${openMenu == 'menu1' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                         <div onClick={() => megaMenu('menu1')} className={`back-navigation font-bold flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
@@ -89,7 +87,7 @@ const Megamenucomponents = () => {
                     <Link onClick={() => megaMenu('menu2')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7`}>Find a uni
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img2.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                       <div className={`${openMenu == 'menu2' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                       <div onClick={() => megaMenu('menu2')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                           <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +127,7 @@ const Megamenucomponents = () => {
                     <Link onClick={() => megaMenu('menu3')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu3" ? 'menu-active' : ''}`}>Careers
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img3.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                         <div className={`${openMenu == 'menu3' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                             <div onClick={() => megaMenu('menu3')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +168,7 @@ const Megamenucomponents = () => {
                     <Link onClick={() => megaMenu('menu4')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu4" ? 'menu-active' : ''}`}>Prospectuses
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img4.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                         <div className={`${openMenu == 'menu4' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                             <div onClick={() => megaMenu('menu4')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -211,7 +209,7 @@ const Megamenucomponents = () => {
                     <Link onClick={() => megaMenu('menu5')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu5" ? 'menu-active' : ''}`}>Open days
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img1.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                         <div className={`${openMenu == 'menu5' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                             <div onClick={() => megaMenu('menu5')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +250,7 @@ const Megamenucomponents = () => {
                     <Link onClick={() => megaMenu('menu6')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu6" ? 'menu-active' : ''}`}>Rankings
                     <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img1.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                     </Link>
-                    {isMobile ? (
+                    {isMobileView ? (
                         <div className={`${openMenu == 'menu6' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                             <div onClick={() => megaMenu('menu6')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -292,7 +290,7 @@ const Megamenucomponents = () => {
                 <li><Link onClick={() => megaMenu('menu7')} href="" className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu7" ? 'menu-active' : ''}`}>Advice
                 <Image className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]" src="/assets/images/megamenu/category-thumb-img1.png" width="44" height="44" quality={100} alt="Megamenu thumb" />
                 </Link>
-                {isMobile ? (
+                {isMobileView ? (
                         <div className={`${openMenu == 'menu7' ? 'translate-x-0 opacity-[1]' : '-translate-x-full opacity-0'} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}>
                             <div onClick={() => megaMenu('menu7')} className={`back-navigation font-semibold lg:hidden flex items-center gap-[10px] p-[16px] border-b border-b-neutral300`}>
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">

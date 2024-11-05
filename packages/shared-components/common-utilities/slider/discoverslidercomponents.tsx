@@ -49,7 +49,7 @@ return () => window.removeEventListener('resize', handleResize);
    modules={[FreeMode, Pagination]}
    className="MultiSwiper">
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>
                <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -62,7 +62,7 @@ return () => window.removeEventListener('resize', handleResize);
        </div>
          </SwiperSlide>
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                    <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -75,7 +75,7 @@ return () => window.removeEventListener('resize', handleResize);
            </div>
          </SwiperSlide>
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'> 
                <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -88,7 +88,7 @@ return () => window.removeEventListener('resize', handleResize);
            </div>
          </SwiperSlide>
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -101,7 +101,7 @@ return () => window.removeEventListener('resize', handleResize);
            </div>
          </SwiperSlide>
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -114,7 +114,7 @@ return () => window.removeEventListener('resize', handleResize);
            </div>
          </SwiperSlide>
          <SwiperSlide>
-         <div className="discover-card">
+         <div className="discover">
            <Link href="" className='block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                <div className='discover-card flex justify-between gap-[8px]'>
                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -130,7 +130,7 @@ return () => window.removeEventListener('resize', handleResize);
        </div>
     ) : (
             <div className='discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px]'>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>
                     <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -141,7 +141,7 @@ return () => window.removeEventListener('resize', handleResize);
                     </div>
                 </Link>                                                  
                 </div>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                         <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -152,7 +152,7 @@ return () => window.removeEventListener('resize', handleResize);
                     </div>
                 </Link>
                 </div>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'> 
                     <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -163,7 +163,7 @@ return () => window.removeEventListener('resize', handleResize);
                     </div>
                 </Link>
                 </div>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                     <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -174,7 +174,7 @@ return () => window.removeEventListener('resize', handleResize);
                     </div>
                 </Link>
                 </div>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                     <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
@@ -185,7 +185,7 @@ return () => window.removeEventListener('resize', handleResize);
                     </div>
                 </Link>
                 </div>
-              <div className="discover-card">
+              <div className="discover">
                 <Link href="" className='block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden'>    
                     <div className='discover-card flex justify-between gap-[8px]'>
                         <div className="flex flex-col justify-between p-[20px] pr-[0]">
