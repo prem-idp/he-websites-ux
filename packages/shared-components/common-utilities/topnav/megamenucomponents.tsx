@@ -45,7 +45,7 @@ const Megamenucomponents = () => {
                 Find a course
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img1.png"
+                  src="/static/assets/images/megamenu/category-thumb-img1.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -120,7 +120,7 @@ const Megamenucomponents = () => {
                 Find a uni
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img2.png"
+                  src="/static/assets/images/megamenu/category-thumb-img2.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -193,7 +193,7 @@ const Megamenucomponents = () => {
                 Careers
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img3.png"
+                  src="/static/assets/images/megamenu/category-thumb-img3.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -268,7 +268,7 @@ const Megamenucomponents = () => {
                 Prospectuses
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img4.png"
+                  src="/static/assets/images/megamenu/category-thumb-img4.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -343,7 +343,7 @@ const Megamenucomponents = () => {
                 Open days
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img1.png"
+                  src="/static/assets/images/megamenu/category-thumb-img1.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -418,7 +418,7 @@ const Megamenucomponents = () => {
                 Rankings
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img1.png"
+                  src="/static/assets/images/megamenu/category-thumb-img1.png"
                   width="44"
                   height="44"
                   quality={100}
@@ -493,7 +493,7 @@ const Megamenucomponents = () => {
                 Advice
                 <Image
                   className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src="/assets/images/megamenu/category-thumb-img1.png"
+                  src="/static/assets/images/megamenu/category-thumb-img1.png"
                   width="44"
                   height="44"
                   quality={100}

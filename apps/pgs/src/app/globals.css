@@ -271,10 +271,10 @@ p,
   @apply !hidden;
 }
 .MultiSwiper .swiper-button-prev {
-  @apply !bg-[url(/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-left-white.svg)] !left-0;
+  @apply !bg-[url(/static/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-left-white.svg)] !left-0;
 }
 .MultiSwiper .swiper-button-next {
-  @apply !bg-[url(/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-right-white.svg)] !right-0;
+  @apply !bg-[url(/static/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-right-white.svg)] !right-0;
 }
 .MultiSwiper .swiper-button-disabled {
   visibility: hidden;
