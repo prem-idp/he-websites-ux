@@ -13,7 +13,6 @@ const page = () => {
       <Herocomponents project="pgs" />
       <WucasComponent />
       <DiscoverComponent />
-      <TagCloudComponent />
       <AdviceComponent />
       <TestimonialComponent />
       <ReviewComponent />
