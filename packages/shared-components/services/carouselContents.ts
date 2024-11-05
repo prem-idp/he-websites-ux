@@ -1,5 +1,4 @@
 // /* eslint-disable prettier/prettier */
-
 import { CarouselItem } from "@packages/lib/types/interfaces";
 export const videoArticleContents: CarouselItem[] = [
   {

@@ -38,7 +38,7 @@ const HeroComponent = () => {
         </div>
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end md:pb-[80px] lg:pb-0 hidden md:block">
           <Image
-            src="/assets/images/hero-banner.png"
+            src="/static/assets/images/hero-banner.png"
             width={495}
             height={483}
             alt="Here Banner"

@@ -22,7 +22,9 @@
     "paths": {
       "@packages/*": ["./packages/*"],
       "@psg/*": ["./apps/psg/*"],
-      "@whatuni/*": ["./apps/whatuni/*"]
+      "@whatuni/*": ["./apps/whatuni/*"],
+      "@public_whatuni": ["./apps/whatuni/public/*"],
+      "@public_pgs": ["./apps/pgs/public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
