@@ -11,7 +11,7 @@ import "swiper/css/effect-fade";
 // import required modules
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import HeroComponent from "@packages/shared-components/common-utilities/cards/hero-card/herocomponent";
-const HeroSliderComponent = () => {
+const HeroSliderComponent = ({ project }: any) => {
   // course tab
   const [activeTab, setActiveTab] = useState("tab1");
   const searchTabClick = (tabName: any) => {
@@ -61,7 +61,9 @@ const HeroSliderComponent = () => {
 
   return (
     <>
-      <div className="bg-blue-200 px-[16px] md:px-[20px] xl2:px-0">
+      <div
+        className={`${project === "pgs" ? "bg-yellow-400" : "bg-blue-200"} px-[16px] md:px-[20px] xl2:px-01`}
+      >
         <div className="max-w-container mx-auto">
           <Swiper
             slidesPerView={1}

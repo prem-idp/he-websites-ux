@@ -10,7 +10,7 @@ import OurPartnerComponent from "@packages/shared-components/common-utilities/ou
 const page = () => {
   return (
     <>
-      <HeroSliderComponent />
+      <HeroSliderComponent project="pgs" />
       <Wuscascomponents />
       <Discovercomponents />
       <AdviceComponent />
