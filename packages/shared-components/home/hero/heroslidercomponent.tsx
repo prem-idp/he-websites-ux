@@ -73,16 +73,16 @@ const HeroSliderComponent = () => {
             className="mySwiper hero"
           >
             <SwiperSlide>
-              <HeroComponent text="Hello" />
+              <HeroComponent />
             </SwiperSlide>
             <SwiperSlide>
-              <HeroComponent text="Good Morning" />
+              <HeroComponent />
             </SwiperSlide>
             <SwiperSlide>
-              <HeroComponent text="Happy evening" />
+              <HeroComponent />
             </SwiperSlide>
             <SwiperSlide>
-              <HeroComponent text="Next js cdk" />
+              <HeroComponent />
             </SwiperSlide>
           </Swiper>
         </div>

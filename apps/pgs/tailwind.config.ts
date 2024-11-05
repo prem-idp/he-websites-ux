@@ -20,7 +20,6 @@ const config: Config = {
       xxxl: "1920px",
     },
     fontFamily: {
-      // farro: ["var(--farro)"],
       farro: ["Farro", "sans-serif"],
       inter: ["Inter", "sans-serif"],
     },

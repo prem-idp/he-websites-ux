@@ -7,29 +7,28 @@
   @font-face {
     font-family: "Farro";
     src:
-      url("./fonts/Farro-Medium.woff2") format("woff2"),
-      url("./fonts/Farro-Medium.woff") format("woff");
+      url("/assets/fonts/Farro-Medium.woff2") format("woff2"),
+      url("/assets/fonts/Farro-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
   }
-
   @font-face {
     font-family: "Farro";
     src:
-      url("./fonts/Farro-Bold.woff2") format("woff2"),
-      url("./fonts/Farro-Bold.woff") format("woff");
+      url("/assets/fonts/Farro-Bold.woff2") format("woff2"),
+      url("/assets/fonts/Farro-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
   }
   /* Font farro ends*/
-  /* inter starts*/
+  /* inter starts */
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-Regular.woff2") format("woff2"),
-      url("./fonts/Inter-Regular.woff") format("woff");
+      url("/assets/fonts/Inter-Regular.woff2") format("woff2"),
+      url("/assets/fonts/Inter-Regular.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 400;
@@ -37,8 +36,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-SemiBold.woff2") format("woff2"),
-      url("./fonts/Inter-SemiBold.woff") format("woff");
+      url("/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
+      url("/assets/fonts/Inter-SemiBold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 600;
@@ -46,8 +45,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-Bold.woff2") format("woff2"),
-      url("./fonts/Inter-Bold.woff") format("woff");
+      url("/assets/fonts/Inter-Bold.woff2") format("woff2"),
+      url("/assets/fonts/Inter-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
@@ -91,14 +90,17 @@
   .custom-horizontal-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-neutral-200 hover:bg-neutral-200 rounded-[10px];
   }
-  .custom-vertical-scrollbar::-webkit-scrollbar {
-    @apply w-[8px];
+  .custom-scrollbar-2::-webkit-scrollbar {
+    @apply w-[8px] h-[8px];
   }
-  .custom-vertical-scrollbar::-webkit-scrollbar-track {
-    @apply rounded-[4px] bg-transparent;
+  .custom-scrollbar-2::-webkit-scrollbar-track {
+    @apply bg-grey-200 rounded-[4px];
   }
-  .custom-vertical-scrollbar::-webkit-scrollbar-thumb {
-    @apply rounded-[4px] bg-neutral-400;
+  .custom-scrollbar-2::-webkit-scrollbar-thumb {
+    @apply bg-grey-300 rounded-[4px];
+  }
+  .custom-scrollbar-2::-webkit-scrollbar-thumb:hover {
+    @apply bg-grey-400;
   }
 }
 html {
@@ -107,7 +109,6 @@ html {
 body {
   @apply font-inter font-normal text-para text-grey300;
 }
-
 /* typograpy */
 h1,
 h2,
@@ -121,7 +122,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  @apply font-farro;
+  @apply font-farro font-bold;
   letter-spacing: -0.02rem;
 }
 .h1-xl {
@@ -170,7 +171,6 @@ p,
 .xs-small {
   @apply text-xs-small;
 }
-
 /* typograpy */
 
 @layer utilities {
@@ -257,18 +257,24 @@ p,
 }
 /* Menu active classes */
 /* Swiper Styles */
+.swiper {
+  @apply !z-[0];
+}
+.discover-card-container .swiper {
+  @apply !pt-[2px];
+}
 .MultiSwiper {
-  @apply xs:!px-[16px] md:!px-[20px] lg:!px-[0] !pb-[30px];
+  @apply xs:!px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px];
 }
 .MultiSwiper .swiper-button-prev:after,
 .MultiSwiper .swiper-button-next:after {
   @apply !hidden;
 }
 .MultiSwiper .swiper-button-prev {
-  @apply !bg-[url(/static/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-left-white.svg)] !left-0;
+  @apply !bg-[url(/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-left-white.svg)] !left-0;
 }
 .MultiSwiper .swiper-button-next {
-  @apply !bg-[url(/static/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-right-white.svg)] !right-0;
+  @apply !bg-[url(/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/assets/icons/arrow-right-white.svg)] !right-0;
 }
 .MultiSwiper .swiper-button-disabled {
   visibility: hidden;
@@ -288,6 +294,13 @@ p,
   @apply !bg-blue-300;
 }
 /* Swiper Styles */
+/* Backgrop shadow */
+.backdrop-shadow {
+  background: rgba(51, 63, 72, 0.8);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+/* Backgrop shadow */
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-in;
 }
@@ -311,7 +324,7 @@ p,
   }
 }
 .animate-fadeInLeft {
-  animation: fadeInLeft 0.3s;
+  animation: fadeInLeft 0.5s;
 }
 @keyframes fadeInLeft {
   from {
@@ -340,7 +353,38 @@ p,
     transform: translate3d(-100%, 0, 0);
   }
 }
-/* For testing purpose */
 
+/* For testing purposee */
 /* .wusca-container, .reviews-container, .advice-container {@apply bg-black}
 .discover-container, .testimonials-container{@apply bg-neutral-300} */
+
+/* hero slider styles */
+.hero .swiper-pagination {
+  @apply lg:!top-[64px] !left-0 text-left !bottom-auto xs:!top-[40px];
+}
+.hero .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+.hero
+  .swiper-pagination-horizontal.swiper-pagination-bullets
+  .swiper-pagination-bullet {
+  @apply !ml-0;
+}
+.hero .swiper-pagination-bullet {
+  @apply bg-blue-100 w-[8px] h-[8px] rounded-[4px] !opacity-90;
+}
+.hero .swiper-pagination-bullet-active {
+  @apply !bg-primary-500 !w-[16px] !h-[8px] rounded-[4px] !opacity-90;
+}
+/* partner slider styles */
+.partner {
+  @apply !pb-[30px];
+}
+.partner .swiper-pagination {
+  @apply !bottom-0;
+}
+.partner .swiper-pagination {
+  @apply lg:!hidden;
+}
+
+.rightmenu li:not(:last-child) span:hover > svg path {
+  stroke: white;
+}
