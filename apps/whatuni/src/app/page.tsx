@@ -9,7 +9,7 @@ import WucasComponent from "@packages/shared-components/home/wuscas/wuscascompon
 const page = () => {
   return (
     <>
-      <Herocomponents />
+      <Herocomponents project="whatuni" />
       <WucasComponent />
       <DiscoverComponent />
       <AdviceComponent />

@@ -1,17 +1,13 @@
 "use client";
-
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-
 // import required modules
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import HeroComponent from "@packages/shared-components/common-utilities/cards/hero-card/herocomponent";

@@ -3,7 +3,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBox from "./searchbox";
-const Herocomponents = ({ project }: any) => {
+interface Project {
+  project: string;
+}
+const Herocomponents: React.FC<Project> = ({ project }) => {
   return (
     <>
       <div

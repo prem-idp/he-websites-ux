@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination } from "swiper/modules";
-import Discovercard from "../cards/discover/discovercard";
 const Discoverslidercomponents1 = () => {
   // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);

@@ -5,7 +5,6 @@ import AdviceComponent from "@packages/shared-components/home/advice/advicecompo
 import DiscoverComponent from "@packages/shared-components/home/discover/discovercomponents";
 import ReviewComponent from "@packages/shared-components/home/reviews/reviewscomponents";
 import TestimonialComponent from "@packages/shared-components/home/testimonials/testimonialcomponents";
-import TagCloudComponent from "@packages/shared-components/home/tag-cloud/tagcloudcomponents";
 import WucasComponent from "@packages/shared-components/home/wuscas/wuscascomponents";
 const page = () => {
   return (
