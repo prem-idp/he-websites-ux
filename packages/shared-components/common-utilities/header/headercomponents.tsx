@@ -4,12 +4,23 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+<<<<<<< Updated upstream
 import { isMobile } from 'react-device-detect';
 import Megamenucomponents from "../topnav/megamenucomponents";
 
 const Header = () => {
 
    // Toggle Menu
+=======
+import { isMobile } from "react-device-detect";
+
+import Megamenucomponents from "../topnav/megamenucomponents";
+
+const Header = () => {
+  console.log(isMobile);
+
+  // Toggle Menu
+>>>>>>> Stashed changes
   const [isMobileView, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
     
@@ -110,7 +121,7 @@ const Header = () => {
             <Link href="#">
               <Image
                 className="md:mx-auto lg:mx-0"
-                src="/assets/images/whatuni-logo.svg"
+                src="/static/assets/images/whatuni-logo.svg"
                 alt="Whatuni Logo"
                 priority
                 width={70}
@@ -144,14 +155,17 @@ const Header = () => {
             )}
             {isMobileView ? (
               <>
-                <div onClick={mobileToggleOpen}
+                <div
+                  onClick={mobileToggleOpen}
                   className={`${
                     isOpen ? "animate-fadeIn block" : "hidden"
                   } backdrop-shadow lg:bg-transparent fixed top-0 left-0 right-0 bottom-0 z-[5]`}
                 ></div>
                 <div
                   className={`megamenu-container fixed left-0 top-0 z-[6] w-[376px] h-[100vh] lg:h-auto transition-all duration-300 ease-in-out ${
-                    isOpen ? "animate-fadeInLeft" : "-translate-x-full duration-300"
+                    isOpen
+                      ? "animate-fadeInLeft"
+                      : "-translate-x-full duration-300"
                   }`}
                 >
                   <div className="relative z-[6] w-fit">
@@ -287,7 +301,7 @@ const Header = () => {
                                       >
                                         Access & foundation
                                         <Image
-                                          src="/assets/icons/arrow_down_black.svg"
+                                          src="/static/assets/icons/arrow_down_black.svg"
                                           width="20"
                                           height="20"
                                           alt="Search icon"
@@ -482,7 +496,7 @@ const Header = () => {
                                         className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] para md:w-[138px] lg:para-lg"
                                       >
                                         <Image
-                                          src="/assets/icons/search_icon.svg"
+                                          src="/static/assets/icons/search_icon.svg"
                                           width="18"
                                           height="18"
                                           alt="Search icon"
@@ -635,7 +649,7 @@ const Header = () => {
                                         className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] para md:w-[138px] lg:para-lg"
                                       >
                                         <Image
-                                          src="/assets/icons/search_icon.svg"
+                                          src="/static/assets/icons/search_icon.svg"
                                           width="18"
                                           height="18"
                                           alt="Search icon"
@@ -652,7 +666,7 @@ const Header = () => {
                                   >
                                     Browse unis A-Z
                                     <Image
-                                      src="/assets/icons/arrow-right.svg"
+                                      src="/static/assets/icons/arrow-right.svg"
                                       width={20}
                                       height={20}
                                       alt="Right Arrow"
@@ -774,7 +788,7 @@ const Header = () => {
                                         className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] para md:w-[138px] lg:para-lg"
                                       >
                                         <Image
-                                          src="/assets/icons/search_icon.svg"
+                                          src="/static/assets/icons/search_icon.svg"
                                           width="18"
                                           height="18"
                                           alt="Search icon"
@@ -791,7 +805,7 @@ const Header = () => {
                                   >
                                     Browse advice
                                     <Image
-                                      src="/assets/icons/arrow-right.svg"
+                                      src="/static/assets/icons/arrow-right.svg"
                                       width={20}
                                       height={20}
                                       alt="Right Arrow"
@@ -867,10 +881,11 @@ const Header = () => {
                 )}
               </li>
               <li aria-label="Shortlist" className="relative">
-                <div className="cursor-pointer" onClick={() => rightMenuAction("SHORTLIST")}>
-                  <span                    
-                    className="flex items-center justify-center min-h-[48px]"
-                  >
+                <div
+                  className="cursor-pointer"
+                  onClick={() => rightMenuAction("SHORTLIST")}
+                >
+                  <span className="flex items-center justify-center min-h-[48px]">
                     <svg
                       width="24"
                       height="24"
