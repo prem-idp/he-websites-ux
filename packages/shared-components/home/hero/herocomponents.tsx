@@ -3,10 +3,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBox from "./searchbox";
-const Herocomponents = () => {
+const Herocomponents = ({ project }: any) => {
   return (
     <>
-      <div className="bg-blue-200 pt-[40px] px-[16px] xl:p-0 min-h-[483px]">
+      <div
+        className={`${project === "pgs" ? "bg-yellow-400" : "bg-blue-200"} pt-[40px] px-[16px] xl:p-0 min-h-[483px]`}
+      >
         <div className="max-w-container mx-auto">
           <div className="flex justify-between gap-[16px]">
             <div className="py-0 w-full md:w-[701px] md:py-[64px]">

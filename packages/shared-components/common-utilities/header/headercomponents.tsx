@@ -1,29 +1,15 @@
 "use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-<<<<<<< Updated upstream
-import { isMobile } from 'react-device-detect';
-import Megamenucomponents from "../topnav/megamenucomponents";
-
-const Header = () => {
-
-   // Toggle Menu
-=======
 import { isMobile } from "react-device-detect";
-
 import Megamenucomponents from "../topnav/megamenucomponents";
-
 const Header = () => {
   console.log(isMobile);
-
   // Toggle Menu
->>>>>>> Stashed changes
   const [isMobileView, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-    
   const mobileToggleOpen = () => {
     setIsOpen(!isOpen);
   };

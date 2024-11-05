@@ -1,5 +1,5 @@
+"use server";
 import React from "react";
-import Header from "@packages/shared-components/common-utilities/header/headercomponents";
 import Herocomponents from "@packages/shared-components/home/hero/herocomponents";
 import AdviceComponent from "@packages/shared-components/home/advice/advicecomponents";
 import DiscoverComponent from "@packages/shared-components/home/discover/discovercomponents";
@@ -10,14 +10,13 @@ import WucasComponent from "@packages/shared-components/home/wuscas/wuscascompon
 const page = () => {
   return (
     <>
-      <Header />
       <Herocomponents />
-      <AdviceComponent />
-      <DiscoverComponent />
-      <ReviewComponent />
-      <TestimonialComponent />
-      <TagCloudComponent />
       <WucasComponent />
+      <DiscoverComponent />
+      <TagCloudComponent />
+      <AdviceComponent />
+      <TestimonialComponent />
+      <ReviewComponent />
     </>
   );
 };
