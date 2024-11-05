@@ -14,8 +14,7 @@ import "swiper/css/effect-fade";
 
 // import required modules
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-import HeroComponent from "@/app/components/cards/hero-card/herocomponent";
-
+import HeroComponent from "@packages/shared-components/common-utilities/cards/hero-card/herocomponent";
 const HeroSliderComponent = () => {
   // course tab
   const [activeTab, setActiveTab] = useState("tab1");
@@ -159,7 +158,7 @@ const HeroSliderComponent = () => {
                 >
                   Browse unis A-Z
                   <Image
-                    src="/assets/icons/arrow-right.svg"
+                    src="/static/assets/icons/arrow-right.svg"
                     width={20}
                     height={20}
                     alt="Right Arrow"
@@ -175,7 +174,7 @@ const HeroSliderComponent = () => {
                 >
                   Browse advice
                   <Image
-                    src="/assets/icons/arrow-right.svg"
+                    src="/static/assets/icons/arrow-right.svg"
                     width={20}
                     height={20}
                     alt="Right Arrow"
@@ -196,7 +195,7 @@ const HeroSliderComponent = () => {
                         >
                           Access & foundation
                           <Image
-                            src="/assets/icons/arrow_down_black.svg"
+                            src="/static/assets/icons/arrow_down_black.svg"
                             width="20"
                             height="20"
                             alt="Search icon"
@@ -389,7 +388,7 @@ const HeroSliderComponent = () => {
                           className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
                         >
                           <Image
-                            src="/assets/icons/search_icon.svg"
+                            src="/static/assets/icons/search_icon.svg"
                             width="18"
                             height="18"
                             alt="Search icon"
@@ -511,7 +510,7 @@ const HeroSliderComponent = () => {
                           className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
                         >
                           <Image
-                            src="/assets/icons/search_icon.svg"
+                            src="/static/assets/icons/search_icon.svg"
                             width="18"
                             height="18"
                             alt="Search icon"
@@ -633,7 +632,7 @@ const HeroSliderComponent = () => {
                           className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
                         >
                           <Image
-                            src="/assets/icons/search_icon.svg"
+                            src="/static/assets/icons/search_icon.svg"
                             width="18"
                             height="18"
                             alt="Search icon"
