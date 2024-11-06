@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Megamenucomponents from "../topnav/megamenucomponents";
 const Header = () => {
-  console.log(isMobile);
+  //console.log(isMobile);
   // Toggle Menu
   const [isMobileView, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

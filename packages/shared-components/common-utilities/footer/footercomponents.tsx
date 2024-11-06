@@ -1,19 +1,27 @@
+"use server";
 import React from "react";
-
-const Footer = () => {
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { footerQuery } from "@packages/lib/graphQL/graphql-query";
+import { FooterDataInterface } from "@packages/lib/types/interfaces";
+import Link from "next/link";
+const Footer = async () => {
+  const footerData: FooterDataInterface =
+    (await graphQlFetchFunction(footerQuery))?.data?.footerNavigationCollection
+      ?.items?.[0] ?? {};
   return (
     <footer className="footer bg-blue-100">
       <div className="container max-w-container mx-auto px-[16px] md:px-[24px] pt-[34px] pb-[40px] xl:px-[0]">
         <div className="footer-inner-wrap grid xs:grid-cols-1 xs:gap-[40px] md:grid-cols-4 lg:gap-[16px]">
-          {/* pod 1 */}
+          {/* Connection Pods */}
           <div className="flex flex-col gap-[16px]">
             <p className="footer_title font-semibold text-grey300 x-small uppercase">
               Connect
             </p>
             <div className="flex flex-col gap-[16px]">
               <ul className="flex flex-row gap-[16px]">
+                {/*Facebook icon*/}
                 <li>
-                  <a
+                  <Link
                     href="https://www.facebook.com/whatuni"
                     aria-label="facebook"
                   >
@@ -36,10 +44,11 @@ const Footer = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
+                {/* Twitter icon*/}
                 <li>
-                  <a href="https://twitter.com/whatuni" aria-label="twitter">
+                  <Link href="https://twitter.com/whatuni" aria-label="twitter">
                     <svg
                       width="24"
                       height="24"
@@ -52,10 +61,11 @@ const Footer = () => {
                         fill="#0F172A"
                       ></path>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
+                {/*Instagram Icon*/}
                 <li>
-                  <a
+                  <Link
                     href="https://www.instagram.com/whatuni/?hl=en"
                     aria-label="instagram"
                   >
@@ -86,10 +96,14 @@ const Footer = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
+                {/*Tik-tok Icon*/}
                 <li>
-                  <a href="https://www.tiktok.com/@whatuni" aria-label="tiktok">
+                  <Link
+                    href="https://www.tiktok.com/@whatuni"
+                    aria-label="tiktok"
+                  >
                     <svg
                       width="24"
                       height="24"
@@ -102,12 +116,16 @@ const Footer = () => {
                         fill="#0F172A"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <ul className="flex flex-col gap-[16px]">
+                {/*App store*/}
                 <li>
-                  <a href="#" aria-label="App Store">
+                  <Link
+                    href={`${footerData?.navApplinksCollection?.items[0]?.primaryCtaUrl}`}
+                    aria-label="App Store"
+                  >
                     <svg
                       width="120"
                       height="41"
@@ -224,10 +242,14 @@ const Footer = () => {
                         fill="white"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
+                {/* Play Store */}
                 <li>
-                  <a href="#" aria-label="Google Play">
+                  <Link
+                    href={`${footerData?.navApplinksCollection?.items[1]?.primaryCtaUrl}`}
+                    aria-label="Google Play"
+                  >
                     <svg
                       width="135"
                       height="41"
@@ -507,190 +529,42 @@ const Footer = () => {
                         </linearGradient>
                       </defs>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
-          {/* pod 1 */}
-          {/* pod 2 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey300 x-small uppercase">
-              Quick links
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Editor@whatuni.com
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Contact us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    About Whatuni
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Student Choice Awards
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    The Whatuni Team
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Our Partners
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Privacy Notice
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Cookies Notice
-                  </a>
-                </li>
-              </ul>
+          {/* pods */}
+
+          {footerData?.footerNavCollection?.items?.map((navItems, index) => (
+            <div className="flex flex-col gap-[16px]" key={index + 1}>
+              <p className="footer_title font-semibold text-grey300 x-small uppercase">
+                {navItems?.navTitle}
+              </p>
+              <div className="flex flex-col">
+                <ul className="flex flex-col gap-[4px]">
+                  {navItems?.navChildC1Collection?.items?.map(
+                    (childItem, index) => (
+                      <li key={index + 1}>
+                        <Link
+                          href={`${childItem?.navUrl}`}
+                          className="small text-grey300 hover:underline"
+                        >
+                          {childItem?.navTitle}
+                        </Link>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
             </div>
-          </div>
-          {/* pod 2 */}
-          {/* pod 3 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey300 x-small uppercase">
-              Browse
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Courses
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Universities
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Degree subject guides
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Student Choice Awards
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Advertisers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    UCAS Tariff Calculator
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Sitemap
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Whatuni App
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {/* pod 3 */}
-          {/* pod 4 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey300 x-small uppercase">
-              Popular subjects
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Popular subjects
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Acting
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Physics
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Art Drawing
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Biology
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Business
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    Chemical engineering
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    English language
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    English law
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="small text-grey300 hover:underline">
-                    English literature
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {/* pod 4 */}
+          ))}
+          {/* pods */}
         </div>
         {/* Copy rights */}
         <div className="copyrights mt-[40px]">
           <p className="x-small text-grey300 text-center">
-            © 2007-2023 IDP Connect Ltd. All rights reserved
+            {footerData?.footerNavBtmCollection?.items[0]?.navTitle}
           </p>
         </div>
       </div>
