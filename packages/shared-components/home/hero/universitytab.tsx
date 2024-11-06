@@ -25,7 +25,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
     }));
   };
   const handleSearch = () => {
-    console.log(ucasFormHandle);
+    //console.log(ucasFormHandle);
   };
   return (
     <div className="flex flex-col gap-[24px]">

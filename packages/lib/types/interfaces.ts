@@ -115,3 +115,30 @@ export interface dropdownProps {
 export interface logoSliderProps {
   imgSrc: string[];
 }
+
+export interface FooterDataInterface {
+  footerNavBtmCollection: {
+    items: {
+      navTitle: string;
+      navUrl: string | null;
+    }[];
+  };
+  navApplinksCollection: {
+    items: {
+      primaryCtaLabel: string;
+      primaryCtaUrl: string;
+    }[];
+  };
+  footerNavCollection: {
+    items: {
+      navTitle: string;
+      navChildC1Collection: {
+        items: {
+          navTitle: string;
+          navUrl: string | null;
+          navCtaTarget: "Open in same tab" | "Open in new tab" | null;
+        }[];
+      };
+    }[];
+  };
+}
