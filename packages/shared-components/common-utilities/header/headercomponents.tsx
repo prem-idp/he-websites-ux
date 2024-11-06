@@ -150,7 +150,7 @@ const Header = () => {
                       onClick={mobileToggleOpen}
                       className={`absolute right-[-40px] ${isMobileView ? "lg:hidden" : ""}`}
                     >
-                      <div className="bg-neutral-900 p-[8px] rounded-full">
+                      <div className="bg-neutral-900 p-[8px]">
                         <svg
                           width="24"
                           height="24"
