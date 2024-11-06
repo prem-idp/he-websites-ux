@@ -264,7 +264,7 @@ p,
   @apply !pt-[2px];
 }
 .MultiSwiper {
-  @apply xs:!px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px];
+  @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px];
 }
 .MultiSwiper .swiper-button-prev:after,
 .MultiSwiper .swiper-button-next:after {
