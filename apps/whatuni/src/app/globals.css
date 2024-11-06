@@ -7,8 +7,8 @@
   @font-face {
     font-family: "Farro";
     src:
-      url("/fonts/Farro-Medium.woff2") format("woff2"),
-      url("/fonts/Farro-Medium.woff") format("woff");
+      url("./fonts/Farro-Medium.woff2") format("woff2"),
+      url("./fonts/Farro-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
@@ -16,8 +16,8 @@
   @font-face {
     font-family: "Farro";
     src:
-      url("/fonts/Farro-Bold.woff2") format("woff2"),
-      url("/fonts/Farro-Bold.woff") format("woff");
+      url("./fonts/Farro-Bold.woff2") format("woff2"),
+      url("./fonts/Farro-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
@@ -27,8 +27,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("/fonts/Inter-Regular.woff2") format("woff2"),
-      url("/fonts/Inter-Regular.woff") format("woff");
+      url("./fonts/Inter-Regular.woff2") format("woff2"),
+      url("./fonts/Inter-Regular.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 400;
@@ -36,8 +36,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("/fonts/Inter-SemiBold.woff2") format("woff2"),
-      url("/fonts/Inter-SemiBold.woff") format("woff");
+      url("./fonts/Inter-SemiBold.woff2") format("woff2"),
+      url("./fonts/Inter-SemiBold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 600;
@@ -45,8 +45,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("/fonts/Inter-Bold.woff2") format("woff2"),
-      url("/fonts/Inter-Bold.woff") format("woff");
+      url("./fonts/Inter-Bold.woff2") format("woff2"),
+      url("./fonts/Inter-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
