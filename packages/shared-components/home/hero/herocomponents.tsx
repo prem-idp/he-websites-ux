@@ -3,10 +3,15 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBox from "./searchbox";
-const Herocomponents = () => {
+interface Project {
+  project: string;
+}
+const Herocomponents: React.FC<Project> = ({ project }) => {
   return (
     <>
-      <div className="bg-blue-200 pt-[40px] px-[16px] xl:p-0 min-h-[483px]">
+      <div
+        className={`${project === "pgs" ? "bg-yellow-400" : "bg-blue-200"} pt-[40px] px-[16px] xl:p-0 min-h-[483px]`}
+      >
         <div className="max-w-container mx-auto">
           <div className="flex justify-between gap-[16px]">
             <div className="py-0 w-full md:w-[701px] md:py-[64px]">
@@ -47,7 +52,7 @@ const Herocomponents = () => {
             <div className="w-[495px] pt-[15px] px-[37px] hidden md:block">
               <div className="flex items-center justify-end">
                 <Image
-                  src="/assets/images/hero-banner.png"
+                  src="/static/assets/images/hero-banner.png"
                   width={362}
                   height={420}
                   alt="Here Banner"

@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 const Reviewscard = () => {
   return (
-    <div className="reviews-card bg-white p-[16px] rounded-[8px] box-shadow-custom-2">
-    <div className="review-card-header flex gap-[8px] border-b border-neutrale-200 pb-[16px]">
+    <Link href="" className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2">
+    <div className="review-card-header flex items-center gap-[8px] border-b border-neutrale-200 pb-[16px]">
         <h6 className="review-box__avatar flex justify-center items-center text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">MW</h6>
         <div className="review-box__details flex flex-col justify-center w-[calc(100%_-_48px)]">
           <div className="review-box__name font-semibold small text-grey300 line-clamp-1">Archie Kinkead</div>
@@ -28,13 +28,13 @@ const Reviewscard = () => {
           </div>
         </div>
     </div>
-    <div className="review-card-footer flex flex-col gap-[4px] py-[12px]">
+    <div className="review-card-footer flex flex-col gap-[4px] pt-[12px]">
       <div className="reviewed__date x-small text-grey-500">Reviewed: 01/01/23</div>
       <div className="reviewed__date font-semibold para line-clamp-1">Law/MLaw LLB (Hons)</div>
       <div className="reviewed__date small text-grey-500 line-clamp-3">it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less nor</div>
-      <Link href="#" className="reviewed__date font-semibold small text-primary-400 hover:underline">Read full review</Link>
+      <div className="reviewed__date font-semibold small text-primary-400">Read full review</div>
     </div>
-  </div>
+  </Link>
 
   )
 }

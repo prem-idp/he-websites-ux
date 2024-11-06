@@ -1,53 +1,25 @@
 "use server";
 import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { footerQuery } from "@packages/lib/graphQL/graphql-query";
+import { FooterDataInterface } from "@packages/lib/types/interfaces";
 import Link from "next/link";
-const Footer = () => {
-  const quickLinks: string[] = [
-    "Editor@whatuni.com",
-    "Contact us",
-    "About Whatuni",
-    "Student Choice Awards",
-    "The Whatuni Team",
-    "Our Partners",
-    "Terms & Conditions",
-    "Privacy Notice",
-    "Cookies Notice",
-  ];
-  const courseLinks: string[] = [
-    "Courses",
-    "Universities",
-    "Degree subject guides",
-    "Student Choice Awards",
-    "Advertisers",
-    "UCAS Tariff Calculator",
-    "Terms & Conditions",
-    "Sitemap",
-    "Whatuni App",
-  ];
-  const popularSubjectsLinks: string[] = [
-    "Popular subjects",
-    "Acting",
-    "Physics",
-    "Art Drawing",
-    "Biology",
-    "Business",
-    "Chemical engineering",
-    "English language",
-    "English law",
-    "English literature",
-  ];
-
+const Footer = async () => {
+  const footerData: FooterDataInterface =
+    (await graphQlFetchFunction(footerQuery))?.data?.footerNavigationCollection
+      ?.items?.[0] ?? {};
   return (
-    <footer className="footer bg-primary-100">
+    <footer className="footer bg-blue-100">
       <div className="container max-w-container mx-auto px-[16px] md:px-[24px] pt-[34px] pb-[40px] xl:px-[0]">
         <div className="footer-inner-wrap grid xs:grid-cols-1 xs:gap-[40px] md:grid-cols-4 lg:gap-[16px]">
-          {/* pod 1 */}
+          {/* Connection Pods */}
           <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey-300 x-small uppercase">
+            <p className="footer_title font-semibold text-grey300 x-small uppercase">
               Connect
             </p>
             <div className="flex flex-col gap-[16px]">
               <ul className="flex flex-row gap-[16px]">
+                {/*Facebook icon*/}
                 <li>
                   <Link
                     href="https://www.facebook.com/whatuni"
@@ -74,6 +46,7 @@ const Footer = () => {
                     </svg>
                   </Link>
                 </li>
+                {/* Twitter icon*/}
                 <li>
                   <Link href="https://twitter.com/whatuni" aria-label="twitter">
                     <svg
@@ -90,6 +63,7 @@ const Footer = () => {
                     </svg>
                   </Link>
                 </li>
+                {/*Instagram Icon*/}
                 <li>
                   <Link
                     href="https://www.instagram.com/whatuni/?hl=en"
@@ -124,6 +98,7 @@ const Footer = () => {
                     </svg>
                   </Link>
                 </li>
+                {/*Tik-tok Icon*/}
                 <li>
                   <Link
                     href="https://www.tiktok.com/@whatuni"
@@ -145,8 +120,12 @@ const Footer = () => {
                 </li>
               </ul>
               <ul className="flex flex-col gap-[16px]">
+                {/*App store*/}
                 <li>
-                  <Link href="#" aria-label="App Store">
+                  <Link
+                    href={`${footerData?.navApplinksCollection?.items[0]?.primaryCtaUrl}`}
+                    aria-label="App Store"
+                  >
                     <svg
                       width="120"
                       height="41"
@@ -265,8 +244,12 @@ const Footer = () => {
                     </svg>
                   </Link>
                 </li>
+                {/* Play Store */}
                 <li>
-                  <Link href="#" aria-label="Google Play">
+                  <Link
+                    href={`${footerData?.navApplinksCollection?.items[1]?.primaryCtaUrl}`}
+                    aria-label="Google Play"
+                  >
                     <svg
                       width="135"
                       height="41"
@@ -551,75 +534,37 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          {/* pod 1 */}
-          {/* pod 2 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey-300 x-small uppercase">
-              Quick links
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                {quickLinks?.map((item, index) => (
-                  <li key={index + 1}>
-                    <Link
-                      href="#"
-                      className="small text-grey-300 hover:underline"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          {/* pods */}
+
+          {footerData?.footerNavCollection?.items?.map((navItems, index) => (
+            <div className="flex flex-col gap-[16px]" key={index + 1}>
+              <p className="footer_title font-semibold text-grey300 x-small uppercase">
+                {navItems?.navTitle}
+              </p>
+              <div className="flex flex-col">
+                <ul className="flex flex-col gap-[4px]">
+                  {navItems?.navChildC1Collection?.items?.map(
+                    (childItem, index) => (
+                      <li key={index + 1}>
+                        <Link
+                          href={`${childItem?.navUrl}`}
+                          className="small text-grey300 hover:underline"
+                        >
+                          {childItem?.navTitle}
+                        </Link>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
             </div>
-          </div>
-          {/* pod 2 */}
-          {/* pod 3 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey-300 x-small uppercase">
-              Browse
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                {courseLinks?.map((item, index) => (
-                  <li key={index + 1}>
-                    <Link
-                      href="#"
-                      className="small text-grey-300 hover:underline"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          {/* pod 3 */}
-          {/* pod 4 */}
-          <div className="flex flex-col gap-[16px]">
-            <p className="footer_title font-semibold text-grey-300 x-small uppercase">
-              Popular subjects
-            </p>
-            <div className="flex flex-col">
-              <ul className="flex flex-col gap-[4px]">
-                {popularSubjectsLinks?.map((item, index) => (
-                  <li key={index + 1}>
-                    <Link
-                      href="#"
-                      className="small text-grey-300 hover:underline"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          {/* pod 4 */}
+          ))}
+          {/* pods */}
         </div>
         {/* Copy rights */}
         <div className="copyrights mt-[40px]">
-          <p className="font-regular x-small text-neutral-700 text-center">
-            © 2007-2023 IDP Connect Ltd. All rights reserved
+          <p className="x-small text-grey300 text-center">
+            {footerData?.footerNavBtmCollection?.items[0]?.navTitle}
           </p>
         </div>
       </div>

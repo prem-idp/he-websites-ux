@@ -108,14 +108,14 @@ export const options = [
 ];
 
 export const logoImgArray = [
-  "/assets/images/our-partner/partner1.png",
-  "/assets/images/our-partner/partner2.png",
-  "/assets/images/our-partner/partner3.png",
-  "/assets/images/our-partner/partner4.png",
-  "/assets/images/our-partner/partner5.png",
-  "/assets/images/our-partner/partner6.png",
-  "/assets/images/our-partner/partner7.png",
-  "/assets/images/our-partner/partner8.png",
-  "/assets/images/our-partner/partner9.png",
-  "/assets/images/our-partner/partner10.png",
+  "/static/assets/images/our-partner/partner1.png",
+  "/static/assets/images/our-partner/partner2.png",
+  "/static/assets/images/our-partner/partner3.png",
+  "/static/assets/images/our-partner/partner4.png",
+  "/static/assets/images/our-partner/partner5.png",
+  "/static/assets/images/our-partner/partner6.png",
+  "/static/assets/images/our-partner/partner7.png",
+  "/static/assets/images/our-partner/partner8.png",
+  "/static/assets/images/our-partner/partner9.png",
+  "/static/assets/images/our-partner/partner10.png",
 ];

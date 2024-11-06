@@ -26,7 +26,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     }));
   };
   const handleSearch = () => {
-    console.log(ucasFormHandle);
+    //console.log(ucasFormHandle);
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -40,7 +40,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
             >
               {ucasFormHandle?.courseType}
               <Image
-                src="/assets/icons/arrow_down_black.svg"
+                src="/static/assets/icons/arrow_down_black.svg"
                 width="20"
                 height="20"
                 alt="Search icon"
@@ -189,7 +189,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
             >
               <Image
-                src="/assets/icons/search_icon.svg"
+                src="/static/assets/icons/search_icon.svg"
                 width="18"
                 height="18"
                 alt="Search icon"
