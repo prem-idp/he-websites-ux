@@ -43,6 +43,7 @@ default:
   before_script:
     - apt-get update
     - apt install zip
+    - printenv
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - cd cdk
