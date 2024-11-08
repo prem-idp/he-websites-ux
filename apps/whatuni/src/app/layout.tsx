@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import Header from "@packages/shared-components/common-utilities/header/headercomponents";
+import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

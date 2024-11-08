@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -21,7 +20,6 @@ const config: Config = {
       xxxl: "1920px",
     },
     fontFamily: {
-      // farro: ["var(--farro)"],
       farro: ["Farro", "sans-serif"],
       inter: ["Inter", "sans-serif"],
     },
