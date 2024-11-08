@@ -4,7 +4,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: {},
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.dog.ceo",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
