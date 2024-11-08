@@ -27,8 +27,6 @@ const DynamicComponentRenderer = async () => {
     },
   ];
 
-  console.log(componentList);
-
   const loadComponent = (
     name: string,
     ssr: boolean,
