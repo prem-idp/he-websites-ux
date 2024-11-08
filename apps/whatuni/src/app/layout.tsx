@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@packages/shared-components/common-utilities/header/headercomponents";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
+import Script from "next/script";
+import OneTrustCookie from "./OneTrustcookie";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -29,6 +31,8 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
+        <Script src="https://cdn-apac.onetrust.com/scripttemplates/otSDKStub.js" id="oneTrustCookieeId" data-domain-script="aef8a843-4acf-4f91-acd1-f823a4a625c0" />
+        <OneTrustCookie />
         <Header />
         {children}
         <Footer />
