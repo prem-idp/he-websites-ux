@@ -7,9 +7,9 @@ import UniversityTab from "./universitytab";
 import AdviceTab from "./advicetab";
 const SearchBox = () => {
   const searchTabClick = (tabName: string) => {
-    setucasFormHandle((preData) => ({ ...preData, activeTab: tabName }));
+    setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  const [ucasFormHandle, setucasFormHandle] = useState({
+  const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
     isSubjectClicked: false,
@@ -30,7 +30,7 @@ const SearchBox = () => {
             <li role="button">
               <button
                 className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block ${
-                  ucasFormHandle?.activeTab === "tab1"
+                  searchFormHandle?.activeTab === "tab1"
                     ? "bg-neutral-900 text-white"
                     : "bg-white text-neutral-900 border border-neutral-900"
                 }`}
@@ -42,7 +42,7 @@ const SearchBox = () => {
             <li role="button">
               <button
                 className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block ${
-                  ucasFormHandle?.activeTab === "tab2"
+                  searchFormHandle?.activeTab === "tab2"
                     ? "bg-neutral-900 text-white"
                     : "bg-white text-neutral-900 border border-neutral-900"
                 }`}
@@ -54,7 +54,7 @@ const SearchBox = () => {
             <li role="button">
               <button
                 className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block ${
-                  ucasFormHandle?.activeTab === "tab3"
+                  searchFormHandle?.activeTab === "tab3"
                     ? "bg-neutral-900 text-white"
                     : "bg-white text-neutral-900 border border-neutral-900"
                 }`}
@@ -65,7 +65,7 @@ const SearchBox = () => {
             </li>
           </ul>
 
-          {ucasFormHandle?.activeTab == "tab1" && (
+          {searchFormHandle?.activeTab == "tab1" && (
             <Link
               href="#"
               className="flex items-center gap-[6px] justify-center text-primary-400 font-semibold small hover:underline md:justify-end"
@@ -88,7 +88,7 @@ const SearchBox = () => {
               Calculate your UCAS points
             </Link>
           )}
-          {ucasFormHandle?.activeTab == "tab2" && (
+          {searchFormHandle?.activeTab == "tab2" && (
             <Link
               href="#"
               className="flex items-center gap-[6px] justify-center text-primary-400 font-semibold small hover:underline md:justify-end"
@@ -102,7 +102,7 @@ const SearchBox = () => {
               />
             </Link>
           )}
-          {ucasFormHandle?.activeTab == "tab3" && (
+          {searchFormHandle?.activeTab == "tab3" && (
             <Link
               href="#"
               className="flex items-center gap-[6px] justify-center text-primary-400 font-semibold small hover:underline md:justify-end"
@@ -118,22 +118,22 @@ const SearchBox = () => {
           )}
 
           <div className="row-start-2 md:col-span-2">
-            {ucasFormHandle?.activeTab === "tab1" && (
+            {searchFormHandle?.activeTab === "tab1" && (
               <CourseTab
-                ucasFormHandle={ucasFormHandle}
-                setucasFormHandle={setucasFormHandle}
+                searchFormHandle={searchFormHandle}
+                setsearchFormHandle={setsearchFormHandle}
               />
             )}
-            {ucasFormHandle?.activeTab === "tab2" && (
+            {searchFormHandle?.activeTab === "tab2" && (
               <UniversityTab
-                ucasFormHandle={ucasFormHandle}
-                setucasFormHandle={setucasFormHandle}
+                searchFormHandle={searchFormHandle}
+                setsearchFormHandle={setsearchFormHandle}
               />
             )}
-            {ucasFormHandle?.activeTab === "tab3" && (
+            {searchFormHandle?.activeTab === "tab3" && (
               <AdviceTab
-                ucasFormHandle={ucasFormHandle}
-                setucasFormHandle={setucasFormHandle}
+                searchFormHandle={searchFormHandle}
+                setsearchFormHandle={setsearchFormHandle}
               />
             )}
           </div>
