@@ -52,7 +52,7 @@ const Header = () => {
     } else {
       body.classList.remove("overflow-y-hidden");
     }
-  }, [isSearchClicked || isUserClicked || isShortlistClicked]);
+  }, [isSearchClicked, isUserClicked, isShortlistClicked]);
 
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
