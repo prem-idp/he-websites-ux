@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const HeroComponent = () => {
+const HeroSliderCard = () => {
   return (
     <>
       <div className="flex justify-between gap-[16px]">
@@ -49,4 +49,4 @@ const HeroComponent = () => {
   );
 };
 
-export default HeroComponent;
+export default HeroSliderCard;

@@ -1,24 +1,80 @@
 "use server";
-import React from "react";
-import HeroSliderComponent from "@packages/shared-components/home/hero/heroslidercomponent";
-import AdviceComponent from "@packages/shared-components/home/advice/advicecomponents";
-import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
-import ReviewComponent from "@packages/shared-components/home/reviews/reviewscomponents";
-import TestimonialComponent from "@packages/shared-components/home/testimonials/testimonialcomponents";
-import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
-import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
-const page = () => {
+import dynamic from "next/dynamic";
+const Page = async () => {
+  const componentList = [
+    {
+      component: "HeroSliderComponent",
+      ssrValue: true,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/hero/heroslidercomponent",
+    },
+    {
+      component: "Wuscascomponents",
+      ssrValue: false,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/wuscas/wuscascomponents",
+    },
+
+    {
+      component: "Discovercomponents",
+      ssrValue: true,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/discover/discovercomponents",
+    },
+    {
+      component: "AdviceComponent",
+      ssrValue: false,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/advice/advicecomponents",
+    },
+    {
+      component: "TestimonialComponent",
+      ssrValue: true,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/testimonials/testimonialcomponents",
+    },
+    {
+      component: "ReviewComponent",
+      ssrValue: false,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "home/reviews/reviewscomponents",
+    },
+
+    {
+      component: "OurPartnerComponent",
+      ssrValue: false,
+      loadingComponent: "Please wait while loading",
+      data: "",
+      path: "common-utilities/our-partners/ourpartnercomponent",
+    },
+  ];
+
+  const loadComponent = (
+    path: string,
+    ssrValue: boolean,
+    loadingComponent: string
+  ) =>
+    dynamic(() => import(`@packages/shared-components/${path}`), {
+      ssr: ssrValue,
+      loading: () => <p>{loadingComponent}</p>,
+    });
+
   return (
     <>
-      <HeroSliderComponent />
-      <Wuscascomponents />
-      <Discovercomponents />
-      <AdviceComponent />
-      <TestimonialComponent />
-      <ReviewComponent />
-      <OurPartnerComponent />
+      <div>
+        {componentList.map(({ path, ssrValue, loadingComponent }, index) => {
+          const Component = loadComponent(path, ssrValue, loadingComponent);
+          return <Component key={index} />;
+        })}
+      </div>
     </>
   );
 };
 
-export default page;
+export default Page;
