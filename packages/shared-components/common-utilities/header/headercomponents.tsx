@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../../apps/whatuni/public/static/assets/images/whatuni-logo.svg";
 import { useState, useEffect, useRef } from "react";
-import Search from "./search/search";
+import Search from "./search-pod/header-search";
 
 import Megamenucomponents from "../topnav/megamenucomponents";
 import Shortlisted from "./shortlisted/shortlisted";
