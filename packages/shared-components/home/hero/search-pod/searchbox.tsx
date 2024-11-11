@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import CourseTab from "./coursetab";
-import UniversityTab from "./universitytab";
-import AdviceTab from "./advicetab";
+import CourseTab from "../../search-input-pods/coursetab";
+import UniversityTab from "../../search-input-pods/universitytab";
+import AdviceTab from "../../search-input-pods/advicetab";
 const SearchBox = () => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
