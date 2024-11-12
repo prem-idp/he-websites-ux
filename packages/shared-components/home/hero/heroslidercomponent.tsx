@@ -2,6 +2,7 @@
 import React from "react";
 import SearchBox from "./search-pod/searchbox";
 import HeroSlider from "./slider-pod/heroSlider";
+
 interface PropjectProps {
   project: string;
 }

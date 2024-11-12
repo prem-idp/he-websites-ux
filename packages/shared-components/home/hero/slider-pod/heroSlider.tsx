@@ -17,16 +17,16 @@ const HeroSlider = () => {
       className="mySwiper hero"
     >
       <SwiperSlide>
-        <HeroSliderCard />
+        <HeroSliderCard data="Good morning" />
       </SwiperSlide>
       <SwiperSlide>
-        <HeroSliderCard />
+        <HeroSliderCard data="Mani rathinam" />
       </SwiperSlide>
       <SwiperSlide>
-        <HeroSliderCard />
+        <HeroSliderCard data="He websites" />
       </SwiperSlide>
       <SwiperSlide>
-        <HeroSliderCard />
+        <HeroSliderCard data="Hello world" />
       </SwiperSlide>
     </Swiper>
   );

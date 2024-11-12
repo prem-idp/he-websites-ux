@@ -1,14 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const HeroSliderCard = () => {
+interface dataPropsInterface {
+  data: string;
+}
+const HeroSliderCard: React.FC<dataPropsInterface> = ({ data }) => {
   return (
     <>
       <div className="flex justify-between gap-[16px]">
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
           <h1 className="text-heading-lg mb-[4px]">
-            Mani porttitor lorem. Vestibulum vel felis
+            {data} Vestibulum vel felis
           </h1>
           <p className="para-lg mb-[16px]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
