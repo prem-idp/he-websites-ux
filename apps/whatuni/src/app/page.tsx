@@ -103,7 +103,7 @@ const Page = async () => {
       <div>
         {componentList.map(({ path, ssrValue, loadingComponent }, index) => {
           const Component = loadComponent(path, ssrValue, loadingComponent);
-          return <Component key={index} data={data} />;
+          return <Component key={index} />;
         })}
       </div>
     </>
