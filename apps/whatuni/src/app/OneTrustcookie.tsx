@@ -1,24 +1,25 @@
-"use client"
+'use server'
 
-import { sendHTTPRequest } from '@/lib/httpRequest';
-import $ from 'jquery';
-import { useEffect } from 'react';
+import { cookies } from 'next/headers';
+import OneTrustCookieScript from './OneTrustCookieScript';
+import { getOnetrustCookieValue } from '@/lib/getOnetrustCookieValue';
+import type {  GetServerSideProps } from 'next'
 
-export default function OneTrustCookie(){
+export async function createCookie(cookieName: string, cookieValue: string) {
+    'use server'
+    const cookieStore = await cookies();
+    cookieStore.set(cookieName, cookieValue);
+}
 
-    useEffect(() => {$(document).on("click", "#onetrust-accept-btn-handler", async function(e){
-        
-        const cookieName = "cookie_splash_flag";
-        const cookieValue = "N";
-        const url = "/degrees/cookies/create-cookie-popup.html?cookieName="+cookieName+"&cookieValue="+cookieValue;
-        const resData = await sendHTTPRequest(url, "POST", {
-            cookieName: "cookie_splash_flag",
-            cookieValue: "N"
-        })
-        if(resData == 'success'){
-            $("#cookiePopup").hide();
-        }
-        console.log("cookie accepted....")
-    })}, [])
-    return <></>
+export default async function OneTrustCookie(){
+
+    const cookieStore = await cookies();
+   
+    const OptanonConsent = cookieStore.get('OptanonConsent')?.value;
+    const OptanonConsentValue = getOnetrustCookieValue(OptanonConsent);
+    const OptanonAlertBoxClosed = cookieStore.get('OptanonAlertBoxClosed');
+    const cookieValuefromOnetrust = OptanonConsentValue != null && OptanonAlertBoxClosed != null  ? OptanonConsentValue : "0111";
+    //createCookie("cookieconsent", cookieValuefromOnetrust);
+
+    return <OneTrustCookieScript cookieValuefromOnetrust={cookieValuefromOnetrust} />
 }

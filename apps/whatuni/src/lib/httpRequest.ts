@@ -4,7 +4,9 @@ export const sendHTTPRequest = async (url: string, reqMethod: requestMethod, req
     try {
         const response = await fetch(url, {
         method: reqMethod,
-        headers: {},
+        headers: {
+            
+        },
         body: reqBody
         });
         return response;

@@ -28,10 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+      <body 
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        <Script src="https://cdn-apac.onetrust.com/scripttemplates/otSDKStub.js" id="oneTrustCookieeId" data-domain-script="aef8a843-4acf-4f91-acd1-f823a4a625c0" />
         <OneTrustCookie />
         <Header />
         {children}
