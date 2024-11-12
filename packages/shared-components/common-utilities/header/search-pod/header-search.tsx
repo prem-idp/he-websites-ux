@@ -16,10 +16,10 @@ export default function Search({ rightMenuAction }: any) {
     isLocationClicked: false,
     isAdviceClicked: false,
     isUniversityClicked: false,
-    courseType: "Undergraduate",
+    courseType: { qualUrl: "degree", qualCode: "M", qualDesc: "Undergraduate" },
     university: "",
-    subject: "",
-    location: "",
+    subject: {},
+    location: {},
     advice: "",
   });
 

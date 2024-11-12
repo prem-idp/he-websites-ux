@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
-
+import { useState, useEffect } from "react";
+import { ajaxSearh } from "@packages/lib/server-actions/server-action";
 interface UniversityTabProps {
   searchFormHandle: SearchFormHandle;
   setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
@@ -11,6 +13,30 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   searchFormHandle,
   setsearchFormHandle,
 }) => {
+  const [universityList, setUniversityList] = useState<string[]>([]);
+  useEffect(() => {
+    const body = {
+      affiliateId: 220703,
+      actionType: "institution",
+      keyword: `${searchFormHandle.university}`,
+      qualCode: "M",
+      networkId: 2,
+    };
+    const fetchSubject = async () => {
+      const data = await ajaxSearh(body);
+      if (data) {
+        setUniversityList(data);
+      }
+    };
+    console.log(universityList);
+    if (searchFormHandle.university.length > 2) {
+      fetchSubject();
+    }
+    // else{
+    //   setSubjectlist([])
+    // }
+  }, [searchFormHandle.university]);
+
   const resetAllTabs = (currentTab: string) => ({
     isUniversityClicked:
       currentTab === "University"
@@ -24,9 +50,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       ...resetAllTabs(tabName),
     }));
   };
-  const handleSearch = () => {
-    //console.log(searchFormHandle);
-  };
+
   return (
     <div className="flex flex-col gap-[24px]">
       <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
@@ -48,11 +72,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             />
           </div>
           <div className="pt-[16px] md:pt-[0]">
-            <button
-              onClick={handleSearch}
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
-            >
+            <button className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]">
               <Image
                 src="/static/assets/icons/search_icon.svg"
                 width="18"
@@ -65,30 +85,22 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
           {searchFormHandle?.isUniversityClicked &&
             searchFormHandle?.university.length > 2 && (
               <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
-                <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                  UNIVERSITIES
-                </div>
                 <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
-                  {[
-                    "Undergraduate",
-                    "HND / HNC",
-                    "Foundation degree",
-                    "Access & foundation",
-                    "Postgraduate",
-                  ].map((item, index) => (
-                    <li
+                  {universityList?.map((item, index) => (
+                    <Link
+                      href={`/university-profile/${item.college_name_display}/${item.college_id}`}
                       onClick={() =>
                         setsearchFormHandle((prevData) => ({
                           ...prevData,
-                          university: item,
+                          university: item.college_name_display,
                           isUniversityClicked: false,
                         }))
                       }
                       key={index}
                       className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                     >
-                      {item}
-                    </li>
+                      {item.college_name_display}
+                    </Link>
                   ))}
                 </ul>
               </div>
