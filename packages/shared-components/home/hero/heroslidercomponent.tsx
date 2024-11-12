@@ -2,12 +2,12 @@
 import React from "react";
 import SearchBox from "./search-pod/searchbox";
 import HeroSlider from "./slider-pod/heroSlider";
-
+import { DataInterface } from "../../../lib/types/interfaces";
 interface PropjectProps {
   project: string;
 }
 const HeroSliderComponent: React.FC<PropjectProps> = ({ project }) => {
-  const data = {
+  const data: DataInterface = {
     items: [
       {
         __typename: "DynamicMediaComponent",
@@ -87,7 +87,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ project }) => {
         className={`${project === "pgs" ? "bg-yellow-400" : "bg-blue-200"} px-[16px] md:px-[20px] xl2:px-01`}
       >
         <div className="max-w-container mx-auto">
-          <HeroSlider />
+          <HeroSlider data={data} />
         </div>
       </div>
       <SearchBox />
