@@ -1,28 +1,28 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { UcasFormHandle } from "@packages/lib/types/interfaces";
+import { SearchFormHandle } from "@packages/lib/types/interfaces";
 interface AdviceTabProps {
-  ucasFormHandle: UcasFormHandle;
-  setucasFormHandle: React.Dispatch<React.SetStateAction<UcasFormHandle>>;
+  searchFormHandle: SearchFormHandle;
+  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
 }
 const AdviceTab: React.FC<AdviceTabProps> = ({
-  ucasFormHandle,
-  setucasFormHandle,
+  searchFormHandle,
+  setsearchFormHandle,
 }) => {
   const resetAllTabs = (currentTab: string) => ({
     isAdviceClicked:
-      currentTab === "Advice" ? !ucasFormHandle?.isAdviceClicked : false,
+      currentTab === "Advice" ? !searchFormHandle?.isAdviceClicked : false,
   });
 
   const courseActions = (tabName: string) => {
-    setucasFormHandle((prevData: UcasFormHandle) => ({
+    setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),
     }));
   };
   const handleSearch = () => {
-    //console.log(ucasFormHandle);
+    //console.log(searchFormHandle);
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -32,7 +32,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
             <input
               onClick={() => courseActions("Advice")}
               onChange={(event) =>
-                setucasFormHandle((preData) => ({
+                setsearchFormHandle((preData) => ({
                   ...preData,
                   advice: event.target.value,
                 }))
@@ -41,7 +41,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
               className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
               aria-label=""
               placeholder="Enter keyword"
-              value={ucasFormHandle?.advice}
+              value={searchFormHandle?.advice}
             />
           </div>
           <div className="pt-[16px] md:pt-[0]">
@@ -59,7 +59,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
               Search
             </button>
           </div>
-          {ucasFormHandle?.isAdviceClicked && (
+          {searchFormHandle?.isAdviceClicked && (
             <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
               <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                 ADVICES
@@ -74,7 +74,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
                 ].map((item, index) => (
                   <li
                     onClick={() =>
-                      setucasFormHandle((prevData: UcasFormHandle) => ({
+                      setsearchFormHandle((prevData: SearchFormHandle) => ({
                         ...prevData,
                         advice: item,
                         isAdviceClicked: false,
