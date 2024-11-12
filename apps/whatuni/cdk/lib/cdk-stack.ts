@@ -21,11 +21,10 @@ import {
   Effect,
   AnyPrincipal,
   Role,
-  AccountRootPrincipal,
 } from "aws-cdk-lib/aws-iam";
 import { MyLogGroupArm } from "./logGroupArn";
 
-export class CdkStack extends cdk.Stack {
+export class WhatuniCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     const [VPC_SUBNET1_VALUE, VPC_SUBNET2_VALUE, VPC_SUBNET3_VALUE] =
       process.env.AWS_VPC_SUBNETS?.split(",") ?? [];
@@ -39,9 +38,7 @@ export class CdkStack extends cdk.Stack {
     // });
     // Create a new S3 bucket to store Next.js build artifacts
     const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
-      bucketName: process.env.AWS_WHATUNI_S3_BUCKET_NAME
-      ,
-
+      bucketName: process.env.AWS_WHATUNI_S3_BUCKET_NAME,
       // Replace with your desired name
       enforceSSL: true,
       versioned: true,
@@ -81,8 +78,10 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
     cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add("Name", process.env.AWS_WHATUNI_S3_BUCKET_NAME
-      || "");
+    cdk.Tags.of(myBucket).add(
+      "Name",
+      process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
+    );
     cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
@@ -114,7 +113,7 @@ export class CdkStack extends cdk.Stack {
       this,
       "SG",
       "idp-connect-DOM-Instapage-MS",
-      vpc,
+      vpc
     );
 
     const serverFunctionName = "dev-whatuni-website-server-lambda";
@@ -136,7 +135,7 @@ export class CdkStack extends cdk.Stack {
     const cloudwatchPolicyStatement: any = myService.setLogGroup(
       this.region,
       this.account,
-      serverFunctionName,
+      serverFunctionName
     );
 
     const ec2XrayPolicyStatement = new PolicyStatement({
@@ -202,7 +201,7 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(nextjsLambda).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(nextjsLambda).add("Classification", "unclassified");
     cdk.Tags.of(nextjsLambda).add("Name", serverFunctionName);
@@ -215,24 +214,24 @@ export class CdkStack extends cdk.Stack {
         logGroupName: "/aws/lambda/dev-whatuni-website-server-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
-      },
+      }
     );
 
     cdk.Tags.of(whatuni_website_server_lambda_log).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(whatuni_website_server_lambda_log).add(
       "Classification",
-      "unclassified",
+      "unclassified"
     );
     cdk.Tags.of(whatuni_website_server_lambda_log).add(
       "Name",
-      "whatuni_website_server_lambda_1_log",
+      "whatuni_website_server_lambda_1_log"
     );
     cdk.Tags.of(whatuni_website_server_lambda_log).add(
       "ProjectName",
-      "HE websites",
+      "HE websites"
     );
 
     const imageFunctionName = "dev-whatuni-website-image-optimizer-lambda";
@@ -242,7 +241,7 @@ export class CdkStack extends cdk.Stack {
     const cloudwatchImagePolicyStatement: any = myImageService.setLogGroup(
       this.region,
       this.account,
-      imageFunctionName,
+      imageFunctionName
     );
     // Create the IAM policy
     const myImagePolicy = new Policy(this, "MyImagePolicy", {
@@ -252,7 +251,7 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(myImagePolicy).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(myImagePolicy).add("Classification", "unclassified");
     cdk.Tags.of(myImagePolicy).add("Name", `${imageFunctionName}-permission`);
@@ -266,7 +265,7 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(myImageRole).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(myImageRole).add("Classification", "unclassified");
     cdk.Tags.of(myImageRole).add("Name", `${imageFunctionName}-exec-role`);
@@ -296,12 +295,12 @@ export class CdkStack extends cdk.Stack {
 
     cdk.Tags.of(nextjsimageLambda).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(nextjsimageLambda).add("Classification", "unclassified");
     cdk.Tags.of(nextjsimageLambda).add(
       "Name",
-      "dev-whatuni-website-image-optimizer-lambda",
+      "dev-whatuni-website-image-optimizer-lambda"
     );
     cdk.Tags.of(nextjsimageLambda).add("ProjectName", "HE websites");
 
@@ -312,24 +311,24 @@ export class CdkStack extends cdk.Stack {
         logGroupName: "/aws/lambda/dev-whatuni-website-image-optimizer-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
-      },
+      }
     );
     // Add tags to the log group
     cdk.Tags.of(whatuni_website_image_lambda_log).add(
       "ApplicationService",
-      "CS Channel: HE websites",
+      "CS Channel: HE websites"
     );
     cdk.Tags.of(whatuni_website_image_lambda_log).add(
       "Classification",
-      "unclassified",
+      "unclassified"
     );
     cdk.Tags.of(whatuni_website_image_lambda_log).add(
       "Name",
-      "whatuni_website_image_lambda_1_log",
+      "whatuni_website_image_lambda_1_log"
     );
     cdk.Tags.of(whatuni_website_image_lambda_log).add(
       "ProjectName",
-      "HE websites",
+      "HE websites"
     );
 
     const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({

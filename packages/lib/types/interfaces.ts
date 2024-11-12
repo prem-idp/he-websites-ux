@@ -6,7 +6,7 @@ export interface User {
   isActive: boolean;
 }
 
-export interface UcasFormHandle {
+export interface SearchFormHandle {
   activeTab: string;
   isCourseType: boolean;
   isSubjectClicked: boolean;

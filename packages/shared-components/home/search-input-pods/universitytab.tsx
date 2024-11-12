@@ -1,31 +1,31 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { UcasFormHandle } from "@packages/lib/types/interfaces";
+import { SearchFormHandle } from "@packages/lib/types/interfaces";
 
 interface UniversityTabProps {
-  ucasFormHandle: UcasFormHandle;
-  setucasFormHandle: React.Dispatch<React.SetStateAction<UcasFormHandle>>;
+  searchFormHandle: SearchFormHandle;
+  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
 }
 const UniversityTab: React.FC<UniversityTabProps> = ({
-  ucasFormHandle,
-  setucasFormHandle,
+  searchFormHandle,
+  setsearchFormHandle,
 }) => {
   const resetAllTabs = (currentTab: string) => ({
     isUniversityClicked:
       currentTab === "University"
-        ? !ucasFormHandle?.isUniversityClicked
+        ? !searchFormHandle?.isUniversityClicked
         : false,
   });
 
   const courseActions = (tabName: string) => {
-    setucasFormHandle((prevData: UcasFormHandle) => ({
+    setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),
     }));
   };
   const handleSearch = () => {
-    //console.log(ucasFormHandle);
+    //console.log(searchFormHandle);
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -39,12 +39,12 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               aria-label=""
               placeholder="University name"
               onChange={(event) =>
-                setucasFormHandle((preData) => ({
+                setsearchFormHandle((preData) => ({
                   ...preData,
                   university: event.target.value,
                 }))
               }
-              value={ucasFormHandle?.university}
+              value={searchFormHandle?.university}
             />
           </div>
           <div className="pt-[16px] md:pt-[0]">
@@ -62,8 +62,8 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               Search
             </button>
           </div>
-          {ucasFormHandle?.isUniversityClicked &&
-            ucasFormHandle?.university.length > 2 && (
+          {searchFormHandle?.isUniversityClicked &&
+            searchFormHandle?.university.length > 2 && (
               <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
                 <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                   UNIVERSITIES
@@ -78,7 +78,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                   ].map((item, index) => (
                     <li
                       onClick={() =>
-                        setucasFormHandle((prevData) => ({
+                        setsearchFormHandle((prevData) => ({
                           ...prevData,
                           university: item,
                           isUniversityClicked: false,
