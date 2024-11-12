@@ -19,7 +19,7 @@ default:
 ########################
 
 .build_job:
-  stage: build 
+  stage: build
   before_script:
     - apt-get update
     - apt install zip
@@ -50,7 +50,8 @@ default:
     - npm install --force
     - npm run cdk-synth:${PROJECT_NAME}
     - npm run cdk-diff:${PROJECT_NAME}
-    - npm run cdk-deploy:${PROJECT_NAME}
+    - npm run cdk-deploy:${PROJECT_NAME} --require-approval
+
     # - cd ..
   artifacts:
     paths:
