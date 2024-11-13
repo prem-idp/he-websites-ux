@@ -1,13 +1,10 @@
-"use server";
+import { render } from "@testing-library/react";
+import HeroSlider from "@packages/shared-components/home/hero/slider-pod/heroSlider";
+import "@testing-library/jest-dom";
+import { DataInterface } from "@packages/lib/types/interfaces";
 import React from "react";
-import SearchBox from "./search-pod/searchbox";
-import HeroSlider from "./slider-pod/heroSlider";
-import { DataInterface } from "../../../lib/types/interfaces";
-interface PropjectProps {
-  project: string;
-}
-const HeroSliderComponent: React.FC<PropjectProps> = () => {
-  const data: DataInterface = {
+describe("Hero Slider component", () => {
+  const data = {
     items: [
       {
         __typename: "DynamicMediaComponent",
@@ -81,16 +78,8 @@ const HeroSliderComponent: React.FC<PropjectProps> = () => {
       },
     ],
   };
-  return (
-    <>
-      <div className="bg-blue-200 px-[16px] md:px-[20px] xl2:px-01">
-        <div className="max-w-container mx-auto">
-          <HeroSlider data={data} />
-        </div>
-      </div>
-      <SearchBox />
-    </>
-  );
-};
 
-export default HeroSliderComponent;
+  test("First Check", () => {
+    render(<HeroSlider data={data} />);
+  });
+});
