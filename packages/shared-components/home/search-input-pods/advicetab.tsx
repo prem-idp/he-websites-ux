@@ -3,8 +3,8 @@ import React from "react";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 interface AdviceTabProps {
-  searchFormHandle: SearchFormHandle;
-  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
+  searchFormHandle: any;
+  setsearchFormHandle: any;
 }
 const AdviceTab: React.FC<AdviceTabProps> = ({
   searchFormHandle,
@@ -32,7 +32,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
             <input
               onClick={() => courseActions("Advice")}
               onChange={(event) =>
-                setsearchFormHandle((preData) => ({
+                setsearchFormHandle((preData:any) => ({
                   ...preData,
                   advice: event.target.value,
                 }))

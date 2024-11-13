@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect } from "react";
-import { ajaxSearh } from "@packages/lib/server-actions/server-action";
+import { ajaxSearch } from "@packages/lib/server-actions/server-action";
 interface UniversityTabProps {
-  searchFormHandle: SearchFormHandle;
-  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
+  searchFormHandle: any;
+  setsearchFormHandle: any;
 }
 const UniversityTab: React.FC<UniversityTabProps> = ({
   searchFormHandle,
@@ -23,7 +23,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       networkId: 2,
     };
     const fetchSubject = async () => {
-      const data = await ajaxSearh(body);
+      const data = await ajaxSearch(body);
       if (data) {
         setUniversityList(data);
       }
@@ -63,7 +63,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               aria-label=""
               placeholder="University name"
               onChange={(event) =>
-                setsearchFormHandle((preData) => ({
+                setsearchFormHandle((preData:any) => ({
                   ...preData,
                   university: event.target.value,
                 }))
@@ -86,11 +86,11 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             searchFormHandle?.university.length > 2 && (
               <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
                 <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
-                  {universityList?.map((item, index) => (
+                  {universityList?.map((item: any, index: any) => (
                     <Link
                       href={`/university-profile/${item.college_name_display}/${item.college_id}`}
                       onClick={() =>
-                        setsearchFormHandle((prevData) => ({
+                        setsearchFormHandle((prevData:any) => ({
                           ...prevData,
                           university: item.college_name_display,
                           isUniversityClicked: false,

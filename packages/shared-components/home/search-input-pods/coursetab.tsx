@@ -5,10 +5,12 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect } from "react";
-import { ajaxSearh } from "@packages/lib/server-actions/server-action";
+import { ajaxSearch } from "@packages/lib/server-actions/server-action";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 interface CourseTabProps {
-  searchFormHandle: SearchFormHandle;
-  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
+  searchFormHandle: any;
+  setsearchFormHandle: any;
 }
 
 const CourseTab: React.FC<CourseTabProps> = ({
@@ -16,8 +18,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
 }) => {
   const [subjectList, setSubjectlist] = useState<string[]>([]);
-  const [locandstudymode, setLocandstudymode] = useState({});
-
+  const [locandstudymode, setLocandstudymode] = useState<any>({});
+  const [dropdown, setDropdown] = useState<boolean>(false);
+  const router = useRouter();
   useEffect(() => {
     const body = {
       affiliateId: 220703,
@@ -27,38 +30,47 @@ const CourseTab: React.FC<CourseTabProps> = ({
       networkId: 2,
     };
     const fetchLocationandstudymode = async () => {
-      const data = await ajaxSearh(body);
+      const data = await ajaxSearch(body);
       if (data) {
         setLocandstudymode(data);
       }
     };
     fetchLocationandstudymode();
   }, []);
+
   useEffect(() => {
-    // console.log(searchFormHandle.subject);
-    const body = {
-      affiliateId: 220703,
-      actionType: "subject",
-      keyword: `${searchFormHandle.subject.description}`,
-      qualCode: `${searchFormHandle.courseType.qualCode}`,
-      networkId: 2,
-    };
-    const fetchSubject = async () => {
-      const data = await ajaxSearh(body);
-      // console.log(data, "dataaaaaaaaaaaaaaaaaaaaa");
-      if (data?.courseDetails?.length > 0) {
-        setSubjectlist(data.courseDetails);
-      } else {
-        console.log(data.courseDetails);
-      }
-    };
-    // console.log(subjectList, "PPPPPPPPPPPPP");
-    if (searchFormHandle?.subject?.description?.length > 2) {
-      console.log(searchFormHandle.subject.description.length);
-      fetchSubject();
-    } else {
+    if (
+      !searchFormHandle?.subject?.description ||
+      searchFormHandle.subject.description.length < 3
+    ) {
       setSubjectlist([]);
+      return;
     }
+
+    const timeoutId = setTimeout(() => {
+      const body = {
+        affiliateId: 220703,
+        actionType: "subject",
+        keyword: `${searchFormHandle.subject.description}`,
+        qualCode: `${searchFormHandle.courseType.qualCode}`,
+        networkId: 2,
+      };
+      const fetchSubject = async () => {
+        try {
+          const data = await ajaxSearch(body);
+          if (data?.courseDetails?.length > 0) {
+            setSubjectlist(data.courseDetails);
+          } else {
+            setSubjectlist([]);
+          }
+        } catch (error) {
+          console.error("Error fetching subjects:", error);
+        }
+      };
+      fetchSubject();
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [searchFormHandle.subject.description]);
 
   const resetAllTabs = (currentTab: string) => ({
@@ -77,7 +89,23 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
 
   function searchHandler() {
-    return "/";
+    // Check if both location and subject URLs are present
+    if (
+      searchFormHandle.location.regionName?.trim() && // Check if regionName exists and is not just whitespace
+      searchFormHandle.subject.url
+    ) {
+      console.log("inside the both");
+      console.log(searchFormHandle.location.regionName, "location");
+      router.push(
+        `${searchFormHandle.subject.url}&location=${searchFormHandle.location.regionName}`
+      );
+    } else if (searchFormHandle.subject.url) {
+      console.log("inside the if else");
+      // Only the subject URL is present
+      router.push(`${searchFormHandle.subject.url}`);
+    } else {
+      console.log("please enter the subject");
+    }
   }
 
   return (
@@ -89,7 +117,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
         >
           <div className="relative mb-[24px] md:mb-[0]">
             <button
-              onClick={() => courseActions("UG")}
+              onClick={() => {
+                courseActions("UG");
+                setDropdown(false);
+              }}
               className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[124px] md:mr-[16px]"
               type="button"
             >
@@ -104,21 +135,23 @@ const CourseTab: React.FC<CourseTabProps> = ({
             {searchFormHandle?.isCourseType && (
               <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[40px] overflow-hidden lg:w-[230px]">
                 <ul>
-                  {locandstudymode?.studyLevelList?.map((item: any, index) => (
-                    <li
-                      onClick={() => {
-                        setsearchFormHandle((prevData: SearchFormHandle) => ({
-                          ...prevData,
-                          courseType: item, // Update state with the selected course type
-                        }));
-                        courseActions("UG"); // Call your additional function
-                      }}
-                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
-                      key={index}
-                    >
-                      {item.qualDesc}
-                    </li>
-                  ))}
+                  {locandstudymode?.studyLevelList?.map(
+                    (item: any, index: any) => (
+                      <li
+                        onClick={() => {
+                          setsearchFormHandle((prevData: SearchFormHandle) => ({
+                            ...prevData,
+                            courseType: item, // Update state with the selected course type
+                          }));
+                          courseActions("UG"); // Call your additional function
+                        }}
+                        className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                        key={index}
+                      >
+                        {item.qualDesc}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             )}
@@ -126,47 +159,58 @@ const CourseTab: React.FC<CourseTabProps> = ({
           <div className="w-full relative border-y-[1px] border-neutral200 grow md:border-l md:border-y-0">
             <div className="flex items-center w-full my-[12px] md:my-[0]">
               <input
-                name="subject"
                 value={searchFormHandle.subject.description || ""}
                 type="text"
                 className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
                 aria-label=""
                 placeholder="Enter subject"
-                onChange={(event) =>
-                  setsearchFormHandle((prevData: SearchFormHandle) => ({
+                onChange={(event) => {
+                  setsearchFormHandle((prevData: any) => ({
                     ...prevData,
                     subject: {
-                      ...prevData.subject, // Retaining other properties of subject
+                      ...prevData.subject,
+                      url: null,
+                      parent_subject: null,
+                      category_code: null,
+                      browse_cat_id: "KW", // Retaining other properties of subject
                       description: event.target.value, // Setting the description value
                     },
-                  }))
-                }
-                onClick={() => courseActions("Subject")}
+                  }));
+                  setDropdown(true);
+                }}
+                onClick={() => {
+                  courseActions("Subject");
+                  setDropdown((prev) => !prev);
+                }}
               />
             </div>
-            {subjectList?.length > 0 && (
+            {subjectList?.length >= 0 && dropdown && (
               <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] max-h-[311px] overflow-y-scroll custom-vertical-scrollbar overflow-hidden">
                 <ul>
                   {/* Hardcode the item at index 0 */}
                   {subjectList[0] && (
                     <li
-                      onClick={() =>
+                      onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
                           subject: subjectList[0],
                           isSubjectClicked: !searchFormHandle?.isSubjectClicked,
-                        }))
-                      }
+                        }));
+                        setDropdown(false);
+                      }}
                       className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
                     >
-                      <p> Key word seach for</p>
-
-                      {searchFormHandle.subject.description}
+                      <Link
+                        href={`/degree-courses/search?q=${searchFormHandle.subject.description}`}
+                      >
+                        <p> Key word seach for</p>
+                        {searchFormHandle.subject.description}
+                      </Link>
                     </li>
                   )}
 
                   {/* Map through the rest of the items starting from index 1 */}
-                  {subjectList.slice(1)?.map((item, index) => (
+                  {subjectList.slice(1)?.map((item: any, index: any) => (
                     <li
                       onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -174,7 +218,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
                           subject: item,
                           isSubjectClicked: !searchFormHandle?.isSubjectClicked,
                         }));
-                        setSubjectlist([]);
+                        // setSubjectlist([]);
+                        setDropdown(false);
                       }}
                       key={index + 1} // Increment index to keep the key unique
                       className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
@@ -188,11 +233,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
           </div>
           <div
             className="w-full relative grow md:border-l border-neutral200"
-            onClick={() => courseActions("Location")}
+            onClick={() => {
+              courseActions("Location");
+              setDropdown(false);
+            }}
           >
             <div className="flex items-center w-full my-[12px] md:my-[0] border-l-0 lg:border-l border-neutral-200">
               <input
-                name="location"
                 type="text"
                 className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
                 aria-label=""
@@ -210,21 +257,23 @@ const CourseTab: React.FC<CourseTabProps> = ({
             {searchFormHandle?.isLocationClicked && (
               <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] overflow-hidden">
                 <ul>
-                  {locandstudymode?.locationList?.map((item, index) => (
-                    <li
-                      onClick={() => {
-                        setsearchFormHandle((prevData: SearchFormHandle) => ({
-                          ...prevData,
-                          location: item, // Update state with the selected course type
-                        }));
-                        courseActions("Location"); // Call your additional function
-                      }}
-                      key={index}
-                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
-                    >
-                      {item.regionName}
-                    </li>
-                  ))}
+                  {locandstudymode?.locationList?.map(
+                    (item: any, index: any) => (
+                      <li
+                        onClick={() => {
+                          setsearchFormHandle((prevData: SearchFormHandle) => ({
+                            ...prevData,
+                            location: item, // Update state with the selected course type
+                          }));
+                          courseActions("Location"); // Call your additional function
+                        }}
+                        key={index}
+                        className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                      >
+                        {item.regionName}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             )}
