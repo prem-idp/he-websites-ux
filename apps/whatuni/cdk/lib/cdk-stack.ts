@@ -116,7 +116,7 @@ export class WhatuniCdkStack extends cdk.Stack {
       vpc
     );
 
-    const serverFunctionName = "dev-whatuni-website-server-lambda";
+    const serverFunctionName = "dev-whatuni-website-serverfn-lambda";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
     //   effect: Effect.ALLOW,
@@ -234,7 +234,7 @@ export class WhatuniCdkStack extends cdk.Stack {
       "HE websites"
     );
 
-    const imageFunctionName = "dev-whatuni-website-image-optimizer-lambda";
+    const imageFunctionName = "dev-whatuni-website-image-optimizer-fn-lambda";
 
     const myImageService = new MyLogGroupArm();
 
