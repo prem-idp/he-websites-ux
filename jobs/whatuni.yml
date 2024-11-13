@@ -42,8 +42,8 @@ whatuni/dev/deploy:
   needs: 
     - job: whatuni/dev/build
       artifacts: true
-  script:
-    - cdk deploy --all --require-approval never --ci
+  # script:
+  #   - cdk deploy --all --require-approval never --ci
 
 whatuni/dev/invalidate:
   extends: 

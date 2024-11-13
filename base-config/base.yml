@@ -50,7 +50,7 @@ default:
     - npm install --force
     - npm run cdk-synth:${PROJECT_NAME}
     - npm run cdk-diff:${PROJECT_NAME}
-    - npm run cdk-deploy:${PROJECT_NAME} --require-approval
+    - npm run cdk-deploy:${PROJECT_NAME} --all --require-approval never --ci
 
     # - cd ..
   artifacts:
