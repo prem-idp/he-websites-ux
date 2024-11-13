@@ -104,3 +104,66 @@ export const homePageQuery = `{
     }
   }
 }`;
+
+
+export const discoverpodQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10
+     ) {
+        items {
+         
+          ... on MultipleCardContainer {
+    
+            mediaCardsCollection(limit: 5) {
+              items {
+                ... on DynamicMediaComponent {
+               
+            title
+            internalName
+            longDescription {
+              json
+            }
+            cta {
+              internalName
+              primaryCtaUrl
+              primaryCtaLabel
+              secondaryCtaUrl
+              secondaryCtaLabel
+              primaryCtaTarget
+              secondaryCtaTarget
+              flagStyle
+            }
+            image {
+              imageTitle
+              imgAltText
+              imgUpload {
+                url
+                height
+                width
+              }
+            }
+            video {
+              videoTitle
+              videoIntName
+              videoDesc
+              externalVideoUrl
+              videoUpload {
+                url
+                width
+                height
+              }
+            }
+          
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`

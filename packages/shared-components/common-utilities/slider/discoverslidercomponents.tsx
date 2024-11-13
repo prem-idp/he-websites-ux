@@ -7,7 +7,65 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination } from "swiper/modules";
+import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+
+interface discoverContentfulInterface{
+  data: {
+    contentData?: {
+      items?: [{bodyContentCollection?: {
+        items?: [
+          {
+            mediaCardsCollection?: {
+              items?: [
+                {
+                  title: "",
+                  internalName: "",
+                  cta: {
+                    internalName: ""
+                    primaryCtaUrl: ""
+                    primaryCtaLabel: ""
+                    secondaryCtaUrl: ""
+                    secondaryCtaLabel: ""
+                    primaryCtaTarget: ""
+                    secondaryCtaTarget: ""
+                    flagStyle: ""
+                  }
+                  image: {
+                    imageTitle: "",
+                    imgAltText: "",
+                    imgUpload: {
+                      url: ""
+                      height: ""
+                      width: ""
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }}]
+    }
+  }
+}
+
+let discoverList: discoverContentfulInterface;
+
 const Discoverslidercomponents1 = () => {
+
+
+  const [dicoverCardContentfulList, setDicoverCardContentfulList] = useState(discoverList);
+  useEffect(() => {
+    async function getcontetnfuldata(){
+      console.log("graphQL req started....");
+      const discovercontentfulData = await graphQlFetchFunction(discoverpodQuery);
+      console.log("graphQL req ended....");
+      setDicoverCardContentfulList(discovercontentfulData);
+    }
+    getcontetnfuldata();
+    
+  }, [])
   // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -43,274 +101,78 @@ const Discoverslidercomponents1 = () => {
             modules={[FreeMode, Pagination]}
             className="MultiSwiper"
           >
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        courses
-                      </div>
-                      <h5 className="font-bold">Looking for courses?</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image1x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        universities
-                      </div>
-                      <h5 className="font-bold">Pick your perfect uni</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image2x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        career
-                      </div>
-                      <h5 className="font-bold">Take our careers quiz</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image3x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        Subject guides
-                      </div>
-                      <h5 className="font-bold">Find out what to study</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image1x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-positive-dark bg-positive-light  white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        open days
-                      </div>
-                      <h5 className="font-bold">Find an open day</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image2x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="discover-card">
-                <Link
-                  href=""
-                  className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-                >
-                  <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                      <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                        app
-                      </div>
-                      <h5 className="font-bold">Download the app</h5>
-                    </div>
-                    <Image
-                      src="/static/assets/images/discover/discover-feature-image3x3x.png"
-                      width="186"
-                      height="200"
-                      alt="discover"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
+            {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
+              if(discoverObj != null){
+                return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
+                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
+                      if(discoverItems?.title != null && discoverItems?.title != undefined){
+                        return <SwiperSlide>
+                          <div className="discover-card">
+                           <Link href={discoverItems.cta.primaryCtaUrl} className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden">
+                              <div className="discover-card flex justify-between gap-[8px]">
+                                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
+                                    {discoverItems.title}
+                                  </div>
+                                  <h5 className="font-bold">Looking for courses?</h5>
+                                </div>
+                                <Image
+                                  src={discoverItems.image.imgUpload.url}
+                                  width="186"
+                                  height="200"
+                                  alt="discover"
+                                />
+                              </div>
+                            </Link>
+                          </div>
+                        </SwiperSlide>
+                      }
+                    })
+                  }
+                });
+              }
+              return <></>
+            })}
+            
           </Swiper>
         </div>
       ) : (
+        
         <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px]">
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    courses
-                  </div>
-                  <h5 className="font-bold">Looking for courses?</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image1x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    universities
-                  </div>
-                  <h5 className="font-bold">Pick your perfect uni</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image2x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    career
-                  </div>
-                  <h5 className="font-bold">Take our careers quiz</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image3x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    Subject guides
-                  </div>
-                  <h5 className="font-bold">Find out what to study</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image1x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    open days
-                  </div>
-                  <h5 className="font-bold">Find an open day</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image2x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="discover-card">
-            <Link
-              href=""
-              className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
-            >
-              <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                  <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
-                    app
-                  </div>
-                  <h5 className="font-bold">Download the app</h5>
-                </div>
-                <Image
-                  src="/static/assets/images/discover/discover-feature-image3x3x.png"
-                  width="186"
-                  height="200"
-                  alt="discover"
-                />
-              </div>
-            </Link>
-          </div>
+          {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
+              if(discoverObj != null){
+                return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
+                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
+                      if(discoverItems?.title != null && discoverItems?.title != undefined){
+                        return <div className="discover-card">
+                                  <Link
+                                    href={discoverItems.cta.primaryCtaUrl}
+                                    className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
+                                  >
+                                    <div className="discover-card flex justify-between gap-[8px]">
+                                      <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                                        <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
+                                          {discoverItems.title}
+                                        </div>
+                                        <h5 className="font-bold">Looking for courses?</h5>
+                                      </div>
+                                      <Image
+                                        src={discoverItems.image.imgUpload.url}
+                                        width="186"
+                                        height="200"
+                                        alt="discover"
+                                      />
+                                    </div>
+                                  </Link>
+                                </div>
+                       }
+                    })
+                  }
+                });
+              }
+            })}
         </div>
       )}
     </>
