@@ -23,14 +23,19 @@ default:
   before_script:
     - apt-get update
     - apt install zip
-    - printenv
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - ls
+
     # - cd cdk
+    - echo $PWD
+    - cd apps/${PROJECT_NAME}/cdk
+    - echo $PWD
+    - cd ../../..
+    - echo $PWD
     - npm install --force
     # - cd ..
-    - npm install --force
+    #- npm install --force
     - npm run $BUILD
     - npm run open-next:${PROJECT_NAME}
   artifacts:
@@ -43,12 +48,14 @@ default:
   before_script:
     - apt-get update
     - apt install zip
-    - printenv
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - cd cdk
+    - echo $PWD
     - cd apps/${PROJECT_NAME}/cdk
+    - echo $PWD
     - npm install --force
+    - echo $PWD
     - npm run cdk-synth:${PROJECT_NAME}
     - npm run cdk-diff:${PROJECT_NAME}
     - npm run cdk-deploy:${PROJECT_NAME}

@@ -24,7 +24,7 @@
     "dev:whatuni": "npm run dev --workspace=whatuni",
     "build:whatuni": "npm run build --workspace=whatuni",
     "start:whatuni": "npm run start --workspace=whatuni",
-    "open-next:whatuni": "cd apps/whatuni && open-next build",
+    "open-next:whatuni": "cd apps/whatuni && echo $PWD && open-next build",
     "cdk-synth:whatuni": "npm install && cdk synth --build",
     "cdk-diff:whatuni": "cdk diff",
     "cdk-deploy:whatuni": "cdk deploy --all --require-approval never --ci",
