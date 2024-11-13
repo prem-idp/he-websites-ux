@@ -190,3 +190,12 @@ export interface ImageUpload {
   height: number;
   width: number;
 }
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
+}
