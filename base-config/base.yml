@@ -47,10 +47,11 @@ default:
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - cd cdk
+    - cd apps/${PROJECT_NAME}/cdk
     - npm install --force
     - npm run cdk-synth:${PROJECT_NAME}
     - npm run cdk-diff:${PROJECT_NAME}
-    - npm run cdk-deploy:${PROJECT_NAME} --all --require-approval never --ci
+    - npm run cdk-deploy:${PROJECT_NAME}
 
     # - cd ..
   artifacts:
