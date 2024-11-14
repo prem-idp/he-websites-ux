@@ -21,7 +21,7 @@ const config: Config = {
     // Collect coverage from app2 (pgs) - add your other app here
     "apps/whatuni/src/**/*.{ts,tsx}",
     "apps/pgs/src/**/*.{ts,tsx}",
-    "packages/components/**/*.{ts,tsx}",
+    "packages/shared-components/**/*.{ts,tsx}",
 
     // Exclude common directories
     "!**/node_modules/**",
@@ -41,6 +41,14 @@ const config: Config = {
 
   // Optional: Specify different test setup files if needed
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest', // Transpile JS, JSX, TS, and TSX with Babel
+  },
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  moduleNameMapper: {
+    '^@packages/(.*)$': '<rootDir>/packages/$1'
+  },
 };
 
 // createJestConfig is exported this way to ensure next/jest can load the Next.js config which is async

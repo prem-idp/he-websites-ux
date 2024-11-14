@@ -1,24 +1,34 @@
 "use server";
-import React from "react";
-import HeroSliderComponent from "@packages/shared-components/home/hero/heroslidercomponent";
-import AdviceComponent from "@packages/shared-components/home/advice/advicecomponents";
-import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
-import ReviewComponent from "@packages/shared-components/home/reviews/reviewscomponents";
-import TestimonialComponent from "@packages/shared-components/home/testimonials/testimonialcomponents";
-import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
-import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
-const page = () => {
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+const Page = async () => {
+  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const componentList =
+    jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   return (
     <>
-      <HeroSliderComponent />
-      <Wuscascomponents />
-      <Discovercomponents />
-      <AdviceComponent />
-      <TestimonialComponent />
-      <ReviewComponent />
-      <OurPartnerComponent />
+      <Heroslidercomponent project="whatuni" />
+      <div>
+        {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+              />
+            );
+          }
+        )}
+      </div>
     </>
   );
 };
 
-export default page;
+export default Page;

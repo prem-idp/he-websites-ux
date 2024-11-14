@@ -7,12 +7,14 @@ import ReviewComponent from "@packages/shared-components/home/reviews/reviewscom
 import TestimonialComponent from "@packages/shared-components/home/testimonials/testimonialcomponents";
 import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
 import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
+import Tagcloudcomponents from "@packages/shared-components/home/tag-cloud/tagcloudcomponents";
 const page = () => {
   return (
     <>
       <HeroSliderComponent project="pgs" />
       <Wuscascomponents />
       <Discovercomponents />
+      <Tagcloudcomponents />
       <AdviceComponent />
       <TestimonialComponent />
       <ReviewComponent />
