@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "packages/__test__/footer.test.jsx",
-    "packages/__test__/hero.test.jsx"
+    "packages/__test__/hero.text.jsx"
   ],
   "exclude": ["node_modules"]
 }

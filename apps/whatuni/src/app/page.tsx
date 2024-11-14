@@ -22,6 +22,7 @@ const Page = async () => {
                 key={index}
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
               />
             );
           }
