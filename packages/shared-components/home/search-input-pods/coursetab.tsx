@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect } from "react";
-import { ajaxSearch } from "@packages/lib/server-actions/server-action";
+import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 interface CourseTabProps {
@@ -30,7 +30,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       networkId: 2,
     };
     const fetchLocationandstudymode = async () => {
-      const data = await ajaxSearch(body);
+      const data = await searchAjaxFecthFunction(body);
       if (data) {
         setLocandstudymode(data);
       }
@@ -57,7 +57,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       };
       const fetchSubject = async () => {
         try {
-          const data = await ajaxSearch(body);
+          const data = await searchAjaxFecthFunction(body);
           if (data?.courseDetails?.length > 0) {
             setSubjectlist(data.courseDetails);
           } else {

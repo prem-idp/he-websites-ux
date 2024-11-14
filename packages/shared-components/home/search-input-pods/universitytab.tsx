@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect } from "react";
-import { ajaxSearch } from "@packages/lib/server-actions/server-action";
+import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 interface UniversityTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -23,7 +23,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       networkId: 2,
     };
     const fetchSubject = async () => {
-      const data = await ajaxSearch(body);
+      const data = await searchAjaxFecthFunction(body);
       if (data) {
         setUniversityList(data);
       }
@@ -63,7 +63,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               aria-label=""
               placeholder="University name"
               onChange={(event) =>
-                setsearchFormHandle((preData:any) => ({
+                setsearchFormHandle((preData: any) => ({
                   ...preData,
                   university: event.target.value,
                 }))
@@ -90,7 +90,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                     <Link
                       href={`/university-profile/${item.college_name_display}/${item.college_id}`}
                       onClick={() =>
-                        setsearchFormHandle((prevData:any) => ({
+                        setsearchFormHandle((prevData: any) => ({
                           ...prevData,
                           university: item.college_name_display,
                           isUniversityClicked: false,
