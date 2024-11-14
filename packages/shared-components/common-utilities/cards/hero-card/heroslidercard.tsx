@@ -40,14 +40,14 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
             </Link>
           )}
         </div>
-        <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end md:pb-[80px] lg:pb-0 hidden md:block">
+        <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">
           <Image
             src={
               data?.image?.imgUpload?.url ||
               "/static/assets/images/hero-banner.png"
             }
-            width={data?.image?.imgUpload?.width || 495}
-            height={data?.image?.imgUpload?.height || 483}
+            width={data?.image?.imgUpload?.width || 365}
+            height={data?.image?.imgUpload?.height || 445}
             alt={data?.image?.imgAltText || "Here Banner"}
           />
         </div>

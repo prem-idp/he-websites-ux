@@ -14,7 +14,7 @@ const HeroSlider: React.FC<PropsInterface> = ({ data }) => {
   return (
     <Swiper
       slidesPerView={1}
-      effect="fade"
+      effect={"fade"}
       autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
       modules={[Autoplay, EffectFade, Pagination]}
