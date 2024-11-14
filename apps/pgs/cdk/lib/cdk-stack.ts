@@ -24,7 +24,7 @@ import {
 } from "aws-cdk-lib/aws-iam";
 import { MyLogGroupArm } from "./logGroupArn";
 
-export class PgsCdkStack extends cdk.Stack {
+export class PgsHeCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     const [VPC_SUBNET1_VALUE, VPC_SUBNET2_VALUE, VPC_SUBNET3_VALUE] =
       process.env.AWS_VPC_SUBNETS?.split(",") ?? [];
