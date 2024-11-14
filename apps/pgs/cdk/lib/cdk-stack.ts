@@ -114,7 +114,7 @@ export class PgsCdkStack extends cdk.Stack {
       vpc
     );
 
-    const serverFunctionName = "dev-whatuni-website-server-lambda";
+    const serverFunctionName = "dev-pgs-website-server-lambda";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
     //   effect: Effect.ALLOW,
@@ -205,34 +205,34 @@ export class PgsCdkStack extends cdk.Stack {
     cdk.Tags.of(nextjsLambda).add("Name", serverFunctionName);
     cdk.Tags.of(nextjsLambda).add("ProjectName", "HE websites");
 
-    const whatuni_website_server_lambda_log = new logs.LogGroup(
+    const pgs_website_server_lambda_log = new logs.LogGroup(
       this,
-      "whatuni_website_server_lambda_1_log",
+      "pgs_website_server_lambda_1_log",
       {
-        logGroupName: "/aws/lambda/dev-whatuni-website-server-lambda",
+        logGroupName: "/aws/lambda/dev-pgs-website-server-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       }
     );
 
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "ApplicationService",
       "CS Channel: HE websites"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "Classification",
       "unclassified"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "Name",
-      "whatuni_website_server_lambda_1_log"
+      "pgs_website_server_lambda_1_log"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "ProjectName",
       "HE websites"
     );
 
-    const imageFunctionName = "dev-whatuni-website-image-optimizer-lambda";
+    const imageFunctionName = "dev-pgs-website-image-optimizer-lambda";
 
     const myImageService = new MyLogGroupArm();
 
@@ -298,36 +298,33 @@ export class PgsCdkStack extends cdk.Stack {
     cdk.Tags.of(nextjsimageLambda).add("Classification", "unclassified");
     cdk.Tags.of(nextjsimageLambda).add(
       "Name",
-      "dev-whatuni-website-image-optimizer-lambda"
+      "dev-pgs-website-image-optimizer-lambda"
     );
     cdk.Tags.of(nextjsimageLambda).add("ProjectName", "HE websites");
 
-    const whatuni_website_image_lambda_log = new logs.LogGroup(
+    const pgs_website_image_lambda_log = new logs.LogGroup(
       this,
-      "whatuni_website_image_lambda_1_log",
+      "pgs_website_image_lambda_1_log",
       {
-        logGroupName: "/aws/lambda/dev-whatuni-website-image-optimizer-lambda",
+        logGroupName: "/aws/lambda/dev-pgs-website-image-optimizer-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       }
     );
     // Add tags to the log group
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "ApplicationService",
       "CS Channel: HE websites"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "Classification",
       "unclassified"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "Name",
-      "whatuni_website_image_lambda_1_log"
+      "pgs_website_image_lambda_1_log"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
-      "ProjectName",
-      "HE websites"
-    );
+    cdk.Tags.of(pgs_website_image_lambda_log).add("ProjectName", "HE websites");
 
     const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
       authType: FunctionUrlAuthType.AWS_IAM,
