@@ -34,7 +34,7 @@ export const footerQuery = `query {
 export const homePageQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteId: "220703"}}
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
   ) {
     items {
       pageTitle
@@ -74,6 +74,17 @@ export const homePageQuery = `{
                 width
               }
             }
+            video {
+              videoTitle
+              videoIntName
+              videoDesc
+              externalVideoUrl
+              videoUpload {
+                url
+                width
+                height
+              }
+            }
           }
         }
       }
@@ -85,38 +96,30 @@ export const homePageQuery = `{
             cardSectionTitle
             shortDescription
             longDescription
-            mediaCardsCollection(limit: 2) {
+            flagComponentStyle
+            
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const interComponentLoop = (internalName: string) => {
+  const query = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"${internalName}"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
               items {
                 __typename
-                ... on DynamicMediaComponent {
-                  internalName
-                  title
-                  subTitle
-                  shortDescription
-                  longDescription {
-                    json
-                  }
-                  image {
-                    imageTitle
-                    imgIntName
-                    imgUpload {
-                      url
-                      width
-                      height
-                    }
-                    imgAltText
-                  }
-                  cta {
-                    internalName
-                    primaryCtaUrl
-                    secondaryCtaUrl
-                    primaryCtaLabel
-                    secondaryCtaLabel
-                    primaryCtaTarget
-                    secondaryCtaTarget
-                    flagStyle
-                  }
-                }
                 ... on PageLogo {
                   logoName
                   logoImage {
@@ -134,3 +137,5 @@ export const homePageQuery = `{
     }
   }
 }`;
+  return query;
+};

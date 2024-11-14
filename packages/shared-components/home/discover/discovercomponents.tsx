@@ -1,8 +1,6 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-import Tagcloudcomponents from "../tag-cloud/tagcloudcomponents";
-
 const Discovercomponents = () => {
   return (
     <div className="discover-container bg-white">
@@ -38,7 +36,6 @@ const Discovercomponents = () => {
               </a>
             </div>
           </div>
-          <Tagcloudcomponents />
         </div>
       </div>
     </div>
