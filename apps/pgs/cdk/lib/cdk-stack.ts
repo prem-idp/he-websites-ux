@@ -49,7 +49,7 @@ export class PgsHeCdkStack extends cdk.Stack {
     const myBucket = s3.Bucket.fromBucketName(
       this,
       "ExistingBucket",
-      process.env.AWS_PGS_S3_BUCKET_NAME
+      process.env.AWS_PGS_S3_BUCKET_NAME || ""
     );
     const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
       actions: ["s3:GetObject"],
