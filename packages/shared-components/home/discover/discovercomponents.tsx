@@ -1,14 +1,14 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-const Discovercomponents = () => {
+const Discovercomponents = ({heading, subheading, ...props}: {heading: string, subheading: string} ) => {
   return (
     <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
         <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
-            <h2 className={`font-bold`} data-testid="discoverHeading">Discover</h2>
-            <p className={`small mt-[8px]`} data-testid="discoverSubHeading">Subheading</p>
+            <h2 className={`font-bold`} data-testid="discoverHeading">{heading}</h2>
+            <p className={`small mt-[8px]`} data-testid="discoverSubHeading">{subheading}</p>
           </div>
           <div className="discover-inner-wrap">
             <Discoverslidercomponents />
