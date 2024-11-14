@@ -143,8 +143,11 @@ export interface FooterDataInterface {
   };
 }
 
-export interface DataInterface {
+export interface SliderBannerCollection {
   items: DynamicMediaComponent[];
+}
+export interface DynamicMediaComponentArray {
+  dynamicMediaComponent: DynamicMediaComponent[];
 }
 
 export interface DynamicMediaComponent {
@@ -152,7 +155,7 @@ export interface DynamicMediaComponent {
   longDescription: LongDescription;
   title: string;
   internalName: string;
-  cta: null;
+  cta: CTA | null;
   image: Image | null;
 }
 
@@ -198,4 +201,15 @@ export interface MultipleCardContainer {
   shortDescription: string;
   longDescription: string | null;
   flagComponentStyle: string;
+}
+
+export interface CTA {
+  internalName: string;
+  primaryCtaUrl: string | null;
+  primaryCtaLabel: string | null;
+  secondaryCtaUrl: string | null;
+  secondaryCtaLabel: string | null;
+  primaryCtaTarget: string | null;
+  secondaryCtaTarget: string | null;
+  flagStyle: string | null;
 }

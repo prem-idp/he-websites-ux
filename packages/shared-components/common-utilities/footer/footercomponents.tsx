@@ -8,6 +8,7 @@ const Footer = async () => {
   const footerData: FooterDataInterface =
     (await graphQlFetchFunction(footerQuery))?.data?.footerNavigationCollection
       ?.items?.[0] ?? {};
+  console.log(footerData);
   return (
     <footer className="footer bg-blue-100">
       <div className="container max-w-container mx-auto px-[16px] md:px-[24px] pt-[34px] pb-[40px] xl:px-[0]">
