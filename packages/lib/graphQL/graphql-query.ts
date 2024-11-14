@@ -104,3 +104,38 @@ export const homePageQuery = `{
     }
   }
 }`;
+
+export const interComponentLoop = (internalName: string) => {
+  const query = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"${internalName}"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+  return query;
+};
