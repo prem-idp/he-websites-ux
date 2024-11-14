@@ -10,7 +10,7 @@ import { FreeMode, Navigation, Pagination } from "swiper/modules";
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 
-interface discoverContentfulInterface{
+export interface discoverContentfulInterface{
   data: {
     contentData?: {
       items?: [{bodyContentCollection?: {
@@ -55,12 +55,10 @@ let discoverList: discoverContentfulInterface;
 const Discoverslidercomponents1 = () => {
 
 
-  const [dicoverCardContentfulList, setDicoverCardContentfulList] = useState(discoverList);
+  const [dicoverCardContentfulList, setDicoverCardContentfulList] = useState<discoverContentfulInterface>(discoverList);
   useEffect(() => {
     async function getcontetnfuldata(){
-      console.log("graphQL req started....");
       const discovercontentfulData = await graphQlFetchFunction(discoverpodQuery);
-      console.log("graphQL req ended....");
       setDicoverCardContentfulList(discovercontentfulData);
     }
     getcontetnfuldata();
@@ -69,9 +67,6 @@ const Discoverslidercomponents1 = () => {
   // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const mobileToggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -105,23 +100,25 @@ const Discoverslidercomponents1 = () => {
               if(discoverObj != null){
                 return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
                   if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
-                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
+                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems, index) => {
                       if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        return <SwiperSlide>
-                          <div className="discover-card">
+                        return <SwiperSlide key={discoverItems.title}>
+                          <div className="discover-card" data-testid="discovercardMobile">
                            <Link href={discoverItems.cta.primaryCtaUrl} className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden">
                               <div className="discover-card flex justify-between gap-[8px]">
                                 <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
+                                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
                                     {discoverItems.title}
                                   </div>
-                                  <h5 className="font-bold">Looking for courses?</h5>
+                                  <h5 className="font-bold" data-testid="cardSubTitle">Looking for courses?</h5>
                                 </div>
                                 <Image
-                                  src={discoverItems.image.imgUpload.url}
+                                  src={index == 5 && isMobile ? "https://whatuni.go.link/?adj_t=cark98y" :discoverItems.image.imgUpload.url}
                                   width="186"
                                   height="200"
                                   alt="discover"
+                                  data-testid="discoverImageId"
+                                  data-testsrc={discoverItems.image.imgUpload.url}
                                 />
                               </div>
                             </Link>
@@ -132,7 +129,6 @@ const Discoverslidercomponents1 = () => {
                   }
                 });
               }
-              return <></>
             })}
             
           </Swiper>
@@ -146,23 +142,25 @@ const Discoverslidercomponents1 = () => {
                   if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
                     return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
                       if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        return <div className="discover-card">
+                        return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.title}>
                                   <Link
                                     href={discoverItems.cta.primaryCtaUrl}
                                     className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                                   >
                                     <div className="discover-card flex justify-between gap-[8px]">
                                       <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                        <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
+                                        <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
                                           {discoverItems.title}
                                         </div>
-                                        <h5 className="font-bold">Looking for courses?</h5>
+                                        <h5 className="font-bold" data-testid="cardSubTitle">Looking for courses?</h5>
                                       </div>
                                       <Image
                                         src={discoverItems.image.imgUpload.url}
                                         width="186"
                                         height="200"
                                         alt="discover"
+                                        data-testid="discoverImageId"
+                                        data-testsrc={discoverItems.image.imgUpload.url}
                                       />
                                     </div>
                                   </Link>

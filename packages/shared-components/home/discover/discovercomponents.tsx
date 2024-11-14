@@ -7,8 +7,8 @@ const Discovercomponents = () => {
       <div className="max-w-container mx-auto">
         <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
-            <h2 className={`font-bold`}>Discover</h2>
-            <p className={`small mt-[8px]`}>Subheading</p>
+            <h2 className={`font-bold`} data-testid="discoverHeading">Discover</h2>
+            <p className={`small mt-[8px]`} data-testid="discoverSubHeading">Subheading</p>
           </div>
           <div className="discover-inner-wrap">
             <Discoverslidercomponents />
@@ -16,6 +16,7 @@ const Discovercomponents = () => {
               <a
                 href="#"
                 className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                data-testid="discoverViewMore"
               >
                 View more
                 <svg

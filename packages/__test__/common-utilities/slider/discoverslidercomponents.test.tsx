@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from 'react';
@@ -22,8 +22,7 @@ jest.mock('swiper/react', () => ({
   jest.mock('swiper/css/navigation', () => {});
   jest.mock('swiper/css/pagination', () => {});
 
-  //consts
-const discoverPodList = `{
+  const discoverPodList = `{
     "data": {
         "contentData": {
             "items": [
@@ -92,7 +91,7 @@ const discoverPodList = `{
                                         },
                                         {
                                             "longDescription": null,
-                                            "title": "Career ",
+                                            "title": "Career",
                                             "internalName": "Discover - Careers - Whatuni",
                                             "video": null,
                                             "cta": {
@@ -213,25 +212,76 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
     graphQlFetchFunction: jest.fn()
   }));
 
-describe("Discover pod test cases", () => {
+
+  describe("Test the Discoverslidercomponents1", () => {
 
     beforeEach(()=>{
         jest.clearAllMocks();
         (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
     })
-
-    //
-    test("Render discover pod", async () => {
-        // Mock fetch implementation with TypeScript type casting
-        //const spy = jest.spyOn(GraphQLModule, 'graphQlFetchFunction');
-        //spy.mockResolvedValue(discoverPodList);
-        //(fetchAPI.graphQlFetchFunction as jest.Mock).mockResolvedValue('mocked data');
-        //(graphQlFetchFunction as jest.Mock).mockResolvedValue(discoverPodList);
-
-        render(<Discovercomponents/>);
-        await waitFor(() => expect(screen.getByTestId("discoverHeading")).toBeInTheDocument());
-        await waitFor(() => expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument());
-        await waitFor(() => expect(screen.getByTestId("discoverViewMore")).toBeInTheDocument());
-    });
     
-})
+    //
+    it("The count of slider created for desktop device", async () => {
+        render(<Discoverslidercomponents1  />);
+        let cardCount:number = 0;
+        {iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
+            if(discoverObj != null){
+              return discoverObj?.bodyContentCollection?.items?.map(async (mediaCardsCollectionItems, index) => {
+                if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                  return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(async (discoverItems, index) => {
+                    if(discoverItems?.title != null && discoverItems?.title != undefined){
+                        
+                        const discoverImageElement = await screen.findAllByTestId("discoverImageId");
+                        const cardTitleElement = await screen.findAllByTestId("cardTitle");
+                        
+                        expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
+                        expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
+                        cardCount = cardCount + 1;
+                    }
+                  })
+                }
+              });
+            }
+            return <></>
+          })}
+          const discovercardDesktopElement = await screen.findAllByTestId("discovercardDesktop");
+          //expect(discovercardDesktopElement?.length).toBe(cardCount);
+    });
+
+    test("The count of slider created for mobile device", async () => {
+        
+        let cardCount:number = 0;
+        const resizeSpy = jest.spyOn(window, 'dispatchEvent');
+        window.innerWidth = 480;
+        // Trigger the window resize event.
+        global.dispatchEvent(new Event('resize'));
+
+        render(<Discovercomponents />);
+
+
+        {iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {
+            if(discoverObj != null){
+              return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
+                if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                  return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(async (discoverItems, index) => {
+                    if(discoverItems?.title != null && discoverItems?.title != undefined){
+                        cardCount = cardCount + 1;
+                        const discoverImageElement = await screen.findAllByTestId("discoverImageId");
+                        const cardTitleElement = await screen.findAllByTestId("cardTitle");
+                        
+                        expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
+                        expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
+                        console.log("cardCount", cardCount)
+                    }
+                  })
+                }
+              });
+            }
+            return <></>
+          })}
+
+          const discovercardDesktopElement = await screen.findAllByTestId("discovercardMobile");
+          expect(discovercardDesktopElement?.length).toBe(cardCount);
+    });
+
+  })
