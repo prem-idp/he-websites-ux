@@ -37,17 +37,20 @@ export class PgsHeCdkStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
     // Create a new S3 bucket to store Next.js build artifacts
-    const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
-      bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
+    // const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
+    //   bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
 
-      // Replace with your desired name
-      enforceSSL: true,
-      versioned: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      encryption: s3.BucketEncryption.S3_MANAGED,
-      removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
-    });
-
+    //   enforceSSL: true,
+    //   versioned: true,
+    //   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    //   encryption: s3.BucketEncryption.S3_MANAGED,
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
+    // });
+    const myBucket = s3.Bucket.fromBucketName(
+      this,
+      "ExistingBucket",
+      process.env.AWS_PGS_S3_BUCKET_NAME
+    );
     const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
       actions: ["s3:GetObject"],
       principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
