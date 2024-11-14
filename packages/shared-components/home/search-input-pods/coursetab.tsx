@@ -2,31 +2,31 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { UcasFormHandle } from "@packages/lib/types/interfaces";
+import { SearchFormHandle } from "@packages/lib/types/interfaces";
 interface CourseTabProps {
-  ucasFormHandle: UcasFormHandle;
-  setucasFormHandle: React.Dispatch<React.SetStateAction<UcasFormHandle>>;
+  searchFormHandle: SearchFormHandle;
+  setsearchFormHandle: React.Dispatch<React.SetStateAction<SearchFormHandle>>;
 }
 const CourseTab: React.FC<CourseTabProps> = ({
-  ucasFormHandle,
-  setucasFormHandle,
+  searchFormHandle,
+  setsearchFormHandle,
 }) => {
   const resetAllTabs = (currentTab: string) => ({
-    isCourseType: currentTab === "UG" ? !ucasFormHandle?.isCourseType : false,
+    isCourseType: currentTab === "UG" ? !searchFormHandle?.isCourseType : false,
     isSubjectClicked:
-      currentTab === "Subject" ? !ucasFormHandle?.isSubjectClicked : false,
+      currentTab === "Subject" ? !searchFormHandle?.isSubjectClicked : false,
     isLocationClicked:
-      currentTab === "Location" ? !ucasFormHandle?.isLocationClicked : false,
+      currentTab === "Location" ? !searchFormHandle?.isLocationClicked : false,
   });
 
   const courseActions = (tabName: string) => {
-    setucasFormHandle((prevData: UcasFormHandle) => ({
+    setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),
     }));
   };
   const handleSearch = () => {
-    //console.log(ucasFormHandle);
+    //console.log(searchFormHandle);
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -38,7 +38,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[124px] md:mr-[16px]"
               type="button"
             >
-              {ucasFormHandle?.courseType}
+              {searchFormHandle?.courseType}
               <Image
                 src="/static/assets/icons/arrow_down_black.svg"
                 width="20"
@@ -46,7 +46,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 alt="Search icon"
               />
             </button>
-            {ucasFormHandle?.isCourseType && (
+            {searchFormHandle?.isCourseType && (
               <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[40px] overflow-hidden lg:w-[230px]">
                 <ul>
                   {[
@@ -58,10 +58,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
                   ].map((item, index) => (
                     <li
                       onClick={() =>
-                        setucasFormHandle((prevData: UcasFormHandle) => ({
+                        setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
                           courseType: item,
-                          isCourseType: !ucasFormHandle?.isCourseType,
+                          isCourseType: !searchFormHandle?.isCourseType,
                         }))
                       }
                       className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
@@ -77,12 +77,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
           <div className="w-full relative border-y-[1px] border-neutral200 grow md:border-l md:border-y-0">
             <div className="flex items-center w-full my-[12px] md:my-[0]">
               <input
-                value={ucasFormHandle?.subject}
+                value={searchFormHandle?.subject}
                 // onClick={() => courseActions("Subject")}
                 onClick={() =>
-                  setucasFormHandle((prevData: UcasFormHandle) => ({
+                  setsearchFormHandle((prevData: SearchFormHandle) => ({
                     ...prevData,
-                    isSubjectClicked: !ucasFormHandle?.isSubjectClicked,
+                    isSubjectClicked: !searchFormHandle?.isSubjectClicked,
                   }))
                 }
                 type="text"
@@ -90,15 +90,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 aria-label=""
                 placeholder="Enter subject"
                 onChange={(event) =>
-                  setucasFormHandle((prevData: UcasFormHandle) => ({
+                  setsearchFormHandle((prevData: SearchFormHandle) => ({
                     ...prevData,
                     subject: event.target.value,
                   }))
                 }
               />
             </div>
-            {ucasFormHandle?.subject.length > 2 &&
-              ucasFormHandle?.isSubjectClicked && (
+            {searchFormHandle?.subject.length > 2 &&
+              searchFormHandle?.isSubjectClicked && (
                 <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] max-h-[311px] overflow-y-scroll custom-vertical-scrollbar overflow-hidden">
                   <Link href="">
                     <div className="px-[16px] py-[12px]">
@@ -119,10 +119,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     ].map((item, index) => (
                       <li
                         onClick={() =>
-                          setucasFormHandle((prevData: UcasFormHandle) => ({
+                          setsearchFormHandle((prevData: SearchFormHandle) => ({
                             ...prevData,
                             subject: item,
-                            isSubjectClicked: !ucasFormHandle?.isSubjectClicked,
+                            isSubjectClicked:
+                              !searchFormHandle?.isSubjectClicked,
                           }))
                         }
                         key={index}
@@ -145,16 +146,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
                 aria-label=""
                 placeholder="Location (optional)"
-                value={ucasFormHandle?.location}
+                value={searchFormHandle?.location}
                 onChange={(event) =>
-                  setucasFormHandle((prevData: UcasFormHandle) => ({
+                  setsearchFormHandle((prevData: SearchFormHandle) => ({
                     ...prevData,
                     location: event.target.value,
                   }))
                 }
               />
             </div>
-            {ucasFormHandle?.isLocationClicked && (
+            {searchFormHandle?.isLocationClicked && (
               <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] overflow-hidden">
                 <ul>
                   {[
@@ -167,7 +168,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                   ].map((item, index) => (
                     <li
                       onClick={() =>
-                        setucasFormHandle((prevData: UcasFormHandle) => ({
+                        setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
                           location: item,
                         }))

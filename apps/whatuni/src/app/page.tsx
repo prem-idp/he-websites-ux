@@ -1,77 +1,32 @@
 "use server";
-import dynamic from "next/dynamic";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 const Page = async () => {
-  const componentList = [
-    {
-      component: "HeroSliderComponent",
-      ssrValue: true,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/hero/heroslidercomponent",
-    },
-    {
-      component: "Wuscascomponents",
-      ssrValue: false,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/wuscas/wuscascomponents",
-    },
-
-    {
-      component: "Discovercomponents",
-      ssrValue: true,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/discover/discovercomponents",
-    },
-    {
-      component: "AdviceComponent",
-      ssrValue: false,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/advice/advicecomponents",
-    },
-    {
-      component: "TestimonialComponent",
-      ssrValue: true,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/testimonials/testimonialcomponents",
-    },
-    {
-      component: "ReviewComponent",
-      ssrValue: false,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "home/reviews/reviewscomponents",
-    },
-
-    {
-      component: "OurPartnerComponent",
-      ssrValue: false,
-      loadingComponent: "Please wait while loading",
-      data: "",
-      path: "common-utilities/our-partners/ourpartnercomponent",
-    },
-  ];
-
-  const loadComponent = (
-    path: string,
-    ssrValue: boolean,
-    loadingComponent: string
-  ) =>
-    dynamic(() => import(`@packages/shared-components/${path}`), {
-      ssr: ssrValue,
-      loading: () => <p>{loadingComponent}</p>,
-    });
-
+  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const componentList =
+    jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   return (
     <>
+      <Heroslidercomponent project="whatuni" />
       <div>
-        {componentList.map(({ path, ssrValue, loadingComponent }, index) => {
-          const Component = loadComponent(path, ssrValue, loadingComponent);
-          return <Component key={index} />;
-        })}
+        {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+              />
+            );
+          }
+        )}
       </div>
     </>
   );

@@ -6,7 +6,7 @@ export interface User {
   isActive: boolean;
 }
 
-export interface UcasFormHandle {
+export interface SearchFormHandle {
   activeTab: string;
   isCourseType: boolean;
   isSubjectClicked: boolean;
@@ -141,4 +141,61 @@ export interface FooterDataInterface {
       };
     }[];
   };
+}
+
+export interface DataInterface {
+  items: DynamicMediaComponent[];
+}
+
+export interface DynamicMediaComponent {
+  __typename: "DynamicMediaComponent";
+  longDescription: LongDescription;
+  title: string;
+  internalName: string;
+  cta: null;
+  image: Image | null;
+}
+
+export interface LongDescription {
+  json: JSONContent;
+}
+
+export interface JSONContent {
+  data: Record<string, any>;
+  content: Paragraph[];
+  nodeType: string;
+}
+
+export interface Paragraph {
+  data: Record<string, any>;
+  content: TextNode[];
+  nodeType: string;
+}
+
+export interface TextNode {
+  data: Record<string, any>;
+  marks: any[];
+  value: string;
+  nodeType: string;
+}
+
+export interface Image {
+  imageTitle: string | null;
+  imgAltText: string;
+  imgUpload: ImageUpload;
+}
+
+export interface ImageUpload {
+  url: string;
+  height: number;
+  width: number;
+}
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
 }
