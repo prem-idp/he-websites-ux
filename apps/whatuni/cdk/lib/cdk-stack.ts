@@ -46,47 +46,52 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     //   encryption: s3.BucketEncryption.S3_MANAGED,
     //   removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
     // });
-    const myBucket = s3.Bucket.fromBucketName(
+    // const myBucket = s3.Bucket.fromBucketName(
+    //   this,
+    //   "ExistingBucket",
+    //   process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
+    // );
+    const whatuniBucketName = process.env.AWS_WHATUNI_S3_BUCKET_NAME 
+    const myBucket = s3.Bucket.fromBucketAttributes(
       this,
-      "ExistingBucket",
-      process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
-    );
+      "ExistingPGSBucket",{
+        bucketName: whatuniBucketName,
+        // Explicitly set these attributes to ensure proper functionality
+        bucketArn: `arn:aws:s3:::${whatuniBucketName}`,
+        bucketDomainName: `${whatuniBucketName}.s3.amazonaws.com`,
+    });
+    const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
+      actions: ["s3:GetObject"],
+      principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
+      effect: Effect.ALLOW,
+      conditions: {
+        StringEquals: {
+          "AWS:SourceArn": `arn:aws:cloudfront::${
+            cdk.Stack.of(this).account
+          }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+        },
+      },
+      resources: [`${myBucket.bucketArn}/*`],
+    });
 
-    // const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
-    //   actions: ["s3:GetObject"],
-    //   principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
-    //   effect: Effect.ALLOW,
-    //   conditions: {
-    //     StringEquals: {
-    //       "AWS:SourceArn": `arn:aws:cloudfront::${
-    //         cdk.Stack.of(this).account
-    //       }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
-    //     },
-    //   },
-    //   resources: [`${myBucket.bucketArn}/*`],
-    // });
+    const secureTransportS3PolicyStatement = new PolicyStatement({
+      actions: ["s3:*"],
+      principals: [new AnyPrincipal()],
+      effect: Effect.DENY,
+      conditions: {
+        Bool: {
+          "aws:SecureTransport": "false",
+        },
+      },
+      resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
+    });
 
-    // const secureTransportS3PolicyStatement = new PolicyStatement({
-    //   actions: ["s3:*"],
-    //   principals: [new AnyPrincipal()],
-    //   effect: Effect.DENY,
-    //   conditions: {
-    //     Bool: {
-    //       "aws:SecureTransport": "false",
-    //     },
-    //   },
-    //   resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
-    // });
-
-    // myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
-    // myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
+    myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
+    myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
 
     cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
     cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add(
-      "Name",
-      process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
-    );
+    cdk.Tags.of(myBucket).add("Name", whatuniBucketName);
     cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket

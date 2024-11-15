@@ -46,11 +46,15 @@ export class PgsHeCdkStack extends cdk.Stack {
     //   encryption: s3.BucketEncryption.S3_MANAGED,
     //   removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
     // });
-    const myBucket = s3.Bucket.fromBucketName(
+    const pgsBucketName = process.env.AWS_PGS_S3_BUCKET_NAME 
+    const myBucket = s3.Bucket.fromBucketAttributes(
       this,
-      "ExistingBucket",
-      process.env.AWS_PGS_S3_BUCKET_NAME || ""
-    );
+      "ExistingPGSBucket",{
+        bucketName: pgsBucketName,
+        // Explicitly set these attributes to ensure proper functionality
+        bucketArn: `arn:aws:s3:::${pgsBucketName}`,
+        bucketDomainName: `${pgsBucketName}.s3.amazonaws.com`,
+    });
     const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
       actions: ["s3:GetObject"],
       principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
@@ -82,7 +86,7 @@ export class PgsHeCdkStack extends cdk.Stack {
 
     cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
     cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add("Name", process.env.AWS_S3_BUCKET_NAME || "");
+    cdk.Tags.of(myBucket).add("Name", pgsBucketName || "");
     cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
