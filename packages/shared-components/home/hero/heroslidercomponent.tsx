@@ -6,7 +6,7 @@ import { DataInterface } from "../../../lib/types/interfaces";
 interface PropjectProps {
   project: string;
 }
-const HeroSliderComponent: React.FC<PropjectProps> = () => {
+const HeroSliderComponent: React.FC<PropjectProps> = ({ project }) => {
   const data: DataInterface = {
     items: [
       {
@@ -83,7 +83,11 @@ const HeroSliderComponent: React.FC<PropjectProps> = () => {
   };
   return (
     <>
-      <div className="bg-blue-200 px-[16px] md:px-[20px] xl2:px-01">
+      <div
+        className={`${
+          project === "whatuni" ? "bg-blue-200" : "yellow-blue-200"
+        } px-[16px] md:px-[20px] xl2:px-01`}
+      >
         <div className="max-w-container mx-auto">
           <HeroSlider data={data} />
         </div>
