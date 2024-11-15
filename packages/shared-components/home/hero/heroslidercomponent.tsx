@@ -85,7 +85,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ project }) => {
     <>
       <div
         className={`${
-          project === "whatuni" ? "bg-blue-200" : "yellow-blue-200"
+          project === "whatuni" ? "bg-blue-200" : "bg-green-400"
         } px-[16px] md:px-[20px] xl2:px-01`}
       >
         <div className="max-w-container mx-auto">
