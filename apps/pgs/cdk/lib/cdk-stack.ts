@@ -59,7 +59,7 @@ export class PgsHeCdkStack extends cdk.Stack {
         StringEquals: {
           "AWS:SourceArn": `arn:aws:cloudfront::${
             cdk.Stack.of(this).account
-          }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+          }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
         },
       },
       resources: [`${myBucket.bucketArn}/*`],
@@ -339,7 +339,7 @@ export class PgsHeCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });
@@ -349,7 +349,7 @@ export class PgsHeCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });

@@ -51,34 +51,35 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       "ExistingBucket",
       process.env.AWS_WHATUNI_S3_BUCKET_NAME || ""
     );
-    const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
-      actions: ["s3:GetObject"],
-      principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
-      effect: Effect.ALLOW,
-      conditions: {
-        StringEquals: {
-          "AWS:SourceArn": `arn:aws:cloudfront::${
-            cdk.Stack.of(this).account
-          }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`],
-    });
 
-    const secureTransportS3PolicyStatement = new PolicyStatement({
-      actions: ["s3:*"],
-      principals: [new AnyPrincipal()],
-      effect: Effect.DENY,
-      conditions: {
-        Bool: {
-          "aws:SecureTransport": "false",
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
-    });
+    // const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
+    //   actions: ["s3:GetObject"],
+    //   principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
+    //   effect: Effect.ALLOW,
+    //   conditions: {
+    //     StringEquals: {
+    //       "AWS:SourceArn": `arn:aws:cloudfront::${
+    //         cdk.Stack.of(this).account
+    //       }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`],
+    // });
 
-    myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
-    myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
+    // const secureTransportS3PolicyStatement = new PolicyStatement({
+    //   actions: ["s3:*"],
+    //   principals: [new AnyPrincipal()],
+    //   effect: Effect.DENY,
+    //   conditions: {
+    //     Bool: {
+    //       "aws:SecureTransport": "false",
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
+    // });
+
+    // myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
+    // myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
 
     cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
     cdk.Tags.of(myBucket).add("Classification", "unclassified");
