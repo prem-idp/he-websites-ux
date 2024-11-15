@@ -6,7 +6,6 @@ interface PropsInterface {
   data: DynamicMediaComponent;
 }
 const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
-  console.log("CTA", data?.cta?.primaryCtaUrl);
   return (
     <>
       <div className="flex justify-between gap-[16px]">

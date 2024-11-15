@@ -10,7 +10,7 @@ import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropsInterface {
   data: SliderBannerCollection;
 }
-const HeroSlider: React.FC<PropsInterface> = ({ data }) => {
+const HeroSlider = ({ data }: PropsInterface) => {
   return (
     <Swiper
       slidesPerView={1}

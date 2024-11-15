@@ -5,12 +5,12 @@ import { footerQuery } from "@packages/lib/graphQL/graphql-query";
 import { FooterDataInterface } from "@packages/lib/types/interfaces";
 import Link from "next/link";
 const Footer = async () => {
-  const footerData: FooterDataInterface =
-    (await graphQlFetchFunction(footerQuery))?.data?.footerNavigationCollection
-      ?.items?.[0] ?? {};
-  console.log(footerData);
+  const footerData: FooterDataInterface = (
+    await graphQlFetchFunction(footerQuery)
+  )?.data?.footerNavigationCollection?.items?.[0];
+
   return (
-    <footer className="footer bg-blue-100">
+    <footer className="footer bg-blue-100" data-testid="footer_component">
       <div className="container max-w-container mx-auto px-[16px] md:px-[24px] pt-[34px] pb-[40px] xl:px-[0]">
         <div className="footer-inner-wrap grid xs:grid-cols-1 xs:gap-[40px] md:grid-cols-4 lg:gap-[16px]">
           {/* Connection Pods */}
@@ -20,13 +20,13 @@ const Footer = async () => {
             </p>
             <div className="flex flex-col gap-[16px]">
               <ul className="flex flex-row gap-[16px]">
-                {/*Facebook icon*/}
                 <li>
                   <Link
                     href="https://www.facebook.com/whatuni"
                     aria-label="facebook"
                   >
                     <svg
+                      data-testid="facebook_icon"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -47,10 +47,10 @@ const Footer = async () => {
                     </svg>
                   </Link>
                 </li>
-                {/* Twitter icon*/}
                 <li>
                   <Link href="https://twitter.com/whatuni" aria-label="twitter">
                     <svg
+                      data-testid="twitter_icon"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -64,13 +64,13 @@ const Footer = async () => {
                     </svg>
                   </Link>
                 </li>
-                {/*Instagram Icon*/}
                 <li>
                   <Link
                     href="https://www.instagram.com/whatuni/?hl=en"
                     aria-label="instagram"
                   >
                     <svg
+                      data-testid="instagram_icon"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -99,13 +99,13 @@ const Footer = async () => {
                     </svg>
                   </Link>
                 </li>
-                {/*Tik-tok Icon*/}
                 <li>
                   <Link
                     href="https://www.tiktok.com/@whatuni"
                     aria-label="tiktok"
                   >
                     <svg
+                      data-testid="tiktok_icon"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -538,7 +538,11 @@ const Footer = async () => {
           {/* pods */}
 
           {footerData?.footerNavCollection?.items?.map((navItems, index) => (
-            <div className="flex flex-col gap-[16px]" key={index + 1}>
+            <div
+              className="flex flex-col gap-[16px]"
+              key={index + 1}
+              data-testid={`section${index + 1}`}
+            >
               <p className="footer_title font-semibold text-grey300 x-small uppercase">
                 {navItems?.navTitle}
               </p>
@@ -546,7 +550,7 @@ const Footer = async () => {
                 <ul className="flex flex-col gap-[4px]">
                   {navItems?.navChildC1Collection?.items?.map(
                     (childItem, index) => (
-                      <li key={index + 1}>
+                      <li key={index + 1} data-testid={`childMenu${index + 1}`}>
                         <Link
                           href={`${childItem?.navUrl}`}
                           className="small text-grey300 hover:underline"
@@ -563,11 +567,11 @@ const Footer = async () => {
           {/* pods */}
         </div>
         {/* Copy rights */}
-        <div className="copyrights mt-[40px]">
+        {/* <div className="copyrights mt-[40px]">
           <p className="x-small text-grey300 text-center">
             {footerData?.footerNavBtmCollection?.items[0]?.navTitle}
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
