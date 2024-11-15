@@ -139,3 +139,36 @@ export const interComponentLoop = (internalName: string) => {
 }`;
   return query;
 };
+
+export const partnerLogo = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Logos - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
