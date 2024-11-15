@@ -8,6 +8,7 @@ const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  console.log("whatuni");
   return (
     <>
       <Heroslidercomponent project="whatuni" />
