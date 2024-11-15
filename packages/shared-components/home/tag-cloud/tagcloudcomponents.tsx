@@ -14,26 +14,28 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({heading}) => {
   const tagCloudArray = tagCloudData?.data?.contentData.items?.[0]
                         ?.bodyContentCollection.items[0].mediaCardsCollection.items
   return (
-  
+
     <div className="tag-cloud-container">
-      <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[32px]">
-        <div className="tag-cloud-header">
-          <h6 className="font-bold">{heading}</h6>
-        </div>
-        <div className="tag-cloud-inner-wrap">
-          <ul className="flex flex-wrap gap-[8px]">
-            {tagCloudArray?.map((data, index) => (
-              <li key={index}>
-                {data?.tagUrl && (
-                  <Link href={data?.tagUrl}
-                  className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
-                  >
-                    {data?.tagName}
-                  </Link>
-                )}
-              </li>
-            ))}       
-          </ul>
+      <div className="max-w-container mx-auto">
+        <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[32px]">
+          <div className="tag-cloud-header">
+            <h6 className="font-bold">{heading}</h6>
+          </div>
+          <div className="tag-cloud-inner-wrap">
+            <ul className="flex flex-wrap gap-[8px]">
+              {tagCloudArray?.map((data, index) => (
+                <li key={index}>
+                  {data?.tagUrl && (
+                    <Link href={data?.tagUrl}
+                    className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
+                    >
+                      {data?.tagName}
+                    </Link>
+                  )}
+                </li>
+              ))}       
+            </ul>
+          </div>
         </div>
       </div>
     </div>
