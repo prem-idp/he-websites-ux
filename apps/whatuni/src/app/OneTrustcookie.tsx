@@ -1,25 +1,20 @@
 'use server'
 
 import { cookies } from 'next/headers';
-import OneTrustCookieScript from './OneTrustCookieScript';
-import { getOnetrustCookieValue } from '@/lib/getOnetrustCookieValue';
-import type {  GetServerSideProps } from 'next'
 
-export async function createCookie(cookieName: string, cookieValue: string) {
+export async function createCookieConsent(cookieName: string, cookieValue: string) {
     'use server'
     const cookieStore = await cookies();
-    cookieStore.set(cookieName, cookieValue);
+    cookieStore.set(
+        {name: cookieName,
+        value: cookieValue,
+        httpOnly: true,
+        path: '/',}
+    );
 }
 
-export default async function OneTrustCookie(){
 
+export const getOnetrustCookieValue = async (cookieName: string): Promise<string|undefined> => {
     const cookieStore = await cookies();
-   
-    const OptanonConsent = cookieStore.get('OptanonConsent')?.value;
-    const OptanonConsentValue = getOnetrustCookieValue(OptanonConsent);
-    const OptanonAlertBoxClosed = cookieStore.get('OptanonAlertBoxClosed');
-    const cookieValuefromOnetrust = OptanonConsentValue != null && OptanonAlertBoxClosed != null  ? OptanonConsentValue : "0111";
-    //createCookie("cookieconsent", cookieValuefromOnetrust);
-
-    return <OneTrustCookieScript cookieValuefromOnetrust={cookieValuefromOnetrust} />
+    return cookieStore.get(cookieName)?.value;
 }
