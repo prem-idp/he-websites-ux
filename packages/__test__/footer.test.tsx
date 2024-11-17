@@ -1,22 +1,33 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { FooterNavCollectionItem } from "@packages/lib/types/interfaces";
+import { render, screen } from "@testing-library/react";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import { FooterDataInterface } from "@packages/lib/types/interfaces";
+import FooterIcons from "@packages/shared-components/common-utilities/footer/footericons";
+import FooterAppLinks from "@packages/shared-components/common-utilities/footer/footer-applink";
+import FooterNavCollection from "@packages/shared-components/common-utilities/footer/footer-navcollection";
+import FooterCopyRights from "@packages/shared-components/common-utilities/footer/footer-copyrights";
 jest.mock("@packages/lib/server-actions/server-action", () => ({
   graphQlFetchFunction: jest.fn(),
 }));
-const footerData: FooterDataInterface = {
-  footerNavBtmCollection: {
-    items: [
-      {
-        navTitle: "© 2007-2024 IDP Connect Ltd. All rights reserved",
-        navUrl: null,
-      },
-    ],
-  },
-  navApplinksCollection: {
-    items: [
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+describe("Footer Component : Positive scenario", () => {
+  test("Correct Rendering of icons", () => {
+    render(<FooterIcons />);
+  });
+  test("Correct Rendering of Copy rights", () => {
+    const mockedData = {
+      navTitle: "© 2007-2024 IDP Connect Ltd. All rights reserved",
+      navUrl: null,
+    };
+    render(<FooterCopyRights data={mockedData} />);
+    expect(screen.getByText(mockedData.navTitle)).toBeInTheDocument();
+  });
+  test("Correct rednering of footer app links", () => {
+    const mockData = [
       {
         primaryCtaLabel: "App store",
         primaryCtaUrl: "https://whatuni.go.link/?adj_t=cark98y",
@@ -25,10 +36,14 @@ const footerData: FooterDataInterface = {
         primaryCtaLabel: "Play store",
         primaryCtaUrl: "https://whatuni.go.link/?adj_t=cark98y",
       },
-    ],
-  },
-  footerNavCollection: {
-    items: [
+    ];
+    render(<FooterAppLinks data={mockData} />);
+    expect(screen.getByTestId("play_store")).toBeInTheDocument();
+    expect(screen.getByTestId("app_store")).toBeInTheDocument();
+  });
+
+  test("Correct rendering of Nav collection items", () => {
+    const mockData: FooterNavCollectionItem[] = [
       {
         navTitle: "Quick links",
         navChildC1Collection: {
@@ -37,11 +52,6 @@ const footerData: FooterDataInterface = {
               navTitle: "Editor@whatuni.com",
               navUrl: "mailto:editor@whatuni.com",
               navCtaTarget: null,
-            },
-            {
-              navTitle: "Contact us",
-              navUrl: "/about-us/contact-us/",
-              navCtaTarget: "Open in same tab",
             },
           ],
         },
@@ -56,9 +66,9 @@ const footerData: FooterDataInterface = {
               navCtaTarget: "Open in same tab",
             },
             {
-              navTitle: "Universities",
-              navUrl: "/degrees/find-university/",
-              navCtaTarget: "Open in same tab",
+              navTitle: "Degree subject guides",
+              navUrl: "/advice/guides/subject-guides/",
+              navCtaTarget: null,
             },
           ],
         },
@@ -70,63 +80,101 @@ const footerData: FooterDataInterface = {
             {
               navTitle: "Acting",
               navUrl: "/degree-courses/search?subject=acting",
-              navCtaTarget: "Open in same tab",
-            },
-            {
-              navTitle: "Physics",
-              navUrl: "/degree-courses/search?subject=physics",
-              navCtaTarget: "Open in same tab",
+              navCtaTarget: "Open in new tab",
             },
           ],
         },
       },
-    ],
-  },
-};
-
-describe("Footer Component", () => {
-  it("Correct rendering of  Footer component", async () => {
-    (graphQlFetchFunction as jest.Mock).mockResolvedValue({
-      footerData,
+    ];
+    render(<FooterNavCollection data={mockData} />);
+    mockData.map((childItems) => {
+      expect(screen.getByText(childItems.navTitle)).toBeInTheDocument();
+      {
+        childItems?.navChildC1Collection?.items.map((items, index) => {
+          const linkTag = expect(
+            screen.getByTestId(`${items.navTitle}${index + 1}`)
+          );
+          if (items.navCtaTarget?.includes("new")) {
+            linkTag.toHaveAttribute("target", "_blank");
+          } else {
+            linkTag.toHaveAttribute("target", "_parent");
+          }
+        });
+      }
     });
-    const FooterComp = await Footer();
-    const { getByTestId } = render(FooterComp);
-    expect(getByTestId("footer_component")).toBeInTheDocument();
   });
-
-  it("Correct rendering of (icons)", async () => {
+  test("Correct rendering of footer parent wrapper", async () => {
+    const mockData = {
+      footerNavBtmCollection: {
+        items: [
+          {
+            navTitle: "© 2007-2024 IDP Connect Ltd. All rights reserved",
+            navUrl: null,
+          },
+        ],
+      },
+      navApplinksCollection: {
+        items: [
+          {
+            primaryCtaLabel: "App store",
+            primaryCtaUrl: "https://whatuni.go.link/?adj_t=cark98y",
+          },
+        ],
+      },
+      footerNavCollection: {
+        items: [
+          {
+            navTitle: "Quick links",
+            navChildC1Collection: {
+              items: [
+                {
+                  navTitle: "Editor@whatuni.com",
+                  navUrl: "mailto:editor@whatuni.com",
+                  navCtaTarget: null,
+                },
+              ],
+            },
+          },
+          {
+            navTitle: "Browse",
+            navChildC1Collection: {
+              items: [
+                {
+                  navTitle: "Courses",
+                  navUrl: "/degrees/courses/",
+                  navCtaTarget: "Open in same tab",
+                },
+              ],
+            },
+          },
+          {
+            navTitle: "Popular subjects",
+            navChildC1Collection: {
+              items: [
+                {
+                  navTitle: "Acting",
+                  navUrl: "/degree-courses/search?subject=acting",
+                  navCtaTarget: "Open in same tab",
+                },
+              ],
+            },
+          },
+        ],
+      },
+    };
     (graphQlFetchFunction as jest.Mock).mockResolvedValue({
-      footerData,
+      data: mockData,
     });
-
-    const FooterComp = await Footer();
-    render(FooterComp);
-    expect(screen.getByTestId("facebook_icon")).toBeInTheDocument();
-    expect(screen.getByTestId("twitter_icon")).toBeInTheDocument();
-    expect(screen.getByTestId("instagram_icon")).toBeInTheDocument();
-    expect(screen.getByTestId("tiktok_icon")).toBeInTheDocument();
+    render(await Footer());
   });
+});
 
-  it("Correct looping of data: (title and child menu)", async () => {
-    (graphQlFetchFunction as jest.Mock).mockResolvedValue({
-      footerData,
-    });
-
-    const FooterComp = await Footer();
-    render(FooterComp);
-    waitFor(() => {
-      footerData.footerNavCollection.items.map((items, index) => {
-        expect(screen.getByTestId(`section${index + 1}`)).toBeInTheDocument();
-        const UpperCase = items.navTitle.toUpperCase();
-        expect(screen.getByText(UpperCase)).toBeInTheDocument();
-
-        {
-          items?.navChildC1Collection?.items?.map((childItem, childIndex) => {
-            expect(screen.getByTestId(`childMenu${childIndex + 1}`));
-            expect(screen.getByText(childItem.navTitle)).toBeInTheDocument();
-          });
-        }
-      });
-    });
+describe("Footer Component : Negative scenario", () => {
+  test("Copy rights not rendering", async () => {
+    (graphQlFetchFunction as jest.Mock).mockResolvedValue({});
+    render(await Footer());
+    expect(screen.queryByTestId("footer_component")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("copy_rights")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("nav_applinks")).not.toBeInTheDocument();
   });
 });

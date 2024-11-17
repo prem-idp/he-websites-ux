@@ -105,42 +105,56 @@ export interface listDropdownOptionProps {
   listDropdownOptionHeader: string;
   listDropDownOptions: dropdownProps[];
 }
-
 export interface dropdownProps {
   id: number;
   label: string;
   value: string;
 }
-
 export interface logoSliderProps {
   imgSrc: string[];
 }
 
 export interface FooterDataInterface {
-  footerNavBtmCollection: {
-    items: {
-      navTitle: string;
-      navUrl: string | null;
-    }[];
-  };
-  navApplinksCollection: {
-    items: {
-      primaryCtaLabel: string;
-      primaryCtaUrl: string;
-    }[];
-  };
-  footerNavCollection: {
-    items: {
-      navTitle: string;
-      navChildC1Collection: {
-        items: {
-          navTitle: string;
-          navUrl: string | null;
-          navCtaTarget: "Open in same tab" | "Open in new tab" | null;
-        }[];
-      };
-    }[];
-  };
+  footerNavBtmCollection: FooterNavBtmCollection;
+  navApplinksCollection: NavApplinksCollection;
+  footerNavCollection: FooterNavCollection;
+}
+
+export interface FooterNavCollection {
+  items: FooterNavCollectionItem[];
+}
+
+export interface FooterNavCollectionItem {
+  navTitle: string;
+  navChildC1Collection: FooterNavChildCollection;
+}
+
+export interface FooterNavChildCollection {
+  items: FooterNavChildItem[];
+}
+
+export interface FooterNavChildItem {
+  navTitle: string;
+  navUrl: string | null;
+  navCtaTarget: "Open in same tab" | "Open in new tab" | null;
+}
+
+export interface NavApplinksCollection {
+  items: AppLinkItem[];
+}
+
+export interface AppLinkItem {
+  primaryCtaLabel: string;
+  primaryCtaUrl: string;
+}
+
+export interface FooterNavBtmCollection {
+  items: FooterNavItem[];
+}
+
+export interface FooterNavItem {
+  navTitle: string | null;
+  navUrl: string | null;
 }
 
 export interface SliderBannerCollection {
@@ -157,6 +171,7 @@ export interface DynamicMediaComponent {
   internalName: string;
   cta: CTA | null;
   image: Image | null;
+  video: null;
 }
 
 export interface LongDescription {

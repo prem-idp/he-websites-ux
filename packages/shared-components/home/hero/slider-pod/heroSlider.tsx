@@ -11,6 +11,7 @@ interface PropsInterface {
   data: SliderBannerCollection;
 }
 const HeroSlider = ({ data }: PropsInterface) => {
+  console.log(data);
   return (
     <Swiper
       slidesPerView={1}
@@ -21,7 +22,7 @@ const HeroSlider = ({ data }: PropsInterface) => {
       className="mySwiper hero"
     >
       {data?.items?.map((childItems, index: number) => (
-        <SwiperSlide key={index + 1}>
+        <SwiperSlide key={index + 1} data-testid={`slider${index + 1}`}>
           <HeroSliderCard data={childItems} />
         </SwiperSlide>
       ))}
