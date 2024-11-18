@@ -13,8 +13,7 @@ interface WuscascomponentsProps {
 const Wuscascomponents:React.FC<WuscascomponentsProps> = async ({heading, subheading}) => {
   const resultData : HomePageStatInterface = await graphQlFetchFunction(statsPodQuery);    
   const statsData= resultData?.data?.contentData?.items?.[0]
-  ?.bodyContentCollection.items
-  ?.find((item: any) => item.__typename === 'MultipleCardContainer')
+  ?.bodyContentCollection.items?.[0]
   ?.mediaCardsCollection.items
   ?.find((item: any) => item.__typename === 'PageStatPodContainer');
 
@@ -57,10 +56,10 @@ const Wuscascomponents:React.FC<WuscascomponentsProps> = async ({heading, subhea
              <div className="wusca-card flex items-center flex-col md:flex-row gap-[8px] px-[16px] py-[12px] rounded-[4px] border border-grey300" key={index}>
               <Image
                 className="w-[32px] h-[32px]"
-                src={`${stats?.icon.url}`}
+                src={`${stats?.icon.url || ''}`}
                 width="32"
                 height="32"
-                alt="" />
+                alt={stats.icon.title} />
               <div className="wusca-content text-center md:text-left">
                 <h3 className="font-bold">{stats?.statNumber}</h3>
                 <div className="font-semibold small">{stats?.statLabel}</div>
@@ -70,10 +69,10 @@ const Wuscascomponents:React.FC<WuscascomponentsProps> = async ({heading, subhea
           </div>
           <div className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1">
             <Image
-              src={`${statsData?.image.url}`}
+              src={`${statsData?.image.url || ''}`}
               width={402}
               height={401}
-              alt="wusca"
+              alt={statsData?.image.title || ''}
             />
           </div>
  
