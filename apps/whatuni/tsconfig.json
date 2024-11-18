@@ -23,6 +23,13 @@
       "@packages/*": ["../../packages/*"] // Path alias for common components
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/**/*",
+    "packages/**/*"
+  ],
   "exclude": ["node_modules"]
 }

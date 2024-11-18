@@ -14,9 +14,11 @@ const config: Config = {
     "^react-dnd$": "react-dnd/dist/cjs",
     "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
     "^dnd-core$": "dnd-core/dist/cjs",
+    "^@packages/(.*)$": "<rootDir>/packages/$1",
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
   // Enable coverage collection
-  collectCoverage: true,
+  // collectCoverage: true,
 
   // Collect coverage from both apps
   collectCoverageFrom: [
@@ -39,11 +41,12 @@ const config: Config = {
 
   // Add configuration for transforming .mjs files with Babel
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest", // Transform TypeScript files using ts-jest
+    // "^.+\\.(ts|tsx)$": "ts-jest", // Transform TypeScript files using ts-jest
     // "^.+\\.(js|jsx|mjs)$": "babel-jest", // Transform .js, .jsx, and .mjs files using babel-jest
     // "^.+\\.[t|j]sx?$": "babel-jest",
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
-
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   // Allow Jest to transform swiper-react.mjs and other .mjs files
   transformIgnorePatterns: [
     "/node_modules/(?!swiper).+\\.mjs$",
@@ -56,7 +59,9 @@ const config: Config = {
         "formdata-polyfill",
       ].join("|") +
       ")",
-    "node_modules/(?!(swiper)/)", // Ensure swiper (and any other ECMAScript modules) are processed by Babel
+    "node_modules/(?!(swiper)/)",
+    "/node_modules/(?!(swiper|other-module-to-transform)/)",
+    // Ensure swiper (and any other ECMAScript modules) are processed by Babel
   ],
 
   // Optional: Specify different test setup files if needed

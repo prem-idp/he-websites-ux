@@ -6,7 +6,7 @@ const Testimonialcomponents = () => {
   return (
     <div className="testimonials-container bg-white">
       <div className="max-w-container mx-auto">
-        <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] lg:py-[64px] lg:px-[0]">
+                <div className='testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]'>
           <div className="testimonials-header mb-[26px] md:mb-[32px]">
             <h2 className="font-bold">Testimonials</h2>
             <p className="font-normal small mt-[8px]">Subheading</p>
