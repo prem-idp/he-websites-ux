@@ -19,18 +19,23 @@ default:
 ########################
 
 .build_job:
-  stage: build 
+  stage: build
   before_script:
     - apt-get update
     - apt install zip
-    - printenv
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - ls
+
     # - cd cdk
+    - echo $PWD
+    - cd apps/${PROJECT_NAME}/cdk
+    - echo $PWD
+    - cd ../../..
+    - echo $PWD
     - npm install --force
     # - cd ..
-    - npm install --force
+    #- npm install --force
     - npm run $BUILD
     - npm run open-next:${PROJECT_NAME}
   artifacts:
@@ -43,14 +48,18 @@ default:
   before_script:
     - apt-get update
     - apt install zip
-    - printenv
     - echo "$ENV_FILE_VARIABLE" > .env
   script:
     # - cd cdk
+    - echo $PWD
+    - cd apps/${PROJECT_NAME}/cdk
+    - echo $PWD
     - npm install --force
-    - npm run cdk-synth:${PROJECT_NAME}
-    - npm run cdk-diff:${PROJECT_NAME}
-    - npm run cdk-deploy:${PROJECT_NAME}
+    - echo $PWD
+    - npm run cdk synth --build
+    - npm run cdk diff
+    - npm run cdk deploy -- --all --require-approval never --ci
+
     # - cd ..
   artifacts:
     paths:
