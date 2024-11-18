@@ -1,13 +1,11 @@
 "use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Search from "./search-pod/header-search";
 import { usePathname } from "next/navigation";
-
-import Megamenucomponents from "../topnav/megamenucomponents";
+import Megamenucomponents from "../topnav/new";
 import Shortlisted from "./shortlisted/shortlisted";
 import User from "./user/user";
 
@@ -174,12 +172,12 @@ const Header = ({ data }: any) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents data={data} />}
+                    {isOpen && <Megamenucomponents dataa={data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents data={data} />
+              <Megamenucomponents dataa={data} />
             )}
           </div>
 

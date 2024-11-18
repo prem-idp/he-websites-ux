@@ -9,7 +9,8 @@ export default function Search({ rightMenuAction }: any) {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  const data = {};
+
+  const data: any = {};
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -30,7 +31,7 @@ export default function Search({ rightMenuAction }: any) {
         <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
           <div className="flex justify-end relative ">
             <svg
-            aria-label="close-button"
+              aria-label="close-button"
               className="cursor-pointer"
               onClick={() => rightMenuAction("SEARCH")}
               width="32"
@@ -122,6 +123,7 @@ export default function Search({ rightMenuAction }: any) {
                   <UniversityTab
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
+                    data={data}
                   />
                   <div className="flex justify-center">
                     <Link
