@@ -104,12 +104,23 @@ export const homePageQuery = `{
     }
   }
 }`;
-
-export const interComponentLoop = (internalName: string) => {
+export const pageLogoQuery = `... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }`;
+export const internalComponentLoop = (
+  internalName: string,
+  componentQuery: string
+) => {
   const query = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       bodyContentCollection(limit: 1
@@ -120,15 +131,7 @@ export const interComponentLoop = (internalName: string) => {
             mediaCardsCollection(limit: 20 ) {
               items {
                 __typename
-                ... on PageLogo {
-                  logoName
-                  logoImage {
-                    url
-                    width
-                    height
-                  }
-                  logoLink
-                }
+                ${componentQuery}
               }
             }
           }

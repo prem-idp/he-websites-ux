@@ -8,7 +8,10 @@ interface PropsInterface {
 const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
   return (
     <>
-      <div className="flex justify-between gap-[16px]">
+      <div
+        className="flex justify-between gap-[16px]"
+        data-testid="heroslidercard"
+      >
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
           <h1 className="text-heading-lg mb-[4px]">{data?.title}</h1>
           <p className="para-lg mb-[16px]">
@@ -44,7 +47,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
               src={data?.image?.imgUpload?.url}
               width={365}
               height={445}
-              alt={data?.image?.imgAltText || "Here Banner"}
+              alt={data?.image?.imgAltText}
             />
           )}
         </div>
