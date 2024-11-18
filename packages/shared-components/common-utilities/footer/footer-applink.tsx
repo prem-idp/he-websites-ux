@@ -7,7 +7,7 @@ interface PropsInterface {
 }
 const FooterAppLinks = ({ data }: PropsInterface) => {
   return (
-    <ul className="flex flex-col gap-[16px]" data-testid="nav_applinks">
+    <ul className="flex flex-row md:flex-col gap-[16px]" data-testid="nav_applinks">
       {data[0] && (
         <li data-testid="app_store">
           <Link
