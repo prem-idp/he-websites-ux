@@ -13,15 +13,13 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
           <h1 className="text-heading-lg mb-[4px]">{data?.title}</h1>
           <p className="para-lg mb-[16px]">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-            vestibulum neque lectus, molestie congue risus
           </p>
           {data?.cta && (
             <Link
-              href="#"
+              href={data?.cta?.primaryCtaUrl || ""}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"
             >
-              Learn more
+              {data?.cta?.primaryCtaLabel}
               <svg
                 width="16"
                 height="14"
@@ -41,15 +39,14 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
           )}
         </div>
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">
-          <Image
-            src={
-              data?.image?.imgUpload?.url ||
-              "/static/assets/images/hero-banner.png"
-            }
-            width={data?.image?.imgUpload?.width || 365}
-            height={data?.image?.imgUpload?.height || 445}
-            alt={data?.image?.imgAltText || "Here Banner"}
-          />
+          {data?.image?.imgUpload?.url && (
+            <Image
+              src={data?.image?.imgUpload?.url}
+              width={365}
+              height={445}
+              alt={data?.image?.imgAltText || "Here Banner"}
+            />
+          )}
         </div>
       </div>
     </>
