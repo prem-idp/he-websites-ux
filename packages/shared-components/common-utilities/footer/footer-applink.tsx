@@ -10,7 +10,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
     <ul className="flex flex-row md:flex-col gap-[16px]" data-testid="nav_applinks">
       {data[0] && (
         <li data-testid="app_store">
-          <Link
+          <Link className="block w-fit"
             prefetch={false}
             href={`${data[0]?.primaryCtaUrl}`}
             aria-label="App Store"
