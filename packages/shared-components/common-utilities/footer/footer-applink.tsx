@@ -13,6 +13,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
           <Link
             prefetch={false}
             href={`${data[0]?.primaryCtaUrl}`}
+            // href={data[0]?.primaryCtaUrl}
             aria-label="App Store"
           >
             <svg

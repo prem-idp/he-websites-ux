@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    PROJECT: "Pgs",
+    PROJECT: "PGS",
     DOMAIN: "postgraduatesearch.com",
   },
   eslint: {

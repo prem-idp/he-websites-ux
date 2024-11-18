@@ -34,7 +34,7 @@ export const footerQuery = `query {
 export const homePageQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
   ) {
     items {
       pageTitle
