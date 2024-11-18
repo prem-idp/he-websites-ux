@@ -1,21 +1,33 @@
 "use server";
+import { reviewPayload } from "@packages/lib/api-payloads/payloads";
+import { getReviewDetailsFunction } from "@packages/lib/server-actions/server-action";
+import { ReviewDetailsList } from "@packages/lib/types/interfaces";
 import Reviewslidercomponents from "@packages/shared-components/common-utilities/slider/reviewslidercomponents";
 import React from "react";
 
-const Reviewscomponents = () => {
+interface ReviewProps {
+  heading?: string | undefined;
+  subheading?: string | undefined;
+}
+const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading}) => {
+  const jsonResponse : ReviewDetailsList = await getReviewDetailsFunction(reviewPayload)
+  if (!jsonResponse?.reviewDetail?.length) {
+    return <div data-testid="empty-data">No reviews available</div>;
+  }
   return (
-    <div className="reviews-container bg-neutral-50">
+    <div className="reviews-container bg-neutral-50" data-testid="reviews-container">
       <div className="max-w-container mx-auto">
         <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
           <div className="reviews-header px-[16px] md:px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
-            <h2 className="font-bold">Honest reviews from real students</h2>
-            <p className="font-normal small mt-[8px]">Subheading</p>
+            <h2 className="font-bold">{heading}</h2>
+            <p className="font-normal small mt-[8px]">{subheading}</p>
           </div>
           <div className="reviews-inner-wrap">
-            <Reviewslidercomponents />
+            <Reviewslidercomponents reviewData={jsonResponse?.reviewDetail} data-testid="review-slider"
+              data-review-count={jsonResponse.reviewDetail.length}/>
             <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
-                href="#"
+                href="/university-course-reviews"
                 className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
               >
                 View more

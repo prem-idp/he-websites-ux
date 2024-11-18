@@ -199,3 +199,19 @@ export interface MultipleCardContainer {
   longDescription: string | null;
   flagComponentStyle: string;
 }
+
+export interface ReviewDetailsList {
+  reviewDetail : ReviewDetails[];
+}
+
+export interface ReviewDetails {
+  reviewerName: string;
+  comment: string;
+  initial: string;
+  reviewUrl: string;
+  reviewedDate: string;
+  collegeId: string;
+  collegeName: string;
+  courseTitle: string;
+  overallRating: string;
+}

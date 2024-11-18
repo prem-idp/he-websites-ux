@@ -14,6 +14,7 @@ const config: Config = {
     "^react-dnd$": "react-dnd/dist/cjs",
     "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
     "^dnd-core$": "dnd-core/dist/cjs",
+    '^@packages/(.*)$': '<rootDir>/packages/$1',
   },
   // Enable coverage collection
   collectCoverage: true,
@@ -42,6 +43,7 @@ const config: Config = {
     "^.+\\.(ts|tsx)$": "ts-jest", // Transform TypeScript files using ts-jest
     // "^.+\\.(js|jsx|mjs)$": "babel-jest", // Transform .js, .jsx, and .mjs files using babel-jest
     // "^.+\\.[t|j]sx?$": "babel-jest",
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest', // Transpile JS, JSX, TS, and TSX with Babel
   },
 
   // Allow Jest to transform swiper-react.mjs and other .mjs files
