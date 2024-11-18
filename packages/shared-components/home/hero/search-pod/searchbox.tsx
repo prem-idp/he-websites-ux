@@ -2,16 +2,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Subject } from "@packages/lib/types/interfaces";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
 import { searchAjax } from "@packages/lib/api-payloads/payloads";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
-const SearchBox = () => {
+const SearchBox = ({ course_data, uni_data }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await searchAjaxFecthFunction(searchAjax);
-      console.log("data", data);
+      // console.log("data", data);
     };
     fetchData();
   }, []);
@@ -32,6 +33,7 @@ const SearchBox = () => {
     location: {},
     advice: "",
   });
+  // console.log(searchFormHandle,"______________________________________________");
   return (
     <div className="pb-[12px] md:px-[16px]">
       <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
@@ -132,12 +134,14 @@ const SearchBox = () => {
               <CourseTab
                 searchFormHandle={searchFormHandle}
                 setsearchFormHandle={setsearchFormHandle}
+                data={course_data}
               />
             )}
             {searchFormHandle?.activeTab === "tab2" && (
               <UniversityTab
                 searchFormHandle={searchFormHandle}
                 setsearchFormHandle={setsearchFormHandle}
+                data={uni_data}
               />
             )}
             {searchFormHandle?.activeTab === "tab3" && (

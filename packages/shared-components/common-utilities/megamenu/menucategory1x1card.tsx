@@ -5,7 +5,7 @@ import React from 'react'
 const Menucategory1x1card = () => {
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
-      <div className='font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]'>Category heading</div>
+      <div className='font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]'>Menucategory1x1card</div>
       <ul className='flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white'>
         <li>
           <Link href="#" className='block bg-neutral-200 min-h-[200px]'>

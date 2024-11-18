@@ -1,6 +1,7 @@
 "use server";
 import React from "react";
 import SearchBox from "./search-pod/searchbox";
+import SearchWrapper from "./search-pod/searchwrapper";
 import HeroSlider from "./slider-pod/heroSlider";
 import { DataInterface } from "../../../lib/types/interfaces";
 interface PropjectProps {
@@ -88,7 +89,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = () => {
           <HeroSlider data={data} />
         </div>
       </div>
-      <SearchBox />
+      <SearchWrapper />
     </>
   );
 };

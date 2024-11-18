@@ -5,7 +5,7 @@ import React from 'react'
 const Menucategory3card = () => {
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
-    <div className='font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]'>Category heading</div>
+    <div className='font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]'>Menucategory3card</div>
     <ul className='grid grid-cols-1 lg:grid-cols-2 gap-[16px] p-[16px] lg:p-[0] bg-white'>
       <li><Link href="#" className='flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline'>
       <Image className="block rounded-[40px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[72px]" src="/static/assets/images/megamenu/menu-thumb-img1.png" width="72" height="72" loading="lazy" alt="Megamenu thumb" /> <span className='line-clamp-1'>Menu link 1</span></Link></li>

@@ -8,34 +8,57 @@ import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-act
 interface UniversityTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
+  data: any;
 }
 const UniversityTab: React.FC<UniversityTabProps> = ({
   searchFormHandle,
   setsearchFormHandle,
+  data,
 }) => {
+  // console.log(data, "university");
   const [universityList, setUniversityList] = useState<string[]>([]);
+  const [unidetails, setUnidetails] = useState(data);
   useEffect(() => {
     const body = {
       affiliateId: 220703,
       actionType: "institution",
-      keyword: `${searchFormHandle.university}`,
-      qualCode: "M",
+      keyword: "",
+      qualCode: "",
       networkId: 2,
     };
-    const fetchSubject = async () => {
-      const data = await searchAjaxFecthFunction(body);
-      if (data) {
-        setUniversityList(data);
-      }
-    };
-    console.log(universityList);
-    if (searchFormHandle.university.length > 2) {
-      fetchSubject();
+    if (data) {
+      // console.log("inside the empty object useefffect");
+      const fetchLocationandstudymode = async () => {
+        const fetchdata = await searchAjaxFecthFunction(body);
+        // console.log(fetchdata);
+        if (fetchdata) {
+          setUnidetails(fetchdata);
+        }
+      };
+      // console.log()
+      // console.log(subjectlist, locationlist, studymodelist);
+      fetchLocationandstudymode();
     }
-    // else{
-    //   setSubjectlist([])
-    // }
-  }, [searchFormHandle.university]);
+  }, []);
+
+  useEffect(() => {
+    if (searchFormHandle.university.length < 3) {
+      setUniversityList([]);
+      return;
+    }
+
+    console.log(unidetails);
+    console.log(searchFormHandle.university);
+
+    const results = unidetails.filter((colleges: any) =>
+      colleges.college_name_display
+        ?.toLowerCase()
+        .includes(searchFormHandle.university.toLowerCase())
+    );
+
+    console.log(results, "result in filtered result of the uni");
+    setUniversityList(results || []);
+  }, [searchFormHandle?.university]);
 
   const resetAllTabs = (currentTab: string) => ({
     isUniversityClicked:
@@ -66,6 +89,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                 setsearchFormHandle((preData: any) => ({
                   ...preData,
                   university: event.target.value,
+                  isUniversityClicked: true,
                 }))
               }
               value={searchFormHandle?.university}

@@ -16,6 +16,7 @@ export async function graphQlFetchFunction(payload: string) {
   }
 }
 
+
 export async function searchAjaxFecthFunction(payload: any) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}`, {
