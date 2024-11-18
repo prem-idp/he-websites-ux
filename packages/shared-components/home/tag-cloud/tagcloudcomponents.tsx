@@ -27,6 +27,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({heading}) => {
                 <li key={index}>
                   {data?.tagUrl && (
                     <Link href={data?.tagUrl}
+                    prefetch={false}
                     className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
                     >
                       {data?.tagName}
