@@ -13,7 +13,7 @@ const page = () => {
     <>
       <HeroSliderComponent project="pgs" />
       <Wuscascomponents />
-      <Discovercomponents />
+      <Discovercomponents heading="Find the right Postgraduate qualifications" subheading="Explore the qualification that aligns with your career goals and academic interests" />
       <AdviceComponent />
       <TestimonialComponent />
       <ReviewComponent />

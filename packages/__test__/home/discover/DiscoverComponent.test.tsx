@@ -222,16 +222,11 @@ describe("Discover pod test cases", () => {
 
     //
     test("Render discover pod", async () => {
-        // Mock fetch implementation with TypeScript type casting
-        //const spy = jest.spyOn(GraphQLModule, 'graphQlFetchFunction');
-        //spy.mockResolvedValue(discoverPodList);
-        //(fetchAPI.graphQlFetchFunction as jest.Mock).mockResolvedValue('mocked data');
-        //(graphQlFetchFunction as jest.Mock).mockResolvedValue(discoverPodList);
 
-        render(<Discovercomponents/>);
-        await waitFor(() => expect(screen.getByTestId("discoverHeading")).toBeInTheDocument());
-        await waitFor(() => expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument());
-        await waitFor(() => expect(screen.getByTestId("discoverViewMore")).toBeInTheDocument());
+        render(<Discovercomponents heading="discover" subheading="subheading"/>);
+        expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
+        expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
+        expect(screen.getByTestId("discoverViewMore")).toBeInTheDocument();
     });
     
 })

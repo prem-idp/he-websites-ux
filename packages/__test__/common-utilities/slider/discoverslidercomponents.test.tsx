@@ -256,7 +256,7 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
         // Trigger the window resize event.
         global.dispatchEvent(new Event('resize'));
 
-        render(<Discovercomponents />);
+        render(<Discovercomponents heading="heading" subheading="subheading"/>);
 
 
         {iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {
