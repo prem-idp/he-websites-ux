@@ -13,7 +13,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
     >
       {data[0] && (
         <li data-testid="app_store">
-          <Link
+          <Link className="block w-fit"
             prefetch={false}
             href={data[0]?.primaryCtaUrl || ""}
             aria-label="App Store"
@@ -136,7 +136,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
       )}
       {data[1] && (
         <li data-testid="play_store">
-          <Link
+          <Link className="block w-fit"
             prefetch={false}
             href={data[1]?.primaryCtaUrl || ""}
             aria-label="Google Play"
