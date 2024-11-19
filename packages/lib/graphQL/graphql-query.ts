@@ -193,3 +193,30 @@ export const internalComponentLoop = (
 }`;
   return query;
 };
+
+export const tagCloudQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    ) {
+    items {
+      bodyContentCollection(limit: 10
+      where:{internalName:"Homepage - Tagcloud - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 5) {
+              items {
+                __typename
+                ... on PageTagCloud {
+                  tagName
+                  tagUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
