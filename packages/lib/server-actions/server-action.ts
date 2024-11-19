@@ -16,14 +16,13 @@ export async function graphQlFetchFunction(payload: string) {
   }
 }
 
-
 export async function searchAjaxFecthFunction(payload: any) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API_KEY}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
       },
       body: JSON.stringify(payload),
     });
