@@ -9,15 +9,16 @@ interface headingProps {
   heading: string;
 }
 
-const Tagcloudcomponents: React.FC<headingProps> = async ({heading}) => {
-  const tagCloudData: HomePageInterface = (await graphQlFetchFunction(tagCloudQuery))
-  const tagCloudArray = tagCloudData?.data?.contentData.items?.[0]
-                        ?.bodyContentCollection.items[0].mediaCardsCollection.items
+const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
+  const tagCloudData: HomePageInterface =
+    await graphQlFetchFunction(tagCloudQuery);
+  const tagCloudArray =
+    tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
+      .mediaCardsCollection.items;
   return (
-
-    <div className='tag-cloud-container bg-white'>
+    <div className="tag-cloud-container bg-white">
       <div className="max-w-container mx-auto">
-        <div className='tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[8px] pb-[32px] md:pt-[16px] md:pb-[64px]'>
+        <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[8px] pb-[32px] md:pt-[16px] md:pb-[64px]">
           <div className="tag-cloud-header">
             <h6 className="font-bold">{heading}</h6>
           </div>
@@ -26,15 +27,16 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({heading}) => {
               {tagCloudArray?.map((data, index) => (
                 <li key={index}>
                   {data?.tagUrl && (
-                    <Link href={data?.tagUrl}
-                    prefetch={false}
-                    className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
+                    <Link
+                      href={data?.tagUrl}
+                      prefetch={false}
+                      className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
                     >
                       {data?.tagName}
                     </Link>
                   )}
                 </li>
-              ))}       
+              ))}
             </ul>
           </div>
         </div>

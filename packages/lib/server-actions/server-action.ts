@@ -1,21 +1,34 @@
 "use server";
 export async function graphQlFetchFunction(payload: string) {
-  const endpoint: string = `https://graphql.contentful.com/content/v1/spaces/szez98lehkfm/environments/dev_he_websites`;
-  const auth: string = "FW8J_AkzpAVLFzBEYaRrxSIZ42b4UIgFbS3rtSFSOrs";
   try {
-    const res = await fetch(endpoint, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${auth}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
     });
-
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Error while fetching data:", error);
+    throw error;
+  }
+}
+
+export async function searchAjaxFecthFunction(payload: any) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API_KEY}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
     throw error;
   }
 }

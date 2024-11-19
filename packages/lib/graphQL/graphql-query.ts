@@ -30,11 +30,62 @@ export const footerQuery = `query {
     }
   }
 }`;
-
-export const homePageQuery = `{
+export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
     where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 2) {
+              items {
+                __typename
+                ... on PageStatPodContainer {
+                  bgColor
+                  marginPadding
+                  statPodContainerName
+                  statinfoCollection {
+                  
+                    items {
+                      internalName
+                      statLabel
+                      icon {
+                        url
+                        width
+                        height
+                        title                         
+                      }
+                      statNumber
+                    }
+                      
+                  }
+                  image {
+                    url
+                    width
+                    height
+                    title
+                  }
+                  cta{
+                    internalName
+                    primaryCtaLabel
+                    primaryCtaUrl
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+export const homePageQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       pageTitle
@@ -104,27 +155,34 @@ export const homePageQuery = `{
     }
   }
 }`;
-
-
-
-export const tagCloudQuery = `{
+export const pageLogoQuery = `... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }`;
+export const internalComponentLoop = (
+  internalName: string,
+  componentQuery: string
+) => {
+  const query = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
-    ) {
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
     items {
-      bodyContentCollection(limit: 10
-      where:{internalName:"Homepage - Tagcloud - Whatuni"}) {
+      bodyContentCollection(limit: 1
+      where:{internalName:"${internalName}"}) {
         items {
           __typename
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection(limit: 20 ) {
               items {
                 __typename
-                ... on PageTagCloud {
-                  tagName
-                  tagUrl
-                }
+                ${componentQuery}
               }
             }
           }
@@ -133,3 +191,5 @@ export const tagCloudQuery = `{
     }
   }
 }`;
+  return query;
+};
