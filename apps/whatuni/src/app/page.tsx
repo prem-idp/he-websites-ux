@@ -3,14 +3,22 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
-import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+import {
+  MultipleCardContainer,
+  SliderBannerCollection,
+} from "@packages/lib/types/interfaces";
+
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  const heroSliderData: SliderBannerCollection =
+    jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+  console.log("======================", jsonData?.data?.contentData?.items);
+  console.log("+++++++++++", componentList);
   return (
     <>
-      <Heroslidercomponent project="whatuni" />
+      <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {

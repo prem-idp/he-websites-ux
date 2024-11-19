@@ -11,7 +11,6 @@ const SearchBox = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await searchAjaxFecthFunction(searchAjax);
-      console.log("data", data);
     };
     fetchData();
   }, []);

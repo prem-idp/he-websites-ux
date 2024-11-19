@@ -24,7 +24,7 @@ import {
 } from "aws-cdk-lib/aws-iam";
 import { MyLogGroupArm } from "./logGroupArn";
 
-export class PgsCdkStack extends cdk.Stack {
+export class PgsHeCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     const [VPC_SUBNET1_VALUE, VPC_SUBNET2_VALUE, VPC_SUBNET3_VALUE] =
       process.env.AWS_VPC_SUBNETS?.split(",") ?? [];
@@ -37,50 +37,54 @@ export class PgsCdkStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
     // Create a new S3 bucket to store Next.js build artifacts
-    const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
-      bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
+    // const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
+    //   bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
 
-      // Replace with your desired name
-      enforceSSL: true,
-      versioned: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      encryption: s3.BucketEncryption.S3_MANAGED,
-      removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
-    });
+    //   enforceSSL: true,
+    //   versioned: true,
+    //   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    //   encryption: s3.BucketEncryption.S3_MANAGED,
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
+    // });
+    const myBucket = s3.Bucket.fromBucketName(
+      this,
+      "ExistingBucket",
+      process.env.AWS_PGS_S3_BUCKET_NAME || ""
+    );
+    
+    // const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
+    //   actions: ["s3:GetObject"],
+    //   principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
+    //   effect: Effect.ALLOW,
+    //   conditions: {
+    //     StringEquals: {
+    //       "AWS:SourceArn": `arn:aws:cloudfront::${
+    //         cdk.Stack.of(this).account
+    //       }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`],
+    // });
 
-    const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
-      actions: ["s3:GetObject"],
-      principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
-      effect: Effect.ALLOW,
-      conditions: {
-        StringEquals: {
-          "AWS:SourceArn": `arn:aws:cloudfront::${
-            cdk.Stack.of(this).account
-          }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`],
-    });
+    // const secureTransportS3PolicyStatement = new PolicyStatement({
+    //   actions: ["s3:*"],
+    //   principals: [new AnyPrincipal()],
+    //   effect: Effect.DENY,
+    //   conditions: {
+    //     Bool: {
+    //       "aws:SecureTransport": "false",
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
+    // });
 
-    const secureTransportS3PolicyStatement = new PolicyStatement({
-      actions: ["s3:*"],
-      principals: [new AnyPrincipal()],
-      effect: Effect.DENY,
-      conditions: {
-        Bool: {
-          "aws:SecureTransport": "false",
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
-    });
+    // myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
+    // myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
 
-    myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
-    myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
-
-    cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
-    cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add("Name", process.env.AWS_S3_BUCKET_NAME || "");
-    cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
+    // cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
+    // cdk.Tags.of(myBucket).add("Classification", "unclassified");
+    // cdk.Tags.of(myBucket).add("Name", pgsBucketName || "");
+    // cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
@@ -336,7 +340,7 @@ export class PgsCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });
@@ -346,7 +350,7 @@ export class PgsCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });
