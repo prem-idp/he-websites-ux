@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import React, { ReactNode } from "react";
+import React from "react";
 import HeroSliderCard from "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard";
-import HeroSlider from "@packages/shared-components/home/hero/slider-pod/heroSlider";
 import { render, screen } from "@testing-library/react";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 import HeroSliderComponent from "@packages/shared-components/home/hero/heroslidercomponent";
