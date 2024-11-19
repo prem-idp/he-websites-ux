@@ -222,7 +222,7 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
     
     //
     it("The count of slider created for desktop device", async () => {
-        render(<Discoverslidercomponents1  />);
+        render(<Discoverslidercomponents1  internalName=""/>);
         let cardCount:number = 0;
         {iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
             if(discoverObj != null){
@@ -256,7 +256,7 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
         // Trigger the window resize event.
         global.dispatchEvent(new Event('resize'));
 
-        render(<Discovercomponents heading="heading" subheading="subheading"/>);
+        render(<Discoverslidercomponents1 internalName="" />);
 
 
         {iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {

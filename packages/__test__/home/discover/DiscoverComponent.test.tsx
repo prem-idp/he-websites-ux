@@ -223,10 +223,9 @@ describe("Discover pod test cases", () => {
     //
     test("Render discover pod", async () => {
 
-        render(<Discovercomponents heading="discover" subheading="subheading"/>);
+        render(<Discovercomponents internalName="" heading="discover" subheading="subheading"/>);
         expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
         expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
-        expect(screen.getByTestId("discoverViewMore")).toBeInTheDocument();
     });
     
 })

@@ -8,16 +8,32 @@ import ReviewComponent from "@packages/shared-components/home/reviews/reviewscom
 import TestimonialComponent from "@packages/shared-components/home/testimonials/testimonialcomponents";
 import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
 import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
-const page = () => {
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+const page = async () => {
+  const jsonData = await graphQlFetchFunction(homePageQuery(process.env.PROJECT));
+  const componentList =
+    jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   return (
     <>
       <HeroSliderComponent project="pgs" />
-      <Wuscascomponents />
-      <Discovercomponents heading="Find the right Postgraduate qualifications" subheading="Explore the qualification that aligns with your career goals and academic interests" />
-      <AdviceComponent />
-      <TestimonialComponent />
-      <ReviewComponent />
-      <OurPartnerComponent />
+      {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+              />
+            );
+          }
+        )}
     </>
   );
 };

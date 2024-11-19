@@ -31,10 +31,10 @@ export const footerQuery = `query {
   }
 }`;
 
-export const homePageQuery = `{
+export const homePageQuery = (websiteName: string|undefined) => `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
   ) {
     items {
       pageTitle
@@ -53,7 +53,7 @@ export const homePageQuery = `{
             title
             internalName
             longDescription {
-              json
+              json  
             }
             cta {
               internalName
@@ -106,58 +106,68 @@ export const homePageQuery = `{
 }`;
 
 
-export const discoverpodQuery = `{
+export const discoverpodQuery = (websiteName: string|undefined, internalName: string) => `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
   ) {
     items {
       bodyContentCollection(limit: 10
+      where: {internalName: "${internalName}"}
      ) {
         items {
          
           ... on MultipleCardContainer {
     
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection(limit: 6) {
               items {
                 ... on DynamicMediaComponent {
-               
-            title
-            internalName
-            longDescription {
-              json
-            }
-            cta {
-              internalName
-              primaryCtaUrl
-              primaryCtaLabel
-              secondaryCtaUrl
-              secondaryCtaLabel
-              primaryCtaTarget
-              secondaryCtaTarget
-              flagStyle
-            }
-            image {
-              imageTitle
-              imgAltText
-              imgUpload {
-                url
-                height
-                width
-              }
-            }
-            video {
-              videoTitle
-              videoIntName
-              videoDesc
-              externalVideoUrl
-              videoUpload {
-                url
-                width
-                height
-              }
-            }
-          
+                  internalName
+                  title
+                  subTitle
+                  shortDescription
+                  longDescription {
+                    json
+                  }
+                  image {
+                    imageTitle
+                    imgIntName
+                    imgUpload {
+                      url
+                      width
+                      height
+                    }
+                    imgAltText
+                  }
+                  video {
+                    videoIntName
+                    videoTitle
+                    videoDesc
+                    videoAltText
+                    videoTranscript
+                    thumbnail {
+                      url
+                      width
+                      height
+                      title
+                    }
+                    videoUpload {
+                      url
+                      width
+                      height
+                      title
+                    }
+                  }
+                  cta {
+                    internalName
+                    primaryCtaUrl
+                    secondaryCtaUrl
+                    primaryCtaLabel
+                    secondaryCtaLabel
+                    primaryCtaTarget
+                    secondaryCtaTarget
+                    flagStyle
+                  }
                 }
               }
             }

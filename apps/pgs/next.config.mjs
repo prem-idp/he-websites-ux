@@ -21,6 +21,9 @@ const nextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "images.ctfassets.net" }],
   },
+  env: {
+    PROJECT: "PGS"
+  }
 };
 
 export default nextConfig;

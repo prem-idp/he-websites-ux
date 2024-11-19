@@ -20,6 +20,7 @@ export interface discoverContentfulInterface{
               items?: [
                 {
                   title: "",
+                  subTitle: "",
                   internalName: "",
                   cta: {
                     internalName: ""
@@ -52,13 +53,25 @@ export interface discoverContentfulInterface{
 
 let discoverList: discoverContentfulInterface;
 
-const Discoverslidercomponents1 = () => {
+function isObjectEmpty(obj: any) {
+  if(obj === null) return true;
+  if(obj === undefined) return true;
+  for (const prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const Discoverslidercomponents1 = ({internalName}: {internalName: string}) => {
 
 
   const [dicoverCardContentfulList, setDicoverCardContentfulList] = useState<discoverContentfulInterface>(discoverList);
   useEffect(() => {
     async function getcontetnfuldata(){
-      const discovercontentfulData = await graphQlFetchFunction(discoverpodQuery);
+      const discovercontentfulData = await graphQlFetchFunction(discoverpodQuery(process.env.PROJECT, internalName));
       setDicoverCardContentfulList(discovercontentfulData);
     }
     getcontetnfuldata();
@@ -99,27 +112,29 @@ const Discoverslidercomponents1 = () => {
             {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
               if(discoverObj != null){
                 return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
-                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items && !isObjectEmpty(mediaCardsCollectionItems.mediaCardsCollection.items[index])){
                     return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems, index) => {
-                      if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        return <SwiperSlide key={discoverItems.title}>
+                      if(!isObjectEmpty(discoverItems)){
+                        console.log("discoverItems", discoverItems);
+                        return <SwiperSlide key={discoverItems.internalName + index}>
                           <div className="discover-card" data-testid="discovercardMobile">
-                           <Link href={discoverItems.cta.primaryCtaUrl} className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden">
+                           <Link href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""} className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden">
                               <div className="discover-card flex justify-between gap-[8px]">
                                 <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                  <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
-                                    {discoverItems.title}
-                                  </div>
-                                  <h5 className="font-bold" data-testid="cardSubTitle">Looking for courses?</h5>
+                                  {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
+                                    {discoverItems?.title}
+                                  </div>}
+                                  {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
                                 </div>
+                                {discoverItems?.image?.imgUpload?.url && 
                                 <Image
-                                  src={index == 5 && isMobile ? "https://whatuni.go.link/?adj_t=cark98y" :discoverItems.image.imgUpload.url}
+                                  src={discoverItems?.image?.imgUpload?.url}
                                   width="186"
                                   height="200"
                                   alt="discover"
                                   data-testid="discoverImageId"
                                   data-testsrc={discoverItems.image.imgUpload.url}
-                                />
+                                />}
                               </div>
                             </Link>
                           </div>
@@ -139,29 +154,31 @@ const Discoverslidercomponents1 = () => {
           {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
               if(discoverObj != null){
                 return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
-                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
+                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && !isObjectEmpty(mediaCardsCollectionItems.mediaCardsCollection.items[index])){
                     return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
-                      if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.title}>
+                      if(!isObjectEmpty(discoverItems)){
+                        console.log("discoverItems", discoverItems);
+                        return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.internalName + index}>
                                   <Link
-                                    href={discoverItems.cta.primaryCtaUrl}
+                                    href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""}
                                     className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                                   >
                                     <div className="discover-card flex justify-between gap-[8px]">
                                       <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                        <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
+                                        {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
                                           {discoverItems.title}
-                                        </div>
-                                        <h5 className="font-bold" data-testid="cardSubTitle">Looking for courses?</h5>
+                                        </div>}
+                                        {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
                                       </div>
+                                      {discoverItems?.image?.imgUpload?.url && 
                                       <Image
-                                        src={discoverItems.image.imgUpload.url}
+                                        src={discoverItems?.image?.imgUpload?.url}
                                         width="186"
                                         height="200"
                                         alt="discover"
                                         data-testid="discoverImageId"
                                         data-testsrc={discoverItems.image.imgUpload.url}
-                                      />
+                                      />}
                                     </div>
                                   </Link>
                                 </div>

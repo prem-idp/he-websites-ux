@@ -5,7 +5,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 const Page = async () => {
-  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const jsonData = await graphQlFetchFunction(homePageQuery(process.env.PROJECT));
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   return (
@@ -22,6 +22,7 @@ const Page = async () => {
                 key={index}
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
               />
             );
           }
