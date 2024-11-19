@@ -7,7 +7,6 @@ import Form from "next/form";
 import { useState, useEffect } from "react";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 
 interface CourseTabProps {
   searchFormHandle: any;
@@ -20,16 +19,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
+  // console.log(data);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
-  const [filteredsubject, setFilteredsubject] = useState<string[]>();
-
-  // console.log(subjectlist, "subject filter list");
+  const [filteredsubject, setFilteredsubject] = useState<
+    { [key: string]: any; description: string }[] | undefined
+  >(undefined);
+  const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const router = useRouter();
 
-  // =============================================================================================================================
+  // ========================================intial fetch if empty=====================================================================================
   useEffect(() => {
     const body = {
       affiliateId: 220703,
@@ -39,70 +40,82 @@ const CourseTab: React.FC<CourseTabProps> = ({
       networkId: 2,
     };
     if (Object.keys(data).length === 0) {
-      // console.log("inside the empty object useefffect");
       const fetchLocationandstudymode = async () => {
         const fetchdata = await searchAjaxFecthFunction(body);
-        // console.log(fetchdata);
         if (fetchdata) {
           setLocationlist(fetchdata.locationList);
           setSubjectlist(fetchdata.courseDetails);
           setStudymodelist(fetchdata.studyLevelList);
         }
       };
-      // console.log()
-      // console.log(subjectlist, locationlist, studymodelist);
       fetchLocationandstudymode();
     }
   }, []);
-
   // ====================================================================================================================================
+  // ========================================fliterstate change when description change============================================================================================
 
   useEffect(() => {
-    if (
-      !searchFormHandle.subject?.description ||
-      searchFormHandle.subject.description.length < 3
-    ) {
+    const { description } = searchFormHandle.subject || {};
+    const { qualCode } = searchFormHandle.courseType || {};
+
+    // Early return if description is invalid or too short
+    if (!description || description.length < 3) {
       setFilteredsubject([]);
       return;
     }
 
-    const results = subjectlist
-      ?.slice(1)
-      .filter(
-        (subjects: any) =>
-          subjects?.description
-            ?.toLowerCase()
-            .includes(searchFormHandle.subject.description.toLowerCase()) &&
-          subjects?.qual_Code === searchFormHandle.courseType?.qualCode
-      );
-
-    function prioritizeSearch(searchText: string, list: string[]): string[] {
-      return list.sort((a, b) => {
-        const aStarts = a.startsWith(searchText) ? 0 : 1; // Priority for starting text
-        const bStarts = b.startsWith(searchText) ? 0 : 1;
-
-        if (aStarts !== bStarts) {
-          return aStarts - bStarts; // Prioritize matches that start with the searchText
-        }
-
-        if (aStarts === 0 && bStarts === 0) {
-          // Both start with searchText, compare by length
-          return a.length - b.length;
-        }
-
-        return 0; // Maintain order for non-matching strings
-      });
-    }
-
-    console.log(
-      prioritizeSearch(searchFormHandle?.subject?.description, results)
+    // Filter subjects first
+    const filteredSubjects = subjectlist?.filter(
+      (subjects: any) =>
+        subjects?.description
+          ?.toLowerCase()
+          .includes(description.toLowerCase()) &&
+        subjects?.qual_Code === qualCode
     );
-    setFilteredsubject(results);
-    // console.log(results, "filtered subjects");
+
+    // Priority search function to sort filtered results based on search text position
+    const prioritySearch = (
+      list: { description: string; [key: string]: any }[],
+      searchText: string
+    ): { description: string; [key: string]: any }[] => {
+      if (!searchText) return list;
+
+      const searchLower = searchText.toLowerCase();
+
+      return list
+        ?.map((item) => ({
+          ...item,
+          position: item.description.toLowerCase().indexOf(searchLower),
+          startsWithSearch: item.description
+            .toLowerCase()
+            .startsWith(searchLower),
+          exactMatch: item.description.toLowerCase() === searchLower,
+        }))
+        .filter((item) => item.position !== -1) // Only include items with searchText
+        .sort((a, b) => {
+          if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1;
+          if (a.startsWithSearch !== b.startsWithSearch)
+            return a.startsWithSearch ? -1 : 1;
+          if (a.position !== b.position) return a.position - b.position;
+          return a.description.localeCompare(b.description);
+        })
+        ?.map((item: any) => ({
+          description: item.description,
+          url: item.url,
+          category_code: item.category_code,
+          browse_cat_id: item.browse_cat_id,
+          parent_subject: item.parent_subject,
+          qual_Code: item.qual_Code,
+        }));
+    };
+
+    const sortedResults = prioritySearch(filteredSubjects, description);
+    setFilteredsubject(sortedResults);
   }, [
     searchFormHandle.subject.description,
     searchFormHandle.courseType.qualCode,
   ]);
+
   // ================================================================================================================================================
 
   const resetAllTabs = (currentTab: string) => ({
@@ -121,6 +134,23 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
 
   const searchHandler = () => {
+    console.log(
+      searchFormHandle.subject.url,
+      searchFormHandle.subject.description,
+      searchFormHandle.location.regionName
+    );
+    if (
+      searchFormHandle.location.regionName &&
+      !searchFormHandle.subject.url &&
+      !searchFormHandle?.subject?.description?.trim()
+    ) {
+      console.log("please enter the subject");
+      setSubjecterror(true);
+    }
+    if (!searchFormHandle?.subject?.description?.trim()) {
+      console.log("please enter the subject");
+      setSubjecterror(true);
+    }
     if (
       searchFormHandle.location?.regionName &&
       searchFormHandle.subject?.url
@@ -130,10 +160,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
       );
     } else if (searchFormHandle.subject?.url) {
       router.push(searchFormHandle.subject.url);
-    } else if (searchFormHandle.subject?.description) {
+    } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch();
-    } else if (searchFormHandle.location?.regionName) {
-      // console.log("Please provide the subject");
     }
   };
   const keywordSearch = () => {
@@ -147,7 +175,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
-      router.push(`${baseUrl}?q=${searchFormHandle.subject.description}`);
+      const sanitizedDescription = searchFormHandle.subject.description
+        .trim() // Remove spaces from front and back
+        .replace(/\s+/g, "-"); // Replace spaces in between with hyphens
+
+      router.push(`${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
@@ -214,10 +246,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       parent_subject: null,
                       category_code: null,
                       browse_cat_id: "KW", // Retaining other properties of subject
-                      description: event.target.value, // Setting the description value
+                      description: event.target.value.trimStart(), // Setting the description value
                     },
                   }));
                   setDropdown(true);
+                  setSubjecterror(false);
                 }}
                 onClick={() => {
                   courseActions("Subject");
@@ -334,6 +367,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
           </div>
         </Form>
       </div>
+      {subjecterror && <p> Please enter subject</p>}
     </div>
   );
 };

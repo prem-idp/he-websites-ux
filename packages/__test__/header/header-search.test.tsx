@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Search from "./header-search";
+import Search from "../../shared-components/common-utilities/header/search-pod/header-search";
 
 // Mock the tabs to avoid rendering actual components
 jest.mock(
@@ -48,11 +48,11 @@ describe("Search Component", () => {
     expect(mockRightMenuAction).toHaveBeenCalledWith("SEARCH");
   });
 
-    // it('renders the "Calculate them" link in Course Tab', () => {
-    //   // Check if "Calculate them" link is rendered in the Course tab
-    //   expect(screen.getByText('Calculate them')).toBeInTheDocument();
-    //   expect(screen.getByText('Calculate them').closest('a')).toHaveAttribute('href', '#');
-    // });
+  // it('renders the "Calculate them" link in Course Tab', () => {
+  //   // Check if "Calculate them" link is rendered in the Course tab
+  //   expect(screen.getByText('Calculate them')).toBeInTheDocument();
+  //   expect(screen.getByText('Calculate them').closest('a')).toHaveAttribute('href', '#');
+  // });
 
   //   it('renders the "Browse unis A-Z" link in University Tab', () => {
   //     // Switch to the Universities tab

@@ -82,6 +82,4 @@ describe("Header Component", () => {
     fireEvent.click(shortlistIcon);
     expect(screen.queryByTestId("shortlisted")).not.toBeInTheDocument();
   });
-
-  
 });

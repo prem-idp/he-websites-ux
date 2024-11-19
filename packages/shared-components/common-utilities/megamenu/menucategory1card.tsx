@@ -2,9 +2,9 @@ import Link from "next/link";
 import React from "react";
 
 const Menucategory1card = ({ data }: any) => {
-  console.log(data);
+  // console.log(data);
 
-  console.log();
+  // console.log();
 
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
@@ -21,7 +21,7 @@ const Menucategory1card = ({ data }: any) => {
             <li key={index}>
               <Link
                 href={item?.navUrl || ""}
-                target={item.navCtaTarget ? "_blank" : "_self"}
+                target={item.navCtaTarget ? "_blank" : "_parent"}
                 rel={item.navCtaTarget ? "noopener noreferrer" : undefined}
                 className="font-normal small text-grey300 hover:underline line-clamp-2 "
               >

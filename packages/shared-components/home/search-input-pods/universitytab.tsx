@@ -5,6 +5,7 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect } from "react";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
+import Form from "next/form";
 interface UniversityTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -15,9 +16,12 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  // console.log(data, "university");
+  console.log(data, "university");
   const [universityList, setUniversityList] = useState<string[]>([]);
-  const [unidetails, setUnidetails] = useState(data);
+  const [unierror, setUnierror] = useState(false);
+  const [unidetails, setUnidetails] = useState<Array<any>>(
+    Array.isArray(data) ? data : []
+  );
   useEffect(() => {
     const body = {
       affiliateId: 220703,
@@ -42,21 +46,23 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   }, []);
 
   useEffect(() => {
-    if (searchFormHandle.university.length < 3) {
+    if (
+      !searchFormHandle?.university ||
+      searchFormHandle?.university?.length < 3
+    ) {
       setUniversityList([]);
       return;
     }
 
-    console.log(unidetails);
     console.log(searchFormHandle.university);
 
-    const results = unidetails.filter((colleges: any) =>
-      colleges.college_name_display
+    const results = unidetails?.filter((colleges: any) =>
+      colleges.collegeNameDisplay
         ?.toLowerCase()
         .includes(searchFormHandle.university.toLowerCase())
     );
 
-    console.log(results, "result in filtered result of the uni");
+    // console.log(results, "result in filtered result of the uni");
     setUniversityList(results || []);
   }, [searchFormHandle?.university]);
 
@@ -73,30 +79,44 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       ...resetAllTabs(tabName),
     }));
   };
-
+  function handleUnisearch() {
+    setUnierror(true);
+  }
   return (
     <div className="flex flex-col gap-[24px]">
       <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
-        <div className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row">
+        <Form
+          action={handleUnisearch}
+          className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row"
+        >
           <div className="grow">
             <input
-              onClick={() => courseActions("University")}
+              onClick={() => {
+                courseActions("University");
+                setUnierror(false);
+              }}
               type="text"
               className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
               aria-label=""
               placeholder="University name"
-              onChange={(event) =>
+              onChange={(event) =>{
+
                 setsearchFormHandle((preData: any) => ({
                   ...preData,
-                  university: event.target.value,
+                  university: event.target.value.trimStart(),
                   isUniversityClicked: true,
-                }))
+                }));
+                setUnierror(false);
               }
-              value={searchFormHandle?.university}
+              }
+              value={searchFormHandle?.university || ""}
             />
           </div>
           <div className="pt-[16px] md:pt-[0]">
-            <button className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]">
+            <button
+              type="submit"
+              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
+            >
               <Image
                 src="/static/assets/icons/search_icon.svg"
                 width="18"
@@ -107,12 +127,14 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             </button>
           </div>
           {searchFormHandle?.isUniversityClicked &&
-            searchFormHandle?.university.length > 2 && (
+            searchFormHandle?.university?.length > 2 && (
               <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
                 <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
                   {universityList?.map((item: any, index: any) => (
                     <Link
-                      href={`/university-profile/${item.college_name_display}/${item.college_id}`}
+                      href={`/university-profile/${item?.collegeNameDisplay
+                        ?.toLowerCase() // Convert to lowercase
+                        ?.replace(/\s+/g, "-")}/${item.collegeId}`}
                       onClick={() =>
                         setsearchFormHandle((prevData: any) => ({
                           ...prevData,
@@ -123,14 +145,15 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                       key={index}
                       className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                     >
-                      {item.college_name_display}
+                      {item.collegeNameDisplay}
                     </Link>
                   ))}
                 </ul>
               </div>
             )}
-        </div>
+        </Form>
       </div>
+      {unierror && <p>Please select university from dropdown</p>}
     </div>
   );
 };

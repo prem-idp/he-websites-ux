@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Search from "./search-pod/header-search";
 import { usePathname } from "next/navigation";
-import Megamenucomponents from "../topnav/new";
+import Megamenucomponents from "../topnav/megamenucomponents";
 import Shortlisted from "./shortlisted/shortlisted";
 import User from "./user/user";
 
@@ -21,7 +21,7 @@ const Header = ({ data }: any) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
-  console.log(pathname, "pathname");
+  // console.log(pathname, "pathname");
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -84,12 +84,12 @@ const Header = ({ data }: any) => {
 
   return (
     <>
-      <header className="bg-white pl-[16px] pr-[21px] py-[4px] md:px-[20px] xl2:px-0 lg:py-[8px]">
+      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
-          <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px]">
-            <Link href="">
+          <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
+            <Link href="/">
               <Image
-                className="md:mx-auto lg:mx-0"
+                className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={data?.data?.contentData?.items[0]?.websiteLogo?.url}
                 alt="Whatuni Logo"
                 priority
@@ -172,17 +172,17 @@ const Header = ({ data }: any) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={data} />}
+                    {isOpen && <Megamenucomponents data={data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={data} />
+              <Megamenucomponents data={data} />
             )}
           </div>
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
-            <ul className="flex items-center justify-end gap-[10px] rightmenu">
+            <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
               {pathname !== "/" && (
                 <li>
                   <span

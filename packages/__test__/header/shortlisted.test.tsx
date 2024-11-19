@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Shortlisted from './shortlisted';
+import Shortlisted from '../../shared-components/common-utilities/header/shortlisted/shortlisted';
 
 describe('Shortlisted Component', () => {
   it('renders all the list items with correct names and counts', () => {

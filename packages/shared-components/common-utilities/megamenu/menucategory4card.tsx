@@ -20,7 +20,7 @@ const Menucategory4card = ({ data }: any) => {
             <li key={index}>
               <Link
                 href={item?.navUrl || ""}
-                target={item?.navCtaTarget ? "_blank" : "_self"}
+                target={item?.navCtaTarget ? "_blank" : "_parent"}
                 rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
                 className="block"
               >
@@ -30,7 +30,7 @@ const Menucategory4card = ({ data }: any) => {
                     loading="eager"
                     src={item?.navIcon?.url}
                     width="289"
-                    height="108"
+                    height="50"
                     alt="University logo"
                   />
                   <div className="overlay absolute z-0 top-0 left-0 right-0 bottom-0 bg-gradientBlack1"></div>

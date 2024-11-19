@@ -20,7 +20,7 @@ const Menucategory3card = ({ data }: any) => {
             <li key={index}>
               <Link
                 href={item?.navUrl || ""}
-                target={item?.navCtaTarget ? "_blank" : "_self"}
+                target={item?.navCtaTarget ? "_blank" : "_parent"}
                 rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >

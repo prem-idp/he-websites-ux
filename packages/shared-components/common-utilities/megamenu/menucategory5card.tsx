@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 
-const Menucategory1x1card = ({ data }: any) => {
+const Menucategory5card = ({ data }: any) => {
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
@@ -16,7 +16,7 @@ const Menucategory1x1card = ({ data }: any) => {
           <li key={index}>
             <Link
               href={item?.navUrl || ""}
-              target={item?.navCtaTarget ? "_blank" : "_self"}
+              target={item?.navCtaTarget ? "_blank" : "_parent"}
               rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
               className="block bg-neutral-200 min-h-[200px]"
             >
@@ -42,4 +42,4 @@ const Menucategory1x1card = ({ data }: any) => {
   );
 };
 
-export default Menucategory1x1card;
+export default Menucategory5card;

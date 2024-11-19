@@ -29,7 +29,7 @@ export default function Search({ rightMenuAction }: any) {
     <>
       <div className="bg-white absolute top-0 left-0 right-0 z-10 lg:min-h-[222px]">
         <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
-          <div className="flex justify-end relative ">
+          <div className="flex justify-end relative items-end">
             <svg
               aria-label="close-button"
               className="cursor-pointer"
