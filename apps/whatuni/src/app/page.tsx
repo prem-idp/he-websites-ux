@@ -6,26 +6,22 @@ import {
   searchAjaxFecthFunction,
 } from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
-import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+import {
+  MultipleCardContainer,
+  SliderBannerCollection,
+} from "@packages/lib/types/interfaces";
 
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-
-  // const body = {
-  //   affiliateId: 220703,
-  //   actionType: "default",
-  //   keyword: "",
-  //   qualCode: "",
-  //   networkId: 2,
-  // };
-  // const data = await searchAjaxFecthFunction(body);
-
-  // console.log(data);
+  const heroSliderData: SliderBannerCollection =
+    jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+  console.log("======================", jsonData?.data?.contentData?.items);
+  console.log("+++++++++++", componentList);
   return (
     <>
-      <Heroslidercomponent project="whatuni" />
+      <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {
@@ -37,6 +33,7 @@ const Page = async () => {
                 key={index}
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
               />
             );
           }

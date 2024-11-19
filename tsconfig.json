@@ -32,8 +32,14 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "packages/__test__/common-utilities/footer/footer.test.tsx",
+    "packages/__test__/hero.test.jsx",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
     "packages/__test__/footer.test.jsx",
-    "packages/__test__/hero.test.jsx"
+    "packages/__test__/hero.test.jsx",
+    "src/**/*",
+    "packages/**/*"
   ],
   "exclude": ["node_modules"]
 }
