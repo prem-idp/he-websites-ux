@@ -22,7 +22,7 @@ export async function searchAjaxFecthFunction(payload: any) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API_KEY}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
       },
       body: JSON.stringify(payload),
     });
@@ -33,16 +33,19 @@ export async function searchAjaxFecthFunction(payload: any) {
   }
 }
 
-export async function getReviewDetailsFunction(reviewPayload:any) {
+export async function getReviewDetailsFunction(reviewPayload: any) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API_KEY}`,
-      },
-      body: JSON.stringify(reviewPayload),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+        },
+        body: JSON.stringify(reviewPayload),
+      }
+    );
     const data = await res.json();
     return data;
   } catch (error) {
