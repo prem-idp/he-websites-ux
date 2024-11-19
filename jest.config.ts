@@ -33,28 +33,17 @@ const config: Config = {
     "!**/tailwind.config.ts ",
     // Exclude Jest config file
   ],
-  transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest", // Transpile JS, JSX, TS, and TSX with Babel
-  },
-  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-  moduleNameMapper: {
-    "^@packages/(.*)$": "<rootDir>/packages/$1",
-  },
+
   // Output coverage results to the 'coverage' directory
   coverageDirectory: "<rootDir>/coverage",
 
   // Configure the reporters for coverage results
   coverageReporters: ["json", "lcov", "text", "clover"],
 
-  // Add configuration for transforming .mjs files with Babel
   transform: {
-    // "^.+\\.(ts|tsx)$": "ts-jest", // Transform TypeScript files using ts-jest
-    // "^.+\\.(js|jsx|mjs)$": "babel-jest", // Transform .js, .jsx, and .mjs files using babel-jest
-    // "^.+\\.[t|j]sx?$": "babel-jest",
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-  // Allow Jest to transform swiper-react.mjs and other .mjs files
   transformIgnorePatterns: [
     "/node_modules/(?!swiper).+\\.mjs$",
     "node_modules/(?!" +
