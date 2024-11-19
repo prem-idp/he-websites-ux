@@ -5,7 +5,14 @@ export interface User {
   age?: number;
   isActive: boolean;
 }
-
+export interface Subject {
+  description: string;
+  url: string;
+  category_code: string;
+  browse_cat_id: string;
+  parent_subject: string | null;
+  qual_Code: string;
+}
 export interface SearchFormHandle {
   activeTab: string;
   isCourseType: boolean;

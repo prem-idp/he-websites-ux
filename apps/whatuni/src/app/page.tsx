@@ -1,7 +1,10 @@
 "use server";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
-import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import {
+  graphQlFetchFunction,
+  searchAjaxFecthFunction,
+} from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
 import {
   MultipleCardContainer,
@@ -14,8 +17,8 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log("======================", jsonData?.data?.contentData?.items);
-  console.log("+++++++++++", componentList);
+  // console.log("======================", jsonData?.data?.contentData?.items);
+  // console.log("+++++++++++", componentList);
   return (
     <>
       <Heroslidercomponent data={heroSliderData} />
