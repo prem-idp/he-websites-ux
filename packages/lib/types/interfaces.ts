@@ -333,3 +333,69 @@ export interface MultipleCardContainer {
   longDescription: string | null;
   flagComponentStyle: string;
 }
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
+}
+
+export interface TagCloudDataInterface {
+  tagName: string;
+  tagUrl: string | null;
+}
+
+export interface HomePageInterface {
+  data: {
+    contentData: {
+      items: [
+        {
+          bodyContentCollection: {
+            items: Array<{
+              __typename: string;
+              mediaCardsCollection: {
+                items: TagCloudDataInterface[];
+              };
+            }>;
+          };
+        },
+      ];
+    };
+  };
+}
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
+}
+
+export interface TagCloudDataInterface {
+  tagName: string;
+  tagUrl: string | null;
+}
+
+export interface HomePageInterface {
+  data: {
+    contentData: {
+      items: [
+        {
+          bodyContentCollection: {
+            items: Array<{
+              __typename: string;
+              mediaCardsCollection: {
+                items: TagCloudDataInterface[];
+              };
+            }>;
+          };
+        },
+      ];
+    };
+  };
+}
