@@ -105,42 +105,128 @@ export interface listDropdownOptionProps {
   listDropdownOptionHeader: string;
   listDropDownOptions: dropdownProps[];
 }
-
 export interface dropdownProps {
   id: number;
   label: string;
   value: string;
 }
-
 export interface logoSliderProps {
   imgSrc: string[];
 }
 
 export interface FooterDataInterface {
-  footerNavBtmCollection: {
-    items: {
-      navTitle: string;
-      navUrl: string | null;
-    }[];
-  };
-  navApplinksCollection: {
-    items: {
-      primaryCtaLabel: string;
-      primaryCtaUrl: string;
-    }[];
-  };
-  footerNavCollection: {
-    items: {
-      navTitle: string;
-      navChildC1Collection: {
-        items: {
-          navTitle: string;
-          navUrl: string | null;
-          navCtaTarget: "Open in same tab" | "Open in new tab" | null;
-        }[];
-      };
-    }[];
-  };
+  footerNavBtmCollection: FooterNavBtmCollection;
+  navApplinksCollection: NavApplinksCollection;
+  footerNavCollection: FooterNavCollection;
+}
+
+export interface FooterNavCollection {
+  items: FooterNavCollectionItem[];
+}
+
+export interface FooterNavCollectionItem {
+  navTitle: string;
+  navChildC1Collection: FooterNavChildCollection;
+}
+
+export interface FooterNavChildCollection {
+  items: FooterNavChildItem[];
+}
+
+export interface FooterNavChildItem {
+  navTitle: string;
+  navUrl: string | null;
+  navCtaTarget: "Open in same tab" | "Open in new tab" | null;
+}
+
+export interface NavApplinksCollection {
+  items: AppLinkItem[];
+}
+
+export interface AppLinkItem {
+  primaryCtaLabel: string;
+  primaryCtaUrl: string;
+}
+
+export interface FooterNavBtmCollection {
+  items: FooterNavItem[];
+}
+
+export interface FooterNavItem {
+  navTitle: string | null;
+  navUrl: string | null;
+}
+
+export interface SliderBannerCollection {
+  items: DynamicMediaComponent[];
+}
+export interface DynamicMediaComponentArray {
+  dynamicMediaComponent: DynamicMediaComponent[];
+}
+
+export interface DynamicMediaComponent {
+  __typename: "DynamicMediaComponent";
+  longDescription: LongDescription;
+  title: string;
+  internalName: string;
+  cta: CTA | null;
+  image: Image | null;
+  video: null;
+}
+
+export interface LongDescription {
+  json: JSONContent;
+}
+
+export interface JSONContent {
+  data: Record<string, any>;
+  content: Paragraph[];
+  nodeType: string;
+}
+
+export interface Paragraph {
+  data: Record<string, any>;
+  content: TextNode[];
+  nodeType: string;
+}
+
+export interface TextNode {
+  data: Record<string, any>;
+  marks: any[];
+  value: string;
+  nodeType: string;
+}
+
+export interface Image {
+  imageTitle: string | null;
+  imgAltText: string;
+  imgUpload: ImageUpload;
+}
+
+export interface ImageUpload {
+  url: string;
+  height: number;
+  width: number;
+}
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
+}
+
+export interface CTA {
+  internalName: string;
+  primaryCtaUrl: string | null;
+  primaryCtaLabel: string | null;
+  secondaryCtaUrl: string | null;
+  secondaryCtaLabel: string | null;
+  primaryCtaTarget: string | null;
+  secondaryCtaTarget: string | null;
+  flagStyle: string | null;
 }
 
 export interface Icon {

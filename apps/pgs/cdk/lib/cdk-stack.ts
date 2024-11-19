@@ -24,7 +24,7 @@ import {
 } from "aws-cdk-lib/aws-iam";
 import { MyLogGroupArm } from "./logGroupArn";
 
-export class PgsCdkStack extends cdk.Stack {
+export class PgsHeCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     const [VPC_SUBNET1_VALUE, VPC_SUBNET2_VALUE, VPC_SUBNET3_VALUE] =
       process.env.AWS_VPC_SUBNETS?.split(",") ?? [];
@@ -37,50 +37,54 @@ export class PgsCdkStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
     // Create a new S3 bucket to store Next.js build artifacts
-    const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
-      bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
+    // const myBucket = new s3.Bucket(this, "NewREWebSiteBucket", {
+    //   bucketName: process.env.AWS_PGS_S3_BUCKET_NAME,
 
-      // Replace with your desired name
-      enforceSSL: true,
-      versioned: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      encryption: s3.BucketEncryption.S3_MANAGED,
-      removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
-    });
+    //   enforceSSL: true,
+    //   versioned: true,
+    //   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    //   encryption: s3.BucketEncryption.S3_MANAGED,
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY, // Optional: Set removal policy
+    // });
+    const myBucket = s3.Bucket.fromBucketName(
+      this,
+      "ExistingBucket",
+      process.env.AWS_PGS_S3_BUCKET_NAME || ""
+    );
+    
+    // const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
+    //   actions: ["s3:GetObject"],
+    //   principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
+    //   effect: Effect.ALLOW,
+    //   conditions: {
+    //     StringEquals: {
+    //       "AWS:SourceArn": `arn:aws:cloudfront::${
+    //         cdk.Stack.of(this).account
+    //       }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`],
+    // });
 
-    const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
-      actions: ["s3:GetObject"],
-      principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
-      effect: Effect.ALLOW,
-      conditions: {
-        StringEquals: {
-          "AWS:SourceArn": `arn:aws:cloudfront::${
-            cdk.Stack.of(this).account
-          }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`],
-    });
+    // const secureTransportS3PolicyStatement = new PolicyStatement({
+    //   actions: ["s3:*"],
+    //   principals: [new AnyPrincipal()],
+    //   effect: Effect.DENY,
+    //   conditions: {
+    //     Bool: {
+    //       "aws:SecureTransport": "false",
+    //     },
+    //   },
+    //   resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
+    // });
 
-    const secureTransportS3PolicyStatement = new PolicyStatement({
-      actions: ["s3:*"],
-      principals: [new AnyPrincipal()],
-      effect: Effect.DENY,
-      conditions: {
-        Bool: {
-          "aws:SecureTransport": "false",
-        },
-      },
-      resources: [`${myBucket.bucketArn}/*`, `${myBucket.bucketArn}`],
-    });
+    // myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
+    // myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
 
-    myBucket.addToResourcePolicy(secureTransportS3PolicyStatement);
-    myBucket.addToResourcePolicy(allowCloudFrontReadOnlyPolicy);
-
-    cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
-    cdk.Tags.of(myBucket).add("Classification", "unclassified");
-    cdk.Tags.of(myBucket).add("Name", process.env.AWS_S3_BUCKET_NAME || "");
-    cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
+    // cdk.Tags.of(myBucket).add("ApplicationService", "CS Channel: HE websites");
+    // cdk.Tags.of(myBucket).add("Classification", "unclassified");
+    // cdk.Tags.of(myBucket).add("Name", pgsBucketName || "");
+    // cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
@@ -114,7 +118,7 @@ export class PgsCdkStack extends cdk.Stack {
       vpc
     );
 
-    const serverFunctionName = "dev-whatuni-website-server-lambda";
+    const serverFunctionName = "dev-pgs-website-server-lambda";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
     //   effect: Effect.ALLOW,
@@ -205,34 +209,34 @@ export class PgsCdkStack extends cdk.Stack {
     cdk.Tags.of(nextjsLambda).add("Name", serverFunctionName);
     cdk.Tags.of(nextjsLambda).add("ProjectName", "HE websites");
 
-    const whatuni_website_server_lambda_log = new logs.LogGroup(
+    const pgs_website_server_lambda_log = new logs.LogGroup(
       this,
-      "whatuni_website_server_lambda_1_log",
+      "pgs_website_server_lambda_1_log",
       {
-        logGroupName: "/aws/lambda/dev-whatuni-website-server-lambda",
+        logGroupName: "/aws/lambda/dev-pgs-website-server-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       }
     );
 
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "ApplicationService",
       "CS Channel: HE websites"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "Classification",
       "unclassified"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "Name",
-      "whatuni_website_server_lambda_1_log"
+      "pgs_website_server_lambda_1_log"
     );
-    cdk.Tags.of(whatuni_website_server_lambda_log).add(
+    cdk.Tags.of(pgs_website_server_lambda_log).add(
       "ProjectName",
       "HE websites"
     );
 
-    const imageFunctionName = "dev-whatuni-website-image-optimizer-lambda";
+    const imageFunctionName = "dev-pgs-website-image-optimizer-lambda";
 
     const myImageService = new MyLogGroupArm();
 
@@ -298,36 +302,33 @@ export class PgsCdkStack extends cdk.Stack {
     cdk.Tags.of(nextjsimageLambda).add("Classification", "unclassified");
     cdk.Tags.of(nextjsimageLambda).add(
       "Name",
-      "dev-whatuni-website-image-optimizer-lambda"
+      "dev-pgs-website-image-optimizer-lambda"
     );
     cdk.Tags.of(nextjsimageLambda).add("ProjectName", "HE websites");
 
-    const whatuni_website_image_lambda_log = new logs.LogGroup(
+    const pgs_website_image_lambda_log = new logs.LogGroup(
       this,
-      "whatuni_website_image_lambda_1_log",
+      "pgs_website_image_lambda_1_log",
       {
-        logGroupName: "/aws/lambda/dev-whatuni-website-image-optimizer-lambda",
+        logGroupName: "/aws/lambda/dev-pgs-website-image-optimizer-lambda",
         retention: logs.RetentionDays.FIVE_DAYS,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       }
     );
     // Add tags to the log group
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "ApplicationService",
       "CS Channel: HE websites"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "Classification",
       "unclassified"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
+    cdk.Tags.of(pgs_website_image_lambda_log).add(
       "Name",
-      "whatuni_website_image_lambda_1_log"
+      "pgs_website_image_lambda_1_log"
     );
-    cdk.Tags.of(whatuni_website_image_lambda_log).add(
-      "ProjectName",
-      "HE websites"
-    );
+    cdk.Tags.of(pgs_website_image_lambda_log).add("ProjectName", "HE websites");
 
     const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
       authType: FunctionUrlAuthType.AWS_IAM,
@@ -339,7 +340,7 @@ export class PgsCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });
@@ -349,7 +350,7 @@ export class PgsCdkStack extends cdk.Stack {
       action: "lambda:InvokeFunctionUrl",
       sourceArn: `arn:aws:cloudfront::${
         cdk.Stack.of(this).account
-      }:distribution/${process.env.CLOUD_FRONT_DISTRIBUTION_ID}`,
+      }:distribution/${process.env.PGS_CLOUD_FRONT_DISTRIBUTION_ID}`,
       sourceAccount: cdk.Aws.ACCOUNT_ID,
       functionUrlAuthType: FunctionUrlAuthType.AWS_IAM,
     });

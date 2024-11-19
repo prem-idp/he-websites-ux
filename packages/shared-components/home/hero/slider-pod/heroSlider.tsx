@@ -6,28 +6,27 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import HeroSliderCard from "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard";
-const HeroSlider = () => {
+import { SliderBannerCollection } from "@packages/lib/types/interfaces";
+interface PropsInterface {
+  data: SliderBannerCollection;
+}
+
+const HeroSlider = ({ data }: PropsInterface) => {
   return (
     <Swiper
       slidesPerView={1}
-      effect="fade"
+      data-testid="parent_swiper"
+      effect={"fade"}
       autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
       modules={[Autoplay, EffectFade, Pagination]}
       className="mySwiper hero"
     >
-      <SwiperSlide>
-        <HeroSliderCard data="Good morning" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HeroSliderCard data="Mani rathinam" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HeroSliderCard data="He websites" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HeroSliderCard data="Hello world" />
-      </SwiperSlide>
+      {data?.items?.map((childItems, index: number) => (
+        <SwiperSlide key={index + 1} data-testid={`slider${index + 1}`}>
+          <HeroSliderCard data={childItems} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 };

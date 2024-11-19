@@ -1,14 +1,12 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-import Tagcloudcomponents from "../tag-cloud/tagcloudcomponents";
-
 const Discovercomponents = () => {
   return (
     <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
-        <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
-          <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
+          <div className='discover-card-container px-[0] py-[34px] md:pt-[64px] md:pb-[16px]'>
+              <div className='discover-header px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]'>
             <h2 className={`font-bold`}>Discover</h2>
             <p className={`small mt-[8px]`}>Subheading</p>
           </div>
@@ -38,7 +36,6 @@ const Discovercomponents = () => {
               </a>
             </div>
           </div>
-          <Tagcloudcomponents />
         </div>
       </div>
     </div>
