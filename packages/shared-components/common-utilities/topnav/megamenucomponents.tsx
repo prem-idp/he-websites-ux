@@ -38,7 +38,7 @@ const Megamenucomponents = () => {
     <>
       <div className="flex lg:items-center lg:justify-center">
         <nav className="p-[16px] w-[335px] h-[100vh] overflow-y-scroll bg-white lg:p-0 lg:w-fit lg:h-auto lg:overflow-y-visible">
-          <ul className="flex flex-col lg:flex-row gap-[10px] lg:gap-[24px] justify-center">
+            <ul className="flex flex-col lg:flex-row gap-[10px] lg:gap-[0] justify-center">
             <li
               onMouseEnter={!isMobile ? () => setOpenMenu("menu1") : undefined}
               onMouseLeave={!isMobile ? () => setOpenMenu(false) : undefined}
@@ -46,7 +46,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu1") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent 
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent 
                         lg:hover:shadow-custom-7`}
               >
                 Find a course
@@ -102,7 +102,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh]`}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300 `}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300 `}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -130,7 +130,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu2") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7`}
               >
                 Find a uni
                 <Image
@@ -184,7 +184,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -212,7 +212,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu3") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu3" ? "menu-active" : ""}`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu3" ? "menu-active" : ""}`}
               >
                 Careers
                 <Image
@@ -267,7 +267,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -295,7 +295,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu4") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu4" ? "menu-active" : ""}`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu4" ? "menu-active" : ""}`}
               >
                 Prospectuses
                 <Image
@@ -378,7 +378,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu5") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu5" ? "menu-active" : ""}`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu5" ? "menu-active" : ""}`}
               >
                 Open days
                 <Image
@@ -461,7 +461,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu6") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu6" ? "menu-active" : ""}`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu6" ? "menu-active" : ""}`}
               >
                 Rankings
                 <Image
@@ -516,7 +516,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -544,7 +544,7 @@ const Megamenucomponents = () => {
               <Link
                 onClick={isMobile ? () => megaMenu("menu7") : undefined}
                 href=""
-                className={`flex justify-between items-center px-[16px] py-[10px] lg:px-[0] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu7" ? "menu-active" : ""}`}
+                className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent lg:hover:shadow-custom-7 ${openMenu === "menu7" ? "menu-active" : ""}`}
               >
                 Advice
                 <Image

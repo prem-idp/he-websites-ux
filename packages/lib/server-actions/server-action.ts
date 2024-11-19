@@ -1,11 +1,11 @@
 "use server";
 export async function graphQlFetchFunction(payload: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTHORIZATION}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
     });

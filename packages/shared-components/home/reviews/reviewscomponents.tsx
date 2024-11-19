@@ -1,7 +1,10 @@
 "use server";
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import { getReviewDetailsFunction } from "@packages/lib/server-actions/server-action";
-import { CallToAction, ReviewDetailsList } from "@packages/lib/types/interfaces";
+import {
+  CallToAction,
+  ReviewDetailsList,
+} from "@packages/lib/types/interfaces";
 import Reviewslidercomponents from "@packages/shared-components/common-utilities/slider/reviewslidercomponents";
 import React from "react";
 
@@ -10,13 +13,21 @@ interface ReviewProps {
   subheading?: string | undefined;
   callAction?: CallToAction;
 }
-const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading,callAction}) => {
-  const jsonResponse : ReviewDetailsList = await getReviewDetailsFunction(reviewPayload)
+const Reviewscomponents: React.FC<ReviewProps> = async ({
+  heading,
+  subheading,
+  callAction,
+}) => {
+  const jsonResponse: ReviewDetailsList =
+    await getReviewDetailsFunction(reviewPayload);
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }
   return (
-    <div className="reviews-container bg-neutral-50" data-testid="reviews-container">
+    <div
+      className="reviews-container bg-neutral-50"
+      data-testid="reviews-container"
+    >
       <div className="max-w-container mx-auto">
         <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
           <div className="reviews-header px-[16px] md:px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
@@ -24,14 +35,17 @@ const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading,callA
             <p className="font-normal small mt-[8px]">{subheading}</p>
           </div>
           <div className="reviews-inner-wrap">
-            <Reviewslidercomponents reviewData={jsonResponse?.reviewDetail} data-testid="review-slider"
-              data-review-count={jsonResponse.reviewDetail.length}/>
+            <Reviewslidercomponents
+              reviewData={jsonResponse?.reviewDetail}
+              data-testid="review-slider"
+              data-review-count={jsonResponse.reviewDetail.length}
+            />
             <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
                 href={`${callAction?.primaryCtaUrl}`}
                 className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
               >
-               {callAction?.primaryCtaLabel}
+                {callAction?.primaryCtaLabel}
                 <svg
                   width="16"
                   height="12"
