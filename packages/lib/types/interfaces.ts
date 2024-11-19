@@ -266,19 +266,21 @@ export interface PageStatPodContainerInterface {
 
 export interface HomePageStatInterface {
   data: {
-  contentData: {
-    items: [{
-      bodyContentCollection: {
-        items: Array<{
-          __typename: string;
-          mediaCardsCollection: {
-            items: PageStatPodContainerInterface[];
+    contentData: {
+      items: [
+        {
+          bodyContentCollection: {
+            items: Array<{
+              __typename: string;
+              mediaCardsCollection: {
+                items: PageStatPodContainerInterface[];
+              };
+            }>;
           };
-        }>;
-      };
-    }];
+        },
+      ];
+    };
   };
-}
 }
 
 export interface DataInterface {
@@ -290,7 +292,7 @@ export interface DynamicMediaComponent {
   longDescription: LongDescription;
   title: string;
   internalName: string;
-  cta: null;
+  cta: CTA | null;
   image: Image | null;
 }
 
