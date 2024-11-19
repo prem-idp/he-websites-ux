@@ -33,7 +33,7 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                           ? "_blank"
                           : "_parent"
                       }
-                      href={`${childItem?.navUrl}`}
+                      href={childItem?.navUrl || ""}
                       className="small text-grey300 hover:underline"
                     >
                       {childItem?.navTitle}

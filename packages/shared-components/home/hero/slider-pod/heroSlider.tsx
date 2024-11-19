@@ -10,11 +10,12 @@ import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropsInterface {
   data: SliderBannerCollection;
 }
+
 const HeroSlider = ({ data }: PropsInterface) => {
-  console.log(data);
   return (
     <Swiper
       slidesPerView={1}
+      data-testid="parent_swiper"
       effect={"fade"}
       autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}

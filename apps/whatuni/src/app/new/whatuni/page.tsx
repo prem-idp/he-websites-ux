@@ -1,25 +1,42 @@
-import React from "react";
-import AdviceCourseCardSkeleton from "@packages/shared-components/common-utilities/skeleton/advicecoursecardskeleton";
-import Discovercardskeleton from "@packages/shared-components/common-utilities/skeleton/discovercardskeleton";
-import Findauniresultsskeleton from "@packages/shared-components/common-utilities/skeleton/findauniresultsskeleton";
-import Findsubjectareascardskeletonfrom from "@packages/shared-components/common-utilities/skeleton/findsubjectareascardskeleton";
-import Reviewscardskeleton from "@packages/shared-components/common-utilities/skeleton/reviewscardskeleton";
-import Tagcloudcardskeleton from "@packages/shared-components/common-utilities/skeleton/tagcloudcardskeleton";
-import Testimonialcardskeleton from "@packages/shared-components/common-utilities/skeleton/testimonialcardskeleton";
-import Wuscacomponentskeleton from "@packages/shared-components/common-utilities/skeleton/wuscacomponentskeleton";
-const page = () => {
+"use server";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import {
+  MultipleCardContainer,
+  SliderBannerCollection,
+} from "@packages/lib/types/interfaces";
+
+const Page = async () => {
+  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const componentList =
+    jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  const heroSliderData: SliderBannerCollection =
+    jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+
   return (
     <>
-      <Wuscacomponentskeleton />
-      <Discovercardskeleton />
-      <Tagcloudcardskeleton />
-      <Testimonialcardskeleton />
-      <Reviewscardskeleton />
-      <AdviceCourseCardSkeleton />
-      <Findauniresultsskeleton />
-      <Findsubjectareascardskeletonfrom />
+      <Heroslidercomponent data={heroSliderData} />
+      <div>
+        {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+              />
+            );
+          }
+        )}
+      </div>
     </>
   );
 };
 
-export default page;
+export default Page;

@@ -7,12 +7,15 @@ interface PropsInterface {
 }
 const FooterAppLinks = ({ data }: PropsInterface) => {
   return (
-    <ul className="flex flex-row md:flex-col gap-[16px]" data-testid="nav_applinks">
+    <ul
+      className="flex flex-row md:flex-col gap-[16px]"
+      data-testid="nav_applinks"
+    >
       {data[0] && (
         <li data-testid="app_store">
           <Link className="block w-fit"
             prefetch={false}
-            href={`${data[0]?.primaryCtaUrl}`}
+            href={data[0]?.primaryCtaUrl || ""}
             aria-label="App Store"
           >
             <svg
@@ -135,7 +138,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
         <li data-testid="play_store">
           <Link className="block w-fit"
             prefetch={false}
-            href={`${data[1]?.primaryCtaUrl}`}
+            href={data[1]?.primaryCtaUrl || ""}
             aria-label="Google Play"
           >
             <svg
