@@ -6,7 +6,7 @@ import Reviewslidercomponents from '@packages/shared-components/common-utilities
 const mockReviews: ReviewDetailsList['reviewDetail'] = [
   {
       reviewerName: 'John Doe',
-      reviewUrl: "/test-review",
+      collegeTextKey: "university-of-london",
       comment: 'test review',
       initial: 'JR',
       reviewedDate: 'Reviewed on 11/08/20',
@@ -17,7 +17,7 @@ const mockReviews: ReviewDetailsList['reviewDetail'] = [
   },
   {
     reviewerName: 'John',
-    reviewUrl: "/test-review/",
+    collegeTextKey: "university-of-london",
     comment: 'test review1',
     initial: 'Jw',
     reviewedDate: 'Reviewed on 13/08/20',
@@ -28,7 +28,7 @@ const mockReviews: ReviewDetailsList['reviewDetail'] = [
 },
 {
     reviewerName: 'Doe',
-    reviewUrl: "/test-review",
+    collegeTextKey: "university-of-london",
     comment: 'test review',
     initial: 'JE',
     reviewedDate: 'Reviewed on 11/08/20',

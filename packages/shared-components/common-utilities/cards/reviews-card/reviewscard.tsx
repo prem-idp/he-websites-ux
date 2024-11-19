@@ -7,13 +7,10 @@ interface ReviewCardProps {
   index:any;
   ratings:any;
 }
-const starRatings = 5
-const Reviewscard :React.FC<ReviewCardProps> = ({reviewData,index,ratings}) => {
-  
- console.log("bdcfhs");
+const Reviewscard :React.FC<ReviewCardProps> = ({reviewData}) => {
   return (
     <Link
-      href={`${reviewData?.reviewUrl}`}
+      href={`/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`}
       className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2"
     >
       <div  data-testid="review-card" className="review-card-header flex items-center gap-[8px] border-b border-neutrale-200 pb-[16px]">

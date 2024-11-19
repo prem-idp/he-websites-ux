@@ -1,18 +1,19 @@
 "use server";
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import { getReviewDetailsFunction } from "@packages/lib/server-actions/server-action";
-import { ReviewDetailsList } from "@packages/lib/types/interfaces";
+import { CallToAction, ReviewDetailsList } from "@packages/lib/types/interfaces";
 import Reviewslidercomponents from "@packages/shared-components/common-utilities/slider/reviewslidercomponents";
 import React from "react";
 
 interface ReviewProps {
   heading?: string | undefined;
   subheading?: string | undefined;
+  callAction?: CallToAction;
 }
-const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading}) => {
+const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading,callAction}) => {
   const jsonResponse : ReviewDetailsList = await getReviewDetailsFunction(reviewPayload)
   if (!jsonResponse?.reviewDetail?.length) {
-    return <div data-testid="empty-data">No reviews available</div>;
+    return <div data-testid="empty-data"></div>;
   }
   return (
     <div className="reviews-container bg-neutral-50" data-testid="reviews-container">
@@ -27,10 +28,10 @@ const Reviewscomponents:React.FC<ReviewProps> = async ({heading,subheading}) => 
               data-review-count={jsonResponse.reviewDetail.length}/>
             <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
-                href="/university-course-reviews"
+                href={`${callAction?.primaryCtaUrl}`}
                 className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
               >
-                View more
+               {callAction?.primaryCtaLabel}
                 <svg
                   width="16"
                   height="12"

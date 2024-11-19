@@ -198,7 +198,18 @@ export interface MultipleCardContainer {
   shortDescription: string;
   longDescription: string | null;
   flagComponentStyle: string;
+  callToAction: CallToAction | null;
 }
+
+export interface CallToAction {
+  __typename: "CallToActionCta";
+  internalName: string;
+  primaryCtaLabel: string;
+  primaryCtaUrl: string;
+  primaryCtaTarget: string;
+  flagStyle: string;
+}
+
 
 export interface ReviewDetailsList {
   reviewDetail : ReviewDetails[];
@@ -208,7 +219,7 @@ export interface ReviewDetails {
   reviewerName: string;
   comment: string;
   initial: string;
-  reviewUrl: string;
+  collegeTextKey: string;
   reviewedDate: string;
   collegeId: string;
   collegeName: string;
