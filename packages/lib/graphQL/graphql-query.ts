@@ -262,7 +262,15 @@ export const homePageQuery = `{
             shortDescription
             longDescription
             flagComponentStyle
-            
+            callToAction {
+              ... on CallToActionCta {
+                internalName
+                primaryCtaLabel
+                primaryCtaUrl
+                primaryCtaTarget
+                flagStyle
+              }
+            }
           }
         }
       }
