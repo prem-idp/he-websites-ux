@@ -30,7 +30,58 @@ export const footerQuery = `query {
     }
   }
 }`;
-
+export const statsPodQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 2) {
+              items {
+                __typename
+                ... on PageStatPodContainer {
+                  bgColor
+                  marginPadding
+                  statPodContainerName
+                  statinfoCollection {
+                  
+                    items {
+                      internalName
+                      statLabel
+                      icon {
+                        url
+                        width
+                        height
+                        title                         
+                      }
+                      statNumber
+                    }
+                      
+                  }
+                  image {
+                    url
+                    width
+                    height
+                    title
+                  }
+                  cta{
+                    internalName
+                    primaryCtaLabel
+                    primaryCtaUrl
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 export const homePageQuery = `{
   contentData: homepageCollection(
     limit: 1

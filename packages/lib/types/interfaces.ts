@@ -228,3 +228,108 @@ export interface CTA {
   secondaryCtaTarget: string | null;
   flagStyle: string | null;
 }
+
+export interface Icon {
+  url: string;
+  width: number;
+  height: number;
+  title: string;
+}
+export interface Image {
+  url: string;
+  width: number;
+  height: number;
+  title: string;
+}
+export interface Cta {
+  primaryCtaLabel: string;
+  primaryCtaUrl: string;
+}
+
+export interface StatInfo {
+  internalName: string;
+  statLabel: string;
+  statNumber: string;
+  icon: Icon;
+}
+
+export interface PageStatPodContainerInterface {
+  bgColor: string;
+  marginPadding: string;
+  statPodContainerName: string;
+  statinfoCollection: {
+    items: StatInfo[];
+  };
+  image: Image;
+  cta: Cta;
+}
+
+export interface HomePageStatInterface {
+  data: {
+    contentData: {
+      items: [
+        {
+          bodyContentCollection: {
+            items: Array<{
+              __typename: string;
+              mediaCardsCollection: {
+                items: PageStatPodContainerInterface[];
+              };
+            }>;
+          };
+        },
+      ];
+    };
+  };
+}
+
+export interface DataInterface {
+  items: DynamicMediaComponent[];
+}
+
+export interface DynamicMediaComponent {
+  __typename: "DynamicMediaComponent";
+  longDescription: LongDescription;
+  title: string;
+  internalName: string;
+  cta: CTA | null;
+  image: Image | null;
+}
+
+export interface LongDescription {
+  json: JSONContent;
+}
+
+export interface JSONContent {
+  data: Record<string, any>;
+  content: Paragraph[];
+  nodeType: string;
+}
+
+export interface Paragraph {
+  data: Record<string, any>;
+  content: TextNode[];
+  nodeType: string;
+}
+
+export interface TextNode {
+  data: Record<string, any>;
+  marks: any[];
+  value: string;
+  nodeType: string;
+}
+
+export interface ImageUpload {
+  url: string;
+  height: number;
+  width: number;
+}
+
+export interface MultipleCardContainer {
+  __typename: "MultipleCardContainer";
+  internalName: string;
+  cardSectionTitle: string;
+  shortDescription: string;
+  longDescription: string | null;
+  flagComponentStyle: string;
+}
