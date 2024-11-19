@@ -11,10 +11,6 @@ const Footer = async () => {
   const footerData: FooterDataInterface = (
     await graphQlFetchFunction(footerQuery)
   )?.data?.footerNavigationCollection?.items?.[0];
-  console.log(process.env.NEXT_PUBLIC_GRAPHQL_API);
-  console.log(process.env.NEXT_PUBLIC_GRAPHQL_AUTH);
-  console.log(process.env.PROJECT);
-  console.log(process.env.DOMAIN);
 
   return (
     <>
