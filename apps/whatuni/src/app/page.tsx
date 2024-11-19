@@ -17,8 +17,8 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log("======================", jsonData?.data?.contentData?.items);
-  console.log("+++++++++++", componentList);
+  // console.log("======================", jsonData?.data?.contentData?.items);
+  // console.log("+++++++++++", componentList);
   return (
     <>
       <Heroslidercomponent data={heroSliderData} />

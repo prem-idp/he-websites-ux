@@ -54,7 +54,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       return;
     }
 
-    console.log(searchFormHandle.university);
+    // console.log(searchFormHandle.university);
 
     const results = unidetails?.filter((colleges: any) =>
       colleges.collegeNameDisplay

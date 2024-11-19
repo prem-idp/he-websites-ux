@@ -19,7 +19,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  // console.log(data);
+  // console.log(data, "getting data as props");
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
@@ -34,15 +34,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
   useEffect(() => {
     const body = {
       affiliateId: 220703,
-      actionType: "default",
+      actionType: "subject",
       keyword: "",
-      qualCode: "M",
+      qualCode: "",
       networkId: 2,
     };
     if (Object.keys(data).length === 0) {
       const fetchLocationandstudymode = async () => {
         const fetchdata = await searchAjaxFecthFunction(body);
         if (fetchdata) {
+          // console.log(fetchdata, "fetched data inside the useefect");
           setLocationlist(fetchdata.locationList);
           setSubjectlist(fetchdata.courseDetails);
           setStudymodelist(fetchdata.studyLevelList);
@@ -57,7 +58,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
     const { qualCode } = searchFormHandle.courseType || {};
-
+    // console.log(description, qualCode);
     // Early return if description is invalid or too short
     if (!description || description.length < 3) {
       setFilteredsubject([]);
@@ -72,7 +73,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
           .includes(description.toLowerCase()) &&
         subjects?.qual_Code === qualCode
     );
-
+    // console.log(filteredSubjects, "filterd subjects");
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (
       list: { description: string; [key: string]: any }[],
@@ -109,8 +110,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         }));
     };
 
-    const sortedResults = prioritySearch(filteredSubjects, description);
-    setFilteredsubject(sortedResults);
+    // const sortedResults = prioritySearch(filteredSubjects, description);
+    setFilteredsubject(prioritySearch(filteredSubjects, description));
+    // console.log(filteredsubject, "filterdsubject ");
   }, [
     searchFormHandle.subject.description,
     searchFormHandle.courseType.qualCode,
@@ -134,21 +136,21 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
 
   const searchHandler = () => {
-    console.log(
-      searchFormHandle.subject.url,
-      searchFormHandle.subject.description,
-      searchFormHandle.location.regionName
-    );
+    // console.log(
+    //   searchFormHandle.subject.url,
+    //   searchFormHandle.subject.description,
+    //   searchFormHandle.location.regionName
+    // );
     if (
       searchFormHandle.location.regionName &&
       !searchFormHandle.subject.url &&
       !searchFormHandle?.subject?.description?.trim()
     ) {
-      console.log("please enter the subject");
+      // console.log("please enter the subject");
       setSubjecterror(true);
     }
     if (!searchFormHandle?.subject?.description?.trim()) {
-      console.log("please enter the subject");
+      // console.log("please enter the subject");
       setSubjecterror(true);
     }
     if (

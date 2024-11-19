@@ -5,7 +5,7 @@ import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-act
 export default async function SearchWrapper() {
   const body = {
     affiliateId: 220703,
-    actionType: "default",
+    actionType: "subject",
     keyword: "",
     qualCode: "",
     networkId: 2,
