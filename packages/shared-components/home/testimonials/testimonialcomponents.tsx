@@ -23,7 +23,7 @@ const Testimonialcomponents = () => {
                 />
                 <div className="video-play-icon absolute cursor-pointer">
                   <Image
-                    src={`${process.env.SUBDOMAIN}s/static/assets/icons/video_play_icon.svg`}
+                    src={`${process.env.SUBDOMAIN}/static/assets/icons/video_play_icon.svg`}
                     width="52"
                     height="52"
                     alt=""
