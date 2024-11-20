@@ -350,7 +350,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -433,7 +433,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section
@@ -599,7 +599,7 @@ const Megamenucomponents = () => {
                         className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh] `}
                       ></div>
                       <div
-                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[60px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
+                        className={`${openMenu ? "block animate-fadeIn" : "hidden animate-fadeOut"} megamenu bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] right-[0] z-[5] lg:border-t lg:border-grey-300`}
                       >
                         <div className="max-w-container mx-auto">
                           <section

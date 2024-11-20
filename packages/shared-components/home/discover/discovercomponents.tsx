@@ -15,7 +15,7 @@ const Discovercomponents = () => {
             <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
                 href="#"
-                className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
               >
                 View more
                 <svg

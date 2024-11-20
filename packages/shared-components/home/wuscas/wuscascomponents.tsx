@@ -38,7 +38,7 @@ const Wuscascomponents = () => {
               </svg>
             </Link>
             <div className="app-store-container ">
-              <ul className="flex gap-[16px] xl:gap-[24px]">
+              <ul className="flex gap-[16px]">
                 <li>
                   <Link href="#" aria-label="App Store">
                     <svg
