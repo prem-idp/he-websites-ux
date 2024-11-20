@@ -57,7 +57,7 @@ const Discoverslidercomponents1 = () => {
                       <h5 className="font-bold">Looking for courses?</h5>
                     </div>
                     <Image
-                      src="/static/assets/images/discover/discover-feature-image1x3x.png"
+                      src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image1x3x.png`}
                       width="186"
                       height="200"
                       alt="discover"
@@ -198,7 +198,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Looking for courses?</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image1x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image1x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
@@ -219,7 +219,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Pick your perfect uni</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image2x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image2x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
@@ -240,7 +240,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Take our careers quiz</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image3x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image3x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
@@ -261,7 +261,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Find out what to study</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image1x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image1x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
@@ -282,7 +282,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Find an open day</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image2x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image2x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
@@ -303,7 +303,7 @@ const Discoverslidercomponents1 = () => {
                   <h5 className="font-bold">Download the app</h5>
                 </div>
                 <Image
-                  src="/static/assets/images/discover/discover-feature-image3x3x.png"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image3x3x.png`}
                   width="186"
                   height="200"
                   alt="discover"
