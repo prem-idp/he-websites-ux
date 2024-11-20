@@ -1,6 +1,7 @@
 "use server";
 import React from "react";
 import SearchBox from "./search-pod/searchbox";
+import SearchWrapper from "./search-pod/searchwrapper";
 import HeroSlider from "./slider-pod/heroSlider";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropjectProps {
@@ -17,7 +18,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
           <HeroSlider data={data} />
         </div>
       </div>
-      <SearchBox />
+      <SearchWrapper />
     </>
   );
 };

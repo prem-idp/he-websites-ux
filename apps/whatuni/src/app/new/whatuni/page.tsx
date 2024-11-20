@@ -31,6 +31,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
               />
             );
           }
