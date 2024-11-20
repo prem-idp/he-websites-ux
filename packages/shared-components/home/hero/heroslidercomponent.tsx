@@ -1,5 +1,5 @@
 "use server";
-import React from "react";
+import React, { Suspense } from "react";
 import SearchBox from "./search-pod/searchbox";
 import SearchWrapper from "./search-pod/searchwrapper";
 import HeroSlider from "./slider-pod/heroSlider";
@@ -9,7 +9,7 @@ interface PropjectProps {
 }
 const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
   return (
-    <>
+    <Suspense>
       <div
         data-testid="hero-banner-colour"
         className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0.5`}
@@ -19,7 +19,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
         </div>
       </div>
       <SearchWrapper />
-    </>
+    </Suspense>
   );
 };
 
