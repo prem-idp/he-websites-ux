@@ -8,6 +8,7 @@ export async function graphQlFetchFunction(payload: string) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
+      cache: "no-store",
     });
     const data = await res.json();
     return data;
