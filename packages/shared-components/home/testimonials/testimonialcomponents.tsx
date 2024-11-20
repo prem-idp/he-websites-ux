@@ -16,14 +16,14 @@ const Testimonialcomponents = () => {
               <div className="video-container flex justify-center items-center rounded-[8px] overflow-hidden relative">
                 <Image
                   className="block w-full"
-                  src="/static/assets/images/testimonials/video_thumb_img.jpg"
+                  src={`${process.env.SUBDOMAIN}/static/assets/images/testimonials/video_thumb_img.jpg`}
                   alt="video thumbnail image"
                   width={600}
                   height={316}
                 />
                 <div className="video-play-icon absolute cursor-pointer">
                   <Image
-                    src={`${process.env.SUBDOMAIN}/static/assets/icons/video_play_icon.svg`}
+                    src="/static/assets/icons/video_play_icon.svg"
                     width="52"
                     height="52"
                     alt=""
