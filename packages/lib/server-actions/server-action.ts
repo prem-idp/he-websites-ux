@@ -25,6 +25,7 @@ export async function searchAjaxFecthFunction(payload: any) {
         "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
       },
       body: JSON.stringify(payload),
+      cache: "no-store",
     });
     const data = await res.json();
     return data;
@@ -44,6 +45,7 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(reviewPayload),
+        cache: "no-store",
       }
     );
     const data = await res.json();
