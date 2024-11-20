@@ -3,7 +3,8 @@ import Link from "next/link";
 import React from "react";
 const Tagcloudcomponents = () => {
   return (
-    <div className="tag-cloud-container max-w-container mx-auto">
+    <div className='tag-cloud-container bg-white'>
+      <div className='max-w-container mx-auto'>
       <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[32px]">
         <div className="tag-cloud-header">
           <h6 className="font-bold">Tag cloud heading</h6>
@@ -134,6 +135,7 @@ const Tagcloudcomponents = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

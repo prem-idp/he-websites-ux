@@ -15,7 +15,7 @@ const config: Config = {
     "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs",
     "^dnd-core$": "dnd-core/dist/cjs",
     "^@packages/(.*)$": "<rootDir>/packages/$1",
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy", // to mock CSS imports
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
   // Enable coverage collection
   // collectCoverage: true,
@@ -59,7 +59,9 @@ const config: Config = {
         "formdata-polyfill",
       ].join("|") +
       ")",
-    "node_modules/(?!(swiper)/)", // Ensure swiper (and any other ECMAScript modules) are processed by Babel
+    "node_modules/(?!(swiper)/)",
+    "/node_modules/(?!(swiper|other-module-to-transform)/)",
+    // Ensure swiper (and any other ECMAScript modules) are processed by Babel
   ],
 
   // Optional: Specify different test setup files if needed

@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "packages/__test__/footer.test.tsx",
+    "packages/__test__/common-utilities/footer/footer.test.tsx",
     "packages/__test__/hero.test.jsx",
     "**/*.tsx",
     ".next/types/**/*.ts",

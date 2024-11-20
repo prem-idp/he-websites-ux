@@ -14,9 +14,11 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+  console.log("======================", jsonData?.data?.contentData?.items);
+  console.log("+++++++++++", componentList);
   return (
     <>
-      <Heroslidercomponent project="whatuni" data={heroSliderData} />
+      <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {

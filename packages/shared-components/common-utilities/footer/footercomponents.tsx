@@ -1,4 +1,4 @@
-"use server";
+ "use server";
 import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { footerQuery } from "@packages/lib/graphQL/graphql-query";

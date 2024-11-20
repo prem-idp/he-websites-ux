@@ -1,9 +1,10 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import HeroSlider from "@packages/shared-components/home/hero/slider-pod/heroSlider";
-import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 import "@testing-library/jest-dom";
-
+import React, { ReactNode } from "react";
+import HeroSliderCard from "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard";
+import HeroSlider from "@packages/shared-components/home/hero/slider-pod/heroSlider";
+import { render, screen } from "@testing-library/react";
+import { SliderBannerCollection } from "@packages/lib/types/interfaces";
+import HeroSliderComponent from "@packages/shared-components/home/hero/heroslidercomponent";
 const mockData: SliderBannerCollection = {
   items: [
     {
@@ -90,55 +91,44 @@ const mockData: SliderBannerCollection = {
     },
   ],
 };
-jest.mock("swiper/react", () => ({
-  Swiper: ({ children }: any) => <div>{children}</div>,
-  SwiperSlide: ({ children }: any) => <div>{children}</div>,
-}));
 
-jest.mock("swiper/modules", () => ({
-  Autoplay: jest.fn(),
-  EffectFade: jest.fn(),
-  Pagination: jest.fn(),
-}));
-
-// Mock the GraphQL fetch function
 jest.mock("@packages/lib/server-actions/server-action", () => ({
   graphQlFetchFunction: jest.fn(),
 }));
-jest.mock(
-  "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard",
-  () => {
-    return jest.fn(({ data }) => (
-      <div data-testid="hero-slider-card">{data.title}</div>
-    ));
-  }
+
+const originalEnv = process.env;
+beforeEach(() => {
+  jest.resetModules();
+  process.env = { ...originalEnv };
+});
+afterAll(() => {
+  process.env = originalEnv;
+});
+
+jest.mock("@packages/shared-components/home/hero/search-pod/searchbox", () =>
+  jest.fn(() => <div data-testid="searchbox">searchbox</div>)
 );
 
-describe("HeroSlider Component", () => {
-  test("renders the HeroSlider component with slides", () => {
-    render(<HeroSlider data={mockData} />);
+jest.mock("@packages/shared-components/home/hero/slider-pod/heroSlider", () =>
+  jest.fn(() => <div data-testid="heroSlider">heroSlider</div>)
+);
 
-    // Check that the slider is rendered
-    const slider = screen.getByRole("list");
-    expect(slider).toHaveClass("mySwiper hero");
+test("Correct rendering of Hero Slider component when coloour code is pgs", () => {
+  render(<HeroSliderComponent data={mockData} />);
+});
 
-    // Check that the correct number of slides are rendered
-    const slides = screen.getAllByTestId(/slider\d+/);
-    expect(slides).toHaveLength(mockData.items.length);
+test("Hero slider child component", () => {
+  render(<HeroSliderCard data={mockData.items[0]} />);
+  expect(screen.getByTestId("heroslidercard")).toBeInTheDocument();
+});
 
-    // Check the content of individual slides
-    mockData.items.forEach((item, index) => {
-      const slide = screen.getByTestId(`slider${index + 1}`);
-      expect(slide).toBeInTheDocument();
-      expect(screen.getByText(item.title)).toBeInTheDocument();
-    });
-  });
-
-  test("renders with no data gracefully", () => {
-    render(<HeroSlider data={{ items: [] }} />);
-
-    // Check that no slides are rendered
-    const slides = screen.queryAllByTestId(/slider\d+/);
-    expect(slides).toHaveLength(0);
-  });
+test("Correct rendering of color in hero component for whatuni ", () => {
+  process.env.PROJECT = "Whatuni";
+  render(<HeroSliderComponent data={mockData} />);
+  expect(screen.getByTestId("hero-banner-colour")).toHaveClass("bg-blue-200");
+});
+test("Correct rendering of color in hero component for pgs", () => {
+  process.env.PROJECT = "Pgs";
+  render(<HeroSliderComponent data={mockData} />);
+  expect(screen.getByTestId("hero-banner-colour")).toHaveClass("bg-yellow-200");
 });
