@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
 
@@ -31,27 +31,34 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const router = useRouter();
 
   // ========================================intial fetch if empty=====================================================================================
-  useEffect(() => {
-    const body = {
-      affiliateId: 220703,
-      actionType: "subject",
-      keyword: "",
-      qualCode: "",
-      networkId: 2,
-    };
-    if (Object.keys(data).length === 0) {
-      const fetchLocationandstudymode = async () => {
-        const fetchdata = await searchAjaxFecthFunction(body);
-        if (fetchdata) {
-          // console.log(fetchdata, "fetched data inside the useefect");
-          setLocationlist(fetchdata.locationList);
-          setSubjectlist(fetchdata.courseDetails);
-          setStudymodelist(fetchdata.studyLevelList);
-        }
-      };
-      fetchLocationandstudymode();
-    }
-  }, []);
+  // useEffect(() => {
+  //   console.log("inside the use effect");
+  //   const body = {
+  //     affiliateId: 220703,
+  //     actionType: "subject",
+  //     keyword: "",
+  //     qualCode: "",
+  //     networkId: 2,
+  //   };
+  //   if (Object.keys(data).length === 0) {
+  //     console.log(
+  //       Object.keys(data).length,
+  //       "inside the if the data props is empty"
+  //     );
+  //     const fetchLocationandstudymode = async () => {
+  //       console.log("inside the fetch function");
+  //       const fetchdata = await searchAjaxFecthFunction(body);
+  //       if (fetchdata) {
+  //         console.log(fetchdata, "fetched data inside the useefect");
+  //         setLocationlist(fetchdata?.locationList);
+  //         setSubjectlist(fetchdata?.courseDetails);
+  //         setStudymodelist(fetchdata?.studyLevelList);
+  //       }
+  //     };
+  //     console.log(studymodelist, locationlist, subjectlist);
+  //     fetchLocationandstudymode();
+  //   }
+  // }, []);
   // ====================================================================================================================================
   // ========================================fliterstate change when description change============================================================================================
 

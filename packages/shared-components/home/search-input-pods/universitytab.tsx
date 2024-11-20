@@ -22,28 +22,28 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   const [unidetails, setUnidetails] = useState<Array<any>>(
     Array.isArray(data) ? data : []
   );
-  useEffect(() => {
-    const body = {
-      affiliateId: 220703,
-      actionType: "institution",
-      keyword: "",
-      qualCode: "",
-      networkId: 2,
-    };
-    if (data) {
-      // console.log("inside the empty object useefffect");
-      const fetchLocationandstudymode = async () => {
-        const fetchdata = await searchAjaxFecthFunction(body);
-        // console.log(fetchdata);
-        if (fetchdata) {
-          setUnidetails(fetchdata);
-        }
-      };
-      // console.log()
-      // console.log(subjectlist, locationlist, studymodelist);
-      fetchLocationandstudymode();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const body = {
+  //     affiliateId: 220703,
+  //     actionType: "institution",
+  //     keyword: "",
+  //     qualCode: "",
+  //     networkId: 2,
+  //   };
+  //   if (data) {
+  //     // console.log("inside the empty object useefffect");
+  //     const fetchLocationandstudymode = async () => {
+  //       const fetchdata = await searchAjaxFecthFunction(body);
+  //       // console.log(fetchdata);
+  //       if (fetchdata) {
+  //         setUnidetails(fetchdata);
+  //       }
+  //     };
+  //     // console.log()
+  //     // console.log(subjectlist, locationlist, studymodelist);
+  //     fetchLocationandstudymode();
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (
@@ -99,16 +99,14 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
               aria-label=""
               placeholder="University name"
-              onChange={(event) =>{
-
+              onChange={(event) => {
                 setsearchFormHandle((preData: any) => ({
                   ...preData,
                   university: event.target.value.trimStart(),
                   isUniversityClicked: true,
                 }));
                 setUnierror(false);
-              }
-              }
+              }}
               value={searchFormHandle?.university || ""}
             />
           </div>

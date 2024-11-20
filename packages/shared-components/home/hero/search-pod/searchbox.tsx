@@ -2,20 +2,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Subject } from "@packages/lib/types/interfaces";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import { searchAjax } from "@packages/lib/api-payloads/payloads";
-import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 const SearchBox = ({ course_data, uni_data }: any) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await searchAjaxFecthFunction(searchAjax);
-      // console.log("data", data);
-    };
-    fetchData();
-  }, []);
+
 
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));

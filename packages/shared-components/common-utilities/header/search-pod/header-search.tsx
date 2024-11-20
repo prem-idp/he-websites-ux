@@ -5,12 +5,15 @@ import AdviceTab from "@packages/shared-components/home/search-input-pods/advice
 import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
 import Image from "next/image";
 import Link from "next/link";
-export default function Search({ rightMenuAction }: any) {
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+export default function Search({ course_data, uni_data }: any) {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
+  const rightMenuAction = (actionType: string) => {
+    emitter.emit("rightMenuActionclose", actionType);
+  };
 
-  const data: any = {};
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -86,7 +89,7 @@ export default function Search({ rightMenuAction }: any) {
               {searchFormHandle?.activeTab === "tab1" && (
                 <div className="flex flex-col gap-[24px] min-h-[60px]">
                   <CourseTab
-                    data={data}
+                    data={course_data}
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
                   />
@@ -123,7 +126,7 @@ export default function Search({ rightMenuAction }: any) {
                   <UniversityTab
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
-                    data={data}
+                    data={uni_data}
                   />
                   <div className="flex justify-center">
                     <Link

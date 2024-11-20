@@ -3,13 +3,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import Search from "./search-pod/header-search";
+
 import { usePathname } from "next/navigation";
 import Megamenucomponents from "../topnav/megamenucomponents";
 import Shortlisted from "./shortlisted/shortlisted";
 import User from "./user/user";
-
-const Header = ({ data }: any) => {
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+const Header = ({ data, children }: any) => {
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -70,6 +70,19 @@ const Header = ({ data }: any) => {
   };
 
   useEffect(() => {
+    const handleRightMenuAction = (actionType: string) => {
+      rightMenuAction(actionType);
+    };
+    // console.log("inside the eventemitter");
+    // Listen for the `rightMenuAction` event
+    emitter.on("rightMenuActionclose", handleRightMenuAction);
+
+    // Cleanup the listener to prevent memory leaks
+    return () => {
+      emitter.off("rightMenuActionclose", handleRightMenuAction);
+    };
+  }, []);
+  useEffect(() => {
     const body = document.body;
     if (
       clickStates.isSearchClicked ||
@@ -91,7 +104,7 @@ const Header = ({ data }: any) => {
             <Link href="/">
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-                src={data?.data?.contentData?.items[0]?.websiteLogo?.url}
+                src={data?.data?.contentData?.items[0]?.websiteLogo?.url || ""}
                 alt="Whatuni Logo"
                 priority
                 width={70}
@@ -213,9 +226,7 @@ const Header = ({ data }: any) => {
                       <div
                         className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
                       ></div>
-                      <div ref={containerRef}>
-                        <Search rightMenuAction={rightMenuAction} />
-                      </div>
+                      <div ref={containerRef}>{children}</div>
                     </>
                   )}
                 </li>

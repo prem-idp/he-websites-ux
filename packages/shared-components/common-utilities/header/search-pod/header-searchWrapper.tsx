@@ -1,8 +1,8 @@
 "use server";
-import SearchBox from "./searchbox";
+import Search from "./header-search";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 
-export default async function SearchWrapper() {
+export default async function HeadersearchWrapper() {
   const body = {
     affiliateId: 220703,
     actionType: "subject",
@@ -21,5 +21,7 @@ export default async function SearchWrapper() {
     searchAjaxFecthFunction(body),
     searchAjaxFecthFunction(unibody),
   ]);
-  return <SearchBox course_data={course_data} uni_data={uni_data} />;
+  //   console.log(data);
+
+  return <Search course_data={course_data} uni_data={uni_data} />;
 }
