@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    PROJECT: "Whatuni",
-    DOMAIN: "whatuni.com",
+    PROJECT: "PGS",
+    DOMAIN: "postgraduatesearch.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
     NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT:
       "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/reviews",
