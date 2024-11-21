@@ -45,7 +45,9 @@ const config: Config = {
   },
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   transformIgnorePatterns: [
+    "/node_modules/",
     "/node_modules/(?!swiper).+\\.mjs$",
+    "node_modules/(?!(your-custom-modules)/)",
     "node_modules/(?!" +
       [
         "node-fetch",
