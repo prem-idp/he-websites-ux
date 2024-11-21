@@ -5,15 +5,8 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import { searchAjax } from "@packages/lib/api-payloads/payloads";
-import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
-const SearchBox = () => {
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await searchAjaxFecthFunction(searchAjax);
-    };
-    fetchData();
-  }, []);
+const SearchBox = ({ course_data, uni_data }: any) => {
+
 
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
@@ -25,12 +18,13 @@ const SearchBox = () => {
     isLocationClicked: false,
     isAdviceClicked: false,
     isUniversityClicked: false,
-    courseType: "Undergraduate",
+    courseType: { qualUrl: "degree", qualCode: "M", qualDesc: "Undergraduate" },
     university: "",
-    subject: "",
-    location: "",
+    subject: {},
+    location: {},
     advice: "",
   });
+  // console.log(searchFormHandle,"______________________________________________");
   return (
     <div className="pb-[12px] md:px-[16px]">
       <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
@@ -131,12 +125,14 @@ const SearchBox = () => {
               <CourseTab
                 searchFormHandle={searchFormHandle}
                 setsearchFormHandle={setsearchFormHandle}
+                data={course_data}
               />
             )}
             {searchFormHandle?.activeTab === "tab2" && (
               <UniversityTab
                 searchFormHandle={searchFormHandle}
                 setsearchFormHandle={setsearchFormHandle}
+                data={uni_data}
               />
             )}
             {searchFormHandle?.activeTab === "tab3" && (

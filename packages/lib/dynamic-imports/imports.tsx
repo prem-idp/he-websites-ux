@@ -13,7 +13,7 @@ const dynamicComponentImports = (input: string | null | undefined) => {
           import(
             "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent"
           ),
-        { loading: () => <DynamicSkeleton skeletonName={input} /> }
+        { loading: () => <p>Loading</p> }
       );
     case "PageStatPodContainer":
       return dynamic(

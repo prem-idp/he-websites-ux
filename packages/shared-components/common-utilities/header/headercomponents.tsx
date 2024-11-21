@@ -1,53 +1,48 @@
 "use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../../../apps/whatuni/public/static/assets/images/whatuni-logo.svg";
 import { useState, useEffect, useRef } from "react";
-import Search from "./search-pod/header-search";
-
-import Megamenucomponents from "../topnav/megamenucomponents";
-import Shortlisted from "./shortlisted/shortlisted";
-import User from "./user/user";
-
-const Header = () => {
+import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
+import { usePathname } from "next/navigation";
+import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
+import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import User from "@packages/shared-components/common-utilities/header/user/user";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+const Header = ({ data, children, course_data, uni_data }: any) => {
+  const [isMobileView, setIsMobile] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
     isSearchClicked: false,
     isUserClicked: false,
     isShortlistClicked: false,
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
-
+  const userref = useRef<HTMLSpanElement | null>(null);
+  const shortlistref = useRef<HTMLSpanElement | null>(null);
+  const pathname = usePathname();
+  // console.log(pathname, "pathname");
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the clicked element is outside the container
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        !containerRef.current.contains(event.target as Node) &&
+        userref.current &&
+        !userref.current.contains(event.target as Node) &&
+        shortlistref.current &&
+        !shortlistref.current.contains(event.target as Node)
       ) {
-        console.log("click done outside");
-        setClickStates({
-          isSearchClicked: false,
-          isUserClicked: false,
-          isShortlistClicked: false,
-        }); // Close the component if clicked outside
+        rightMenuAction("");
       }
     };
-
-    // Add event listener for clicks
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Cleanup function to remove the event listener
+    // Delay adding listener to avoid immediate triggering
+    setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, 0);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  // search click
-
-  // Toggle Menu
-  const [isMobileView, setIsMobile] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
 
   const mobileToggleOpen = () => {
     setIsOpen(!isOpen);
@@ -75,6 +70,19 @@ const Header = () => {
   };
 
   useEffect(() => {
+    const handleRightMenuAction = (actionType: string) => {
+      rightMenuAction(actionType);
+    };
+    // console.log("inside the eventemitter");
+    // Listen for the `rightMenuAction` event
+    emitter.on("rightMenuActionclose", handleRightMenuAction);
+
+    // Cleanup the listener to prevent memory leaks
+    return () => {
+      emitter.off("rightMenuActionclose", handleRightMenuAction);
+    };
+  }, []);
+  useEffect(() => {
     const body = document.body;
     if (
       clickStates.isSearchClicked ||
@@ -89,13 +97,14 @@ const Header = () => {
 
   return (
     <>
+      {/* <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0"> */}
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <Link href="#">
+            <Link href="/">
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-                src={logo}
+                src={data?.data?.contentData?.items[0]?.websiteLogo?.url || ""}
                 alt="Whatuni Logo"
                 priority
                 width={70}
@@ -177,52 +186,57 @@ const Header = () => {
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents />}
+                    {isOpen && <Megamenucomponents dataa={data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents />
+              <Megamenucomponents dataa={data} />
             )}
           </div>
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              <li aria-label="Search">
-                <span
-                  onClick={() => rightMenuAction("SEARCH")}
-                  className="border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              {pathname !== "/" && (
+                <li>
+                  <span
+                    aria-label="Search"
+                    onClick={() => rightMenuAction("SEARCH")}
+                    className="border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                   >
-                    <path
-                      d="M17.5 17.5L12.5 12.5M14.1667 8.33333C14.1667 11.555 11.555 14.1667 8.33333 14.1667C5.11167 14.1667 2.5 11.555 2.5 8.33333C2.5 5.11167 5.11167 2.5 8.33333 2.5C11.555 2.5 14.1667 5.11167 14.1667 8.33333Z"
-                      stroke="#5C656E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-                {/* course tab section */}
-                {clickStates.isSearchClicked && (
-                  <>
-                    <div
-                      className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
-                    ></div>
-                    <div ref={containerRef}>
-                      <Search rightMenuAction={rightMenuAction} />
-                    </div>
-                  </>
-                )}
-              </li>
-              <li aria-label="User" className="relative">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M17.5 17.5L12.5 12.5M14.1667 8.33333C14.1667 11.555 11.555 14.1667 8.33333 14.1667C5.11167 14.1667 2.5 11.555 2.5 8.33333C2.5 5.11167 5.11167 2.5 8.33333 2.5C11.555 2.5 14.1667 5.11167 14.1667 8.33333Z"
+                        stroke="#5C656E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  {/* course tab section */}
+                  {clickStates.isSearchClicked && (
+                    <>
+                      <div
+                        className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
+                      ></div>
+                      <div ref={containerRef}>
+                        <Search course_data={course_data} uni_data={uni_data} />
+                      </div>
+                    </>
+                  )}
+                </li>
+              )}
+              <li className="relative">
                 <span
+                  aria-label="User"
+                  ref={userref}
                   onClick={() => rightMenuAction("USER")}
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
@@ -259,12 +273,16 @@ const Header = () => {
                   </>
                 )}
               </li>
-              <li aria-label="Shortlist" className="relative">
+              <li className="relative">
                 <div
+                  aria-label="Shortlist"
                   className="cursor-pointer"
                   onClick={() => rightMenuAction("SHORTLIST")}
                 >
-                  <span className="flex items-center justify-center min-h-[48px]">
+                  <span
+                    ref={shortlistref}
+                    className="flex items-center justify-center min-h-[48px]"
+                  >
                     <svg
                       width="24"
                       height="24"

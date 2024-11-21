@@ -44,6 +44,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">
           {data?.image?.imgUpload?.url && (
             <Image
+              priority={true}
               src={data?.image?.imgUpload?.url}
               width={365}
               height={445}

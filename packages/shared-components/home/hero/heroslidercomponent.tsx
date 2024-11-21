@@ -1,14 +1,34 @@
 "use server";
-import React from "react";
+import React, { Suspense } from "react";
 import SearchBox from "./search-pod/searchbox";
+import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import HeroSlider from "./slider-pod/heroSlider";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropjectProps {
   data: SliderBannerCollection;
 }
-const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
+const HeroSliderComponent: React.FC<PropjectProps> = async({ data }) => {
+
+  const body = {
+    affiliateId: 220703,
+    actionType: "subject",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+  const unibody = {
+    affiliateId: 220703,
+    actionType: "institution",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+  const [course_data, uni_data] = await Promise.all([
+    searchAjaxFecthFunction(body),
+    searchAjaxFecthFunction(unibody),
+  ]);
   return (
-    <>
+    <Suspense>
       <div
         data-testid="hero-banner-colour"
         className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0.5`}
@@ -17,8 +37,8 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
           <HeroSlider data={data} />
         </div>
       </div>
-      <SearchBox />
-    </>
+      <SearchBox course_data={course_data} uni_data={uni_data} />
+    </Suspense>
   );
 };
 

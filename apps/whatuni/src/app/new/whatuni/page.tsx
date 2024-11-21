@@ -7,7 +7,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-
+import LocationAccess from "@packages/lib/location-access/request-location";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -17,6 +17,7 @@ const Page = async () => {
 
   return (
     <>
+      <LocationAccess />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
@@ -30,6 +31,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
               />
             );
           }
