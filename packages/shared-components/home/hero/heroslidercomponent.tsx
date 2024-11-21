@@ -1,13 +1,32 @@
 "use server";
 import React, { Suspense } from "react";
 import SearchBox from "./search-pod/searchbox";
-import SearchWrapper from "./search-pod/searchwrapper";
+import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import HeroSlider from "./slider-pod/heroSlider";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropjectProps {
   data: SliderBannerCollection;
 }
-const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
+const HeroSliderComponent: React.FC<PropjectProps> = async({ data }) => {
+
+  const body = {
+    affiliateId: 220703,
+    actionType: "subject",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+  const unibody = {
+    affiliateId: 220703,
+    actionType: "institution",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+  const [course_data, uni_data] = await Promise.all([
+    searchAjaxFecthFunction(body),
+    searchAjaxFecthFunction(unibody),
+  ]);
   return (
     <Suspense>
       <div
@@ -18,7 +37,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = ({ data }) => {
           <HeroSlider data={data} />
         </div>
       </div>
-      <SearchWrapper />
+      <SearchBox course_data={course_data} uni_data={uni_data} />
     </Suspense>
   );
 };
