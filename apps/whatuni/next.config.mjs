@@ -9,7 +9,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.ctfassets.net" }],
+    remotePatterns: [{ protocol: "https", hostname: "images.ctfassets.net" }, { protocol: "https", hostname: "videos.ctfassets.net" }],
   },
 };
 

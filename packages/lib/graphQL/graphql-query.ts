@@ -142,3 +142,70 @@ export const internalComponentLoop = (
 }`;
   return query;
 };
+
+export const testimonial = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageMultimediaTestimonials {
+                  sectionTitle
+                  multimediaBlockLeft {
+                    ... on PageVideo {
+                      videoIntName
+                      videoAltText
+                      thumbnail{
+                        url
+                        width
+                        height
+                        fileName
+                      }
+                      videoUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                    ... on PageImage {
+                      imgIntName
+                      imgAltText
+                      imgUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                  }
+                  testimonialBlockRight {
+                    internalName
+                    ... on PageTestimonial {
+                      testimonialText
+                      author {
+                        firstName
+                        lastName
+                        middleName
+                        shortBio
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
