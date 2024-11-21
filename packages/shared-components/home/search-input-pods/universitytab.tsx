@@ -83,7 +83,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
     setUnierror(true);
   }
   return (
-    <div className="flex flex-col gap-[24px]">
+    <div className="flex flex-col gap-[16px]">
       <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
         <Form
           action={handleUnisearch}
@@ -151,7 +151,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             )}
         </Form>
       </div>
-      {unierror && <p>Please select university from dropdown</p>}
+      {unierror && <p className="small text-negative-default"> Please select university from dropdown</p>}
     </div>
   );
 };

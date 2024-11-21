@@ -26,7 +26,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
     }
   }
   return (
-    <div className="flex flex-col gap-[24px]">
+    <div className="flex flex-col gap-[16px]">
       <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
         <Form
           action={handleSubmit}
@@ -65,7 +65,11 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
           </div>
         </Form>
       </div>
-      {adviceerror && <p>Please enter valid keyword</p>}
+      {adviceerror && (
+        <p className="small text-negative-default">
+          Please enter valid keyword
+        </p>
+      )}
     </div>
   );
 };
