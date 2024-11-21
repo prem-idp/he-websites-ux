@@ -3,6 +3,16 @@ import Image from "next/image";
 import React from "react";
 
 const Menucategory2card = ({ data }: any) => {
+  const calculate = () => {
+    if (data.length - 1 <= 4) {
+      return 1;
+    } else {
+      if ((data.length - 1) / 4) {
+        return Math.ceil((data.length - 1) / 4);
+      }
+    }
+  };
+  const size = calculate();
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
