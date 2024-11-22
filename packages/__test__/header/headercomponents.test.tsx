@@ -7,19 +7,26 @@ import {
   act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Header from "./headercomponents";
-
-jest.mock("../topnav/megamenucomponents", () =>
-  jest.fn(() => <div data-testid="megamenu">Megamenu</div>)
+import Header from "@packages/shared-components/common-utilities/header/headercomponents";
+import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
+import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
+import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import User from "@packages/shared-components/common-utilities/header/user/user";
+jest.mock(
+  "@packages/shared-components/common-utilities/topnav/megamenucomponents",
+  () => jest.fn(() => <div data-testid="megamenu">Megamenu</div>)
 );
-jest.mock("./search-pod/header-search", () =>
-  jest.fn(() => <div data-testid="search">Search Component</div>)
+jest.mock(
+  "@packages/shared-components/common-utilities/header/search-pod/header-search",
+  () => jest.fn(() => <div data-testid="search">Search Component</div>)
 );
-jest.mock("./user/user", () =>
+jest.mock("@packages/shared-components/common-utilities/header/user/user", () =>
   jest.fn(() => <div data-testid="user">User Component</div>)
 );
-jest.mock("./shortlisted/shortlisted", () =>
-  jest.fn(() => <div data-testid="shortlisted">Shortlisted Component</div>)
+jest.mock(
+  "@packages/shared-components/common-utilities/header/shortlisted/shortlisted",
+  () =>
+    jest.fn(() => <div data-testid="shortlisted">Shortlisted Component</div>)
 );
 describe("Header Component", () => {
   const mockData = {

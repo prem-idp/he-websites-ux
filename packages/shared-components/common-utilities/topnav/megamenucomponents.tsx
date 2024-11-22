@@ -3,12 +3,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import Menucategory1card from "../megamenu/menucategory1card";
-import Menucategory2card from "../megamenu/menucategory2card";
-import Menucategory3card from "../megamenu/menucategory3card";
-import Menucategory4card from "../megamenu/menucategory4card";
-
-import Menucategory5card from "../megamenu/menucategory5card";
+import Menucategory1card from "@packages/shared-components/common-utilities/megamenu/menucategory1card";
+import Menucategory2card from "@packages/shared-components/common-utilities/megamenu/menucategory2card";
+import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
+import Menucategory4card from "@packages/shared-components/common-utilities/megamenu/menucategory4card";
+import Menucategory5card from "@packages/shared-components/common-utilities/megamenu/menucategory5card";
 const Megamenucomponents = ({ data }: any) => {
   const [content, setContent] = useState<any>(
     data?.data?.contentData?.items[0]?.headerMainMenuCollection?.items
@@ -16,13 +15,13 @@ const Megamenucomponents = ({ data }: any) => {
   const [openMenu, setOpenMenu] = useState<string | boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (openMenu) {
-      document.body.classList.add("overflow-y-hidden");
-    } else {
-      document.body.classList.remove("overflow-y-hidden");
-    }
-  }, [openMenu]);
+  // useEffect(() => {
+  //   if (openMenu) {
+  //     document.body.classList.add("overflow-y-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-y-hidden");
+  //   }
+  // }, [openMenu]);
   const handleMenuToggle = (menuId: string) => {
     setOpenMenu(openMenu === menuId ? false : menuId);
   };

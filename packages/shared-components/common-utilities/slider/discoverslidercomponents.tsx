@@ -50,7 +50,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         courses
                       </div>
@@ -73,7 +73,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         universities
                       </div>
@@ -96,7 +96,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         career
                       </div>
@@ -119,7 +119,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         Subject guides
                       </div>
@@ -142,7 +142,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-positive-dark bg-positive-light  white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         open days
                       </div>
@@ -165,7 +165,7 @@ const Discoverslidercomponents1 = () => {
                   className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
                 >
                   <div className="discover-card flex justify-between gap-[8px]">
-                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="flex flex-col justify-between p-[16px] pr-[0]">
                       <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                         app
                       </div>
@@ -191,7 +191,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     courses
                   </div>
@@ -212,7 +212,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     universities
                   </div>
@@ -233,7 +233,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     career
                   </div>
@@ -254,7 +254,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     Subject guides
                   </div>
@@ -275,7 +275,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-secondary-200 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-positive-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     open days
                   </div>
@@ -296,7 +296,7 @@ const Discoverslidercomponents1 = () => {
               className="block bg-tertiary-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
             >
               <div className="discover-card flex justify-between gap-[8px]">
-                <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                <div className="flex flex-col justify-between p-[16px] pr-[0]">
                   <div className="w-fit uppercase font-bold x-small text-negative-dark bg-white/[.6] px-[6px] py-[2px] rounded-[4px]">
                     app
                   </div>

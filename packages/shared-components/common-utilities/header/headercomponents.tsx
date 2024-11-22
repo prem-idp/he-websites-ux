@@ -3,13 +3,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-
+import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 import { usePathname } from "next/navigation";
-import Megamenucomponents from "../topnav/megamenucomponents";
-import Shortlisted from "./shortlisted/shortlisted";
-import User from "./user/user";
+import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
+import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-const Header = ({ data, children }: any) => {
+const Header = ({ data, children, course_data, uni_data }: any) => {
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -226,7 +226,9 @@ const Header = ({ data, children }: any) => {
                       <div
                         className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
                       ></div>
-                      <div ref={containerRef}>{children}</div>
+                      <div ref={containerRef}>
+                        <Search course_data={course_data} uni_data={uni_data} />
+                      </div>
                     </>
                   )}
                 </li>

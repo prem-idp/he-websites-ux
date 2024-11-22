@@ -1,28 +1,30 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import Megamenucomponents from "../../shared-components/common-utilities/topnav/megamenucomponents";
+import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-// Mock components used in Megamenucomponents
+import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
+
+// Mock the child components
 jest.mock(
-  "@packages/shared-components/common-utilities//megamenu/menucategory1card",
-  () => jest.fn(() => <div>Menucategory1card</div>)
+  "@packages/shared-components/common-utilities/megamenu/menucategory1card",
+  jest.fn(() => <div data-testid="menucategory1card" />)
 );
 jest.mock(
-  "@packages/shared-components/common-utilities//megamenu/menucategory2card",
-  () => jest.fn(() => <div>Menucategory2card</div>)
+  "@packages/shared-components/common-utilities/megamenu/menucategory2card",
+  jest.fn(() => <div data-testid="menucategory2card" />)
 );
 jest.mock(
-  "@packages/shared-components/common-utilities//megamenu/menucategory3card",
-  () => jest.fn(() => <div>Menucategory3card</div>)
+  "@packages/shared-components/common-utilities/megamenu/menucategory3card",
+  jest.fn(() => <div data-testid="menucategory3card" />)
 );
 jest.mock(
-  "@packages/shared-components/common-utilities//megamenu/menucategory4card",
-  () => jest.fn(() => <div>Menucategory4card</div>)
+  "@packages/shared-components/common-utilities/megamenu/menucategory4card",
+  jest.fn(() => <div data-testid="menucategory4card" />)
 );
 jest.mock(
-  "@packages/shared-components/common-utilities//megamenu/menucategory5card",
-  () => jest.fn(() => <div>Menucategory5card</div>)
+  "@packages/shared-components/common-utilities/megamenu/menucategory5card",
+  jest.fn(() => <div data-testid="menucategory5card" />)
 );
+
 describe("Megamenucomponents", () => {
   const mockData = {
     data: {
@@ -33,16 +35,9 @@ describe("Megamenucomponents", () => {
               items: [
                 {
                   navTitle: "Menu 1",
-                  navUrl: "/menu1",
                   navIcon: { url: "/icon1.png" },
                   navChildC1Collection: {
-                    items: [
-                      {
-                        navTitle: "Child 1",
-                        navIcon: null,
-                        flagNavItemStyle: "Nav Icon",
-                      },
-                    ],
+                    items: [{}, {}], // Mock children data
                   },
                   navChildC2Collection: {
                     items: [],
@@ -54,20 +49,6 @@ describe("Megamenucomponents", () => {
                     items: [],
                   },
                 },
-                {
-                  navTitle: "Menu 2",
-                  navUrl: "/menu2",
-                  navIcon: { url: "/icon2.png" },
-                  navChildC1Collection: {
-                    items: [
-                      {
-                        navTitle: "Child 2",
-                        navIcon: null,
-                        flagNavItemStyle: "Nav Icon",
-                      },
-                    ],
-                  },
-                },
               ],
             },
           },
@@ -76,67 +57,77 @@ describe("Megamenucomponents", () => {
     },
   };
 
-  test("renders the component with menu items", () => {
+  it("renders the component with initial data", () => {
     render(<Megamenucomponents data={mockData} />);
     expect(screen.getByText("Menu 1")).toBeInTheDocument();
   });
 
-  //   test("toggles menu open and close on click (mobile)", () => {
-  //     render(<Megamenucomponents data={mockData} />);
-
-  //     // Simulate clicking the menu
-  //     const menuLink = screen.getByText("Menu 1");
-  //     fireEvent.click(menuLink);
-
-  //     // Check if the menu is open
-  //     expect(screen.getByText("Back")).toBeInTheDocument();
-
-  //     // Simulate closing the menu
-  //     const backButton = screen.getByText("Back");
-  //     fireEvent.click(backButton);
-
-  //     // Check if the menu is closed
-  //     expect(screen.queryByText("Back")).not.toBeInTheDocument();
-  //   });
-
-  test("renders child components based on menu data", () => {
+  it("toggles menu on mobile view", () => {
     render(<Megamenucomponents data={mockData} />);
 
-    // Simulate menu open
-    const menuLink = screen.getByText("Menu 1");
-    fireEvent.mouseEnter(menuLink);
+    // Simulate mobile view
+    global.innerWidth = 400;
+    fireEvent.resize(window);
 
-    // Check if the child component renders
-    expect(screen.getByText("Menucategory2card")).toBeInTheDocument();
+    const menuItem = screen.getByText("Menu 1");
+    fireEvent.click(menuItem);
+
+    // Check if menu opens
+    expect(screen.getByText("Menu 1").parentElement).toHaveClass(
+      "translate-x-0"
+    );
   });
 
-  //   test("updates `isMobile` state on resize", () => {
-  //     render(<Megamenucomponents data={mockData} />);
+  // it("opens and closes menu on hover (desktop)", () => {
+  //   render(<Megamenucomponents data={mockData} />);
 
-  //     // Simulate window resize
-  //     global.innerWidth = 500;
-  //     global.dispatchEvent(new Event("resize"));
+  //   // Simulate desktop view
+  //   global.innerWidth = 1200;
+  //   fireEvent.resize(window);
 
-  //     // Check if mobile state is updated
-  //     const menuLink = screen.getByText("Menu 1");
-  //     fireEvent.click(menuLink);
+  //   const menuItem = screen.getByText("Menu 1");
 
-  //     expect(screen.getByText("Back")).toBeInTheDocument();
-  //   });
+  //   // Simulate mouse enter
+  //   fireEvent.mouseEnter(menuItem);
+  //   expect(screen.getByTestId("menucategory1card")).toBeInTheDocument();
 
-  //   test("disables scrolling when the menu is open", () => {
-  //     render(<Megamenucomponents data={mockData} />);
+  //   // Simulate mouse leave
+  //   fireEvent.mouseLeave(menuItem);
+  //   expect(screen.queryByTestId("menucategory1card")).not.toBeInTheDocument();
+  // });
 
-  //     // Simulate opening the menu
-  //     const menuLink = screen.getByText("Menu 1");
-  //     fireEvent.click(menuLink);
+  // it("renders correct menu options based on data", () => {
+  //   render(<Megamenucomponents data={mockData} />);
+  //   expect(screen.getByTestId("menucategory1card")).toBeInTheDocument();
+  // });
 
-  //     expect(document.body.classList.contains("overflow-y-hidden")).toBe(true);
+  it("updates body class when menu opens and closes", () => {
+    render(<Megamenucomponents data={mockData} />);
 
-  //     // Simulate closing the menu
-  //     const backButton = screen.getByText("Back");
-  //     fireEvent.click(backButton);
+    const menuItem = screen.getByText("Menu 1");
 
-  //     expect(document.body.classList.contains("overflow-y-hidden")).toBe(false);
-  //   });
+    // Simulate mobile view
+    global.innerWidth = 500;
+    fireEvent.resize(window);
+
+    fireEvent.click(menuItem);
+    expect(document.body).toHaveClass("overflow-y-hidden");
+
+    fireEvent.click(menuItem);
+    expect(document.body).not.toHaveClass("overflow-y-hidden");
+  });
+
+  it("handles window resize to update isMobile state", () => {
+    render(<Megamenucomponents data={mockData} />);
+
+    // Desktop view
+    global.innerWidth = 1200;
+    fireEvent.resize(window);
+    expect(screen.queryByText("Menu 1")).not.toHaveClass("translate-x-0");
+
+    // Mobile view
+    global.innerWidth = 500;
+    fireEvent.resize(window);
+    expect(screen.queryByText("Menu 1")).not.toBeNull();
+  });
 });

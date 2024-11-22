@@ -1,72 +1,89 @@
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import Search from "../../shared-components/common-utilities/header/search-pod/header-search";
+import "@testing-library/jest-dom"; // Additional matchers
+import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
+import UniversityTab from "@packages/shared-components/home/search-input-pods/universitytab";
+import AdviceTab from "@packages/shared-components/home/search-input-pods/advicetab";
 
-// Mock the tabs to avoid rendering actual components
+// Mock the components
+jest.mock("@packages/shared-components/home/search-input-pods/coursetab", () =>
+  jest.fn(() => <div data-testid="course-tab">CourseTab Content</div>)
+);
+
 jest.mock(
   "@packages/shared-components/home/search-input-pods/universitytab",
-  () => jest.fn(() => <div>University Tab Content</div>)
+  () =>
+    jest.fn(() => <div data-testid="university-tab">UniversityTab Content</div>)
 );
+
 jest.mock("@packages/shared-components/home/search-input-pods/advicetab", () =>
-  jest.fn(() => <div>Advice Tab Content</div>)
+  jest.fn(() => <div data-testid="advice-tab">AdviceTab Content</div>)
 );
-jest.mock("@packages/shared-components/home/search-input-pods/coursetab", () =>
-  jest.fn(() => <div>Course Tab Content</div>)
-);
+
+// Mock the event emitter
+jest.mock("@packages/lib/eventEmitter/eventEmitter", () => ({
+  emit: jest.fn(),
+}));
+
+const mockCourseData = { courses: ["Course1", "Course2"] };
+const mockUniData = { universities: ["University1", "University2"] };
 
 describe("Search Component", () => {
-  const mockRightMenuAction = jest.fn();
+  test("should render the component with initial state", () => {
+    render(<Search course_data={mockCourseData} uni_data={mockUniData} />);
 
-  beforeEach(() => {
-    render(<Search rightMenuAction={mockRightMenuAction} />);
+    // Verify that the "Courses" tab is active by default
+    const coursesTab = screen.getByText("Courses");
+    expect(coursesTab).toHaveClass("bg-black text-white");
+
+    // Verify that the CourseTab component is rendered
+    const courseTabContent = screen.getByTestId("course-tab");
+    expect(courseTabContent).toBeInTheDocument();
   });
 
-  it("renders the search tabs correctly", () => {
-    // Check if the tabs are rendered
-    expect(screen.getByText("Courses")).toBeInTheDocument();
-    expect(screen.getByText("Universities")).toBeInTheDocument();
-    expect(screen.getByText("Advice")).toBeInTheDocument();
+  test("should switch tabs correctly", () => {
+    render(<Search course_data={mockCourseData} uni_data={mockUniData} />);
+
+    // Click the "Universities" tab
+    const universitiesTab = screen.getByText("Universities");
+    fireEvent.click(universitiesTab);
+
+    // Verify that the Universities tab is active
+    expect(universitiesTab).toHaveClass("bg-black text-white");
+
+    // Verify that the UniversityTab component is rendered
+    const universityTabContent = screen.getByTestId("university-tab");
+    expect(universityTabContent).toBeInTheDocument();
+
+    // Verify that the CourseTab component is not rendered
+    const courseTabContent = screen.queryByTestId("course-tab");
+    expect(courseTabContent).not.toBeInTheDocument();
+
+    // Click the "Advice" tab
+    const adviceTab = screen.getByText("Advice");
+    fireEvent.click(adviceTab);
+
+    // Verify that the Advice tab is active
+    expect(adviceTab).toHaveClass("bg-black text-white");
+
+    // Verify that the AdviceTab component is rendered
+    const adviceTabContent = screen.getByTestId("advice-tab");
+    expect(adviceTabContent).toBeInTheDocument();
+
+    // Verify that the UniversityTab component is not rendered
+    expect(screen.queryByTestId("university-tab")).not.toBeInTheDocument();
   });
 
-  it("should change tabs when clicked", () => {
-    // Initially, the "Courses" tab should be active
-    expect(screen.getByText("Course Tab Content")).toBeInTheDocument();
+  test("should emit the correct action on close button click", () => {
+    render(<Search course_data={mockCourseData} uni_data={mockUniData} />);
 
-    // Click on the "Universities" tab
-    fireEvent.click(screen.getByText("Universities"));
-    expect(screen.getByText("University Tab Content")).toBeInTheDocument();
-
-    // Click on the "Advice" tab
-    fireEvent.click(screen.getByText("Advice"));
-    expect(screen.getByText("Advice Tab Content")).toBeInTheDocument();
-  });
-
-  it("calls the rightMenuAction function when the close icon is clicked", () => {
-    // Find and click the close button (SVG)
+    // Click the close button
     const closeButton = screen.getByLabelText("close-button");
     fireEvent.click(closeButton);
-    expect(mockRightMenuAction).toHaveBeenCalledWith("SEARCH");
+
+    // Verify that the emitter was called with the correct arguments
+    expect(emitter.emit).toHaveBeenCalledWith("rightMenuActionclose", "SEARCH");
   });
-
-  // it('renders the "Calculate them" link in Course Tab', () => {
-  //   // Check if "Calculate them" link is rendered in the Course tab
-  //   expect(screen.getByText('Calculate them')).toBeInTheDocument();
-  //   expect(screen.getByText('Calculate them').closest('a')).toHaveAttribute('href', '#');
-  // });
-
-  //   it('renders the "Browse unis A-Z" link in University Tab', () => {
-  //     // Switch to the Universities tab
-  //     fireEvent.click(screen.getByText('Universities'));
-  //     const universityLink = screen.getByText('Browse unis A-Z');
-  //     expect(universityLink).toBeInTheDocument();
-  //     expect(universityLink.closest('a')).toHaveAttribute('href', '#');
-  //   });
-
-  //   it('renders the "Browse advice" link in Advice Tab', () => {
-  //     // Switch to the Advice tab
-  //     fireEvent.click(screen.getByText('Advice'));
-  //     const adviceLink = screen.getByText('Browse advice');
-  //     expect(adviceLink).toBeInTheDocument();
-  //     expect(adviceLink.closest('a')).toHaveAttribute('href', '#');
-  //   });
 });
