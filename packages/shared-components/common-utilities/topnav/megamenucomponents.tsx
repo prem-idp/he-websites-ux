@@ -7,22 +7,21 @@ import Menucategory1card from "@packages/shared-components/common-utilities/mega
 import Menucategory2card from "@packages/shared-components/common-utilities/megamenu/menucategory2card";
 import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
 import Menucategory4card from "@packages/shared-components/common-utilities/megamenu/menucategory4card";
-import data  from './data.json'
 import Menucategory5card from "@packages/shared-components/common-utilities/megamenu/menucategory5card";
-const Megamenucomponents = ({ dataa }: any) => {
+const Megamenucomponents = ({ data }: any) => {
   const [content, setContent] = useState<any>(
     data?.data?.contentData?.items[0]?.headerMainMenuCollection?.items
   );
   const [openMenu, setOpenMenu] = useState<string | boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (openMenu) {
-      document.body.classList.add("overflow-y-hidden");
-    } else {
-      document.body.classList.remove("overflow-y-hidden");
-    }
-  }, [openMenu]);
+  // useEffect(() => {
+  //   if (openMenu) {
+  //     document.body.classList.add("overflow-y-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-y-hidden");
+  //   }
+  // }, [openMenu]);
   const handleMenuToggle = (menuId: string) => {
     setOpenMenu(openMenu === menuId ? false : menuId);
   };

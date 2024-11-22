@@ -186,12 +186,12 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={data} />}
+                    {isOpen && <Megamenucomponents data={data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={data} />
+              <Megamenucomponents data={data} />
             )}
           </div>
 

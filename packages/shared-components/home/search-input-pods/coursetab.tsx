@@ -193,19 +193,19 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-[24px]">
+    <div className="flex flex-col gap-[16px]">
       <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:pr-[10px] md:py-[7px]">
         <Form
           action={searchHandler}
           className="flex flex-col items-stretch md:flex-row md:items-center"
         >
-          <div className="relative mb-[24px] md:mb-[0]">
+          <div className="relative mb-[24px] md:mb-[0] shrink-0">
             <button
               onClick={() => {
                 courseActions("UG");
                 setDropdown(false);
               }}
-              className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[124px] md:mr-[16px]"
+              className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[160px] md:mr-[16px]"
               type="button"
             >
               {searchFormHandle?.courseType.qualDesc}
@@ -217,7 +217,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               />
             </button>
             {searchFormHandle?.isCourseType && (
-              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[40px] overflow-hidden lg:w-[230px]">
+              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[43px] overflow-hidden lg:w-[192px]">
                 <ul>
                   {studymodelist?.map((item: any, index: any) => (
                     <li
@@ -239,12 +239,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
             )}
           </div>
           <div className="w-full relative border-y-[1px] border-neutral200 grow md:border-l md:border-y-0">
-            <div className="flex items-center w-full my-[12px] md:my-[0]">
+            <div className="flex items-center my-[12px] md:my-[0]">
               <input
                 value={searchFormHandle.subject.description || ""}
                 type="text"
                 className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
-                aria-label=""
+                aria-label="submenu"
                 placeholder="Enter subject"
                 onChange={(event) => {
                   setsearchFormHandle((prevData: any) => ({
@@ -268,31 +268,30 @@ const CourseTab: React.FC<CourseTabProps> = ({
               />
             </div>
             {dropdown && (
-              <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] max-h-[311px] overflow-y-scroll custom-vertical-scrollbar overflow-hidden">
+              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] max-h-[311px] overflow-y-scroll custom-scrollbar-2 overflow-hidden">
+                {/* Hardcode the item at index 0 */}
+                {searchFormHandle?.subject?.description?.length > 2 && (
+                  <div
+                    onClick={() => {
+                      setsearchFormHandle((prevData: SearchFormHandle) => ({
+                        ...prevData,
+                        subject: subjectlist[0],
+                        isSubjectClicked: !searchFormHandle?.isSubjectClicked,
+                      }));
+                      setDropdown(false);
+                      keywordSearch();
+                    }}
+                    className="px-[16px] py-[12px] cursor-pointer"
+                  >
+                    <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
+                      Key word seach for
+                    </p>
+                    <p className="small text-primary-400">
+                      '{searchFormHandle.subject.description}'
+                    </p>
+                  </div>
+                )}
                 <ul>
-                  {/* Hardcode the item at index 0 */}
-                  {searchFormHandle?.subject?.description?.length > 2 && (
-                    <ul
-                      onClick={() => {
-                        setsearchFormHandle((prevData: SearchFormHandle) => ({
-                          ...prevData,
-                          subject: subjectlist[0],
-                          isSubjectClicked: !searchFormHandle?.isSubjectClicked,
-                        }));
-                        setDropdown(false);
-                      }}
-                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
-                    >
-                      <li
-                        onClick={() => keywordSearch()}
-                        // href={`${searchFormHandle.courseType.qualCode == "M" ? "/degree-courses/search?q=" : searchFormHandle.courseType.qualCode == "N" ? "/hnd-hnc-courses/search?q=" : searchFormHandle.courseType.qualCode == "T" ? "/access-foundation-courses/search?q=" : ""}${searchFormHandle.subject.description}`}
-                      >
-                        <p> Key word seach for</p>
-                        {searchFormHandle.subject.description}
-                      </li>
-                    </ul>
-                  )}
-
                   {/* Map through the rest of the items starting from index 1 */}
                   {filteredsubject?.map((item: any, index: any) => (
                     <li
@@ -322,11 +321,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
               setDropdown(false);
             }}
           >
-            <div className="flex items-center w-full my-[12px] md:my-[0] border-l-0 lg:border-l border-neutral-200">
+            <div className="flex items-center my-[12px] md:my-[0]">
               <input
                 type="text"
-                className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
-                aria-label=""
+                className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]  "
+                aria-label="submenu"
                 placeholder="Location (optional)"
                 value={searchFormHandle?.location.regionName || ""}
                 onChange={(event) =>
@@ -339,7 +338,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               />
             </div>
             {searchFormHandle?.isLocationClicked && (
-              <div className="w-full md:w-[253px] z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[50px] overflow-hidden">
+              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] max-h-[311px] overflow-y-scroll custom-scrollbar-2 overflow-hidden">
                 <ul>
                   {locationlist?.map((item: any, index: any) => (
                     <li
@@ -376,7 +375,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
           </div>
         </Form>
       </div>
-      {subjecterror && <p> Please enter subject</p>}
+      {subjecterror && (
+        <p className="small text-negative-default"> Please enter subject</p>
+      )}
     </div>
   );
 };
