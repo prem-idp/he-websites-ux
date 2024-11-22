@@ -1,7 +1,7 @@
 export const Headerquery = `{
   contentData: headerCollection(
     limit: 1
-    where: {internalName: "Whatuni Header", website: {websiteName: "Whatuni"}}
+    where: { website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       websiteLogo {
