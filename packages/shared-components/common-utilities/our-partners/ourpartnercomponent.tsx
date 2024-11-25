@@ -20,6 +20,8 @@ interface Partner {
 }
 
 const OurPartnerComponent = ({ heading }: any) => {
+  // return null due to showcase purpose
+  return null;
   const [partners, setPartners] = useState<Partner[]>([]);
 
   useEffect(() => {
