@@ -300,9 +300,9 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
                       />
                     </svg>
                   </span>
-                  <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
+                  {/* <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
                     2
-                  </div>
+                  </div> */}
                 </div>
                 {/* shortlist section */}
                 {clickStates.isShortlistClicked && (
