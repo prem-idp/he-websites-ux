@@ -3,6 +3,16 @@ import Image from "next/image";
 import React from "react";
 
 const Menucategory3card = ({ data }: any) => {
+  const calculate = () => {
+    if (data.length - 1 <= 2) {
+      return 1;
+    } else {
+      if ((data.length - 1) / 2) {
+        return Math.ceil((data.length - 1) / 2);
+      }
+    }
+  };
+  const size = calculate();
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
@@ -11,7 +21,9 @@ const Menucategory3card = ({ data }: any) => {
             ?.navTitle
         }
       </div>
-      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] p-[16px] lg:p-[0] bg-white">
+      <ul
+        className={`grid grid-cols-1 lg:grid-cols-${size} gap-[16px] p-[16px] lg:p-[0] bg-white`}
+      >
         {data
           ?.filter(
             (item: any) => item.flagNavItemStyle !== "L2 Text" // Exclude the L2 Text item

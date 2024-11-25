@@ -8,9 +8,10 @@ const Menucategory1card = ({ data }: any) => {
     } else {
       if ((data.length - 1) / 6) {
         return Math.ceil((data.length - 1) / 6);
-      } 
+      }
     }
   };
+
   const size = calculate();
 
   return (
@@ -21,7 +22,9 @@ const Menucategory1card = ({ data }: any) => {
             ?.navTitle
         }
       </div>
-      <ul className="grid grid-cols-1 gap-[16px] p-[16px] lg:p-[0] bg-white">
+      <ul
+        className={`grid grid-cols-1 lg:grid-cols-${size}  gap-[16px] p-[16px] lg:p-[0] bg-white`}
+      >
         {data
           ?.filter((item: any) => item.flagNavItemStyle !== "L2 Text")
           .map((item: any, index: number) => (

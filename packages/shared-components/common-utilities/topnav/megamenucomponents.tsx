@@ -8,7 +8,8 @@ import Menucategory2card from "@packages/shared-components/common-utilities/mega
 import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
 import Menucategory4card from "@packages/shared-components/common-utilities/megamenu/menucategory4card";
 import Menucategory5card from "@packages/shared-components/common-utilities/megamenu/menucategory5card";
-const Megamenucomponents = ({ data }: any) => {
+import data from "./data.json";
+const Megamenucomponents = ({ dataa }: any) => {
   const [content, setContent] = useState<any>(
     data?.data?.contentData?.items[0]?.headerMainMenuCollection?.items
   );
@@ -37,101 +38,121 @@ const Megamenucomponents = ({ data }: any) => {
 
   function Megamenuoptions(child: any) {
     if (child?.items[1]?.navTitle && child?.items[1]?.navIcon === null) {
-      if (child?.items.length > 7) {
-        const renderChunks = [
-          child.items.slice(0, 7),
-          child.items.slice(7, 13),
-          child.items.slice(13, 19),
-          child.items.slice(19, 25),
-        ];
-        return (
-          <>
-            {renderChunks.map((chunk, index) => (
-              <React.Fragment key={index}>
-                {chunk.length > 0 && <Menucategory1card data={chunk} />}
-              </React.Fragment>
-            ))}
-          </>
-        );
-      } else {
-        return <Menucategory1card data={child.items} />;
-      }
+      // if (child?.items.length > 7) {
+      //   const renderChunks = [
+      //     child.items.slice(0, 7),
+      //     child.items.slice(7, 13),
+      //     child.items.slice(13, 19),
+      //     child.items.slice(19, 25),
+      //   ];
+      //   return (
+      //     <>
+      //       {renderChunks.map((chunk, index) => (
+      //         <React.Fragment key={index}>
+      //           {chunk.length > 0 && <Menucategory1card data={chunk} />}
+      //         </React.Fragment>
+      //       ))}
+      //     </>
+      //   );
+      // } else {
+      return <Menucategory1card data={child.items} />;
+      // }
     } else if (child?.items[1]?.navTitle && child?.items[1]?.navIcon) {
       if (child?.items[1].flagNavItemStyle === "Nav Icon") {
-        if (child?.items.length > 4) {
-          const renderChunks = [
-            child.items.slice(0, 5),
-            child.items.slice(5, 9),
-            child.items.slice(9, 13),
-            child.items.slice(13, 17),
-          ];
-          return (
-            <>
-              {renderChunks.map((chunk, index) => (
-                <React.Fragment key={index}>
-                  {chunk.length > 0 && <Menucategory2card data={chunk} />}
-                </React.Fragment>
-              ))}
-            </>
-          );
-        } else {
-          return <Menucategory2card data={child.items} />;
-        }
+        // if (child?.items.length > 4) {
+        //   const renderChunks = [
+        //     child.items.slice(0, 5),
+        //     child.items.slice(5, 9),
+        //     child.items.slice(9, 13),
+        //     child.items.slice(13, 17),
+        //   ];
+        //   return (
+        //     <>
+        //       {renderChunks.map((chunk, index) => (
+        //         <React.Fragment key={index}>
+        //           {chunk.length > 0 && <Menucategory2card data={chunk} />}
+        //         </React.Fragment>
+        //       ))}
+        //     </>
+        //   );
+        // } else {
+        return <Menucategory2card data={child.items} />;
+        // }
       }
       if (child?.items[1].flagNavItemStyle === "Nav Image") {
-        if (child?.items.length > 4) {
-          const renderChunks = [
-            child.items.slice(0, 5),
-            child.items.slice(5, 9),
-            child.items.slice(9, 13),
-            child.items.slice(13, 17),
-          ];
-          return (
-            <>
-              {renderChunks.map((chunk, index) => (
-                <React.Fragment key={index}>
-                  {chunk.length > 0 && <Menucategory3card data={chunk} />}
-                </React.Fragment>
-              ))}
-            </>
-          );
-        } else {
-          return <Menucategory3card data={child.items} />;
-        }
+        // if (child?.items.length > 4) {
+        //   const renderChunks = [
+        //     child.items.slice(0, 5),
+        //     child.items.slice(5, 9),
+        //     child.items.slice(9, 13),
+        //     child.items.slice(13, 17),
+        //   ];
+        //   return (
+        //     <>
+        //       {renderChunks.map((chunk, index) => (
+        //         <React.Fragment key={index}>
+        //           {chunk.length > 0 && <Menucategory3card data={chunk} />}
+        //         </React.Fragment>
+        //       ))}
+        //     </>
+        //   );
+        // } else {
+        return <Menucategory3card data={child.items} />;
+        // }
       }
       if (child?.items[1].flagNavItemStyle === "Nav Hero Image") {
         if (child?.items?.length == 2) {
           // console.log(child?.items);
           return <Menucategory5card data={child.items} />;
-        } else if (child?.items?.length == 3) {
-          // console.log(child?.items);
-
-          return <Menucategory4card data={child.items} />;
-        } else if (child?.items.length > 3) {
-          // console.log(child?.items);
-
-          const renderChunks = [
-            child.items.slice(0, 3),
-            child.items.slice(3, 5),
-            child.items.slice(5, 7),
-            child.items.slice(7, 9),
-          ];
-          return (
-            <>
-              {renderChunks.map((chunk, index) => (
-                <React.Fragment key={index}>
-                  {chunk.length > 0 && <Menucategory4card data={chunk} />}
-                </React.Fragment>
-              ))}
-            </>
-          );
         }
+        return <Menucategory4card data={child.items} />;
+
+        // } else if (child?.items?.length == 3) {
+        //   console.log(child?.items);
+
+        //   return <Menucategory4card data={child.items} />;
+        // } else if (child?.items.length > 3) {
+        //   // console.log(child?.items);
+
+        //   const renderChunks = [
+        //     child.items.slice(0, 3),
+        //     child.items.slice(3, 5),
+        //     child.items.slice(5, 7),
+        //     child.items.slice(7, 9),
+        //   ];
+        //   return (
+        //     <>
+        //       {renderChunks.map((chunk, index) => (
+        //         <React.Fragment key={index}>
+        //           {chunk.length > 0 && <Menucategory4card data={chunk} />}
+        //         </React.Fragment>
+        //       ))}
+        //     </>
+        //   );
+        // }
       }
     } else {
       return <p>No data</p>;
     }
   }
+  function Menuitemcount(menuitem: any) {
+    let count: number = 0; // Use let instead of const to allow re-assignment
 
+    if (menuitem.navChildC1Collection.items.length) {
+      count += 1;
+    }
+    if (menuitem.navChildC2Collection.items.length) {
+      count += 1;
+    }
+    if (menuitem.navChildC3Collection.items.length) {
+      count += 1;
+    }
+    if (menuitem.navChildC4Collection.items.length) {
+      count += 1;
+    }
+
+    return count;
+  }
   return (
     <>
       <div className="flex lg:items-center lg:justify-center">
@@ -192,7 +213,7 @@ const Megamenucomponents = ({ data }: any) => {
                       {menuItem.navName}
                     </div>
                     <div className="max-w-container mx-auto">
-                      <section className="grid grid-cols-1 lg:grid-cols-4  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">
+                      <section className="grid grid-cols-1 lg:grid-cols-1  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">
                         {menuItem.navChildC1Collection.items.length > 1 &&
                           Megamenuoptions(menuItem.navChildC1Collection)}
                         {menuItem.navChildC2Collection.items.length > 1 &&
@@ -220,7 +241,7 @@ const Megamenucomponents = ({ data }: any) => {
                               onMouseLeave={
                                 !isMobile ? () => setOpenMenu(false) : undefined
                               }
-                              className="grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]"
+                              className={`grid grid-cols-1 lg:grid-cols-${Menuitemcount(menuItem)} lg:gap-[16px] p-[0] lg:p-[24px]`}
                             >
                               {menuItem.navChildC1Collection.items.length > 1 &&
                                 Megamenuoptions(menuItem.navChildC1Collection)}

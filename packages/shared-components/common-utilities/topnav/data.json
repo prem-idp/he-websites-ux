@@ -957,9 +957,6 @@
                 "navTitle": "Open days",
                 "navUrl": null,
                 "navChildC1Collection": {
-                  "items": []
-                },
-                "navChildC2Collection": {
                   "items": [
                     {
                       "navName": "Whatuni - Nav category 4",
@@ -982,8 +979,50 @@
                         "width": 2190,
                         "height": 1369
                       }
+                    },
+                    {
+                      "navName": "Whatuni - Hero Image Menu",
+                      "navUrl": "https://mdev.dev.aws.whatuni.com/new/advice/subject-guides/arts",
+                      "navTitle": "Hero Image Menu",
+                      "navCtAlabel": null,
+                      "navCtaTarget": "Open in same tab",
+                      "flagNavItemStyle": "Nav Hero Image",
+                      "navIcon": {
+                        "url": "https://images.ctfassets.net/szez98lehkfm/1CVeDTobBq8kJ1tj7iKD4t/7aff765e47d59779d69e96170dbd18a3/MyIC_Article139236",
+                        "width": 2190,
+                        "height": 1369
+                      }
+                    },
+                    {
+                      "navName": "Whatuni - Hero Image Menu",
+                      "navUrl": "https://mdev.dev.aws.whatuni.com/new/advice/subject-guides/arts",
+                      "navTitle": "Hero Image Menu",
+                      "navCtAlabel": null,
+                      "navCtaTarget": "Open in same tab",
+                      "flagNavItemStyle": "Nav Hero Image",
+                      "navIcon": {
+                        "url": "https://images.ctfassets.net/szez98lehkfm/1CVeDTobBq8kJ1tj7iKD4t/7aff765e47d59779d69e96170dbd18a3/MyIC_Article139236",
+                        "width": 2190,
+                        "height": 1369
+                      }
+                    },
+                    {
+                      "navName": "Whatuni - Hero Image Menu",
+                      "navUrl": "https://mdev.dev.aws.whatuni.com/new/advice/subject-guides/arts",
+                      "navTitle": "Hero Image Menu",
+                      "navCtAlabel": null,
+                      "navCtaTarget": "Open in same tab",
+                      "flagNavItemStyle": "Nav Hero Image",
+                      "navIcon": {
+                        "url": "https://images.ctfassets.net/szez98lehkfm/1CVeDTobBq8kJ1tj7iKD4t/7aff765e47d59779d69e96170dbd18a3/MyIC_Article139236",
+                        "width": 2190,
+                        "height": 1369
+                      }
                     }
                   ]
+                },
+                "navChildC2Collection": {
+                  "items": []
                 },
                 "navChildC3Collection": {
                   "items": []

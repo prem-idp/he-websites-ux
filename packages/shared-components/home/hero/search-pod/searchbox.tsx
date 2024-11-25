@@ -28,9 +28,10 @@ const SearchBox = ({ course_data, uni_data }: any) => {
   // ucas calculate
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    SetIsUcasPopupOpen(true);
-    const body = document.body;
-    body.classList.add("overflow-y-hidden");
+    // SetIsUcasPopupOpen(true);
+    // const body = document.body;
+    // body.classList.add("overflow-y-hidden");
+    console.log("ucas is currently blocked for the showcase purpose ");
   };
 
   const ucasClose = () => {
@@ -85,7 +86,10 @@ const SearchBox = ({ course_data, uni_data }: any) => {
 
           {searchFormHandle?.activeTab == "tab1" && (
             <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-              <div onClick={ucasClick} className="flex items-center gap-[6px] text-primary-400 font-semibold small cursor-pointer hover:underline">
+              <div
+                onClick={ucasClick}
+                className="flex items-center gap-[6px] text-primary-400 font-semibold small cursor-pointer hover:underline"
+              >
                 <svg
                   width="20"
                   height="20"
