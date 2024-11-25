@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@packages/shared-components/common-utilities/header/headercomponents";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
-import OneTrustCookieScript from "./OneTrustCookieScript";
+import OneTrustCookieScript from "../../../../packages/lib/oneTrust/OneTrustCookieScript";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",

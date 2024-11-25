@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers';
 
 export async function createCookieConsent(cookieName: string, cookieValue: string) {
-    'use server'
     const cookieStore = await cookies();
     cookieStore.set(
         {name: cookieName,
