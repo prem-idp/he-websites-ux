@@ -102,6 +102,7 @@ import { createCookieConsent, getOnetrustCookieValue } from './OneTrustcookie';
 // 	</>
 // }
 
+
 export const loadAnalyticsScripts = async (): Promise<boolean> => {
 
 	//console.log("User consented to analytics; loading analytics scripts...", window.Optanon);
@@ -127,15 +128,18 @@ export const loadAnalyticsScripts = async (): Promise<boolean> => {
     //
     const oneTrustCookieconsentVal = strickCK + funCK + perCK + targetCK;
 	
-	const isUserAcctpedCookie: boolean = (OptanonConsent != null && OptanonConsent != undefined) && (OptanonAlertBoxClosed != null && OptanonAlertBoxClosed != undefined)
+	  const isUserAcctpedCookie: boolean = (OptanonConsent != null && OptanonConsent != undefined) && (OptanonAlertBoxClosed != null && OptanonAlertBoxClosed != undefined)
     const cookieConsentVal = isUserAcctpedCookie ? oneTrustCookieconsentVal : "0111";
     console.log("IsAlertBoxClosed", isUserAcctpedCookie);
-	console.log("cookieconsentVal", cookieConsentVal);
+	  console.log("cookieconsentVal", cookieConsentVal);
     
     // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
-    createCookieConsent('cookieconsent',cookieConsentVal);
-    createCookieConsent('cookie_splash_flag',cookieDate.toLocaleString());
-    createCookieConsent('cookie_splash_flag_new',cookieDate.toLocaleString());
+    if(isUserAcctpedCookie){
+		  const formattedDate = cookieDate.getDate() + '-' + cookieDate.getMonth() + '-' + cookieDate.getFullYear() + ' ' + cookieDate.getHours() + ':' + cookieDate.getMinutes() + ':' + cookieDate.getSeconds();
+		  createCookieConsent('cookie_splash_flag_new',encodeURI(formattedDate));
+    	createCookieConsent('cookie_splash_flag',encodeURI(formattedDate));
+	  }
+	  createCookieConsent('cookieconsent',cookieConsentVal);
 
     
     // if (bannerCheck == "bannerExist") {
@@ -174,12 +178,10 @@ export default function OneTrustCookieScript(){
 
   return (
 	<>
-	{console.log("userConsentGiven: ", userConsentGiven)}
 	{userConsentGiven ?
     <Script src="https://accounts.google.com/gsi/client" id="googleGsiId" /> :
 	<>
-		<Script src="https://cdn-apac.onetrust.com/scripttemplates/otSDKStub.js" id="oneTrustCookieeId" data-domain-script="aef8a843-4acf-4f91-acd1-f823a4a625c0" />
-		<Script src='https://accounts.google.com/gsi/client' id="dummyScript"/>
+		<Script src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`} id="oneTrustCookieeId" data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`} />
 	</>
 	}
 	</>
