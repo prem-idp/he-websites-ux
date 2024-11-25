@@ -28,9 +28,9 @@ const SearchBox = ({ course_data, uni_data }: any) => {
   // ucas calculate
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    // SetIsUcasPopupOpen(true);
-    // const body = document.body;
-    // body.classList.add("overflow-y-hidden");
+    SetIsUcasPopupOpen(true);
+    const body = document.body;
+    body.classList.add("overflow-y-hidden");
     console.log("blocking ucas temporarly ");
   };
 
