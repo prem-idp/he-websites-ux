@@ -235,9 +235,8 @@ export interface CallToAction {
   flagStyle: string;
 }
 
-
 export interface ReviewDetailsList {
-  reviewDetail : ReviewDetails[];
+  reviewDetail: ReviewDetails[];
 }
 
 export interface ReviewDetails {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import UcasComponent from "@packages/shared-components/common-utilities/popups/ucascomponent";
+import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
 
 const SearchBox = ({ course_data, uni_data }: any) => {
   const searchTabClick = (tabName: string) => {
@@ -85,7 +85,10 @@ const SearchBox = ({ course_data, uni_data }: any) => {
 
           {searchFormHandle?.activeTab == "tab1" && (
             <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-              <div onClick={ucasClick} className="flex items-center gap-[6px] text-primary-400 font-semibold small cursor-pointer hover:underline">
+              <div
+                onClick={ucasClick}
+                className="flex items-center gap-[6px] text-primary-400 font-semibold small cursor-pointer hover:underline"
+              >
                 <svg
                   width="20"
                   height="20"

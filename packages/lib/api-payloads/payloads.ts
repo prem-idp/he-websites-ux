@@ -7,5 +7,10 @@ export const searchAjax = {
 };
 
 export const reviewPayload = {
-  affiliateId: 220703
+  affiliateId: 220703,
+};
+
+export const ucasAjax = {
+  affiliateId: 220703,
+  qualID: null,
 };

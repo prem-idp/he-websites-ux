@@ -3,7 +3,6 @@ import { useEffect } from "react";
 const LocationAccess = () => {
   useEffect(() => {
     function requestLocation() {
-      console.log(navigator);
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
