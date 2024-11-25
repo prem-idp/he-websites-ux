@@ -177,10 +177,21 @@ export interface DynamicMediaComponent {
   title: string;
   internalName: string;
   cta: CTA | null;
-  image: Image | null;
+  image: Imagee;
   video: null;
 }
 
+export interface Imagee {
+  imageTitle: string | null;
+  imgAltText: string;
+  imgUpload: ImageUpload;
+}
+
+export interface ImageUpload {
+  url: string;
+  height: number;
+  width: number;
+}
 export interface LongDescription {
   json: JSONContent;
 }
@@ -202,18 +213,6 @@ export interface TextNode {
   marks: any[];
   value: string;
   nodeType: string;
-}
-
-export interface Image {
-  imageTitle: string | null;
-  imgAltText: string;
-  imgUpload: ImageUpload;
-}
-
-export interface ImageUpload {
-  url: string;
-  height: number;
-  width: number;
 }
 
 export interface MultipleCardContainer {
@@ -318,15 +317,6 @@ export interface HomePageStatInterface {
 
 export interface DataInterface {
   items: DynamicMediaComponent[];
-}
-
-export interface DynamicMediaComponent {
-  __typename: "DynamicMediaComponent";
-  longDescription: LongDescription;
-  title: string;
-  internalName: string;
-  cta: CTA | null;
-  image: Image | null;
 }
 
 export interface LongDescription {
