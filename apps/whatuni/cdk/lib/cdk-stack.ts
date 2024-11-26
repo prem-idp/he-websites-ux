@@ -335,10 +335,23 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       "HE websites"
     );
 
+    // const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
+    //   authType: FunctionUrlAuthType.AWS_IAM,
+    //   invokeMode: InvokeMode.BUFFERED,
+    // });
     const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
-      authType: FunctionUrlAuthType.AWS_IAM,
-      invokeMode: InvokeMode.BUFFERED,
+        invokeMode: InvokeMode.BUFFERED,
+        authType: FunctionUrlAuthType.NONE,
+        // cors: {
+        //   allowCredentials: false,
+        //   allowedHeaders: ["*"],
+        //   allowedMethods: ["*"],
+        //   allowedOrigins: ["*"],
+        //   exposedHeaders: ["*"],
+        // },
     });
+
+
     /*Newly added configuration*/
     nextjsLambda.addPermission("AllowCloudFrontPrincipalServerLambda", {
       principal: new ServicePrincipal("cloudfront.amazonaws.com"),
@@ -361,7 +374,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     });
     /*----------------------------------*/
     const nextjsImageLambdaUrl = nextjsimageLambda.addFunctionUrl({
-      authType: FunctionUrlAuthType.AWS_IAM,
+      authType: FunctionUrlAuthType.NONE,
       invokeMode: InvokeMode.BUFFERED,
     });
 

@@ -31,6 +31,7 @@ const SearchBox = ({ course_data, uni_data }: any) => {
     SetIsUcasPopupOpen(true);
     const body = document.body;
     body.classList.add("overflow-y-hidden");
+    console.log("blocking ucas temporarly ");
   };
 
   const ucasClose = () => {
