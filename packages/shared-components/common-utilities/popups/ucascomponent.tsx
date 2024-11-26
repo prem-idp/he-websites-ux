@@ -17,6 +17,29 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
     "DE",
     "EE",
   ];
+  const items = [
+    "0 credits",
+    "1 credits",
+    "2 credits",
+    "3 credits",
+    "4 credits",
+    "5 credits",
+    "6 credits",
+    "7 credits",
+    "8 credits",
+    "9 credits",
+    "10 credits",
+    "11 credits",
+    "12 credits",
+    "13 credits",
+    "14 credits",
+    "15 credits",
+    "16 credits",
+    "17 credits",
+    "18 credits",
+    "19 credits",
+    "20 credits",
+  ];
 
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(true);
 
@@ -74,6 +97,25 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
   const deleteClicked = () => {
     SetIsAddQualification(!isAddQualification);
   };
+
+  // Access to HE Diploma dropdown actions
+  const [isDistinctionDropdownOpen, setIsDistinctionDropdownOpen] =
+    useState(false);
+  const [isMeritDropdownOpen, setIsMeritDropdownOpen] = useState(false);
+  const [isPassDropdownOpen, setIsPassDropdownOpen] = useState(false);
+
+  const toggleDistinctionDropdown = () => {
+    setIsDistinctionDropdownOpen(!isDistinctionDropdownOpen);
+  };
+
+  const toggleMeritDropdown = () => {
+    setIsMeritDropdownOpen(!isMeritDropdownOpen);
+  };
+
+  const togglePassDropdown = () => {
+    setIsPassDropdownOpen(!isPassDropdownOpen);
+  };
+
 
   return (
     <>
@@ -140,13 +182,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                     </li>
                     <li
                       onClick={() => ucasLevelSelected("ALEVEL", "A Level")}
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       A Level
                     </li>
                     <li
                       onClick={() => ucasLevelSelected("ASLEVEL", "AS Level")}
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       AS Level
                     </li>
@@ -157,7 +199,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                           "A Level Double Award"
                         )
                       }
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       A Level Double Award
                     </li>
@@ -168,7 +210,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                           "AS Level Double Award"
                         )
                       }
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       AS Level Double Award
                     </li>
@@ -179,7 +221,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                       onClick={() =>
                         ucasLevelSelected("IB", "IB (Diploma) Higher level")
                       }
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       IB (Diploma) Higher level
                     </li>
@@ -187,7 +229,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                       onClick={() =>
                         ucasLevelSelected("IB", "IB (Diploma) Higher level")
                       }
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       IB (Diploma) Standard Level
                     </li>
@@ -195,9 +237,17 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                       onClick={() =>
                         ucasLevelSelected("UCAS", "UCAS Tariff Points")
                       }
-                      className="py-[10px] px-[16px] cursor-pointer"
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                     >
                       UCAS Tariff Points
+                    </li>
+                    <li
+                      onClick={() =>
+                        ucasLevelSelected("ACCESS", "Access to HE Diploma")
+                      }
+                      className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
+                    >
+                      Access to HE Diploma
                     </li>
                   </ul>
                 </div>
@@ -384,7 +434,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
             {selectedLevelName == "UCAS" && (
               <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-col gap-[4px] small">
-                  <label htmlFor="minpoint" className="font-semibold ">
+                  <label htmlFor="minpoint" className="font-semibold">
                     Minimum points
                   </label>
                   <input
@@ -395,7 +445,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                   />
                 </div>
                 <div className="flex flex-col gap-[4px] small">
-                  <label htmlFor="minpoint" className="font-semibold ">
+                  <label htmlFor="minpoint" className="font-semibold">
                     Maximum points
                   </label>
                   <input
@@ -406,6 +456,118 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                   />
                 </div>
               </div>
+            )}
+
+{selectedLevelName == "ACCESS" && (
+              <>
+                <div className="flex flex-col gap-[16px]">
+                  <div className="flex flex-col gap-[16px] max-w-[200px]">
+                    <div className="flex flex-col gap-[4px] small">
+                      <label htmlFor="Distinction" className="font-semibold">
+                        Distinction
+                      </label>
+                      <div className="relative">
+                        <div
+                          onClick={toggleDistinctionDropdown}
+                          className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+                        >
+                          <span>0 credits</span>
+                          <Image
+                            src="/assets/icons/ucas-down-arrow.svg"
+                            alt=""
+                            width="16"
+                            height="16"
+                          />
+                        </div>
+                        {isDistinctionDropdownOpen && (
+                          <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
+                            <ul>
+                              {items.map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
+                                >
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-[4px] small">
+                      <label htmlFor="Merit" className="font-semibold">
+                        Merit
+                      </label>
+                      <div className="relative">
+                        <div
+                          onClick={toggleMeritDropdown}
+                          className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+                        >
+                          <span>0 credits</span>
+                          <Image
+                            src="/assets/icons/ucas-down-arrow.svg"
+                            alt=""
+                            width="16"
+                            height="16"
+                          />
+                        </div>
+                        {isMeritDropdownOpen && (
+                          <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
+                            <ul>
+                              {items.map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
+                                >
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-[4px] small">
+                      <label htmlFor="Pass" className="font-semibold">
+                        Pass
+                      </label>
+                      <div className="relative">
+                        <div
+                          onClick={togglePassDropdown}
+                          className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+                        >
+                          <span>0 credits</span>
+                          <Image
+                            src="/assets/icons/ucas-down-arrow.svg"
+                            alt=""
+                            width="16"
+                            height="16"
+                          />
+                        </div>
+                        {isPassDropdownOpen && (
+                          <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
+                            <ul>
+                              {items.map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
+                                >
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="small text-grey300">
+                    A total of 45 credits must be added for tariff points (e.g.
+                    D15, P15, M15).
+                  </p>
+                </div>
+              </>
             )}
 
             <div className="border-b border-grey-200"></div>
@@ -440,7 +602,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                               onClick={() =>
                                 addLevelSelected("ALEVEL", "A Level")
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               A Level
                             </li>
@@ -448,7 +610,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                               onClick={() =>
                                 addLevelSelected("ASLEVEL", "AS Level")
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               AS Level
                             </li>
@@ -459,7 +621,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                                   "A Level Double Award"
                                 )
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               A Level Double Award
                             </li>
@@ -470,7 +632,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                                   "AS Level Double Award"
                                 )
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               AS Level Double Award
                             </li>
@@ -484,7 +646,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                                   "IB (Diploma) Higher level"
                                 )
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               IB (Diploma) Higher level
                             </li>
@@ -495,7 +657,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: any) => {
                                   "IB (Diploma) Higher level"
                                 )
                               }
-                              className="py-[10px] px-[16px] cursor-pointer"
+                              className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                             >
                               IB (Diploma) Standard Level
                             </li>
