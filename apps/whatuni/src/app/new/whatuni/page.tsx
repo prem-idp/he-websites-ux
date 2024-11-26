@@ -8,6 +8,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
+import Home from "../mf/page";
 import LocationAccess from "@packages/lib/location-access/request-location";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
@@ -18,6 +19,7 @@ const Page = async () => {
   console.log(componentList);
   return (
     <>
+      <Home />
       <LocationAccess />
       <Heroslidercomponent data={heroSliderData} />
       <div>

@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/**/*",
-    "packages/**/*"
+    "packages/**/*",
+    "public/main.js"
   ],
   "exclude": ["node_modules"]
 }

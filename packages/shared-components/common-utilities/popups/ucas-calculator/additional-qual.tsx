@@ -8,6 +8,7 @@ import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
 import GradeCounterButton from "./grade-counter-button";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { KeyValuePair } from "@packages/lib/types/ucas-calc";
+import GradeDropdown from "./grade-dropdown";
 interface PropsInterface {
   removeQual: () => void;
   qualOrder: string;
@@ -135,7 +136,7 @@ const AddQualification = ({
           </svg>
         </div>
 
-        {true && (
+        {false && (
           <div className="flex items-center justify-between gap-[32px] flex-wrap">
             {gradeArray?.map((childItems, index) => (
               <GradeCounterButton
@@ -150,7 +151,13 @@ const AddQualification = ({
             ))}
           </div>
         )}
-
+        {true && (
+          <GradeDropdown
+            setGradePoints={setGradePoints}
+            ucasPoints={ucasPoints}
+            setUcasPoints={setUcasPoints}
+          />
+        )}
         {false && (
           <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
             {gradeArray?.map((childItems, index) => (
