@@ -176,6 +176,7 @@ export interface DynamicMediaComponent {
   longDescription: LongDescription;
   title: string;
   internalName: string;
+  backgroundColor: string;
   cta: CTA | null;
   image: Imagee;
   video: null;

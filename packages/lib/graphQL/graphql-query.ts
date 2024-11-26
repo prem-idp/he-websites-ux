@@ -217,6 +217,7 @@ export const homePageQuery = `{
           ... on DynamicMediaComponent {
             title
             internalName
+            backgroundColor
             longDescription {
               json
             }
