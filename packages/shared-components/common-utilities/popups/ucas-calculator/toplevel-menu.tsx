@@ -13,11 +13,15 @@ interface PropsInterface {
   ucasGradeData: GradeFilterArrayInterface[] | null | undefined;
   ucasPoints: number;
   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+  setTopmenulevel: React.Dispatch<React.SetStateAction<string>>;
+  resetid: number;
 }
 const TopLevelMenu = ({
   ucasGradeData,
   ucasPoints,
   setUcasPoints,
+  setTopmenulevel,
+  resetid,
 }: PropsInterface) => {
   const [selectedLevel, setSelectedLevel] = useState<string>("A Level");
   const [type, setType] = useState<null | string>("plus-minus");
@@ -52,6 +56,7 @@ const TopLevelMenu = ({
       podSpecificPoints: 0,
     });
     setGradeArray(parseGradeString(gradeString));
+    setTopmenulevel(level);
     setSelectedLevel(level);
   };
   return (
@@ -105,7 +110,7 @@ const TopLevelMenu = ({
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
           {gradeArray?.map((childItems, index) => (
             <GradeCounterButton
-              key={selectedLevel + index}
+              key={selectedLevel + index + resetid}
               btnName={childItems.key}
               btnValue={childItems.value}
               gradePoints={gradePoints}
@@ -120,7 +125,7 @@ const TopLevelMenu = ({
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
           {gradeArray?.map((childItems, index) => (
             <GradeBadgeButton
-              key={index + 1}
+              key={selectedLevel + index}
               btnName={childItems.key}
               btnValue={childItems.value}
               gradePoints={gradePoints}

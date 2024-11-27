@@ -20,6 +20,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoints, setUcasPoints] = useState<number>(0);
+  const [resetid, setResetid] = useState<number>(0);
+  const [topmenulevel, setTopmenulevel] = useState<string>("");
   useEffect(() => {
     const fetchUcasData = async () => {
       try {
@@ -65,6 +67,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       );
     });
+  };
+  const resetAll = () => {
+    setQualifications([]);
+    setUcasPoints(0);
+    setTopmenulevel("");
+    setResetid(Date.now());
   };
   return (
     <>
@@ -115,6 +123,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               ucasPoints={ucasPoints}
               setUcasPoints={setUcasPoints}
               ucasGradeData={ucasGradeData}
+              setTopmenulevel={setTopmenulevel}
+              resetid={resetid}
             />
             <div className="border-b border-grey-200"></div>
             {/* Additional Qualification */}
@@ -130,29 +140,30 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             ))}
             {/* Add qualification button */}
 
-            {qualifications.length < 2 && (
-              <div
-                onClick={addQualification}
-                className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
-              >
-                <svg
-                  width="16"
-                  height="17"
-                  viewBox="0 0 16 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {qualifications.length < 2 &&
+              topmenulevel !== "UCAS Tariff Points" && (
+                <div
+                  onClick={addQualification}
+                  className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
                 >
-                  <path
-                    d="M8 2V15M14.5 8.5L1.5 8.5"
-                    stroke="#4664DC"
-                    strokeWidth="1.335"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Add a qualification
-              </div>
-            )}
+                  <svg
+                    width="16"
+                    height="17"
+                    viewBox="0 0 16 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 2V15M14.5 8.5L1.5 8.5"
+                      stroke="#4664DC"
+                      strokeWidth="1.335"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Add a qualification
+                </div>
+              )}
           </div>
         </div>
         {/* Reset or submit button */}
@@ -174,6 +185,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
             <Link
               href="#"
+              onClick={resetAll}
               aria-label="reset filters"
               className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
             >
