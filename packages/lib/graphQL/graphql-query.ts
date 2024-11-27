@@ -126,6 +126,7 @@ export const discoverpodQuery = (websiteName: string|undefined, internalName: st
                   title
                   subTitle
                   shortDescription
+                  backgroundColor
                   longDescription {
                     json
                   }

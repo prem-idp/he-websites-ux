@@ -22,6 +22,7 @@ export interface discoverContentfulInterface{
                   title: "",
                   subTitle: "",
                   internalName: "",
+                  backgroundColor: ""
                   cta: {
                     internalName: ""
                     primaryCtaUrl: ""
@@ -118,7 +119,7 @@ const Discoverslidercomponents1 = ({internalName}: {internalName: string}) => {
                         console.log("discoverItems", discoverItems);
                         return <SwiperSlide key={discoverItems.internalName + index}>
                           <div className="discover-card" data-testid="discovercardMobile">
-                           <Link href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""} className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden">
+                           <Link href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""} className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}>
                               <div className="discover-card flex justify-between gap-[8px]">
                                 <div className="flex flex-col justify-between p-[20px] pr-[0]">
                                   {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
@@ -161,7 +162,7 @@ const Discoverslidercomponents1 = ({internalName}: {internalName: string}) => {
                         return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.internalName + index}>
                                   <Link
                                     href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""}
-                                    className="block bg-blue-100 hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden"
+                                    className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
                                   >
                                     <div className="discover-card flex justify-between gap-[8px]">
                                       <div className="flex flex-col justify-between p-[20px] pr-[0]">
