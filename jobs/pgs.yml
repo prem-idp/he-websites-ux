@@ -24,7 +24,7 @@ include:
     PROJECT_NAME: !reference [.pgs/pipeline-vars, variables, PROJECT_NAME]
     PROJECT_PATH: !reference [.pgs/pipeline-vars, variables, PROJECT_PATH]
     BRANCH: develop #Gitlab Branch
-    GITLAB_ENV: develop #Gitlab Pipeline Environment 
+    GITLAB_ENV: development #Gitlab Pipeline Environment 
     BUILD: build:pgs
 
 pgs/dev/build:

@@ -1,3 +1,117 @@
+export const Headerquery = `{
+  contentData: headerCollection(
+    limit: 1
+    where: { website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      websiteLogo {
+        url
+        width
+        height
+      }
+      headerTrackingScripts
+      headerMainMenuCollection(limit: 7) {
+        items {
+          navName
+          navTitle
+          navUrl
+          navIcon {
+            url
+            width
+            height
+          }
+          navChildC1Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navUrl
+                navTitle
+                navCtAlabel
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+                flagNavItemStyle
+              }
+            }
+          }
+          navChildC2Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navUrl
+                navTitle
+                navCtAlabel
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+                flagNavItemStyle
+              }
+            }
+          }
+          navChildC3Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtAlabel
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+                flagNavItemStyle
+              }
+            }
+          }
+          navChildC4Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navUrl
+                navTitle
+                navCtAlabel
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+                flagNavItemStyle
+              }
+            }
+          }
+        }
+      }
+      universalSearchPanel {
+        internalName
+        navigationElementsCollection(limit: 5) {
+          items {
+            ... on Navigation {
+              navName
+              navUrl
+              navCtAlabel
+              navIcon {
+                url
+                width
+                height
+              }
+              navCtaTarget
+              flagNavItemStyle
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 export const footerQuery = `query {
   footerNavigationCollection(where: {footerName: "Footer - Whatuni"}) {
     items {
@@ -30,11 +144,62 @@ export const footerQuery = `query {
     }
   }
 }`;
-
-export const homePageQuery = (websiteName: string|undefined) => `{
+export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
     where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 2) {
+              items {
+                __typename
+                ... on PageStatPodContainer {
+                  bgColor
+                  marginPadding
+                  statPodContainerName
+                  statinfoCollection {
+                  
+                    items {
+                      internalName
+                      statLabel
+                      icon {
+                        url
+                        width
+                        height
+                        title                         
+                      }
+                      statNumber
+                    }
+                      
+                  }
+                  image {
+                    url
+                    width
+                    height
+                    title
+                  }
+                  cta{
+                    internalName
+                    primaryCtaLabel
+                    primaryCtaUrl
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+export const homePageQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       pageTitle
@@ -52,6 +217,7 @@ export const homePageQuery = (websiteName: string|undefined) => `{
           ... on DynamicMediaComponent {
             title
             internalName
+            backgroundColor
             longDescription {
               json  
             }
@@ -97,7 +263,113 @@ export const homePageQuery = (websiteName: string|undefined) => `{
             shortDescription
             longDescription
             flagComponentStyle
-            
+            callToAction {
+              ... on CallToActionCta {
+                internalName
+                primaryCtaLabel
+                primaryCtaUrl
+                primaryCtaTarget
+                flagStyle
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+export const pageLogoQuery = `... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }`;
+export const internalComponentLoop = (
+  internalName: string,
+  componentQuery: string
+) => {
+  const query = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"${internalName}"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ${componentQuery}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+  return query;
+};
+
+export const tagCloudQuery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    ) {
+    items {
+      bodyContentCollection(limit: 10
+      where:{internalName:"Homepage - Tagcloud - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 5) {
+              items {
+                __typename
+                ... on PageTagCloud {
+                  tagName
+                  tagUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const partnerLogo = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Logos - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageLogo {
+                  logoName
+                  logoImage {
+                    url
+                    width
+                    height
+                  }
+                  logoLink
+                }
+              }
+            }
           }
         }
       }

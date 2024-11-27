@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["jest", "node"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -32,8 +32,15 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "packages/__test__/common-utilities/footer/footer.test.tsx",
+    "packages/__test__/hero.test.jsx",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
     "packages/__test__/footer.test.jsx",
-    "packages/__test__/hero.test.jsx"
+    "packages/__test__/hero.test.jsx",
+    "src/**/*",
+    "packages/**/*",
+    "apps/whatuni/src/app/new/mf/page.tsx"
   ],
   "exclude": ["node_modules"]
 }
