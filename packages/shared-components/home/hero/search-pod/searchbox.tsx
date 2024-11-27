@@ -31,7 +31,7 @@ const SearchBox = ({ course_data, uni_data }: any) => {
     SetIsUcasPopupOpen(true);
     const body = document.body;
     body.classList.add("overflow-y-hidden");
-    console.log("blocking ucas temporarly ");
+    // console.log("blocking ucas temporarly ");
   };
 
   const ucasClose = () => {
@@ -40,7 +40,6 @@ const SearchBox = ({ course_data, uni_data }: any) => {
     body.classList.remove("overflow-y-hidden");
   };
 
-  // console.log(searchFormHandle,"______________________________________________");
   return (
     <div className="pb-[12px] md:px-[16px]">
       <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">

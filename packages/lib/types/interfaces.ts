@@ -423,3 +423,176 @@ export interface HomePageInterface {
     };
   };
 }
+export interface StudyLevel {
+  qualUrl: string;
+  qualCode: string;
+  qualDesc: string;
+}
+
+export interface CourseDetail {
+  description: string | null;
+  url: string | null;
+  categoryCode: string | null;
+  browseCatId: string;
+  parentSubject: string | null;
+  qualCode: string | null;
+}
+
+export interface Location {
+   regionId: number;
+  regionUrl: string | null;
+  regionName: string;
+}
+
+export interface CourseData {
+  studyLevelList: StudyLevel[];
+  courseDetails: CourseDetail[];
+  locationList: Location[];
+}
+
+// Types for uni_data
+export interface University {
+  collegeId: number;
+  collegeNameDisplay: string;
+  collegeNameAlias: string;
+  collegeName: string;
+}
+
+export type UniData = University[];
+export interface Topnav {
+  data: Data
+}
+
+export interface Data {
+  contentData: ContentData
+}
+
+export interface ContentData {
+  items: Item[]
+}
+
+export interface Item {
+  headerTrackingScripts: any
+  websiteLogo: WebsiteLogo
+  universalSearchPanel: UniversalSearchPanel
+  headerMainMenuCollection: HeaderMainMenuCollection
+}
+
+export interface WebsiteLogo {
+  url: string
+  width: number
+  height: number
+}
+
+export interface UniversalSearchPanel {
+  internalName: string
+  navigationElementsCollection: NavigationElementsCollection
+}
+
+export interface NavigationElementsCollection {
+  items: Item2[]
+}
+
+export interface Item2 {
+  navName: string
+  navUrl: any
+  navCtAlabel: string
+  navIcon: any
+  navCtaTarget: any
+  flagNavItemStyle: string
+}
+
+export interface HeaderMainMenuCollection {
+  items: Item3[]
+}
+
+export interface Item3 {
+  navName: string
+  navTitle: string
+  navUrl: any
+  navIcon?: NavIcon
+  navChildC1Collection: NavChildC1Collection
+  navChildC2Collection: NavChildC2Collection
+  navChildC3Collection: NavChildC3Collection
+  navChildC4Collection: NavChildC4Collection
+}
+
+export interface NavIcon {
+  url: string
+  width: number
+  height: number
+}
+
+export interface NavChildC1Collection {
+  items: Item4[]
+}
+
+export interface Item4 {
+  navName: string
+  navUrl?: string
+  navTitle: string
+  navCtAlabel: any
+  navIcon: any
+  navCtaTarget?: string
+  flagNavItemStyle?: string
+}
+
+export interface NavChildC2Collection {
+  items: Item5[]
+}
+
+export interface Item5 {
+  navName: string
+  navUrl: any
+  navTitle: string
+  navCtAlabel: any
+  navIcon?: NavIcon2
+  navCtaTarget: any
+  flagNavItemStyle: string
+}
+
+export interface NavIcon2 {
+  url: string
+  width: number
+  height: number
+}
+
+export interface NavChildC3Collection {
+  items: Item6[]
+}
+
+export interface Item6 {
+  navName: string
+  navTitle: string
+  navUrl?: string
+  navCtAlabel: any
+  navIcon?: NavIcon3
+  navCtaTarget?: string
+  flagNavItemStyle: string
+}
+
+export interface NavIcon3 {
+  url: string
+  width: number
+  height: number
+}
+
+export interface NavChildC4Collection {
+  items: Item7[]
+}
+
+export interface Item7 {
+  navName: string
+  navUrl?: string
+  navTitle: string
+  navCtAlabel: any
+  navIcon?: NavIcon4
+  navCtaTarget?: string
+  flagNavItemStyle: string
+}
+
+export interface NavIcon4 {
+  url: string
+  width: number
+  height: number
+}

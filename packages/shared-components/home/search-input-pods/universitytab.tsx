@@ -20,28 +20,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   const [unidetails, setUnidetails] = useState<Array<any>>(
     Array.isArray(data) ? data : []
   );
-  // useEffect(() => {
-  //   const body = {
-  //     affiliateId: 220703,
-  //     actionType: "institution",
-  //     keyword: "",
-  //     qualCode: "",
-  //     networkId: 2,
-  //   };
-  //   if (data) {
-  //     // console.log("inside the empty object useefffect");
-  //     const fetchLocationandstudymode = async () => {
-  //       const fetchdata = await searchAjaxFecthFunction(body);
-  //       // console.log(fetchdata);
-  //       if (fetchdata) {
-  //         setUnidetails(fetchdata);
-  //       }
-  //     };
-  //     // console.log()
-  //     // console.log(subjectlist, locationlist, studymodelist);
-  //     fetchLocationandstudymode();
-  //   }
-  // }, []);
+  
 
   useEffect(() => {
     if (
@@ -52,7 +31,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       return;
     }
 
-    // console.log(searchFormHandle.university);
 
     const results = unidetails?.filter((colleges: any) =>
       colleges.collegeNameDisplay
@@ -60,7 +38,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         .includes(searchFormHandle.university.toLowerCase())
     );
 
-    // console.log(results, "result in filtered result of the uni");
     setUniversityList(results || []);
   }, [searchFormHandle?.university]);
 
