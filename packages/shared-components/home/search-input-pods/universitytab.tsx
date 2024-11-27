@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect } from "react";
-import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import Form from "next/form";
 interface UniversityTabProps {
   searchFormHandle: any;
@@ -16,34 +15,12 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  console.log(data, "university");
   const [universityList, setUniversityList] = useState<string[]>([]);
   const [unierror, setUnierror] = useState(false);
   const [unidetails, setUnidetails] = useState<Array<any>>(
     Array.isArray(data) ? data : []
   );
-  // useEffect(() => {
-  //   const body = {
-  //     affiliateId: 220703,
-  //     actionType: "institution",
-  //     keyword: "",
-  //     qualCode: "",
-  //     networkId: 2,
-  //   };
-  //   if (data) {
-  //     // console.log("inside the empty object useefffect");
-  //     const fetchLocationandstudymode = async () => {
-  //       const fetchdata = await searchAjaxFecthFunction(body);
-  //       // console.log(fetchdata);
-  //       if (fetchdata) {
-  //         setUnidetails(fetchdata);
-  //       }
-  //     };
-  //     // console.log()
-  //     // console.log(subjectlist, locationlist, studymodelist);
-  //     fetchLocationandstudymode();
-  //   }
-  // }, []);
+  
 
   useEffect(() => {
     if (
@@ -54,7 +31,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
       return;
     }
 
-    // console.log(searchFormHandle.university);
 
     const results = unidetails?.filter((colleges: any) =>
       colleges.collegeNameDisplay
@@ -62,7 +38,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         .includes(searchFormHandle.university.toLowerCase())
     );
 
-    // console.log(results, "result in filtered result of the uni");
     setUniversityList(results || []);
   }, [searchFormHandle?.university]);
 

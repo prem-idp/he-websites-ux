@@ -19,7 +19,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  // console.log(data, "getting data as props");
+  // console.log(data.courseDetails, "getting data as props");
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
@@ -30,42 +30,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const [dropdown, setDropdown] = useState<boolean>(false);
   const router = useRouter();
 
-  // ========================================intial fetch if empty=====================================================================================
-  // useEffect(() => {
-  //   console.log("inside the use effect");
-  //   const body = {
-  //     affiliateId: 220703,
-  //     actionType: "subject",
-  //     keyword: "",
-  //     qualCode: "",
-  //     networkId: 2,
-  //   };
-  //   if (Object.keys(data).length === 0) {
-  //     console.log(
-  //       Object.keys(data).length,
-  //       "inside the if the data props is empty"
-  //     );
-  //     const fetchLocationandstudymode = async () => {
-  //       console.log("inside the fetch function");
-  //       const fetchdata = await searchAjaxFecthFunction(body);
-  //       if (fetchdata) {
-  //         console.log(fetchdata, "fetched data inside the useefect");
-  //         setLocationlist(fetchdata?.locationList);
-  //         setSubjectlist(fetchdata?.courseDetails);
-  //         setStudymodelist(fetchdata?.studyLevelList);
-  //       }
-  //     };
-  //     console.log(studymodelist, locationlist, subjectlist);
-  //     fetchLocationandstudymode();
-  //   }
-  // }, []);
-  // ====================================================================================================================================
-  // ========================================fliterstate change when description change============================================================================================
-
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
     const { qualCode } = searchFormHandle.courseType || {};
-    // console.log(description, qualCode);
+    console.log(description, qualCode, "qualcode,descrption");
     // Early return if description is invalid or too short
     if (!description || description.length < 3) {
       setFilteredsubject([]);
@@ -78,9 +46,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         subjects?.description
           ?.toLowerCase()
           .includes(description.toLowerCase()) &&
-        subjects?.qual_Code === qualCode
+        subjects?.qualCode === qualCode
     );
-    // console.log(filteredSubjects, "filterd subjects");
+    console.log(filteredSubjects);
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (
       list: { description: string; [key: string]: any }[],
@@ -119,7 +87,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
     // const sortedResults = prioritySearch(filteredSubjects, description);
     setFilteredsubject(prioritySearch(filteredSubjects, description));
-    // console.log(filteredsubject, "filterdsubject ");
+    console.log(
+      prioritySearch(filteredSubjects, description),
+      "filterdsubject "
+    );
   }, [
     searchFormHandle.subject.description,
     searchFormHandle.courseType.qualCode,
@@ -143,21 +114,14 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
 
   const searchHandler = () => {
-    // console.log(
-    //   searchFormHandle.subject.url,
-    //   searchFormHandle.subject.description,
-    //   searchFormHandle.location.regionName
-    // );
     if (
       searchFormHandle.location.regionName &&
       !searchFormHandle.subject.url &&
       !searchFormHandle?.subject?.description?.trim()
     ) {
-      // console.log("please enter the subject");
       setSubjecterror(true);
     }
     if (!searchFormHandle?.subject?.description?.trim()) {
-      // console.log("please enter the subject");
       setSubjecterror(true);
     }
     if (
@@ -287,7 +251,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       Key word seach for
                     </p>
                     <p className="small text-primary-400">
-                      '{searchFormHandle.subject.description}'
+                      {`'${searchFormHandle.subject.description}'`}
                     </p>
                   </div>
                 )}

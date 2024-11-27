@@ -3,13 +3,45 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 import { usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-const Header = ({ data, children, course_data, uni_data }: any) => {
+import { getCurrentUser } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import config from "../../../../apps/whatuni/configs/amplifyconfiguration.json";
+import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
+Amplify.configure(config, { ssr: true });
+interface props {
+  topnav_data: any;
+  course_data: CourseData;
+  uni_data: UniData;
+  isAuthenticated: string | null;
+}
+const Header = ({
+  topnav_data,
+  course_data,
+  uni_data,
+  isAuthenticated,
+}: props) => {
+  const router = useRouter();
+  // console.log(isAuthenticated, "isAuthenticated");
+  // useEffect(() => {
+
+  //   const fetchUser = async () => {
+  //     try {
+  //       const currentUser = await getCurrentUser();
+  //       console.log(currentUser, "okokokokokokoook");
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   fetchUser();
+  // }, []);
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -21,7 +53,6 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
-  // console.log(pathname, "pathname");
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -59,21 +90,30 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
   }, []);
 
   // right menu actions
-  const rightMenuAction = (actionName: any) => {
-    setClickStates((prevStates) => ({
-      isSearchClicked:
-        actionName === "SEARCH" ? !prevStates.isSearchClicked : false,
-      isUserClicked: actionName === "USER" ? !prevStates.isUserClicked : false,
-      isShortlistClicked:
-        actionName === "SHORTLIST" ? !prevStates.isShortlistClicked : false,
-    }));
+  const rightMenuAction = (actionName: string) => {
+    setClickStates((prevStates) => {
+      const newState = {
+        isSearchClicked: false,
+        isUserClicked: false,
+        isShortlistClicked: false,
+      };
+
+      if (actionName === "SEARCH") {
+        newState.isSearchClicked = !prevStates.isSearchClicked;
+      } else if (actionName === "USER") {
+        newState.isUserClicked = !prevStates.isUserClicked;
+      } else if (actionName === "SHORTLIST") {
+        newState.isShortlistClicked = !prevStates.isShortlistClicked;
+      }
+
+      return newState;
+    });
   };
 
   useEffect(() => {
     const handleRightMenuAction = (actionType: string) => {
       rightMenuAction(actionType);
     };
-    // console.log("inside the eventemitter");
     // Listen for the `rightMenuAction` event
     emitter.on("rightMenuActionclose", handleRightMenuAction);
 
@@ -94,7 +134,13 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
       body.classList.remove("overflow-y-hidden");
     }
   }, [clickStates]);
-
+  const Usericonfunction = () => {
+    if (isAuthenticated === "true") {
+      rightMenuAction("USER");
+    } else {
+      router.push("/register");
+    }
+  };
   return (
     <>
       {/* <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0"> */}
@@ -104,7 +150,10 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
             <Link href="/">
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-                src={data?.data?.contentData?.items[0]?.websiteLogo?.url || ""}
+                src={
+                  topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
+                  ""
+                }
                 alt="Whatuni Logo"
                 priority
                 width={70}
@@ -186,12 +235,12 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={data} />}
+                    {isOpen && <Megamenucomponents dataa={topnav_data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={data} />
+              <Megamenucomponents dataa={topnav_data} />
             )}
           </div>
 
@@ -237,7 +286,7 @@ const Header = ({ data, children, course_data, uni_data }: any) => {
                 <span
                   aria-label="User"
                   ref={userref}
-                  onClick={() => rightMenuAction("USER")}
+                  onClick={() => Usericonfunction()}
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
                   <svg

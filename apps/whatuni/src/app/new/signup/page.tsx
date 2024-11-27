@@ -33,7 +33,6 @@ export default function SignupPage() {
 
       // Call the new v6 signUp API from aws-amplify/auth
       const signUpOutput = await signUp(signUpInput);
-      // console.log("User signed up:", signUpOutput);
       setSuccess(true); // Show success message
     } catch (error: any) {
       console.error("Error signing up:", error);

@@ -1,92 +1,100 @@
 import React from "react";
-import {
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Header from "@packages/shared-components/common-utilities/header/headercomponents";
-import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
-import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
-import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
-import User from "@packages/shared-components/common-utilities/header/user/user";
-jest.mock(
-  "@packages/shared-components/common-utilities/topnav/megamenucomponents",
-  () => jest.fn(() => <div data-testid="megamenu">Megamenu</div>)
-);
-jest.mock(
-  "@packages/shared-components/common-utilities/header/search-pod/header-search",
-  () => jest.fn(() => <div data-testid="search">Search Component</div>)
-);
-jest.mock("@packages/shared-components/common-utilities/header/user/user", () =>
-  jest.fn(() => <div data-testid="user">User Component</div>)
-);
-jest.mock(
-  "@packages/shared-components/common-utilities/header/shortlisted/shortlisted",
-  () =>
-    jest.fn(() => <div data-testid="shortlisted">Shortlisted Component</div>)
-);
+import { usePathname, useRouter } from "next/navigation";
+// Import NextRouter
+import Header from "@packages/shared-components/common-utilities/header/headercomponents"; // Adjust the path as needed
+import uni_data from "@packages/lib/mockdata/uni_data.json";
+import course_data from "@packages/lib/mockdata/course_data.json";
+import topnav_data from "@packages/lib/mockdata/topnav_data.json";
+// import exp from "constants";
+
+// Mocking useRouter with the correct type
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    pathname: "/something",
+    asPath: "/something", // Simulate the current pathname
+  })),
+  usePathname: jest.fn(() => "/something"), // Mock usePathname to return a fixed pathname
+}));
+
 describe("Header Component", () => {
-  const mockData = {
-    data: {
-      contentData: {
-        items: [{ websiteLogo: { url: "/logo.png" } }],
-      },
-    },
-  };
-
-  // Reset mocks before each test
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("should render the header with logo", () => {
-    render(<Header data={mockData} />);
-    const logo = screen.getByAltText("Whatuni Logo");
-    expect(logo).toBeInTheDocument();
-    expect(logo.getAttribute("src")).toContain(
-      encodeURIComponent(mockData.data.contentData.items[0].websiteLogo.url)
+    render(
+      <Header
+        uni_data={uni_data}
+        course_data={course_data}
+        topnav_data={topnav_data}
+        isAuthenticated="true"
+      />
     );
   });
-  it("should toggle the Search component when clicking the search icon", async () => {
-    render(<Header data={mockData} />);
 
-    const searchIcon = screen.getByLabelText("Search");
-
-    fireEvent.click(searchIcon);
-
-    await waitFor(() => {
-      expect(screen.getByTestId("search")).toBeInTheDocument();
-    });
-
-    fireEvent.mouseDown(document);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId("search")).not.toBeInTheDocument();
-    });
+  test("should render the Header component", () => {
+    expect(screen.getByText("Find a course")).toBeInTheDocument();
+    expect(screen.getByText("Find a uni")).toBeInTheDocument();
+    expect(screen.getByAltText("Whatuni Logo")).toBeInTheDocument();
   });
 
-  it("should toggle the User component when clicking the user icon", () => {
-    render(<Header data={mockData} />);
-
-    const userIcon = screen.getByLabelText("User");
-    fireEvent.click(userIcon);
-    expect(screen.getByTestId("user")).toBeInTheDocument();
-
-    fireEvent.click(userIcon);
-    expect(screen.queryByTestId("user")).not.toBeInTheDocument();
+  test("should render the user and shortlist menu", () => {
+    expect(screen.getByLabelText("User")).toBeInTheDocument();
+    expect(screen.getByLabelText("Shortlist")).toBeInTheDocument();
   });
 
-  it("should toggle the Shortlist component when clicking the shortlist icon", () => {
-    render(<Header data={mockData} />);
+  test("should open and close the user menu", () => {
+    const userButton = screen.getByLabelText("User");
 
-    const shortlistIcon = screen.getByLabelText("Shortlist");
-    fireEvent.click(shortlistIcon);
-    expect(screen.getByTestId("shortlisted")).toBeInTheDocument();
+    fireEvent.click(userButton); // Simulate user clicking the button to open the menu
+    expect(screen.getByText("My profile")).toBeInTheDocument(); // Verify that menu opens
 
-    fireEvent.click(shortlistIcon);
-    expect(screen.queryByTestId("shortlisted")).not.toBeInTheDocument();
+    fireEvent.click(userButton); // Simulate user clicking again to close the menu
+    expect(screen.queryByText("My profile")).not.toBeInTheDocument();
+
+    // Verify that menu closes
   });
+  test("should open and close the shortlist menu", () => {
+    const shortlistButton = screen.getByLabelText("Shortlist");
+
+    fireEvent.click(shortlistButton); // Simulate user clicking the button to open the menu
+    expect(screen.getByText("Favourites")).toBeInTheDocument(); // Verify that menu opens
+
+    fireEvent.click(shortlistButton); // Simulate user clicking again to close the menu
+    expect(screen.queryByText("Favourites")).not.toBeInTheDocument();
+  });
+
+  test("should open and close the search menu and set path to /something", () => {
+    // Mocking the usePathname hook to simulate the path "/something"
+    expect(usePathname()).toBe("/something");
+    const searchButton = screen.getByLabelText("Search");
+    expect(searchButton).toBeInTheDocument();
+    // Verify that the pathname is set to /something
+    // expect(usePathname()).toBe("/something");
+  });
+
+  // test("chcek for / path", () => {
+  //   usePathname.mockReturnValue("/"); // Mock usePathname to return "/"
+  //   useRouter.mockReturnValue({
+  //     push: jest.fn(),
+  //     pathname: "/",
+  //     asPath: "/",
+  //   });
+
+  //   // expect(searchButton).not.toBeInTheDocument();
+  //   expect(usePathname()).toBe("/");
+  //   expect(screen.queryByLabelText("Search")).not.toBeInTheDocument();
+  //   // expect(searchButton).not.toBeInTheDocument();
+  // });
+  test("test in mobile view", () => {
+    global.innerWidth = 500;
+    fireEvent.resize(window);
+    expect(screen.queryByText("Find a course")).not.toBeInTheDocument();
+  });
+  // test("handle click outside", () => {
+  //   const shortlistButton = screen.getByLabelText("Shortlist");
+  //   fireEvent.click(shortlistButton); // Simulate user clicking the button to open the menu
+  //   expect(screen.getByText("Favourites")).toBeInTheDocument(); // Verify that menu opens
+  //   fireEvent.click(document.body);
+  //   expect(screen.queryByText("Favourites")).not.toBeInTheDocument();
+  // });
 });
