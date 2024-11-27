@@ -36,7 +36,7 @@ export default function SignupPage() {
       // console.log("User signed up:", signUpOutput);
       setSuccess(true); // Show success message
     } catch (error: any) {
-      console.error("Error signing up:", error);
+      // console.error("Error signing up:", error);
       setError(error.message || "Error occurred during sign up");
     }
   };

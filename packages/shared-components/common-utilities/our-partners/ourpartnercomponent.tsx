@@ -29,8 +29,8 @@ const OurPartnerComponent = ({ heading }: any) => {
         partnerLogoJsonData?.data?.contentData?.items[0]?.bodyContentCollection
           ?.items[0]?.mediaCardsCollection?.items || [];
       setPartners(partnerLogos);
-      console.log("json", partnerLogoJsonData);
-      console.log("data", partnerLogos);
+      // console.log("json", partnerLogoJsonData);
+      // console.log("data", partnerLogos);
     }
 
     contentfulLoadData();

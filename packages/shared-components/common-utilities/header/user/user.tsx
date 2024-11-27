@@ -6,7 +6,7 @@ export default function User() {
   // Array of menu items
   function clearAllCookies() {
     // Get all cookies
-    console.log("inside the cclear all cookies");
+    // console.log("inside the cclear all cookies");
     const cookies = document.cookie.split(";");
 
     // Clear each cookie

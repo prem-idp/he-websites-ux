@@ -16,7 +16,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  console.log(data, "university");
+  // console.log(data, "university");
   const [universityList, setUniversityList] = useState<string[]>([]);
   const [unierror, setUnierror] = useState(false);
   const [unidetails, setUnidetails] = useState<Array<any>>(

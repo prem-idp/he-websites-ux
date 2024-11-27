@@ -27,7 +27,7 @@ export default function Test() {
         searchAjaxFecthFunction(unibody),
         graphQlFetchFunction(Headerquery),
       ]);
-      console.log(course_data, uni_data, data, "from the test component");
+      // console.log(course_data, uni_data, data, "from the test component");
     };
     testfetch();
   }, []);

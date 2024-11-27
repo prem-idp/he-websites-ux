@@ -335,21 +335,21 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       "HE websites"
     );
 
-    // const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
-    //   authType: FunctionUrlAuthType.AWS_IAM,
-    //   invokeMode: InvokeMode.BUFFERED,
-    // });
     const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
-        invokeMode: InvokeMode.BUFFERED,
-        authType: FunctionUrlAuthType.NONE,
-        // cors: {
-        //   allowCredentials: false,
-        //   allowedHeaders: ["*"],
-        //   allowedMethods: ["*"],
-        //   allowedOrigins: ["*"],
-        //   exposedHeaders: ["*"],
-        // },
+      authType: FunctionUrlAuthType.AWS_IAM,
+      invokeMode: InvokeMode.BUFFERED,
     });
+    // const nextjsLambdaUrl = nextjsLambda.addFunctionUrl({
+    //     invokeMode: InvokeMode.BUFFERED,
+    //     authType: FunctionUrlAuthType.NONE,
+    //     // cors: {
+    //     //   allowCredentials: false,
+    //     //   allowedHeaders: ["*"],
+    //     //   allowedMethods: ["*"],
+    //     //   allowedOrigins: ["*"],
+    //     //   exposedHeaders: ["*"],
+    //     // },
+    // });
 
 
     /*Newly added configuration*/
@@ -374,7 +374,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     });
     /*----------------------------------*/
     const nextjsImageLambdaUrl = nextjsimageLambda.addFunctionUrl({
-      authType: FunctionUrlAuthType.NONE,
+      authType: FunctionUrlAuthType.AWS_IAM,
       invokeMode: InvokeMode.BUFFERED,
     });
 

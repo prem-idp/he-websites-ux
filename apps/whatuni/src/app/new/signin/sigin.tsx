@@ -27,18 +27,18 @@ export default function SignInPage() {
 
     try {
       const user = await signIn({ username, password });
-      console.log("User signed in:", user);
+      // console.log("User signed in:", user);
       setSuccess(true);
 
       // console.log("redirectUrl", redirectUrl);
       const origin: string =
         typeof window !== "undefined" ? window.location.origin : "";
-      console.log("origin", origin);
+      // console.log("origin", origin);
       const url = `${origin}${redirectUrl}` as string;
-      console.log("Full redirect URL:", url);
+      // console.log("Full redirect URL:", url);
       window.location.replace(url);
     } catch (err) {
-      console.error("Sign in error:", err);
+      // console.error("Sign in error:", err);
       setError(
         err instanceof Error ? err.message : "An error occurred during sign in"
       );
