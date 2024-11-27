@@ -176,11 +176,23 @@ export interface DynamicMediaComponent {
   longDescription: LongDescription;
   title: string;
   internalName: string;
+  backgroundColor: string;
   cta: CTA | null;
-  image: Image | null;
+  image: Imagee;
   video: null;
 }
 
+export interface Imagee {
+  imageTitle: string | null;
+  imgAltText: string;
+  imgUpload: ImageUpload;
+}
+
+export interface ImageUpload {
+  url: string;
+  height: number;
+  width: number;
+}
 export interface LongDescription {
   json: JSONContent;
 }
@@ -204,18 +216,6 @@ export interface TextNode {
   nodeType: string;
 }
 
-export interface Image {
-  imageTitle: string | null;
-  imgAltText: string;
-  imgUpload: ImageUpload;
-}
-
-export interface ImageUpload {
-  url: string;
-  height: number;
-  width: number;
-}
-
 export interface MultipleCardContainer {
   __typename: "MultipleCardContainer";
   internalName: string;
@@ -235,9 +235,8 @@ export interface CallToAction {
   flagStyle: string;
 }
 
-
 export interface ReviewDetailsList {
-  reviewDetail : ReviewDetails[];
+  reviewDetail: ReviewDetails[];
 }
 
 export interface ReviewDetails {
@@ -319,15 +318,6 @@ export interface HomePageStatInterface {
 
 export interface DataInterface {
   items: DynamicMediaComponent[];
-}
-
-export interface DynamicMediaComponent {
-  __typename: "DynamicMediaComponent";
-  longDescription: LongDescription;
-  title: string;
-  internalName: string;
-  cta: CTA | null;
-  image: Image | null;
 }
 
 export interface LongDescription {

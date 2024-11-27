@@ -19,15 +19,18 @@ export async function graphQlFetchFunction(payload: string) {
 
 export async function searchAjaxFecthFunction(payload: any) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-      },
-      body: JSON.stringify(payload),
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+      }
+    );
     const data = await res.json();
     return data;
   } catch (error) {
@@ -50,6 +53,28 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
       }
     );
     const data = await res.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUcasCalculatorGrades(ucasPayload: any) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/ucas-ajax`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+        },
+        body: JSON.stringify(ucasPayload),
+        cache: "no-store",
+      }
+    );
+    const data = await res.json();
+
     return data;
   } catch (error) {
     throw error;

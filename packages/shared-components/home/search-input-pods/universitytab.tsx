@@ -126,7 +126,12 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             )}
         </Form>
       </div>
-      {unierror && <p className="small text-negative-default"> Please select university from dropdown</p>}
+      {unierror && (
+        <p className="small text-negative-default">
+          {" "}
+          Please select university from dropdown
+        </p>
+      )}
     </div>
   );
 };
