@@ -194,18 +194,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:pr-[10px] md:py-[7px]">
+      <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]">
         <Form
           action={searchHandler}
-          className="flex flex-col items-stretch md:flex-row md:items-center"
+          className="flex flex-col small md:flex-row md:items-center"
         >
-          <div className="relative mb-[24px] md:mb-[0] shrink-0">
+          <div className="relative shrink-0">
             <button
               onClick={() => {
                 courseActions("UG");
                 setDropdown(false);
               }}
-              className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[160px] md:mr-[16px]"
+              className="w-full flex items-center justify-between gap-[4px] pr-0 pb-[24px] text-black md:w-[160px] md:pr-[16px] md:pb-0"
               type="button"
             >
               {searchFormHandle?.courseType.qualDesc}
@@ -217,7 +217,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               />
             </button>
             {searchFormHandle?.isCourseType && (
-              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[43px] overflow-hidden lg:w-[192px]">
+              <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[45px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                 <ul>
                   {studymodelist?.map((item: any, index: any) => (
                     <li
@@ -238,37 +238,35 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
-          <div className="w-full relative border-y-[1px] border-neutral200 grow md:border-l md:border-y-0">
-            <div className="flex items-center my-[12px] md:my-[0]">
-              <input
-                value={searchFormHandle.subject.description || ""}
-                type="text"
-                className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]"
-                aria-label="submenu"
-                placeholder="Enter subject"
-                onChange={(event) => {
-                  setsearchFormHandle((prevData: any) => ({
-                    ...prevData,
-                    subject: {
-                      ...prevData.subject,
-                      url: null,
-                      parent_subject: null,
-                      category_code: null,
-                      browse_cat_id: "KW", // Retaining other properties of subject
-                      description: event.target.value.trimStart(), // Setting the description value
-                    },
-                  }));
-                  setDropdown(true);
-                  setSubjecterror(false);
-                }}
-                onClick={() => {
-                  courseActions("Subject");
-                  setDropdown((prev) => !prev);
-                }}
-              />
-            </div>
+          <div className="w-full relative grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
+            <input
+              value={searchFormHandle.subject.description || ""}
+              type="text"
+              className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
+              aria-label="submenu"
+              placeholder="Enter subject"
+              onChange={(event) => {
+                setsearchFormHandle((prevData: any) => ({
+                  ...prevData,
+                  subject: {
+                    ...prevData.subject,
+                    url: null,
+                    parent_subject: null,
+                    category_code: null,
+                    browse_cat_id: "KW", // Retaining other properties of subject
+                    description: event.target.value.trimStart(), // Setting the description value
+                  },
+                }));
+                setDropdown(true);
+                setSubjecterror(false);
+              }}
+              onClick={() => {
+                courseActions("Subject");
+                setDropdown((prev) => !prev);
+              }}
+            />
             {dropdown && (
-              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] max-h-[311px] overflow-y-scroll custom-scrollbar-2 overflow-hidden">
+              <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
                 {/* Hardcode the item at index 0 */}
                 {searchFormHandle?.subject?.description?.length > 2 && (
                   <div
@@ -315,30 +313,28 @@ const CourseTab: React.FC<CourseTabProps> = ({
             )}
           </div>
           <div
-            className="w-full relative grow md:border-l border-neutral200"
+            className="w-full relative grow md:border-l border-grey-200"
             onClick={() => {
               courseActions("Location");
               setDropdown(false);
             }}
           >
-            <div className="flex items-center my-[12px] md:my-[0]">
-              <input
-                type="text"
-                className="form-control w-full focus:outline-none small text-black placeholder:text-gray-500 px-[0] py-[11px] md:px-[16px]  "
-                aria-label="submenu"
-                placeholder="Location (optional)"
-                value={searchFormHandle?.location.regionName || ""}
-                onChange={(event) =>
-                  setsearchFormHandle((prevData: SearchFormHandle) => ({
-                    ...prevData,
-                    location: event.target.value,
-                  }))
-                }
-                readOnly
-              />
-            </div>
+            <input
+              type="text"
+              className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
+              aria-label="submenu"
+              placeholder="Location (optional)"
+              value={searchFormHandle?.location.regionName || ""}
+              onChange={(event) =>
+                setsearchFormHandle((prevData: SearchFormHandle) => ({
+                  ...prevData,
+                  location: event.target.value,
+                }))
+              }
+              readOnly
+            />
             {searchFormHandle?.isLocationClicked && (
-              <div className="w-full z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] max-h-[311px] overflow-y-scroll custom-scrollbar-2 overflow-hidden">
+              <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
                 <ul>
                   {locationlist?.map((item: any, index: any) => (
                     <li
@@ -359,20 +355,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
-          <div className="pt-[2px] md:pt-[0]">
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[138px]"
-            >
-              <Image
-                src="/static/assets/icons/search_icon.svg"
-                width="18"
-                height="18"
-                alt="Search icon"
-              />
-              Search
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"
+          >
+            <Image
+              src="/static/assets/icons/search_icon.svg"
+              width="18"
+              height="18"
+              alt="Search icon"
+            />
+            Search
+          </button>
         </Form>
       </div>
       {subjecterror && (
