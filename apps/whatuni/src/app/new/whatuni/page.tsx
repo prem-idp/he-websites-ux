@@ -10,6 +10,7 @@ import {
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
 import LocationAccess from "@packages/lib/location-access/request-location";
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -18,6 +19,7 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
   return (
     <>
+      <GoogleOneTap />
       <Test />
       <LocationAccess />
       <Heroslidercomponent data={heroSliderData} />

@@ -1,11 +1,7 @@
 "use client";
 import { useEffect } from "react";
 
-interface GoogleOneTapProps {
-  onLoginSuccess: (response: any) => void;
-}
-
-const GoogleOneTap = ({ onLoginSuccess }: GoogleOneTapProps) => {
+const GoogleOneTap = () => {
   useEffect(() => {
     if (typeof window !== "undefined" && (window as any).google) {
       console.log("Google One Tap is ready");
@@ -15,8 +11,6 @@ const GoogleOneTap = ({ onLoginSuccess }: GoogleOneTapProps) => {
         callback: (response: any) => {
           const { credential } = response;
           console.log(response, "response");
-
-          onLoginSuccess(response); // Handle the successful login
         },
       });
       (window as any).google.accounts.id.prompt(); // Automatically prompt Google One Tap
