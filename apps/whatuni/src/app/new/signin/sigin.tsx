@@ -34,7 +34,7 @@ export default function SignInPage() {
       const url = `${origin}${redirectUrl}` as string;
       window.location.replace(url);
     } catch (err) {
-      console.error("Sign in error:", err);
+      // console.error("Sign in error:", err);
       setError(
         err instanceof Error ? err.message : "An error occurred during sign in"
       );

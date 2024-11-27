@@ -21,8 +21,10 @@ export default function User() {
         <ul className="small">
           <li className="mb-[16px] hover:underline">
             <Link href="/degrees/mywhatuni.html">My profile</Link>
+            <Link href="/degrees/mywhatuni.html">My profile</Link>
           </li>
           <li className="mb-[16px] hover:underline">
+            <Link href="/degrees/comparison">Favourites</Link>
             <Link href="/degrees/comparison">Favourites</Link>
           </li>
 
