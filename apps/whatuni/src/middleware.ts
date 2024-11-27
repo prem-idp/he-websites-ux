@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@packages/lib/utlils/amplifyServerUtils";
 
 export async function middleware(request: NextRequest) {
+  console.log("Request Info:----------", {
+   request
+  });
+
+
+
   const response = NextResponse.next();
 
   const authenticated = await runWithAmplifyServerContext({
@@ -25,20 +31,9 @@ export async function middleware(request: NextRequest) {
     response.headers.set("isAuthenticated", "true");
     return response;
   } else {
-    // Add `isAuthenticated: false` to the response headers
-
     response.headers.set("isAuthenticated", "false");
     return response;
   }
-
-  // Redirect to the sign-in page
-  // const redirectUrl = new URL("/new/signin", request.url);
-  // redirectUrl.searchParams.set(
-  //   "redirect",
-  //   request.nextUrl.pathname + request.nextUrl.search
-  // );
-
-  // return NextResponse.redirect(redirectUrl.toString(), 307);
 }
 
 export const config = {
