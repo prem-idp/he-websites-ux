@@ -1,5 +1,4 @@
 "use server";
-
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
@@ -8,19 +7,16 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import Home from "../mf/page";
-import LocationAccess from "@packages/lib/location-access/request-location";
+import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log(componentList);
   return (
     <>
-      <Home />
-      <LocationAccess />
+      <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

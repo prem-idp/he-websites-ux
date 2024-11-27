@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect } from "react";
-import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import Form from "next/form";
 interface UniversityTabProps {
   searchFormHandle: any;
@@ -16,7 +15,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  console.log(data, "university");
   const [universityList, setUniversityList] = useState<string[]>([]);
   const [unierror, setUnierror] = useState(false);
   const [unidetails, setUnidetails] = useState<Array<any>>(
@@ -151,7 +149,12 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
             )}
         </Form>
       </div>
-      {unierror && <p className="small text-negative-default"> Please select university from dropdown</p>}
+      {unierror && (
+        <p className="small text-negative-default">
+          {" "}
+          Please select university from dropdown
+        </p>
+      )}
     </div>
   );
 };

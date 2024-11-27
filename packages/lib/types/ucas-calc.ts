@@ -7,6 +7,7 @@ export interface GradeFilterArrayInterface {
   maxPoint: string | null;
   maxTotalPoint: string | null;
   gradeOptionflag: string | null;
+  template: string | null;
 }
 
 export interface GradeFilterInterface {

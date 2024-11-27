@@ -17,7 +17,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [ucasGradeData, setUcasGradeData] = useState<
     GradeFilterArrayInterface[] | null
   >();
-
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoints, setUcasPoints] = useState<number>(0);
@@ -33,8 +32,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-
-  console.log("=========================", ucasGradeData);
 
   const ucasHandleClose = () => {
     onClose();
@@ -69,7 +66,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       );
     });
   };
-  console.log("Qualification array", qualifications);
   return (
     <>
       <div

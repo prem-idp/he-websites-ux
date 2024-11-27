@@ -26,6 +26,7 @@ const AddQualification = ({
 }: PropsInterface) => {
   const [selectedLevel, setSelectedLevel] = useState<string>("A Level");
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
+  const [type, setType] = useState<string | null>("plus-minus");
   const [gradePoints, setGradePoints] = useState<GradePointsInterface>({
     maxPoint: 0,
     maxTotalPoint: 0,
@@ -44,18 +45,39 @@ const AddQualification = ({
     setIsDropDownOpen(!isDropDownOpen);
   };
 
+  // const changeUcasLevel = (
+  //   level: string,
+  //   gradeString: string | null,
+  //   maxPoint: string | null,
+  //   maxTotalPoint: string | null,
+  //   template: string | null
+  // ) => {
+  //   setIsDropDownOpen(!isDropDownOpen);
+  //   setGradePoints((prev) => ({
+  //     ...prev,
+  //     maxPoint: Number(maxPoint),
+  //     maxTotalPoint: Number(maxTotalPoint),
+  //   }));
+  //   setGradeArray(parseGradeString(gradeString));
+  //   setSelectedLevel(level);
+  // };
+
   const changeUcasLevel = (
     level: string,
     gradeString: string | null,
     maxPoint: string | null,
-    maxTotalPoint: string | null
+    maxTotalPoint: string | null,
+    template: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    setGradePoints((prev) => ({
-      ...prev,
+    setType(template);
+    setUcasPoints(ucasPoints - gradePoints.podSpecificPoints);
+    setGradePoints({
       maxPoint: Number(maxPoint),
       maxTotalPoint: Number(maxTotalPoint),
-    }));
+      getmaxTotalPoint: 0,
+      podSpecificPoints: 0,
+    });
     setGradeArray(parseGradeString(gradeString));
     setSelectedLevel(level);
   };
@@ -63,8 +85,7 @@ const AddQualification = ({
     setUcasPoints(ucasPoints - gradePoints.podSpecificPoints);
     removeQual();
   };
-  console.log(gradeArray);
-  console.log("Grade points", gradePoints);
+
   return (
     <div>
       <label className="block text-grey300 font-semibold mb-[8px]">
@@ -103,7 +124,8 @@ const AddQualification = ({
                                 childItems.qualification,
                                 childItems.gradeOptions,
                                 childItems.maxPoint,
-                                childItems.maxTotalPoint
+                                childItems.maxTotalPoint,
+                                childItems.template
                               );
                             }
                           : undefined
@@ -136,11 +158,11 @@ const AddQualification = ({
           </svg>
         </div>
 
-        {false && (
+        {type === "plus-minus" && (
           <div className="flex items-center justify-between gap-[32px] flex-wrap">
             {gradeArray?.map((childItems, index) => (
               <GradeCounterButton
-                key={index + 1}
+                key={selectedLevel + index}
                 btnName={childItems.key}
                 btnValue={childItems.value}
                 gradePoints={gradePoints}
@@ -151,14 +173,14 @@ const AddQualification = ({
             ))}
           </div>
         )}
-        {true && (
+        {type === "credit-selector" && (
           <GradeDropdown
             setGradePoints={setGradePoints}
             ucasPoints={ucasPoints}
             setUcasPoints={setUcasPoints}
           />
         )}
-        {false && (
+        {type === "single-select" && (
           <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
             {gradeArray?.map((childItems, index) => (
               <GradeBadgeButton
@@ -174,7 +196,7 @@ const AddQualification = ({
           </div>
         )}
 
-        {false && <MaxMinInputBox />}
+        {type === "min-max" && <MaxMinInputBox />}
       </div>
     </div>
   );

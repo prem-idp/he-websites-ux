@@ -6,6 +6,7 @@ import Image from "next/image";
 import MaxMinInputBox from "./max-min-input";
 import { KeyValuePair } from "@packages/lib/types/ucas-calc";
 import GradeCounterButton from "./grade-counter-button";
+import GradeDropdown from "./grade-dropdown";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { parseGradeString } from "@packages/lib/utlils/helper-function";
 interface PropsInterface {
@@ -19,12 +20,8 @@ const TopLevelMenu = ({
   setUcasPoints,
 }: PropsInterface) => {
   const [selectedLevel, setSelectedLevel] = useState<string>("A Level");
+  const [type, setType] = useState<null | string>("plus-minus");
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-  //   const [dropDownMenu, setDropDownMenu] = useState({
-  //     Counter: true,
-  //     Badge: false,
-  //     MaxMinInput: false,
-  //   });
   const [gradeArray, setGradeArray] = useState<KeyValuePair[] | undefined>(
     undefined
   );
@@ -42,18 +39,21 @@ const TopLevelMenu = ({
     level: string,
     gradeString: string | null,
     maxPoint: string | null,
-    maxTotalPoint: string | null
+    maxTotalPoint: string | null,
+    template: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    setGradePoints((prev) => ({
-      ...prev,
+    setType(template);
+    setUcasPoints(ucasPoints - gradePoints.podSpecificPoints);
+    setGradePoints({
       maxPoint: Number(maxPoint),
       maxTotalPoint: Number(maxTotalPoint),
-    }));
+      getmaxTotalPoint: 0,
+      podSpecificPoints: 0,
+    });
     setGradeArray(parseGradeString(gradeString));
     setSelectedLevel(level);
   };
-  console.log(gradeArray);
   return (
     <>
       <div className="relative">
@@ -87,7 +87,8 @@ const TopLevelMenu = ({
                             childItems.qualification,
                             childItems.gradeOptions,
                             childItems.maxPoint,
-                            childItems.maxTotalPoint
+                            childItems.maxTotalPoint,
+                            childItems.template
                           );
                         }
                       : undefined
@@ -100,11 +101,11 @@ const TopLevelMenu = ({
           </div>
         )}
       </div>
-      {false && (
+      {type === "plus-minus" && (
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
           {gradeArray?.map((childItems, index) => (
             <GradeCounterButton
-              key={index + 1}
+              key={selectedLevel + index}
               btnName={childItems.key}
               btnValue={childItems.value}
               gradePoints={gradePoints}
@@ -115,7 +116,7 @@ const TopLevelMenu = ({
           ))}
         </div>
       )}
-      {true && (
+      {type === "single-select" && (
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
           {gradeArray?.map((childItems, index) => (
             <GradeBadgeButton
@@ -130,8 +131,14 @@ const TopLevelMenu = ({
           ))}
         </div>
       )}
-
-      {false && <MaxMinInputBox />}
+      {type === "credit-selector" && (
+        <GradeDropdown
+          setGradePoints={setGradePoints}
+          ucasPoints={ucasPoints}
+          setUcasPoints={setUcasPoints}
+        />
+      )}
+      {type === "min-max" && <MaxMinInputBox />}
     </>
   );
 };
