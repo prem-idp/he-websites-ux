@@ -4,6 +4,7 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import Test from "./testcomponent";
 import {
   MultipleCardContainer,
   SliderBannerCollection,
@@ -15,9 +16,9 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log(componentList);
   return (
     <>
+      <Test />
       <LocationAccess />
       <Heroslidercomponent data={heroSliderData} />
       <div>

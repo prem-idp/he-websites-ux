@@ -6,7 +6,13 @@ import CourseTab from "@packages/shared-components/home/search-input-pods/course
 import Image from "next/image";
 import Link from "next/link";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-export default function Search({ course_data, uni_data }: any) {
+import { CourseData, UniData } from "@packages/lib/types/interfaces";
+interface props {
+  course_data: CourseData;
+  uni_data: UniData;
+}
+export default function Search({ course_data, uni_data }: props) {
+  console.log("uni_data", uni_data);
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };

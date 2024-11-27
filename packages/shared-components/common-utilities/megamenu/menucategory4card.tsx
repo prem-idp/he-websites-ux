@@ -3,30 +3,23 @@ import Image from "next/image";
 import React from "react";
 
 const Menucategory4card = ({ data }: any) => {
-  console.log(data, "data in the menucategory4card");
-  const calculate = () => {
-    if (data.length - 1 <= 2) {
-      return 1;
-    } else {
-      if ((data.length - 1) / 2) {
-        return Math.ceil((data.length - 1) / 2);
-      }
-    }
-  };
-  
+  const calculate = () =>
+    data.length - 1 <= 2 ? 1 : Math.ceil((data.length - 1) / 2);
+
   const size = calculate();
-  console.log(size);
+
   return (
-    <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
+    <div
+      className={`dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px] lg:col-span-${size}`}
+    >
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
         {
           data?.find((item: any) => item.flagNavItemStyle === "L2 Text")
             ?.navTitle
         }
-        <p> menucategory4card</p>
       </div>
       <ul
-        className={`grid lg:grid-cols-4 gap-[16px] p-[16px] lg:p-[0] bg-white`}
+        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[16px] p-[16px] lg:p-[0] bg-white`}
       >
         {data
           ?.filter(
@@ -40,7 +33,7 @@ const Menucategory4card = ({ data }: any) => {
                 rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
                 className="block"
               >
-                <div className="megamenu-image-card min-h-[100px] relative z-0 overflow-hidden">
+                <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
                   <Image
                     className="w-full"
                     loading="eager"
