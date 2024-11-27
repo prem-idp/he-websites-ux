@@ -6,7 +6,7 @@ import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
 import UniversityTab from "@packages/shared-components/home/search-input-pods/universitytab";
 import AdviceTab from "@packages/shared-components/home/search-input-pods/advicetab";
-
+import { CourseData,UniData } from "@packages/lib/types/interfaces";
 // Mock the components
 jest.mock("@packages/shared-components/home/search-input-pods/coursetab", () =>
   jest.fn(() => <div data-testid="course-tab">CourseTab Content</div>)
@@ -27,8 +27,8 @@ jest.mock("@packages/lib/eventEmitter/eventEmitter", () => ({
   emit: jest.fn(),
 }));
 
-const mockCourseData = { courses: ["Course1", "Course2"] };
-const mockUniData = { universities: ["University1", "University2"] };
+const mockCourseData:CourseData = { courses: ["Course1", "Course2"] };
+const mockUniData:UniData = { universities: ["University1", "University2"] };
 
 describe("Search Component", () => {
   test("should render the component with initial state", () => {

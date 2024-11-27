@@ -60,6 +60,7 @@ describe("Megamenucomponents", () => {
   it("renders the component with initial data", () => {
     render(<Megamenucomponents data={mockData} />);
     expect(screen.getByText("Menu 1")).toBeInTheDocument();
+    
   });
 
   it("toggles menu on mobile view", () => {

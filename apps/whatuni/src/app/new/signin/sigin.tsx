@@ -27,15 +27,11 @@ export default function SignInPage() {
 
     try {
       const user = await signIn({ username, password });
-      // console.log("User signed in:", user);
       setSuccess(true);
 
-      // console.log("redirectUrl", redirectUrl);
       const origin: string =
         typeof window !== "undefined" ? window.location.origin : "";
-      // console.log("origin", origin);
       const url = `${origin}${redirectUrl}` as string;
-      // console.log("Full redirect URL:", url);
       window.location.replace(url);
     } catch (err) {
       // console.error("Sign in error:", err);
@@ -101,7 +97,7 @@ export default function SignInPage() {
         {!success && (
           <div className="mt-4">
             <p className="text-sm text-center text-gray-600">
-              Don't have an account?{" "}
+              Don have an account?{" "}
               <Link
                 href="/new/signup"
                 className="text-indigo-600 hover:text-indigo-500 font-semibold"

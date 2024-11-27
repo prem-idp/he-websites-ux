@@ -1,38 +1,36 @@
 import Link from "next/link";
+
+import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
+import { Amplify } from "aws-amplify";
+import config from "../../../../../apps/whatuni/configs/amplifyconfiguration.json";
 
 export default function User() {
   const router = useRouter();
-  // Array of menu items
-  function clearAllCookies() {
-    // Get all cookies
-    // console.log("inside the cclear all cookies");
-    const cookies = document.cookie.split(";");
-
-    // Clear each cookie
-    cookies.forEach((cookie) => {
-      const name = cookie.split("=")[0].trim();
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    });
-
-    // Redirect to home page
-    window.location.href = "/";
+  async function clearAllCookies() {
+    try {
+      await signOut(); // Wait for the signOut process to complete
+      window.location.href = "/"; // Force a full reload to the home page
+    } catch (error) {
+      console.error("Error signing out:", error); // Handle errors if signOut fails
+    }
   }
-
   return (
     <>
       <div className="flex justify-between p-[16px] absolute z-10 top-[56px] right-[-39px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] md:top-[65px] lg:top-[62px] lg:right-0">
         <ul className="small">
           <li className="mb-[16px] hover:underline">
             <Link href="/degrees/mywhatuni.html">My profile</Link>
+            <Link href="/degrees/mywhatuni.html">My profile</Link>
           </li>
           <li className="mb-[16px] hover:underline">
+            <Link href="/degrees/comparison">Favourites</Link>
             <Link href="/degrees/comparison">Favourites</Link>
           </li>
 
           <li className="text-primary-400 hover:underline">
             <Link href="/" onClick={() => clearAllCookies()}>
-              Log out
+              Log Out
             </Link>
           </li>
         </ul>

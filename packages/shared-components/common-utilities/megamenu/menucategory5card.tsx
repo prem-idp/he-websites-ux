@@ -11,16 +11,16 @@ const Menucategory5card = ({ data }: any) => {
             ?.navTitle
         }
       </div>
-      <ul className="flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white">
+      <ul className="flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white grid lg:grid-cols-1">
         {data.slice(1).map((item: any, index: any) => (
           <li key={index}>
             <Link
               href={item?.navUrl || ""}
               target={item?.navCtaTarget ? "_blank" : "_parent"}
               rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
-              className="block bg-neutral-200 min-h-[200px]"
+              className="block bg-neutral-200 "
             >
-              <div className="megamenu-image-card min-h-[100px] relative z-0 overflow-hidden">
+              <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
                 <Image
                   className="w-full"
                   loading="eager"
