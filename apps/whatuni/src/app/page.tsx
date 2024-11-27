@@ -7,7 +7,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import LocationAccess from "@packages/lib/location-access/request-location";
+import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -17,7 +17,7 @@ const Page = async () => {
 
   return (
     <>
-      <LocationAccess />
+      <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

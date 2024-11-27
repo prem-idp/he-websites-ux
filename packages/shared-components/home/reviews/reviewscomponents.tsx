@@ -20,6 +20,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
 }) => {
   const jsonResponse: ReviewDetailsList =
     await getReviewDetailsFunction(reviewPayload);
+  console.log(jsonResponse);
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }

@@ -19,6 +19,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
           </p>
           {data?.cta && (
             <Link
+              data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"
             >
@@ -44,6 +45,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">
           {data?.image?.imgUpload?.url && (
             <Image
+              data-testid="HeroImage"
               priority={true}
               src={data?.image?.imgUpload?.url}
               width={365}

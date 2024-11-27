@@ -13,7 +13,6 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
 }) => {
-  
   const resultData: HomePageStatInterface =
     await graphQlFetchFunction(statsPodQuery);
   const statsData =

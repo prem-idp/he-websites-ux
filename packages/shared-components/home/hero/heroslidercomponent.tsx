@@ -8,8 +8,7 @@ import HeroSliderComponentSkeleton from "@packages/shared-components/common-util
 interface PropjectProps {
   data: SliderBannerCollection;
 }
-const HeroSliderComponent: React.FC<PropjectProps> = async({ data }) => {
-
+const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
   const body = {
     affiliateId: 220703,
     actionType: "subject",
@@ -29,17 +28,19 @@ const HeroSliderComponent: React.FC<PropjectProps> = async({ data }) => {
     searchAjaxFecthFunction(unibody),
   ]);
   return (
-    <Suspense fallback={<HeroSliderComponentSkeleton />}>
-      <div
-        data-testid="hero-banner-colour"
-        className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0.5`}
-      >
-        <div className="max-w-container mx-auto">
-          <HeroSlider data={data} />
+    <>
+      <Suspense fallback={<HeroSliderComponentSkeleton />}>
+        <div
+          data-testid="hero-banner-colour"
+          className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0.5`}
+        >
+          <div className="max-w-container mx-auto">
+            <HeroSlider data={data} />
+          </div>
         </div>
-      </div>
-      <SearchBox course_data={course_data} uni_data={uni_data} />
-    </Suspense>
+        <SearchBox course_data={course_data} uni_data={uni_data} />
+      </Suspense>
+    </>
   );
 };
 

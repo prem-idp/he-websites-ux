@@ -1,11 +1,23 @@
-"use server";
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AppLinkItem } from "@packages/lib/types/interfaces";
 interface PropsInterface {
   data: AppLinkItem[];
 }
 const FooterAppLinks = ({ data }: PropsInterface) => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
   return (
     <ul
       className="flex flex-row md:flex-col gap-[16px]"
@@ -13,9 +25,15 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
     >
       {data[0] && (
         <li data-testid="app_store">
-          <Link className="block w-fit"
+          <Link
+            className="block w-fit"
             prefetch={false}
-            href={data[0]?.primaryCtaUrl || ""}
+            target="_blank"
+            href={
+              isMobile
+                ? data[0]?.primaryCtaUrl
+                : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
+            }
             aria-label="App Store"
           >
             <svg
@@ -136,9 +154,15 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
       )}
       {data[1] && (
         <li data-testid="play_store">
-          <Link className="block w-fit"
+          <Link
+            className="block w-fit"
             prefetch={false}
-            href={data[1]?.primaryCtaUrl || ""}
+            target="_blank"
+            href={
+              isMobile
+                ? data[1]?.primaryCtaUrl
+                : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
+            }
             aria-label="Google Play"
           >
             <svg
