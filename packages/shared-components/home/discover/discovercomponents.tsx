@@ -1,21 +1,22 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-const Discovercomponents = () => {
+const Discovercomponents = ({heading, subheading, internalName, ...props}: {heading: string, subheading: string, internalName: string} ) => {
   return (
     <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
-        <div className="discover-card-container px-[0] py-[34px] md:pt-[64px] md:pb-[16px]">
-          <div className="discover-header px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
-            <h2 className={`font-bold`}>Discover</h2>
-            <p className={`small mt-[8px]`}>Subheading</p>
+        <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
+          <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
+            <h2 className={`font-bold`} data-testid="discoverHeading">{heading}</h2>
+            <p className={`small mt-[8px]`} data-testid="discoverSubHeading">{subheading}</p>
           </div>
           <div className="discover-inner-wrap">
-            <Discoverslidercomponents />
-            <div className="flex justify-center mt-[16px] lg:mt-[28px]">
+            <Discoverslidercomponents internalName={internalName}/>
+            {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
                 href="#"
-                className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
+                className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                data-testid="discoverViewMore"
               >
                 View more
                 <svg
@@ -34,7 +35,7 @@ const Discovercomponents = () => {
                   />
                 </svg>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

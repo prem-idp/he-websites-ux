@@ -23,6 +23,9 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
     ],
   },
+  env: {
+    PROJECT: "Whatuni"
+  }
 };
 
 export default nextConfig;

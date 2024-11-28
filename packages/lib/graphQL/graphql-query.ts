@@ -147,7 +147,7 @@ export const footerQuery = `query {
 export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
   ) {
     items {
       bodyContentCollection(limit: 10) {
@@ -219,7 +219,7 @@ export const homePageQuery = `{
             internalName
             backgroundColor
             longDescription {
-              json
+              json  
             }
             cta {
               internalName
@@ -377,62 +377,71 @@ export const partnerLogo = `
   }
 }`;
 
-export const testimonial = `
-{
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
   ) {
     items {
-      bodyContentCollection(limit: 1
-      where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+      bodyContentCollection(limit: 10
+      where: {internalName: "${internalName}"}
+     ) {
         items {
-          __typename
+         
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 20 ) {
+    
+            mediaCardsCollection(limit: 6) {
               items {
-                __typename
-                ... on PageMultimediaTestimonials {
-                  sectionTitle
-                  multimediaBlockLeft {
-                    ... on PageVideo {
-                      videoIntName
-                      videoAltText
-                      thumbnail{
-                        url
-                        width
-                        height
-                        fileName
-                      }
-                      videoUpload {
-                        url
-                        width
-                        height
-                        title
-                      }
+                ... on DynamicMediaComponent {
+                  internalName
+                  title
+                  subTitle
+                  shortDescription
+                  backgroundColor
+                  longDescription {
+                    json
+                  }
+                  image {
+                    imageTitle
+                    imgIntName
+                    imgUpload {
+                      url
+                      width
+                      height
                     }
-                    ... on PageImage {
-                      imgIntName
-                      imgAltText
-                      imgUpload {
-                        url
-                        width
-                        height
-                        title
-                      }
+                    imgAltText
+                  }
+                  video {
+                    videoIntName
+                    videoTitle
+                    videoDesc
+                    videoAltText
+                    videoTranscript
+                    thumbnail {
+                      url
+                      width
+                      height
+                      title
+                    }
+                    videoUpload {
+                      url
+                      width
+                      height
+                      title
                     }
                   }
-                  testimonialBlockRight {
+                  cta {
                     internalName
-                    ... on PageTestimonial {
-                      testimonialText
-                      author {
-                        firstName
-                        lastName
-                        middleName
-                        shortBio
-                      }
-                    }
+                    primaryCtaUrl
+                    secondaryCtaUrl
+                    primaryCtaLabel
+                    secondaryCtaLabel
+                    primaryCtaTarget
+                    secondaryCtaTarget
+                    flagStyle
                   }
                 }
               }
