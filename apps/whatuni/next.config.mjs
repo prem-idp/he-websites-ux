@@ -22,6 +22,9 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    PROJECT: "Whatuni"
+  }
 };
 
 export default nextConfig;
