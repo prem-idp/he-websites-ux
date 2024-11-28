@@ -215,14 +215,10 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
 
   describe("Test the Discoverslidercomponents1", () => {
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
-        (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
-    })
     
     //
     it("The count of slider created for desktop device", async () => {
-        render(<Discoverslidercomponents1  internalName=""/>);
+        render(<Discoverslidercomponents1  dicoverCardContentfulList={iscoverPodListJson}/>);
         let cardCount:number = 0;
         {iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
             if(discoverObj != null){
@@ -256,7 +252,7 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
         // Trigger the window resize event.
         global.dispatchEvent(new Event('resize'));
 
-        render(<Discoverslidercomponents1 internalName="" />);
+        render(<Discoverslidercomponents1 dicoverCardContentfulList={iscoverPodListJson} />);
 
 
         {iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {

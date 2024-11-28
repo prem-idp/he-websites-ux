@@ -52,8 +52,6 @@ export interface discoverContentfulInterface{
   }
 }
 
-let discoverList: discoverContentfulInterface;
-
 function isObjectEmpty(obj: any) {
   if(obj === null) return true;
   if(obj === undefined) return true;
@@ -66,18 +64,9 @@ function isObjectEmpty(obj: any) {
   return true;
 }
 
-const Discoverslidercomponents1 = ({internalName}: {internalName: string}) => {
+const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardContentfulList: discoverContentfulInterface}) => {
 
 
-  const [dicoverCardContentfulList, setDicoverCardContentfulList] = useState<discoverContentfulInterface>(discoverList);
-  useEffect(() => {
-    async function getcontetnfuldata(){
-      const discovercontentfulData = await graphQlFetchFunction(discoverpodQuery(process.env.PROJECT, internalName));
-      setDicoverCardContentfulList(discovercontentfulData);
-    }
-    getcontetnfuldata();
-    
-  }, [])
   // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

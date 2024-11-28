@@ -1,9 +1,15 @@
 "use server";
-import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
+
+import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import Discoverslidercomponents, { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-const Discovercomponents = ({heading, subheading, internalName, ...props}: {heading: string, subheading: string, internalName: string} ) => {
+const Discovercomponents = async({heading, subheading, internalName}: {heading: string, subheading: string, internalName: string} ) => {
+  
+  const discovercontentfulData: discoverContentfulInterface = await graphQlFetchFunction(discoverpodQuery(process.env.PROJECT, internalName));
+
   return (
-    <div className="discover-container bg-white">
+    discovercontentfulData?.data?.contentData?.items && <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
         <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
@@ -11,31 +17,7 @@ const Discovercomponents = ({heading, subheading, internalName, ...props}: {head
             <p className={`small mt-[8px]`} data-testid="discoverSubHeading">{subheading}</p>
           </div>
           <div className="discover-inner-wrap">
-            <Discoverslidercomponents internalName={internalName}/>
-            {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-              <a
-                href="#"
-                className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
-                data-testid="discoverViewMore"
-              >
-                View more
-                <svg
-                  width="16"
-                  height="12"
-                  viewBox="0 0 16 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6"
-                    stroke="#3460DC"
-                    strokeWidth="1.48148"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
-            </div> */}
+            <Discoverslidercomponents dicoverCardContentfulList={discovercontentfulData}/>
           </div>
         </div>
       </div>
