@@ -207,7 +207,7 @@ jest.mock('swiper/react', () => ({
     }
 }`
 const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
-console.log("iscoverPodListJson", iscoverPodListJson);
+// console.log("iscoverPodListJson", iscoverPodListJson);
 jest.mock('../../../lib/server-actions/server-action', () => ({
     graphQlFetchFunction: jest.fn()
   }));
@@ -271,7 +271,7 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
                         
                         expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
                         expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
-                        console.log("cardCount", cardCount)
+                        // console.log("cardCount", cardCount)
                     }
                   })
                 }

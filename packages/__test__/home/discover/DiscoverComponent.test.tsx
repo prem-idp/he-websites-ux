@@ -208,7 +208,7 @@ const discoverPodList = `{
     }
 }`
 const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
-console.log("iscoverPodListJson", iscoverPodListJson);
+// console.log("iscoverPodListJson", iscoverPodListJson);
 jest.mock('../../../lib/server-actions/server-action', () => ({
     graphQlFetchFunction: jest.fn()
   }));
