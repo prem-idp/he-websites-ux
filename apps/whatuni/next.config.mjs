@@ -20,8 +20,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "mdev.dev.aws.whatuni.com",
       },
+      { protocol: "https", hostname: "videos.ctfassets.net" },
     ],
   },
+  env: {
+    PROJECT: "Whatuni"
+  }
 };
 
 export default nextConfig;

@@ -3,10 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@packages/lib/utlils/amplifyServerUtils";
 
 export async function middleware(request: NextRequest) {
-  // console.log("Request Info:----------", {
-  //  request
-  // });
-
   const response = NextResponse.next();
 
   const authenticated = await runWithAmplifyServerContext({

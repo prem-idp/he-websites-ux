@@ -147,7 +147,7 @@ export const footerQuery = `query {
 export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       bodyContentCollection(limit: 10) {
@@ -219,7 +219,7 @@ export const homePageQuery = `{
             internalName
             backgroundColor
             longDescription {
-              json
+              json  
             }
             cta {
               internalName
@@ -367,6 +367,146 @@ export const partnerLogo = `
                     height
                   }
                   logoLink
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const testimonial = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageMultimediaTestimonials {
+                  sectionTitle
+                  multimediaBlockLeft {
+                    ... on PageVideo {
+                      videoIntName
+                      videoAltText
+                      thumbnail{
+                        url
+                        width
+                        height
+                        fileName
+                      }
+                      videoUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                    ... on PageImage {
+                      imgIntName
+                      imgAltText
+                      imgUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                  }
+                  testimonialBlockRight {
+                    internalName
+                    ... on PageTestimonial {
+                      testimonialText
+                      author {
+                        firstName
+                        lastName
+                        middleName
+                        shortBio
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10
+      where: {internalName: "${internalName}"}
+     ) {
+        items {
+         
+          ... on MultipleCardContainer {
+    
+            mediaCardsCollection(limit: 6) {
+              items {
+                ... on DynamicMediaComponent {
+                  internalName
+                  title
+                  subTitle
+                  shortDescription
+                  backgroundColor
+                  longDescription {
+                    json
+                  }
+                  image {
+                    imageTitle
+                    imgIntName
+                    imgUpload {
+                      url
+                      width
+                      height
+                    }
+                    imgAltText
+                  }
+                  video {
+                    videoIntName
+                    videoTitle
+                    videoDesc
+                    videoAltText
+                    videoTranscript
+                    thumbnail {
+                      url
+                      width
+                      height
+                      title
+                    }
+                    videoUpload {
+                      url
+                      width
+                      height
+                      title
+                    }
+                  }
+                  cta {
+                    internalName
+                    primaryCtaUrl
+                    secondaryCtaUrl
+                    primaryCtaLabel
+                    secondaryCtaLabel
+                    primaryCtaTarget
+                    secondaryCtaTarget
+                    flagStyle
+                  }
                 }
               }
             }

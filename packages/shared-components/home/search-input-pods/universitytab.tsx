@@ -59,19 +59,19 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   }
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
+      <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]">
         <Form
           action={handleUnisearch}
-          className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row"
+          className="flex flex-col gap-[16px] small md:flex-row"
         >
-          <div className="grow">
+          <div className="relative grow">
             <input
               onClick={() => {
                 courseActions("University");
                 setUnierror(false);
               }}
               type="text"
-              className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
+              className="w-full focus:outline-none pt-0 pb-[16px] text-black placeholder:text-gray-500 border-b border-grey-200 md:py-[10px] md:border-none"
               aria-label=""
               placeholder="University name"
               onChange={(event) => {
@@ -84,51 +84,48 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               }}
               value={searchFormHandle?.university || ""}
             />
+            {searchFormHandle?.isUniversityClicked &&
+              searchFormHandle?.university?.length > 2 && (
+                <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                  <ul>
+                    {universityList?.map((item: any, index: any) => (
+                      <Link
+                        href={`/university-profile/${item?.collegeNameDisplay
+                          ?.toLowerCase() // Convert to lowercase
+                          ?.replace(/\s+/g, "-")}/${item.collegeId}`}
+                        onClick={() =>
+                          setsearchFormHandle((prevData: any) => ({
+                            ...prevData,
+                            university: item.college_name_display,
+                            isUniversityClicked: false,
+                          }))
+                        }
+                        key={index}
+                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                      >
+                        {item.collegeNameDisplay}
+                      </Link>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </div>
-          <div className="pt-[16px] md:pt-[0]">
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
-            >
-              <Image
-                src="/static/assets/icons/search_icon.svg"
-                width="18"
-                height="18"
-                alt="Search icon"
-              />
-              Search
-            </button>
-          </div>
-          {searchFormHandle?.isUniversityClicked &&
-            searchFormHandle?.university?.length > 2 && (
-              <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] overflow-hidden">
-                <ul className="custom-vertical-scrollbar max-h-[205px] overflow-y-scroll mr-[4px]">
-                  {universityList?.map((item: any, index: any) => (
-                    <Link
-                      href={`/university-profile/${item?.collegeNameDisplay
-                        ?.toLowerCase() // Convert to lowercase
-                        ?.replace(/\s+/g, "-")}/${item.collegeId}`}
-                      onClick={() =>
-                        setsearchFormHandle((prevData: any) => ({
-                          ...prevData,
-                          university: item.college_name_display,
-                          isUniversityClicked: false,
-                        }))
-                      }
-                      key={index}
-                      className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                    >
-                      {item.collegeNameDisplay}
-                    </Link>
-                  ))}
-                </ul>
-              </div>
-            )}
+          <button
+            type="submit"
+            className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
+          >
+            <Image
+              src="/static/assets/icons/search_icon.svg"
+              width="18"
+              height="18"
+              alt="Search icon"
+            />
+            Search
+          </button>
         </Form>
       </div>
       {unierror && (
         <p className="small text-negative-default">
-          {" "}
           Please select university from dropdown
         </p>
       )}

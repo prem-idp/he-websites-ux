@@ -8,8 +8,9 @@ import {
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
 import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 const Page = async () => {
-  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const jsonData = await graphQlFetchFunction(homePageQuery(process.env.PROJECT));
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
@@ -17,6 +18,7 @@ const Page = async () => {
 
   return (
     <>
+      <GoogleOneTap />
       <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>
