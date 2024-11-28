@@ -1,6 +1,6 @@
 "use server";
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
-import customFont from "next/font/local";
+//import customFont from "next/font/local";
 // const farroMedium = customFont({
 //   src: [
 //     {
@@ -22,7 +22,7 @@ const Advicecomponents = () => {
   return (
     <div className="advice-container bg-grey-50">
       <div className="max-w-container mx-auto">
-        <div className="advice-card-container px-[0] py-[34px] lg:py-[64px]">
+        <div className='advice-card-container px-[0] py-[34px] md:py-[64px]'>
           <div className="advice-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
             <h2 className="font-bold">Latest advice</h2>
             <p className="font-normal small mt-[8px]">Subheading</p>
@@ -33,7 +33,7 @@ const Advicecomponents = () => {
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
                 <a
                   href="#"
-                  className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                  className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
                 >
                   View more
                   <svg

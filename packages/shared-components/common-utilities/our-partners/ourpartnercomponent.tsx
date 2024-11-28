@@ -1,24 +1,44 @@
 "use client";
 
+import { partnerLogo } from "@packages/lib/graphQL/graphql-query";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Image from "next/image";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-
-// import required modules
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import { useEffect, useState } from "react";
 
-export const OurPartnerComponent = () => {
+interface LogoImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
+interface Partner {
+  logoName: string;
+  logoLink: string | null;
+  logoImage: LogoImage;
+}
+
+const OurPartnerComponent = ({ heading }: any) => {
+  const [partners, setPartners] = useState<Partner[]>([]);
+
+  useEffect(() => {
+    async function contentfulLoadData() {
+      const partnerLogoJsonData = await graphQlFetchFunction(partnerLogo);
+      const partnerLogos =
+        partnerLogoJsonData?.data?.contentData?.items[0]?.bodyContentCollection
+          ?.items[0]?.mediaCardsCollection?.items || [];
+      setPartners(partnerLogos);
+    }
+
+    contentfulLoadData();
+  }, []);
+
   return (
     <>
       <section className="bg-grey-50 py-[40px] md:pt-[64px] md:pb-[39px] px-[16px] md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto">
-          <h2 className="text-center font-bold">
-            Partnered with over 100 universities
-          </h2>
+          <h2 className="text-center font-bold">{heading}</h2>
           <div className="flex items-center pt-[32px]">
             <Swiper
               autoplay={{
@@ -41,195 +61,21 @@ export const OurPartnerComponent = () => {
               speed={3000}
               loop={true}
             >
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner1.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner2.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner3.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner4.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner5.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner6.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner7.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner8.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner9.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner10.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner1.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner2.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner3.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner4.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
-                  <Image
-                    className="rounded-[4px]"
-                    src="/static/assets/images/our-partner/partner5.png"
-                    alt="Partnered Uni Logo"
-                    width={64}
-                    height={64}
-                  />
-                </div>
-              </SwiperSlide>
+              {partners.map((partner, index) => (
+                <SwiperSlide key={index}>
+                  <div className="bg-white p-[4px] rounded-[8px] shadow-custom-8 w-[64px] h-[64px]">
+                    <Image
+                      className="rounded-[4px]"
+                      src={partner?.logoImage?.url}
+                      alt={partner?.logoName}
+                      width={partner?.logoImage?.width || 64}
+                      height={partner?.logoImage?.height || 64}
+                      data-src={partner?.logoImage?.url}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
             </Swiper>
-          </div>
-          <div className="flex justify-center mt-[16px] lg:hidden lg:mt-[28px]">
-            <a
-              href="#"
-              className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
-            >
-              View more
-              <svg
-                width="16"
-                height="12"
-                viewBox="0 0 16 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6"
-                  stroke="#3460DC"
-                  strokeWidth="1.48148"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
           </div>
         </div>
       </section>

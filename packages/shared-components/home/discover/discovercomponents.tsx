@@ -1,23 +1,22 @@
 "use server";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-import Tagcloudcomponents from "../tag-cloud/tagcloudcomponents";
-
-const Discovercomponents = () => {
+const Discovercomponents = ({heading, subheading, internalName, ...props}: {heading: string, subheading: string, internalName: string} ) => {
   return (
     <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
         <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
-            <h2 className={`font-bold`}>Discover</h2>
-            <p className={`small mt-[8px]`}>Subheading</p>
+            <h2 className={`font-bold`} data-testid="discoverHeading">{heading}</h2>
+            <p className={`small mt-[8px]`} data-testid="discoverSubHeading">{subheading}</p>
           </div>
           <div className="discover-inner-wrap">
-            <Discoverslidercomponents />
-            <div className="flex justify-center mt-[16px] lg:mt-[28px]">
+            <Discoverslidercomponents internalName={internalName}/>
+            {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <a
                 href="#"
                 className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                data-testid="discoverViewMore"
               >
                 View more
                 <svg
@@ -36,9 +35,8 @@ const Discovercomponents = () => {
                   />
                 </svg>
               </a>
-            </div>
+            </div> */}
           </div>
-          <Tagcloudcomponents />
         </div>
       </div>
     </div>
