@@ -43,7 +43,7 @@ export async function searchAjaxFecthFunction(payload: any) {
 export async function getReviewDetailsFunction(reviewPayload: any) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT}`,
+      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/reviews`,
       {
         method: "POST",
         headers: {
