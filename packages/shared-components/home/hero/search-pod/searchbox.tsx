@@ -201,49 +201,6 @@ const SearchBox = ({ course_data, uni_data }: any) => {
           </div>
         </div>
       </div>
-      {/* PGS SEARCH */}
-      <div className="px-[16px] xl:px-0">
-        <div className="bg-white max-w-container mx-auto border border-bg-grey-200 rounded-[24px] p-[16px] pt-[24px] relative z-3 shadow-custom-1 md:rounded-[32px] md:mt-[-28px] md:pl-[24px] md:p-[10px]">
-          <div className="flex flex-col item-center gap-[24px] justify-between md:flex-row relative">
-            <input
-              onClick={() => courseActions("University")}
-              type="text"
-              className="w-full focus:outline-none small text-black placeholder:text-gray-500 pb-[24px] border-b border-neutral20 md:pb-0 md:border-none"
-              aria-label="submenu"
-              placeholder="Subject, qualification or university"
-            />
-            {isUniversityClicked && (
-              <div className="flex flex-col w-[calc(100%+32px)] z-[1] bg-white shadow-custom-3 rounded-[8px] absolute left-[-16px] top-[30px] md:top-[52px] md:w-[345px]">
-                <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                  QUALIFICATION
-                </div>
-                <ul>
-                  {search.map((item, index) => (
-                    <li
-                      key={index}
-                      className="px-[16px] py-[10px] block small cursor-pointer hover:bg-blue-50 hover:underline"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
-            >
-              <Image
-                src="static//assets/icons/search_icon.svg"
-                width="18"
-                height="18"
-                alt="Search icon"
-              />
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
     </>
   );
 };
