@@ -4,6 +4,21 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "../../packages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "lg:grid-cols-1",
+    "lg:grid-cols-2",
+    "lg:grid-cols-3",
+    "lg:grid-cols-4",
+    "lg:grid-cols-5",
+    "lg:grid-cols-6",
+    "lg:col-span-1",
+    "lg:col-span-2",
+    "lg:col-span-3",
+    "lg:col-span-4",
+    "lg:col-span-5",
+    "lg:col-span-6",
+    "lg:col-span-7",
+  ],
   theme: {
     maxWidth: {
       container: "1216px",
@@ -19,7 +34,7 @@ const config: Config = {
       xxl2: "1600px",
       xxxl: "1920px",
     },
-    fontFamily: {
+    fontFamily: {   
       farro: ["Farro", "sans-serif"],
       inter: ["Inter", "sans-serif"],
     },
@@ -43,20 +58,21 @@ const config: Config = {
       colors: {
         "success-400": "#34D399",
         "success-700": "#047857",
-        "blue-50": "#EDFCFF",
+        "blue-50":"#EDFCFF",
         "blue-100": "#C8F0F5",
         "blue-200": "#0FBEFD",
         "blue-300": "#0086F8",
         "blue-500": "#3460DC",
-        grey300: "#333",
-        grey400: "#707070",
-        grey500: "#767676",
-        grey600: "#e6e6e6",
-        grey900: "#0F172A",
-        neutral100: "#F1F5F9",
-        neutral200: "#E2E8F0",
-        neutral300: "#CBD5E1",
-        neutral400: "#94A3B8",
+        "grey300": "#333",
+        "grey400": "#707070",
+        "grey500": "#767676",
+        "grey600": "#e6e6e6",
+        "grey900": "#0F172A",
+        "neutral50":"#F8FAFC",
+        "neutral100": "#F1F5F9",
+        "neutral200": "#E2E8F0",
+        "neutral300": "#CBD5E1",
+        "neutral400": "#94A3B8",
         grey: {
           50: "#F9FAFB",
           100: "#F2F2F2",
@@ -103,10 +119,8 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        gradientBlack:
-          "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
-        gradientBlack1:
-          "linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
+        gradientBlack:"linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
+        gradientBlack1:"linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
         gradient1: "linear-gradient(98.41deg, #6EE7B7 0%, #F59E0B 100%)",
         gradient2: "linear-gradient(98.41deg, #00BBFD 0%, #3460DC 100%)",
         gradient3: "linear-gradient(98.41deg, #10B981 0%, #00BBFD 100%)",
@@ -117,21 +131,24 @@ const config: Config = {
         gradient8: "linear-gradient(98.41deg, #D97706 0%, #87E0FF 100%)",
         gradient9: "linear-gradient(98.41deg, #0A28A3 0%, #00A4DD 100%)",
         gradient10: "linear-gradient(98.41deg, #34D399 0%, #059669 100%)",
+
+        
       },
       boxShadow: {
-        "custom-1":
-          "0px 2px 4px -2px rgba(16, 24, 40, 0.1), 0px 4px 6px -1px rgba(16, 24, 40, 0.1)",
-        "custom-2": "0px 1px 2px 0px rgba(16,24,40,0.05)",
-        "custom-3":
-          "0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
-        "custom-4":
-          "0px 2px 4px -2px rgba(16, 24, 40, 0.1),0px -2px 6px -1px rgba(16,24,40,0.07)",
-        "custom-5":
-          "0px 4px 6px -4px rgba(16,24,40,0.1),0px 10px 15px -3px rgba(16,24,40,0.1)",
-        "custom-6": "0px 25px 50px -12px rgba(16, 24, 40, 0.25)",
-        "custom-7": "inset 0 -4px 0 0 rgba(15,190,253,1)",
-        "custom-8": "0px 6px 12px 0px rgba(0, 0, 0, 0.11)",
+        "custom-1":"0px 2px 4px -2px rgba(16, 24, 40, 0.1), 0px 4px 6px -1px rgba(16, 24, 40, 0.1)",
+        "custom-2":"0px 1px 2px 0px rgba(16,24,40,0.05)",
+        "custom-3":"0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
+        "custom-4":"0px 2px 4px -2px rgba(16, 24, 40, 0.1),0px -2px 6px -1px rgba(16,24,40,0.07)",
+        "custom-5":"0px 4px 6px -4px rgba(16,24,40,0.1),0px 10px 15px -3px rgba(16,24,40,0.1)",
+        "custom-6":"0px 25px 50px -12px rgba(16, 24, 40, 0.25)",
+        "custom-7":"inset 0 -4px 0 0 rgba(15,190,253,1)",
+        "custom-8":"0px 6px 12px 0px rgba(0, 0, 0, 0.11)",
+        "custom-9":"0px 4px 6px -4px rgba(16, 24, 40, 0.1), 0px 10px 15px -3px rgba(16, 24, 40, 0.1)",
+        "custom-10":"0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px -2px 3px 0px rgba(16, 24, 40, 0.1)",
       },
+      backdropBlur:{
+        "custom-1":"261px"
+      }
     },
   },
   plugins: [],

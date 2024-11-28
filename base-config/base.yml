@@ -36,7 +36,6 @@ default:
     - npm install --force
     # - cd ..
     #- npm install --force
-    - npm run $BUILD
     - npm run open-next:${PROJECT_NAME}
   artifacts:
     paths:
