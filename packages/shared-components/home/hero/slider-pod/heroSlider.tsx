@@ -6,22 +6,24 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import HeroSliderCard from "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard";
-import { DataInterface } from "@packages/lib/types/interfaces";
+import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 interface PropsInterface {
-  data: DataInterface;
+  data: SliderBannerCollection;
 }
-const HeroSlider: React.FC<PropsInterface> = ({ data }) => {
+
+const HeroSlider = ({ data }: PropsInterface) => {
   return (
     <Swiper
       slidesPerView={1}
-      effect="fade"
+      data-testid="parent_swiper"
+      effect={"fade"}
       autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
       modules={[Autoplay, EffectFade, Pagination]}
       className="mySwiper hero"
     >
-      {data?.items?.map((childItems, index) => (
-        <SwiperSlide key={index + 1}>
+      {data?.items?.map((childItems, index: number) => (
+        <SwiperSlide key={index + 1} data-testid={`slider${index + 1}`}>
           <HeroSliderCard data={childItems} />
         </SwiperSlide>
       ))}

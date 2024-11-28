@@ -3,14 +3,22 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
-import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+import {
+  MultipleCardContainer,
+  SliderBannerCollection,
+} from "@packages/lib/types/interfaces";
+import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery(process.env.PROJECT));
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  const heroSliderData: SliderBannerCollection =
+    jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+
   return (
     <>
-      <Heroslidercomponent project="whatuni" />
+      <TrackSessionId />
+      <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {
@@ -23,6 +31,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
               />
             );
           }

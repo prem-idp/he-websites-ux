@@ -1,20 +1,19 @@
 "use client";
 
 import React from 'react';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
 import {FreeMode, Navigation, Pagination} from 'swiper/modules';
-
 import Reviewscard from '../cards/reviews-card/reviewscard';
+import { ReviewDetailsList } from '@packages/lib/types/interfaces';
 
-const Reviewslidercomponents = () => {
+interface ReviewSliderProps {
+  reviewData: ReviewDetailsList['reviewDetail'];
+}
+
+const Reviewslidercomponents : React.FC<ReviewSliderProps> = ({ reviewData }) => {
   return (
     <> 
-    <div className='slider-container'>
+    <div className='slider-container' data-testid="review-slider">
       <Swiper
         pagination={true}
         navigation= {true}
@@ -34,24 +33,14 @@ const Reviewslidercomponents = () => {
         }}
         modules={[FreeMode, Pagination, Navigation]}
         className="MultiSwiper">
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
-              <SwiperSlide>
-                  <Reviewscard />
-              </SwiperSlide>
+          {reviewData.map((review,index) => (
+           <SwiperSlide key={index}>
+             <Reviewscard reviewData={review} index={index}  ratings={5}/>
+           </SwiperSlide>
+
+          ))}
+             
+              
             </Swiper>   
           </div>
     </>

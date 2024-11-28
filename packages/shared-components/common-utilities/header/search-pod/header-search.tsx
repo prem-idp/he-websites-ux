@@ -5,10 +5,21 @@ import AdviceTab from "@packages/shared-components/home/search-input-pods/advice
 import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
 import Image from "next/image";
 import Link from "next/link";
-export default function Search({ rightMenuAction }: any) {
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import { CourseData, UniData } from "@packages/lib/types/interfaces";
+interface props {
+  course_data: CourseData;
+  uni_data: UniData;
+}
+export default function Search({ course_data, uni_data }: props) {
+  console.log("uni_data", uni_data);
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
+  const rightMenuAction = (actionType: string) => {
+    emitter.emit("rightMenuActionclose", actionType);
+  };
+
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -16,10 +27,10 @@ export default function Search({ rightMenuAction }: any) {
     isLocationClicked: false,
     isAdviceClicked: false,
     isUniversityClicked: false,
-    courseType: "Undergraduate",
+    courseType: { qualUrl: "degree", qualCode: "M", qualDesc: "Undergraduate" },
     university: "",
-    subject: "",
-    location: "",
+    subject: {},
+    location: {},
     advice: "",
   });
 
@@ -27,8 +38,9 @@ export default function Search({ rightMenuAction }: any) {
     <>
       <div className="bg-white absolute top-0 left-0 right-0 z-10 lg:min-h-[222px]">
         <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
-          <div className="flex justify-end relative ">
+          <div className="flex self-end relative">
             <svg
+              aria-label="close-button"
               className="cursor-pointer"
               onClick={() => rightMenuAction("SEARCH")}
               width="32"
@@ -83,6 +95,7 @@ export default function Search({ rightMenuAction }: any) {
               {searchFormHandle?.activeTab === "tab1" && (
                 <div className="flex flex-col gap-[24px] min-h-[60px]">
                   <CourseTab
+                    data={course_data}
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
                   />
@@ -119,6 +132,7 @@ export default function Search({ rightMenuAction }: any) {
                   <UniversityTab
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
+                    data={uni_data}
                   />
                   <div className="flex justify-center">
                     <Link
