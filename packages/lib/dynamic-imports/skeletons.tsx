@@ -11,7 +11,6 @@ import Testimonialcardskeleton from "@packages/shared-components/common-utilitie
 import Wuscacomponentskeleton from "@packages/shared-components/common-utilities/skeleton/wuscacomponentskeleton";
 
 const DynamicSkeleton: React.FC<SkeletonNameInterface> = ({ skeletonName }) => {
-  console.log(skeletonName);
   const Skeleton = () => {
     switch (skeletonName) {
       case "AdviceCourseCardSkeleton":

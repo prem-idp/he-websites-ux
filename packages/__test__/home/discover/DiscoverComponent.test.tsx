@@ -2,27 +2,27 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
-import React from 'react';
-import {graphQlFetchFunction} from "@packages/lib/server-actions/server-action"
+import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 
-jest.mock('swiper/react', () => ({
-    Swiper: jest.fn(({children}) => <>{children}</>),
-    SwiperSlide: jest.fn(({children}) => <>{children}</>),
-  }));
-  
-  jest.mock('swiper/modules', () => ({
-    FreeMode: jest.fn(),
-    Navigation: jest.fn(),
-    Pagination: jest.fn(),
-  }));
-  
-  // CSS Imports Mock
-  jest.mock('swiper/css', () => {});
-  jest.mock('swiper/css/navigation', () => {});
-  jest.mock('swiper/css/pagination', () => {});
+jest.mock("swiper/react", () => ({
+  Swiper: jest.fn(({ children }) => <>{children}</>),
+  SwiperSlide: jest.fn(({ children }) => <>{children}</>),
+}));
 
-  //consts
+jest.mock("swiper/modules", () => ({
+  FreeMode: jest.fn(),
+  Navigation: jest.fn(),
+  Pagination: jest.fn(),
+}));
+
+// CSS Imports Mock
+jest.mock("swiper/css", () => {});
+jest.mock("swiper/css/navigation", () => {});
+jest.mock("swiper/css/pagination", () => {});
+
+//consts
 const discoverPodList = `{
     "data": {
         "contentData": {
@@ -206,26 +206,29 @@ const discoverPodList = `{
             ]
         }
     }
-}`
-const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
-console.log("iscoverPodListJson", iscoverPodListJson);
-jest.mock('../../../lib/server-actions/server-action', () => ({
-    graphQlFetchFunction: jest.fn()
-  }));
+}`;
+const iscoverPodListJson: discoverContentfulInterface =
+  JSON.parse(discoverPodList);
+jest.mock("../../../lib/server-actions/server-action", () => ({
+  graphQlFetchFunction: jest.fn(),
+}));
 
 describe("Discover pod test cases", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
+  });
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
-        (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
-    })
-
-    //
-    test("Render discover pod", async () => {
-
-        render(<Discovercomponents internalName="" heading="discover" subheading="subheading"/>);
-        expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
-        expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
-    });
-    
-})
+  //
+  test("Render discover pod", async () => {
+    render(
+      <Discovercomponents
+        internalName=""
+        heading="discover"
+        subheading="subheading"
+      />
+    );
+    expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
+    expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
+  });
+});

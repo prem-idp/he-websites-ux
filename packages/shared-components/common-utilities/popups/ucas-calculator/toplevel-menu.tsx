@@ -37,7 +37,6 @@ const TopLevelMenu = ({
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
-  console.log(gradeArray);
   const [gradePoints, setGradePoints] = useState<GradePointsInterface>({
     maxPoint: 5,
     maxTotalPoint: 6,

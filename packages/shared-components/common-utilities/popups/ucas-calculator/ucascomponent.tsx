@@ -35,6 +35,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     fetchUcasData();
   }, []);
 
+  console.log(ucasGradeData);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
