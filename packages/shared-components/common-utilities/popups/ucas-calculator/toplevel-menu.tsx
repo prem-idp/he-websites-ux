@@ -26,19 +26,24 @@ const TopLevelMenu = ({
   const [selectedLevel, setSelectedLevel] = useState<string>("A Level");
   const [type, setType] = useState<null | string>("plus-minus");
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-  const [gradeArray, setGradeArray] = useState<KeyValuePair[] | undefined>(
-    undefined
-  );
+  const [gradeArray, setGradeArray] = useState<KeyValuePair[] | undefined>([
+    { key: "A*", value: 56 },
+    { key: "A", value: 48 },
+    { key: "B", value: 40 },
+    { key: "C", value: 32 },
+    { key: "D", value: 24 },
+    { key: "E", value: 16 },
+  ]);
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
+  console.log(gradeArray);
   const [gradePoints, setGradePoints] = useState<GradePointsInterface>({
-    maxPoint: 0,
-    maxTotalPoint: 0,
+    maxPoint: 5,
+    maxTotalPoint: 6,
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
   });
-
   const changeUcasLevel = (
     level: string,
     gradeString: string | null,

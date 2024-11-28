@@ -1,48 +1,48 @@
 "use client";
 
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import {FreeMode, Navigation, Pagination} from 'swiper/modules';
-import Reviewscard from '../cards/reviews-card/reviewscard';
-import { ReviewDetailsList } from '@packages/lib/types/interfaces';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation, Pagination } from "swiper/modules";
+import Reviewscard from "../cards/reviews-card/reviewscard";
+import { ReviewDetailsList } from "@packages/lib/types/interfaces";
 
 interface ReviewSliderProps {
-  reviewData: ReviewDetailsList['reviewDetail'];
+  reviewData: ReviewDetailsList["reviewDetail"];
 }
 
-const Reviewslidercomponents : React.FC<ReviewSliderProps> = ({ reviewData }) => {
+const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
+  reviewData,
+}) => {
   return (
-    <> 
-    <div className='slider-container' data-testid="review-slider">
-      <Swiper
-        pagination={true}
-        navigation= {true}
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 8,
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 16,
-          },
-          1200: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-          },
-        }}
-        modules={[FreeMode, Pagination, Navigation]}
-        className="MultiSwiper">
-          {reviewData.map((review,index) => (
-           <SwiperSlide key={index}>
-             <Reviewscard reviewData={review} index={index}  ratings={5}/>
-           </SwiperSlide>
-
+    <>
+      <div className="slider-container" data-testid="review-slider">
+        <Swiper
+          pagination={{ clickable: true }}
+          navigation={true}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 8,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 16,
+            },
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+          }}
+          modules={[FreeMode, Pagination, Navigation]}
+          className="MultiSwiper"
+        >
+          {reviewData.map((review, index) => (
+            <SwiperSlide key={index}>
+              <Reviewscard reviewData={review} index={index} ratings={5} />
+            </SwiperSlide>
           ))}
-             
-              
-            </Swiper>   
-          </div>
+        </Swiper>
+      </div>
     </>
   );
 };

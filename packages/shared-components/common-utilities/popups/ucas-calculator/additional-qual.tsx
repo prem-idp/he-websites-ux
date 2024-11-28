@@ -107,7 +107,7 @@ const AddQualification = ({
               />
             </div>
             {isDropDownOpen && ucasGradeData && (
-              <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 w-[calc(100%+30px)]">
+              <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 w-[calc(100%+30px)] z-10">
                 <ul>
                   {ucasGradeData.map((childItems, index: number) => (
                     <li

@@ -440,7 +440,9 @@ export const testimonial = `
           }
         }
       }
-    }`;
+    }
+  }
+}`;
 export const discoverpodQuery = (
   websiteName: string | undefined,
   internalName: string

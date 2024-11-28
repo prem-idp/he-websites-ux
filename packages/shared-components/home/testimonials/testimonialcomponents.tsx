@@ -3,7 +3,6 @@ import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { testimonial } from "@packages/lib/graphQL/graphql-query";
 import TestimonialVideo from "./testimonialvideocomponents";
-
 const Testimonialcomponents = async ({
   heading,
   subheading,
@@ -15,7 +14,7 @@ const Testimonialcomponents = async ({
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
-
+  console.log(testimonialJsonData);
   return (
     <div className="testimonials-container bg-white">
       <div className="max-w-container mx-auto">
