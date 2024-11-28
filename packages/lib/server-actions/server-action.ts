@@ -13,6 +13,7 @@ export async function graphQlFetchFunction(payload: string) {
     const data = await res.json();
     return data;
   } catch (error) {
+    console.log("Graph QL fecth function", error);
     throw error;
   }
 }
@@ -34,6 +35,7 @@ export async function searchAjaxFecthFunction(payload: any) {
     const data = await res.json();
     return data;
   } catch (error) {
+    console.log("search ajax", error);
     throw error;
   }
 }
@@ -55,6 +57,7 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
     const data = await res.json();
     return data;
   } catch (error) {
+    console.log("review api", error);
     throw error;
   }
 }
@@ -77,6 +80,7 @@ export async function getUcasCalculatorGrades(ucasPayload: any) {
 
     return data;
   } catch (error) {
+    console.log("ucas ajax", error);
     throw error;
   }
 }
