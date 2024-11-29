@@ -328,7 +328,7 @@ export const tagCloudQuery = `{
         items {
           __typename
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection {
               items {
                 __typename
                 ... on PageTagCloud {
