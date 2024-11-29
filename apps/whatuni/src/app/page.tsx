@@ -9,7 +9,7 @@ import {
 } from "@packages/lib/types/interfaces";
 import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
 const Page = async () => {
-  const jsonData = await graphQlFetchFunction(homePageQuery(process.env.PROJECT));
+  const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =

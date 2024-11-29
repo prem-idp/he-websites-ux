@@ -1,5 +1,4 @@
 "use server";
-
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
@@ -20,10 +19,11 @@ const Discovercomponents = async({heading, subheading, internalName}: {heading: 
           </div>
           <div className="discover-inner-wrap">
             <Discoverslidercomponents dicoverCardContentfulList={discovercontentfulData}/>
+
           </div>
         </div>
       </div>
-    </div>
-  );
+      </div>
+    )
 };
 export default Discovercomponents;

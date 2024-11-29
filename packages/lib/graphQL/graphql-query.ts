@@ -147,7 +147,7 @@ export const footerQuery = `query {
 export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       bodyContentCollection(limit: 10) {
@@ -377,8 +377,10 @@ export const partnerLogo = `
   }
 }`;
 
-
-export const discoverpodQuery = (websiteName: string|undefined, internalName: string) => `{
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
   contentData: homepageCollection(
     limit: 1
     where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
@@ -449,4 +451,4 @@ export const discoverpodQuery = (websiteName: string|undefined, internalName: st
       }
     }
   }
-}`
+}`;
