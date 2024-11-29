@@ -1,6 +1,5 @@
 "use server";
 import crypto from "crypto";
-
 export async function graphQlFetchFunction(payload: string) {
   try {
     const hash = crypto.createHash("sha256").update(payload).digest("hex");
@@ -80,6 +79,11 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
 
 export async function getUcasCalculatorGrades(ucasPayload: any) {
   try {
+    const payloadString = JSON.stringify(ucasPayload);
+    const hash = crypto
+      .createHash("sha256")
+      .update(payloadString)
+      .digest("hex");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/ucas-ajax`,
       {
@@ -87,8 +91,9 @@ export async function getUcasCalculatorGrades(ucasPayload: any) {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+          "x-amz-content-sha256": hash,
         },
-        body: JSON.stringify(ucasPayload),
+        body: JSON.stringify(payloadString),
         cache: "no-store",
       }
     );

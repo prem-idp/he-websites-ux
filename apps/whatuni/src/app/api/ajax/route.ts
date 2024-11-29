@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-
-// Define a type for the request payload
 interface SearchPayload {
   [key: string]: any; // Adjust this to your expected payload structure
 }
 
-// Helper function to fetch data from the Search AJAX API (not exported)
 async function searchAjaxFetchFunction(payload: SearchPayload): Promise<any> {
   try {
     const payloadString = JSON.stringify(payload);
@@ -14,7 +11,6 @@ async function searchAjaxFetchFunction(payload: SearchPayload): Promise<any> {
       .createHash("sha256")
       .update(payloadString)
       .digest("hex");
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax`,
       {
@@ -28,11 +24,9 @@ async function searchAjaxFetchFunction(payload: SearchPayload): Promise<any> {
         cache: "no-store",
       }
     );
-
     if (!res.ok) {
       throw new Error(`API response error: ${res.statusText}`);
     }
-
     return await res.json();
   } catch (error) {
     console.error("Error in searchAjaxFetchFunction:", error);
