@@ -4,7 +4,11 @@ import crypto from "crypto";
 export async function graphQlFetchFunction(payload: string) {
   try {
     const hash = crypto.createHash("sha256").update(payload).digest("hex");
-    console.log(hash, "this is hash value inside the graphqlserveraction");
+    // console.log(
+    //   hash,
+    //   "this is hash value inside the graphqlserveraction",
+    //   payload
+    // );
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
