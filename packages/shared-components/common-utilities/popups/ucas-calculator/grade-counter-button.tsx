@@ -88,7 +88,7 @@ const GradeCounterButton = ({
         <button
           aria-label="increment"
           onClick={() => increment(btnValue)}
-          className={`${count >= gradePoints.maxPoint || gradePoints.maxTotalPoint <= gradePoints.getmaxTotalPoint ? "cursor-not-allowed" : "cursor-pointer"}`}
+          className={`${count >= gradePoints.maxPoint || gradePoints.maxTotalPoint <= gradePoints.getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
         >
           <svg
             width="40"

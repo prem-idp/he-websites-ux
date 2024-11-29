@@ -7,12 +7,12 @@ const TrackSessionId = () => {
     const cookies = document?.cookie?.split("; ");
     const cookie = cookies?.find((mycookie) => mycookie.startsWith(`${name}=`));
     const cookiePresent = cookie?.split("=")[1] || null;
-    console.log(cookiePresent);
+    // console.log(cookiePresent);
     if (!cookiePresent) {
       const trackSessionId = uuidv4();
       document.cookie = `${name}=${trackSessionId}; path=/; max-age=3600`;
     } else {
-      console.log("Cookie already present:", cookiePresent);
+      // console.log("Cookie already present:", cookiePresent);
     }
   }, []);
   return null;

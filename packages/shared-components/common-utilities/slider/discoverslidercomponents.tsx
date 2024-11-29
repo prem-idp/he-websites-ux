@@ -6,9 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { FreeMode, Navigation, Pagination } from "swiper/modules";
+import { FreeMode, Pagination } from "swiper/modules";
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { DiscoverContentfulInterface } from "@packages/lib/types/discover";
 
 
 const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardContentfulList: any}) => {
@@ -26,6 +27,19 @@ const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardCont
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   console.log("dicoverCardContentfulList: ", dicoverCardContentfulList.image?.imgUpload);
+
+  function isObjectEmpty(obj: any) {
+    if (obj === null) return true;
+    if (obj === undefined) return true;
+
+    for (const prop in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   return (
     <>
