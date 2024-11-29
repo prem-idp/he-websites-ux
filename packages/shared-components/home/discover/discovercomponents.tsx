@@ -10,7 +10,7 @@ const Discovercomponents = async({heading, subheading, internalName}: {heading: 
   discovercontentfulData = discovercontentfulData.data?.contentData?.items[0]?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items;
   //console.log("discovercontentfulData: ", discovercontentfulData);
   return (
-    <div className="discover-container bg-white">
+    discovercontentfulData && <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
         <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
