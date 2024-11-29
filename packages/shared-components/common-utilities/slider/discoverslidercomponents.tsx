@@ -56,24 +56,11 @@ export interface discoverContentfulInterface {
   };
 }
 
-function isObjectEmpty(obj: any) {
-  if (obj === null) return true;
-  if (obj === undefined) return true;
-  for (const prop in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 const Discoverslidercomponents1 = ({
   dicoverCardContentfulList,
 }: {
   dicoverCardContentfulList: any;
 }) => {
-  // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -84,11 +71,6 @@ const Discoverslidercomponents1 = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  console.log(
-    "dicoverCardContentfulList: ",
-    dicoverCardContentfulList.image?.imgUpload
-  );
-
   return (
     <>
       {isMobile ? (
@@ -108,7 +90,6 @@ const Discoverslidercomponents1 = ({
             modules={[FreeMode, Pagination]}
             className="MultiSwiper"
           >
-            {/* {console.log("dicoverCardContentfulList: ", dicoverCardContentfulList)} */}
             {dicoverCardContentfulList.map(
               (discoverItems: any, index: number) => {
                 return (
