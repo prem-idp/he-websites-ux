@@ -26,12 +26,12 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
   }
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="bg-white rounded-[32px] p-[16px] border border-neutral-300 hover:border-primary-500 shadow-custom-1 lg:pl-[24px] lg:p-[8px]">
+      <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]">
         <Form
           action={handleSubmit}
-          className="flex flex-col gap-x-[10px] justify-between relative lg:flex-row"
+          className="flex flex-col gap-[16px] small md:flex-row"
         >
-          <div className="grow">
+          <div className="relative grow">
             <input
               name="keyword"
               onChange={(event) => {
@@ -42,26 +42,25 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
                 setAdviceerror(false);
               }}
               type="text"
-              className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 lg:py-[10px] border-b border-neutral-400 lg:border-none"
+              className="w-full focus:outline-none pt-0 pb-[16px] text-black placeholder:text-gray-500 border-b border-grey-200 md:py-[10px] md:border-none"
               aria-label=""
               placeholder="Enter keyword"
               value={searchFormHandle?.advice}
             />
           </div>
-          <div className="pt-[16px] md:pt-[0]">
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] min-w-[136px]"
-            >
-              <Image
-                src="/static/assets/icons/search_icon.svg"
-                width="18"
-                height="18"
-                alt="Search icon"
-              />
-              Search
-            </button>
-          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
+          >
+            <Image
+              src="/static/assets/icons/search_icon.svg"
+              width="18"
+              height="18"
+              alt="Search icon"
+            />
+            Search
+          </button>
         </Form>
       </div>
       {adviceerror && (

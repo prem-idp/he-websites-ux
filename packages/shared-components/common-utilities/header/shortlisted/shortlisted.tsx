@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Shortlisted() {
   // Array of items to display in the list
-console.log("shortlisted");
+// console.log("shortlisted");
   return (
     <>
       <div className="flex justify-between p-[16px] absolute z-10 top-[56px] right-[-5px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] md:top-[65px] lg:top-[62px]">

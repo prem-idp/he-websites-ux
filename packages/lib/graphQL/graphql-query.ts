@@ -148,6 +148,7 @@ export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
     where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       bodyContentCollection(limit: 10) {
@@ -328,7 +329,7 @@ export const tagCloudQuery = `{
         items {
           __typename
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection {
               items {
                 __typename
                 ... on PageTagCloud {
@@ -377,6 +378,76 @@ export const partnerLogo = `
   }
 }`;
 
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
+export const testimonial = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageMultimediaTestimonials {
+                  sectionTitle
+                  multimediaBlockLeft {
+                    ... on PageVideo {
+                      videoIntName
+                      videoAltText
+                      thumbnail{
+                        url
+                        width
+                        height
+                        fileName
+                      }
+                      videoUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                    ... on PageImage {
+                      imgIntName
+                      imgAltText
+                      imgUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                  }
+                  testimonialBlockRight {
+                    internalName
+                    ... on PageTestimonial {
+                      testimonialText
+                      author {
+                        firstName
+                        lastName
+                        middleName
+                        shortBio
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 export const discoverpodQuery = (
   websiteName: string | undefined,
   internalName: string
@@ -451,4 +522,6 @@ export const discoverpodQuery = (
       }
     }
   }
+}`;
+
 }`;

@@ -12,7 +12,7 @@ interface props {
   uni_data: UniData;
 }
 export default function Search({ course_data, uni_data }: props) {
-  console.log("uni_data", uni_data);
+  // console.log("uni_data", uni_data);
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
