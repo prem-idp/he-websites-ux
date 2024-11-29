@@ -3,8 +3,6 @@ import { render, screen } from "@testing-library/react";
 import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from 'react';
-import {graphQlFetchFunction} from "@packages/lib/server-actions/server-action"
-import { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 
 jest.mock('swiper/react', () => ({
     Swiper: jest.fn(({children}) => <>{children}</>),
