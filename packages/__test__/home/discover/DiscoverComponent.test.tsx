@@ -33,13 +33,6 @@ const discoverPodList = {
                             {
                                 "mediaCardsCollection": {
                                     "items": [
-                                        {}
-                                    ]
-                                }
-                            },
-                            {
-                                "mediaCardsCollection": {
-                                    "items": [
                                         {
                                             "longDescription": null,
                                             "title": "Courses",
@@ -167,38 +160,6 @@ const discoverPodList = {
                                         }
                                     ]
                                 }
-                            },
-                            {
-                                "mediaCardsCollection": {
-                                    "items": [
-                                        {},
-                                        {},
-                                        {}
-                                    ]
-                                }
-                            },
-                            {
-                                "mediaCardsCollection": {
-                                    "items": [
-                                        {}
-                                    ]
-                                }
-                            },
-                            {
-                                "mediaCardsCollection": {
-                                    "items": []
-                                }
-                            },
-                            {
-                                "mediaCardsCollection": {
-                                    "items": [
-                                        {},
-                                        {},
-                                        {},
-                                        {},
-                                        {}
-                                    ]
-                                }
                             }
                         ]
                     }
@@ -223,9 +184,16 @@ describe("Discover pod test cases", () => {
     //
     test("Render discover pod", async () => {
 
-        render(<Discovercomponents internalName="whatuni" heading="discover" subheading="subheading"/>);
-        expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
-        expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
+        render(await Discovercomponents({internalName: "test-internal-name",
+            heading: "Test Heading",
+            subheading:"Test Subheading"})
+          );
+      
+          expect(await screen.findByTestId('discoverHeading')).toHaveTextContent(
+            'Test Heading'
+          );
+          expect(await screen.findByTestId('discoverSubHeading')).toHaveTextContent(
+            'Test Subheading'
+          );
     });
-    
 })
