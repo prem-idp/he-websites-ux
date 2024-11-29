@@ -23,7 +23,7 @@ jest.mock('swiper/react', () => ({
   jest.mock('swiper/css/pagination', () => {});
 
   //consts
-const discoverPodList = `{
+const discoverPodList = {
     "data": {
         "contentData": {
             "items": [
@@ -206,9 +206,9 @@ const discoverPodList = `{
             ]
         }
     }
-}`
-const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
-console.log("iscoverPodListJson", iscoverPodListJson);
+}
+// const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
+// console.log("iscoverPodListJson", iscoverPodListJson);
 jest.mock('../../../lib/server-actions/server-action', () => ({
     graphQlFetchFunction: jest.fn()
   }));
@@ -217,13 +217,13 @@ describe("Discover pod test cases", () => {
 
     beforeEach(()=>{
         jest.clearAllMocks();
-        (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
+        (graphQlFetchFunction as jest.Mock).mockResolvedValue(discoverPodList);
     })
 
     //
     test("Render discover pod", async () => {
 
-        render(<Discovercomponents internalName={""} heading={"discover"} subheading={"subheading"}/>);
+        render(<Discovercomponents internalName="whatuni" heading="discover" subheading="subheading"/>);
         expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
         expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
     });

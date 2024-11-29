@@ -64,12 +64,11 @@ function isObjectEmpty(obj: any) {
   return true;
 }
 
-const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardContentfulList: discoverContentfulInterface}) => {
+const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardContentfulList: any}) => {
 
 
   // Toggle Menu
   const [isMobile, setIsMobile] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,6 +78,7 @@ const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardCont
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  console.log("dicoverCardContentfulList: ", dicoverCardContentfulList.image?.imgUpload);
 
   return (
     <>
@@ -99,85 +99,64 @@ const Discoverslidercomponents1 = ({dicoverCardContentfulList}: {dicoverCardCont
             modules={[FreeMode, Pagination]}
             className="MultiSwiper"
           >
-            {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
-              if(discoverObj != null){
-                return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
-                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items && !isObjectEmpty(mediaCardsCollectionItems.mediaCardsCollection.items[index])){
-                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems, index) => {
-                      if(!isObjectEmpty(discoverItems)){
-                        console.log("discoverItems", discoverItems);
-                        return <SwiperSlide key={discoverItems.internalName + index}>
-                          <div className="discover-card" data-testid="discovercardMobile">
-                           <Link href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""} className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}>
-                              <div className="discover-card flex justify-between gap-[8px]">
-                                <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                  {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
-                                    {discoverItems?.title}
-                                  </div>}
-                                  {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
-                                </div>
-                                {discoverItems?.image?.imgUpload?.url && 
-                                <Image
-                                  src={discoverItems?.image?.imgUpload?.url}
-                                  width="186"
-                                  height="200"
-                                  alt="discover"
-                                  data-testid="discoverImageId"
-                                  data-testsrc={discoverItems.image.imgUpload.url}
-                                />}
-                              </div>
-                            </Link>
-                          </div>
-                        </SwiperSlide>
-                      }
-                    })
-                  }
-                });
-              }
+            {/* {console.log("dicoverCardContentfulList: ", dicoverCardContentfulList)} */}
+            {dicoverCardContentfulList.map((discoverItems: any, index: number) => {
+
+              return <SwiperSlide key={discoverItems.internalName + index}>
+              <div className="discover-card" data-testid="discovercardMobile">
+               <Link href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""} className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}>
+                  <div className="discover-card flex justify-between gap-[8px]">
+                    <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                      {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
+                        {discoverItems?.title}
+                      </div>}
+                      {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
+                    </div>
+                    {discoverItems?.image?.imgUpload?.url && 
+                    <Image
+                      src={discoverItems?.image?.imgUpload?.url}
+                      width="186"
+                      height="200"
+                      alt="discover"
+                      data-testid="discoverImageId"
+                      data-testsrc={discoverItems.image.imgUpload.url}
+                    />}
+                  </div>
+                </Link>
+              </div>
+            </SwiperSlide>
             })}
             
           </Swiper>
         </div>
       ) : (
-        
         <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px]">
-          {dicoverCardContentfulList?.data?.contentData?.items?.map((discoverObj) => {
-              if(discoverObj != null){
-                return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
-                  if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && !isObjectEmpty(mediaCardsCollectionItems.mediaCardsCollection.items[index])){
-                    return mediaCardsCollectionItems?.mediaCardsCollection?.items.map((discoverItems) => {
-                      if(!isObjectEmpty(discoverItems)){
-                        console.log("discoverItems", discoverItems);
-                        return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.internalName + index}>
-                                  <Link
-                                    href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""}
-                                    className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
-                                  >
-                                    <div className="discover-card flex justify-between gap-[8px]">
-                                      <div className="flex flex-col justify-between p-[20px] pr-[0]">
-                                        {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
-                                          {discoverItems.title}
-                                        </div>}
-                                        {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
-                                      </div>
-                                      {discoverItems?.image?.imgUpload?.url && 
-                                      <Image
-                                        src={discoverItems?.image?.imgUpload?.url}
-                                        width="186"
-                                        height="200"
-                                        alt="discover"
-                                        data-testid="discoverImageId"
-                                        data-testsrc={discoverItems.image.imgUpload.url}
-                                      />}
-                                    </div>
-                                  </Link>
-                                </div>
-                       }
-                    })
-                  }
-                });
-              }
-            })}
+        {dicoverCardContentfulList.map((discoverItems: any, index: number) => {
+          return <div className="discover-card" data-testid="discovercardDesktop" key={discoverItems.internalName + index}>
+          <Link
+            href={discoverItems?.cta?.primaryCtaUrl ? discoverItems?.cta?.primaryCtaUrl : ""}
+            className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
+          >
+            <div className="discover-card flex justify-between gap-[8px]">
+              <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                {discoverItems?.title && <div className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]" data-testid="cardTitle">
+                  {discoverItems.title}
+                </div>}
+                {discoverItems?.subTitle && <h5 className="font-bold" data-testid="cardSubTitle">{discoverItems?.subTitle}</h5>}
+              </div>
+              {discoverItems?.image?.imgUpload?.url && 
+              <Image
+                src={discoverItems?.image?.imgUpload?.url}
+                width="186"
+                height="200"
+                alt="discover"
+                data-testid="discoverImageId"
+                data-testsrc={discoverItems.image.imgUpload.url}
+              />}
+            </div>
+          </Link>
+        </div>
+        })}
         </div>
       )}
     </>
