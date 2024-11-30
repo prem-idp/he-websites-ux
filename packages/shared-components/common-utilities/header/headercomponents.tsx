@@ -317,7 +317,7 @@ const Header = ({
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
-                      <User />
+                      <User topnav_data={topnav_data}/>
                     </div>
                   </>
                 )}

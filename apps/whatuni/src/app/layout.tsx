@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
-import Scrpit from "next/script";
+import Script from "next/script";
+import Head from "next/head";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -28,13 +29,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-      <Scrpit
-            async
-            src="https://accounts.google.com/gsi/client"
-            type="text/javascript"
-          ></Scrpit>
-      </head>
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
