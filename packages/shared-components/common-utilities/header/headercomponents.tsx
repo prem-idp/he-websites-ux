@@ -235,12 +235,12 @@ const Header = ({
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={topnav_data} />}
+                    {isOpen && <Megamenucomponents data={topnav_data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={topnav_data} />
+              <Megamenucomponents data={topnav_data} />
             )}
           </div>
 

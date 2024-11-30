@@ -118,7 +118,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       vpc
     );
 
-    const serverFunctionName = "dev-WhatuniWebsite-website-serverfn-lambda";
+    const serverFunctionName = process.env.WHATUNI_SERVER_FN_LAMBDA_NAME || " ";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
     //   effect: Effect.ALLOW,
@@ -236,8 +236,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       "HE websites"
     );
 
-    const imageFunctionName =
-      "dev-WhatuniWebsite-website-image-optimizer-fn-lambda";
+    const imageFunctionName = process.env.WHATUNI_IMAGE_FN_LAMBDA_NAME || "";
 
     const myImageService = new MyLogGroupArm();
 
@@ -350,7 +349,6 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     //     //   exposedHeaders: ["*"],
     //     // },
     // });
-
 
     /*Newly added configuration*/
     nextjsLambda.addPermission("AllowCloudFrontPrincipalServerLambda", {

@@ -1,11 +1,19 @@
 "use server";
+import crypto from "crypto";
 export async function graphQlFetchFunction(payload: string) {
   try {
+    const hash = crypto.createHash("sha256").update(payload).digest("hex");
+    // console.log(
+    //   hash,
+    //   "this is hash value inside the graphqlserveraction",
+    //   payload
+    // );
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
+        "x-amz-content-sha256": hash,
       },
       body: JSON.stringify({ query: payload }),
       cache: "no-store",
@@ -13,12 +21,19 @@ export async function graphQlFetchFunction(payload: string) {
     const data = await res.json();
     return data;
   } catch (error) {
+    // console.log("Graph QL fecth function", error);
     throw error;
   }
 }
 
 export async function searchAjaxFecthFunction(payload: any) {
   try {
+    const payloadString = JSON.stringify(payload);
+    const hash = crypto
+      .createHash("sha256")
+      .update(payloadString)
+      .digest("hex");
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax`,
       {
@@ -26,6 +41,7 @@ export async function searchAjaxFecthFunction(payload: any) {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+          "x-amz-content-sha256": hash,
         },
         body: JSON.stringify(payload),
         cache: "no-store",
@@ -34,6 +50,7 @@ export async function searchAjaxFecthFunction(payload: any) {
     const data = await res.json();
     return data;
   } catch (error) {
+    // console.log("search ajax", error);
     throw error;
   }
 }
@@ -41,7 +58,7 @@ export async function searchAjaxFecthFunction(payload: any) {
 export async function getReviewDetailsFunction(reviewPayload: any) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT}`,
+      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/reviews`,
       {
         method: "POST",
         headers: {
@@ -55,12 +72,18 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
     const data = await res.json();
     return data;
   } catch (error) {
+    // console.log("review api", error);
     throw error;
   }
 }
 
 export async function getUcasCalculatorGrades(ucasPayload: any) {
   try {
+    const payloadString = JSON.stringify(ucasPayload);
+    const hash = crypto
+      .createHash("sha256")
+      .update(payloadString)
+      .digest("hex");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/ucas-ajax`,
       {
@@ -68,8 +91,9 @@ export async function getUcasCalculatorGrades(ucasPayload: any) {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+          "x-amz-content-sha256": hash,
         },
-        body: JSON.stringify(ucasPayload),
+        body: JSON.stringify(payloadString),
         cache: "no-store",
       }
     );
@@ -77,6 +101,7 @@ export async function getUcasCalculatorGrades(ucasPayload: any) {
 
     return data;
   } catch (error) {
+    // console.log("ucas ajax", error);
     throw error;
   }
 }

@@ -1,44 +1,45 @@
 "use server";
+import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-const Discovercomponents = () => {
+
+interface DiscoverSliderInterface {
+  heading: string;
+  subheading: string;
+  internalName: string;
+}
+
+const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
+  const discovercontentfulData: any = (
+    await graphQlFetchFunction(
+      discoverpodQuery(process.env.PROJECT, props.internalName)
+    )
+  ).data?.contentData?.items[0]?.bodyContentCollection?.items[0]
+    ?.mediaCardsCollection?.items;
+
   return (
-    <div className="discover-container bg-white">
-      <div className="max-w-container mx-auto">
-        <div className="discover-card-container px-[0] py-[34px] md:pt-[64px] md:pb-[16px]">
-          <div className="discover-header px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
-            <h2 className={`font-bold`}>Discover</h2>
-            <p className={`small mt-[8px]`}>Subheading</p>
-          </div>
-          <div className="discover-inner-wrap">
-            <Discoverslidercomponents />
-            <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-              <a
-                href="#"
-                className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
-              >
-                View more
-                <svg
-                  width="16"
-                  height="12"
-                  viewBox="0 0 16 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6"
-                    stroke="#3460DC"
-                    strokeWidth="1.48148"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
+    discovercontentfulData && (
+      <div className="discover-container bg-white">
+        <div className="max-w-container mx-auto">
+          <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
+            <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
+              <h2 className={`font-bold`} data-testid="discoverHeading">
+                {props.heading}
+              </h2>
+              <p className={`small mt-[8px]`} data-testid="discoverSubHeading">
+                {props.subheading}
+              </p>
+            </div>
+            <div className="discover-inner-wrap">
+              <Discoverslidercomponents
+                dicoverCardContentfulList={discovercontentfulData}
+              />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 export default Discovercomponents;

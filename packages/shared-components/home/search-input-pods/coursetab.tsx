@@ -33,7 +33,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
     const { qualCode } = searchFormHandle.courseType || {};
-    console.log(description, qualCode, "qualcode,descrption");
+    // console.log(description, qualCode, "qualcode,descrption");
     // Early return if description is invalid or too short
     if (!description || description.length < 3) {
       setFilteredsubject([]);
@@ -48,7 +48,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
           .includes(description.toLowerCase()) &&
         subjects?.qualCode === qualCode
     );
-    console.log(filteredSubjects);
+    // console.log(filteredSubjects);
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (
       list: { description: string; [key: string]: any }[],

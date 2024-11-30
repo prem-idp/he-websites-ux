@@ -7,8 +7,7 @@ import Menucategory2card from "@packages/shared-components/common-utilities/mega
 import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
 import Menucategory4card from "@packages/shared-components/common-utilities/megamenu/menucategory4card";
 import Menucategory5card from "@packages/shared-components/common-utilities/megamenu/menucategory5card";
-import data from "./data.json";
-const Megamenucomponents = ({ dataa }: any) => {
+const Megamenucomponents = ({ data }: any) => {
   const [content, setContent] = useState<any>(
     data?.data?.contentData?.items[0]?.headerMainMenuCollection?.items
   );

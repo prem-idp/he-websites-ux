@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
@@ -15,7 +16,6 @@ const interBold = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
 export const metadata: Metadata = {
   title: "Compare the Best University Degrees Courses UK | Whatuni",
   description:
@@ -32,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
+        <OneTrustCookieScript />
         <HeaderWrapper />
         {children}
         <Footer />

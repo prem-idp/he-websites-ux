@@ -391,4 +391,3 @@ p,
 .rightmenu li:not(:last-child) span:hover > svg path {
   stroke: white;
 }
-.decrease svg path{stroke:  #4664DC;}
