@@ -87,7 +87,6 @@ const Discoverslidercomponents1 = ({
                         return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(
                           (discoverItems, index) => {
                             if (!isObjectEmpty(discoverItems)) {
-                              console.log("discoverItems", discoverItems);
                               return (
                                 <SwiperSlide
                                   key={discoverItems.internalName + index}
@@ -174,7 +173,6 @@ const Discoverslidercomponents1 = ({
                       return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(
                         (discoverItems) => {
                           if (!isObjectEmpty(discoverItems)) {
-                            console.log("discoverItems", discoverItems);
                             return (
                               <div
                                 className="discover-card"

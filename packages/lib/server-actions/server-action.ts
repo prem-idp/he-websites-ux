@@ -8,12 +8,11 @@ export async function graphQlFetchFunction(payload: string) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
-      cache: "no-store",
+      next: { revalidate: 90 },
     });
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log("Graph QL fecth function", error);
     throw error;
   }
 }
@@ -29,13 +28,12 @@ export async function searchAjaxFecthFunction(payload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(payload),
-        cache: "no-store",
+        next: { revalidate: 300 },
       }
     );
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log("search ajax", error);
     throw error;
   }
 }
@@ -51,13 +49,12 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(reviewPayload),
-        cache: "no-store",
+        next: { revalidate: 300 },
       }
     );
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log("review api", error);
     throw error;
   }
 }
@@ -73,14 +70,13 @@ export async function getUcasCalculatorGrades(ucasPayload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(ucasPayload),
-        cache: "no-store",
+        next: { revalidate: 300 },
       }
     );
     const data = await res.json();
 
     return data;
   } catch (error) {
-    console.log("ucas ajax", error);
     throw error;
   }
 }
