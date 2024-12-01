@@ -18,7 +18,7 @@ const Page = async () => {
 
   return (
     <>
-      <GoogleOneTap />
+      {/* <GoogleOneTap /> */}
       <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>

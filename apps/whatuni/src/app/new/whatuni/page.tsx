@@ -17,7 +17,7 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
   return (
     <>
-      <GoogleOneTap />
+      {/* <GoogleOneTap /> */}
       <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>
