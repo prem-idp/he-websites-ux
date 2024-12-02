@@ -14,7 +14,7 @@ const Discovercard = () => {
             <h5 className="font-bold">Looking for courses?</h5>
           </div>
           <Image
-            src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image1x3x.png`}
+            src={`${process.env.SUBDOMAIN}/static/assets/images/discover/discover-feature-image1x3x.png` }
             width="186"
             height="200"
             alt="discover"
