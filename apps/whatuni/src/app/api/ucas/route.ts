@@ -6,8 +6,7 @@ export async function POST(request: any) {
   try {
     const cookie = await cookies();
     const tracksessionid: any = cookie.get("tracksessionid");
-    //console.log(tracksessionid.value);
-    // const response = { helo: "hi" };
+
     if (tracksessionid.value) {
       const { ucasAjax } = await request.json();
       const response = await guestUserUcas(ucasAjax, tracksessionid.value);
