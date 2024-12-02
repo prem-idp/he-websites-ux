@@ -255,7 +255,6 @@ describe("Test the Discoverslidercomponents1", () => {
                         
                         expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
                         expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
-                        console.log("cardCount", cardCount)
         })}
 
           const discovercardDesktopElement = await screen.findAllByTestId("discovercardMobile");

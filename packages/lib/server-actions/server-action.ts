@@ -74,28 +74,22 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
   }
 }
 
-export async function getUcasCalculatorGrades(ucasPayload: any) {
+export async function guestUserUcas(ucasPayload: any, tracksessionid: string) {
   try {
-    const payloadString = JSON.stringify(ucasPayload);
-    const hash = crypto
-      .createHash("sha256")
-      .update(payloadString)
-      .digest("hex");
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/ucas-ajax`,
+      `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-          "x-amz-content-sha256": hash,
+          tracksessionid: tracksessionid,
         },
         body: JSON.stringify(ucasPayload),
         next: { revalidate: 300 },
       }
     );
     const data = await res.json();
-
     return data;
   } catch (error) {
     throw error;

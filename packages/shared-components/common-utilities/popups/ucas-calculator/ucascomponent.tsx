@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
+import crypto from "crypto";
 import { ucasAjax } from "@packages/lib/api-payloads/payloads";
-import { getUcasCalculatorGrades } from "@packages/lib/server-actions/server-action";
 import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
 interface PropsInterface {
   isUcasOpen: boolean;
@@ -14,14 +14,13 @@ interface QualInterface {
   name: string;
 }
 const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
-  // const [ucasGradeData, setUcasGradeData] = useState<
-  //   GradeFilterArrayInterface[] | null
-  // >();
+  const [ucasGradeData, setUcasGradeData] = useState<
+    GradeFilterArrayInterface[] | null
+  >();
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoints, setUcasPoints] = useState<number>(0);
   const [resetid, setResetid] = useState<number>(0);
-  // const [topmenulevel, setTopmenulevel] = useState<string>("");
   const initialvalue = [
     {
       status: true,
@@ -55,342 +54,44 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     },
   ];
   const [qual, setQual] = useState(initialvalue);
-  // useEffect(() => {
-  //   const fetchUcasData = async () => {
-  //     try {
-  //       const response = await getUcasCalculatorGrades(ucasAjax);
-  //       setUcasGradeData(response?.gradeFilterList);
-  //     } catch (error) {
-  //       setUcasGradeData(null);
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchUcasData();
-  // }, []);
+  useEffect(() => {
+    const fetchUcasData = async () => {
+      const tracksessionid = "29472153";
+      try {
+        const payloadString = JSON.stringify(ucasAjax);
+        const hash = crypto
+          .createHash("sha256")
+          .update(payloadString)
+          .digest("hex");
+        const response = await fetch("/api/ucas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-amz-content-sha256": hash,
+          },
+          body: JSON.stringify({ ucasAjax, tracksessionid }),
+        });
+        const jsonData = await response.json();
+        if (jsonData) {
+          setUcasGradeData(jsonData?.gradeFilterList);
+        }
+      } catch (error) {
+        console.error("Error calling Search Ajax API:", error);
+      }
+    };
+    fetchUcasData();
+  }, []);
 
-  // console.log(ucasGradeData);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
   };
-  const ucasGradeData: GradeFilterArrayInterface[] = [
-    {
-      qualId: null,
-      qualification: "A - Levels",
-      qualificationUrl: null,
-      parentQualification: "A - Levels",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "plus-minus",
-    },
-    {
-      qualId: "1",
-      qualification: "A Level",
-      qualificationUrl: "a-level",
-      parentQualification: "A - Levels",
-      gradeOptions: "A*~56,A~48,B~40,C~32,D~24,E~16",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "Y",
-      template: "plus-minus",
-    },
-    {
-      qualId: "2",
-      qualification: "AS Level",
-      qualificationUrl: "as-level",
-      parentQualification: "A - Levels",
-      gradeOptions: "A~20,B~16,C~12,D~10,E~6",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "Y",
-      template: "plus-minus",
-    },
-    {
-      qualId: "3",
-      qualification: "A Level Double Award",
-      qualificationUrl: "a-level-double-award",
-      parentQualification: "A - Levels",
-      gradeOptions:
-        "A*A*~112,A*A~104,AA~96,AB~88,BB~80,BC~72,CC~64,CD~56,DD~48,DE~40,EE~32",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: "4",
-      qualification: "AS Level Double Award",
-      qualificationUrl: "as-level-double-award",
-      parentQualification: "A - Levels",
-      gradeOptions: "AA~40,AB~36,BB~32,BC~28,CC~24,CD~22,DD~20,DE~16,EE~12",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: null,
-      qualification: "International Baccalaureate (Diploma)",
-      qualificationUrl: null,
-      parentQualification: "International Baccalaureate (Diploma)",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: null,
-    },
-    {
-      qualId: null,
-      qualification: "International Baccalaureate (Diploma)",
-      qualificationUrl: null,
-      parentQualification: "International Baccalaureate (Diploma)",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "single-select",
-    },
-    {
-      qualId: "5",
-      qualification: "IB Diploma points",
-      qualificationUrl: "ib-diploma-points",
-      parentQualification: "International Baccalaureate (Diploma)",
-      gradeOptions: "0",
-      maxPoint: "6",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: null,
-    },
-    {
-      qualId: "14",
-      qualification: "International Baccalaureate (Diploma) Higher Level",
-      qualificationUrl: "higher-level",
-      parentQualification: "International Baccalaureate (Diploma)",
-      gradeOptions: "H7~56,H6~48,H5~32,H4~24,H3~12,H2~0,H1~0",
-      maxPoint: "6",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: "15",
-      qualification: "International Baccalaureate (Diploma) Standard Level",
-      qualificationUrl: "standard-level",
-      parentQualification: "International Baccalaureate (Diploma)",
-      gradeOptions: "S7~28,S6~24,S5~16,S4~12,S3~6,S2~0,S1~0",
-      maxPoint: "6",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: null,
-      qualification: "Scottish Qualifications",
-      qualificationUrl: null,
-      parentQualification: "Scottish Qualifications",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "single-select",
-    },
-    {
-      qualId: "6",
-      qualification: "Scottish Highers",
-      qualificationUrl: "scottish-highers",
-      parentQualification: "Scottish Qualifications",
-      gradeOptions: "A~33,B~27,C~21,D~15",
-      maxPoint: "6",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: "7",
-      qualification: "Scottish Advanced Highers",
-      qualificationUrl: "scottish-advanced-highers",
-      parentQualification: "Scottish Qualifications",
-      gradeOptions: "A~56,B~48,C~40,D~32",
-      maxPoint: "6",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: null,
-      qualification: "BTEC Nationals (QCF)",
-      qualificationUrl: null,
-      parentQualification: "BTEC Nationals (QCF)",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "single-select",
-    },
-    {
-      qualId: "8",
-      qualification: "BTEC Extended Diploma",
-      qualificationUrl: "btec-extended-diploma",
-      parentQualification: "BTEC Nationals (QCF)",
-      gradeOptions:
-        "D*D*D*~168,D*D*D~160,D*DD~152,DDD~144,DDM~128,DMM~112,MMM~96,MMP~80,MPP~64,PPP~48",
-      maxPoint: "8",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: "9",
-      qualification: "BTEC Diploma",
-      qualificationUrl: "btec-diploma",
-      parentQualification: "BTEC Nationals (QCF)",
-      gradeOptions: "D*D*~112,D*D~104,DD~96,DM~80,MM~64,MP~48,PP~32",
-      maxPoint: "8",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: "10",
-      qualification: "BTEC 90 Credit Diploma",
-      qualificationUrl: "btec-90-credit-diploma",
-      parentQualification: "BTEC Nationals (QCF)",
-      gradeOptions: "D*D*~84,D*D~78,DD~72,DM~60,MM~48,MP~36,PP~24",
-      maxPoint: "8",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: null,
-    },
-    {
-      qualId: "16",
-      qualification: "BTEC Foundation Diploma",
-      qualificationUrl: "btec-foundation-diploma",
-      parentQualification: "BTEC Nationals (QCF)",
-      gradeOptions: "D*~84,D~72,M~48,P~24",
-      maxPoint: "8",
-      maxTotalPoint: "10",
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: null,
-      qualification: "Irish Leaving Certificate",
-      qualificationUrl: null,
-      parentQualification: "Irish Leaving Certificate",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "plus-minus",
-    },
-    {
-      qualId: "11",
-      qualification: "Irish Leaving Certificate Higher",
-      qualificationUrl: "higher",
-      parentQualification: "Irish Leaving Certificate",
-      gradeOptions:
-        "A1~36,A2~30,B1~30,B2~24,B3~24,C1~18,C2~18,C3~12,D1~12,D2~9,D3~9",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "Y",
-      template: "plus-minus",
-    },
-    {
-      qualId: "12",
-      qualification: "Irish Leaving Certificate Ordinary",
-      qualificationUrl: "ordinary",
-      parentQualification: "Irish Leaving Certificate",
-      gradeOptions: "A1~12,A2~10,B1~10,B2~8,B3~8,C1~6,C2~6",
-      maxPoint: "5",
-      maxTotalPoint: "6",
-      gradeOptionflag: "Y",
-      template: "plus-minus",
-    },
-    {
-      qualId: null,
-      qualification: "ACCESS TO HE DIPLOMA",
-      qualificationUrl: null,
-      parentQualification: "ACCESS TO HE DIPLOMA",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "credit-selector",
-    },
-    {
-      qualId: "20",
-      qualification: "Access to HE Diploma",
-      qualificationUrl: "access-he-diploma",
-      parentQualification: "ACCESS TO HE DIPLOMA",
-      gradeOptions: "D~3.2,M~2.1333,P~1.0666",
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: "N",
-      template: "credit-selector",
-    },
-    {
-      qualId: null,
-      qualification: "UCAS",
-      qualificationUrl: null,
-      parentQualification: "UCAS",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: "min-max",
-    },
-    {
-      qualId: "19",
-      qualification: "UCAS Tariff Points",
-      qualificationUrl: "ucas",
-      parentQualification: "UCAS",
-      gradeOptions: "0",
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: "T",
-      template: "min-max",
-    },
-    {
-      qualId: "23",
-      qualification: "T - Level",
-      qualificationUrl: "t-level",
-      parentQualification: "T - Levels",
-      gradeOptions: "0",
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: "N",
-      template: "single-select",
-    },
-    {
-      qualId: null,
-      qualification: "BTEC SEARCH",
-      qualificationUrl: null,
-      parentQualification: "BTEC SEARCH",
-      gradeOptions: null,
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: null,
-    },
-    {
-      qualId: "13",
-      qualification: "BTEC SEARCH",
-      qualificationUrl: null,
-      parentQualification: "BTEC SEARCH",
-      gradeOptions: "D*~56,D~48,M~32,P~16",
-      maxPoint: null,
-      maxTotalPoint: null,
-      gradeOptionflag: null,
-      template: null,
-    },
-  ];
+
   const getOrdinalName = (index: number) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
   };
-
+  console.log(ucasGradeData);
   const addQualification = () => {
     setQualifications((prevQualifications: QualInterface[]) => {
       if (prevQualifications.length >= 2) return prevQualifications;
@@ -435,7 +136,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     setQual(initialvalue);
     setResetid(Date.now());
   };
-  console.log(qual);
   return (
     <>
       <div
