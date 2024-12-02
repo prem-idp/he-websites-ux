@@ -56,7 +56,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qual, setQual] = useState(initialvalue);
   useEffect(() => {
     const fetchUcasData = async () => {
-      const tracksessionid = "29472153";
       try {
         const payloadString = JSON.stringify(ucasAjax);
         const hash = crypto
@@ -69,7 +68,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             "Content-Type": "application/json",
             "x-amz-content-sha256": hash,
           },
-          body: JSON.stringify({ ucasAjax, tracksessionid }),
+          body: JSON.stringify({ ucasAjax }),
         });
         const jsonData = await response.json();
         if (jsonData) {
@@ -81,6 +80,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
+  console.log("ucas grade data", ucasGradeData);
 
   const ucasHandleClose = () => {
     onClose();
@@ -91,7 +91,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
   };
-  console.log(ucasGradeData);
   const addQualification = () => {
     setQualifications((prevQualifications: QualInterface[]) => {
       if (prevQualifications.length >= 2) return prevQualifications;
