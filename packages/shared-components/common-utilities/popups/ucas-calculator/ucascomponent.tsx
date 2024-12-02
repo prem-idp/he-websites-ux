@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
+import crypto from "crypto";
 import { ucasAjax } from "@packages/lib/api-payloads/payloads";
-import { getUcasCalculatorGrades } from "@packages/lib/server-actions/server-action";
 import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
 interface PropsInterface {
   isUcasOpen: boolean;
@@ -21,15 +21,62 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoints, setUcasPoints] = useState<number>(0);
   const [resetid, setResetid] = useState<number>(0);
-  const [topmenulevel, setTopmenulevel] = useState<string>("");
+  const initialvalue = [
+    {
+      status: true,
+      selectedLevel: "A Level",
+      type: "plus-minus",
+      maxPoint: 5,
+      maxTotalPoint: 6,
+      getmaxTotalPoint: 0,
+      podSpecificPoints: 0,
+      selectedPoints: [],
+    },
+    {
+      status: false,
+      selectedLevel: "A Level",
+      type: "plus-minus",
+      maxPoint: 5,
+      maxTotalPoint: 6,
+      getmaxTotalPoint: 0,
+      podSpecificPoints: 0,
+      selectedPoints: [],
+    },
+    {
+      status: false,
+      selectedPoints: [],
+      selectedLevel: "A Level",
+      type: "plus-minus",
+      maxPoint: 5,
+      maxTotalPoint: 6,
+      getmaxTotalPoint: 0,
+      podSpecificPoints: 0,
+    },
+  ];
+  const [qual, setQual] = useState(initialvalue);
   useEffect(() => {
     const fetchUcasData = async () => {
+      const tracksessionid = "29472153";
       try {
-        const response = await getUcasCalculatorGrades(ucasAjax);
-        setUcasGradeData(response?.gradeFilterList);
+        const payloadString = JSON.stringify(ucasAjax);
+        const hash = crypto
+          .createHash("sha256")
+          .update(payloadString)
+          .digest("hex");
+        const response = await fetch("/api/ucas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-amz-content-sha256": hash,
+          },
+          body: JSON.stringify({ ucasAjax, tracksessionid }),
+        });
+        const jsonData = await response.json();
+        if (jsonData) {
+          setUcasGradeData(jsonData?.gradeFilterList);
+        }
       } catch (error) {
-        setUcasGradeData(null);
-        console.log(error);
+        console.error("Error calling Search Ajax API:", error);
       }
     };
     fetchUcasData();
@@ -44,7 +91,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
   };
-
+  console.log(ucasGradeData);
   const addQualification = () => {
     setQualifications((prevQualifications: QualInterface[]) => {
       if (prevQualifications.length >= 2) return prevQualifications;
@@ -55,7 +102,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       return [...prevQualifications, newQualification];
     });
   };
-  const removeQualification = (idToRemove: number) => {
+  const removeQualification = (idToRemove: number, indexPosition: number) => {
     setQualifications((prevQualifications: QualInterface[]) => {
       const updatedQualifications = prevQualifications.filter(
         (item: QualInterface) => item.id !== idToRemove
@@ -67,11 +114,26 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       );
     });
+    setQual((prev: any) =>
+      prev.map((item: any, index: number) =>
+        index === indexPosition
+          ? {
+              ...item,
+              selectedLevel: "A Level",
+              type: "plus-minus",
+              maxPoint: 5,
+              maxTotalPoint: 6,
+              getmaxTotalPoint: 0,
+              podSpecificPoints: 0,
+            }
+          : item
+      )
+    );
   };
   const resetAll = () => {
     setQualifications([]);
     setUcasPoints(0);
-    setTopmenulevel("");
+    setQual(initialvalue);
     setResetid(Date.now());
   };
   return (
@@ -123,25 +185,36 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               ucasPoints={ucasPoints}
               setUcasPoints={setUcasPoints}
               ucasGradeData={ucasGradeData}
-              setTopmenulevel={setTopmenulevel}
+              indexPosition={0}
+              key={resetid}
               resetid={resetid}
+              qual={qual}
+              setQual={setQual}
             />
             <div className="border-b border-grey-200"></div>
             {/* Additional Qualification */}
-            {qualifications.map((qualification: QualInterface) => (
-              <AddQualification
-                ucasPoints={ucasPoints}
-                setUcasPoints={setUcasPoints}
-                key={qualification.id}
-                qualOrder={qualification.name}
-                ucasGradeData={ucasGradeData}
-                removeQual={() => removeQualification(qualification.id)}
-              />
-            ))}
+            {qualifications.map(
+              (qualification: QualInterface, index: number) => (
+                <AddQualification
+                  indexPosition={index + 1}
+                  qual={qual}
+                  setQual={setQual}
+                  ucasPoints={ucasPoints}
+                  setUcasPoints={setUcasPoints}
+                  key={qualification.id}
+                  qualOrder={qualification.name}
+                  ucasGradeData={ucasGradeData}
+                  removeQual={() =>
+                    removeQualification(qualification.id, index + 1)
+                  }
+                />
+              )
+            )}
             {/* Add qualification button */}
 
             {qualifications.length < 2 &&
-              topmenulevel !== "UCAS Tariff Points" && (
+              qual[0].selectedLevel !== "UCAS Tariff Points" &&
+              qual[0].podSpecificPoints > 0 && (
                 <div
                   onClick={addQualification}
                   className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"

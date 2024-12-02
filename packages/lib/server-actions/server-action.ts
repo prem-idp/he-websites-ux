@@ -1,7 +1,6 @@
 "use server";
 export async function graphQlFetchFunction(payload: string) {
   try {
-  
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
@@ -9,23 +8,21 @@ export async function graphQlFetchFunction(payload: string) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
-      cache: "no-store",
+      next: { revalidate: 90 },
     });
     const data = await res.json();
     return data;
   } catch (error) {
-    // console.log("Graph QL fecth function", error);
     throw error;
   }
 }
 
-export async function searchAjaxFecthFunction (payload: Record<string, any>) {
+export async function searchAjaxFecthFunction(payload: Record<string, any>) {
   try {
     // Convert the payload to query parameters
     const queryParams = new URLSearchParams(payload).toString();
 
     // Compute the hash of the payload string
-   
 
     const url = `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax?${queryParams}`;
     // console.log("url", url);
@@ -59,35 +56,32 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(reviewPayload),
-        cache: "no-store",
+        next: { revalidate: 300 },
       }
     );
     const data = await res.json();
     return data;
   } catch (error) {
-    // console.log("review api", error);
     throw error;
   }
 }
 
-export async function getUcasCalculatorGrades(ucasPayload: any) {
+export async function guestUserUcas(ucasPayload: any, tracksessionid: string) {
   try {
-  
-  
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/ucas-ajax`,
+      `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+          tracksessionid: tracksessionid,
         },
         body: JSON.stringify(ucasPayload),
-        cache: "no-store",
+        next: { revalidate: 300 },
       }
     );
     const data = await res.json();
-
     return data;
   } catch (error) {
     throw error;
