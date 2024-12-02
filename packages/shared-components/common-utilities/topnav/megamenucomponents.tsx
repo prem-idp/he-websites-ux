@@ -81,7 +81,7 @@ const Megamenucomponents = ({ data }: any) => {
                   {menuItem?.navIcon?.url && (
                     <Image
                       className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                      src={menuItem?.navIcon?.url}
+                      src={menuItem?.navIcon?.url || ""}
                       width="44"
                       height="44"
                       quality={100}

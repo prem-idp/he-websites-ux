@@ -135,6 +135,7 @@ const Header = ({
     }
   }, [clickStates]);
   const Usericonfunction = () => {
+    // console.log(isAuthenticated, "isAuthenticated inside the user");
     if (isAuthenticated === "true") {
       rightMenuAction("USER");
     } else {

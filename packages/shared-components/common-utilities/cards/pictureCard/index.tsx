@@ -13,7 +13,7 @@ const PictureCard = ({ imgSrc, text, link }: pictureCardProps) => {
     <Link href={link} key={text}>
       <div className="card flex flex-col bg-white rounded-[8px] shadow-custom-2 hover:opacity-85 after:absolute after:inset-0 after:bg-custom-gradient after:z-10 after:rounded-[8px]">
         <Image
-          src={imgSrc}
+          src={imgSrc || ""}
           alt={text}
           objectFit="cover"
           width={290}
