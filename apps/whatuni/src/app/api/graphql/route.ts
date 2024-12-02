@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 
 // Function to make a GraphQL fetch request
 async function graphQlFetchFunction(payload: string) {
   try {
+    const payloadString = JSON.stringify(payload);
+    const hash = crypto
+      .createHash("sha256")
+      .update(payloadString)
+      .digest("hex");
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
+        "x-amz-content-sha256": hash,
       },
       body: JSON.stringify({ query: payload }),
       cache: "no-store",
