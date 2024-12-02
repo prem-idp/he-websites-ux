@@ -11,7 +11,7 @@ const TrackSessionId = () => {
       const trackSessionId = uuidv4();
       document.cookie = `${name}=${trackSessionId}; path=/; max-age=3600`;
     } else {
-      console.log("Cookie already present:", cookiePresent);
+      // console.log("Cookie already present:", cookiePresent);
     }
   }, []);
   return null;

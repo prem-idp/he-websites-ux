@@ -9,6 +9,7 @@ import {
 } from "@packages/lib/types/interfaces";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
+import SearchAjaxComponent from "./clientcomponent";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -17,7 +18,8 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
   return (
     <>
-      {/* <GoogleOneTap /> */}
+      <SearchAjaxComponent />
+      <GoogleOneTap />
       <TrackSessionId />
       <Heroslidercomponent data={heroSliderData} />
       <div>

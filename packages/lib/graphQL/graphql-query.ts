@@ -301,15 +301,7 @@ export const homePageQuery = `{
     }
   }
 }`;
-export const pageLogoQuery = `... on PageLogo {
-                  logoName
-                  logoImage {
-                    url
-                    width
-                    height
-                  }
-                  logoLink
-                }`;
+
 export const internalComponentLoop = (
   internalName: string,
   componentQuery: string
@@ -351,7 +343,7 @@ export const tagCloudQuery = `{
         items {
           __typename
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection {
               items {
                 __typename
                 ... on PageTagCloud {
@@ -390,6 +382,152 @@ export const partnerLogo = `
                     height
                   }
                   logoLink
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+// export const discoverpodQuery = (
+//   websiteName: string | undefined,
+//   internalName: string
+// ) => `{
+// export const testimonial = `
+// {
+//   contentData: homepageCollection(
+//     limit: 1
+//     where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+//   ) {
+//     items {
+//       bodyContentCollection(limit: 1
+//       where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+//         items {
+//           __typename
+//           ... on MultipleCardContainer {
+//             mediaCardsCollection(limit: 20 ) {
+//               items {
+//                 __typename
+//                 ... on PageMultimediaTestimonials {
+//                   sectionTitle
+//                   multimediaBlockLeft {
+//                     ... on PageVideo {
+//                       videoIntName
+//                       videoAltText
+//                       thumbnail{
+//                         url
+//                         width
+//                         height
+//                         fileName
+//                       }
+//                       videoUpload {
+//                         url
+//                         width
+//                         height
+//                         title
+//                       }
+//                     }
+//                     ... on PageImage {
+//                       imgIntName
+//                       imgAltText
+//                       imgUpload {
+//                         url
+//                         width
+//                         height
+//                         title
+//                       }
+//                     }
+//                   }
+//                   testimonialBlockRight {
+//                     internalName
+//                     ... on PageTestimonial {
+//                       testimonialText
+//                       author {
+//                         firstName
+//                         lastName
+//                         middleName
+//                         shortBio
+//                       }
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }`;
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 10
+      where: {internalName: "${internalName}"}
+     ) {
+        items {
+         
+          ... on MultipleCardContainer {
+    
+            mediaCardsCollection(limit: 6) {
+              items {
+                ... on DynamicMediaComponent {
+                  internalName
+                  title
+                  subTitle
+                  shortDescription
+                  backgroundColor
+                  longDescription {
+                    json
+                  }
+                  image {
+                    imageTitle
+                    imgIntName
+                    imgUpload {
+                      url
+                      width
+                      height
+                    }
+                    imgAltText
+                  }
+                  video {
+                    videoIntName
+                    videoTitle
+                    videoDesc
+                    videoAltText
+                    videoTranscript
+                    thumbnail {
+                      url
+                      width
+                      height
+                      title
+                    }
+                    videoUpload {
+                      url
+                      width
+                      height
+                      title
+                    }
+                  }
+                  cta {
+                    internalName
+                    primaryCtaUrl
+                    secondaryCtaUrl
+                    primaryCtaLabel
+                    secondaryCtaLabel
+                    primaryCtaTarget
+                    secondaryCtaTarget
+                    flagStyle
+                  }
                 }
               }
             }
@@ -456,81 +594,6 @@ export const testimonial = `
                         shortBio
                       }
                     }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
-export const discoverpodQuery = (
-  websiteName: string | undefined,
-  internalName: string
-) => `{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
-  ) {
-    items {
-      bodyContentCollection(limit: 10
-      where: {internalName: "${internalName}"}
-     ) {
-        items {
-         
-          ... on MultipleCardContainer {
-    
-            mediaCardsCollection(limit: 6) {
-              items {
-                ... on DynamicMediaComponent {
-                  internalName
-                  title
-                  subTitle
-                  shortDescription
-                  backgroundColor
-                  longDescription {
-                    json
-                  }
-                  image {
-                    imageTitle
-                    imgIntName
-                    imgUpload {
-                      url
-                      width
-                      height
-                    }
-                    imgAltText
-                  }
-                  video {
-                    videoIntName
-                    videoTitle
-                    videoDesc
-                    videoAltText
-                    videoTranscript
-                    thumbnail {
-                      url
-                      width
-                      height
-                      title
-                    }
-                    videoUpload {
-                      url
-                      width
-                      height
-                      title
-                    }
-                  }
-                  cta {
-                    internalName
-                    primaryCtaUrl
-                    secondaryCtaUrl
-                    primaryCtaLabel
-                    secondaryCtaLabel
-                    primaryCtaTarget
-                    secondaryCtaTarget
-                    flagStyle
                   }
                 }
               }
