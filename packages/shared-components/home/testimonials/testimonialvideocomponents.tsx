@@ -33,7 +33,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
         {contentfullRightData?.multimediaBlockLeft?.thumbnail?.url ? (
           <Image
             className="block w-full"
-            src={contentfullRightData?.multimediaBlockLeft?.thumbnail?.url}
+            src={contentfullRightData?.multimediaBlockLeft?.thumbnail?.url || ""}
             alt="video thumbnail image"
             width={
               contentfullRightData?.multimediaBlockLeft?.thumbnail?.width || 600

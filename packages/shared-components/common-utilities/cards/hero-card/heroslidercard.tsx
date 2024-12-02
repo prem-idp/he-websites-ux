@@ -47,7 +47,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
             <Image
               data-testid="HeroImage"
               priority={true}
-              src={data?.image?.imgUpload?.url}
+              src={data?.image?.imgUpload?.url ||""}
               width={365}
               height={445}
               alt={data?.image?.imgAltText}

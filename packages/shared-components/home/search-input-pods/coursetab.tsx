@@ -87,10 +87,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
     // const sortedResults = prioritySearch(filteredSubjects, description);
     setFilteredsubject(prioritySearch(filteredSubjects, description));
-    console.log(
-      prioritySearch(filteredSubjects, description),
-      "filterdsubject "
-    );
+    // console.log(
+    //   prioritySearch(filteredSubjects, description),
+    //   "filterdsubject "
+    // );
   }, [
     searchFormHandle.subject.description,
     searchFormHandle.courseType.qualCode,

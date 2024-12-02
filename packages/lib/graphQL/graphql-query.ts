@@ -1,7 +1,7 @@
 export const Headerquery = `{
   contentData: headerCollection(
     limit: 1
-    where: { website: {websiteName: "${process.env.PROJECT}"}}
+    where: {internalName: "Whatuni Header", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       websiteLogo {
@@ -10,7 +10,7 @@ export const Headerquery = `{
         height
       }
       headerTrackingScripts
-      headerMainMenuCollection(limit: 7) {
+      headerMainMenuCollection(limit: 10) {
         items {
           navName
           navTitle
@@ -24,8 +24,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
+                    navTitle
                 navUrl
-                navTitle
                 navCtAlabel
                 navIcon {
                   url
@@ -41,8 +41,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
+                    navTitle
                 navUrl
-                navTitle
                 navCtAlabel
                 navIcon {
                   url
@@ -58,7 +58,7 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                navTitle
+                    navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -75,8 +75,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                navUrl
                 navTitle
+                navUrl
                 navCtAlabel
                 navIcon {
                   url
@@ -90,12 +90,62 @@ export const Headerquery = `{
           }
         }
       }
+      customerProfileMenu {
+        ... on Navigation {
+          navName
+          navUrl
+          navTitle
+          navCtaTarget
+          flagNavItemStyle
+          navChildC1Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC2Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC3Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC4Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+        }
+      }
       universalSearchPanel {
         internalName
         navigationElementsCollection(limit: 5) {
           items {
             ... on Navigation {
               navName
+              navTitle
               navUrl
               navCtAlabel
               navIcon {

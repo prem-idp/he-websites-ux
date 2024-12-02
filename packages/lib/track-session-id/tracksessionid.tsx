@@ -5,6 +5,7 @@ const TrackSessionId = () => {
   useEffect(() => {
     const name = "trackSessionId";
     const cookies = document?.cookie?.split("; ");
+    console.log("cookieschch", cookies);
     const cookie = cookies?.find((mycookie) => mycookie.startsWith(`${name}=`));
     const cookiePresent = cookie?.split("=")[1] || null;
     // console.log(cookiePresent);
