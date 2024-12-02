@@ -9,6 +9,9 @@ export default function User({ topnav_data }: any) {
   const router = useRouter();
   async function clearAllCookies() {
     try {
+      document.cookie =
+        "SESSION=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
       await signOut(); // Wait for the signOut process to complete
       window.location.href = "/"; // Force a full reload to the home page
     } catch (error) {
@@ -32,7 +35,14 @@ export default function User({ topnav_data }: any) {
                   : "mb-[16px] hover:underline"
               }
             >
-              <Link href={item.navUrl || ""}>{item.navTitle}</Link>
+              <Link
+                href={item.navUrl || ""}
+                onClick={() =>
+                  item.navTitle === "Logout" ? clearAllCookies() : ""
+                }
+              >
+                {item.navTitle}
+              </Link>
             </li>
           ))}
           {/* <li className={"text-primary-400 hover:underline"}>

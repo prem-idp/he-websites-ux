@@ -5,7 +5,7 @@ import "./globals.css";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import Script from "next/script";
-import Head from "next/head";
+import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",

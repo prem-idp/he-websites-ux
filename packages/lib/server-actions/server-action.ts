@@ -26,31 +26,36 @@ export async function graphQlFetchFunction(payload: string) {
   }
 }
 
-export async function searchAjaxFecthFunction(payload: any) {
+export async function searchAjaxFecthFunction (payload: Record<string, any>) {
   try {
+    // Convert the payload to query parameters
+    const queryParams = new URLSearchParams(payload).toString();
+
+    // Compute the hash of the payload string
     const payloadString = JSON.stringify(payload);
     const hash = crypto
       .createHash("sha256")
       .update(payloadString)
       .digest("hex");
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-          "x-amz-content-sha256": hash,
-        },
-        body: JSON.stringify(payload),
-        cache: "no-store",
-      }
-    );
+    const url = `${process.env.NEXT_PUBLIC_SEARCH_AJAX_API}/sub-inst-ajax?${queryParams}`;
+    console.log("url", url);
+    // Make a GET request with the query parameters
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+        "x-amz-content-sha256": hash,
+      },
+      cache: "no-store",
+    });
+
+    // Parse the JSON response
     const data = await res.json();
     return data;
   } catch (error) {
-    // console.log("search ajax", error);
+    // Handle the error
     throw error;
   }
 }

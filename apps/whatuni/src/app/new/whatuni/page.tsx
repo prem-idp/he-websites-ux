@@ -10,7 +10,10 @@ import {
 import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import SearchAjaxComponent from "./clientcomponent";
+import { headers } from "next/headers";
 const Page = async () => {
+  const headersList = await headers(); // Await the promise
+  const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
@@ -20,7 +23,7 @@ const Page = async () => {
     <>
       <SearchAjaxComponent />
       <GoogleOneTap />
-      <TrackSessionId />
+      {isAuthenticated === "false" && <TrackSessionId />}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
