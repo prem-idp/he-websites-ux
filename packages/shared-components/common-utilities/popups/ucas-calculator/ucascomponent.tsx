@@ -413,7 +413,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       );
     });
-    console.log(indexPosition);
     setQual((prev: any) =>
       prev.map((item: any, index: number) =>
         index === indexPosition

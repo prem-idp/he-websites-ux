@@ -2,27 +2,27 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
-import React from 'react';
-import {graphQlFetchFunction} from "@packages/lib/server-actions/server-action"
+import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 
-jest.mock('swiper/react', () => ({
-    Swiper: jest.fn(({children}) => <>{children}</>),
-    SwiperSlide: jest.fn(({children}) => <>{children}</>),
-  }));
-  
-  jest.mock('swiper/modules', () => ({
-    FreeMode: jest.fn(),
-    Navigation: jest.fn(),
-    Pagination: jest.fn(),
-  }));
-  
-  // CSS Imports Mock
-  jest.mock('swiper/css', () => {});
-  jest.mock('swiper/css/navigation', () => {});
-  jest.mock('swiper/css/pagination', () => {});
+jest.mock("swiper/react", () => ({
+  Swiper: jest.fn(({ children }) => <>{children}</>),
+  SwiperSlide: jest.fn(({ children }) => <>{children}</>),
+}));
 
-  const discoverPodList = `{
+jest.mock("swiper/modules", () => ({
+  FreeMode: jest.fn(),
+  Navigation: jest.fn(),
+  Pagination: jest.fn(),
+}));
+
+// CSS Imports Mock
+jest.mock("swiper/css", () => {});
+jest.mock("swiper/css/navigation", () => {});
+jest.mock("swiper/css/pagination", () => {});
+
+const discoverPodList = `{
     "data": {
         "contentData": {
             "items": [
@@ -205,83 +205,121 @@ jest.mock('swiper/react', () => ({
             ]
         }
     }
-}`
-const iscoverPodListJson: discoverContentfulInterface = JSON.parse(discoverPodList);
-console.log("iscoverPodListJson", iscoverPodListJson);
-jest.mock('../../../lib/server-actions/server-action', () => ({
-    graphQlFetchFunction: jest.fn()
-  }));
+}`;
+const iscoverPodListJson: discoverContentfulInterface =
+  JSON.parse(discoverPodList);
+jest.mock("../../../lib/server-actions/server-action", () => ({
+  graphQlFetchFunction: jest.fn(),
+}));
 
+describe("Test the Discoverslidercomponents1", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
+  });
 
-  describe("Test the Discoverslidercomponents1", () => {
+  //
+  it("The count of slider created for desktop device", async () => {
+    render(<Discoverslidercomponents1 internalName="" />);
+    let cardCount: number = 0;
+    {
+      iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
+        if (discoverObj != null) {
+          return discoverObj?.bodyContentCollection?.items?.map(
+            async (mediaCardsCollectionItems, index) => {
+              if (
+                mediaCardsCollectionItems?.mediaCardsCollection?.items !=
+                  null &&
+                mediaCardsCollectionItems.mediaCardsCollection.items[index] !=
+                  null
+              ) {
+                return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(
+                  async (discoverItems, index) => {
+                    if (
+                      discoverItems?.title != null &&
+                      discoverItems?.title != undefined
+                    ) {
+                      const discoverImageElement =
+                        await screen.findAllByTestId("discoverImageId");
+                      const cardTitleElement =
+                        await screen.findAllByTestId("cardTitle");
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
-        (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
-    })
-    
-    //
-    it("The count of slider created for desktop device", async () => {
-        render(<Discoverslidercomponents1  internalName=""/>);
-        let cardCount:number = 0;
-        {iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
-            if(discoverObj != null){
-              return discoverObj?.bodyContentCollection?.items?.map(async (mediaCardsCollectionItems, index) => {
-                if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
-                  return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(async (discoverItems, index) => {
-                    if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        
-                        const discoverImageElement = await screen.findAllByTestId("discoverImageId");
-                        const cardTitleElement = await screen.findAllByTestId("cardTitle");
-                        
-                        expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
-                        expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
-                        cardCount = cardCount + 1;
+                      expect(discoverImageElement[index]).toHaveAttribute(
+                        "data-testsrc",
+                        discoverItems.image.imgUpload.url
+                      );
+                      expect(cardTitleElement[index]).toHaveTextContent(
+                        discoverItems.title
+                      );
+                      cardCount = cardCount + 1;
                     }
-                  })
-                }
-              });
+                  }
+                );
+              }
             }
-            return <></>
-          })}
-          const discovercardDesktopElement = await screen.findAllByTestId("discovercardDesktop");
-          //expect(discovercardDesktopElement?.length).toBe(cardCount);
-    });
+          );
+        }
+        return <></>;
+      });
+    }
+    const discovercardDesktopElement = await screen.findAllByTestId(
+      "discovercardDesktop"
+    );
+    //expect(discovercardDesktopElement?.length).toBe(cardCount);
+  });
 
-    test("The count of slider created for mobile device", async () => {
-        
-        let cardCount:number = 0;
-        const resizeSpy = jest.spyOn(window, 'dispatchEvent');
-        window.innerWidth = 480;
-        // Trigger the window resize event.
-        global.dispatchEvent(new Event('resize'));
+  test("The count of slider created for mobile device", async () => {
+    let cardCount: number = 0;
+    const resizeSpy = jest.spyOn(window, "dispatchEvent");
+    window.innerWidth = 480;
+    // Trigger the window resize event.
+    global.dispatchEvent(new Event("resize"));
 
-        render(<Discoverslidercomponents1 internalName="" />);
+    render(<Discoverslidercomponents1 internalName="" />);
 
+    {
+      iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {
+        if (discoverObj != null) {
+          return discoverObj?.bodyContentCollection?.items?.map(
+            (mediaCardsCollectionItems, index) => {
+              if (
+                mediaCardsCollectionItems?.mediaCardsCollection?.items !=
+                  null &&
+                mediaCardsCollectionItems.mediaCardsCollection.items[index] !=
+                  null
+              ) {
+                return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(
+                  async (discoverItems, index) => {
+                    if (
+                      discoverItems?.title != null &&
+                      discoverItems?.title != undefined
+                    ) {
+                      cardCount = cardCount + 1;
+                      const discoverImageElement =
+                        await screen.findAllByTestId("discoverImageId");
+                      const cardTitleElement =
+                        await screen.findAllByTestId("cardTitle");
 
-        {iscoverPodListJson?.data?.contentData?.items?.map((discoverObj) => {
-            if(discoverObj != null){
-              return discoverObj?.bodyContentCollection?.items?.map((mediaCardsCollectionItems, index) => {
-                if(mediaCardsCollectionItems?.mediaCardsCollection?.items != null && mediaCardsCollectionItems.mediaCardsCollection.items[index] != null){
-                  return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(async (discoverItems, index) => {
-                    if(discoverItems?.title != null && discoverItems?.title != undefined){
-                        cardCount = cardCount + 1;
-                        const discoverImageElement = await screen.findAllByTestId("discoverImageId");
-                        const cardTitleElement = await screen.findAllByTestId("cardTitle");
-                        
-                        expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
-                        expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
-                        console.log("cardCount", cardCount)
+                      expect(discoverImageElement[index]).toHaveAttribute(
+                        "data-testsrc",
+                        discoverItems.image.imgUpload.url
+                      );
+                      expect(cardTitleElement[index]).toHaveTextContent(
+                        discoverItems.title
+                      );
                     }
-                  })
-                }
-              });
+                  }
+                );
+              }
             }
-            return <></>
-          })}
+          );
+        }
+        return <></>;
+      });
+    }
 
-          const discovercardDesktopElement = await screen.findAllByTestId("discovercardMobile");
-          expect(discovercardDesktopElement?.length).toBe(cardCount);
-    });
-
-  })
+    const discovercardDesktopElement =
+      await screen.findAllByTestId("discovercardMobile");
+    expect(discovercardDesktopElement?.length).toBe(cardCount);
+  });
+});
