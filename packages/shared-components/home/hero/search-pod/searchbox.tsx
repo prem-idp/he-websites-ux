@@ -49,7 +49,41 @@ const SearchBox = ({ course_data, uni_data }: any) => {
   };
 
   // PGS SearchBox
+  const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
+  const universityClick = () => {
+    setIsPgsUniversityClicked(!isPgsUniversityClicked);
+  };
+  const [isPgsSearched, setIsPgsSearched] = useState(false);
   const search = ["Masters", "PhD", "PGCert", "PGDip", "MBA", "PGCE"];
+
+  const handleKeyUp = (event: any) => {
+    if (event.key === "Enter") {
+      setIsPgsSearched(!isPgsSearched);
+    }
+  };
+
+  const searchKey = [
+    {
+      name: "Law",
+      course: "1124 courses",
+    },
+    {
+      name: "Law / Legal Studies",
+      course: "1124 courses",
+    },
+    {
+      name: "Law (Specific Statutes)",
+      course: "1124 courses ",
+    },
+    {
+      name: "Asian Law",
+      course: "1124 courses",
+    },
+    {
+      name: "Civil Law",
+      course: "1124 courses",
+    },
+  ];
 
   // console.log(searchFormHandle,"______________________________________________");
   return (
@@ -206,46 +240,82 @@ const SearchBox = ({ course_data, uni_data }: any) => {
         </div>
       </div>
       {/* PGS SEARCH */}
-      <div className="px-[16px] xl:px-0">
-        <div className="bg-white max-w-container mx-auto border border-bg-grey-200 rounded-[24px] p-[16px] pt-[24px] relative z-3 shadow-custom-1 md:rounded-[32px] md:mt-[-28px] md:pl-[24px] md:p-[10px]">
-          <div className="flex flex-col item-center gap-[24px] justify-between md:flex-row relative">
-            <input
-              onClick={() => courseActions("University")}
-              type="text"
-              className="w-full focus:outline-none small text-black placeholder:text-gray-500 pb-[24px] border-b border-neutral20 md:pb-0 md:border-none"
-              aria-label="submenu"
-              placeholder="Subject, qualification or university"
-            />
-            {isUniversityClicked && (
-              <div className="flex flex-col w-[calc(100%+32px)] z-[1] bg-white shadow-custom-3 rounded-[8px] absolute left-[-16px] top-[30px] md:top-[52px] md:w-[345px]">
-                <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                  QUALIFICATION
-                </div>
-                <ul>
-                  {search.map((item, index) => (
-                    <li
-                      key={index}
-                      className="px-[16px] py-[10px] block small cursor-pointer hover:bg-blue-50 hover:underline"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+      <div className="max-w-container mx-auto">
+        <div className="px-[16px] py-[16px] xl:p-0 flex flex-col gap-[16px]">
+          <div className="bg-white rounded-[24px] p-[16px] relative z-3 border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:mt-[-28px] md:pl-[24px] md:p-[10px]">
+            <div className="flex flex-col gap-[16px] small md:flex-row">
+              <div className="relative grow">
+                <input
+                  onClick={universityClick}
+                  onKeyUp={handleKeyUp}
+                  type="text"
+                  className="w-full focus:outline-none pt-0 pb-[16px] text-black placeholder:text-gray-500 border-b border-grey-200 md:py-[10px] md:border-none"
+                  aria-label="submenu"
+                  placeholder="Subject, qualification or university"
+                />
+                {isPgsUniversityClicked && (
+                  <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[53px] md:w-[345px]">
+                    <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
+                      QUALIFICATION
+                    </div>
+                    <ul>
+                      {search.map((item, index) => (
+                        <li
+                          key={index}
+                          className="px-[16px] py-[10px] block hover:bg-blue-50 hover:underline cursor-pointer"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {isPgsSearched && (
+                  <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                    <Link href="">
+                      <div className="px-[16px] py-[12px]">
+                        <p className="x-small font-semibold text-black tracking-[1px] leading-[18px]">
+                          KEYWORD SEARCH FOR
+                        </p>
+                        <p className="small text-primary-400">Law</p>
+                      </div>
+                    </Link>
+                    <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
+                      QUALIFICATION
+                    </div>
+                    <ul>
+                      {searchKey.map((item, index) => (
+                        <li
+                          key={index}
+                          className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                        >
+                          <span className="text-grey900 underline">
+                            {item.name}
+                          </span>{" "}
+                          <span className="text-grey-700">{item.course}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-            )}
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
-            >
-              <Image
-                src="static//assets/icons/search_icon.svg"
-                width="18"
-                height="18"
-                alt="Search icon"
-              />
-              Search
-            </button>
+              <button
+                type="submit"
+                className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
+              >
+                <Image
+                  src="static/assets/icons/search_icon.svg"
+                  width="18"
+                  height="18"
+                  alt="Search icon"
+                />
+                Search
+              </button>
+            </div>
           </div>
+          <p className="small text-negative-default">
+            Please select university from dropdown
+          </p>
         </div>
       </div>
     </>
