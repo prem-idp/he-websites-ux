@@ -14,7 +14,6 @@ const Testimonialcomponents = async ({
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
-  // console.log(testimonialJsonData);
   return (
     <div className="testimonials-container bg-white">
       <div className="max-w-container mx-auto">

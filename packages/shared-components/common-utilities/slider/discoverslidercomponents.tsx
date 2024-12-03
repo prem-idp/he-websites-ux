@@ -127,7 +127,7 @@ const Discoverslidercomponents1 = ({
                           </div>
                           {discoverItems?.image?.imgUpload?.url && (
                             <Image
-                              src={discoverItems?.image?.imgUpload?.url}
+                              src={discoverItems?.image?.imgUpload?.url || ""}
                               width="186"
                               height="200"
                               alt="discover"
@@ -180,7 +180,7 @@ const Discoverslidercomponents1 = ({
                       </div>
                       {discoverItems?.image?.imgUpload?.url && (
                         <Image
-                          src={discoverItems?.image?.imgUpload?.url}
+                          src={discoverItems?.image?.imgUpload?.url || ""}
                           width="186"
                           height="200"
                           alt="discover"

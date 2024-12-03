@@ -4,6 +4,9 @@ import Discovercomponents from "@packages/shared-components/home/discover/discov
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
+import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 
 jest.mock("swiper/react", () => ({
   Swiper: jest.fn(({ children }) => <>{children}</>),
@@ -181,8 +184,26 @@ jest.mock("../../../lib/server-actions/server-action", () => ({
 describe("Discover pod test cases", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
+  });
+  beforeEach(() => {
+    jest.clearAllMocks();
     (graphQlFetchFunction as jest.Mock).mockResolvedValue(discoverPodList);
   });
+
+  //
+  test("Render discover pod", async () => {
+    render(
+      <Discovercomponents
+        internalName=""
+        heading="discover"
+        subheading="subheading"
+      />
+    );
+    expect(screen.getByTestId("discoverHeading")).toBeInTheDocument();
+    expect(screen.getByTestId("discoverSubHeading")).toBeInTheDocument();
+  });
+});
 
   //
   test("Render discover pod", async () => {

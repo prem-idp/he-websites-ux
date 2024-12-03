@@ -2,16 +2,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-interface PropsInterface {
-  setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-  ucasPoints: number;
-  setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
-}
+// interface PropsInterface {
+//   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
+//   ucasPoints: number;
+//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+// }
 const GradeDropdown = ({
-  setGradePoints,
+  qual,
+  setQual,
+  indexPosition,
   ucasPoints,
   setUcasPoints,
-}: PropsInterface) => {
+}: any) => {
   const initialArray = [
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
   ];
@@ -30,20 +32,26 @@ const GradeDropdown = ({
   });
 
   const selectValue = (
-    item: number,
+    itemValue: number,
     setState: React.Dispatch<React.SetStateAction<any>>,
     currentPoint: number
   ) => {
-    setTotalcredit(totalcredit + item - currentPoint);
+    setTotalcredit(totalcredit + itemValue - currentPoint);
     setState({
-      point: item,
+      point: itemValue,
     });
     setOpenDropdown(null);
-    setGradePoints((prev) => ({
-      ...prev,
-      podSpecificPoints: totalcredit + item - currentPoint,
-    }));
-    setUcasPoints(ucasPoints + item - currentPoint);
+    setQual((prev: any) =>
+      prev.map((item: any, index: any) =>
+        index === indexPosition
+          ? {
+              ...item,
+              podSpecificPoints: totalcredit + itemValue - currentPoint,
+            }
+          : item
+      )
+    );
+    setUcasPoints(ucasPoints + itemValue - currentPoint);
   };
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
   return (

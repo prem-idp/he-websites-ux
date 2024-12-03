@@ -36,7 +36,7 @@ const Menucategory3card = ({ data }: any) => {
               >
                 <Image
                   className="block rounded-[40px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[72px]"
-                  src={item?.navIcon?.url}
+                  src={item?.navIcon?.url  || ""}
                   width="72"
                   height="72"
                   loading="lazy"

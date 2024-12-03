@@ -9,13 +9,14 @@ import GradeCounterButton from "./grade-counter-button";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { KeyValuePair } from "@packages/lib/types/ucas-calc";
 import GradeDropdown from "./grade-dropdown";
-interface PropsInterface {
-  removeQual: () => void;
-  qualOrder: string;
-  ucasGradeData: GradeFilterArrayInterface[] | null | undefined;
-  ucasPoints: number;
-  setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
-}
+// interface PropsInterface {
+//   removeQual: () => void;
+//   qualOrder: string;
+//   ucasGradeData: GradeFilterArrayInterface[] | null | undefined;
+//   ucasPoints: number;
+//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+//   indexPosition: number;
+// }
 
 const AddQualification = ({
   removeQual,
@@ -23,45 +24,17 @@ const AddQualification = ({
   ucasGradeData,
   ucasPoints,
   setUcasPoints,
-}: PropsInterface) => {
-  const [selectedLevel, setSelectedLevel] = useState<string>("A Level");
+  indexPosition,
+  qual,
+  setQual,
+}: any) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-  const [type, setType] = useState<string | null>("plus-minus");
-  const [gradePoints, setGradePoints] = useState<GradePointsInterface>({
-    maxPoint: 0,
-    maxTotalPoint: 0,
-    getmaxTotalPoint: 0,
-    podSpecificPoints: 0,
-  });
   const [gradeArray, setGradeArray] = useState<KeyValuePair[] | undefined>(
     undefined
   );
-  //   const [dropDownMenu, setDropDownMenu] = useState({
-  //     Counter: false,
-  //     Badge: false,
-  //     MaxMinInput: false,
-  //   });
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
-
-  // const changeUcasLevel = (
-  //   level: string,
-  //   gradeString: string | null,
-  //   maxPoint: string | null,
-  //   maxTotalPoint: string | null,
-  //   template: string | null
-  // ) => {
-  //   setIsDropDownOpen(!isDropDownOpen);
-  //   setGradePoints((prev) => ({
-  //     ...prev,
-  //     maxPoint: Number(maxPoint),
-  //     maxTotalPoint: Number(maxTotalPoint),
-  //   }));
-  //   setGradeArray(parseGradeString(gradeString));
-  //   setSelectedLevel(level);
-  // };
-
   const changeUcasLevel = (
     level: string,
     gradeString: string | null,
@@ -70,19 +43,27 @@ const AddQualification = ({
     template: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    setType(template);
-    setUcasPoints(ucasPoints - gradePoints.podSpecificPoints);
-    setGradePoints({
-      maxPoint: Number(maxPoint),
-      maxTotalPoint: Number(maxTotalPoint),
-      getmaxTotalPoint: 0,
-      podSpecificPoints: 0,
-    });
+    setQual((prev: any) =>
+      prev.map((item: any, index: number) =>
+        index === indexPosition
+          ? {
+              ...item,
+              selectedLevel: level,
+              type: template,
+              maxPoint: Number(maxPoint),
+              maxTotalPoint: Number(maxTotalPoint),
+              getmaxTotalPoint: 0,
+              podSpecificPoints: 0,
+              selectedPoints: [],
+            }
+          : item
+      )
+    );
+    setUcasPoints(ucasPoints - qual[indexPosition]?.podSpecificPoints);
     setGradeArray(parseGradeString(gradeString));
-    setSelectedLevel(level);
   };
   const deleteClicked = () => {
-    setUcasPoints(ucasPoints - gradePoints.podSpecificPoints);
+    setUcasPoints(ucasPoints - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
 
@@ -98,7 +79,7 @@ const AddQualification = ({
               onClick={toggleDropdown}
               className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
             >
-              <span>{selectedLevel}</span>
+              <span>{qual[indexPosition]?.selectedLevel}</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
                 alt=""
@@ -109,7 +90,7 @@ const AddQualification = ({
             {isDropDownOpen && ucasGradeData && (
               <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 w-[calc(100%+30px)] z-10">
                 <ul>
-                  {ucasGradeData.map((childItems, index: number) => (
+                  {ucasGradeData.map((childItems: any, index: number) => (
                     <li
                       key={index + 1}
                       className={
@@ -158,37 +139,41 @@ const AddQualification = ({
           </svg>
         </div>
 
-        {type === "plus-minus" && (
+        {qual[indexPosition]?.type === "plus-minus" && (
           <div className="flex items-center justify-between gap-[32px] flex-wrap">
             {gradeArray?.map((childItems, index) => (
               <GradeCounterButton
-                key={selectedLevel + index}
+                key={qual[indexPosition].selectedLevel + index}
                 btnName={childItems.key}
                 btnValue={childItems.value}
-                gradePoints={gradePoints}
-                setGradePoints={setGradePoints}
+                qual={qual}
+                setQual={setQual}
+                indexPosition={indexPosition}
                 ucasPoints={ucasPoints}
                 setUcasPoints={setUcasPoints}
               />
             ))}
           </div>
         )}
-        {type === "credit-selector" && (
+        {qual[indexPosition]?.type === "credit-selector" && (
           <GradeDropdown
-            setGradePoints={setGradePoints}
+            qual={qual}
+            setQual={setQual}
+            indexPosition={indexPosition}
             ucasPoints={ucasPoints}
             setUcasPoints={setUcasPoints}
           />
         )}
-        {type === "single-select" && (
+        {qual[indexPosition]?.type === "single-select" && (
           <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
             {gradeArray?.map((childItems, index) => (
               <GradeBadgeButton
                 key={index + 1}
                 btnName={childItems.key}
                 btnValue={childItems.value}
-                gradePoints={gradePoints}
-                setGradePoints={setGradePoints}
+                qual={qual}
+                setQual={setQual}
+                indexPosition={indexPosition}
                 ucasPoints={ucasPoints}
                 setUcasPoints={setUcasPoints}
               />
@@ -196,7 +181,7 @@ const AddQualification = ({
           </div>
         )}
 
-        {type === "min-max" && <MaxMinInputBox />}
+        {qual[indexPosition]?.type === "min-max" && <MaxMinInputBox />}
       </div>
     </div>
   );
