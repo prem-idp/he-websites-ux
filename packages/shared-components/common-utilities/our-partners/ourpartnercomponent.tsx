@@ -25,17 +25,18 @@ const OurPartnerComponent = ({ heading }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const payloadString = JSON.stringify(partnerLogo);
-        const hash = crypto
-          .createHash("sha256")
-          .update(payloadString)
-          .digest("hex");
+        // const payloadString = JSON.stringify(partnerLogo);
+        // const hash = crypto
+        //   .createHash("sha256")
+        //   .update(payloadString)
+        //   .digest("hex");
 
-        const response = await fetch("/api/graphql", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-amz-content-sha256": hash,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
+            // "x-amz-content-sha256": hash,
           },
           body: JSON.stringify({ query: partnerLogo }),
         });
