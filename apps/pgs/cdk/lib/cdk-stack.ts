@@ -51,7 +51,7 @@ export class PgsHeCdkStack extends cdk.Stack {
       "ExistingBucket",
       process.env.AWS_PGS_S3_BUCKET_NAME || ""
     );
-    
+
     // const allowCloudFrontReadOnlyPolicy = new PolicyStatement({
     //   actions: ["s3:GetObject"],
     //   principals: [new ServicePrincipal("cloudfront.amazonaws.com")],
@@ -114,11 +114,11 @@ export class PgsHeCdkStack extends cdk.Stack {
     const securityGroup = SecurityGroup.fromLookupByName(
       this,
       "SG",
-      "idp-connect-DOM-Instapage-MS",
+      process.env.AWS_SECURITY_GROUP || "",
       vpc
     );
 
-    const serverFunctionName = "dev-pgs-website-server-lambda";
+    const serverFunctionName = process.env.PGS_SERVER_FN_LAMBDA_NAME || "";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
     //   effect: Effect.ALLOW,
@@ -236,7 +236,7 @@ export class PgsHeCdkStack extends cdk.Stack {
       "HE websites"
     );
 
-    const imageFunctionName = "dev-pgs-website-image-optimizer-lambda";
+    const imageFunctionName = process.env.PGS_IMAGE_FN_LAMBDA_NAME || "";
 
     const myImageService = new MyLogGroupArm();
 

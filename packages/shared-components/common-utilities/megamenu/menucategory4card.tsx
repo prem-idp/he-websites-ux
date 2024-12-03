@@ -37,7 +37,7 @@ const Menucategory4card = ({ data }: any) => {
                   <Image
                     className="w-full"
                     loading="eager"
-                    src={item?.navIcon?.url}
+                    src={item?.navIcon?.url || ""}
                     width="289"
                     height="50"
                     alt="University logo"

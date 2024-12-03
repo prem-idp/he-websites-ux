@@ -27,6 +27,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
     searchAjaxFecthFunction(body),
     searchAjaxFecthFunction(unibody),
   ]);
+
   return (
     <>
       <Suspense fallback={<HeroSliderComponentSkeleton />}>

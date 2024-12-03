@@ -135,6 +135,7 @@ const Header = ({
     }
   }, [clickStates]);
   const Usericonfunction = () => {
+    // console.log(isAuthenticated, "isAuthenticated inside the user");
     if (isAuthenticated === "true") {
       rightMenuAction("USER");
     } else {
@@ -235,12 +236,12 @@ const Header = ({
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={topnav_data} />}
+                    {isOpen && <Megamenucomponents data={topnav_data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={topnav_data} />
+              <Megamenucomponents data={topnav_data} />
             )}
           </div>
 
@@ -317,7 +318,7 @@ const Header = ({
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
-                      <User />
+                      <User topnav_data={topnav_data}/>
                     </div>
                   </>
                 )}

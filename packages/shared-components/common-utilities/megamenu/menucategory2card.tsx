@@ -35,7 +35,7 @@ const Menucategory2card = ({ data }: any) => {
               >
                 <Image
                   className="block rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src={item?.navIcon?.url}
+                  src={item?.navIcon?.url || ""}
                   width="44"
                   height="44"
                   quality={100}

@@ -24,7 +24,7 @@ const Menucategory5card = ({ data }: any) => {
                 <Image
                   className="w-full"
                   loading="eager"
-                  src={item?.navIcon?.url}
+                  src={item?.navIcon?.url || ""}
                   width="289"
                   height="224"
                   alt="University logo"
