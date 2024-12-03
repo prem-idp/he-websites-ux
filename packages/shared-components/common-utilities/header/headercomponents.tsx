@@ -153,9 +153,9 @@ const Header = ({
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={
                   topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
-                  ""
+                  "/static/assets/images/imageplaceholder.png"
                 }
-                alt="Whatuni Logo"
+                alt=""
                 priority
                 width={70}
                 height={78}
@@ -247,7 +247,7 @@ const Header = ({
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              {pathname !== "/" && (
+              {/* {pathname !== "/" && (
                 <li>
                   <span
                     aria-label="Search"
@@ -270,7 +270,6 @@ const Header = ({
                       />
                     </svg>
                   </span>
-                  {/* course tab section */}
                   {clickStates.isSearchClicked && (
                     <>
                       <div
@@ -282,7 +281,7 @@ const Header = ({
                     </>
                   )}
                 </li>
-              )}
+              )} */}
               <li className="relative">
                 <span
                   aria-label="User"
@@ -318,7 +317,7 @@ const Header = ({
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
-                      <User topnav_data={topnav_data}/>
+                      <User topnav_data={topnav_data} />
                     </div>
                   </>
                 )}
