@@ -114,7 +114,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     const securityGroup = SecurityGroup.fromLookupByName(
       this,
       "SG",
-      process.env.AWS_SECURITY_GROUP,
+      process.env.AWS_SECURITY_GROUP || "",
       vpc
     );
 
