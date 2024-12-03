@@ -23,9 +23,19 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
     qualCode: "",
     networkId: 2,
   };
-  const [course_data, uni_data] = await Promise.all([
+  const pgsbody = {
+    affiliateId: 607022,
+    actionType: "subject",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+
+
+  const [course_data, uni_data,pgs_search_data] = await Promise.all([
     searchAjaxFecthFunction(body),
     searchAjaxFecthFunction(unibody),
+    searchAjaxFecthFunction(pgsbody),
   ]);
   return (
     <>
@@ -38,7 +48,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
             <HeroSlider data={data} />
           </div>
         </div>
-        <SearchBox course_data={course_data} uni_data={uni_data} />
+        <SearchBox course_data={course_data} uni_data={uni_data} pgs_search_data={pgs_search_data}/>
       </Suspense>
     </>
   );
