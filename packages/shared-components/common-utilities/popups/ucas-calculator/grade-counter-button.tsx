@@ -33,7 +33,7 @@ const GradeCounterButton = ({
             ? {
                 ...item,
                 getmaxTotalPoint: item.getmaxTotalPoint + 1,
-                podSpecificPoints: item.podSpecificPoints + btnValue,
+                podSpecificPoints: item?.podSpecificPoints + btnValue,
                 selectedPoints: [
                   ...item.selectedPoints,
                   `${btnName}~${btnValue}`,
@@ -53,7 +53,7 @@ const GradeCounterButton = ({
             ? {
                 ...item,
                 getmaxTotalPoint: item.getmaxTotalPoint - 1,
-                podSpecificPoints: item.podSpecificPoints - btnValue,
+                podSpecificPoints: item?.podSpecificPoints - btnValue,
                 selectedPoints: item.selectedPoints.filter(
                   (point: string, index: number) => {
                     if (point === `${btnName}~${btnValue}`) {

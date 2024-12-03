@@ -21,55 +21,48 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoints, setUcasPoints] = useState<number>(0);
   const [resetid, setResetid] = useState<number>(0);
-  const initialvalue = [
-    {
-      status: true,
-      selectedLevel: "A Level",
-      type: "plus-minus",
-      maxPoint: 5,
-      maxTotalPoint: 6,
-      getmaxTotalPoint: 0,
-      podSpecificPoints: 0,
-      selectedPoints: [],
-    },
-    {
-      status: false,
-      selectedLevel: "A Level",
-      type: "plus-minus",
-      maxPoint: 5,
-      maxTotalPoint: 6,
-      getmaxTotalPoint: 0,
-      podSpecificPoints: 0,
-      selectedPoints: [],
-    },
-    {
-      status: false,
-      selectedPoints: [],
-      selectedLevel: "A Level",
-      type: "plus-minus",
-      maxPoint: 5,
-      maxTotalPoint: 6,
-      getmaxTotalPoint: 0,
-      podSpecificPoints: 0,
-    },
-  ];
-  const [qual, setQual] = useState(initialvalue);
+  const additionalQual = {
+    status: false,
+    selectedLevel: "Please select",
+    type: "",
+    maxPoint: 5,
+    maxTotalPoint: 6,
+    getmaxTotalPoint: 0,
+    podSpecificPoints: 0,
+    selectedPoints: [],
+  };
+  const initialvalue: any = {
+    status: true,
+    selectedLevel: "A Level",
+    type: "plus-minus",
+    maxPoint: 5,
+    maxTotalPoint: 6,
+    getmaxTotalPoint: 0,
+    podSpecificPoints: 0,
+    selectedPoints: [],
+  };
+  const [qual, setQual] = useState([initialvalue]);
+  console.log(ucasAjax);
   useEffect(() => {
     const fetchUcasData = async () => {
       try {
-        const payloadString = JSON.stringify(ucasAjax);
-        const hash = crypto
-          .createHash("sha256")
-          .update(payloadString)
-          .digest("hex");
-        const response = await fetch("/api/ucas", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-amz-content-sha256": hash,
-          },
-          body: JSON.stringify({ ucasAjax }),
-        });
+        //const payloadString = JSON.stringify(ucasAjax);
+        // const hash = crypto
+        //   .createHash("sha256")
+        //   .update(payloadString)
+        //   .digest("hex");
+        const response = await fetch(
+          "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+              tracksessionid: "23775638",
+            },
+            body: JSON.stringify(ucasAjax),
+          }
+        );
         const jsonData = await response.json();
         if (jsonData) {
           setUcasGradeData(jsonData?.gradeFilterList);
@@ -80,7 +73,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-  console.log("ucas grade data", ucasGradeData);
+
+  //console.log("ucas grade data", ucasGradeData);
 
   const ucasHandleClose = () => {
     onClose();
@@ -93,12 +87,16 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   };
   const addQualification = () => {
     setQualifications((prevQualifications: QualInterface[]) => {
-      if (prevQualifications.length >= 2) return prevQualifications;
-      const newQualification = {
-        id: Date.now(),
-        name: getOrdinalName(prevQualifications.length),
-      };
-      return [...prevQualifications, newQualification];
+      if (prevQualifications.length >= 2) {
+        return prevQualifications;
+      } else {
+        const newQualification = {
+          id: Date.now(),
+          name: getOrdinalName(prevQualifications.length),
+        };
+        qual.push(additionalQual);
+        return [...prevQualifications, newQualification];
+      }
     });
   };
   const removeQualification = (idToRemove: number, indexPosition: number) => {
@@ -113,28 +111,17 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       );
     });
-    setQual((prev: any) =>
-      prev.map((item: any, index: number) =>
-        index === indexPosition
-          ? {
-              ...item,
-              selectedLevel: "A Level",
-              type: "plus-minus",
-              maxPoint: 5,
-              maxTotalPoint: 6,
-              getmaxTotalPoint: 0,
-              podSpecificPoints: 0,
-            }
-          : item
-      )
+    setQual((prevQual) =>
+      prevQual.filter((_, index) => index !== indexPosition)
     );
   };
   const resetAll = () => {
     setQualifications([]);
     setUcasPoints(0);
-    setQual(initialvalue);
+    setQual([initialvalue]);
     setResetid(Date.now());
   };
+  console.log(qual);
   return (
     <>
       <div
@@ -212,8 +199,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             {/* Add qualification button */}
 
             {qualifications.length < 2 &&
-              qual[0].selectedLevel !== "UCAS Tariff Points" &&
-              qual[0].podSpecificPoints > 0 && (
+              qual[0]?.selectedLevel !== "UCAS Tariff Points" &&
+              qual[0]?.podSpecificPoints > 0 && (
                 <div
                   onClick={addQualification}
                   className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"

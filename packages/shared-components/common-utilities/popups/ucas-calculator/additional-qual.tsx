@@ -59,11 +59,11 @@ const AddQualification = ({
           : item
       )
     );
-    setUcasPoints(ucasPoints - qual[indexPosition].podSpecificPoints);
+    setUcasPoints(ucasPoints - qual[indexPosition]?.podSpecificPoints);
     setGradeArray(parseGradeString(gradeString));
   };
   const deleteClicked = () => {
-    setUcasPoints(ucasPoints - qual[indexPosition].podSpecificPoints);
+    setUcasPoints(ucasPoints - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
 
@@ -79,7 +79,7 @@ const AddQualification = ({
               onClick={toggleDropdown}
               className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
             >
-              <span>{qual[indexPosition].selectedLevel}</span>
+              <span>{qual[indexPosition]?.selectedLevel}</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
                 alt=""
@@ -139,7 +139,7 @@ const AddQualification = ({
           </svg>
         </div>
 
-        {qual[indexPosition].type === "plus-minus" && (
+        {qual[indexPosition]?.type === "plus-minus" && (
           <div className="flex items-center justify-between gap-[32px] flex-wrap">
             {gradeArray?.map((childItems, index) => (
               <GradeCounterButton
@@ -155,7 +155,7 @@ const AddQualification = ({
             ))}
           </div>
         )}
-        {qual[indexPosition].type === "credit-selector" && (
+        {qual[indexPosition]?.type === "credit-selector" && (
           <GradeDropdown
             qual={qual}
             setQual={setQual}
@@ -164,7 +164,7 @@ const AddQualification = ({
             setUcasPoints={setUcasPoints}
           />
         )}
-        {qual[indexPosition].type === "single-select" && (
+        {qual[indexPosition]?.type === "single-select" && (
           <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
             {gradeArray?.map((childItems, index) => (
               <GradeBadgeButton
@@ -181,7 +181,7 @@ const AddQualification = ({
           </div>
         )}
 
-        {qual[indexPosition].type === "min-max" && <MaxMinInputBox />}
+        {qual[indexPosition]?.type === "min-max" && <MaxMinInputBox />}
       </div>
     </div>
   );

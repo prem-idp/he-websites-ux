@@ -64,7 +64,7 @@ const TopLevelMenu = ({
           onClick={toggleDropdown}
           className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
         >
-          <span>{qual[indexPosition].selectedLevel}</span>
+          <span>{qual[indexPosition]?.selectedLevel}</span>
           <Image
             src="/static/assets/icons/ucas-down-arrow.svg"
             alt=""
@@ -104,11 +104,11 @@ const TopLevelMenu = ({
           </div>
         )}
       </div>
-      {qual[indexPosition].type === "plus-minus" && (
+      {qual[indexPosition]?.type === "plus-minus" && (
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
           {gradeArray?.map((childItems, index) => (
             <GradeCounterButton
-              key={qual[indexPosition].selectedLevel + index + resetid}
+              key={qual[indexPosition]?.selectedLevel + index + resetid}
               btnName={childItems.key}
               btnValue={childItems.value}
               indexPosition={indexPosition}
@@ -120,11 +120,11 @@ const TopLevelMenu = ({
           ))}
         </div>
       )}
-      {qual[indexPosition].type === "single-select" && (
+      {qual[indexPosition]?.type === "single-select" && (
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
           {gradeArray?.map((childItems, index) => (
             <GradeBadgeButton
-              key={qual[indexPosition].selectedLevel + index}
+              key={qual[indexPosition]?.selectedLevel + index}
               indexPosition={indexPosition}
               btnName={childItems.key}
               btnValue={childItems.value}
@@ -136,7 +136,7 @@ const TopLevelMenu = ({
           ))}
         </div>
       )}
-      {qual[indexPosition].type === "credit-selector" && (
+      {qual[indexPosition]?.type === "credit-selector" && (
         <GradeDropdown
           indexPosition={indexPosition}
           qual={qual}
@@ -145,7 +145,7 @@ const TopLevelMenu = ({
           setUcasPoints={setUcasPoints}
         />
       )}
-      {qual[indexPosition].type === "min-max" && <MaxMinInputBox />}
+      {qual[indexPosition]?.type === "min-max" && <MaxMinInputBox />}
     </>
   );
 };

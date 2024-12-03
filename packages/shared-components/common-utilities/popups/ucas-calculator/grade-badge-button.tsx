@@ -18,9 +18,9 @@ const GradeBadgeButton = ({
   setUcasPoints,
 }: any) => {
   const selectGradeButton = (btnValue: number) => {
-    if (qual[indexPosition].podSpecificPoints !== btnValue) {
+    if (qual[indexPosition]?.podSpecificPoints !== btnValue) {
       setUcasPoints(
-        ucasPoints + btnValue - qual[indexPosition].podSpecificPoints
+        ucasPoints + btnValue - qual[indexPosition]?.podSpecificPoints
       );
       setQual((prev: any) =>
         prev.map((item: any, index: any) =>
