@@ -25,9 +25,7 @@ const OurPartnerComponent = ({ heading }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log(partnerLogo);
         const payloadString = JSON.stringify(partnerLogo);
-        // console.log(payloadString);
         const hash = crypto
           .createHash("sha256")
           .update(payloadString)

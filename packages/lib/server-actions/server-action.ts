@@ -66,26 +66,26 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
   }
 }
 
-export async function guestUserUcas(ucasPayload: any, tracksessionid: string) {
-  try {
-    const res = await fetch(
-      `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-          tracksessionid: tracksessionid,
-        },
-        body: JSON.stringify(ucasPayload),
-        next: { revalidate: 300 },
-      }
-    );
-    const data = await res.json();
-    console.log("res", res);
-    console.log("data", data);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
+// export async function guestUserUcas(ucasPayload: any, tracksessionid: string) {
+//   try {
+//     const res = await fetch(
+//       `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+//           tracksessionid: tracksessionid,
+//         },
+//         body: JSON.stringify(ucasPayload),
+//         next: { revalidate: 300 },
+//       }
+//     );
+//     const data = await res.json();
+//     console.log("res", res);
+//     console.log("data", data);
+//     return data;
+//   } catch (error) {
+//     throw error;
+//   }
+// }

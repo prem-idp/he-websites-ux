@@ -1,20 +1,27 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { guestUserUcas } from "@packages/lib/server-actions/server-action";
 export async function POST(request: any) {
-  console.log("method called");
   try {
+    const { ucasAjax } = await request.json();
     const cookie = await cookies();
     const tracksessionid: any = cookie.get("tracksessionid");
-
-    if (tracksessionid.value) {
-      const { ucasAjax } = await request.json();
-      const response = await guestUserUcas(ucasAjax, tracksessionid.value);
-      console.log("response", response);
-      return NextResponse.json(response, { status: 200 });
-    }
+    const res = await fetch(
+      `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+          tracksessionid: tracksessionid,
+        },
+        body: JSON.stringify(ucasAjax),
+        next: { revalidate: 300 },
+      }
+    );
+    const data = await res.json();
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error("Error in POST handler:", error);
+    console.log(error);
     return NextResponse.json(
       { error: "Failed to process the request" },
       { status: 500 }
