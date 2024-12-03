@@ -162,7 +162,7 @@ export const Headerquery = `{
     }
   }
 }`;
-export const footerQuery = `query {
+export const footerQuery = `{
   footerNavigationCollection(where: {footerName: "Footer - Whatuni"}) {
     items {
       footerNavCollection(limit: 3) {
@@ -179,7 +179,7 @@ export const footerQuery = `query {
           }
         }
       }
-      footerNavBtmCollection(limit: 10) {
+      footerNavBtmCollection(limit: 1) {
         items {
           navTitle
           navUrl
@@ -189,6 +189,29 @@ export const footerQuery = `query {
         items {
           primaryCtaLabel
           primaryCtaUrl
+          primaryCtaTarget
+          primaryCtaEventName
+        }
+      }
+      navSocialLinksCollection(limit: 1) {
+        items {
+          navName
+          navUrl
+          navChildC1Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+              }
+            }
+          }
         }
       }
     }

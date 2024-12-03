@@ -15,7 +15,7 @@ new WhatuniWebsiteHeCdkStack(app, "WhatuniWebsiteHeCdkStack", {
 
   /* Uncomment the next line if you know exactly what Account and Region you
    * want to deploy the stack to. */
-  env: { account: "091352661587", region: "ap-south-1" },
+  env: { account: process.env.AWS_ACCOUNT_ID, region: process.env.AWS_REGION },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });

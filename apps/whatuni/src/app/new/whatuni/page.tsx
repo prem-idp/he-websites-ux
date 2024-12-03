@@ -7,7 +7,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import TrackSessionId from "@packages/lib/track-session-id/tracksessionid";
+import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { headers } from "next/headers";
 const Page = async () => {

@@ -1,44 +1,76 @@
 import React, { useState } from "react";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-interface PropsInterface {
-  btnName: string;
-  btnValue: number;
-  gradePoints: GradePointsInterface;
-  setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-  ucasPoints: number;
-  setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
-}
+// interface PropsInterface {
+//   btnName: string;
+//   btnValue: number;
+//   gradePoints: GradePointsInterface;
+//   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
+//   ucasPoints: number;
+//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+// }
 const GradeCounterButton = ({
   btnName,
   btnValue,
-  gradePoints,
-  setGradePoints,
+  // gradePoints,
+  // setGradePoints,
+  qual,
+  setQual,
+  indexPosition,
   ucasPoints,
   setUcasPoints,
-}: PropsInterface) => {
+}: any) => {
   const [count, setCount] = useState(0);
   const increment = (btnValue: number) => {
     if (
-      count < gradePoints.maxPoint &&
-      gradePoints.getmaxTotalPoint < gradePoints.maxTotalPoint
+      count < qual[indexPosition].maxPoint &&
+      qual[indexPosition].getmaxTotalPoint < qual[indexPosition].maxTotalPoint
     ) {
       setCount(count + 1);
-      setGradePoints((prev) => ({
-        ...prev,
-        getmaxTotalPoint: gradePoints.getmaxTotalPoint + 1,
-        podSpecificPoints: gradePoints.podSpecificPoints + btnValue,
-      }));
       setUcasPoints(ucasPoints + Number(btnValue));
+      setQual((prev: any) =>
+        prev.map((item: any, index: any) =>
+          index === indexPosition
+            ? {
+                ...item,
+                getmaxTotalPoint: item.getmaxTotalPoint + 1,
+                podSpecificPoints: item?.podSpecificPoints + btnValue,
+                selectedPoints: [
+                  ...item.selectedPoints,
+                  `${btnName}~${btnValue}`,
+                ],
+              }
+            : item
+        )
+      );
     }
   };
   const decrement = (btnValue: number) => {
     if (count > 0) {
       setCount(count - 1);
-      setGradePoints((prev) => ({
-        ...prev,
-        getmaxTotalPoint: gradePoints.getmaxTotalPoint - 1,
-        podSpecificPoints: gradePoints.podSpecificPoints - btnValue,
-      }));
+      setQual((prev: any) =>
+        prev.map((item: any, index: any) =>
+          index === indexPosition
+            ? {
+                ...item,
+                getmaxTotalPoint: item.getmaxTotalPoint - 1,
+                podSpecificPoints: item?.podSpecificPoints - btnValue,
+                selectedPoints: item.selectedPoints.filter(
+                  (point: string, index: number) => {
+                    if (point === `${btnName}~${btnValue}`) {
+                      return (
+                        index !==
+                        item.selectedPoints.findIndex(
+                          (p: any) => p === `${btnName}~${btnValue}`
+                        )
+                      );
+                    }
+                    return true;
+                  }
+                ),
+              }
+            : item
+        )
+      );
       setUcasPoints(ucasPoints - Number(btnValue));
     }
   };
@@ -88,7 +120,7 @@ const GradeCounterButton = ({
         <button
           aria-label="increment"
           onClick={() => increment(btnValue)}
-          className={`${count >= gradePoints.maxPoint || gradePoints.maxTotalPoint <= gradePoints.getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
+          className={`${count >= qual[indexPosition].maxPoint || qual[indexPosition].maxTotalPoint <= qual[indexPosition].getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
         >
           <svg
             width="40"

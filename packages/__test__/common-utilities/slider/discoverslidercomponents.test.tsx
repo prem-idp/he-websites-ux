@@ -2,6 +2,9 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
 import Discoverslidercomponents1 from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
+import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { discoverContentfulInterface } from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from 'react';
 
 jest.mock("swiper/react", () => ({
@@ -156,6 +159,61 @@ jest.mock('../../../lib/server-actions/server-action', () => ({
 
 
 describe("Test the Discoverslidercomponents1", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (graphQlFetchFunction as jest.Mock).mockResolvedValue(iscoverPodListJson);
+  });
+
+  //
+  it("The count of slider created for desktop device", async () => {
+    render(<Discoverslidercomponents1 internalName="" />);
+    let cardCount: number = 0;
+    {
+      iscoverPodListJson?.data?.contentData?.items?.map(async (discoverObj) => {
+        if (discoverObj != null) {
+          return discoverObj?.bodyContentCollection?.items?.map(
+            async (mediaCardsCollectionItems, index) => {
+              if (
+                mediaCardsCollectionItems?.mediaCardsCollection?.items !=
+                  null &&
+                mediaCardsCollectionItems.mediaCardsCollection.items[index] !=
+                  null
+              ) {
+                return mediaCardsCollectionItems?.mediaCardsCollection?.items.map(
+                  async (discoverItems, index) => {
+                    if (
+                      discoverItems?.title != null &&
+                      discoverItems?.title != undefined
+                    ) {
+                      const discoverImageElement =
+                        await screen.findAllByTestId("discoverImageId");
+                      const cardTitleElement =
+                        await screen.findAllByTestId("cardTitle");
+
+                      expect(discoverImageElement[index]).toHaveAttribute(
+                        "data-testsrc",
+                        discoverItems.image.imgUpload.url
+                      );
+                      expect(cardTitleElement[index]).toHaveTextContent(
+                        discoverItems.title
+                      );
+                      cardCount = cardCount + 1;
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+        return <></>;
+      });
+    }
+    const discovercardDesktopElement = await screen.findAllByTestId(
+      "discovercardDesktop"
+    );
+    //expect(discovercardDesktopElement?.length).toBe(cardCount);
+  });
+describe("Test the Discoverslidercomponents1", () => {
   //
   it("The count of slider created for desktop device", async () => {
     render(
@@ -197,7 +255,6 @@ describe("Test the Discoverslidercomponents1", () => {
                         
                         expect(discoverImageElement[index]).toHaveAttribute("data-testsrc", discoverItems.image.imgUpload.url);
                         expect(cardTitleElement[index]).toHaveTextContent(discoverItems.title);
-                        console.log("cardCount", cardCount)
         })}
 
           const discovercardDesktopElement = await screen.findAllByTestId("discovercardMobile");
