@@ -247,7 +247,7 @@ const Header = ({
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              {pathname !== "/" && (
+              {/* {pathname !== "/" && (
                 <li>
                   <span
                     aria-label="Search"
@@ -270,7 +270,6 @@ const Header = ({
                       />
                     </svg>
                   </span>
-                  {/* course tab section */}
                   {clickStates.isSearchClicked && (
                     <>
                       <div
@@ -282,7 +281,7 @@ const Header = ({
                     </>
                   )}
                 </li>
-              )}
+              )} */}
               <li className="relative">
                 <span
                   aria-label="User"

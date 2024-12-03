@@ -19,7 +19,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const universityClick = () => {
-    setIsPgsUniversityClicked(!isPgsUniversityClicked);
+    console.log("clicked", isPgsUniversityClicked);
+    setIsPgsUniversityClicked((prev) => !prev);
+    console.log("clicked after", isPgsUniversityClicked);
     setShowDropdown(true);
   };
   const [isPgsSearched, setIsPgsSearched] = useState(false);
