@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { signIn } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
-import config from "../../../../configs/amplifyconfiguration.json";
+import awsconfig from "../../../../configs/amplifyconfiguration";
 import Link from "next/link";
 // import { serverSignIn } from "./signinfunction";
-Amplify.configure(config, { ssr: true });
+Amplify.configure(awsconfig, { ssr: true });
 
 export default function SignInPage() {
   const [username, setUsername] = useState("");
@@ -26,6 +26,7 @@ export default function SignInPage() {
     setError(null);
 
     try {
+      console.log("username", username, "password", password);
       const user = await signIn({ username, password });
       setSuccess(true);
 

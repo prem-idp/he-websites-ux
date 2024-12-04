@@ -3,8 +3,8 @@ import Link from "next/link";
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";
-import config from "../../../../../apps/whatuni/configs/amplifyconfiguration.json";
-Amplify.configure(config, { ssr: true });
+import awsconfig from "../../../../../apps/whatuni/configs/amplifyconfiguration";
+Amplify.configure(awsconfig, { ssr: true });
 export default function User({ topnav_data }: any) {
   const router = useRouter();
   async function clearAllCookies() {
