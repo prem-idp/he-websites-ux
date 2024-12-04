@@ -4,7 +4,7 @@ import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";
 import config from "../../../../../apps/whatuni/configs/amplifyconfiguration.json";
-
+Amplify.configure(config, { ssr: true });
 export default function User({ topnav_data }: any) {
   const router = useRouter();
   async function clearAllCookies() {
@@ -13,7 +13,7 @@ export default function User({ topnav_data }: any) {
       document.cookie =
         "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-      await signOut(); // Wait for the signOut process to complete
+      await signOut({ global: true }); // Wait for the signOut process to complete
       window.location.href = "/"; // Force a full reload to the home page
     } catch (error) {
       console.error("Error signing out:", error); // Handle errors if signOut fails
@@ -37,6 +37,7 @@ export default function User({ topnav_data }: any) {
               }
             >
               <Link
+                prefetch={false}
                 href={item.navUrl || ""}
                 onClick={() =>
                   item.navTitle === "Logout" ? clearAllCookies() : ""
@@ -53,6 +54,7 @@ export default function User({ topnav_data }: any) {
           </li> */}
         </ul>
         <Link
+          prefetch={false}
           href="#"
           className="font-semibold x-small text-success-700 uppercase tracking-[1px] self-start"
         >

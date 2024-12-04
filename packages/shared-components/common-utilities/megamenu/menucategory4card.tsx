@@ -28,6 +28,7 @@ const Menucategory4card = ({ data }: any) => {
           .map((item: any, index: number) => (
             <li key={index}>
               <Link
+                prefetch={false}
                 href={item?.navUrl || ""}
                 target={item?.navCtaTarget ? "_blank" : "_parent"}
                 rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}

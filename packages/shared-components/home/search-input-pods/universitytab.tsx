@@ -90,6 +90,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                   <ul>
                     {universityList?.map((item: any, index: any) => (
                       <Link
+                      prefetch={false}
                         href={`/university-profile/${item?.collegeNameDisplay
                           ?.toLowerCase() // Convert to lowercase
                           ?.replace(/\s+/g, "-")}/${item.collegeId}`}

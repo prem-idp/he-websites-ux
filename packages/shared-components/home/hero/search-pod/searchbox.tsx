@@ -128,6 +128,7 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
               {searchFormHandle?.activeTab == "tab2" && (
                 <div className="flex justify-center md:justify-end my-[24px] md:my-0">
                   <Link
+                    prefetch={false}
                     href="#"
                     className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                   >
@@ -144,6 +145,7 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
               {searchFormHandle?.activeTab == "tab3" && (
                 <div className="flex justify-center md:justify-end my-[24px] md:my-0">
                   <Link
+                    prefetch={false}
                     href="#"
                     className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                   >

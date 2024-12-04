@@ -99,6 +99,7 @@ export default function SignInPage() {
             <p className="text-sm text-center text-gray-600">
               Don have an account?{" "}
               <Link
+                prefetch={false}
                 href="/new/signup"
                 className="text-indigo-600 hover:text-indigo-500 font-semibold"
               >

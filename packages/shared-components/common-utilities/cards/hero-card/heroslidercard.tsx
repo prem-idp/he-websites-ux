@@ -19,6 +19,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
           </p>
           {data?.cta && (
             <Link
+            prefetch={false}
               data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"

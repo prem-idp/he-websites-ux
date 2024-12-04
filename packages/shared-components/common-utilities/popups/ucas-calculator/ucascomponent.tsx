@@ -243,6 +243,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           </div>
           <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
             <Link
+              prefetch={false}
               href="#"
               onClick={resetAll}
               aria-label="reset filters"
