@@ -148,7 +148,7 @@ const Header = ({
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <Link href="/">
+            <Link href="/" prefetch={false}>
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={
@@ -323,7 +323,8 @@ const Header = ({
                 )}
               </li>
               <li className="relative">
-                <div
+                <Link
+                  href="/degrees/comparison"
                   aria-label="Shortlist"
                   className="cursor-pointer"
                   onClick={() => rightMenuAction("SHORTLIST")}
@@ -352,16 +353,16 @@ const Header = ({
                   {/* <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
                     2
                   </div> */}
-                </div>
+                </Link>
                 {/* shortlist section */}
-                {clickStates.isShortlistClicked && (
+                {/* {clickStates.isShortlistClicked && (
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
                       <Shortlisted />
                     </div>
                   </>
-                )}
+                )} */}
               </li>
             </ul>
           </div>

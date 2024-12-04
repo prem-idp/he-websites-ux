@@ -279,6 +279,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       <ul>
                         {filteredUniversity.map((item: any, index) => (
                           <Link
+                            prefetch={false}
                             href={`/universities/${item.collegeNameDisplay
                               .trim()
                               .replace(/\s+/g, "-")
@@ -304,7 +305,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
               className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
             >
               <Image
-                src="static/assets/icons/search_icon.svg"
+                src="/static/assets/icons/search_icon.svg"
                 width="18"
                 height="18"
                 alt="Search icon"

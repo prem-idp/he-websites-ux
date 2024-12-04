@@ -26,6 +26,7 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                 (childItem, index) => (
                   <li key={index + 1} data-testid={`childMenu${index + 1}`}>
                     <Link
+                    
                       data-testid={`${childItem.navTitle}${index + 1}`}
                       prefetch={false}
                       target={

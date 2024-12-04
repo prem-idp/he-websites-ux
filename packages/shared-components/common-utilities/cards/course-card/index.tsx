@@ -79,6 +79,7 @@ const CourseCard = ({
             )}
             <Link
               href="/"
+              prefetch={false}
               className="text-para font-semibold text-primary400 lg:text-darkGrey lg:hover:text-primary-400"
             >
               {courseTitle}
