@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
+import OneTrustCookieScript from "../../../../packages/lib/oneTrust/OneTrustCookieScript";
 
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff2",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
+         <OneTrustCookieScript />
         <HeaderWrapper />
         {children}
         <Footer />

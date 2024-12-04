@@ -32,6 +32,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                 <p className="font-normal">{subheading}</p>
               </div>
               <Link
+                prefetch={false}
                 href={`${statsData?.cta.primaryCtaUrl}`}
                 className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
               >

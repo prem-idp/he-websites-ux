@@ -1,5 +1,5 @@
 import { createServerRunner } from "@aws-amplify/adapter-nextjs";
-import config from "../../../apps/whatuni/configs/amplifyconfiguration.json";
+import awsconfig from "../../../apps/whatuni/configs/amplifyconfiguration";
 export const { runWithAmplifyServerContext } = createServerRunner({
-  config,
+  config: awsconfig,
 });

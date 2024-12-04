@@ -99,6 +99,7 @@ const Discoverslidercomponents1 = ({
                       data-testid="discovercardMobile"
                     >
                       <Link
+                        prefetch={false}
                         href={
                           discoverItems?.cta?.primaryCtaUrl
                             ? discoverItems?.cta?.primaryCtaUrl
@@ -155,6 +156,7 @@ const Discoverslidercomponents1 = ({
                   key={discoverItems.internalName + index}
                 >
                   <Link
+                    prefetch={false}
                     href={
                       discoverItems?.cta?.primaryCtaUrl
                         ? discoverItems?.cta?.primaryCtaUrl

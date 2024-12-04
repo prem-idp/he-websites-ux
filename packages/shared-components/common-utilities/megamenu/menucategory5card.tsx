@@ -15,6 +15,7 @@ const Menucategory5card = ({ data }: any) => {
         {data.slice(1).map((item: any, index: any) => (
           <li key={index}>
             <Link
+              prefetch={false}
               href={item?.navUrl || ""}
               target={item?.navCtaTarget ? "_blank" : "_parent"}
               rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
