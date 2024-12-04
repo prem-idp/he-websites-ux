@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { Amplify } from "aws-amplify";
 import { signUp } from "aws-amplify/auth"; // Import specific API from v6
-import config from "../../../../configs/amplifyconfiguration.json";
+import awsconfig from "../../../../configs/amplifyconfiguration";
 import Link from "next/link";
 
 // Configure Amplify with your amplifyconfiguration.json
-Amplify.configure(config, { ssr: true });
+Amplify.configure(awsconfig, { ssr: true });
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");

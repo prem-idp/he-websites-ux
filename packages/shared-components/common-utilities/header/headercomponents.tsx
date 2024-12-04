@@ -12,7 +12,7 @@ import User from "@packages/shared-components/common-utilities/header/user/user"
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
-import config from "../../../../apps/whatuni/configs/amplifyconfiguration.json";
+import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
 Amplify.configure(config, { ssr: true });
 interface props {

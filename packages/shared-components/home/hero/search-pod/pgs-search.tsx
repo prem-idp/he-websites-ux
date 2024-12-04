@@ -299,6 +299,13 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 </div>
               )}
             </Form>
+            {qualification && (
+              <div>
+                {qualification}{" "}
+                <button onClick={() => setQualification("")}> X </button>
+              </div>
+            )}
+
             <button
               type="submit"
               onClick={() => keywordSearch()}

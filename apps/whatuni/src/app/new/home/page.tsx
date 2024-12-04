@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
 import { Hub } from "@aws-amplify/core";
 import { Amplify } from "aws-amplify";
-import config from "../../../../configs/amplifyconfiguration.json";
+import awsconfig from "../../../../configs/amplifyconfiguration";
 
-Amplify.configure(config);
+Amplify.configure(awsconfig);
 
 interface AuthUser {
   username: string;
-  [key: string]: any; // Add additional properties as needed
+  [key: string]: any; 
 }
 
 export default function App() {
@@ -60,7 +60,7 @@ export default function App() {
         Open Google
       </button>
 
-      <button onClick={() => signOut()}>Sign Out</button>
+      {/* <button onClick={() => signOut()}>Sign Out</button> */}
       <div>{user?.username}</div>
       <div>{customState}</div>
     </div>
