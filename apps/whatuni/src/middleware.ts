@@ -5,29 +5,41 @@ import { runWithAmplifyServerContext } from "@packages/lib/utlils/amplifyServerU
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
-  const authenticated = await runWithAmplifyServerContext({
+  const result = await runWithAmplifyServerContext({
     nextServerContext: { request, response },
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
 
-        const hasAccessToken = session.tokens?.accessToken !== undefined;
-        const hasIdToken = session.tokens?.idToken !== undefined;
-        return hasAccessToken && hasIdToken;
+        // Check if tokens are not undefined
+        if (session.tokens) {
+          const hasAccessToken = session.tokens.accessToken !== undefined;
+          const hasIdToken = session.tokens.idToken !== undefined;
+
+          if (hasAccessToken && hasIdToken) {
+            return { authenticated: true, idToken: session.tokens.idToken };
+          }
+        }
+
+        return { authenticated: false, idToken: null };
       } catch (error) {
-        return false;
+        return { authenticated: false, idToken: null };
       }
     },
   });
 
-  if (authenticated) {
-    // Add `isAuthenticated: true` to the response headers
+  if (result.authenticated) {
+    // Set headers for authenticated users
     response.headers.set("isAuthenticated", "true");
-    return response;
+    
+    // Ensure idToken is a string before setting it in headers
+    response.headers.set("idToken", result.idToken ? String(result.idToken) : "");
   } else {
+    // Set headers for unauthenticated users
     response.headers.set("isAuthenticated", "false");
-    return response;
   }
+
+  return response;
 }
 
 export const config = {

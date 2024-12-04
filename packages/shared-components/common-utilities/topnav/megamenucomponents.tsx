@@ -112,7 +112,7 @@ const Megamenucomponents = ({ data }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {menuItem.navName}
+                      {menuItem.navTitle}
                     </div>
                     <div className="max-w-container mx-auto">
                       <section className="grid grid-cols-1 lg:grid-cols-1  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">

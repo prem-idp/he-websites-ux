@@ -30,8 +30,8 @@ const Menucategory2card = ({ data }: any) => {
               <Link
                 prefetch={false}
                 href={item?.navUrl || ""}
-                target={item?.navCtaTarget ? "_blank" : "_parent"}
-                rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
+                target={item?.navCtaTarget=== "Open in new tab" ? "_blank" : "_parent"}
+                rel={item?.navCtaTarget=== "Open in new tab" ? "noopener noreferrer" : undefined}
                 className="flex items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >
                 <Image

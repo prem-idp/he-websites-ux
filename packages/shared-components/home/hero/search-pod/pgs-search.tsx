@@ -5,10 +5,16 @@ import Form from "next/form";
 import { useRouter } from "next/navigation";
 export default function PgsSearch({ pgs_search_data }: any) {
   const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
-  const [qualification, setQualification] = useState("");
+  const [qualification, setQualification] = useState({
+    qualUrl: "",
+    qualCode: "",
+    qualDesc: "",
+  });
   const [filteredsubjectlist, setFilteredsubject] = useState([]);
   const [filteredUniversity, setFilteredUniversity] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [error, setError] = useState(false);
+  const [qualdropdown, setQualDropdown] = useState(false);
   const [searchValue, setSearchValue] = useState({
     description: "",
     url: "",
@@ -23,6 +29,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
     setIsPgsUniversityClicked((prev) => !prev);
     console.log("clicked after", isPgsUniversityClicked);
     setShowDropdown(true);
+    setQualDropdown(true);
   };
   const [isPgsSearched, setIsPgsSearched] = useState(false);
   const router = useRouter();
@@ -139,6 +146,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
         !containerRef.current.contains(event.target as Node)
       ) {
         setShowDropdown(false);
+        setQualDropdown(false);
       }
     };
     // Delay adding listener to avoid immediate triggering
@@ -150,31 +158,37 @@ export default function PgsSearch({ pgs_search_data }: any) {
     };
   }, []);
   const keywordSearch = () => {
-    if (!searchValue?.description) {
-      return console.log("search value is empty");
+    const sanitizedDescription = searchValue?.description
+      .trim() // Remove spaces from the front and back
+      .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+      .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+      .toLowerCase(); // Convert the entire string to lowercase
+    if (!searchValue?.description?.trim() && !qualification.qualDesc) {
+      return setError(true);
     } else {
-      if (qualification) {
-        const sanitizedDescription = searchValue?.description
-          .trim()
-          .replace(/\s+/g, "-");
+      if (qualification.qualDesc && !searchValue?.description?.trim()) {
+        return router.push(`${qualification.qualUrl}`);
+      }
+      if (searchValue?.description?.trim() && !qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}&qualification=${qualification}`
+          `/postgraduate-courses/search?q=${sanitizedDescription}`
         );
       }
-      const sanitizedDescription = searchValue?.description
-        .trim()
-        .replace(/\s+/g, "-");
-      return router.push(
-        `/postgraduate-courses/search?q=${sanitizedDescription}`
-      );
+      if (searchValue?.description?.trim() && qualification.qualDesc) {
+        return router.push(
+          `/postgraduate-courses/search?q=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+        );
+      }
     }
   };
 
   const courseLink = (e: any) => {
     console.log(e, "e");
-    console.log(qualification, "qualification");
-    if (qualification) {
-      return router.push(`${e?.url}&qualification=${qualification}`);
+    console.log(qualification.qualDesc, "qualification");
+    if (qualification.qualCode) {
+      return router.push(`${e?.url}&qualification=${qualification.qualUrl}`);
     } else {
       return router.push(`${e?.url}`);
     }
@@ -190,15 +204,20 @@ export default function PgsSearch({ pgs_search_data }: any) {
           <div className="flex flex-col gap-[16px] small md:flex-row">
             <Form action={keywordSearch} className="relative grow">
               <input
+                autoComplete="off"
                 name="keyword"
                 value={searchValue.description}
-                onChange={(e) =>
+                onChange={(e) => {
                   setSearchValue((prev: any) => ({
                     ...prev,
-                    description: e.target.value.trim(),
+                    description: e.target.value
+                      .replace(/\s{2,}/g, " ")
+                      .trimStart(),
                     url: "",
-                  }))
-                }
+                  }));
+                  setError(false);
+                  setQualDropdown(false);
+                }}
                 onClick={universityClick}
                 onKeyUp={handleKeyUp}
                 type="text"
@@ -206,7 +225,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 aria-label="submenu"
                 placeholder="Subject, qualification or university"
               />
-              {isPgsUniversityClicked && showDropdown && (
+              {isPgsUniversityClicked && showDropdown && qualdropdown && (
                 <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[53px] md:w-[345px]">
                   <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                     QUALIFICATION
@@ -216,7 +235,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       (item: any, index: any) => (
                         <li
                           onClick={() => {
-                            setQualification(item?.qualUrl);
+                            setQualification(item);
 
                             universityClick();
                           }}
@@ -250,7 +269,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   {filteredsubjectlist.length > 0 && (
                     <>
                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                        QUALIFICATION
+                        COURSES
                       </div>
                       <ul>
                         {filteredsubjectlist.map((item: any, index) => (
@@ -274,7 +293,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   {filteredUniversity.length > 0 && (
                     <>
                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                        Univerity
+                        UNIVERSITY
                       </div>
                       <ul>
                         {filteredUniversity.map((item: any, index) => (
@@ -299,10 +318,20 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 </div>
               )}
             </Form>
-            {qualification && (
+            {qualification.qualDesc && (
               <div>
-                {qualification}{" "}
-                <button onClick={() => setQualification("")}> X </button>
+                {qualification?.qualDesc}
+                <button
+                  onClick={() =>
+                    setQualification({
+                      qualUrl: "",
+                      qualCode: "",
+                      qualDesc: "",
+                    })
+                  }
+                >
+                  X
+                </button>
               </div>
             )}
 
@@ -321,9 +350,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
             </button>
           </div>
         </div>
-        {/* <p className="small text-negative-default">
-          Please select university from dropdown
-        </p> */}
+        {error && (
+          <p className="small text-negative-default">
+            Enter subject, qualification or university
+          </p>
+        )}
       </div>
     </div>
   );
