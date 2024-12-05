@@ -11,7 +11,7 @@ const Footer = async () => {
   const footerData: FooterDataInterface = (
     await graphQlFetchFunction(footerQuery)
   )?.data?.footerNavigationCollection?.items?.[0];
-
+  console.log(footerData);
   return (
     <>
       {footerData && (
@@ -23,7 +23,15 @@ const Footer = async () => {
                   Connect
                 </p>
                 <div className="flex flex-col gap-[16px]">
-                  <FooterIcons />
+                  {footerData?.navSocialLinksCollection?.items[0]
+                    ?.navChildC1Collection?.items && (
+                    <FooterIcons
+                      data={
+                        footerData.navSocialLinksCollection.items[0]
+                          ?.navChildC1Collection?.items
+                      }
+                    />
+                  )}
                   {footerData?.navApplinksCollection?.items && (
                     <FooterAppLinks
                       data={footerData.navApplinksCollection.items}
