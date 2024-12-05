@@ -4,15 +4,16 @@ import Image from "next/image";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 // interface PropsInterface {
 //   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-//   ucasPoints: number;
-//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+//   ucasPoint: number;
+//   setUcasPoint: React.Dispatch<React.SetStateAction<number>>;
 // }
 const GradeDropdown = ({
+  // gradeArray,
   qual,
   setQual,
   indexPosition,
-  ucasPoints,
-  setUcasPoints,
+  ucasPoint,
+  setUcasPoint,
 }: any) => {
   const initialArray = [
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
@@ -23,22 +24,47 @@ const GradeDropdown = ({
   >(null);
   const [distinction, setDistinction] = useState({
     point: 0,
+    score: 0,
   });
   const [merit, setMerit] = useState({
     point: 0,
+    score: 0,
   });
   const [pass, setPass] = useState({
     point: 0,
+    score: 0,
   });
-
+  const getValue = (selectedKey: string) => {
+    const foundItem = qual[indexPosition].gradeArray?.find(
+      (item: any) => item.key === selectedKey
+    );
+    if (foundItem) {
+      return foundItem.value;
+    }
+  };
+  const getPodSpecificvalue = (selectedKey: string, itemValue: number) => {
+    if (selectedKey === "D") {
+      const dvalue = itemValue * getValue(selectedKey);
+      return dvalue + merit.score + pass.score;
+    } else if (selectedKey === "M") {
+      const mvalue = itemValue * getValue(selectedKey);
+      return mvalue + distinction.score + pass.score;
+    } else if (selectedKey === "P") {
+      const pvalue = itemValue * getValue(selectedKey);
+      return pvalue + distinction.score + merit.score;
+    }
+  };
   const selectValue = (
     itemValue: number,
     setState: React.Dispatch<React.SetStateAction<any>>,
-    currentPoint: number
+    currentPoint: number,
+    selectedKey: string
   ) => {
     setTotalcredit(totalcredit + itemValue - currentPoint);
+
     setState({
       point: itemValue,
+      score: Number(itemValue) * Number(getValue(selectedKey)),
     });
     setOpenDropdown(null);
     setQual((prev: any) =>
@@ -46,12 +72,17 @@ const GradeDropdown = ({
         index === indexPosition
           ? {
               ...item,
-              podSpecificPoints: totalcredit + itemValue - currentPoint,
+              podSpecificPoints: getPodSpecificvalue(selectedKey, itemValue),
+              totalcredit: totalcredit + itemValue - currentPoint,
             }
           : item
       )
     );
-    setUcasPoints(ucasPoints + itemValue - currentPoint);
+    setUcasPoint(
+      ucasPoint +
+        getPodSpecificvalue(selectedKey, itemValue) -
+        qual[indexPosition].podSpecificPoints
+    );
   };
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
   return (
@@ -91,7 +122,12 @@ const GradeDropdown = ({
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                         onClick={() =>
-                          selectValue(item, setDistinction, distinction.point)
+                          selectValue(
+                            item,
+                            setDistinction,
+                            distinction.point,
+                            "D"
+                          )
                         }
                       >
                         {item} credits
@@ -132,7 +168,9 @@ const GradeDropdown = ({
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
-                        onClick={() => selectValue(item, setMerit, merit.point)}
+                        onClick={() =>
+                          selectValue(item, setMerit, merit.point, "M")
+                        }
                       >
                         {item} credits
                       </li>
@@ -172,7 +210,9 @@ const GradeDropdown = ({
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
-                        onClick={() => selectValue(item, setPass, pass.point)}
+                        onClick={() =>
+                          selectValue(item, setPass, pass.point, "P")
+                        }
                       >
                         {item} credits
                       </li>

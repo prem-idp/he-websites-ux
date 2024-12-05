@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import {
+  updateUserEntryPointForDecrement,
+  updateUserEntryPointForIncrement,
+} from "@packages/lib/utlils/ucas-functions";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 // interface PropsInterface {
 //   btnName: string;
 //   btnValue: number;
 //   gradePoints: GradePointsInterface;
 //   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-//   ucasPoints: number;
-//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+//   ucasPoint: number;
+//   setUcasPoint: React.Dispatch<React.SetStateAction<number>>;
 // }
 const GradeCounterButton = ({
   btnName,
@@ -16,28 +20,29 @@ const GradeCounterButton = ({
   qual,
   setQual,
   indexPosition,
-  ucasPoints,
-  setUcasPoints,
+  ucasPoint,
+  setUcasPoint,
+  populateCount,
 }: any) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(populateCount);
   const increment = (btnValue: number) => {
     if (
       count < qual[indexPosition].maxPoint &&
       qual[indexPosition].getmaxTotalPoint < qual[indexPosition].maxTotalPoint
     ) {
       setCount(count + 1);
-      setUcasPoints(ucasPoints + Number(btnValue));
+      setUcasPoint(ucasPoint + Number(btnValue));
       setQual((prev: any) =>
         prev.map((item: any, index: any) =>
           index === indexPosition
             ? {
                 ...item,
                 getmaxTotalPoint: item.getmaxTotalPoint + 1,
-                podSpecificPoints: item.podSpecificPoints + btnValue,
-                selectedPoints: [
-                  ...item.selectedPoints,
-                  `${btnName}~${btnValue}`,
-                ],
+                podSpecificPoints: item?.podSpecificPoints + btnValue,
+                userEntryPoint: updateUserEntryPointForIncrement(
+                  item.userEntryPoint || "",
+                  btnName
+                ),
               }
             : item
         )
@@ -53,28 +58,18 @@ const GradeCounterButton = ({
             ? {
                 ...item,
                 getmaxTotalPoint: item.getmaxTotalPoint - 1,
-                podSpecificPoints: item.podSpecificPoints - btnValue,
-                selectedPoints: item.selectedPoints.filter(
-                  (point: string, index: number) => {
-                    if (point === `${btnName}~${btnValue}`) {
-                      return (
-                        index !==
-                        item.selectedPoints.findIndex(
-                          (p: any) => p === `${btnName}~${btnValue}`
-                        )
-                      );
-                    }
-                    return true;
-                  }
+                podSpecificPoints: item?.podSpecificPoints - btnValue,
+                userEntryPoint: updateUserEntryPointForDecrement(
+                  item.userEntryPoint || "",
+                  btnName
                 ),
               }
             : item
         )
       );
-      setUcasPoints(ucasPoints - Number(btnValue));
+      setUcasPoint(ucasPoint - Number(btnValue));
     }
   };
-  //console.log(btnValue);
   return (
     <>
       <div className="inline-flex items-center gap-[4px]">

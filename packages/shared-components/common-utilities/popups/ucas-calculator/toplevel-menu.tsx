@@ -9,24 +9,18 @@ import GradeCounterButton from "./grade-counter-button";
 import GradeDropdown from "./grade-dropdown";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { parseGradeString } from "@packages/lib/utlils/helper-function";
+import { getSelectedGrade } from "@packages/lib/utlils/ucas-functions";
 const TopLevelMenu = ({
   ucasGradeData,
-  ucasPoints,
-  setUcasPoints,
+  ucasPoint,
+  setUcasPoint,
   indexPosition,
   qual,
   setQual,
   resetid,
+  setQualifications,
 }: any) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-  const [gradeArray, setGradeArray] = useState<KeyValuePair[] | undefined>([
-    { key: "A*", value: 56 },
-    { key: "A", value: 48 },
-    { key: "B", value: 40 },
-    { key: "C", value: 32 },
-    { key: "D", value: 24 },
-    { key: "E", value: 16 },
-  ]);
   const toggleDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
@@ -35,27 +29,55 @@ const TopLevelMenu = ({
     gradeString: string | null,
     maxPoint: string | null,
     maxTotalPoint: string | null,
-    template: string | null
+    template: string | null,
+    qualId: number | null,
+    gradeOptions: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    setQual((prev: any) =>
-      prev.map((item: any, index: any) =>
-        index === indexPosition
-          ? {
-              ...item,
-              type: template,
-              selectedLevel: level,
-              maxPoint: Number(maxPoint),
-              maxTotalPoint: Number(maxTotalPoint),
-              getmaxTotalPoint: 0,
-              podSpecificPoints: 0,
-              selectedPoints: [],
-            }
-          : item
-      )
-    );
-    setUcasPoints(ucasPoints - qual[indexPosition].podSpecificPoints);
-    setGradeArray(parseGradeString(gradeString));
+    if (level === "UCAS Tariff Points") {
+      setQual([
+        {
+          SelectedLevel: level,
+          totalcredit: 0,
+          type: template,
+          maxPoint: Number(maxPoint),
+          qualId: qualId,
+          maxTotalPoint: Number(maxTotalPoint),
+          getmaxTotalPoint: 0,
+          podSpecificPoints: 0,
+          min: 0,
+          max: 0,
+          userEntryPoint: "",
+          gradeArray: parseGradeString(gradeOptions),
+        },
+      ]);
+      setQualifications([]);
+    } else {
+      setQual((prev: any) =>
+        prev.map((item: any, index: any) =>
+          index === indexPosition
+            ? {
+                ...item,
+                type: template,
+                totalcredit: 0,
+                SelectedLevel: level,
+                maxPoint: Number(maxPoint),
+                maxTotalPoint: Number(maxTotalPoint),
+                gradeArray: parseGradeString(gradeOptions),
+                qualId: qualId,
+                getmaxTotalPoint: 0,
+                podSpecificPoints: 0,
+                min: 0,
+                max: 0,
+                userEntryPoint: "",
+              }
+            : item
+        )
+      );
+    }
+
+    setUcasPoint(ucasPoint - qual[indexPosition].podSpecificPoints);
+    //setGradeArray(parseGradeString(gradeString));
   };
   return (
     <>
@@ -64,7 +86,7 @@ const TopLevelMenu = ({
           onClick={toggleDropdown}
           className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
         >
-          <span>{qual[indexPosition].selectedLevel}</span>
+          <span>{qual[indexPosition]?.SelectedLevel}</span>
           <Image
             src="/static/assets/icons/ucas-down-arrow.svg"
             alt=""
@@ -91,7 +113,9 @@ const TopLevelMenu = ({
                             childItems.gradeOptions,
                             childItems.maxPoint,
                             childItems.maxTotalPoint,
-                            childItems.template
+                            childItems.template,
+                            Number(childItems.qualId),
+                            childItems.gradeOptions
                           );
                         }
                       : undefined
@@ -104,48 +128,65 @@ const TopLevelMenu = ({
           </div>
         )}
       </div>
-      {qual[indexPosition].type === "plus-minus" && (
+      {qual[indexPosition]?.type === "plus-minus" && (
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
-          {gradeArray?.map((childItems, index) => (
-            <GradeCounterButton
-              key={qual[indexPosition].selectedLevel + index + resetid}
-              btnName={childItems.key}
-              btnValue={childItems.value}
-              indexPosition={indexPosition}
-              qual={qual}
-              setQual={setQual}
-              ucasPoints={ucasPoints}
-              setUcasPoints={setUcasPoints}
-            />
-          ))}
+          {qual[indexPosition].gradeArray?.map(
+            (childItems: any, index: number) => (
+              <GradeCounterButton
+                key={qual[indexPosition]?.SelectedLevel + index + resetid}
+                btnName={childItems.key}
+                btnValue={childItems.value}
+                indexPosition={indexPosition}
+                qual={qual}
+                setQual={setQual}
+                ucasPoint={ucasPoint}
+                setUcasPoint={setUcasPoint}
+                populateCount={getSelectedGrade(
+                  qual[indexPosition].userEntryPoint,
+                  childItems.key
+                )}
+              />
+            )
+          )}
         </div>
       )}
-      {qual[indexPosition].type === "single-select" && (
+      {qual[indexPosition]?.type === "single-select" && (
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
-          {gradeArray?.map((childItems, index) => (
-            <GradeBadgeButton
-              key={qual[indexPosition].selectedLevel + index}
-              indexPosition={indexPosition}
-              btnName={childItems.key}
-              btnValue={childItems.value}
-              qual={qual}
-              setQual={setQual}
-              ucasPoints={ucasPoints}
-              setUcasPoints={setUcasPoints}
-            />
-          ))}
+          {qual[indexPosition].gradeArray?.map(
+            (childItems: any, index: any) => (
+              <GradeBadgeButton
+                key={qual[indexPosition]?.SelectedLevel + index}
+                indexPosition={indexPosition}
+                btnName={childItems.key}
+                btnValue={childItems.value}
+                qual={qual}
+                setQual={setQual}
+                ucasPoint={ucasPoint}
+                setUcasPoint={setUcasPoint}
+              />
+            )
+          )}
         </div>
       )}
-      {qual[indexPosition].type === "credit-selector" && (
+      {qual[indexPosition]?.type === "credit-selector" && (
         <GradeDropdown
+          // gradeArray={gradeArray}
           indexPosition={indexPosition}
           qual={qual}
           setQual={setQual}
-          ucasPoints={ucasPoints}
-          setUcasPoints={setUcasPoints}
+          ucasPoint={ucasPoint}
+          setUcasPoint={setUcasPoint}
         />
       )}
-      {qual[indexPosition].type === "min-max" && <MaxMinInputBox />}
+      {qual[indexPosition]?.type === "min-max" && (
+        <MaxMinInputBox
+          indexPosition={indexPosition}
+          qual={qual}
+          setQual={setQual}
+          ucasPoint={ucasPoint}
+          setUcasPoint={setUcasPoint}
+        />
+      )}
     </>
   );
 };

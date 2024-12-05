@@ -5,8 +5,8 @@ import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 //   btnValue: number;
 //   gradePoints: GradePointsInterface;
 //   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-//   ucasPoints: number;
-//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
+//   ucasPoint: number;
+//   setUcasPoint: React.Dispatch<React.SetStateAction<number>>;
 // }
 const GradeBadgeButton = ({
   btnName,
@@ -14,13 +14,13 @@ const GradeBadgeButton = ({
   qual,
   setQual,
   indexPosition,
-  ucasPoints,
-  setUcasPoints,
+  ucasPoint,
+  setUcasPoint,
 }: any) => {
   const selectGradeButton = (btnValue: number) => {
-    if (qual[indexPosition].podSpecificPoints !== btnValue) {
-      setUcasPoints(
-        ucasPoints + btnValue - qual[indexPosition].podSpecificPoints
+    if (qual[indexPosition]?.podSpecificPoints !== btnValue) {
+      setUcasPoint(
+        ucasPoint + btnValue - qual[indexPosition]?.podSpecificPoints
       );
       setQual((prev: any) =>
         prev.map((item: any, index: any) =>
@@ -28,7 +28,7 @@ const GradeBadgeButton = ({
             ? {
                 ...item,
                 podSpecificPoints: btnValue,
-                selectedPoints: [`${btnName}~${btnValue}`],
+                userEntryPoint: `${btnName}~${btnValue}`,
               }
             : item
         )
