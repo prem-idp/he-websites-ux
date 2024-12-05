@@ -33,11 +33,14 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
         >
           <div className="relative grow">
             <input
+              autoComplete="off"
               name="keyword"
               onChange={(event) => {
                 setsearchFormHandle((preData: any) => ({
                   ...preData,
-                  advice: event.target.value.trimStart(),
+                  advice: event.target.value
+                    .replace(/\s{2,}/g, " ")
+                    .trimStart(),
                 }));
                 setAdviceerror(false);
               }}

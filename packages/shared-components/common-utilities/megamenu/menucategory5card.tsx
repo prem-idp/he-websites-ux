@@ -17,8 +17,14 @@ const Menucategory5card = ({ data }: any) => {
             <Link
               prefetch={false}
               href={item?.navUrl || ""}
-              target={item?.navCtaTarget ? "_blank" : "_parent"}
-              rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
+              target={
+                item?.navCtaTarget === "Open in new tab" ? "_blank" : "_parent"
+              }
+              rel={
+                item?.navCtaTarget === "Open in new tab"
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               className="block bg-neutral-200 "
             >
               <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
