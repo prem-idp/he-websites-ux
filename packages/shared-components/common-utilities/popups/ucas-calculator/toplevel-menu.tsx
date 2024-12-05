@@ -127,69 +127,68 @@ const TopLevelMenu = ({
             </ul>
           </div>
         )}
+
+        {qual[indexPosition]?.type === "plus-minus" && (
+          <div className="flex items-center justify-between gap-[32px] flex-wrap">
+            {qual[indexPosition].gradeArray?.map(
+              (childItems: any, index: number) => (
+                <GradeCounterButton
+                  key={qual[indexPosition]?.SelectedLevel + index + resetid}
+                  btnName={childItems.key}
+                  btnValue={childItems.value}
+                  indexPosition={indexPosition}
+                  qual={qual}
+                  setQual={setQual}
+                  ucasPoint={ucasPoint}
+                  setUcasPoint={setUcasPoint}
+                  populateCount={getSelectedGrade(
+                    qual[indexPosition].userEntryPoint,
+                    childItems.key
+                  )}
+                />
+              )
+            )}
+          </div>
+        )}
+
+        {qual[indexPosition]?.type === "single-select" && (
+          <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
+            {qual[indexPosition].gradeArray?.map(
+              (childItems: any, index: any) => (
+                <GradeBadgeButton
+                  key={qual[indexPosition]?.SelectedLevel + index}
+                  indexPosition={indexPosition}
+                  btnName={childItems.key}
+                  btnValue={childItems.value}
+                  qual={qual}
+                  setQual={setQual}
+                  ucasPoint={ucasPoint}
+                  setUcasPoint={setUcasPoint}
+                />
+              )
+            )}
+          </div>
+        )}
+        {qual[indexPosition]?.type === "credit-selector" && (
+          <GradeDropdown
+            // gradeArray={gradeArray}
+            indexPosition={indexPosition}
+            qual={qual}
+            setQual={setQual}
+            ucasPoint={ucasPoint}
+            setUcasPoint={setUcasPoint}
+          />
+        )}
+        {qual[indexPosition]?.type === "min-max" && (
+          <MaxMinInputBox
+            indexPosition={indexPosition}
+            qual={qual}
+            setQual={setQual}
+            ucasPoint={ucasPoint}
+            setUcasPoint={setUcasPoint}
+          />
+        )}
       </div>
-      {qual[indexPosition]?.type === "plus-minus" && (
-      {qual[indexPosition]?.type === "plus-minus" && (
-        <div className="flex items-center justify-between gap-[32px] flex-wrap">
-          {qual[indexPosition].gradeArray?.map(
-            (childItems: any, index: number) => (
-              <GradeCounterButton
-                key={qual[indexPosition]?.SelectedLevel + index + resetid}
-                btnName={childItems.key}
-                btnValue={childItems.value}
-                indexPosition={indexPosition}
-                qual={qual}
-                setQual={setQual}
-                ucasPoint={ucasPoint}
-                setUcasPoint={setUcasPoint}
-                populateCount={getSelectedGrade(
-                  qual[indexPosition].userEntryPoint,
-                  childItems.key
-                )}
-              />
-            )
-          )}
-        </div>
-      )}
-      {qual[indexPosition]?.type === "single-select" && (
-      {qual[indexPosition]?.type === "single-select" && (
-        <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
-          {qual[indexPosition].gradeArray?.map(
-            (childItems: any, index: any) => (
-              <GradeBadgeButton
-                key={qual[indexPosition]?.SelectedLevel + index}
-                indexPosition={indexPosition}
-                btnName={childItems.key}
-                btnValue={childItems.value}
-                qual={qual}
-                setQual={setQual}
-                ucasPoint={ucasPoint}
-                setUcasPoint={setUcasPoint}
-              />
-            )
-          )}
-        </div>
-      )}
-      {qual[indexPosition]?.type === "credit-selector" && (
-      {qual[indexPosition]?.type === "credit-selector" && (
-        <GradeDropdown
-          // gradeArray={gradeArray}
-          indexPosition={indexPosition}
-          qual={qual}
-          setQual={setQual}
-          ucasPoint={ucasPoint}
-          setUcasPoint={setUcasPoint}
-        />
-      )}
-      {qual[indexPosition]?.type === "min-max" && (
-        <MaxMinInputBox
-          indexPosition={indexPosition}
-          qual={qual}
-          setQual={setQual}
-          ucasPoint={ucasPoint}
-          setUcasPoint={setUcasPoint}
-        />
-      )}
     </>
   );
 };
