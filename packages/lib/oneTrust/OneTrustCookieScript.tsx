@@ -34,8 +34,9 @@ export default function OneTrustCookieScript(){
     
       const isUserAcctpedCookie: boolean = (OptanonConsent != null && OptanonConsent != undefined) && (OptanonAlertBoxClosed != null && OptanonAlertBoxClosed != undefined);
       const cookieConsentVal = isUserAcctpedCookie ? oneTrustCookieconsentVal : "0111";
-      console.log("IsAlertBoxClosed", isUserAcctpedCookie);
-      console.log("cookieconsentVal", cookieConsentVal);
+      console.log("IsAlertBoxClosed: ", isUserAcctpedCookie);
+      console.log("cookieConsentVal: ", cookieConsentVal);
+      console.log("OptanonConsent: ", OptanonConsent, "OptanonAlertBoxClosed: ", OptanonAlertBoxClosed);
       
       // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
       if(isUserAcctpedCookie){
@@ -69,11 +70,10 @@ export default function OneTrustCookieScript(){
 		
 	  console.log("OptanonWrapper function triggered...")
       const returnVal = await loadAnalyticsScripts();
-	  setUserConsentGiven(() => { 
-		console.log("state triggered...")
-		return returnVal});
+	    setUserConsentGiven(() => returnVal);
     };
 
+    
 	window.OptanonWrapper = handleConsentChange;
 
   }, []);
