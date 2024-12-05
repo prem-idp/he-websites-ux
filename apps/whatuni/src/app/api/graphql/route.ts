@@ -3,7 +3,7 @@ import crypto from "crypto";
 export async function POST(request: any) {
   try {
     const { query }: any = await request.json();
-    console.log(query);
+    // console.log(query);
     const payloadString = JSON.stringify(query);
     const hash = crypto
       .createHash("sha256")

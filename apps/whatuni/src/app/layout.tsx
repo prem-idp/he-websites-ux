@@ -16,11 +16,11 @@ const interBold = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-export const metadata: Metadata = {
-  title: "Compare the Best University Degrees Courses UK | Whatuni",
-  description:
-    "Find courses at top universities. Free, trusted advice to help you decide which university is best for you. The UK’s biggest student reviews site.",
-};
+// export const metadata: Metadata = {
+//   title: "Compare the Best University Degrees Courses UK | Whatuni",
+//   description:
+//     "Find courses at top universities. Free, trusted advice to help you decide which university is best for you. The UK’s biggest student reviews site.",
+// };
 
 export default function RootLayout({
   children,

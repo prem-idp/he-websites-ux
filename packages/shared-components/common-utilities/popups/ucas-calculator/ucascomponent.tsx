@@ -42,7 +42,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     selectedPoints: [],
   };
   const [qual, setQual] = useState([initialvalue]);
-  console.log(ucasAjax);
+  // console.log(ucasAjax);
   useEffect(() => {
     const fetchUcasData = async () => {
       try {
@@ -121,7 +121,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     setQual([initialvalue]);
     setResetid(Date.now());
   };
-  console.log(qual);
+  // console.log(qual);
   return (
     <>
       <div
