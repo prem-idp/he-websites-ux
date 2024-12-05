@@ -10,6 +10,7 @@ interface ReviewCardProps {
 const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
   return (
     <Link
+    prefetch={false}
       href={`/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`}
       className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2"
     >

@@ -129,6 +129,7 @@ const TopLevelMenu = ({
         )}
       </div>
       {qual[indexPosition]?.type === "plus-minus" && (
+      {qual[indexPosition]?.type === "plus-minus" && (
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
           {qual[indexPosition].gradeArray?.map(
             (childItems: any, index: number) => (
@@ -151,6 +152,7 @@ const TopLevelMenu = ({
         </div>
       )}
       {qual[indexPosition]?.type === "single-select" && (
+      {qual[indexPosition]?.type === "single-select" && (
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
           {qual[indexPosition].gradeArray?.map(
             (childItems: any, index: any) => (
@@ -168,6 +170,7 @@ const TopLevelMenu = ({
           )}
         </div>
       )}
+      {qual[indexPosition]?.type === "credit-selector" && (
       {qual[indexPosition]?.type === "credit-selector" && (
         <GradeDropdown
           // gradeArray={gradeArray}

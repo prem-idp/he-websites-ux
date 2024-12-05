@@ -19,7 +19,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
-
+  // console.log(statsData?.cta.primaryCtaUrl, "statsData?.cta.primaryCtaUrl");
   return (
     <Suspense>
       <section className="wusca-container bg-neutral-50">
@@ -32,6 +32,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                 <p className="font-normal">{subheading}</p>
               </div>
               <Link
+                prefetch={false}
                 href={`${statsData?.cta.primaryCtaUrl}`}
                 className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
               >

@@ -118,6 +118,7 @@ export default function Search({ course_data, uni_data }: props) {
                       Don’t know your UCAS points?
                     </div>
                     <Link
+                      prefetch={false}
                       href="#"
                       className="text-blue-500 font-semibold hover:underline"
                     >
@@ -135,7 +136,8 @@ export default function Search({ course_data, uni_data }: props) {
                   />
                   <div className="flex justify-center">
                     <Link
-                      href="#"
+                      prefetch={false}
+                      href="/degrees/find-university/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
                       Browse unis A-Z
@@ -156,8 +158,10 @@ export default function Search({ course_data, uni_data }: props) {
                     setsearchFormHandle={setsearchFormHandle}
                   />
                   <div className="flex justify-center">
+                    
                     <Link
-                      href="#"
+                      prefetch={false}
+                      href="/advice/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
                       Browse advice

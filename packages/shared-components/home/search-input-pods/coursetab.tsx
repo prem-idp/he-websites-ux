@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +19,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   // console.log(data.courseDetails, "getting data as props");
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
@@ -29,13 +30,35 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const router = useRouter();
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        courseActions("UG");
+        courseActions("Subject");
+        // courseActions("Location");
+        setDropdown(false);
 
+        // console.log("click outside");
+      }
+    };
+    // Delay adding listener to avoid immediate triggering
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
+    // console.log(description);
     const { qualCode } = searchFormHandle.courseType || {};
     // console.log(description, qualCode, "qualcode,descrption");
     // Early return if description is invalid or too short
-    if (!description || description.length < 3) {
+    if (!description?.trim() || description?.trim().length < 3) {
       setFilteredsubject([]);
       return;
     }
@@ -45,7 +68,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       (subjects: any) =>
         subjects?.description
           ?.toLowerCase()
-          .includes(description.toLowerCase()) &&
+          .includes(description?.trim().toLowerCase()) &&
         subjects?.qualCode === qualCode
     );
     // console.log(filteredSubjects);
@@ -86,7 +109,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     };
 
     // const sortedResults = prioritySearch(filteredSubjects, description);
-    setFilteredsubject(prioritySearch(filteredSubjects, description));
+    setFilteredsubject(prioritySearch(filteredSubjects, description?.trim()));
     // console.log(
     //   prioritySearch(filteredSubjects, description),
     //   "filterdsubject "
@@ -97,7 +120,19 @@ const CourseTab: React.FC<CourseTabProps> = ({
   ]);
 
   // ================================================================================================================================================
-
+  useEffect(() => {
+    setsearchFormHandle((prevData: any) => ({
+      ...prevData,
+      subject: {
+        ...prevData.subject,
+        url: null,
+        parent_subject: null,
+        category_code: null,
+        browse_cat_id: "KW", // Retaining other properties of subject
+        description: "", // Setting the description value
+      },
+    }));
+  }, [searchFormHandle.courseType.qualCode]);
   const resetAllTabs = (currentTab: string) => ({
     isCourseType: currentTab === "UG" ? !searchFormHandle?.isCourseType : false,
     isSubjectClicked:
@@ -128,8 +163,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
       searchFormHandle.location?.regionName &&
       searchFormHandle.subject?.url
     ) {
+      const sanitizedRegionName = searchFormHandle.location.regionName
+        .trim() // Remove spaces from the front and back
+        .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+        .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+        .toLowerCase(); // Convert the entire string to lowercase
+
       router.push(
-        `${searchFormHandle.subject.url}&location=${searchFormHandle.location.regionName}`
+        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}`
       );
     } else if (searchFormHandle.subject?.url) {
       router.push(searchFormHandle.subject.url);
@@ -138,6 +181,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
     }
   };
   const keywordSearch = () => {
+    const sanitizedDescription = searchFormHandle.subject.description
+      .trim() // Remove spaces from the front and back
+      .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+      .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+      .toLowerCase();
     const searchUrlMap: Record<string, string> = {
       M: "/degree-courses/search",
       N: "/hnd-hnc-courses/search",
@@ -145,20 +195,40 @@ const CourseTab: React.FC<CourseTabProps> = ({
       A: "/foundation-degree-courses/search",
       L: "/postgraduate-courses/search",
     };
+    const matchedSubject = filteredsubject?.find(
+      (item) =>
+        item.description.toLowerCase() ===
+        searchFormHandle.subject.description?.trim().toLowerCase()
+    );
 
+    if (searchFormHandle.location?.regionName && matchedSubject) {
+      const sanitizedRegionName = searchFormHandle.location.regionName
+        .trim() // Remove spaces from the front and back
+        .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+        .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+        .toLowerCase(); // Convert the entire string to lowercase
+
+      return router.push(
+        `${matchedSubject.url}&location=${sanitizedRegionName}`
+      );
+    }
+    if (matchedSubject) {
+      return router.push(`${matchedSubject.url}`);
+    }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
-      const sanitizedDescription = searchFormHandle.subject.description
-        .trim() // Remove spaces from front and back
-        .replace(/\s+/g, "-"); // Replace spaces in between with hyphens
-
-      router.push(`${baseUrl}?q=${sanitizedDescription}`);
+      return router.push(`${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]">
+      <div
+        ref={containerRef}
+        className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]"
+      >
         <Form
           action={searchHandler}
           className="flex flex-col small md:flex-row md:items-center"
@@ -204,12 +274,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
           </div>
           <div className="w-full relative grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
             <input
+              autoComplete="off"
               value={searchFormHandle.subject.description || ""}
               type="text"
               className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
               aria-label="submenu"
               placeholder="Enter subject"
               onChange={(event) => {
+                const trimmedValue = event.target.value.replace(/\s{2,}/g, " "); // Replace multiple spaces with a single space
+
                 setsearchFormHandle((prevData: any) => ({
                   ...prevData,
                   subject: {
@@ -218,7 +291,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     parent_subject: null,
                     category_code: null,
                     browse_cat_id: "KW", // Retaining other properties of subject
-                    description: event.target.value.trimStart(), // Setting the description value
+                    description: trimmedValue.trimStart(), // Setting the description value
                   },
                 }));
                 setDropdown(true);
@@ -232,7 +305,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
             {dropdown && (
               <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
                 {/* Hardcode the item at index 0 */}
-                {searchFormHandle?.subject?.description?.length > 2 && (
+                {searchFormHandle?.subject?.description?.trim()?.length > 2 && (
                   <div
                     onClick={() => {
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -246,7 +319,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     className="px-[16px] py-[12px] cursor-pointer"
                   >
                     <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
-                      Key word seach for
+                      Key word search for
                     </p>
                     <p className="small text-primary-400">
                       {`'${searchFormHandle.subject.description}'`}
@@ -284,6 +357,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
             }}
           >
             <input
+              autoComplete="off"
               type="text"
               className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
               aria-label="submenu"

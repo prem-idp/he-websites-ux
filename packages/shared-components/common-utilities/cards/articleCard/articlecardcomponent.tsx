@@ -13,7 +13,7 @@ const ArticleCardComponent = ({
   "articleImg" | "articleTitle" | "articleContent" | "articlePostedDate"
 >) => {
   return (
-    <Link href={"/"}>
+    <Link href={"/"}   prefetch={false}>
       <div className="group">
         <Image
           src={articleImg || ""}

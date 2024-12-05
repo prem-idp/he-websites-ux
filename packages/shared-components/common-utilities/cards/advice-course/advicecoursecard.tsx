@@ -5,6 +5,7 @@ const AdviceCourseCard = () => {
   return (
     <Link
       href=""
+      prefetch={false}
       className="card flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
     >
       <div className="card-header">
