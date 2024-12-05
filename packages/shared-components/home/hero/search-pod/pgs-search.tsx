@@ -145,8 +145,8 @@ export default function PgsSearch({ pgs_search_data }: any) {
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setShowDropdown(false);
-        setQualDropdown(false);
+        setShowDropdown((prev) => !prev);
+        setQualDropdown((prev) => !prev);
       }
     };
     // Delay adding listener to avoid immediate triggering
