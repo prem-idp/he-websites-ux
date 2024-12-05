@@ -1,3 +1,21 @@
+export const Seoquery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName:"Whatuni"}}
+  ) {
+    items {
+     
+      seoFields {
+        metaTite
+        metaDescription
+      }
+      robots {
+        title
+      } 
+    }
+  }
+}`;
+
 export const Headerquery = `{
   contentData: headerCollection(
     limit: 1

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  trailingSlash: true,
   reactStrictMode: false,
   env: {
     PROJECT: "Whatuni",
@@ -24,8 +25,8 @@ const nextConfig = {
     ],
   },
   env: {
-    PROJECT: "Whatuni"
-  }
+    PROJECT: "Whatuni",
+  },
 };
 
 export default nextConfig;

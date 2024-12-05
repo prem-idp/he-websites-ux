@@ -26,7 +26,7 @@ export default function SignInPage() {
     setError(null);
 
     try {
-      console.log("username", username, "password", password);
+      // console.log("username", username, "password", password);
       const user = await signIn({ username, password });
       setSuccess(true);
 
