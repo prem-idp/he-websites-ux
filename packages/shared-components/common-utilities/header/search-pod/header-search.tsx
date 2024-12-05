@@ -137,7 +137,7 @@ export default function Search({ course_data, uni_data }: props) {
                   <div className="flex justify-center">
                     <Link
                       prefetch={false}
-                      href="#"
+                      href="/degrees/find-university/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
                       Browse unis A-Z
@@ -161,7 +161,7 @@ export default function Search({ course_data, uni_data }: props) {
                     
                     <Link
                       prefetch={false}
-                      href="#"
+                      href="/advice/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
                       Browse advice

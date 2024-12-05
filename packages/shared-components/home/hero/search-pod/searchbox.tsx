@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
@@ -12,6 +12,24 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        console.log("click outside");
+      }
+    };
+    // Delay adding listener to avoid immediate triggering
+    setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, 0);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -129,7 +147,7 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                 <div className="flex justify-center md:justify-end my-[24px] md:my-0">
                   <Link
                     prefetch={false}
-                    href="#"
+                    href="/degrees/find-university/"
                     className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                   >
                     Browse unis A-Z
@@ -146,7 +164,7 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                 <div className="flex justify-center md:justify-end my-[24px] md:my-0">
                   <Link
                     prefetch={false}
-                    href="#"
+                    href="/advice/"
                     className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                   >
                     Browse advice

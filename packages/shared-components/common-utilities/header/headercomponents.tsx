@@ -10,8 +10,10 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+
 import { Amplify } from "aws-amplify";
+
 import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
 Amplify.configure(config, { ssr: true });
@@ -20,28 +22,18 @@ interface props {
   course_data: CourseData;
   uni_data: UniData;
   isAuthenticated: string | null;
+  initial:string | null;
 }
 const Header = ({
   topnav_data,
   course_data,
   uni_data,
   isAuthenticated,
+  initial,
 }: props) => {
   const router = useRouter();
   // console.log(isAuthenticated, "isAuthenticated");
-  // useEffect(() => {
 
-  //   const fetchUser = async () => {
-  //     try {
-  //       const currentUser = await getCurrentUser();
-  //       console.log(currentUser, "okokokokokokoook");
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   fetchUser();
-  // }, []);
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -52,7 +44,9 @@ const Header = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
+  const [showUser, setShowUser] = useState(initial);
   const pathname = usePathname();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -67,9 +61,9 @@ const Header = ({
       }
     };
     // Delay adding listener to avoid immediate triggering
-    setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 0);
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -289,28 +283,34 @@ const Header = ({
                   onClick={() => Usericonfunction()}
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
-                      stroke="#5C656E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
-                      stroke="#5C656E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {showUser ? (
+                    <span className="text-[16px] font-semibold">
+                      {showUser}
+                    </span>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
+                        stroke="#5C656E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
+                        stroke="#5C656E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </span>
                 {/* user section */}
                 {clickStates.isUserClicked && (
