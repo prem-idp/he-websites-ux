@@ -6,6 +6,7 @@ import HeaderWrapper from "../../../../packages/shared-components/common-utiliti
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import Script from "next/script";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
+import { Suspense } from "react";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -33,7 +34,10 @@ export default function RootLayout({
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
         <OneTrustCookieScript />
+        <Suspense fallback={null}>
+
         <HeaderWrapper />
+        </Suspense>
         {children}
         <Footer />
       </body>

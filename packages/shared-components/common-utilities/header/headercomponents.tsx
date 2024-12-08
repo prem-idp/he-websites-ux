@@ -86,7 +86,7 @@ const Header = ({
             forceRefresh: true,
           })
         ).tokens ?? {};
-      console.log(idToken, "iddddddd");
+      // console.log(idToken, "iddddddd");
       // const session = await fetchAuthSession();
       // console.log(session, "session-----------------------");
       return null;

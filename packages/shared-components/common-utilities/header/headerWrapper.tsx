@@ -14,7 +14,7 @@ export default async function HeaderWrapper() {
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
   const basketCount = cookiesList.get("USER_FAV_BASKET_COUNT")?.value || 0;
-  console.log("basketCount", basketCount);
+  // console.log("basketCount", basketCount);
   let email = "";
   let initial = "";
   const extractInitials = (user: string) => {
