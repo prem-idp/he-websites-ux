@@ -1,3 +1,4 @@
+"use server";
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
@@ -23,7 +24,7 @@ const interBold = localFont({
 //     "Find courses at top universities. Free, trusted advice to help you decide which university is best for you. The UK’s biggest student reviews site.",
 // };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -35,8 +36,7 @@ export default function RootLayout({
       >
         <OneTrustCookieScript />
         <Suspense fallback={null}>
-
-        <HeaderWrapper />
+          <HeaderWrapper />
         </Suspense>
         {children}
         <Footer />
