@@ -2,13 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-// interface PropsInterface {
-//   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-//   ucasPoint: number;
-//   setUcasPoint: React.Dispatch<React.SetStateAction<number>>;
-// }
 const GradeDropdown = ({
-  // gradeArray,
   qual,
   setQual,
   indexPosition,
@@ -54,6 +48,16 @@ const GradeDropdown = ({
       return pvalue + distinction.score + merit.score;
     }
   };
+
+  const getUcasEntryPoint = (selectedKey: string, itemValue: number) => {
+    if (selectedKey === "D") {
+      return `${itemValue}D-${merit.point}M-${pass.point}P`;
+    } else if (selectedKey === "M") {
+      return `${distinction.point}D-${itemValue}M-${pass.point}P`;
+    } else if (selectedKey === "P") {
+      return `${distinction.point}D-${itemValue}M-${itemValue}P`;
+    }
+  };
   const selectValue = (
     itemValue: number,
     setState: React.Dispatch<React.SetStateAction<any>>,
@@ -61,7 +65,6 @@ const GradeDropdown = ({
     selectedKey: string
   ) => {
     setTotalcredit(totalcredit + itemValue - currentPoint);
-
     setState({
       point: itemValue,
       score: Number(itemValue) * Number(getValue(selectedKey)),
@@ -74,27 +77,34 @@ const GradeDropdown = ({
               ...item,
               podSpecificPoints: getPodSpecificvalue(selectedKey, itemValue),
               totalcredit: totalcredit + itemValue - currentPoint,
+              userEntryPoint: getUcasEntryPoint(selectedKey, itemValue),
             }
           : item
       )
     );
+    console.log("pod", getPodSpecificvalue(selectedKey, itemValue));
+    console.log("current index pod", qual[indexPosition].podSpecificPoints);
     setUcasPoint(
       ucasPoint +
         getPodSpecificvalue(selectedKey, itemValue) -
         qual[indexPosition].podSpecificPoints
     );
   };
+
+  console.log(ucasPoint);
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">
         {/* Distinction Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Distinction" className="font-semibold">
+          <label htmlFor="distinction" className="font-semibold">
             Distinction
           </label>
           <div className="relative">
             <div
+              id="distinction"
+              aria-labelledby="distinction"
               onClick={() =>
                 setOpenDropdown((prev) =>
                   prev === "distinction" ? null : "distinction"
@@ -141,11 +151,13 @@ const GradeDropdown = ({
 
         {/* Merit Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Merit" className="font-semibold">
+          <label htmlFor="merit" className="font-semibold">
             Merit
           </label>
           <div className="relative">
             <div
+              id="merit"
+              aria-labelledby="merit"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "merit" ? null : "merit"))
               }
@@ -183,11 +195,13 @@ const GradeDropdown = ({
 
         {/* Pass Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Pass" className="font-semibold">
+          <label htmlFor="pass" className="font-semibold">
             Pass
           </label>
           <div className="relative">
             <div
+              id="pass"
+              aria-labelledby="pass"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "pass" ? null : "pass"))
               }

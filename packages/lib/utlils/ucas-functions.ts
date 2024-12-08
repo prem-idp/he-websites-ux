@@ -1,4 +1,13 @@
-import { parseGradeString } from "./helper-function";
+const parseGradeString = (gradeString: string | null) => {
+  if (gradeString) {
+    return gradeString.split(",").map((item) => {
+      const [key, value] = item.split("~");
+      return { key, value: parseInt(value, 10) };
+    });
+  }
+};
+
+export { parseGradeString };
 
 const updateUserEntryPointForIncrement = (
   currentEntry: string,
@@ -105,13 +114,20 @@ const getSelectedGrade = (userEntryPoint: string, gradeKey: string): number => {
 
 export { getSelectedGrade };
 
-const formatQualificationLabel = (input: string): string => {
+export const formatQualificationLabel = (input: string): string => {
+  console.log(input);
   if (!input) return "";
-
   return input
     .toLowerCase()
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
-export { formatQualificationLabel };
+
+export function uppercaseToLowercase(input: string) {
+  return input.toLowerCase().replace(/\s+/g, "-");
+}
+
+export const formatToUpperCase = (input: string): string => {
+  return input.replace(/[a-z]/g, (match) => match.toUpperCase());
+};

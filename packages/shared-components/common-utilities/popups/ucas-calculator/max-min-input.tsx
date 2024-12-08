@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from "react";
-
-const MaxMinInputBox = ({
-  indexPosition,
-  qual,
-  setQual,
-  ucasPoint,
-  setUcasPoint,
-}: any) => {
-  // const [min, setMin] = useState<string>("");
-  // const [max, setMax] = useState<string>("");
-  // setQual((prev: any) =>
-  //   prev.map((item: any, index: number) =>
-  //     index === indexPosition
-  //       ? {
-  //           ...item,
-  //           min: event?.target.value,
-  //         }
-  //       : item
-  //   )
-  // );
-
+"use client";
+import React from "react";
+const MaxMinInputBox = ({ indexPosition, setQual, setUcasPoint }: any) => {
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[4px] small">
-        <label htmlFor="minpoint" className="font-semibold ">
+        <label htmlFor={`minpoint-${indexPosition}`} className="font-semibold ">
           Minimum points
         </label>
         <input
@@ -34,36 +15,37 @@ const MaxMinInputBox = ({
                 index === indexPosition
                   ? {
                       ...item,
-                      min: event?.target.value,
+                      min: Number(event?.target.value),
                     }
                   : item
               )
             )
           }
-          id=""
+          id={`minpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
           className="block rounded-[8px] min-h-[44px] border border-grey-500 py-[12px] px-[10px]"
         />
       </div>
       <div className="flex flex-col gap-[4px] small">
-        <label htmlFor="minpoint" className="font-semibold ">
+        <label htmlFor={`maxpoint-${indexPosition}`} className="font-semibold ">
           Maximum points
         </label>
         <input
           type="text"
-          onChange={(event) =>
+          onChange={(event) => {
+            const value = Number(event?.target.value);
+
             setQual((prev: any) =>
               prev.map((item: any, index: number) =>
                 index === indexPosition
-                  ? {
-                      ...item,
-                      max: event?.target.value,
-                    }
+                  ? { ...item, max: value, podSpecificPoints: value }
                   : item
               )
-            )
-          }
-          id=""
+            );
+
+            setUcasPoint(value);
+          }}
+          id={`maxpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
           className="block rounded-[8px] min-h-[44px] border border-grey-500 py-[12px] px-[10px]"
         />

@@ -8,7 +8,7 @@ import { KeyValuePair } from "@packages/lib/types/ucas-calc";
 import GradeCounterButton from "./grade-counter-button";
 import GradeDropdown from "./grade-dropdown";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-import { parseGradeString } from "@packages/lib/utlils/helper-function";
+import { parseGradeString } from "@packages/lib/utlils/ucas-functions";
 import { getSelectedGrade } from "@packages/lib/utlils/ucas-functions";
 const TopLevelMenu = ({
   ucasGradeData,
@@ -52,6 +52,7 @@ const TopLevelMenu = ({
         },
       ]);
       setQualifications([]);
+      setUcasPoint(0);
     } else {
       setQual((prev: any) =>
         prev.map((item: any, index: any) =>
@@ -74,10 +75,8 @@ const TopLevelMenu = ({
             : item
         )
       );
+      setUcasPoint(ucasPoint - qual[indexPosition].podSpecificPoints);
     }
-
-    setUcasPoint(ucasPoint - qual[indexPosition].podSpecificPoints);
-    //setGradeArray(parseGradeString(gradeString));
   };
   return (
     <>
@@ -128,7 +127,7 @@ const TopLevelMenu = ({
           </div>
         )}
 
-        {qual[indexPosition]?.type === "plus-minus" && (
+        {qual[indexPosition]?.type === "plus-minus" && !isDropDownOpen && (
           <div className="flex items-center justify-between gap-[32px] flex-wrap">
             {qual[indexPosition].gradeArray?.map(
               (childItems: any, index: number) => (
@@ -151,7 +150,7 @@ const TopLevelMenu = ({
           </div>
         )}
 
-        {qual[indexPosition]?.type === "single-select" && (
+        {qual[indexPosition]?.type === "single-select" && !isDropDownOpen && (
           <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
             {qual[indexPosition].gradeArray?.map(
               (childItems: any, index: any) => (
@@ -169,7 +168,7 @@ const TopLevelMenu = ({
             )}
           </div>
         )}
-        {qual[indexPosition]?.type === "credit-selector" && (
+        {qual[indexPosition]?.type === "credit-selector" && !isDropDownOpen && (
           <GradeDropdown
             // gradeArray={gradeArray}
             indexPosition={indexPosition}
@@ -179,7 +178,7 @@ const TopLevelMenu = ({
             setUcasPoint={setUcasPoint}
           />
         )}
-        {qual[indexPosition]?.type === "min-max" && (
+        {qual[indexPosition]?.type === "min-max" && !isDropDownOpen && (
           <MaxMinInputBox
             indexPosition={indexPosition}
             qual={qual}
