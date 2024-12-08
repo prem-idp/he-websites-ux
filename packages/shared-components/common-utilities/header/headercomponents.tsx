@@ -10,17 +10,17 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import {
-  getCurrentUser,
-  fetchUserAttributes,
-  fetchAuthSession,
-} from "aws-amplify/auth";
+// import {
+//   getCurrentUser,
+//   fetchUserAttributes,
+//   fetchAuthSession,
+// } from "aws-amplify/auth";
 
-import { Amplify } from "aws-amplify";
+// import { Amplify } from "aws-amplify";
 
 import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
-Amplify.configure(config, { ssr: true });
+// Amplify.configure(config, { ssr: true });
 interface props {
   topnav_data: any;
   course_data: CourseData;
@@ -79,19 +79,19 @@ const Header = ({
     setIsOpen(!isOpen);
   };
   useEffect(() => {
-    const fetchUser = async () => {
-      const { idToken } =
-        (
-          await fetchAuthSession({
-            forceRefresh: true,
-          })
-        ).tokens ?? {};
-      // console.log(idToken, "iddddddd");
-      // const session = await fetchAuthSession();
-      // console.log(session, "session-----------------------");
-      return null;
-    };
-    fetchUser();
+    // const fetchUser = async () => {
+    //   const { idToken } =
+    //     (
+    //       await fetchAuthSession({
+    //         forceRefresh: true,
+    //       })
+    //     ).tokens ?? {};
+    //   // console.log(idToken, "iddddddd");
+    //   // const session = await fetchAuthSession();
+    //   // console.log(session, "session-----------------------");
+    //   return null;
+    // };
+    // fetchUser();
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };

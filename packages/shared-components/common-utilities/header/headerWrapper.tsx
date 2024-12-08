@@ -14,9 +14,9 @@ export default async function HeaderWrapper() {
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
   const basketCount = cookiesList.get("USER_FAV_BASKET_COUNT")?.value || 0;
-  // console.log("basketCount", basketCount);
   let email = "";
   let initial = "";
+
   const extractInitials = (user: string) => {
     if (user) {
       const namePart = user.split("@")[0];
@@ -29,6 +29,7 @@ export default async function HeaderWrapper() {
     }
     return "";
   };
+
   if (idToken && isAuthenticated === "true") {
     try {
       // Decode the JWT without verification (for extracting payload only)
@@ -74,6 +75,7 @@ export default async function HeaderWrapper() {
     console.error("Unexpected error:", error);
   }
 
+  // Returning JSX
   return (
     <Header
       topnav_data={topnav_data}
