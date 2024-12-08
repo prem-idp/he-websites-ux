@@ -5,13 +5,16 @@ import {
   searchAjaxFecthFunction,
 } from "@packages/lib/server-actions/server-action";
 import { Headerquery } from "@packages/lib/graphQL/graphql-query";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export default async function HeaderWrapper() {
   const headersList = await headers(); // Await the promise
+  const cookiesList = await cookies();
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
+  const basketCount = cookiesList.get("USER_FAV_BASKET_COUNT")?.value || 0;
+  console.log("basketCount", basketCount);
   let email = "";
   let initial = "";
   const extractInitials = (user: string) => {
@@ -78,6 +81,7 @@ export default async function HeaderWrapper() {
       uni_data={uni_data}
       isAuthenticated={isAuthenticated}
       initial={initial}
+      basketCount={basketCount}
     />
   );
 }
