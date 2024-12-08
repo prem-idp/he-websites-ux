@@ -72,13 +72,17 @@ export default async function HeaderWrapper() {
   }
 
   return (
-    <Header
-      topnav_data={topnav_data}
-      course_data={course_data}
-      uni_data={uni_data}
-      isAuthenticated={isAuthenticated}
-      initial={initial}
-      basketCount={0}
-    />
+    <>
+      {topnav_data && course_data && uni_data && isAuthenticated && initial && (
+        <Header
+          topnav_data={topnav_data}
+          course_data={course_data}
+          uni_data={uni_data}
+          isAuthenticated={isAuthenticated}
+          initial={initial}
+          basketCount={0}
+        />
+      )}
+    </>
   );
 }

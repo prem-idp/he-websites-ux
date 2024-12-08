@@ -1,4 +1,4 @@
-"use server";
+'use server';
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
@@ -36,7 +36,8 @@ export default async function RootLayout({
       >
         <OneTrustCookieScript />
         <Suspense fallback={null}>
-          <HeaderWrapper />
+
+        <HeaderWrapper />
         </Suspense>
         {children}
         <Footer />
