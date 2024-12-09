@@ -7,7 +7,6 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { headers } from "next/headers";
 const Page = async () => {
@@ -21,7 +20,6 @@ const Page = async () => {
   return (
     <>
       <GoogleOneTap />
-      {isAuthenticated === "false" && <TrackSessionId />}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

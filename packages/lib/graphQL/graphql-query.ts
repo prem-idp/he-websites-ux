@@ -181,7 +181,7 @@ export const Headerquery = `{
   }
 }`;
 export const footerQuery = `{
-  footerNavigationCollection(where: {footerName: "Footer - Whatuni"}) {
+  footerNavigationCollection(where: {footerName: "Footer - ${process.env.PROJECT}"}) {
     items {
       footerNavCollection(limit: 3) {
         items {

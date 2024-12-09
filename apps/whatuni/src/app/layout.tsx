@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
+import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import Script from "next/script";
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
+        <TrackSessionId />
         <OneTrustCookieScript />
         <HeaderWrapper />
         {children}
