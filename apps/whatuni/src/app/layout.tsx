@@ -37,8 +37,9 @@ export default async function RootLayout({
       >
         <TrackSessionId />
         <OneTrustCookieScript />
+         
         <Suspense fallback={null}>
-
+        {/* @ts-ignore Server Component */}
         <HeaderWrapper />
         </Suspense>
         {children}
