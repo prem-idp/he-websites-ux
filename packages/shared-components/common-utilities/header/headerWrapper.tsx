@@ -1,5 +1,9 @@
 "use server";
-import Header from "./headercomponents";
+import dynamic from "next/dynamic";
+
+// import Header from "./headercomponents";
+import { Suspense } from "react";
+const Header = dynamic(() => import("./headercomponents"));
 import {
   graphQlFetchFunction,
   searchAjaxFecthFunction,
@@ -8,7 +12,7 @@ import { Headerquery } from "@packages/lib/graphQL/graphql-query";
 import { headers } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export default async function HeaderWrapper() {
+export default async function HeaderWrapper(): Promise<JSX.Element> {
   const headersList = await headers(); // Await the promise
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
@@ -63,6 +67,7 @@ export default async function HeaderWrapper() {
       searchAjaxFecthFunction(unibody),
       graphQlFetchFunction(Headerquery),
     ]);
+    console.log(results);
 
     course_data = results[0].status === "fulfilled" ? results[0].value : null;
     uni_data = results[1].status === "fulfilled" ? results[1].value : null;
@@ -72,12 +77,17 @@ export default async function HeaderWrapper() {
   }
 
   return (
-    <Header
-      topnav_data={topnav_data}
-      course_data={course_data}
-      uni_data={uni_data}
-      isAuthenticated={isAuthenticated}
-      initial={initial}
-    />
+    <>
+      {topnav_data && course_data && uni_data && isAuthenticated && initial && (
+        <Header
+          topnav_data={topnav_data}
+          course_data={course_data}
+          uni_data={uni_data}
+          isAuthenticated={isAuthenticated}
+          initial={initial}
+          basketCount={0}
+        />
+      )}
+    </>
   );
 }
