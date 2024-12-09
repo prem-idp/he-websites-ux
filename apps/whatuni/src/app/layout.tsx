@@ -43,6 +43,7 @@ export default async function RootLayout({
         <HeaderWrapper />
         </Suspense>
         {children}
+        {/* @ts-ignore Server Component */}
         <Footer />
       </body>
     </html>
