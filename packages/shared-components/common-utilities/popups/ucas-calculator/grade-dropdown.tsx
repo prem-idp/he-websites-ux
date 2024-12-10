@@ -110,12 +110,12 @@ const GradeDropdown = ({
                   prev === "distinction" ? null : "distinction"
                 )
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{distinction.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />
@@ -161,12 +161,12 @@ const GradeDropdown = ({
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "merit" ? null : "merit"))
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{merit.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />
@@ -205,12 +205,12 @@ const GradeDropdown = ({
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "pass" ? null : "pass"))
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{pass.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />

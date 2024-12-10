@@ -71,12 +71,12 @@ const AddQualification = ({
             <div className="relative w-full">
               <div
                 onClick={toggleDropdown}
-                className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+                className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
               >
                 <span>{qual[indexPosition]?.SelectedLevel}</span>
                 <Image
                   src="/static/assets/icons/ucas-down-arrow.svg"
-                  alt=""
+                  alt="ucas-down-arrow"
                   width="16"
                   height="16"
                 />
@@ -94,7 +94,7 @@ const AddQualification = ({
                           className={
                             childItems.qualId === null
                               ? "py-[10px] px-[16px] font-semibold x-small uppercase bg-neutral50 text-grey500 tracking-[1px]"
-                              : "py-[10px] px-[16px] cursor-pointer"
+                              : "py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                           }
                           onClick={
                             childItems.qualId !== null
