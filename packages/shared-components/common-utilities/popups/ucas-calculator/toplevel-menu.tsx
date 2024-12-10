@@ -79,7 +79,7 @@ const TopLevelMenu = ({
     }
   };
   return (
-    <div className="flex flex-col gap-[16px]">
+    <>
       <div className="relative">
         <div
           onClick={toggleDropdown}
@@ -170,7 +170,6 @@ const TopLevelMenu = ({
         )}
         {qual[indexPosition]?.type === "credit-selector" && !isDropDownOpen && (
           <GradeDropdown
-            // gradeArray={gradeArray}
             indexPosition={indexPosition}
             qual={qual}
             setQual={setQual}
@@ -188,7 +187,7 @@ const TopLevelMenu = ({
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 

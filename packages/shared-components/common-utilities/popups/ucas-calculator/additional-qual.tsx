@@ -19,6 +19,7 @@ const AddQualification = ({
   indexPosition,
   qual,
   setQual,
+  setQualifications,
 }: any) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const toggleDropdown = () => {
@@ -34,25 +35,24 @@ const AddQualification = ({
     gradeOptions: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    console.log(level);
-    if (level == "UCAS Tariff Points") {
-      removeQual();
+    if (level === "UCAS Tariff Points") {
       setQual([
         {
           SelectedLevel: level,
           totalcredit: 0,
-          qualId: qualId,
           type: template,
           maxPoint: Number(maxPoint),
+          qualId: qualId,
           maxTotalPoint: Number(maxTotalPoint),
           getmaxTotalPoint: 0,
           podSpecificPoints: 0,
-          userEntryPoint: "",
           min: 0,
           max: 0,
+          userEntryPoint: "",
           gradeArray: parseGradeString(gradeOptions),
         },
       ]);
+      setQualifications([]);
     } else {
       setQual((prev: any) =>
         prev.map((item: any, index: number) =>
@@ -76,11 +76,15 @@ const AddQualification = ({
       );
     }
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
+    if (level === "UCAS Tariff Points") {
+      setUcasPoint(0);
+    }
   };
   const deleteClicked = () => {
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
+  console.log(ucasPoint);
   return (
     <>
       <div>

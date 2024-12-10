@@ -5,6 +5,7 @@ import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
 import {
+  extractMinMax,
   formatQualificationLabel,
   formatToUpperCase,
   uppercaseToLowercase,
@@ -17,6 +18,7 @@ import {
   calculateTotalCount,
   getPodspecficGradePoints,
 } from "@packages/lib/utlils/ucas-functions";
+
 interface PropsInterface {
   isUcasOpen: boolean;
   onClose: () => void;
@@ -31,7 +33,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoint, setUcasPoint] = useState<number>(0);
   const [resetid, setResetid] = useState<number>(Date.now());
-  //const [prePopulationData, setPrepopulationData] = useState([]);
+  const [applybtn, setApplybtn] = useState(false);
+  const [initialValues, setInitialValues] = useState<any>();
   const additionalQual = {
     SelectedLevel: "Please select",
     qualId: 0,
@@ -42,8 +45,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
     userEntryPoint: "",
-    min: 0,
-    max: 0,
+    min: "",
+    max: "",
     gradeArray: [],
   };
   const initialvalue: any = {
@@ -56,8 +59,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
     userEntryPoint: "",
-    min: 0,
-    max: 0,
+    min: "",
+    max: "",
     gradeArray: [],
   };
   const [qual, setQual] = useState([initialvalue]);
@@ -89,7 +92,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             }
           );
           const jsonData = await res.json();
-          //setPrepopulationData(jsonData?.userGradeDetails);
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
@@ -100,6 +102,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                   ...additionalQual,
                   SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
                   qualId: entry.qualId,
+                  min: extractMinMax(entry.userEntryPoint, "min"),
+                  max: extractMinMax(entry.userEntryPoint, "max"),
                   userEntryPoint: formatToUpperCase(entry.userEntryPoint),
                   maxPoint: Number(
                     jsonData?.gradeFilterList?.find(
@@ -187,6 +191,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 ...additionalQual,
                 SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
                 qualId: entry.qualId,
+                min: extractMinMax(entry.userEntryPoint, "min"),
+                max: extractMinMax(entry.userEntryPoint, "max"),
                 userEntryPoint: entry.userEntryPoint,
                 maxPoint: Number(
                   jsonData?.gradeFilterList?.find(
@@ -253,7 +259,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-
+  setInitialValues(qual);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
@@ -363,36 +369,41 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           forceRefresh: true,
         })
       ).tokens ?? {};
-    if (idToken) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
-        // "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/update-ucas",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            Authorization:
-              typeof idToken === "string" ? idToken : idToken?.toString() || "",
-          },
-          body: JSON.stringify(saveUcas),
-        }
-      );
-      console.log(response);
-      const jsonData = await response.json();
-      console.log(jsonData);
-    } else {
-      if (saveUcas) {
-        const stringConvert = JSON.stringify(saveUcas);
-        console.log(stringConvert);
-        document.cookie = `UCAS=${stringConvert}; path=/; max-age=3600; SameSite=Strict`;
+    if (!validation) {
+      if (idToken) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
+          // "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/update-ucas",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+              Authorization:
+                typeof idToken === "string"
+                  ? idToken
+                  : idToken?.toString() || "",
+            },
+            body: JSON.stringify(saveUcas),
+          }
+        );
+        console.log(response);
+        const jsonData = await response.json();
+        console.log(jsonData);
       } else {
-        console.error("saveUcas is not a valid value");
+        if (saveUcas) {
+          const stringConvert = JSON.stringify(saveUcas);
+          console.log(stringConvert);
+          document.cookie = `UCAS=${stringConvert}; path=/; max-age=3600; SameSite=Strict`;
+        } else {
+          console.error("saveUcas is not a valid value");
+        }
       }
     }
   };
   console.log("qualsss", qual);
   console.log("qualificationnn", qualifications);
+
   return (
     <>
       <div
@@ -462,6 +473,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                   key={qualification.id}
                   qualOrder={qualification.name}
                   ucasGradeData={ucasGradeData}
+                  setQualifications={setQualifications}
                   removeQual={() =>
                     removeQualification(qualification.id, index + 1)
                   }
@@ -471,11 +483,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             {/* Add qualification button */}
 
             {qualifications.length < 2 &&
-              qual.every(
-                (item) =>
-                  item?.SelectedLevel !== "UCAS Tariff Points" &&
-                  item?.podSpecificPoints > 0
-              ) && (
+              qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
+              qual[0]?.podSpecificPoints > 0 && (
                 <div
                   onClick={addQualification}
                   className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
@@ -513,7 +522,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               tariff points to be calculated
             </p>
           )}
-          {qual[0].SelectedLevel !== "UCAS Tariff Points" && (
+          {qual[0].SelectedLevel === "UCAS Tariff Points" &&
+            qual[0].min > qual[0].max && (
+              <p className="small text-negative-default">
+                The maximum points should be larger than the minimum points
+              </p>
+            )}
+          {ucasPoint > 0 && (
             <div className="flex items-center justify-center gap-[8px] min-h-[42px]">
               <p className="small text-grey300 small">Your UCAS points</p>
               <div
@@ -525,12 +540,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               </div>
             </div>
           )}
-          {qual[0].SelectedLevel === "UCAS Tariff Points" &&
-            qual[0].min > qual[0].max && (
-              <p className="small text-negative-default">
-                The maximum points should be larger than the minimum points
-              </p>
-            )}
 
           <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
             <Link
@@ -547,6 +556,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 ${
                   qual[0].SelectedLevel === "UCAS Tariff Points" &&
                   qual[0].min > qual[0].max &&
+                  applybtn === false &&
                   "cursor-not-allowed"
                 }
                  bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold hover:bg-primary-500
