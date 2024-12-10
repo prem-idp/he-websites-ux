@@ -1,23 +1,15 @@
-import { googletag } from 'googletag';
-
 declare global {
-interface Window {
+  interface Window {
     OptanonWrapper?: () => void;
     Optanon?: {
       IsConsented: (categoryId: string) => boolean;
-      IsAlertBoxClosed: any
+      IsAlertBoxClosed: any;
     };
-    OnetrustActiveGroups?: {
-        includes: (categoryId: string) => boolean;
-    };
-    googletag?: typeof googletag
-
+    OnetrustActiveGroups?: string[]; // Assuming it's an array of strings
+    googletag?: typeof googletag;
   }
 
-  declare var OnetrustActiveGroups: string;OneTrust
-
+  const OnetrustActiveGroups: string[]; // Use const instead of var
 }
 
-  
-  export {};
-  
+export {};

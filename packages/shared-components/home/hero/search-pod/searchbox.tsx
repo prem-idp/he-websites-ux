@@ -12,24 +12,24 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        console.log("click outside");
-      }
-    };
-    // Delay adding listener to avoid immediate triggering
-    setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 0);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   const containerRef = useRef<HTMLDivElement | null>(null);
+  //   useEffect(() => {
+  //     const handleClickOutside = (event: MouseEvent) => {
+  //       if (
+  //         containerRef.current &&
+  //         !containerRef.current.contains(event.target as Node)
+  //       ) {
+  //         console.log("click outside in searchbox");
+  //         return ucasClose();
+  //       }
+  //     };
+  //     // Delay adding listener to avoid immediate triggering
+  //     document.addEventListener("mousedown", handleClickOutside);
+
+  //     return () => {
+  //       document.removeEventListener("mousedown", handleClickOutside);
+  //     };
+  //   }, []);
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -44,21 +44,12 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
     advice: "",
   });
 
-  const [isUniversityClicked, setIsUniversityClicked] = useState(false);
-
-  const courseActions = (tabName: string) => {
-    if (tabName == "University") {
-      setIsUniversityClicked(!isUniversityClicked);
-    }
-  };
-
-  // ucas calculate
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    SetIsUcasPopupOpen(true);
-    const body = document.body;
-    body.classList.add("overflow-y-hidden");
-    console.log("blocking ucas temporarly ");
+    console.log("clicked on ucas");
+    // SetIsUcasPopupOpen(true);
+    // const body = document.body;
+    // body.classList.add("overflow-y-hidden");
   };
 
   const ucasClose = () => {

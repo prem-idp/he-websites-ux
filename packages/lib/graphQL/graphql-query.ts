@@ -1,3 +1,21 @@
+export const Seoquery = `{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName:"Whatuni"}}
+  ) {
+    items {
+     
+      seoFields {
+        metaTite
+        metaDescription
+      }
+      robots {
+        title
+      } 
+    }
+  }
+}`;
+
 export const Headerquery = `{
   contentData: headerCollection(
     limit: 1
@@ -163,7 +181,7 @@ export const Headerquery = `{
   }
 }`;
 export const footerQuery = `{
-  footerNavigationCollection(where: {footerName: "Footer - Whatuni"}) {
+  footerNavigationCollection(where: {footerName: "Footer - ${process.env.PROJECT}"}) {
     items {
       footerNavCollection(limit: 3) {
         items {

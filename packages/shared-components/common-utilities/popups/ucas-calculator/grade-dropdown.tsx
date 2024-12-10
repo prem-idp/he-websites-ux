@@ -2,17 +2,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-// interface PropsInterface {
-//   setGradePoints: React.Dispatch<React.SetStateAction<GradePointsInterface>>;
-//   ucasPoints: number;
-//   setUcasPoints: React.Dispatch<React.SetStateAction<number>>;
-// }
 const GradeDropdown = ({
   qual,
   setQual,
   indexPosition,
-  ucasPoints,
-  setUcasPoints,
+  ucasPoint,
+  setUcasPoint,
 }: any) => {
   const initialArray = [
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
@@ -23,22 +18,56 @@ const GradeDropdown = ({
   >(null);
   const [distinction, setDistinction] = useState({
     point: 0,
+    score: 0,
   });
   const [merit, setMerit] = useState({
     point: 0,
+    score: 0,
   });
   const [pass, setPass] = useState({
     point: 0,
+    score: 0,
   });
+  const getValue = (selectedKey: string) => {
+    const foundItem = qual[indexPosition].gradeArray?.find(
+      (item: any) => item.key === selectedKey
+    );
+    if (foundItem) {
+      return foundItem.value;
+    }
+  };
+  const getPodSpecificvalue = (selectedKey: string, itemValue: number) => {
+    if (selectedKey === "D") {
+      const dvalue = itemValue * getValue(selectedKey);
+      return dvalue + merit.score + pass.score;
+    } else if (selectedKey === "M") {
+      const mvalue = itemValue * getValue(selectedKey);
+      return mvalue + distinction.score + pass.score;
+    } else if (selectedKey === "P") {
+      const pvalue = itemValue * getValue(selectedKey);
+      return pvalue + distinction.score + merit.score;
+    }
+  };
 
+  const getUcasEntryPoint = (selectedKey: string, itemValue: number) => {
+    if (selectedKey === "D") {
+      return `${itemValue}D-${merit.point}M-${pass.point}P`;
+    } else if (selectedKey === "M") {
+      return `${distinction.point}D-${itemValue}M-${pass.point}P`;
+    } else if (selectedKey === "P") {
+      return `${distinction.point}D-${itemValue}M-${itemValue}P`;
+    }
+  };
   const selectValue = (
     itemValue: number,
     setState: React.Dispatch<React.SetStateAction<any>>,
-    currentPoint: number
+    currentPoint: number,
+    selectedKey: string
   ) => {
     setTotalcredit(totalcredit + itemValue - currentPoint);
     setState({
       point: itemValue,
+      score: Number(itemValue) * Number(getValue(selectedKey)),
     });
     setOpenDropdown(null);
     setQual((prev: any) =>
@@ -46,24 +75,36 @@ const GradeDropdown = ({
         index === indexPosition
           ? {
               ...item,
-              podSpecificPoints: totalcredit + itemValue - currentPoint,
+              podSpecificPoints: getPodSpecificvalue(selectedKey, itemValue),
+              totalcredit: totalcredit + itemValue - currentPoint,
+              userEntryPoint: getUcasEntryPoint(selectedKey, itemValue),
             }
           : item
       )
     );
-    setUcasPoints(ucasPoints + itemValue - currentPoint);
+    console.log("pod", getPodSpecificvalue(selectedKey, itemValue));
+    console.log("current index pod", qual[indexPosition].podSpecificPoints);
+    setUcasPoint(
+      ucasPoint +
+        getPodSpecificvalue(selectedKey, itemValue) -
+        qual[indexPosition].podSpecificPoints
+    );
   };
+
+  console.log(ucasPoint);
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">
         {/* Distinction Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Distinction" className="font-semibold">
+          <label htmlFor="distinction" className="font-semibold">
             Distinction
           </label>
           <div className="relative">
             <div
+              id="distinction"
+              aria-labelledby="distinction"
               onClick={() =>
                 setOpenDropdown((prev) =>
                   prev === "distinction" ? null : "distinction"
@@ -91,7 +132,12 @@ const GradeDropdown = ({
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                         onClick={() =>
-                          selectValue(item, setDistinction, distinction.point)
+                          selectValue(
+                            item,
+                            setDistinction,
+                            distinction.point,
+                            "D"
+                          )
                         }
                       >
                         {item} credits
@@ -105,11 +151,13 @@ const GradeDropdown = ({
 
         {/* Merit Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Merit" className="font-semibold">
+          <label htmlFor="merit" className="font-semibold">
             Merit
           </label>
           <div className="relative">
             <div
+              id="merit"
+              aria-labelledby="merit"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "merit" ? null : "merit"))
               }
@@ -132,7 +180,9 @@ const GradeDropdown = ({
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
-                        onClick={() => selectValue(item, setMerit, merit.point)}
+                        onClick={() =>
+                          selectValue(item, setMerit, merit.point, "M")
+                        }
                       >
                         {item} credits
                       </li>
@@ -145,11 +195,13 @@ const GradeDropdown = ({
 
         {/* Pass Dropdown */}
         <div className="flex flex-col gap-[4px] small">
-          <label htmlFor="Pass" className="font-semibold">
+          <label htmlFor="pass" className="font-semibold">
             Pass
           </label>
           <div className="relative">
             <div
+              id="pass"
+              aria-labelledby="pass"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "pass" ? null : "pass"))
               }
@@ -172,7 +224,9 @@ const GradeDropdown = ({
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
-                        onClick={() => selectValue(item, setPass, pass.point)}
+                        onClick={() =>
+                          selectValue(item, setPass, pass.point, "P")
+                        }
                       >
                         {item} credits
                       </li>

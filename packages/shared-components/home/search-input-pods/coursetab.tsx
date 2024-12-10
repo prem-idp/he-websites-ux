@@ -41,7 +41,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         // courseActions("Location");
         setDropdown(false);
 
-        console.log("click outside");
+        // console.log("click outside");
       }
     };
     // Delay adding listener to avoid immediate triggering
@@ -54,7 +54,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   }, []);
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
-    console.log(description);
+    // console.log(description);
     const { qualCode } = searchFormHandle.courseType || {};
     // console.log(description, qualCode, "qualcode,descrption");
     // Early return if description is invalid or too short

@@ -26,7 +26,7 @@ const GoogleOneTap = () => {
             "310464352984-52q8deiepmmnslhkehui0llrmvlvq5lu.apps.googleusercontent.com", // Replace with your Google OAuth Client ID
           callback: (response: any) => {
             const { credential } = response;
-            console.log(response, "response of the google one tap");
+            // console.log(response, "response of the google one tap");
             // Handle the successful login
           },
         });

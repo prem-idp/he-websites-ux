@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { signIn } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
@@ -26,7 +25,7 @@ export default function SignInPage() {
     setError(null);
 
     try {
-      console.log("username", username, "password", password);
+      // console.log("username", username, "password", password);
       const user = await signIn({ username, password });
       setSuccess(true);
 

@@ -7,9 +7,12 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { headers } from "next/headers";
+import { fetchAuthSession } from "@aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import awsconfig from "../../../../configs/amplifyconfiguration";
+Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const headersList = await headers(); // Await the promise
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
@@ -18,10 +21,12 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+
+  
+
   return (
     <>
       <GoogleOneTap />
-      {isAuthenticated === "false" && <TrackSessionId />}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
