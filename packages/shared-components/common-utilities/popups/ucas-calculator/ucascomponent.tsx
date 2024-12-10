@@ -1,10 +1,22 @@
+"use client";
+import { fetchAuthSession } from "aws-amplify/auth";
 import React, { useEffect, useState } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
-import crypto from "crypto";
+import {
+  formatQualificationLabel,
+  formatToUpperCase,
+  uppercaseToLowercase,
+} from "@packages/lib/utlils/ucas-functions";
 import { ucasAjax } from "@packages/lib/api-payloads/payloads";
+import { getCookie } from "@packages/lib/utlils/helper-function";
+import { parseGradeString } from "@packages/lib/utlils/ucas-functions";
 import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
+import {
+  calculateTotalCount,
+  getPodspecficGradePoints,
+} from "@packages/lib/utlils/ucas-functions";
 interface PropsInterface {
   isUcasOpen: boolean;
   onClose: () => void;
@@ -14,58 +26,227 @@ interface QualInterface {
   name: string;
 }
 const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
-  const [ucasGradeData, setUcasGradeData] = useState<
-    GradeFilterArrayInterface[] | null
-  >();
+  const [ucasGradeData, setUcasGradeData] =
+    useState<GradeFilterArrayInterface[]>();
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
-  const [ucasPoints, setUcasPoints] = useState<number>(0);
-  const [resetid, setResetid] = useState<number>(0);
+  const [ucasPoint, setUcasPoint] = useState<number>(0);
+  const [resetid, setResetid] = useState<number>(Date.now());
+  //const [prePopulationData, setPrepopulationData] = useState([]);
   const additionalQual = {
-    status: false,
-    selectedLevel: "Please select",
+    SelectedLevel: "Please select",
+    qualId: 0,
+    totalcredit: 0,
     type: "",
     maxPoint: 5,
     maxTotalPoint: 6,
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
-    selectedPoints: [],
+    userEntryPoint: "",
+    min: 0,
+    max: 0,
+    gradeArray: [],
   };
   const initialvalue: any = {
-    status: true,
-    selectedLevel: "A Level",
+    SelectedLevel: "A Level",
+    totalcredit: 0,
+    qualId: 1,
     type: "plus-minus",
     maxPoint: 5,
     maxTotalPoint: 6,
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
-    selectedPoints: [],
+    userEntryPoint: "",
+    min: 0,
+    max: 0,
+    gradeArray: [],
   };
   const [qual, setQual] = useState([initialvalue]);
-  // console.log(ucasAjax);
   useEffect(() => {
     const fetchUcasData = async () => {
+      const { idToken } =
+        (
+          await fetchAuthSession({
+            forceRefresh: true,
+          })
+        ).tokens ?? {};
+      const tracksessionId = getCookie("userTrackId");
       try {
-        //const payloadString = JSON.stringify(ucasAjax);
-        // const hash = crypto
-        //   .createHash("sha256")
-        //   .update(payloadString)
-        //   .digest("hex");
-        const response = await fetch(
-          "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/guest/homepage/ucas-ajax",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-              tracksessionid: "23775638",
-            },
-            body: JSON.stringify(ucasAjax),
-          }
-        );
-        const jsonData = await response.json();
-        if (jsonData) {
+        if (idToken) {
+          console.log("logged in user");
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/ucas-ajax`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                Authorization:
+                  typeof idToken === "string"
+                    ? idToken
+                    : idToken?.toString() || "",
+              },
+              body: JSON.stringify(ucasAjax),
+            }
+          );
+          const jsonData = await res.json();
+          //setPrepopulationData(jsonData?.userGradeDetails);
           setUcasGradeData(jsonData?.gradeFilterList);
+          setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
+          if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
+            console.log("user details present in API");
+            const mappedQuals =
+              jsonData?.userGradeDetails.userStudyLevelEntry.map(
+                (entry: any, index: number) => ({
+                  ...additionalQual,
+                  SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
+                  qualId: entry.qualId,
+                  userEntryPoint: formatToUpperCase(entry.userEntryPoint),
+                  maxPoint: Number(
+                    jsonData?.gradeFilterList?.find(
+                      (item: any) => item.qualId == entry.qualId
+                    )?.maxPoint
+                  ),
+                  maxTotalPoint: Number(
+                    jsonData?.gradeFilterList?.find(
+                      (item: any) => item.qualId == entry.qualId
+                    )?.maxTotalPoint
+                  ),
+                  type: jsonData?.gradeFilterList?.find(
+                    (item: any) => item.qualId == entry.qualId
+                  )?.template,
+                  gradeArray: parseGradeString(
+                    jsonData?.gradeFilterList?.find(
+                      (item: any) => item.qualId == entry.qualId
+                    )?.gradeOptions
+                  ),
+                  getmaxTotalPoint: calculateTotalCount(entry.userEntryPoint),
+                  podSpecificPoints: getPodspecficGradePoints(
+                    jsonData?.gradeFilterList?.find(
+                      (item: any) => item.qualId == entry.qualId
+                    )?.gradeOptions,
+                    entry.userEntryPoint
+                  ),
+                })
+              );
+            setQual(mappedQuals);
+            console.log(jsonData?.userGradeDetails?.userStudyLevelEntry);
+            if (qualifications.length < 2) {
+              for (
+                let i = 0;
+                i < jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1;
+                i++
+              ) {
+                const newQualification = {
+                  id: Date.now() + i,
+                  name: getOrdinalName(i),
+                };
+                qualifications.push(newQualification);
+              }
+            }
+          } else {
+            console.log("No user details present in API");
+            const mappedQuals = {
+              ...initialvalue,
+              SelectedLevel: jsonData.gradeFilterList[1].qualification,
+              qualId: jsonData.gradeFilterList[1].qualId,
+              maxPoint: Number(jsonData.gradeFilterList[1].maxPoint),
+              maxTotalPoint: Number(jsonData?.gradeFilterList[1].maxTotalPoint),
+              type: jsonData?.gradeFilterList[1].template,
+              gradeArray: parseGradeString(
+                jsonData?.gradeFilterList[1].gradeOptions
+              ),
+            };
+            setQual([mappedQuals]);
+          }
+        } else if (tracksessionId && !idToken) {
+          console.log("guest user");
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/homepage/ucas-ajax`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                tracksessionid: tracksessionId?.toString() || "",
+              },
+              body: JSON.stringify(ucasAjax),
+            }
+          );
+          const jsonData = await response.json();
+          setUcasGradeData(jsonData?.gradeFilterList);
+          const jsonCookies = JSON.parse(getCookie("UCAS") || "{}");
+          console.log(jsonCookies?.userStudyLevelEntry?.length);
+          setUcasPoint(
+            jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
+          );
+
+          if (jsonCookies?.userStudyLevelEntry) {
+            console.log("Cookieeee", jsonCookies?.userStudyLevelEntry);
+            const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
+              (entry: any, index: number) => ({
+                ...additionalQual,
+                SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
+                qualId: entry.qualId,
+                userEntryPoint: entry.userEntryPoint,
+                maxPoint: Number(
+                  jsonData?.gradeFilterList?.find(
+                    (item: any) => item.qualId == entry.qualId
+                  )?.maxPoint
+                ),
+                maxTotalPoint: Number(
+                  jsonData?.gradeFilterList?.find(
+                    (item: any) => item.qualId == entry.qualId
+                  )?.maxTotalPoint
+                ),
+                type: jsonData?.gradeFilterList?.find(
+                  (item: any) => item.qualId == entry.qualId
+                )?.template,
+                gradeArray: parseGradeString(
+                  jsonData?.gradeFilterList?.find(
+                    (item: any) => item.qualId == entry.qualId
+                  )?.gradeOptions
+                ),
+                getmaxTotalPoint: calculateTotalCount(entry.userEntryPoint),
+                podSpecificPoints: getPodspecficGradePoints(
+                  jsonData?.gradeFilterList?.find(
+                    (item: any) => item.qualId == entry.qualId
+                  )?.gradeOptions,
+                  entry.userEntryPoint
+                ),
+              })
+            );
+            console.log("mapped qual", mappedQuals);
+            setQual(mappedQuals);
+            console.log(jsonCookies?.userStudyLevelEntry);
+            if (qualifications.length < 2) {
+              for (
+                let i = 0;
+                i < jsonCookies?.userStudyLevelEntry.length - 1;
+                i++
+              ) {
+                console.log("Entered for:", i);
+                const newQualification = {
+                  id: Date.now() + i,
+                  name: getOrdinalName(i),
+                };
+                qualifications.push(newQualification);
+              }
+            }
+          } else {
+            const mappedQuals = {
+              ...initialvalue,
+              SelectedLevel: jsonData.gradeFilterList[1].qualification,
+              qualId: jsonData.gradeFilterList[1].qualId,
+              maxPoint: Number(jsonData.gradeFilterList[1].maxPoint),
+              maxTotalPoint: Number(jsonData?.gradeFilterList[1].maxTotalPoint),
+              type: jsonData?.gradeFilterList[1].template,
+              gradeArray: parseGradeString(
+                jsonData?.gradeFilterList[1].gradeOptions
+              ),
+            };
+            setQual([mappedQuals]);
+          }
         }
       } catch (error) {
         console.error("Error calling Search Ajax API:", error);
@@ -73,8 +254,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-
-  //console.log("ucas grade data", ucasGradeData);
 
   const ucasHandleClose = () => {
     onClose();
@@ -87,16 +266,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   };
   const addQualification = () => {
     setQualifications((prevQualifications: QualInterface[]) => {
-      if (prevQualifications.length >= 2) {
-        return prevQualifications;
-      } else {
-        const newQualification = {
-          id: Date.now(),
-          name: getOrdinalName(prevQualifications.length),
-        };
-        qual.push(additionalQual);
-        return [...prevQualifications, newQualification];
-      }
+      if (prevQualifications.length >= 2) return prevQualifications;
+      const newQualification = {
+        id: Date.now(),
+        name: getOrdinalName(prevQualifications.length),
+      };
+      qual.push(additionalQual);
+      return [...prevQualifications, newQualification];
     });
   };
   const removeQualification = (idToRemove: number, indexPosition: number) => {
@@ -111,17 +287,103 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       );
     });
-    setQual((prevQual) =>
-      prevQual.filter((_, index) => index !== indexPosition)
+
+    setQual((prev: any) =>
+      prev.filter((item: any, index: number) => index !== indexPosition)
     );
   };
   const resetAll = () => {
     setQualifications([]);
-    setUcasPoints(0);
+    setUcasPoint(0);
     setQual([initialvalue]);
     setResetid(Date.now());
   };
-  // console.log(qual);
+
+  const [valid, setIsInvalid] = useState(false);
+  const validateTotalCredit = () => {
+    const filteredArray = qual.filter(
+      (item: any) => item.SelectedLevel === "Access to HE Diploma"
+    );
+    const totalCredits = filteredArray.reduce(
+      (acc: any, item) => acc + item.totalcredit,
+      0
+    );
+    const expectedTotal = filteredArray.length * 45;
+    if (filteredArray.length > 0 && totalCredits !== expectedTotal) {
+      setIsInvalid(true);
+      return true;
+    } else {
+      setIsInvalid(false);
+      return false;
+    }
+  };
+  const updateUcas = async () => {
+    const validation = validateTotalCredit();
+    setIsInvalid(validation);
+    const list: any = [];
+    if (qual[0].SelectedLevel == "UCAS Tariff Points") {
+      const obj = {
+        qualId: Number(qual[0].qualId),
+        SelectedLevel: uppercaseToLowercase(qual[0].SelectedLevel),
+        userEntryPoint: `${qual[0].min}-${qual[0].max}`,
+      };
+      list.push(obj);
+    } else {
+      qual.map((items) => {
+        const obj = {
+          qualId: Number(items.qualId),
+          SelectedLevel: ucasGradeData?.find((item) => {
+            if (item.qualId === items.qualId.toString()) {
+              return item;
+            }
+          })?.qualificationUrl,
+          userEntryPoint: items.userEntryPoint,
+        };
+        list.push(obj);
+      });
+    }
+    const saveUcas = {
+      affiliateId: 220703,
+      ucasPoint: ucasPoint,
+      userStudyLevelEntry: [...list],
+    };
+    console.log(saveUcas);
+    const { idToken } =
+      (
+        await fetchAuthSession({
+          forceRefresh: true,
+        })
+      ).tokens ?? {};
+    if (idToken) {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
+        // "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/update-ucas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            Authorization:
+              typeof idToken === "string" ? idToken : idToken?.toString() || "",
+          },
+          body: JSON.stringify(saveUcas),
+        }
+      );
+      console.log(response);
+      const jsonData = await response.json();
+      console.log(jsonData);
+    } else {
+      if (saveUcas) {
+        const stringConvert = JSON.stringify(saveUcas);
+        console.log(stringConvert);
+        document.cookie = `UCAS=${stringConvert}; path=/; max-age=3600; SameSite=Strict`;
+      } else {
+        console.error("saveUcas is not a valid value");
+      }
+    }
+  };
+  console.log("qualsss", qual);
+  console.log("qualificationnn", qualifications);
   return (
     <>
       <div
@@ -168,14 +430,15 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         <div className="flex flex-col gap-[32px] h-[calc(100%-210px)] overflow-y-auto custom-scrollbar-2">
           <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
             <TopLevelMenu
-              ucasPoints={ucasPoints}
-              setUcasPoints={setUcasPoints}
+              ucasPoint={ucasPoint}
+              setUcasPoint={setUcasPoint}
               ucasGradeData={ucasGradeData}
               indexPosition={0}
               key={resetid}
               resetid={resetid}
               qual={qual}
               setQual={setQual}
+              setQualifications={setQualifications}
             />
             <div className="border-b border-grey-200"></div>
             {/* Additional Qualification */}
@@ -185,8 +448,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                   indexPosition={index + 1}
                   qual={qual}
                   setQual={setQual}
-                  ucasPoints={ucasPoints}
-                  setUcasPoints={setUcasPoints}
+                  ucasPoint={ucasPoint}
+                  setUcasPoint={setUcasPoint}
                   key={qualification.id}
                   qualOrder={qualification.name}
                   ucasGradeData={ucasGradeData}
@@ -199,7 +462,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             {/* Add qualification button */}
 
             {qualifications.length < 2 &&
-              qual[0]?.selectedLevel !== "UCAS Tariff Points" &&
+              qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
               qual[0]?.podSpecificPoints > 0 && (
                 <div
                   onClick={addQualification}
@@ -226,21 +489,37 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           </div>
         </div>
         {/* Reset or submit button */}
+
         <div
           className={`flex flex-col gap-[10px] p-[16px] fixed w-[375px] bottom-0 shadow-custom-10 bg-white ${
-            ucasPoints > 0 ? "block" : "hidden"
+            ucasPoint > 0 ? "block" : "hidden"
           }`}
         >
-          <div className="flex items-center justify-center gap-[8px] min-h-[42px]">
-            <p className="small text-grey300 small">Your UCAS points</p>
-            <div
-              className={`flex items-center min-w-[36px] py-[6px] px-[14px] rounded-[4px] bg-grey-100 text-grey300 font-semibold cursor-pointer ${
-                ucasPoints > 0 ? "bg-positive-default text-white" : ""
-              }`}
-            >
-              {ucasPoints}
+          {valid && (
+            <p className="small text-negative-default">
+              A total of 45 credits for Access to HE Diploma must be added for
+              tariff points to be calculated
+            </p>
+          )}
+          {qual[0].SelectedLevel !== "UCAS Tariff Points" && (
+            <div className="flex items-center justify-center gap-[8px] min-h-[42px]">
+              <p className="small text-grey300 small">Your UCAS points</p>
+              <div
+                className={`flex items-center min-w-[36px] py-[6px] px-[14px] rounded-[4px] bg-grey-100 text-grey300 font-semibold cursor-pointer ${
+                  ucasPoint > 0 ? "bg-positive-default text-white" : ""
+                }`}
+              >
+                {ucasPoint}
+              </div>
             </div>
-          </div>
+          )}
+          {qual[0].SelectedLevel === "UCAS Tariff Points" &&
+            qual[0].min > qual[0].max && (
+              <p className="small text-negative-default">
+                The maximum points should be larger than the minimum points
+              </p>
+            )}
+
           <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
             <Link
               prefetch={false}
@@ -251,7 +530,17 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             >
               Reset
             </Link>
-            <button className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold hover:bg-primary-500">
+            <button
+              className={`
+                ${
+                  qual[0].SelectedLevel === "UCAS Tariff Points" &&
+                  qual[0].min > qual[0].max &&
+                  "cursor-not-allowed"
+                }
+                 bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold hover:bg-primary-500
+              `}
+              onClick={updateUcas}
+            >
               Apply
             </button>
           </div>

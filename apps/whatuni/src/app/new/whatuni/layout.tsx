@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
+import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
@@ -24,10 +25,16 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <TrackSessionId />
+      {children}
+    </>
+  );
 }

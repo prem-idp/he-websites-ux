@@ -1,5 +1,5 @@
+"use client";
 import Link from "next/link";
-
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";

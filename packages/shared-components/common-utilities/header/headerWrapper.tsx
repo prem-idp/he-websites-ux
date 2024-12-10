@@ -11,6 +11,7 @@ import {
 import { Headerquery } from "@packages/lib/graphQL/graphql-query";
 import { headers, cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { ReactElement } from "react";
 
 export default async function HeaderWrapper(): Promise<JSX.Element> {
   const headersList = await headers();
