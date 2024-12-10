@@ -79,7 +79,7 @@ const TopLevelMenu = ({
     }
   };
   return (
-    <>
+    <div className="flex flex-col gap-[16px]">
       <div className="relative">
         <div
           onClick={toggleDropdown}
@@ -188,7 +188,7 @@ const TopLevelMenu = ({
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

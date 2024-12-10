@@ -26,8 +26,7 @@ interface QualInterface {
   name: string;
 }
 const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
-  const [ucasGradeData, setUcasGradeData] =
-    useState<GradeFilterArrayInterface[]>();
+  const [ucasGradeData, setUcasGradeData] = useState<any>();
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoint, setUcasPoint] = useState<number>(0);
@@ -297,6 +296,16 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     setUcasPoint(0);
     setQual([initialvalue]);
     setResetid(Date.now());
+    const mappedQuals = {
+      ...initialvalue,
+      SelectedLevel: ucasGradeData[1].qualification,
+      qualId: ucasGradeData[1].qualId,
+      maxPoint: Number(ucasGradeData[1].maxPoint),
+      maxTotalPoint: Number(ucasGradeData[1].maxTotalPoint),
+      type: ucasGradeData[1].template,
+      gradeArray: parseGradeString(ucasGradeData[1].gradeOptions),
+    };
+    setQual([mappedQuals]);
   };
 
   const [valid, setIsInvalid] = useState(false);
@@ -332,7 +341,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       qual.map((items) => {
         const obj = {
           qualId: Number(items.qualId),
-          SelectedLevel: ucasGradeData?.find((item) => {
+          SelectedLevel: ucasGradeData?.find((item: any) => {
             if (item.qualId === items.qualId.toString()) {
               return item;
             }
@@ -462,8 +471,11 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             {/* Add qualification button */}
 
             {qualifications.length < 2 &&
-              qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
-              qual[0]?.podSpecificPoints > 0 && (
+              qual.every(
+                (item) =>
+                  item?.SelectedLevel !== "UCAS Tariff Points" &&
+                  item?.podSpecificPoints > 0
+              ) && (
                 <div
                   onClick={addQualification}
                   className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
