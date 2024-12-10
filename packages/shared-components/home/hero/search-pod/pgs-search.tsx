@@ -238,11 +238,13 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   </ul>
                 </div>
               )}
-              {showDropdown && (
+              {showDropdown && searchValue?.description?.length > 2 && (
                 <div
                   //   ref={containerRef}
-                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 max-h-[285px] overflow-y-auto mr-[4px]"
+                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
+                  max-h-[285px] overflow-y-auto mr-[4px]"
                 >
+                  
                   {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
                       <div className="px-[16px] py-[12px]">
@@ -250,7 +252,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                           KEYWORD SEARCH FOR
                         </p>
                         <p className="small text-primary-400">
-                          {searchValue.description}
+                          {` '${searchValue.description}'`}
                         </p>
                       </div>
                     </div>
