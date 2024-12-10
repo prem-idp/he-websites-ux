@@ -10,19 +10,24 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+// import {
+//   getCurrentUser,
+//   fetchUserAttributes,
+//   fetchAuthSession,
+// } from "aws-amplify/auth";
 
-import { Amplify } from "aws-amplify";
+// import { Amplify } from "aws-amplify";
 
 import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
-Amplify.configure(config, { ssr: true });
+// Amplify.configure(config, { ssr: true });
 interface props {
   topnav_data: any;
   course_data: CourseData;
   uni_data: UniData;
   isAuthenticated: string | null;
-  initial:string | null;
+  initial: string | null;
+  basketCount: string | any;
 }
 const Header = ({
   topnav_data,
@@ -30,6 +35,7 @@ const Header = ({
   uni_data,
   isAuthenticated,
   initial,
+  basketCount,
 }: props) => {
   const router = useRouter();
   // console.log(isAuthenticated, "isAuthenticated");
@@ -73,6 +79,19 @@ const Header = ({
     setIsOpen(!isOpen);
   };
   useEffect(() => {
+    // const fetchUser = async () => {
+    //   const { idToken } =
+    //     (
+    //       await fetchAuthSession({
+    //         forceRefresh: true,
+    //       })
+    //     ).tokens ?? {};
+    //   // console.log(idToken, "iddddddd");
+    //   // const session = await fetchAuthSession();
+    //   // console.log(session, "session-----------------------");
+    //   return null;
+    // };
+    // fetchUser();
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
@@ -350,9 +369,11 @@ const Header = ({
                       />
                     </svg>
                   </span>
-                  {/* <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
-                    2
-                  </div> */}
+                  {isAuthenticated === "true" && (
+                    <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
+                      {basketCount}
+                    </div>
+                  )}
                 </Link>
                 {/* shortlist section */}
                 {/* {clickStates.isShortlistClicked && (

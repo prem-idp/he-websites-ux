@@ -1,7 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  // trailingSlash: true,
+  async redirects() {
+    return [
+      {
+        // Matches routes with query parameters and removes trailing slash
+        source: "/:path*/",
+        has: [
+          {
+            type: "query",
+            key: "someQueryParam", // Replace "someQueryParam" with a commonly used key or add multiple rules
+          },
+        ],
+        destination: "/:path*",
+        permanent: true,
+      },
+    ];
+  },
   reactStrictMode: false,
+
   env: {
     PROJECT: "Whatuni",
     DOMAIN: "whatuni.com",

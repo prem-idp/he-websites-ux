@@ -38,6 +38,7 @@ const dynamicComponentImports = (input: string | null | undefined) => {
         { loading: () => <DynamicSkeleton skeletonName={input} /> }
       );
     case "PageMultimediaTestimonials":
+      {/* @ts-ignore Server Component */}
       return dynamic(
         () =>
           import(

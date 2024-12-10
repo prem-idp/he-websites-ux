@@ -26,6 +26,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
             316
           }
           controls
+          controlsList="nodownload"
           data-src={contentfullRightData?.multimediaBlockLeft?.videoUpload?.url}
         ></video>
       </div>

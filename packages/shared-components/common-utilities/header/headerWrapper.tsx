@@ -7,9 +7,10 @@ import {
 import { Headerquery } from "@packages/lib/graphQL/graphql-query";
 import { headers } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { ReactElement } from "react";
 
-export default async function HeaderWrapper() {
-  const headersList = await headers(); // Await the promise
+export default  async function HeaderWrapper() : Promise<ReactElement>{
+  const headersList =  await headers(); // Await the promise
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
   let email = "";
@@ -78,6 +79,7 @@ export default async function HeaderWrapper() {
       uni_data={uni_data}
       isAuthenticated={isAuthenticated}
       initial={initial}
+      basketCount ={0}
     />
   );
 }
