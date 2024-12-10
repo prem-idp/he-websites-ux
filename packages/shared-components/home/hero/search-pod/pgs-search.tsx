@@ -174,8 +174,6 @@ export default function PgsSearch({ pgs_search_data }: any) {
   };
 
   const courseLink = (e: any) => {
-    // console.log(e, "e");
-    // console.log(qualification.qualDesc, "qualification");
     if (qualification.qualCode) {
       return router.push(`${e?.url}&qualification=${qualification.qualUrl}`);
     } else {
@@ -242,9 +240,8 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 <div
                   //   ref={containerRef}
                   className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
-                  max-h-[285px] overflow-y-auto mr-[4px]"
+                  max-h-[297px] overflow-y-auto mr-[4px]"
                 >
-                  
                   {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
                       <div className="px-[16px] py-[12px]">
@@ -270,9 +267,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               setSearchValue(item);
                               courseLink(item);
                             }}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900 ">
                               {item.description}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -295,9 +292,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`}
                             key={index}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50 hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900">
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
