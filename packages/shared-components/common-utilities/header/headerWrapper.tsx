@@ -13,7 +13,7 @@ import { headers, cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ReactElement } from "react";
 
-export default async function HeaderWrapper(): Promise<JSX.Element> {
+export default async function HeaderWrapper() {
   const headersList = await headers();
   const cookiesList = await cookies();
   const basketCount = parseInt(
