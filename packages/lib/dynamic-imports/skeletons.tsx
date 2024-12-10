@@ -5,8 +5,6 @@ interface SkeletonNameInterface {
 import PartnerSliderComponentSkeleton from "@packages/shared-components/common-utilities/skeleton/partnerslidercomponentskeleton";
 import AdviceCourseCardSkeleton from "@packages/shared-components/common-utilities/skeleton/advicecoursecardskeleton";
 import Discovercardskeleton from "@packages/shared-components/common-utilities/skeleton/discovercardskeleton";
-// import Findauniresultsskeleton from "@packages/shared-components/common-utilities/skeleton/findauniresultsskeleton";
-// import Findsubjectareascardskeletonfrom from "@packages/shared-components/common-utilities/skeleton/findsubjectareascardskeleton";
 import Reviewscardskeleton from "@packages/shared-components/common-utilities/skeleton/reviewscardskeleton";
 import Tagcloudcardskeleton from "@packages/shared-components/common-utilities/skeleton/tagcloudcardskeleton";
 import Testimonialcardskeleton from "@packages/shared-components/common-utilities/skeleton/testimonialcardskeleton";

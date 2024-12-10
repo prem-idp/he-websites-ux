@@ -10,9 +10,11 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+
 import { Amplify } from "aws-amplify";
-import config from "../../../../apps/whatuni/configs/amplifyconfiguration.json";
+
+import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
 Amplify.configure(config, { ssr: true });
 interface props {
@@ -20,28 +22,18 @@ interface props {
   course_data: CourseData;
   uni_data: UniData;
   isAuthenticated: string | null;
+  initial:string | null;
 }
 const Header = ({
   topnav_data,
   course_data,
   uni_data,
   isAuthenticated,
+  initial,
 }: props) => {
   const router = useRouter();
   // console.log(isAuthenticated, "isAuthenticated");
-  // useEffect(() => {
 
-  //   const fetchUser = async () => {
-  //     try {
-  //       const currentUser = await getCurrentUser();
-  //       console.log(currentUser, "okokokokokokoook");
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   fetchUser();
-  // }, []);
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -52,7 +44,9 @@ const Header = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
+  const [showUser, setShowUser] = useState(initial);
   const pathname = usePathname();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -67,9 +61,9 @@ const Header = ({
       }
     };
     // Delay adding listener to avoid immediate triggering
-    setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 0);
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -135,6 +129,7 @@ const Header = ({
     }
   }, [clickStates]);
   const Usericonfunction = () => {
+    // console.log(isAuthenticated, "isAuthenticated inside the user");
     if (isAuthenticated === "true") {
       rightMenuAction("USER");
     } else {
@@ -147,14 +142,14 @@ const Header = ({
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <Link href="/">
+            <Link href="/" prefetch={false}>
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={
                   topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
-                  ""
+                  "/static/assets/images/imageplaceholder.png"
                 }
-                alt="Whatuni Logo"
+                alt=""
                 priority
                 width={70}
                 height={78}
@@ -235,18 +230,18 @@ const Header = ({
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents dataa={topnav_data} />}
+                    {isOpen && <Megamenucomponents data={topnav_data} />}
                   </div>
                 </div>
               </>
             ) : (
-              <Megamenucomponents dataa={topnav_data} />
+              <Megamenucomponents data={topnav_data} />
             )}
           </div>
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              {pathname !== "/" && (
+              {/* {pathname !== "/" && (
                 <li>
                   <span
                     aria-label="Search"
@@ -269,7 +264,6 @@ const Header = ({
                       />
                     </svg>
                   </span>
-                  {/* course tab section */}
                   {clickStates.isSearchClicked && (
                     <>
                       <div
@@ -281,7 +275,7 @@ const Header = ({
                     </>
                   )}
                 </li>
-              )}
+              )} */}
               <li className="relative">
                 <span
                   aria-label="User"
@@ -289,41 +283,48 @@ const Header = ({
                   onClick={() => Usericonfunction()}
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
-                      stroke="#5C656E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
-                      stroke="#5C656E"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {showUser ? (
+                    <span className="text-[16px] font-semibold">
+                      {showUser}
+                    </span>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
+                        stroke="#5C656E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
+                        stroke="#5C656E"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </span>
                 {/* user section */}
                 {clickStates.isUserClicked && (
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
-                      <User />
+                      <User topnav_data={topnav_data} />
                     </div>
                   </>
                 )}
               </li>
               <li className="relative">
-                <div
+                <Link
+                  href="/degrees/comparison"
                   aria-label="Shortlist"
                   className="cursor-pointer"
                   onClick={() => rightMenuAction("SHORTLIST")}
@@ -352,16 +353,16 @@ const Header = ({
                   {/* <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
                     2
                   </div> */}
-                </div>
+                </Link>
                 {/* shortlist section */}
-                {clickStates.isShortlistClicked && (
+                {/* {clickStates.isShortlistClicked && (
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
                       <Shortlisted />
                     </div>
                   </>
-                )}
+                )} */}
               </li>
             </ul>
           </div>

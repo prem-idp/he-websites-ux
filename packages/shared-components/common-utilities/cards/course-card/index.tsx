@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CarouselItem } from "@/app/types/types";
+import { CarouselItem } from "@packages/lib/types/interfaces";
+
 //import { icons } from "@/utils/svg";
 //import Favourite from "../../favourites";
 
@@ -78,6 +79,7 @@ const CourseCard = ({
             )}
             <Link
               href="/"
+              prefetch={false}
               className="text-para font-semibold text-primary400 lg:text-darkGrey lg:hover:text-primary-400"
             >
               {courseTitle}
@@ -87,7 +89,7 @@ const CourseCard = ({
             <Image
               className="border border-grey200 p-[4px] rounded-[4px]"
               alt="unilogo"
-              src={uniLogo}
+              src={uniLogo || ""}
               width={40}
               height={40}
               objectFit="cover"
@@ -155,7 +157,6 @@ const CourseCard = ({
           </div>
         </div>
       </div>
-
     </>
   );
 };

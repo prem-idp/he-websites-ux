@@ -28,16 +28,25 @@ const Menucategory4card = ({ data }: any) => {
           .map((item: any, index: number) => (
             <li key={index}>
               <Link
+                prefetch={false}
                 href={item?.navUrl || ""}
-                target={item?.navCtaTarget ? "_blank" : "_parent"}
-                rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
+                target={
+                  item?.navCtaTarget === "Open in new tab"
+                    ? "_blank"
+                    : "_parent"
+                }
+                rel={
+                  item?.navCtaTarget === "Open in new tab"
+                    ? "noopener noreferrer"
+                    : undefined
+                }
                 className="block"
               >
                 <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
                   <Image
                     className="w-full"
                     loading="eager"
-                    src={item?.navIcon?.url}
+                    src={item?.navIcon?.url || ""}
                     width="289"
                     height="50"
                     alt="University logo"

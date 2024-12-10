@@ -7,8 +7,7 @@ import Menucategory2card from "@packages/shared-components/common-utilities/mega
 import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
 import Menucategory4card from "@packages/shared-components/common-utilities/megamenu/menucategory4card";
 import Menucategory5card from "@packages/shared-components/common-utilities/megamenu/menucategory5card";
-import data from "./data.json";
-const Megamenucomponents = ({ dataa }: any) => {
+const Megamenucomponents = ({ data }: any) => {
   const [content, setContent] = useState<any>(
     data?.data?.contentData?.items[0]?.headerMainMenuCollection?.items
   );
@@ -82,7 +81,7 @@ const Megamenucomponents = ({ dataa }: any) => {
                   {menuItem?.navIcon?.url && (
                     <Image
                       className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                      src={menuItem?.navIcon?.url}
+                      src={menuItem?.navIcon?.url || ""}
                       width="44"
                       height="44"
                       quality={100}
@@ -113,7 +112,7 @@ const Megamenucomponents = ({ dataa }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {menuItem.navName}
+                      {menuItem.navTitle}
                     </div>
                     <div className="max-w-container mx-auto">
                       <section className="grid grid-cols-1 lg:grid-cols-1  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">

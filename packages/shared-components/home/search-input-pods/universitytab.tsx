@@ -3,8 +3,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Form from "next/form";
+
 interface UniversityTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -15,27 +16,45 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
+  console.log("searchFormHandle,", searchFormHandle);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [universityList, setUniversityList] = useState<string[]>([]);
   const [unierror, setUnierror] = useState(false);
   const [unidetails, setUnidetails] = useState<Array<any>>(
     Array.isArray(data) ? data : []
   );
-  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        courseActions("");
+        console.log("click outside in university");
+      }
+    };
+    // Delay adding listener to avoid immediate triggering
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (
-      !searchFormHandle?.university ||
-      searchFormHandle?.university?.length < 3
+      !searchFormHandle?.university?.trim() ||
+      searchFormHandle?.university?.trim().length < 3
     ) {
       setUniversityList([]);
       return;
     }
 
-
     const results = unidetails?.filter((colleges: any) =>
       colleges.collegeNameDisplay
         ?.toLowerCase()
-        .includes(searchFormHandle.university.toLowerCase())
+        .includes(searchFormHandle?.university?.trim().toLowerCase())
     );
 
     setUniversityList(results || []);
@@ -49,6 +68,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   });
 
   const courseActions = (tabName: string) => {
+    console.log("tabName", tabName);
     setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),
@@ -58,7 +78,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
     setUnierror(true);
   }
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div ref={containerRef} className="flex flex-col gap-[16px]">
       <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]">
         <Form
           action={handleUnisearch}
@@ -66,6 +86,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         >
           <div className="relative grow">
             <input
+              autoComplete="off"
               onClick={() => {
                 courseActions("University");
                 setUnierror(false);
@@ -77,7 +98,9 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               onChange={(event) => {
                 setsearchFormHandle((preData: any) => ({
                   ...preData,
-                  university: event.target.value.trimStart(),
+                  university: event.target.value
+                    .replace(/\s{2,}/g, " ")
+                    .trimStart(),
                   isUniversityClicked: true,
                 }));
                 setUnierror(false);
@@ -85,18 +108,19 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
               value={searchFormHandle?.university || ""}
             />
             {searchFormHandle?.isUniversityClicked &&
-              searchFormHandle?.university?.length > 2 && (
+              searchFormHandle?.university?.trim().length > 2 && (
                 <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                   <ul>
                     {universityList?.map((item: any, index: any) => (
                       <Link
+                        prefetch={false}
                         href={`/university-profile/${item?.collegeNameDisplay
                           ?.toLowerCase() // Convert to lowercase
-                          ?.replace(/\s+/g, "-")}/${item.collegeId}`}
+                          ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
                         onClick={() =>
                           setsearchFormHandle((prevData: any) => ({
                             ...prevData,
-                            university: item.college_name_display,
+                            university: item.collegeNameDisplay,
                             isUniversityClicked: false,
                           }))
                         }

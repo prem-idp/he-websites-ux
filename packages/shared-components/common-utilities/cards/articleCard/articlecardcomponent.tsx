@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CarouselItem } from "@/app/types/types";
+import { CarouselItem } from "@packages/lib/types/interfaces";
 
 const ArticleCardComponent = ({
   articleImg = "",
@@ -13,10 +13,10 @@ const ArticleCardComponent = ({
   "articleImg" | "articleTitle" | "articleContent" | "articlePostedDate"
 >) => {
   return (
-    <Link href={"/"}>
+    <Link href={"/"}   prefetch={false}>
       <div className="group">
         <Image
-          src={articleImg}
+          src={articleImg || ""}
           alt="article"
           width={392}
           height={221}

@@ -68,7 +68,7 @@ export default function OneTrustCookieScript(){
     // Function to check consent when event fires
     const handleConsentChange = async () => {
 		
-	  console.log("OptanonWrapper function triggered...")
+	  // console.log("OptanonWrapper function triggered...")
       const returnVal = await loadAnalyticsScripts();
 	    setUserConsentGiven(() => returnVal);
     };

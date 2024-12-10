@@ -1,56 +1,46 @@
 "use server";
-import React, { Suspense } from "react";
-import Image from "next/image";
-
-const Testimonialcomponents = () => {
+import React from "react";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { testimonial } from "@packages/lib/graphQL/graphql-query";
+import TestimonialVideo from "./testimonialvideocomponents";
+const Testimonialcomponents = async ({
+  heading,
+  subheading,
+}: {
+  heading: string;
+  subheading: string;
+}) => {
+  const testimonialJsonData = await graphQlFetchFunction(testimonial);
+  const contentfullData =
+    testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
+      ?.items[0]?.mediaCardsCollection?.items[0] || [];
   return (
-    <Suspense>
-      <div className="testimonials-container bg-white">
-        <div className="max-w-container mx-auto">
-          <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">
-            <div className="testimonials-header mb-[26px] md:mb-[32px]">
-              <h2 className="font-bold">Testimonials</h2>
-              <p className="font-normal small mt-[8px]">Subheading</p>
-            </div>
-            <div className="testimonials-inner-wrap grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
-              <div className="video-container flex justify-center items-center rounded-[8px] overflow-hidden relative">
-                <Image
-                  className="block w-full"
-                  src={`${process.env.SUBDOMAIN}/static/assets/images/testimonials/video_thumb_img.jpg`}
-                  alt="video thumbnail image"
-                  width={600}
-                  height={316}
-                />
-                <div className="video-play-icon absolute cursor-pointer">
-                  <Image
-                    src="/static/assets/icons/video_play_icon.svg"
-                    width="52"
-                    height="52"
-                    alt=""
-                  />
+    <div className="testimonials-container bg-white">
+      <div className="max-w-container mx-auto">
+        <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">
+          <div className="testimonials-header mb-[26px] md:mb-[32px]">
+            <h2 className="font-bold">{heading}</h2>
+            <p className="font-normal small mt-[8px]">{subheading}</p>
+          </div>
+          <div className="testimonials-inner-wrap grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
+            <TestimonialVideo contentfullRightData={contentfullData} />
+            <div className="testimonial-card grid content-between p-[24px] rounded-[8px] gap-[16px] bg-primary-500">
+              <h5 className="font-medium para-lg md:text-heading5 md:head text-white">
+                {contentfullData?.testimonialBlockRight?.testimonialText}
+              </h5>
+              <div className="testimonial-footer">
+                <div className="author-name font-semibold small text-white">
+                  {contentfullData?.testimonialBlockRight?.author?.firstName}
                 </div>
-              </div>
-              <div className="testimonial-card grid content-between p-[24px] rounded-[8px] gap-[16px] bg-primary-500">
-                <h5 className="font-medium para-lg md:text-heading5 md:head text-white">
-                  “Whatuni has really supported me from the moment I started
-                  thinking about university. I started scanning reviews of
-                  universities I like and it lead me to a course and university
-                  I did not expect! “
-                </h5>
-                <div className="testimonial-footer">
-                  <div className="author-name font-semibold small text-white">
-                    Nikki
-                  </div>
-                  <p className="small text-white">
-                    Criminology Bsc (Hons) Northumbria University
-                  </p>
-                </div>
+                <p className="small text-white">
+                  {contentfullData?.testimonialBlockRight?.author?.shortBio}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </Suspense>
+    </div>
   );
 };
 

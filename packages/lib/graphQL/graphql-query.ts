@@ -1,7 +1,7 @@
 export const Headerquery = `{
   contentData: headerCollection(
     limit: 1
-    where: { website: {websiteName: "${process.env.PROJECT}"}}
+    where: {internalName: "${process.env.PROJECT} Header", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       websiteLogo {
@@ -10,7 +10,7 @@ export const Headerquery = `{
         height
       }
       headerTrackingScripts
-      headerMainMenuCollection(limit: 7) {
+      headerMainMenuCollection(limit: 10) {
         items {
           navName
           navTitle
@@ -24,8 +24,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
+                    navTitle
                 navUrl
-                navTitle
                 navCtAlabel
                 navIcon {
                   url
@@ -41,8 +41,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
+                    navTitle
                 navUrl
-                navTitle
                 navCtAlabel
                 navIcon {
                   url
@@ -58,7 +58,7 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                navTitle
+                    navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -75,8 +75,8 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                navUrl
                 navTitle
+                navUrl
                 navCtAlabel
                 navIcon {
                   url
@@ -90,12 +90,62 @@ export const Headerquery = `{
           }
         }
       }
+      customerProfileMenu {
+        ... on Navigation {
+          navName
+          navUrl
+          navTitle
+          navCtaTarget
+          flagNavItemStyle
+          navChildC1Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC2Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC3Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+          navChildC4Collection {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navCtaTarget
+              }
+            }
+          }
+        }
+      }
       universalSearchPanel {
         internalName
         navigationElementsCollection(limit: 5) {
           items {
             ... on Navigation {
               navName
+              navTitle
               navUrl
               navCtAlabel
               navIcon {
@@ -112,7 +162,7 @@ export const Headerquery = `{
     }
   }
 }`;
-export const footerQuery = `query {
+export const footerQuery = `{
   footerNavigationCollection(where: {footerName: "Footer - Whatuni"}) {
     items {
       footerNavCollection(limit: 3) {
@@ -129,7 +179,7 @@ export const footerQuery = `query {
           }
         }
       }
-      footerNavBtmCollection(limit: 10) {
+      footerNavBtmCollection(limit: 1) {
         items {
           navTitle
           navUrl
@@ -139,6 +189,29 @@ export const footerQuery = `query {
         items {
           primaryCtaLabel
           primaryCtaUrl
+          primaryCtaTarget
+          primaryCtaEventName
+        }
+      }
+      navSocialLinksCollection(limit: 1) {
+        items {
+          navName
+          navUrl
+          navChildC1Collection(limit: 10) {
+            items {
+              ... on Navigation {
+                navName
+                navTitle
+                navUrl
+                navIcon {
+                  url
+                  width
+                  height
+                }
+                navCtaTarget
+              }
+            }
+          }
         }
       }
     }
@@ -147,7 +220,7 @@ export const footerQuery = `query {
 export const statsPodQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       bodyContentCollection(limit: 10) {
@@ -278,15 +351,7 @@ export const homePageQuery = `{
     }
   }
 }`;
-export const pageLogoQuery = `... on PageLogo {
-                  logoName
-                  logoImage {
-                    url
-                    width
-                    height
-                  }
-                  logoLink
-                }`;
+
 export const internalComponentLoop = (
   internalName: string,
   componentQuery: string
@@ -328,7 +393,7 @@ export const tagCloudQuery = `{
         items {
           __typename
           ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 5) {
+            mediaCardsCollection {
               items {
                 __typename
                 ... on PageTagCloud {
@@ -377,8 +442,80 @@ export const partnerLogo = `
   }
 }`;
 
-
-export const discoverpodQuery = (websiteName: string|undefined, internalName: string) => `{
+// export const discoverpodQuery = (
+//   websiteName: string | undefined,
+//   internalName: string
+// ) => `{
+// export const testimonial = `
+// {
+//   contentData: homepageCollection(
+//     limit: 1
+//     where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+//   ) {
+//     items {
+//       bodyContentCollection(limit: 1
+//       where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+//         items {
+//           __typename
+//           ... on MultipleCardContainer {
+//             mediaCardsCollection(limit: 20 ) {
+//               items {
+//                 __typename
+//                 ... on PageMultimediaTestimonials {
+//                   sectionTitle
+//                   multimediaBlockLeft {
+//                     ... on PageVideo {
+//                       videoIntName
+//                       videoAltText
+//                       thumbnail{
+//                         url
+//                         width
+//                         height
+//                         fileName
+//                       }
+//                       videoUpload {
+//                         url
+//                         width
+//                         height
+//                         title
+//                       }
+//                     }
+//                     ... on PageImage {
+//                       imgIntName
+//                       imgAltText
+//                       imgUpload {
+//                         url
+//                         width
+//                         height
+//                         title
+//                       }
+//                     }
+//                   }
+//                   testimonialBlockRight {
+//                     internalName
+//                     ... on PageTestimonial {
+//                       testimonialText
+//                       author {
+//                         firstName
+//                         lastName
+//                         middleName
+//                         shortBio
+//                       }
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }`;
+export const discoverpodQuery = (
+  websiteName: string | undefined,
+  internalName: string
+) => `{
   contentData: homepageCollection(
     limit: 1
     where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
@@ -449,4 +586,71 @@ export const discoverpodQuery = (websiteName: string|undefined, internalName: st
       }
     }
   }
-}`
+}`;
+
+export const testimonial = `
+{
+  contentData: homepageCollection(
+    limit: 1
+    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      bodyContentCollection(limit: 1
+      where:{internalName:"Homepage - Testimonials - Whatuni"}) {
+        items {
+          __typename
+          ... on MultipleCardContainer {
+            mediaCardsCollection(limit: 20 ) {
+              items {
+                __typename
+                ... on PageMultimediaTestimonials {
+                  sectionTitle
+                  multimediaBlockLeft {
+                    ... on PageVideo {
+                      videoIntName
+                      videoAltText
+                      thumbnail{
+                        url
+                        width
+                        height
+                        fileName
+                      }
+                      videoUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                    ... on PageImage {
+                      imgIntName
+                      imgAltText
+                      imgUpload {
+                        url
+                        width
+                        height
+                        title
+                      }
+                    }
+                  }
+                  testimonialBlockRight {
+                    internalName
+                    ... on PageTestimonial {
+                      testimonialText
+                      author {
+                        firstName
+                        lastName
+                        middleName
+                        shortBio
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;

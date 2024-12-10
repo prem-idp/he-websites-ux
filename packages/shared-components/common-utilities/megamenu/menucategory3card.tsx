@@ -29,14 +29,15 @@ const Menucategory3card = ({ data }: any) => {
           .map((item: any, index: number) => (
             <li key={index}>
               <Link
+                prefetch={false}
                 href={item?.navUrl || ""}
-                target={item?.navCtaTarget ? "_blank" : "_parent"}
-                rel={item?.navCtaTarget ? "noopener noreferrer" : undefined}
+                target={item?.navCtaTarget=== "Open in new tab" ? "_blank" : "_parent"}
+                rel={item?.navCtaTarget === "Open in new tab"? "noopener noreferrer" : undefined}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >
                 <Image
                   className="block rounded-[40px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[72px]"
-                  src={item?.navIcon?.url}
+                  src={item?.navIcon?.url  || ""}
                   width="72"
                   height="72"
                   loading="lazy"
