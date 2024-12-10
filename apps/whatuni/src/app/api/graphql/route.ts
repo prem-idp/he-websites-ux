@@ -22,7 +22,7 @@ export async function POST(request: any) {
     const data = await res.json();
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       { error: "Failed to process the request" },
       { status: 500 }

@@ -1,9 +1,9 @@
-'use server';
+"use server";
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
-import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
+import HeaderWrapper from "@packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import Script from "next/script";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
@@ -36,8 +36,7 @@ export default async function RootLayout({
       >
         <OneTrustCookieScript />
         <Suspense fallback={null}>
-
-        <HeaderWrapper />
+          <HeaderWrapper />
         </Suspense>
         {children}
         <Footer />

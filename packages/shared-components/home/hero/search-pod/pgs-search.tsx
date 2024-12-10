@@ -161,12 +161,12 @@ export default function PgsSearch({ pgs_search_data }: any) {
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
         );
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
       }
     }
@@ -307,9 +307,12 @@ export default function PgsSearch({ pgs_search_data }: any) {
               )}
             </Form>
             {qualification.qualDesc && (
-              <div>
-                {qualification?.qualDesc}
+              <div className="flex items-center justify-between bg-gray-100 p-3 rounded-md shadow-md">
+                <span className="text-gray-700 font-medium">
+                  {qualification?.qualDesc}
+                </span>
                 <button
+                  className="ml-4 p-2 rounded-full bg-black text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
                   onClick={() =>
                     setQualification({
                       qualUrl: "",

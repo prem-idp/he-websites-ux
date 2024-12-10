@@ -8,7 +8,7 @@ export async function graphQlFetchFunction(payload: string) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
-      next: { revalidate: 90 },
+      cache: "no-store",
     });
     const data = await res.json();
     return data;
@@ -56,7 +56,7 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         },
         body: JSON.stringify(reviewPayload),
-        next: { revalidate: 300 },
+        cache: "no-store",
       }
     );
     const data = await res.json();
