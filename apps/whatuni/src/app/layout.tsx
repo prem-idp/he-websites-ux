@@ -1,4 +1,4 @@
-'use server';
+"use server";
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
@@ -40,11 +40,9 @@ export default async function RootLayout({
         
              
         <Suspense fallback={null}>
-        {/* @ts-ignore Server Component */}
         <HeaderWrapper />
         </Suspense>
         {children}
-        {/* @ts-ignore Server Component */}
         <Footer />
       </body>
     </html>
