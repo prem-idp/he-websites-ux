@@ -40,11 +40,9 @@ export default async function RootLayout({
         
              
         <Suspense fallback={null}>
-        {/* @ts-ignore Server Component */}
         <HeaderWrapper />
         </Suspense>
         {children}
-        {/* @ts-ignore Server Component */}
         <Footer />
       </body>
     </html>
