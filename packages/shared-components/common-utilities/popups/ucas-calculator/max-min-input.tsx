@@ -1,6 +1,11 @@
 "use client";
 import React from "react";
-const MaxMinInputBox = ({ indexPosition, setQual, setUcasPoint }: any) => {
+const MaxMinInputBox = ({
+  indexPosition,
+  setQual,
+  setUcasPoint,
+  qual,
+}: any) => {
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[4px] small">
@@ -21,6 +26,9 @@ const MaxMinInputBox = ({ indexPosition, setQual, setUcasPoint }: any) => {
               )
             )
           }
+          defaultValue={
+            qual[indexPosition]?.min ? qual[indexPosition]?.min : ""
+          }
           id={`minpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
           className="block rounded-[8px] min-h-[44px] border border-grey-500 py-[12px] px-[10px]"
@@ -32,6 +40,9 @@ const MaxMinInputBox = ({ indexPosition, setQual, setUcasPoint }: any) => {
         </label>
         <input
           type="text"
+          defaultValue={
+            qual[indexPosition]?.max ? qual[indexPosition]?.max : ""
+          }
           onChange={(event) => {
             const value = Number(event?.target.value);
 

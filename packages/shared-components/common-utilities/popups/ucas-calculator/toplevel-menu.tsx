@@ -83,12 +83,12 @@ const TopLevelMenu = ({
       <div className="relative">
         <div
           onClick={toggleDropdown}
-          className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+          className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
         >
           <span>{qual[indexPosition]?.SelectedLevel}</span>
           <Image
             src="/static/assets/icons/ucas-down-arrow.svg"
-            alt=""
+            alt="ucas-down-arrow"
             width="16"
             height="16"
           />
@@ -102,7 +102,7 @@ const TopLevelMenu = ({
                   className={
                     childItems.qualId === null
                       ? "py-[10px] px-[16px] font-semibold x-small uppercase bg-neutral50 text-grey500 tracking-[1px]"
-                      : "py-[10px] px-[16px] cursor-pointer"
+                      : "py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                   }
                   onClick={
                     childItems.qualId !== null
@@ -126,68 +126,66 @@ const TopLevelMenu = ({
             </ul>
           </div>
         )}
-
-        {qual[indexPosition]?.type === "plus-minus" && !isDropDownOpen && (
-          <div className="flex items-center justify-between gap-[32px] flex-wrap">
-            {qual[indexPosition].gradeArray?.map(
-              (childItems: any, index: number) => (
-                <GradeCounterButton
-                  key={qual[indexPosition]?.SelectedLevel + index + resetid}
-                  btnName={childItems.key}
-                  btnValue={childItems.value}
-                  indexPosition={indexPosition}
-                  qual={qual}
-                  setQual={setQual}
-                  ucasPoint={ucasPoint}
-                  setUcasPoint={setUcasPoint}
-                  populateCount={getSelectedGrade(
-                    qual[indexPosition].userEntryPoint,
-                    childItems.key
-                  )}
-                />
-              )
-            )}
-          </div>
-        )}
-
-        {qual[indexPosition]?.type === "single-select" && !isDropDownOpen && (
-          <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
-            {qual[indexPosition].gradeArray?.map(
-              (childItems: any, index: any) => (
-                <GradeBadgeButton
-                  key={qual[indexPosition]?.SelectedLevel + index}
-                  indexPosition={indexPosition}
-                  btnName={childItems.key}
-                  btnValue={childItems.value}
-                  qual={qual}
-                  setQual={setQual}
-                  ucasPoint={ucasPoint}
-                  setUcasPoint={setUcasPoint}
-                />
-              )
-            )}
-          </div>
-        )}
-        {qual[indexPosition]?.type === "credit-selector" && !isDropDownOpen && (
-          <GradeDropdown
-            // gradeArray={gradeArray}
-            indexPosition={indexPosition}
-            qual={qual}
-            setQual={setQual}
-            ucasPoint={ucasPoint}
-            setUcasPoint={setUcasPoint}
-          />
-        )}
-        {qual[indexPosition]?.type === "min-max" && !isDropDownOpen && (
-          <MaxMinInputBox
-            indexPosition={indexPosition}
-            qual={qual}
-            setQual={setQual}
-            ucasPoint={ucasPoint}
-            setUcasPoint={setUcasPoint}
-          />
-        )}
       </div>
+      {qual[indexPosition]?.type === "plus-minus" && !isDropDownOpen && (
+        <div className="flex items-center justify-between gap-[32px] flex-wrap">
+          {qual[indexPosition].gradeArray?.map(
+            (childItems: any, index: number) => (
+              <GradeCounterButton
+                key={qual[indexPosition]?.SelectedLevel + index + resetid}
+                btnName={childItems.key}
+                btnValue={childItems.value}
+                indexPosition={indexPosition}
+                qual={qual}
+                setQual={setQual}
+                ucasPoint={ucasPoint}
+                setUcasPoint={setUcasPoint}
+                populateCount={getSelectedGrade(
+                  qual[indexPosition].userEntryPoint,
+                  childItems.key
+                )}
+              />
+            )
+          )}
+        </div>
+      )}
+
+      {qual[indexPosition]?.type === "single-select" && !isDropDownOpen && (
+        <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
+          {qual[indexPosition].gradeArray?.map(
+            (childItems: any, index: any) => (
+              <GradeBadgeButton
+                key={qual[indexPosition]?.SelectedLevel + index}
+                indexPosition={indexPosition}
+                btnName={childItems.key}
+                btnValue={childItems.value}
+                qual={qual}
+                setQual={setQual}
+                ucasPoint={ucasPoint}
+                setUcasPoint={setUcasPoint}
+              />
+            )
+          )}
+        </div>
+      )}
+      {qual[indexPosition]?.type === "credit-selector" && !isDropDownOpen && (
+        <GradeDropdown
+          indexPosition={indexPosition}
+          qual={qual}
+          setQual={setQual}
+          ucasPoint={ucasPoint}
+          setUcasPoint={setUcasPoint}
+        />
+      )}
+      {qual[indexPosition]?.type === "min-max" && !isDropDownOpen && (
+        <MaxMinInputBox
+          indexPosition={indexPosition}
+          qual={qual}
+          setQual={setQual}
+          ucasPoint={ucasPoint}
+          setUcasPoint={setUcasPoint}
+        />
+      )}
     </>
   );
 };
