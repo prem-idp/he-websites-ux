@@ -146,12 +146,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log("user details from db", jsonData?.userGradeDetails);
-            if (qualifications.length < 2) {
-              for (
-                let i = qualifications.length;
-                i < jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1;
-                i++
-              ) {
+            if (jsonData?.userGradeDetails?.userStudyLevelEntry.length > 0) {
+              const temp = Math.abs(
+                qualifications.length -
+                  (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
+              );
+              for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
                   name: getOrdinalName(i),
@@ -199,7 +199,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
-
           if (jsonCookies?.userStudyLevelEntry) {
             console.log("Cookieeee", jsonCookies?.userStudyLevelEntry);
             const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
@@ -241,12 +240,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log(jsonCookies?.userStudyLevelEntry);
-            if (qualifications.length < 2) {
-              for (
-                let i = qualifications.length;
-                i < jsonCookies?.userStudyLevelEntry.length - 1;
-                i++
-              ) {
+            if (jsonCookies?.userStudyLevelEntry.length > 0) {
+              const temp = Math.abs(
+                qualifications.length -
+                  (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
+              );
+              for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
                   name: getOrdinalName(i),
