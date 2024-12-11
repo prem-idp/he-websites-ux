@@ -9,7 +9,13 @@ interface ExtendedMetadata extends Metadata {
 export async function generateMetadata(): Promise<ExtendedMetadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
+    // console.log("metadata", metadata);
     return {
+      alternates: {
+        canonical:
+          metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
+          "https://www.postgraduatesearch.com/",
+      },
       title:
         metadata?.data?.contentData?.items[0]?.seoFields?.metaTite ||
         "Default Title",
@@ -19,10 +25,8 @@ export async function generateMetadata(): Promise<ExtendedMetadata> {
       robots:
         metadata?.data?.contentData?.items[0]?.robots?.title || "index, follow",
       metaKeywords:
-        metadata?.data?.contentData?.items[0]?.seoFields?.metaKeywords || null,
-      canonical:
-        metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
-        "https://www.postgraduatesearch.com/",
+        metadata?.data?.contentData?.items[0]?.seoFields?.metaKeywords ||
+        "meatkeywords",
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
