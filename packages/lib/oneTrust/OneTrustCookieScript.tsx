@@ -7,6 +7,9 @@ import { createCookieConsent, getOnetrustCookieValue } from './OneTrustcookie';
 
 export default function OneTrustCookieScript(){
 
+  var OptanonConsent:string|undefined = undefined;
+  var OptanonAlertBoxClosed:string|undefined = undefined;
+  
   const loadAnalyticsScripts = async (): Promise<boolean> => {
 
     //console.log("User consented to analytics; loading analytics scripts...", window.Optanon);
@@ -20,8 +23,8 @@ export default function OneTrustCookieScript(){
       const performanceCookieCategoryId = 'C0003';
       const targetingCookieCategoryId = 'C0004';
       //
-      const OptanonConsent = await getOnetrustCookieValue('OptanonConsent');
-      const OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed');
+       OptanonConsent = await getOnetrustCookieValue('OptanonConsent');
+       OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed');
   
       //
       const strickCK = OnetrustActiveGroups.includes(defaultCookieCategoryId) ? "0" : "1"; 
@@ -32,7 +35,7 @@ export default function OneTrustCookieScript(){
       //
       const oneTrustCookieconsentVal = strickCK + funCK + perCK + targetCK;
     
-      const isUserAcctpedCookie: boolean = (OptanonConsent != null && OptanonConsent != undefined) && (OptanonAlertBoxClosed != null && OptanonAlertBoxClosed != undefined);
+      const isUserAcctpedCookie: boolean = (OptanonConsent && OptanonConsent != '') && (OptanonAlertBoxClosed && OptanonAlertBoxClosed != '') ? true : false;
       const cookieConsentVal = isUserAcctpedCookie ? oneTrustCookieconsentVal : "0111";
       console.log("IsAlertBoxClosed: ", isUserAcctpedCookie);
       console.log("cookieConsentVal: ", cookieConsentVal);
@@ -62,21 +65,35 @@ export default function OneTrustCookieScript(){
     return isUserAcctpedCookie;
   };
 
-	const [userConsentGiven, setUserConsentGiven] = useState(false);
-  useEffect(() => {
+  const watchOnetrustClosedcookie = async () => {
+    
+    var timeOutTime = setTimeout(async () => {
+      OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed'); 
+      OptanonConsent = await getOnetrustCookieValue('OptanonConsent'); 
+      console.log("set time out OptanonAlertBoxClosed: " + OptanonAlertBoxClosed);
+      if((OptanonConsent && OptanonConsent != '') && (OptanonAlertBoxClosed && OptanonAlertBoxClosed != '')){
+        loadAnalyticsScripts();
+      } else{
+        watchOnetrustClosedcookie();
+      }
+    }, 1000);
+  }
 
-    // Function to check consent when event fires
+
+	const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
+  useEffect(() => {
+    // Function to check consent, when event fires
     const handleConsentChange = async () => {
-		
-	  // console.log("OptanonWrapper function triggered...")
+	    console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
-	    setUserConsentGiven(() => returnVal);
+      setUserConsentGiven(() => returnVal);
     };
 
-    
-	window.OptanonWrapper = handleConsentChange;
+    watchOnetrustClosedcookie();
+    window.OptanonWrapper = handleConsentChange;
 
   }, []);
+  
 
   return (
 	<>
