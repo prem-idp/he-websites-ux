@@ -11,7 +11,6 @@ const Footer = async () => {
   const footerData: FooterDataInterface = (
     await graphQlFetchFunction(footerQuery)
   )?.data?.footerNavigationCollection?.items?.[0];
-  console.log(footerData);
   return (
     <>
       {footerData && (
