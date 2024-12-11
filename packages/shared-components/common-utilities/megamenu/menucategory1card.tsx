@@ -9,7 +9,7 @@ const Menucategory1card = ({ data }: any) => {
 
   return (
     <div
-      className={`dropdown-content-col grid gap-[8px] lg:gap-[16px] col-span-1 lg:col-span-${size}`}
+      className={`dropdown-content-col h-fit grid gap-[8px] lg:gap-[16px] col-span-1 lg:col-span-${size}`}
     >
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
         {

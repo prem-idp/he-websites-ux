@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
-import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-import Head from "next/head";
+
 interface ExtendedMetadata extends Metadata {
   metaKeywords?: string | null;
   canonical?: string;
@@ -15,7 +14,7 @@ export async function generateMetadata(): Promise<ExtendedMetadata> {
       alternates: {
         canonical:
           metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
-          "https://www.Whatuni.com/",
+          "https://www.postgraduatesearch.com/",
       },
       title:
         metadata?.data?.contentData?.items[0]?.seoFields?.metaTite ||
@@ -36,7 +35,7 @@ export async function generateMetadata(): Promise<ExtendedMetadata> {
       description: "Default Description",
       robots: "noindex, nofollow",
       metaKeywords: null,
-      canonical: "https://www.Whatuni.com/",
+      canonical: "https://www.postgraduatesearch.com/",
     };
   }
 }
@@ -46,10 +45,5 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <TrackSessionId />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
