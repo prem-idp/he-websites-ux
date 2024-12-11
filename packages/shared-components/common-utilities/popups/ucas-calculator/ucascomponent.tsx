@@ -36,6 +36,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [applybtn, setApplybtn] = useState<any>("Apply");
   const [qualCopy, setQualCopy] = useState<any>();
   const [userIdToken, setUserIdToken] = useState<any>(null);
+  const [tracksessionId, setTracksessionId] = useState<any>(null);
   const additionalQual = {
     SelectedLevel: "Please select",
     qualId: 0,
@@ -67,6 +68,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qual, setQual] = useState([initialvalue]);
   useEffect(() => {
     const getuserIdToken = async () => {
+      const Id = getCookie("userTrackId");
+      setTracksessionId(Id);
       const { idToken } =
         (
           await fetchAuthSession({
@@ -80,7 +83,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   useEffect(() => {
     console.log("use effect is runnning");
     const fetchUcasData = async () => {
-      const tracksessionId = getCookie("userTrackId");
       try {
         if (userIdToken) {
           console.log("logged in user");
@@ -273,7 +275,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       }
     };
     fetchUcasData();
-  }, [userIdToken]);
+  }, [userIdToken, tracksessionId]);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
@@ -563,32 +565,23 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               </div>
             </div>
           )}
-          {JSON.stringify(qual) !== JSON.stringify(qualCopy) && (
-            <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
-              <Link
-                prefetch={false}
-                href="#"
-                onClick={resetAll}
-                aria-label="reset filters"
-                className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
-              >
-                Reset
-              </Link>
-              <button
-                className={`
-              ${
-                qual[0].SelectedLevel === "UCAS Tariff Points" &&
-                qual[0].min > qual[0].max &&
-                "cursor-not-allowed"
-              }
-               bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold hover:bg-primary-500
-            `}
-                onClick={updateUcas}
-              >
-                {applybtn}
-              </button>
-            </div>
-          )}
+          <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
+            <Link
+              prefetch={false}
+              href="#"
+              onClick={resetAll}
+              aria-label="reset filters"
+              className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
+            >
+              Reset
+            </Link>
+            <button
+              className={`rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${(qual[0].SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max) || JSON.stringify(qual) === JSON.stringify(qualCopy) ? "cursor-not-allowed bg-grey-100 text-grey-500" : "bg-primary-400 text-white hover:bg-primary-500"}`}
+              onClick={updateUcas}
+            >
+              {applybtn}
+            </button>
+          </div>
         </div>
       </div>
     </>
