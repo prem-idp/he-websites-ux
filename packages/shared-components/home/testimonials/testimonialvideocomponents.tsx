@@ -30,7 +30,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
           data-src={contentfullRightData?.multimediaBlockLeft?.videoUpload?.url}
         ></video>
       </div>
-      <div className={`block ${isVideoPlaying ? "hidden" : "block"}`}>
+      <div className={`w-full relative rounded-[8px] overflow-hidden ${isVideoPlaying ? "hidden" : "block"}`}>
         {contentfullRightData?.multimediaBlockLeft?.thumbnail?.url ? (
           <Image
             className="block w-full"
