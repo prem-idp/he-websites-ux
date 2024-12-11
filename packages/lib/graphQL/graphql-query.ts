@@ -1,7 +1,7 @@
 export const Seoquery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName:"Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName:"${process.env.PROJECT}"}}
   ) {
     items {
      
