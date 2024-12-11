@@ -1,16 +1,24 @@
 "use server";
+import dynamic from "next/dynamic";
+
+// import Header from "./headercomponents";
+import { Suspense } from "react";
 import Header from "./headercomponents";
 import {
   graphQlFetchFunction,
   searchAjaxFecthFunction,
 } from "@packages/lib/server-actions/server-action";
 import { Headerquery } from "@packages/lib/graphQL/graphql-query";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { ReactElement } from "react";
 
-export default  async function HeaderWrapper() : Promise<ReactElement>{
-  const headersList =  await headers(); // Await the promise
+export default async function HeaderWrapper() {
+  const headersList = await headers();
+  const cookiesList = await cookies();
+  const basketCount = parseInt(
+    cookiesList.get("USER_FAV_BASKET_COUNT")?.value || "0",
+    10
+  );
   const isAuthenticated = headersList.get("isAuthenticated") || "false";
   const idToken = headersList.get("idToken") || "false";
   let email = "";
@@ -64,6 +72,7 @@ export default  async function HeaderWrapper() : Promise<ReactElement>{
       searchAjaxFecthFunction(unibody),
       graphQlFetchFunction(Headerquery),
     ]);
+    // console.log(results);
 
     course_data = results[0].status === "fulfilled" ? results[0].value : null;
     uni_data = results[1].status === "fulfilled" ? results[1].value : null;
@@ -73,13 +82,15 @@ export default  async function HeaderWrapper() : Promise<ReactElement>{
   }
 
   return (
-    <Header
-      topnav_data={topnav_data}
-      course_data={course_data}
-      uni_data={uni_data}
-      isAuthenticated={isAuthenticated}
-      initial={initial}
-      basketCount ={0}
-    />
+    <>
+      <Header
+        topnav_data={topnav_data}
+        course_data={course_data}
+        uni_data={uni_data}
+        isAuthenticated={isAuthenticated}
+        initial={initial}
+        basketCount={basketCount}
+      />
+    </>
   );
 }

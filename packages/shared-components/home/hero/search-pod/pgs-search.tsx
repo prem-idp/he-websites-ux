@@ -162,20 +162,18 @@ export default function PgsSearch({ pgs_search_data }: any) {
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
         );
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
       }
     }
   };
 
   const courseLink = (e: any) => {
-    // console.log(e, "e");
-    // console.log(qualification.qualDesc, "qualification");
     if (qualification.qualCode) {
       return router.push(`${e?.url}&qualification=${qualification.qualUrl}`);
     } else {
@@ -238,10 +236,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   </ul>
                 </div>
               )}
-              {showDropdown && (
+              {showDropdown && searchValue?.description?.length > 2 && (
                 <div
                   //   ref={containerRef}
-                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]"
+                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
+                  max-h-[297px] overflow-y-auto mr-[4px]"
                 >
                   {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
@@ -250,7 +249,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                           KEYWORD SEARCH FOR
                         </p>
                         <p className="small text-primary-400">
-                          {searchValue.description}
+                          {` '${searchValue.description}'`}
                         </p>
                       </div>
                     </div>
@@ -268,9 +267,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               setSearchValue(item);
                               courseLink(item);
                             }}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900 ">
                               {item.description}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -293,9 +292,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`}
                             key={index}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50 hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900">
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -308,9 +307,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
               )}
             </Form>
             {qualification.qualDesc && (
-              <div>
-                {qualification?.qualDesc}
-                <button
+              <div className="flex items-center justify-between gap-[4px] bg-gray-100 text-grey-500 font-semibold px-[12px] py-[8px] rounded-[4px]">
+                <span>{qualification?.qualDesc}</span>
+
+                <svg
+                  className="cursor-pointer"
                   onClick={() =>
                     setQualification({
                       qualUrl: "",
@@ -318,9 +319,27 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       qualDesc: "",
                     })
                   }
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  X
-                </button>
+                  <path
+                    d="M18 6L6 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 6L18 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             )}
 
