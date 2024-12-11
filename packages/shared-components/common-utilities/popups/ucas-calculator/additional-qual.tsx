@@ -19,6 +19,7 @@ const AddQualification = ({
   indexPosition,
   qual,
   setQual,
+  setQualifications,
 }: any) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const toggleDropdown = () => {
@@ -34,32 +35,56 @@ const AddQualification = ({
     gradeOptions: string | null
   ) => {
     setIsDropDownOpen(!isDropDownOpen);
-    setQual((prev: any) =>
-      prev.map((item: any, index: number) =>
-        index === indexPosition
-          ? {
-              ...item,
-              SelectedLevel: level,
-              type: template,
-              maxPoint: Number(maxPoint),
-              maxTotalPoint: Number(maxTotalPoint),
-              gradeArray: parseGradeString(gradeOptions),
-              qualId: qualId,
-              getmaxTotalPoint: 0,
-              podSpecificPoints: 0,
-              userEntryPoint: "",
-              min: 0,
-              max: 0,
-            }
-          : item
-      )
-    );
+    if (level === "UCAS Tariff Points") {
+      setQual([
+        {
+          SelectedLevel: level,
+          totalcredit: 0,
+          type: template,
+          maxPoint: Number(maxPoint),
+          qualId: qualId,
+          maxTotalPoint: Number(maxTotalPoint),
+          getmaxTotalPoint: 0,
+          podSpecificPoints: 0,
+          min: 0,
+          max: 0,
+          userEntryPoint: "",
+          gradeArray: parseGradeString(gradeOptions),
+        },
+      ]);
+      setQualifications([]);
+    } else {
+      setQual((prev: any) =>
+        prev.map((item: any, index: number) =>
+          index === indexPosition
+            ? {
+                ...item,
+                SelectedLevel: level,
+                type: template,
+                maxPoint: Number(maxPoint),
+                maxTotalPoint: Number(maxTotalPoint),
+                gradeArray: parseGradeString(gradeOptions),
+                qualId: qualId,
+                getmaxTotalPoint: 0,
+                podSpecificPoints: 0,
+                userEntryPoint: "",
+                min: 0,
+                max: 0,
+              }
+            : item
+        )
+      );
+    }
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
+    if (level === "UCAS Tariff Points") {
+      setUcasPoint(0);
+    }
   };
   const deleteClicked = () => {
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
+  console.log(ucasPoint);
   return (
     <>
       <div>
@@ -71,12 +96,12 @@ const AddQualification = ({
             <div className="relative w-full">
               <div
                 onClick={toggleDropdown}
-                className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+                className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
               >
                 <span>{qual[indexPosition]?.SelectedLevel}</span>
                 <Image
                   src="/static/assets/icons/ucas-down-arrow.svg"
-                  alt=""
+                  alt="ucas-down-arrow"
                   width="16"
                   height="16"
                 />
@@ -84,37 +109,33 @@ const AddQualification = ({
               {isDropDownOpen && ucasGradeData && (
                 <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 w-[calc(100%+30px)] z-10">
                   <ul>
-                    {ucasGradeData
-                      .filter(
-                        (item: any) => item.parentQualification !== "UCAS"
-                      )
-                      ?.map((childItems: any, index: number) => (
-                        <li
-                          key={index + 1}
-                          className={
-                            childItems.qualId === null
-                              ? "py-[10px] px-[16px] font-semibold x-small uppercase bg-neutral50 text-grey500 tracking-[1px]"
-                              : "py-[10px] px-[16px] cursor-pointer"
-                          }
-                          onClick={
-                            childItems.qualId !== null
-                              ? () => {
-                                  changeUcasLevel(
-                                    childItems.qualification,
-                                    childItems.gradeOptions,
-                                    childItems.maxPoint,
-                                    childItems.maxTotalPoint,
-                                    childItems.template,
-                                    Number(childItems.qualId),
-                                    childItems.gradeOptions
-                                  );
-                                }
-                              : undefined
-                          }
-                        >
-                          {childItems.qualification}
-                        </li>
-                      ))}
+                    {ucasGradeData.map((childItems: any, index: number) => (
+                      <li
+                        key={index + 1}
+                        className={
+                          childItems.qualId === null
+                            ? "py-[10px] px-[16px] font-semibold x-small uppercase bg-neutral50 text-grey500 tracking-[1px]"
+                            : "py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
+                        }
+                        onClick={
+                          childItems.qualId !== null
+                            ? () => {
+                                changeUcasLevel(
+                                  childItems.qualification,
+                                  childItems.gradeOptions,
+                                  childItems.maxPoint,
+                                  childItems.maxTotalPoint,
+                                  childItems.template,
+                                  Number(childItems.qualId),
+                                  childItems.gradeOptions
+                                );
+                              }
+                            : undefined
+                        }
+                      >
+                        {childItems.qualification}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}

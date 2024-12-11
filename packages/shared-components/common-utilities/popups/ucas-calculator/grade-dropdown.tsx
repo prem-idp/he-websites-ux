@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
+import { extractValue } from "@packages/lib/utlils/ucas-functions";
 const GradeDropdown = ({
   qual,
   setQual,
@@ -16,18 +17,6 @@ const GradeDropdown = ({
   const [openDropdown, setOpenDropdown] = useState<
     "distinction" | "merit" | "pass" | null
   >(null);
-  const [distinction, setDistinction] = useState({
-    point: 0,
-    score: 0,
-  });
-  const [merit, setMerit] = useState({
-    point: 0,
-    score: 0,
-  });
-  const [pass, setPass] = useState({
-    point: 0,
-    score: 0,
-  });
   const getValue = (selectedKey: string) => {
     const foundItem = qual[indexPosition].gradeArray?.find(
       (item: any) => item.key === selectedKey
@@ -36,6 +25,26 @@ const GradeDropdown = ({
       return foundItem.value;
     }
   };
+  console.log(qual[indexPosition].userEntryPoint);
+  const [distinction, setDistinction] = useState({
+    point: extractValue(qual[indexPosition].userEntryPoint, "D") || 0,
+    score:
+      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      0,
+  });
+  const [merit, setMerit] = useState({
+    point: extractValue(qual[indexPosition].userEntryPoint, "M") || 0,
+    score:
+      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      0,
+  });
+  const [pass, setPass] = useState({
+    point: extractValue(qual[indexPosition].userEntryPoint, "P") || 0,
+    score:
+      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      0,
+  });
+
   const getPodSpecificvalue = (selectedKey: string, itemValue: number) => {
     if (selectedKey === "D") {
       const dvalue = itemValue * getValue(selectedKey);
@@ -55,7 +64,7 @@ const GradeDropdown = ({
     } else if (selectedKey === "M") {
       return `${distinction.point}D-${itemValue}M-${pass.point}P`;
     } else if (selectedKey === "P") {
-      return `${distinction.point}D-${itemValue}M-${itemValue}P`;
+      return `${distinction.point}D-${merit.point}M-${itemValue}P`;
     }
   };
   const selectValue = (
@@ -110,12 +119,12 @@ const GradeDropdown = ({
                   prev === "distinction" ? null : "distinction"
                 )
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{distinction.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />
@@ -161,12 +170,12 @@ const GradeDropdown = ({
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "merit" ? null : "merit"))
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{merit.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />
@@ -205,12 +214,12 @@ const GradeDropdown = ({
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "pass" ? null : "pass"))
               }
-              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] h-[37px] font-semibold small cursor-pointer"
+              className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
               <span>{pass.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
-                alt=""
+                alt="ucas-down-arrow"
                 width="16"
                 height="16"
               />
