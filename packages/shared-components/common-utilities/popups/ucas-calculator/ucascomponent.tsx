@@ -1,6 +1,6 @@
 "use client";
 import { fetchAuthSession } from "aws-amplify/auth";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
@@ -37,6 +37,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualCopy, setQualCopy] = useState<any>();
   const [userIdToken, setUserIdToken] = useState<any>(null);
   const [tracksessionId, setTracksessionId] = useState<any>(null);
+  const ucasRef = useRef<HTMLDivElement | null>(null);
   const additionalQual = {
     SelectedLevel: "Please select",
     qualId: 0,
@@ -386,6 +387,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       ).tokens ?? {};
     if (!validation) {
+      setQualCopy(qual);
       setApplybtn("Applying...");
       if (idToken) {
         const response = await fetch(
@@ -427,16 +429,26 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   };
   console.log("qual", qual);
   console.log("add-qual", qualifications);
-
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ucasRef.current && !ucasRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <>
+    <div>
       <div
         className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
           isUcasOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
         }`}
       ></div>
-
       <div
+        ref={ucasRef}
         className={`bg-white fixed top-0 left-0 h-full w-[375px] z-10 transition-all duration-300 ease-in-out ${
           isUcasOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -605,7 +617,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
