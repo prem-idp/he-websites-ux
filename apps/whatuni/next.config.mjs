@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   skipTrailingSlashRedirect: true,
+  productionBrowserSourceMaps: true,
   // trailingSlash: true,
   async redirects() {
     return [

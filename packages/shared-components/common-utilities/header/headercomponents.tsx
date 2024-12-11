@@ -343,6 +343,7 @@ const Header = ({
               </li>
               <li className="relative">
                 <Link
+                  prefetch={false}
                   href="/degrees/comparison"
                   aria-label="Shortlist"
                   className="cursor-pointer"
