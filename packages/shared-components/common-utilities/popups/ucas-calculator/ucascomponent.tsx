@@ -152,6 +152,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.length -
                   (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
               );
+              console.log(qualifications);
+              console.log(temp);
               for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
@@ -244,8 +246,14 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             if (jsonCookies?.userStudyLevelEntry.length > 0) {
               const temp = Math.abs(
                 qualifications.length -
-                  (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
+                  (jsonCookies?.userStudyLevelEntry.length - 1)
               );
+              console.log(qualifications);
+              console.log(
+                qualifications.length,
+                jsonCookies?.userStudyLevelEntry.length
+              );
+              console.log(temp);
               for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
