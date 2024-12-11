@@ -5,11 +5,12 @@ declare global {
       IsConsented: (categoryId: string) => boolean;
       IsAlertBoxClosed: any;
     };
-    OnetrustActiveGroups?: string[]; // Assuming it's an array of strings
+    OnetrustActiveGroups?: string[];
     googletag?: typeof googletag;
   }
 
-  const OnetrustActiveGroups: string[]; // Use const instead of var
+  const OnetrustActiveGroups: string[];
+
 }
 
 export {};
