@@ -1,8 +1,11 @@
-export const parseGradeString = (gradeString: string | null) => {
-  if (gradeString) {
-    return gradeString.split(",").map((item) => {
-      const [key, value] = item.split("~");
-      return { key, value: parseInt(value, 10) };
-    });
+"use client";
+function getCookie(name: string): string | null {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(";").shift() || null;
   }
-};
+  return null;
+}
+
+export { getCookie };

@@ -8,6 +8,7 @@ import HeroSliderComponentSkeleton from "@packages/shared-components/common-util
 interface PropjectProps {
   data: SliderBannerCollection;
 }
+
 const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
   const body = {
     affiliateId: 220703,
@@ -30,7 +31,6 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
     qualCode: "",
     networkId: 2,
   };
-
 
   const [course_data, uni_data,pgs_search_data] = await Promise.all([
     searchAjaxFecthFunction(body),

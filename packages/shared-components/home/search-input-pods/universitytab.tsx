@@ -16,7 +16,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  console.log("searchFormHandle,", searchFormHandle);
+  // console.log("searchFormHandle,", searchFormHandle);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [universityList, setUniversityList] = useState<string[]>([]);
   const [unierror, setUnierror] = useState(false);
@@ -30,7 +30,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         !containerRef.current.contains(event.target as Node)
       ) {
         courseActions("");
-        console.log("click outside in university");
+        // console.log("click outside in university");
       }
     };
     // Delay adding listener to avoid immediate triggering
@@ -68,7 +68,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   });
 
   const courseActions = (tabName: string) => {
-    console.log("tabName", tabName);
+    // console.log("tabName", tabName);
     setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),

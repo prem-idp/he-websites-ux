@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-
+        // console.log(session.isValid());
         // Check if tokens are not undefined
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
@@ -31,9 +31,12 @@ export async function middleware(request: NextRequest) {
   if (result.authenticated) {
     // Set headers for authenticated users
     response.headers.set("isAuthenticated", "true");
-    
+
     // Ensure idToken is a string before setting it in headers
-    response.headers.set("idToken", result.idToken ? String(result.idToken) : "");
+    response.headers.set(
+      "idToken",
+      result.idToken ? String(result.idToken) : ""
+    );
   } else {
     // Set headers for unauthenticated users
     response.headers.set("isAuthenticated", "false");

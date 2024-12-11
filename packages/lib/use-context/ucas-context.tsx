@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState } from "react";
 const initialValue = {
-  ucasPoints: 0,
+  ucasPoint: 0,
 };
 const UcasContext = createContext(initialValue);
 export const UcasProvider = ({ children }: any) => {

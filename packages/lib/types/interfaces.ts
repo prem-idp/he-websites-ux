@@ -125,6 +125,7 @@ export interface FooterDataInterface {
   footerNavBtmCollection: FooterNavBtmCollection;
   navApplinksCollection: NavApplinksCollection;
   footerNavCollection: FooterNavCollection;
+  navSocialLinksCollection: NavSocialLinksCollection;
 }
 
 export interface FooterNavCollection {
@@ -135,7 +136,32 @@ export interface FooterNavCollectionItem {
   navTitle: string;
   navChildC1Collection: FooterNavChildCollection;
 }
+export interface NavSocialLinksCollection {
+  items: NavItem[];
+}
+export interface NavIcon {
+  url: string;
+  width: number;
+  height: number;
+}
 
+export interface NavChild {
+  navName: string;
+  navTitle: string;
+  navUrl: string | null;
+  navCtaTarget: string | null;
+  navIcon: NavIcon;
+}
+
+interface NavChildCollection {
+  items: NavChild[];
+}
+
+interface NavItem {
+  navName: string;
+  navUrl: string | null | undefined;
+  navChildC1Collection: NavChildCollection;
+}
 export interface FooterNavChildCollection {
   items: FooterNavChildItem[];
 }
@@ -439,7 +465,7 @@ export interface CourseDetail {
 }
 
 export interface Location {
-   regionId: number;
+  regionId: number;
   regionUrl: string | null;
   regionName: string;
 }
@@ -460,139 +486,139 @@ export interface University {
 
 export type UniData = University[];
 export interface Topnav {
-  data: Data
+  data: Data;
 }
 
 export interface Data {
-  contentData: ContentData
+  contentData: ContentData;
 }
 
 export interface ContentData {
-  items: Item[]
+  items: Item[];
 }
 
 export interface Item {
-  headerTrackingScripts: any
-  websiteLogo: WebsiteLogo
-  universalSearchPanel: UniversalSearchPanel
-  headerMainMenuCollection: HeaderMainMenuCollection
+  headerTrackingScripts: any;
+  websiteLogo: WebsiteLogo;
+  universalSearchPanel: UniversalSearchPanel;
+  headerMainMenuCollection: HeaderMainMenuCollection;
 }
 
 export interface WebsiteLogo {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }
 
 export interface UniversalSearchPanel {
-  internalName: string
-  navigationElementsCollection: NavigationElementsCollection
+  internalName: string;
+  navigationElementsCollection: NavigationElementsCollection;
 }
 
 export interface NavigationElementsCollection {
-  items: Item2[]
+  items: Item2[];
 }
 
 export interface Item2 {
-  navName: string
-  navUrl: any
-  navCtAlabel: string
-  navIcon: any
-  navCtaTarget: any
-  flagNavItemStyle: string
+  navName: string;
+  navUrl: any;
+  navCtAlabel: string;
+  navIcon: any;
+  navCtaTarget: any;
+  flagNavItemStyle: string;
 }
 
 export interface HeaderMainMenuCollection {
-  items: Item3[]
+  items: Item3[];
 }
 
 export interface Item3 {
-  navName: string
-  navTitle: string
-  navUrl: any
-  navIcon?: NavIcon
-  navChildC1Collection: NavChildC1Collection
-  navChildC2Collection: NavChildC2Collection
-  navChildC3Collection: NavChildC3Collection
-  navChildC4Collection: NavChildC4Collection
+  navName: string;
+  navTitle: string;
+  navUrl: any;
+  navIcon?: NavIcon;
+  navChildC1Collection: NavChildC1Collection;
+  navChildC2Collection: NavChildC2Collection;
+  navChildC3Collection: NavChildC3Collection;
+  navChildC4Collection: NavChildC4Collection;
 }
 
 export interface NavIcon {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }
 
 export interface NavChildC1Collection {
-  items: Item4[]
+  items: Item4[];
 }
 
 export interface Item4 {
-  navName: string
-  navUrl?: string
-  navTitle: string
-  navCtAlabel: any
-  navIcon: any
-  navCtaTarget?: string
-  flagNavItemStyle?: string
+  navName: string;
+  navUrl?: string;
+  navTitle: string;
+  navCtAlabel: any;
+  navIcon: any;
+  navCtaTarget?: string;
+  flagNavItemStyle?: string;
 }
 
 export interface NavChildC2Collection {
-  items: Item5[]
+  items: Item5[];
 }
 
 export interface Item5 {
-  navName: string
-  navUrl: any
-  navTitle: string
-  navCtAlabel: any
-  navIcon?: NavIcon2
-  navCtaTarget: any
-  flagNavItemStyle: string
+  navName: string;
+  navUrl: any;
+  navTitle: string;
+  navCtAlabel: any;
+  navIcon?: NavIcon2;
+  navCtaTarget: any;
+  flagNavItemStyle: string;
 }
 
 export interface NavIcon2 {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }
 
 export interface NavChildC3Collection {
-  items: Item6[]
+  items: Item6[];
 }
 
 export interface Item6 {
-  navName: string
-  navTitle: string
-  navUrl?: string
-  navCtAlabel: any
-  navIcon?: NavIcon3
-  navCtaTarget?: string
-  flagNavItemStyle: string
+  navName: string;
+  navTitle: string;
+  navUrl?: string;
+  navCtAlabel: any;
+  navIcon?: NavIcon3;
+  navCtaTarget?: string;
+  flagNavItemStyle: string;
 }
 
 export interface NavIcon3 {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }
 
 export interface NavChildC4Collection {
-  items: Item7[]
+  items: Item7[];
 }
 
 export interface Item7 {
-  navName: string
-  navUrl?: string
-  navTitle: string
-  navCtAlabel: any
-  navIcon?: NavIcon4
-  navCtaTarget?: string
-  flagNavItemStyle: string
+  navName: string;
+  navUrl?: string;
+  navTitle: string;
+  navCtAlabel: any;
+  navIcon?: NavIcon4;
+  navCtaTarget?: string;
+  flagNavItemStyle: string;
 }
 
 export interface NavIcon4 {
-  url: string
-  width: number
-  height: number
+  url: string;
+  width: number;
+  height: number;
 }

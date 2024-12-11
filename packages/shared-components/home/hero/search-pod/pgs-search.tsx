@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,9 +26,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const universityClick = () => {
-    console.log("clicked", isPgsUniversityClicked);
+    // console.log("clicked", isPgsUniversityClicked);
     setIsPgsUniversityClicked((prev) => !prev);
-    console.log("clicked after", isPgsUniversityClicked);
+    // console.log("clicked after", isPgsUniversityClicked);
     setShowDropdown(true);
     setQualDropdown(true);
   };
@@ -43,7 +44,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
     const { description } = searchValue || {};
 
     // Early return if description is invalid or too short
-    if (!description || description.length < 3) {
+    if (!description || description?.length < 3) {
       setFilteredsubject([]);
       setFilteredUniversity([]);
       return;
@@ -89,11 +90,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
     };
     const filteredUniversity = pgs_search_data?.collegeDetails?.filter(
       (subjects: any) =>
-        // console.log("subjects", subjects),
         subjects?.collegeNameDisplay
           ?.toLowerCase()
           .includes(description.toLowerCase())
-      // Check qualCode only if it's not empty
     );
     const prioritySearchcollge = (list: any, searchText: any) => {
       if (!searchText) return list;
@@ -124,19 +123,10 @@ export default function PgsSearch({ pgs_search_data }: any) {
           collegeName: item.collegeName,
         }));
     };
-    console.log(
-      prioritySearchcollge(filteredUniversity, description),
-      "filteredUniversity"
-    );
-    // const sortedResults = prioritySearch(filteredSubjects, description);
     setFilteredUniversity(
       prioritySearchcollge(filteredUniversity, description)
     );
     setFilteredsubject(prioritySearch(filteredSubjects, description));
-    // console.log(
-    //   prioritySearch(filteredSubjects, description),
-    //   "filterdsubject "
-    // );
   }, [searchValue]);
 
   useEffect(() => {
@@ -149,10 +139,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
         setQualDropdown((prev) => !prev);
       }
     };
-    // Delay adding listener to avoid immediate triggering
-    setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 0);
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -173,20 +162,18 @@ export default function PgsSearch({ pgs_search_data }: any) {
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
         );
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?q=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+          `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
       }
     }
   };
 
   const courseLink = (e: any) => {
-    console.log(e, "e");
-    console.log(qualification.qualDesc, "qualification");
     if (qualification.qualCode) {
       return router.push(`${e?.url}&qualification=${qualification.qualUrl}`);
     } else {
@@ -249,24 +236,25 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   </ul>
                 </div>
               )}
-              {showDropdown && (
+              {showDropdown && searchValue?.description?.length > 2 && (
                 <div
                   //   ref={containerRef}
-                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]"
+                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
+                  max-h-[297px] overflow-y-auto mr-[4px]"
                 >
-                  {searchValue.description.length > 2 && (
+                  {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
                       <div className="px-[16px] py-[12px]">
                         <p className="x-small font-semibold text-black tracking-[1px] leading-[18px]">
                           KEYWORD SEARCH FOR
                         </p>
                         <p className="small text-primary-400">
-                          {searchValue.description}
+                          {` '${searchValue.description}'`}
                         </p>
                       </div>
                     </div>
                   )}
-                  {filteredsubjectlist.length > 0 && (
+                  {filteredsubjectlist?.length > 0 && (
                     <>
                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                         COURSES
@@ -279,9 +267,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               setSearchValue(item);
                               courseLink(item);
                             }}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900 ">
                               {item.description}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -290,10 +278,10 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       </ul>
                     </>
                   )}
-                  {filteredUniversity.length > 0 && (
+                  {filteredUniversity?.length > 0 && (
                     <>
                       <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
-                        UNIVERSITY
+                        INSTITUTIONS
                       </div>
                       <ul>
                         {filteredUniversity.map((item: any, index) => (
@@ -304,9 +292,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`}
                             key={index}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50 hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900">
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -319,9 +307,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
               )}
             </Form>
             {qualification.qualDesc && (
-              <div>
-                {qualification?.qualDesc}
-                <button
+              <div className="flex items-center justify-between gap-[4px] bg-gray-100 text-grey-500 font-semibold px-[12px] py-[8px] rounded-[4px]">
+                <span>{qualification?.qualDesc}</span>
+
+                <svg
+                  className="cursor-pointer"
                   onClick={() =>
                     setQualification({
                       qualUrl: "",
@@ -329,9 +319,27 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       qualDesc: "",
                     })
                   }
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  X
-                </button>
+                  <path
+                    d="M18 6L6 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 6L18 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             )}
 

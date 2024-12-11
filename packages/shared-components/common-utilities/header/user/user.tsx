@@ -1,5 +1,5 @@
+"use client";
 import Link from "next/link";
-
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";
@@ -38,7 +38,7 @@ export default function User({ topnav_data }: any) {
             >
               <Link
                 prefetch={false}
-                href={item.navUrl || ""}
+                href={item?.navUrl || ""}
                 onClick={() =>
                   item.navTitle === "Logout" ? clearAllCookies() : ""
                 }
