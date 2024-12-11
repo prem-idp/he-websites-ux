@@ -576,7 +576,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               Reset
             </Link>
             <button
-              className={`inline-flex items-center rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${(qual[0].SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max) || JSON.stringify(qual) === JSON.stringify(qualCopy) ? "cursor-not-allowed bg-grey-300 text-grey-500" : "bg-primary-400 text-white hover:bg-primary-500"}`}
+              className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${(qual[0].SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max) || JSON.stringify(qual) === JSON.stringify(qualCopy) ? "cursor-not-allowed bg-red-300 text-grey-500" : "bg-primary-400 text-white hover:bg-primary-500"}`}
               onClick={updateUcas}
             >
               {applybtn == "Applying..." && (
