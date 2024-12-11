@@ -78,6 +78,7 @@ const TopLevelMenu = ({
       setUcasPoint(ucasPoint - qual[indexPosition].podSpecificPoints);
     }
   };
+  console.log(qual[indexPosition].userEntryPoint);
   return (
     <>
       <div className="relative">

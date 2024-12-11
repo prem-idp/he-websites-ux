@@ -1,6 +1,6 @@
 "use client";
 import { fetchAuthSession } from "aws-amplify/auth";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
@@ -37,6 +37,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualCopy, setQualCopy] = useState<any>();
   const [userIdToken, setUserIdToken] = useState<any>(null);
   const [tracksessionId, setTracksessionId] = useState<any>(null);
+  const ucasRef = useRef<HTMLDivElement | null>(null);
   const additionalQual = {
     SelectedLevel: "Please select",
     qualId: 0,
@@ -66,25 +67,27 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     gradeArray: [],
   };
   const [qual, setQual] = useState([initialvalue]);
-  useEffect(() => {
-    const getuserIdToken = async () => {
-      const Id = getCookie("userTrackId");
-      setTracksessionId(Id);
-      const { idToken } =
-        (
-          await fetchAuthSession({
-            forceRefresh: true,
-          })
-        ).tokens ?? {};
-      setUserIdToken(idToken);
-    };
-    getuserIdToken();
-  }, []);
+
+  // useEffect(() => {
+  //   const getToken = async () => {
+  //     setUserIdToken(idToken);
+  //   };
+  //   getToken();
+  // }, []);
+
   useEffect(() => {
     console.log("use effect is runnning");
     const fetchUcasData = async () => {
+      const response = await fetchAuthSession({ forceRefresh: true });
+      console.log("Auth Session Response:", response);
+      const { idToken } = response.tokens ?? {};
+      console.log("ID Token:", idToken);
+      const tracksessionId = getCookie("userTrackId");
+      console.log("user id tokennnnnnnnnnnnnnnnnnnnnnn", idToken);
+      console.log(idToken, tracksessionId);
+      setUserIdToken(idToken);
       try {
-        if (userIdToken) {
+        if (idToken) {
           console.log("logged in user");
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/ucas-ajax`,
@@ -94,9 +97,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 "Content-Type": "application/json",
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
                 Authorization:
-                  typeof userIdToken === "string"
-                    ? userIdToken
-                    : userIdToken?.toString() || "",
+                  typeof idToken === "string"
+                    ? idToken
+                    : idToken?.toString() || "",
               },
               body: JSON.stringify(ucasAjax),
             }
@@ -146,12 +149,15 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log("user details from db", jsonData?.userGradeDetails);
-            if (qualifications.length < 2) {
-              for (
-                let i = qualifications.length;
-                i < jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1;
-                i++
-              ) {
+            if (
+              jsonData?.userGradeDetails?.userStudyLevelEntry.length > 0 &&
+              qualifications.length < 2
+            ) {
+              const temp = Math.abs(
+                qualifications.length -
+                  (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
+              );
+              for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
                   name: getOrdinalName(i),
@@ -175,7 +181,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual([mappedQuals]);
             setQualCopy([mappedQuals]);
           }
-        } else if (tracksessionId && !userIdToken) {
+        } else if (tracksessionId) {
           console.log("guest user");
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/homepage/ucas-ajax`,
@@ -199,7 +205,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
-
           if (jsonCookies?.userStudyLevelEntry) {
             console.log("Cookieeee", jsonCookies?.userStudyLevelEntry);
             const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
@@ -241,12 +246,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log(jsonCookies?.userStudyLevelEntry);
-            if (qualifications.length < 2) {
-              for (
-                let i = qualifications.length;
-                i < jsonCookies?.userStudyLevelEntry.length - 1;
-                i++
-              ) {
+            if (jsonCookies?.userStudyLevelEntry.length > 0) {
+              const temp = Math.abs(
+                qualifications.length -
+                  (jsonCookies?.userStudyLevelEntry.length - 1)
+              );
+              for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
                   name: getOrdinalName(i),
@@ -275,7 +280,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       }
     };
     fetchUcasData();
-  }, [userIdToken, tracksessionId]);
+  }, []);
+
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
@@ -387,6 +393,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       ).tokens ?? {};
     if (!validation) {
+      setQualCopy(qual);
       setApplybtn("Applying...");
       if (idToken) {
         const response = await fetch(
@@ -428,16 +435,26 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   };
   console.log("qual", qual);
   console.log("add-qual", qualifications);
-
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ucasRef.current && !ucasRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <>
+    <div>
       <div
         className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
           isUcasOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
         }`}
       ></div>
-
       <div
+        ref={ucasRef}
         className={`bg-white fixed top-0 left-0 h-full w-[375px] z-10 transition-all duration-300 ease-in-out ${
           isUcasOpen ? "translate-x-0" : "-translate-x-full"
         }`}
@@ -606,7 +623,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
