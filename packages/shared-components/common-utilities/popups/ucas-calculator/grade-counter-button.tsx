@@ -24,7 +24,9 @@ const GradeCounterButton = ({
   setUcasPoint,
   populateCount,
 }: any) => {
-  const [count, setCount] = useState(populateCount);
+  console.log(btnName, populateCount);
+  const [count, setCount] = useState(populateCount ? populateCount : 0);
+  console.log(btnName, count);
   const increment = (btnValue: number) => {
     if (
       count < qual[indexPosition].maxPoint &&

@@ -67,25 +67,27 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     gradeArray: [],
   };
   const [qual, setQual] = useState([initialvalue]);
-  useEffect(() => {
-    const getuserIdToken = async () => {
-      const Id = getCookie("userTrackId");
-      setTracksessionId(Id);
-      const { idToken } =
-        (
-          await fetchAuthSession({
-            forceRefresh: true,
-          })
-        ).tokens ?? {};
-      setUserIdToken(idToken);
-    };
-    getuserIdToken();
-  }, []);
+
+  // useEffect(() => {
+  //   const getToken = async () => {
+  //     setUserIdToken(idToken);
+  //   };
+  //   getToken();
+  // }, []);
+
   useEffect(() => {
     console.log("use effect is runnning");
     const fetchUcasData = async () => {
+      const response = await fetchAuthSession({ forceRefresh: true });
+      console.log("Auth Session Response:", response);
+      const { idToken } = response.tokens ?? {};
+      console.log("ID Token:", idToken);
+      const tracksessionId = getCookie("userTrackId");
+      console.log("user id tokennnnnnnnnnnnnnnnnnnnnnn", idToken);
+      console.log(idToken, tracksessionId);
+      setUserIdToken(idToken);
       try {
-        if (userIdToken) {
+        if (idToken) {
           console.log("logged in user");
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/ucas-ajax`,
@@ -95,9 +97,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 "Content-Type": "application/json",
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
                 Authorization:
-                  typeof userIdToken === "string"
-                    ? userIdToken
-                    : userIdToken?.toString() || "",
+                  typeof idToken === "string"
+                    ? idToken
+                    : idToken?.toString() || "",
               },
               body: JSON.stringify(ucasAjax),
             }
@@ -147,13 +149,14 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log("user details from db", jsonData?.userGradeDetails);
-            if (jsonData?.userGradeDetails?.userStudyLevelEntry.length > 0) {
+            if (
+              jsonData?.userGradeDetails?.userStudyLevelEntry.length > 0 &&
+              qualifications.length < 2
+            ) {
               const temp = Math.abs(
                 qualifications.length -
                   (jsonData?.userGradeDetails?.userStudyLevelEntry.length - 1)
               );
-              console.log(qualifications);
-              console.log(temp);
               for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
@@ -178,7 +181,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             setQual([mappedQuals]);
             setQualCopy([mappedQuals]);
           }
-        } else if (tracksessionId && !userIdToken) {
+        } else if (tracksessionId) {
           console.log("guest user");
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/homepage/ucas-ajax`,
@@ -248,12 +251,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.length -
                   (jsonCookies?.userStudyLevelEntry.length - 1)
               );
-              console.log(qualifications);
-              console.log(
-                qualifications.length,
-                jsonCookies?.userStudyLevelEntry.length
-              );
-              console.log(temp);
               for (let i = 0; i < temp; i++) {
                 const newQualification = {
                   id: Date.now() + i,
@@ -283,7 +280,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       }
     };
     fetchUcasData();
-  }, [userIdToken, tracksessionId]);
+  }, []);
+
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
