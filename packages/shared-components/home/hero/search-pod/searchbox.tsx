@@ -46,10 +46,10 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
 
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    console.log("clicked on ucas");
-    // SetIsUcasPopupOpen(true);
-    // const body = document.body;
-    // body.classList.add("overflow-y-hidden");
+    //console.log("clicked on ucas");
+    SetIsUcasPopupOpen(true);
+    const body = document.body;
+    body.classList.add("overflow-y-hidden");
   };
 
   const ucasClose = () => {

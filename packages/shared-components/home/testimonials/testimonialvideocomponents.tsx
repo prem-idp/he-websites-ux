@@ -54,7 +54,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
             src="/static/assets/icons/video_play_icon.svg"
             width="52"
             height="52"
-            alt=""
+            alt="video_play_icon"
             data-src="/static/assets/icons/video_play_icon.svg"
           />
         </div>

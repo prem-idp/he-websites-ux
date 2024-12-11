@@ -168,7 +168,7 @@ const Header = ({
                   topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
                   "/static/assets/images/imageplaceholder.png"
                 }
-                alt=""
+                alt="imageplaceholder"
                 priority
                 width={70}
                 height={78}
