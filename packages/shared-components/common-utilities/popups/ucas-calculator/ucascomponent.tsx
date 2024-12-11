@@ -245,7 +245,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 i < jsonCookies?.userStudyLevelEntry.length - 1;
                 i++
               ) {
-                console.log("Entered for:", i);
                 const newQualification = {
                   id: Date.now() + i,
                   name: getOrdinalName(i),
@@ -425,8 +424,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       }
     }
   };
-  console.log("qualsss", qual);
-  console.log("qualificationnn", qualifications);
+  console.log("qual", qual);
+  console.log("add-qual", qualifications);
 
   return (
     <>
@@ -586,7 +585,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             `}
                 onClick={updateUcas}
               >
-                Apply
+                {applybtn}
               </button>
             </div>
           )}
