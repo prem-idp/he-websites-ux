@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-import Head from "next/head";
-interface ExtendedMetadata extends Metadata {
-  metaKeywords?: string | null;
-  canonical?: string;
-}
-export async function generateMetadata(): Promise<ExtendedMetadata> {
+
+
+export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
     // console.log("metadata", metadata);
@@ -25,9 +22,8 @@ export async function generateMetadata(): Promise<ExtendedMetadata> {
         "Default Description",
       robots:
         metadata?.data?.contentData?.items[0]?.robots?.title || "index, follow",
-      metaKeywords:
-        metadata?.data?.contentData?.items[0]?.seoFields?.metaKeywords ||
-        "meatkeywords",
+      keywords: metadata?.data?.contentData?.items[0]?.seoFields
+        ?.metaKeywords || [],
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
@@ -35,8 +31,10 @@ export async function generateMetadata(): Promise<ExtendedMetadata> {
       title: "Default Title",
       description: "Default Description",
       robots: "noindex, nofollow",
-      metaKeywords: null,
-      canonical: "https://www.Whatuni.com/",
+      keywords: null,
+      alternates: {
+        canonical: "https://www.Whatuni.com/",
+      },
     };
   }
 }

@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
     nextServerContext: { request, response },
     operation: async (contextSpec) => {
       try {
-        const session = await fetchAuthSession(contextSpec);
+        const session = await fetchAuthSession(contextSpec, {
+          forceRefresh: true,
+        });
         // console.log(session.isValid());
         // Check if tokens are not undefined
         if (session.tokens) {

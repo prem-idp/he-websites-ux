@@ -37,11 +37,9 @@ export default async function RootLayout({
       >
         <TrackSessionId />
         <OneTrustCookieScript />
-        
-             
-        <Suspense fallback={null}>
+
         <HeaderWrapper />
-        </Suspense>
+
         {children}
         <Footer />
       </body>
