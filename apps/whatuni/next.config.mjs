@@ -5,7 +5,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/:path*",
+        source: "/_next/static/:path*",
         headers: [
           {
             key: "max-http-header-size",
