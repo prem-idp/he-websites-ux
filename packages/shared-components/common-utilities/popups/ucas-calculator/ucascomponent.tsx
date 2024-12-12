@@ -351,6 +351,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     }
   };
   const updateUcas = async () => {
+    setApplybtn("Applying...");
     const validation = validateTotalCredit();
     setIsInvalid(validation);
     const list: any = [];
@@ -391,7 +392,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       ).tokens ?? {};
     if (!validation) {
       setQualCopy(qual);
-      setApplybtn("Applying...");
       if (idToken) {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
@@ -411,6 +411,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         console.log(response);
         const jsonData = await response.json();
         if (jsonData == "updated") {
+          onClose();
+          setApplybtn("Apply");
+        } else {
+          alert("failed");
           onClose();
           setApplybtn("Apply");
         }
