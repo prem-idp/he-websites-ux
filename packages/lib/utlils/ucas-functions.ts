@@ -146,10 +146,9 @@ export function extractValue(input: any, key: any) {
 export function extractMinMax(input: any, key: any) {
   if (input.includes("-")) {
     const [min, max] = input.split("-").map(Number);
-    console.log(input);
-    if (key === "min") return Number(min) || 0;
-    if (key === "max") return Number(max) || 0;
+    if (key === "min") return Number(min);
+    if (key === "max") return Number(max);
   } else {
-    return 0;
+    return "";
   }
 }
