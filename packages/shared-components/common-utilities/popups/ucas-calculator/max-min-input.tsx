@@ -6,6 +6,7 @@ const MaxMinInputBox = ({
   setUcasPoint,
   qual,
 }: any) => {
+  console.log(qual[indexPosition].min);
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[4px] small">
@@ -27,7 +28,7 @@ const MaxMinInputBox = ({
             )
           }
           defaultValue={
-            qual[indexPosition]?.min ? qual[indexPosition]?.min : ""
+            qual[indexPosition]?.min !== "" ? qual[indexPosition]?.min : ""
           }
           id={`minpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
