@@ -37,6 +37,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualCopy, setQualCopy] = useState<any>();
   const [userIdToken, setUserIdToken] = useState<any>(null);
   const [tracksessionId, setTracksessionId] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const ucasRef = useRef<HTMLDivElement | null>(null);
   const additionalQual = {
     SelectedLevel: "Please select",
@@ -76,6 +77,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   // }, []);
 
   useEffect(() => {
+    setLoading(true);
     console.log("use effect is runnning");
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
@@ -165,6 +167,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
+            setLoading(false);
           } else {
             console.log("No user details present in API");
             const mappedQuals = {
@@ -180,6 +183,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             };
             setQual([mappedQuals]);
             setQualCopy([mappedQuals]);
+            setLoading(false);
           }
         } else if (tracksessionId) {
           console.log("guest user");
@@ -259,6 +263,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
+            setLoading(false);
           } else {
             const mappedQuals = {
               ...initialvalue,
@@ -273,6 +278,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             };
             setQual([mappedQuals]);
             setQualCopy([mappedQuals]);
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -367,18 +373,20 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       list.push(obj);
     } else {
-      qual.map((items) => {
-        const obj = {
-          qualId: Number(items.qualId),
-          SelectedLevel: ucasGradeData?.find((item: any) => {
-            if (item.qualId === items.qualId.toString()) {
-              return item;
-            }
-          })?.qualificationUrl,
-          userEntryPoint: items.userEntryPoint,
-        };
-        list.push(obj);
-      });
+      qual
+        .filter((item) => item.userEntryPoint !== "")
+        .map((items) => {
+          const obj = {
+            qualId: Number(items.qualId),
+            SelectedLevel: ucasGradeData?.find((item: any) => {
+              if (item.qualId === items.qualId.toString()) {
+                return item;
+              }
+            })?.qualificationUrl,
+            userEntryPoint: items.userEntryPoint,
+          };
+          list.push(obj);
+        });
     }
     const saveUcas = {
       affiliateId: 220703,
@@ -447,12 +455,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
   }, []);
   return (
-    <div>
+    <>
       <div
         className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
           isUcasOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
         }`}
       ></div>
+
       <div
         ref={ucasRef}
         className={`bg-white fixed top-0 left-0 h-full w-[375px] z-10 transition-all duration-300 ease-in-out ${
@@ -489,141 +498,150 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             Calculate your UCAS points
           </h6>
         </div>
-        <div className="flex flex-col gap-[32px] h-[calc(100%-210px)] overflow-y-auto custom-scrollbar-2">
-          <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
-            <TopLevelMenu
-              ucasPoint={ucasPoint}
-              setUcasPoint={setUcasPoint}
-              ucasGradeData={ucasGradeData}
-              indexPosition={0}
-              key={resetid}
-              resetid={resetid}
-              qual={qual}
-              setQual={setQual}
-              setQualifications={setQualifications}
-            />
-            <div className="border-b border-grey-200"></div>
-            {/* Additional Qualification */}
-            {qualifications.map(
-              (qualification: QualInterface, index: number) => (
-                <AddQualification
-                  indexPosition={index + 1}
-                  qual={qual}
-                  setQual={setQual}
+        {!loading && (
+          <>
+            <div className="flex flex-col gap-[32px] h-[calc(100%-210px)] overflow-y-auto custom-scrollbar-2">
+              <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
+                <TopLevelMenu
                   ucasPoint={ucasPoint}
                   setUcasPoint={setUcasPoint}
-                  key={qualification.id}
-                  qualOrder={qualification.name}
                   ucasGradeData={ucasGradeData}
+                  indexPosition={0}
+                  key={resetid}
+                  resetid={resetid}
+                  qual={qual}
+                  setQual={setQual}
                   setQualifications={setQualifications}
-                  removeQual={() =>
-                    removeQualification(qualification.id, index + 1)
-                  }
                 />
-              )
-            )}
-            {/* Add qualification button */}
-
-            {qualifications.length < 2 &&
-              qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
-              qual[0]?.podSpecificPoints > 0 && (
-                <div
-                  onClick={addQualification}
-                  className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
-                >
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 2V15M14.5 8.5L1.5 8.5"
-                      stroke="#4664DC"
-                      strokeWidth="1.335"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                <div className="border-b border-grey-200"></div>
+                {/* Additional Qualification */}
+                {qualifications.map(
+                  (qualification: QualInterface, index: number) => (
+                    <AddQualification
+                      indexPosition={index + 1}
+                      qual={qual}
+                      setQual={setQual}
+                      ucasPoint={ucasPoint}
+                      setUcasPoint={setUcasPoint}
+                      key={qualification.id}
+                      qualOrder={qualification.name}
+                      ucasGradeData={ucasGradeData}
+                      setQualifications={setQualifications}
+                      removeQual={() =>
+                        removeQualification(qualification.id, index + 1)
+                      }
                     />
-                  </svg>
-                  Add a qualification
-                </div>
-              )}
-          </div>
-        </div>
-        {/* Reset or submit button */}
+                  )
+                )}
+                {/* Add qualification button */}
 
-        <div
-          className={`flex flex-col gap-[10px] p-[16px] fixed w-[375px] bottom-0 shadow-custom-10 bg-white ${
-            ucasPoint > 0 ? "block" : "hidden"
-          }`}
-        >
-          {valid && (
-            <p className="small text-negative-default">
-              A total of 45 credits for Access to HE Diploma must be added for
-              tariff points to be calculated
-            </p>
-          )}
-          {qual[0].SelectedLevel === "UCAS Tariff Points" &&
-            qual[0].min > qual[0].max && (
-              <p className="small text-negative-default">
-                The maximum points should be larger than the minimum points
-              </p>
-            )}
-          {ucasPoint > 0 && (
-            <div className="flex items-center justify-center gap-[8px] min-h-[42px]">
-              <p className="small text-grey300 small">Your UCAS points</p>
-              <div
-                className={`flex items-center min-w-[36px] py-[6px] px-[14px] rounded-[4px] bg-grey-100 text-grey300 font-semibold cursor-pointer ${
-                  ucasPoint > 0 ? "bg-positive-default text-white" : ""
-                }`}
-              >
-                {ucasPoint}
+                {qualifications.length < 2 &&
+                  qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
+                  qual[0]?.podSpecificPoints > 0 && (
+                    <div
+                      onClick={addQualification}
+                      className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
+                    >
+                      <svg
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8 2V15M14.5 8.5L1.5 8.5"
+                          stroke="#4664DC"
+                          strokeWidth="1.335"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Add a qualification
+                    </div>
+                  )}
               </div>
             </div>
-          )}
-          <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
-            <Link
-              prefetch={false}
-              href="#"
-              onClick={resetAll}
-              aria-label="reset filters"
-              className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
+            {/* Reset or submit button */}
+
+            <div
+              className={`flex flex-col gap-[10px] p-[16px] fixed w-[375px] bottom-0 shadow-custom-10 bg-white ${
+                ucasPoint > 0 ? "block" : "hidden"
+              }`}
             >
-              Reset
-            </Link>
-            <button
-              className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${(qual[0].SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max) || JSON.stringify(qual) === JSON.stringify(qualCopy) ? "cursor-not-allowed bg-grey-300 text-white" : "bg-primary-400 text-white hover:bg-primary-500"}`}
-              onClick={updateUcas}
-            >
-              {applybtn == "Applying..." && (
-                <svg
-                  className="animate-spin mr-[8px] h-[18px] w-[18px] text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
+              {valid && (
+                <p className="small text-negative-default">
+                  A total of 45 credits for Access to HE Diploma must be added
+                  for tariff points to be calculated
+                </p>
               )}
-              {applybtn}
-            </button>
-          </div>
-        </div>
+              {qual[0].SelectedLevel === "UCAS Tariff Points" &&
+                qual[0].min > qual[0].max && (
+                  <p className="small text-negative-default">
+                    The maximum points should be larger than the minimum points
+                  </p>
+                )}
+              {ucasPoint > 0 && (
+                <div className="flex items-center justify-center gap-[8px] min-h-[42px]">
+                  <p className="small text-grey300 small">Your UCAS points</p>
+                  <div
+                    className={`flex items-center min-w-[36px] py-[6px] px-[14px] rounded-[4px] bg-grey-100 text-grey300 font-semibold cursor-pointer ${
+                      ucasPoint > 0 ? "bg-positive-default text-white" : ""
+                    }`}
+                  >
+                    {ucasPoint}
+                  </div>
+                </div>
+              )}
+              <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
+                <Link
+                  prefetch={false}
+                  href="#"
+                  onClick={resetAll}
+                  aria-label="reset filters"
+                  className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
+                >
+                  Reset
+                </Link>
+                <button
+                  className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${(qual[0].SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max) || JSON.stringify(qual) === JSON.stringify(qualCopy) ? "cursor-not-allowed bg-grey-300 text-white" : "bg-primary-400 text-white hover:bg-primary-500"}`}
+                  onClick={updateUcas}
+                >
+                  {applybtn == "Applying..." && (
+                    <svg
+                      className="animate-spin mr-[8px] h-[18px] w-[18px] text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  )}
+                  {applybtn}
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        {loading && (
+          <center>
+            <h5>loading..</h5>
+          </center>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
