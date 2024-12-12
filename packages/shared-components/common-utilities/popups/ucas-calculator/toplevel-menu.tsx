@@ -45,8 +45,8 @@ const TopLevelMenu = ({
           maxTotalPoint: Number(maxTotalPoint),
           getmaxTotalPoint: 0,
           podSpecificPoints: 0,
-          min: 0,
-          max: 0,
+          min: "",
+          max: "",
           userEntryPoint: "",
           gradeArray: parseGradeString(gradeOptions),
         },
@@ -68,8 +68,8 @@ const TopLevelMenu = ({
                 qualId: qualId,
                 getmaxTotalPoint: 0,
                 podSpecificPoints: 0,
-                min: 0,
-                max: 0,
+                min: "",
+                max: "",
                 userEntryPoint: "",
               }
             : item

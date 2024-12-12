@@ -105,7 +105,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
                 (entry: any, index: number) => ({
                   ...additionalQual,
-                  SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
+                  //formatQualificationLabel(entry.SelectedLevel)
+                  SelectedLevel: jsonData?.gradeFilterList?.filter(
+                    (item: any) => item.qualId === entry.qualId.toString()
+                  )[0]?.qualification,
                   qualId: entry.qualId,
                   min: extractMinMax(entry.userEntryPoint, "min"),
                   max: extractMinMax(entry.userEntryPoint, "max"),
@@ -203,7 +206,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
               (entry: any, index: number) => ({
                 ...additionalQual,
-                SelectedLevel: formatQualificationLabel(entry.SelectedLevel),
+                SelectedLevel: jsonData?.gradeFilterList?.filter(
+                  (item: any) => item.qualId === entry.qualId.toString()
+                )[0]?.qualification,
                 qualId: entry.qualId,
                 min: extractMinMax(entry.userEntryPoint, "min"),
                 max: extractMinMax(entry.userEntryPoint, "max"),
@@ -235,7 +240,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 ),
               })
             );
-            console.log("mapped qual", mappedQuals);
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
             console.log(jsonCookies?.userStudyLevelEntry);
@@ -281,7 +285,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
   };
-
+  console.log(ucasGradeData);
   const getOrdinalName = (index: number) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
@@ -358,7 +362,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     if (qual[0].SelectedLevel == "UCAS Tariff Points") {
       const obj = {
         qualId: Number(qual[0].qualId),
-        SelectedLevel: uppercaseToLowercase(qual[0].SelectedLevel),
+        SelectedLevel: ucasGradeData?.filter(
+          (item: any) => item.qualId === qual[0].qualId.toString()
+        )[0]?.qualificationUrl,
         userEntryPoint: `${qual[0].min}-${qual[0].max}`,
       };
       list.push(obj);
