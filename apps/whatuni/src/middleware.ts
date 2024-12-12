@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
     .map((cookie) => `${cookie.name}=${cookie.value}`);
   const finalCookieString = filteredCookies.join("; ");
   requestHeaders.set("cookie", finalCookieString);
-  NextResponse.next({
+  return NextResponse.next({
     request: {
       headers: requestHeaders,
     },
