@@ -68,25 +68,14 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     gradeArray: [],
   };
   const [qual, setQual] = useState([initialvalue]);
-
-  // useEffect(() => {
-  //   const getToken = async () => {
-  //     setUserIdToken(idToken);
-  //   };
-  //   getToken();
-  // }, []);
-
   useEffect(() => {
     setLoading(true);
     console.log("use effect is runnning");
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
-      console.log("Auth Session Response:", response);
       const { idToken } = response.tokens ?? {};
       console.log("ID Token:", idToken);
       const tracksessionId = getCookie("userTrackId");
-      console.log("user id tokennnnnnnnnnnnnnnnnnnnnnn", idToken);
-      console.log(idToken, tracksessionId);
       setUserIdToken(idToken);
       try {
         if (idToken) {
@@ -406,7 +395,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       if (idToken) {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
-          // "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/update-ucas",
           {
             method: "POST",
             headers: {
