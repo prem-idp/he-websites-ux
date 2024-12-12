@@ -129,8 +129,11 @@ const Megamenucomponents = ({ data }: any) => {
                   </div>
                 ) : (
                   <>
-                    {openMenu === `menu${index}` && (
-                      <>
+                    {
+                      // openMenu === `menu${index}` && (
+                      <div
+                        className={`${openMenu === `menu${index}` ? "block" : "hidden"}`}
+                      >
                         <div
                           onClick={() => handleMenuToggle(`menu${index}`)}
                           className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh]`}
@@ -160,8 +163,8 @@ const Megamenucomponents = ({ data }: any) => {
                             </section>
                           </div>
                         </div>
-                      </>
-                    )}
+                      </div>
+                    }
                   </>
                 )}
               </li>

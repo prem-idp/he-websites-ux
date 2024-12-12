@@ -249,7 +249,9 @@ const Header = ({
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents data={topnav_data} />}
+                    <div className={`${isOpen ? "block" : "hidden"}`}>
+                      <Megamenucomponents data={topnav_data} />
+                    </div>
                   </div>
                 </div>
               </>

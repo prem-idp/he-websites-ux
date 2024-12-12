@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
       alternates: {
         canonical:
           metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
-          "https://www.postgraduatesearch.com/",
+          "https://www.postgraduatesearch.com",
       },
       title:
         metadata?.data?.contentData?.items[0]?.seoFields?.metaTite ||
@@ -20,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
         "Default Description",
       robots:
         metadata?.data?.contentData?.items[0]?.robots?.title || "index, follow",
-      keywords: metadata?.data?.contentData?.items[0]?.seoFields
-        ?.metaKeywords || [],
+      keywords:
+        metadata?.data?.contentData?.items[0]?.seoFields?.metaKeywords || [],
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
       robots: "noindex, nofollow",
       keywords: null,
       alternates: {
-        canonical: "https://www.postgraduatesearch.com/",
+        canonical: "https://www.postgraduatesearch.com",
       },
     };
   }
