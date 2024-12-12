@@ -27,7 +27,7 @@ const MaxMinInputBox = ({
             )
           }
           defaultValue={
-            qual[indexPosition]?.min ? qual[indexPosition]?.min : ""
+            qual[indexPosition]?.min !== "" ? qual[indexPosition]?.min : ""
           }
           id={`minpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
