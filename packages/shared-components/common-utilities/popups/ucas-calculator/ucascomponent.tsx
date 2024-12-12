@@ -368,11 +368,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         .map((items) => {
           const obj = {
             qualId: Number(items.qualId),
-            SelectedLevel: ucasGradeData?.find((item: any) => {
-              if (item.qualId === items.qualId.toString()) {
-                return item;
-              }
-            })?.qualificationUrl,
+            SelectedLevel: ucasGradeData?.filter(
+              (item: any) => item.qualId === items.qualId.toString()
+            )[0]?.qualificationUrl,
             userEntryPoint: items.userEntryPoint,
           };
           list.push(obj);
