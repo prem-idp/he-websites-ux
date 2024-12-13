@@ -50,7 +50,6 @@ const OurPartnerComponent = ({ heading }: any) => {
           data?.data?.contentData?.items[0]?.bodyContentCollection?.items[0]
             ?.mediaCardsCollection?.items || [];
         setPartners(partnerLogos);
-        // console.log("API Response:", data);
       } catch (error) {
         console.error("Error calling Search Ajax API:", error);
       }

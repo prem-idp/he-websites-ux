@@ -28,7 +28,7 @@ const Page = async () => {
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle
-            );
+            );    
             return (
               <Component
                 key={index}
