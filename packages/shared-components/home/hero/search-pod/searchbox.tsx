@@ -5,9 +5,16 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
+//import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
 import PgsSearch from "./pgs-search";
-
+import dynamic from "next/dynamic";
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
 const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
@@ -19,7 +26,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   //         containerRef.current &&
   //         !containerRef.current.contains(event.target as Node)
   //       ) {
-  //         console.log("click outside in searchbox");
   //         return ucasClose();
   //       }
   //     };
@@ -46,7 +52,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
 
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    //console.log("clicked on ucas");
     SetIsUcasPopupOpen(true);
     const body = document.body;
     body.classList.add("overflow-y-hidden");
@@ -59,7 +64,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   };
 
   // ============================================================================================================================
-  // console.log(searchFormHandle,"______________________________________________");
   return (
     <>
       {process.env.PROJECT == "Whatuni" && (
@@ -128,10 +132,12 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                     </svg>
                     Calculate your UCAS points
                   </div>
-                  <UcasComponent
-                    onClose={ucasClose}
-                    isUcasOpen={isUcasPopupOpen}
-                  />
+                  {isUcasPopupOpen && (
+                    <UcasComponent
+                      onClose={ucasClose}
+                      isUcasOpen={isUcasPopupOpen}
+                    />
+                  )}
                 </div>
               )}
               {searchFormHandle?.activeTab == "tab2" && (

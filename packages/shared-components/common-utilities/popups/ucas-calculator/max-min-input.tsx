@@ -6,6 +6,7 @@ const MaxMinInputBox = ({
   setUcasPoint,
   qual,
 }: any) => {
+  console.log("drop down", qual[indexPosition]);
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[4px] small">
@@ -14,20 +15,16 @@ const MaxMinInputBox = ({
         </label>
         <input
           type="text"
-          onChange={(event) =>
+          onChange={(event) => {
+            const value = Number(event?.target.value);
             setQual((prev: any) =>
               prev.map((item: any, index: number) =>
-                index === indexPosition
-                  ? {
-                      ...item,
-                      min: Number(event?.target.value),
-                    }
-                  : item
+                index === indexPosition ? { ...item, min: value } : item
               )
-            )
-          }
+            );
+          }}
           defaultValue={
-            qual[indexPosition]?.min ? qual[indexPosition]?.min : ""
+            qual[indexPosition]?.min !== "" ? qual[indexPosition]?.min : ""
           }
           id={`minpoint-${indexPosition}`}
           placeholder="Enter UCAS points"
@@ -45,7 +42,6 @@ const MaxMinInputBox = ({
           }
           onChange={(event) => {
             const value = Number(event?.target.value);
-
             setQual((prev: any) =>
               prev.map((item: any, index: number) =>
                 index === indexPosition
@@ -53,7 +49,6 @@ const MaxMinInputBox = ({
                   : item
               )
             );
-
             setUcasPoint(value);
           }}
           id={`maxpoint-${indexPosition}`}

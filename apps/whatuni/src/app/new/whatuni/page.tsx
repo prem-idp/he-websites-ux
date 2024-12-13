@@ -43,7 +43,6 @@ export default function App() {
       setUser(currentUser);
     } catch (error) {
       console.error(error);
-      // console.log("Not signed in");
     }
   };
 

@@ -19,7 +19,6 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
-  // console.log(statsData?.cta.primaryCtaUrl, "statsData?.cta.primaryCtaUrl");
   return (
     <Suspense>
       <section className="wusca-container bg-neutral-50">
@@ -66,6 +65,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                     width="32"
                     height="32"
                     alt={stats.icon.title}
+                    priority={true}
                   />
                   <div className="wusca-content text-center md:text-left">
                     <h3 className="font-bold">{stats?.statNumber}</h3>
@@ -78,6 +78,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
             </div>
             <div className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1">
               <Image
+                priority={true}
                 src={`${statsData?.image.url || ""}`}
                 width={402}
                 height={401}
