@@ -2,11 +2,22 @@
 const nextConfig = {
   skipTrailingSlashRedirect: true,
   productionBrowserSourceMaps: true,
-  // trailingSlash: true,
+  async headers() {
+    return [
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "max-http-header-size",
+            value: "16384",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
-        // Matches routes with query parameters and removes trailing slash
         source: "/:path*/",
         has: [
           {
