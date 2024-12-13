@@ -1,67 +1,47 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
-import { Hub } from "@aws-amplify/core";
+"use server";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import {
+  MultipleCardContainer,
+  SliderBannerCollection,
+} from "@packages/lib/types/interfaces";
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
-import awsconfig from "../../../../configs/amplifyconfiguration";
-
-Amplify.configure(awsconfig);
-
-interface AuthUser {
-  username: string;
-  [key: string]: any;
-}
-
-export default function App() {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [error, setError] = useState<unknown>(null);
-  const [customState, setCustomState] = useState<string | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload }) => {
-      switch (payload.event) {
-        case "signInWithRedirect":
-          getUser();
-          break;
-        case "signInWithRedirect_failure":
-          setError("An error has occurred during the OAuth flow.");
-          break;
-        case "customOAuthState":
-          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
-          break;
-      }
-    });
-
-    getUser();
-
-    return unsubscribe;
-  }, []);
-
-  const getUser = async (): Promise<void> => {
-    try {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+import awsconfig from "../../../configs/amplifyconfiguration";
+Amplify.configure(awsconfig, { ssr: true });
+const Page = async () => {
+  const jsonData = await graphQlFetchFunction(homePageQuery);
+  const componentList =
+    jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  const heroSliderData: SliderBannerCollection =
+    jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
 
   return (
-    <div className="App">
-      <button
-        onClick={() =>
-          signInWithRedirect({
-            provider: "Google",
-            customState: "http://localhost:3000/new/home",
-          })
-        }
-      >
-        Open Google
-      </button>
-
-      {/* <button onClick={() => signOut()}>Sign Out</button> */}
-      <div>{user?.username}</div>
-      <div>{customState}</div>
-    </div>
+    <>
+      <GoogleOneTap />
+      <Heroslidercomponent data={heroSliderData} />
+      <div>
+        {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
+              />
+            );
+          }
+        )}
+      </div>
+    </>
   );
-}
+};
+
+export default Page;
