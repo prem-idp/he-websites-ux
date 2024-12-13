@@ -57,5 +57,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/new/whatuni", "/"],
+  matcher: ["/new/whatuni", "/", "/new/home"],
 };

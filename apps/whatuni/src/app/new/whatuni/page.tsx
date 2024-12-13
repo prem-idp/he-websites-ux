@@ -9,7 +9,7 @@ Amplify.configure(awsconfig);
 
 interface AuthUser {
   username: string;
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 export default function App() {
@@ -43,7 +43,6 @@ export default function App() {
       setUser(currentUser);
     } catch (error) {
       console.error(error);
-      // console.log("Not signed in");
     }
   };
 

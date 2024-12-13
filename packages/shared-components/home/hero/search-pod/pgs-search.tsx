@@ -26,9 +26,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const universityClick = () => {
-    // console.log("clicked", isPgsUniversityClicked);
     setIsPgsUniversityClicked((prev) => !prev);
-    // console.log("clicked after", isPgsUniversityClicked);
     setShowDropdown(true);
     setQualDropdown(true);
   };
@@ -55,7 +53,6 @@ export default function PgsSearch({ pgs_search_data }: any) {
       (subjects: any) =>
         subjects?.description?.toLowerCase().includes(description.toLowerCase())
     );
-    // console.log(filteredSubjects);
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (list: any, searchText: any) => {
       if (!searchText) return list;
