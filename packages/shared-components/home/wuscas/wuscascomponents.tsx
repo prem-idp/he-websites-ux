@@ -66,6 +66,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                     width="32"
                     height="32"
                     alt={stats.icon.title}
+                    priority={true}
                   />
                   <div className="wusca-content text-center md:text-left">
                     <h3 className="font-bold">{stats?.statNumber}</h3>
