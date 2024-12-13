@@ -5,7 +5,6 @@ import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
-    // console.log("metadata", metadata);
     return {
       alternates: {
         canonical:

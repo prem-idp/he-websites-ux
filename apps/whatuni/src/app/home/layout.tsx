@@ -7,7 +7,6 @@ import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
-    // console.log("metadata", metadata);
     return {
       alternates: {
         canonical:

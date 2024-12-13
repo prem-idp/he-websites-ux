@@ -17,7 +17,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  console.log(searchFormHandle, "searchFormHandle");
+  // console.log(searchFormHandle, "searchFormHandle");
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
@@ -221,7 +221,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 setDropdown(false);
               }}
               onChange={(event: any) => {
-                console.log(event);
+                // console.log(event);
                 setsearchFormHandle((prevData: SearchFormHandle) => ({
                   ...prevData,
                   courseType: { ...prevData, qualDesc: event.target.value },
@@ -235,17 +235,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 if (!searchFormHandle?.isCourseType) return;
                 const allOptions: any = studymodelist || [];
                 const currentIndex = dropdownIndexQual;
-                console.log(currentIndex, "currentIndex");
+                console.log(currentIndex, "currentIndex in qual");
                 let newIndex = currentIndex;
                 switch (e.key) {
                   case "ArrowDown":
+                    console.log("down is clicked in qual");
                     e.preventDefault();
                     newIndex =
                       currentIndex < allOptions.length - 1
                         ? currentIndex + 1
                         : 0;
                     setdropdownIndexQual(newIndex);
-                    console.log(newIndex, "newIndex");
+                    // console.log(newIndex, "newIndex");
                     const nextElement = document.querySelector(
                       `[data-index-1="${newIndex + 1}"]`
                     );
@@ -263,6 +264,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "ArrowUp":
+                    console.log("up is clicked in qual");
                     e.preventDefault();
                     newIndex =
                       currentIndex > 0
@@ -287,7 +289,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "Enter":
-                    // console.log("enter is clicked");
+                    console.log("enter is clicked in qual");
                     e.preventDefault();
 
                     const selectedElement: any =
@@ -295,7 +297,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     if (selectedElement) {
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
-                      console.log(selectedIndex, "selectedindex");
+                      // console.log(selectedIndex, "selectedindex");
                       // console.log(filteredsubject[selectedIndex - 1]);
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
                         ...prevData,
@@ -372,9 +374,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 if (!dropdown) return;
                 const allOptions: any = filteredsubject || [];
                 const currentIndex = dropdownIndex;
+                console.log(currentIndex, "currentIndex in subject");
                 let newIndex = currentIndex;
                 switch (e.key) {
                   case "ArrowDown":
+                    console.log("down is clicked in subject");
                     e.preventDefault();
                     newIndex =
                       currentIndex < allOptions.length - 1
@@ -396,6 +400,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "ArrowUp":
+                    console.log("up is clicked in subject");
                     e.preventDefault();
                     newIndex =
                       currentIndex > 0
@@ -418,15 +423,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "Enter":
-                    console.log("enter is clicked");
+                    console.log("enter is clicked in subject");
                     e.preventDefault();
                     const selectedElement: any =
                       document.querySelector(".bg-blue-50");
                     if (selectedElement) {
-                      console.log(selectedElement, "selected elemenet");
+                      // console.log(selectedElement, "selected elemenet");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index");
-                      console.log(selectedIndex, "selectedindex");
+                      // console.log(selectedIndex, "selectedindex");
                       // console.log(filteredsubject[selectedIndex - 1]);
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
                         ...prevData,
@@ -518,7 +523,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                   (item: any) =>
                     item.regionName === searchFormHandle.location.regionName
                 );
-                console.log(currentIndex, "text");
+                // console.log(currentIndex, "text");
                 switch (e.key) {
                   case "ArrowDown":
                     e.preventDefault();

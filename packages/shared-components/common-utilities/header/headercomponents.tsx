@@ -38,13 +38,11 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const pathname = usePathname();
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
-    console.log("useEffect started");
 
     // -------check the user authentication----------------------------
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log(session, "user from the client");
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -99,7 +97,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
     return () => {
       // Cleanup event listeners
-      console.log("useEffect cleanup");
       document.removeEventListener("mousedown", handleClickOutside);
       emitter.off("rightMenuActionclose", handleRightMenuAction);
       window.removeEventListener("resize", handleResize);
