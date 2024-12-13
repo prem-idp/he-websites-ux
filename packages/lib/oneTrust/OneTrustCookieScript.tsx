@@ -9,7 +9,7 @@ export default function OneTrustCookieScript(){
 
   const loadAnalyticsScripts = async (): Promise<boolean> => {
 
-    //console.log("User consented to analytics; loading analytics scripts...", window.Optanon);
+    console.log("User consented to analytics; loading analytics scripts...", window.Optanon);
     
     //if (window.Optanon && typeof window.Optanon.IsConsented === 'function') {
   
@@ -34,8 +34,8 @@ export default function OneTrustCookieScript(){
     
       const isUserAcctpedCookie: boolean = (OptanonConsent != null && OptanonConsent != undefined) && (OptanonAlertBoxClosed != null && OptanonAlertBoxClosed != undefined);
       const cookieConsentVal = isUserAcctpedCookie ? oneTrustCookieconsentVal : "0111";
-      // console.log("IsAlertBoxClosed", isUserAcctpedCookie);
-      // console.log("cookieconsentVal", cookieConsentVal);
+      console.log("IsAlertBoxClosed", isUserAcctpedCookie);
+      console.log("cookieconsentVal", cookieConsentVal);
       
       // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
       if(isUserAcctpedCookie){
@@ -67,10 +67,10 @@ export default function OneTrustCookieScript(){
     // Function to check consent when event fires
     const handleConsentChange = async () => {
 		
-	  // console.log("OptanonWrapper function triggered...")
+	  console.log("OptanonWrapper function triggered...")
       const returnVal = await loadAnalyticsScripts();
 	  setUserConsentGiven(() => { 
-		// console.log("state triggered...")
+		console.log("state triggered...")
 		return returnVal});
     };
 

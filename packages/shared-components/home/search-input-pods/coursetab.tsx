@@ -17,7 +17,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  // console.log(searchFormHandle, "searchFormHandle");
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
@@ -77,7 +76,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
             .startsWith(searchLower),
           exactMatch: item?.description?.toLowerCase() === searchLower,
         }))
-        .filter((item) => item.position !== -1) // Only include items with searchText
+        .filter((item) => item.position !== -1)
         .sort((a, b) => {
           if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1;
           if (a.startsWithSearch !== b.startsWithSearch)
@@ -109,8 +108,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
         url: null,
         parent_subject: null,
         category_code: null,
-        browse_cat_id: "KW", // Retaining other properties of subject
-        description: "", // Setting the description value
+        browse_cat_id: "KW",
+        description: "",
       },
     }));
   }, [searchFormHandle.courseType.qualCode]);
@@ -145,12 +144,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
       searchFormHandle.subject?.url
     ) {
       const sanitizedRegionName = searchFormHandle.location.regionName
-        .trim() // Remove spaces from the front and back
-        .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
-        .replace(/\s+/g, "-") // Replace spaces with hyphens
-        .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-        .replace(/^-|-$/g, "") // Remove hyphens from the start and end
-        .toLowerCase(); // Convert the entire string to lowercase
+        .trim()
+        .replace(/[^a-zA-Z0-9\s]+/g, "-")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "")
+        .toLowerCase();
 
       router.push(
         `${searchFormHandle.subject.url}&location=${sanitizedRegionName}`
@@ -163,11 +162,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
   };
   const keywordSearch = () => {
     const sanitizedDescription = searchFormHandle?.subject?.description
-      .trim() // Remove spaces from the front and back
-      .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-      .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+      .trim()
+      .replace(/[^a-zA-Z0-9\s]+/g, "-")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
       .toLowerCase();
     const searchUrlMap: Record<string, string> = {
       M: "/degree-courses/search",
@@ -221,7 +220,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 setDropdown(false);
               }}
               onChange={(event: any) => {
-                // console.log(event);
                 setsearchFormHandle((prevData: SearchFormHandle) => ({
                   ...prevData,
                   courseType: { ...prevData, qualDesc: event.target.value },
@@ -235,18 +233,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 if (!searchFormHandle?.isCourseType) return;
                 const allOptions: any = studymodelist || [];
                 const currentIndex = dropdownIndexQual;
-                console.log(currentIndex, "currentIndex in qual");
                 let newIndex = currentIndex;
                 switch (e.key) {
                   case "ArrowDown":
-                    console.log("down is clicked in qual");
                     e.preventDefault();
                     newIndex =
                       currentIndex < allOptions.length - 1
                         ? currentIndex + 1
                         : 0;
                     setdropdownIndexQual(newIndex);
-                    // console.log(newIndex, "newIndex");
                     const nextElement = document.querySelector(
                       `[data-index-1="${newIndex + 1}"]`
                     );
@@ -254,7 +249,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       block: "nearest",
                       behavior: "smooth",
                     });
-                    // Add highlighting class without changing the input value
                     document
                       .querySelectorAll("[data-index-1]")
                       .forEach((el) => {
@@ -264,14 +258,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "ArrowUp":
-                    console.log("up is clicked in qual");
                     e.preventDefault();
                     newIndex =
                       currentIndex > 0
                         ? currentIndex - 1
                         : allOptions.length - 1;
                     setdropdownIndexQual(newIndex);
-                    // Just scroll into view without setting the value
                     const prevElement = document.querySelector(
                       `[data-index-1="${newIndex}"]`
                     );
@@ -279,7 +271,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       block: "nearest",
                       behavior: "smooth",
                     });
-                    // Add highlighting class without changing the input value
                     document
                       .querySelectorAll("[data-index-1]")
                       .forEach((el) => {
@@ -289,7 +280,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "Enter":
-                    console.log("enter is clicked in qual");
                     e.preventDefault();
 
                     const selectedElement: any =
@@ -297,11 +287,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     if (selectedElement) {
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
-                      // console.log(selectedIndex, "selectedindex");
-                      // console.log(filteredsubject[selectedIndex - 1]);
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
                         ...prevData,
-                        courseType: studymodelist[selectedIndex - 1], // Update state with the selected course type
+                        courseType: studymodelist[selectedIndex - 1],
                       }));
                       courseActions("UG");
                     }
@@ -325,9 +313,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
-                          courseType: item, // Update state with the selected course type
+                          courseType: item,
                         }));
-                        courseActions("UG"); // Call your additional function
+                        courseActions("UG");
                       }}
                       className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
                       data-index-1={index + 1}
@@ -349,8 +337,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               aria-label="submenu"
               placeholder="Enter subject"
               onChange={(event) => {
-                const trimmedValue = event.target.value.replace(/\s{2,}/g, " "); // Replace multiple spaces with a single space
-
+                const trimmedValue = event.target.value.replace(/\s{2,}/g, " ");
                 setsearchFormHandle((prevData: any) => ({
                   ...prevData,
                   subject: {
@@ -358,8 +345,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     url: null,
                     parent_subject: null,
                     category_code: null,
-                    browse_cat_id: "KW", // Retaining other properties of subject
-                    description: trimmedValue.trimStart(), // Setting the description value
+                    browse_cat_id: "KW",
+                    description: trimmedValue.trimStart(),
                   },
                 }));
                 setDropdown(true);
@@ -374,11 +361,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 if (!dropdown) return;
                 const allOptions: any = filteredsubject || [];
                 const currentIndex = dropdownIndex;
-                console.log(currentIndex, "currentIndex in subject");
                 let newIndex = currentIndex;
                 switch (e.key) {
                   case "ArrowDown":
-                    console.log("down is clicked in subject");
                     e.preventDefault();
                     newIndex =
                       currentIndex < allOptions.length - 1
@@ -392,7 +377,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       block: "nearest",
                       behavior: "smooth",
                     });
-                    // Add highlighting class without changing the input value
+
                     document.querySelectorAll("[data-index]").forEach((el) => {
                       el.classList.remove("bg-blue-50", "underline");
                     });
@@ -400,14 +385,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "ArrowUp":
-                    console.log("up is clicked in subject");
                     e.preventDefault();
                     newIndex =
                       currentIndex > 0
                         ? currentIndex - 1
                         : allOptions.length - 1;
                     setdropdownIndex(newIndex);
-                    // Just scroll into view without setting the value
+
                     const prevElement = document.querySelector(
                       `[data-index="${newIndex}"]`
                     );
@@ -415,7 +399,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       block: "nearest",
                       behavior: "smooth",
                     });
-                    // Add highlighting class without changing the input value
+
                     document.querySelectorAll("[data-index]").forEach((el) => {
                       el.classList.remove("bg-blue-50", "underline");
                     });
@@ -423,16 +407,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     break;
 
                   case "Enter":
-                    console.log("enter is clicked in subject");
                     e.preventDefault();
                     const selectedElement: any =
                       document.querySelector(".bg-blue-50");
                     if (selectedElement) {
-                      // console.log(selectedElement, "selected elemenet");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index");
-                      // console.log(selectedIndex, "selectedindex");
-                      // console.log(filteredsubject[selectedIndex - 1]);
+
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
                         ...prevData,
                         subject: filteredsubject[selectedIndex - 1],
@@ -523,7 +504,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                   (item: any) =>
                     item.regionName === searchFormHandle.location.regionName
                 );
-                // console.log(currentIndex, "text");
                 switch (e.key) {
                   case "ArrowDown":
                     e.preventDefault();
@@ -589,9 +569,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
-                          location: item, 
+                          location: item,
                         }));
-                        courseActions("Location"); 
+                        courseActions("Location");
                       }}
                       key={index}
                       data-index={index}
