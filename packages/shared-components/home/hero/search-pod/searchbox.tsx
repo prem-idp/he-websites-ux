@@ -74,41 +74,35 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
           <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <ul className="flex gap-[8px] justify-center md:justify-start">
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab1"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab1")}
-                  >
-                    Courses
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab1"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab1")}
+                >
+                  Courses
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab2"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab2")}
-                  >
-                    Universities
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab2"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab2")}
+                >
+                  Universities
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab3"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab3")}
-                  >
-                    Advice
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab3"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab3")}
+                >
+                  Advice
                 </li>
               </ul>
 
