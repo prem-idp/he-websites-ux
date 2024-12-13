@@ -101,7 +101,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
                 (entry: any, index: number) => ({
                   ...additionalQual,
-                  //formatQualificationLabel(entry.SelectedLevel)
                   SelectedLevel: jsonData?.gradeFilterList?.filter(
                     (item: any) => item.qualId === entry.qualId.toString()
                   )[0]?.qualification,
