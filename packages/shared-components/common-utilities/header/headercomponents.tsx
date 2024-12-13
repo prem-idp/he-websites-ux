@@ -38,7 +38,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const pathname = usePathname();
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
-
     // -------check the user authentication----------------------------
     const fetchUser = async () => {
       try {
@@ -52,7 +51,9 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
             setFirst(true);
           }
         }
+        setFirst(true);
       } catch (error) {
+        setFirst(true);
         console.error("Error fetching user:", error);
       }
     };
