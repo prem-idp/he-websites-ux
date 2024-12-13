@@ -7,6 +7,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
+import {PageViewLogging }from "@packages/shared-components/common-utilities/pageviewlogging/pageviewlogging";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -16,6 +17,11 @@ const Page = async () => {
 
   return (
     <>
+    PGS
+     <PageViewLogging gaData={{
+        website: "pgs",
+        pageName: "homepage",
+      }} children={undefined}/>  
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

@@ -34,21 +34,21 @@ const Megamenucomponents = ({ data }: any) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  function Megamenuoptions(child: any) {
+  function Megamenuoptions(child: any,parentMenu:any) {
     if (child?.items[1]?.navTitle && child?.items[1]?.navIcon === null) {
-      return <Menucategory1card data={child.items} />;
+      return <Menucategory1card data={child.items} parentMenu={parentMenu} />;
     } else if (child?.items[1]?.navTitle && child?.items[1]?.navIcon) {
       if (child?.items[1].flagNavItemStyle === "Nav Icon") {
-        return <Menucategory2card data={child.items} />;
+        return <Menucategory2card data={child.items} parentMenu={parentMenu}/>;
       }
       if (child?.items[1].flagNavItemStyle === "Nav Image") {
-        return <Menucategory3card data={child.items} />;
+        return <Menucategory3card data={child.items} parentMenu={parentMenu}/>;
       }
       if (child?.items[1].flagNavItemStyle === "Nav Hero Image") {
         if (child?.items?.length == 2) {
-          return <Menucategory5card data={child.items} />;
+          return <Menucategory5card data={child.items} parentMenu={parentMenu}/>;
         }
-        return <Menucategory4card data={child.items} />;
+        return <Menucategory4card data={child.items} parentMenu={parentMenu}/>;
       }
     } else {
       return <p>No data</p>;
@@ -117,13 +117,13 @@ const Megamenucomponents = ({ data }: any) => {
                     <div className="max-w-container mx-auto">
                       <section className="grid grid-cols-1 lg:grid-cols-1  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">
                         {menuItem.navChildC1Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC1Collection)}
+                          Megamenuoptions(menuItem.navChildC1Collection,menuItem.navTitle)}
                         {menuItem.navChildC2Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC2Collection)}
+                          Megamenuoptions(menuItem.navChildC2Collection,menuItem.navTitle)}
                         {menuItem.navChildC3Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC3Collection)}
+                          Megamenuoptions(menuItem.navChildC3Collection,menuItem.navTitle)}
                         {menuItem.navChildC4Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC4Collection)}
+                          Megamenuoptions(menuItem.navChildC4Collection,menuItem.navTitle)}
                       </section>
                     </div>
                   </div>
@@ -146,13 +146,13 @@ const Megamenucomponents = ({ data }: any) => {
                               className={`grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]`}
                             >
                               {menuItem.navChildC1Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC1Collection)}
+                                Megamenuoptions(menuItem.navChildC1Collection,menuItem.navTitle)}
                               {menuItem.navChildC2Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC2Collection)}
+                                Megamenuoptions(menuItem.navChildC2Collection,menuItem.navTitle)}
                               {menuItem.navChildC3Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC3Collection)}
+                                Megamenuoptions(menuItem.navChildC3Collection,menuItem.navTitle)}
                               {menuItem.navChildC4Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC4Collection)}
+                                Megamenuoptions(menuItem.navChildC4Collection,menuItem.navTitle)}
                             </section>
                           </div>
                         </div>

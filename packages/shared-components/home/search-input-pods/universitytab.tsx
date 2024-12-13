@@ -5,6 +5,7 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect, useRef } from "react";
 import Form from "next/form";
+import GADataLayerFn from "@packages/shared-components/common-utilities/commonutil/ga-util";
 
 interface UniversityTabProps {
   searchFormHandle: any;
@@ -113,22 +114,55 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                   <ul>
                     {universityList?.map((item: any, index: any) => (
                       <Link
-                        prefetch={false}
-                        href={`/university-profile/${item?.collegeNameDisplay
-                          ?.toLowerCase() // Convert to lowercase
-                          ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
-                        onClick={() =>
-                          setsearchFormHandle((prevData: any) => ({
-                            ...prevData,
-                            university: item.collegeNameDisplay,
-                            isUniversityClicked: false,
-                          }))
-                        }
-                        key={index}
-                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                      >
-                        {item.collegeNameDisplay}
-                      </Link>
+                      prefetch={false}
+                      href={`/university-profile/${item?.collegeNameDisplay
+                        ?.toLowerCase() // Convert to lowercase
+                        ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
+                      onClick={() => {
+                        // Update state
+                        setsearchFormHandle((prevData: any) => ({
+                          ...prevData,
+                          university: item.collegeNameDisplay,
+                          isUniversityClicked: false,
+                        }));
+                    
+                        // Trigger GADataLayerFn
+                        GADataLayerFn(
+                          "ga_events", // Event type
+                          "homepage_search",
+                          "university_search",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "homepage", // University name
+                          "NA", // University ID
+                          item.collegeNameDisplay,
+                          "NA",
+                          "NA",
+                          "NA",
+                          item.collegeId,
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                        `${process.env.PROJECT}`,
+                          "NA",
+                          "NA" // Site name or context
+                        );
+                      }}
+                      key={index}
+                      className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                    >
+                      {item.collegeNameDisplay}
+                    </Link>
+                    
                     ))}
                   </ul>
                 </div>

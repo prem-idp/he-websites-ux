@@ -281,6 +281,7 @@ export interface CTA {
   internalName: string;
   primaryCtaUrl: string | null;
   primaryCtaLabel: string | null;
+  primaryCtaEventName: string | null;
   secondaryCtaUrl: string | null;
   secondaryCtaLabel: string | null;
   primaryCtaTarget: string | null;
@@ -303,6 +304,7 @@ export interface Image {
 export interface Cta {
   primaryCtaLabel: string;
   primaryCtaUrl: string;
+  primaryCtaEventName: string;
 }
 
 export interface StatInfo {

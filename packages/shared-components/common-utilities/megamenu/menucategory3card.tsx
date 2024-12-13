@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import GADataLayerFn from "../commonutil/ga-util";
 
-const Menucategory3card = ({ data }: any) => {
+const Menucategory3card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
   const calculate = () =>
     data.length - 1 <= 2 ? 1 : Math.ceil((data.length - 1) / 2);
 
   const size = calculate();
   const row = Math.ceil(size / 2);
+  const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
   
   return (
     <div
@@ -33,6 +35,9 @@ const Menucategory3card = ({ data }: any) => {
                 href={item?.navUrl || ""}
                 target={item?.navCtaTarget=== "Open in new tab" ? "_blank" : "_parent"}
                 rel={item?.navCtaTarget === "Open in new tab"? "noopener noreferrer" : undefined}
+                onClick={() => {
+                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                }}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >
                 <Image

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DynamicMediaComponent } from "@packages/lib/types/interfaces";
+import GADataLayerFn from "../../commonutil/ga-util";
 interface PropsInterface {
   data: DynamicMediaComponent;
 }
@@ -22,6 +23,9 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
             prefetch={false}
               data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
+              onClick={() => {
+                GADataLayerFn("ga_contentful_events", data?.cta?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, data?.cta?.primaryCtaLabel, data?.cta?.primaryCtaUrl);
+              }}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"
             >
               {data?.cta?.primaryCtaLabel}

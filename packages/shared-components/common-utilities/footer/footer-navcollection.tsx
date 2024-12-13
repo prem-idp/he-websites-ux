@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { FooterNavCollectionItem } from "@packages/lib/types/interfaces";
+import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
 interface PropsInterface {
   data: FooterNavCollectionItem[];
 }
@@ -25,6 +26,17 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
               {navItems?.navChildC1Collection?.items?.map(
                 (childItem, index) => (
                   <li key={index + 1} data-testid={`childMenu${index + 1}`}>
+                    <ClickTrackerWrapper   gaData={{
+                        event: "ga_contentful_events",
+                        eventName:"footer_clicks",
+                        ctaTitle: childItem.navTitle,
+                        ctaUrl: childItem?.navUrl || "",
+                        website:`${process.env.PROJECT}`,
+                        pageName:"homepage",
+                        contentfulCategory1:navItems?.navTitle,
+
+                      }}
+                      >
                     <Link
                     
                       data-testid={`${childItem.navTitle}${index + 1}`}
@@ -39,6 +51,7 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                     >
                       {childItem?.navTitle}
                     </Link>
+                    </ClickTrackerWrapper>
                   </li>
                 )
               )}

@@ -7,6 +7,7 @@ import Form from "next/form";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
+import GADataLayerFn from "@packages/shared-components/common-utilities/commonutil/ga-util";
 
 interface CourseTabProps {
   searchFormHandle: any;
@@ -170,11 +171,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
-
+      GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject, searchFormHandle?.subject, "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       router.push(
         `${searchFormHandle.subject.url}&location=${sanitizedRegionName}`
       );
     } else if (searchFormHandle.subject?.url) {
+      GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject, searchFormHandle?.subject, "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       router.push(searchFormHandle.subject.url);
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch();
@@ -209,7 +211,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
-
+        GADataLayerFn("ga_events", "homepage_search", "keyword_search", "NA", matchedSubject, matchedSubject, "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       return router.push(
         `${matchedSubject.url}&location=${sanitizedRegionName}`
       );

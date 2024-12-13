@@ -8,4 +8,8 @@ function getCookie(name: string): string | null {
   return null;
 }
 
-export { getCookie };
+function replaceWithNA(value: any) {
+  return value === undefined || value === ''  || value === null ? 'NA' : value;
+}
+
+export { getCookie, replaceWithNA };

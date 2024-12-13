@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
+import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
 
 interface headingProps {
   heading: string;
@@ -28,6 +29,15 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
                 {tagCloudArray?.map((data, index) => (
                   <li key={index}>
                     {data?.tagUrl && (
+                      <ClickTrackerWrapper  gaData={{
+                        event: "ga_contentful_events",
+                        eventName:data?.tagName,
+                        ctaTitle: data?.tagName,
+                        ctaUrl: data?.tagUrl,
+                        website:`${process.env.PROJECT}`,
+                        pageName:"homepage",
+                      }}
+                      >
                       <Link
                         href={data?.tagUrl}
                         prefetch={false}
@@ -35,6 +45,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
                       >
                         {data?.tagName}
                       </Link>
+                      </ClickTrackerWrapper>
                     )}
                   </li>
                 ))}

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AppLinkItem } from "@packages/lib/types/interfaces";
+import GADataLayerFn from "../commonutil/ga-util";
 interface PropsInterface {
   data: AppLinkItem[];
 }
@@ -34,6 +35,9 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 ? data[0]?.primaryCtaUrl
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
+            onClick={() => {
+              GADataLayerFn("ga_contentful_events", "footer_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA",data[0]?.primaryCtaUrl);
+            }}
             aria-label="App Store"
           >
             <svg
@@ -163,6 +167,9 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 ? data[1]?.primaryCtaUrl
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
+            onClick={() => {
+              GADataLayerFn("ga_contentful_events", "footer_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA",data[1]?.primaryCtaUrl);
+            }}
             aria-label="Google Play"
           >
             <svg

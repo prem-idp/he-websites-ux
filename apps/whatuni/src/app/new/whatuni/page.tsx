@@ -12,6 +12,7 @@ import { headers } from "next/headers";
 import { fetchAuthSession } from "@aws-amplify/auth";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../../configs/amplifyconfiguration";
+import {PageViewLogging} from "@packages/shared-components/common-utilities/pageviewlogging/pageviewlogging";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const headersList = await headers(); // Await the promise
@@ -27,6 +28,10 @@ const Page = async () => {
   return (
     <>
       <GoogleOneTap />
+      <PageViewLogging gaData={{
+        website: "whatuni",
+        pageName: "homepage",
+      }} children={undefined}/>
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

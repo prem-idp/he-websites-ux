@@ -1,12 +1,13 @@
 import Link from "next/link";
 import React from "react";
+import GADataLayerFn from "../commonutil/ga-util";
 
-const Menucategory1card = ({ data }: any) => {
+const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
   const calculate = () =>
     data.length - 1 <= 6 ? 1 : Math.ceil((data.length - 1) / 6);
 
   const size = calculate();
-
+  const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
   return (
     <div
       className={`dropdown-content-col grid gap-[8px] lg:gap-[16px] col-span-1 lg:col-span-${size}`}
@@ -27,6 +28,9 @@ const Menucategory1card = ({ data }: any) => {
               <Link
                 prefetch={false}
                 href={item?.navUrl || ""}
+                onClick={() => {
+                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                }}
                 target={
                   item.navCtaTarget === "Open in new tab" ? "_blank" : "_parent"
                 }
