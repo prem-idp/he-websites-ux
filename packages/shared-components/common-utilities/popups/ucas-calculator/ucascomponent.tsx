@@ -398,7 +398,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       setQualCopy(qual);
       if (idToken) {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/v1/homepage/update-ucas`,
+          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
           {
             method: "POST",
             headers: {
