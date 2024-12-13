@@ -78,6 +78,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       setUserIdToken(idToken);
       try {
         if (idToken) {
+          console.log(idToken);
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/ucas-ajax`,
             {
@@ -93,9 +94,11 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               body: JSON.stringify(ucasAjax),
             }
           );
+          console.log(res);
           const jsonData = await res.json();
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
+          console.log(jsonData);
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
