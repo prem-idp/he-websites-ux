@@ -25,7 +25,6 @@ export async function searchAjaxFecthFunction(payload: Record<string, any>) {
     // Compute the hash of the payload string
 
     const url = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParams}`;
-    // console.log("url", url);
     // Make a GET request with the query parameters
     const res = await fetch(url, {
       method: "GET",
@@ -82,8 +81,6 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
 //       }
 //     );
 //     const data = await res.json();
-//     console.log("res", res);
-//     console.log("data", data);
 //     return data;
 //   } catch (error) {
 //     throw error;
