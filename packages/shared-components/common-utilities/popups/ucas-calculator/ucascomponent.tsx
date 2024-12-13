@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
 import Link from "next/link";
 import TopLevelMenu from "./toplevel-menu";
+import UcasComponentSkeleton from "../../skeleton/ucascomponentskeleton";
 import {
   extractMinMax,
   formatQualificationLabel,
@@ -395,7 +396,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         })
       ).tokens ?? {};
     if (!validation) {
-      setQualCopy(qual);
       if (idToken) {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
@@ -435,6 +435,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           console.error("saveUcas is not a valid value");
         }
       }
+      setQualCopy(qual);
     }
   };
   console.log("qual", qual);
@@ -631,11 +632,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             </div>
           </>
         )}
-        {loading && (
-          <center>
-            <h5>loading..</h5>
-          </center>
-        )}
+        {loading && <UcasComponentSkeleton />}
       </div>
     </>
   );
