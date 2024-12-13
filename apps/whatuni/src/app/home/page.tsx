@@ -8,14 +8,11 @@ import {
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
-import { headers } from "next/headers";
-import { fetchAuthSession } from "@aws-amplify/auth";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
-  const headersList = await headers(); // Await the promise
-  const isAuthenticated = headersList.get("isAuthenticated") || "false";
+
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
@@ -31,7 +28,7 @@ const Page = async () => {
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle
-            );
+            );    
             return (
               <Component
                 key={index}
