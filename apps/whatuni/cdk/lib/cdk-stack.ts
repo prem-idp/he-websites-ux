@@ -92,6 +92,13 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       destinationBucket: myBucket,
     });
 
+    // Upload files to the S3 bucket
+    new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
+      sources: [s3deploy.Source.asset("../.open-next/cache")],
+      destinationBucket: myBucket,
+      destinationKeyPrefix: "cache",
+    });
+
     const vpc = Vpc.fromLookup(this, "ExistingVpc", {
       // region: "ap-south-1",
       tags: { Name: process.env.AWS_VPC_TAG_NAME || "" },
@@ -139,6 +146,16 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       this.account,
       serverFunctionName
     );
+
+    const s3CacheStatement = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:ListBucket"
+      ],
+      resources: [`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`]
+      });
 
     const ec2XrayPolicyStatement = new PolicyStatement({
       effect: Effect.ALLOW,
@@ -192,7 +209,10 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30), // Adjust as needed
       memorySize: 1024, // Adjust as needed
       environment: {
-        NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
+       // NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
+       CACHE_BUCKET_NAME : myBucket.bucketName,
+       CACHE_BUCKET_KEY_PREFIX : "cache",
+       CACHE_BUCKET_REGION: `${process.env.AWS_REGION}`
       },
       architecture: Architecture.ARM_64,
       role: myRole,
