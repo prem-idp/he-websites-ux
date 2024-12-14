@@ -74,7 +74,27 @@ export default function OneTrustCookieScript(){
 		return returnVal});
     };
 
-	window.OptanonWrapper = handleConsentChange;
+    const handleUserInteraction = () => {
+      window.OptanonWrapper = handleConsentChange;
+       // Remove event listeners after loading the script
+       window.removeEventListener("scroll", handleUserInteraction);
+       window.removeEventListener("click", handleUserInteraction);
+       window.removeEventListener("keypress", handleUserInteraction);
+    };
+
+	
+
+  // Add event listeners for user interaction
+  window.addEventListener("scroll", handleUserInteraction);
+  window.addEventListener("click", handleUserInteraction);
+  window.addEventListener("keypress", handleUserInteraction);
+
+  return () => {
+
+    window.removeEventListener("scroll", handleUserInteraction);
+    window.removeEventListener("click", handleUserInteraction);
+    window.removeEventListener("keypress", handleUserInteraction);
+  };
 
   }, []);
 
