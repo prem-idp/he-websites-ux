@@ -31,6 +31,7 @@ export default async function RootLayout({
         <OneTrustCookieScript />
         <HeaderWrapper />
         {children}
+        
         <Footer />
       </body>
     </html>
