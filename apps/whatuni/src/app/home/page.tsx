@@ -12,7 +12,6 @@ import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
-
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
@@ -21,14 +20,14 @@ const Page = async () => {
 
   return (
     <>
-      <GoogleOneTap />
+      {/* <GoogleOneTap /> */}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle
-            );    
+            );
             return (
               <Component
                 key={index}

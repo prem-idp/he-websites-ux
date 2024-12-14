@@ -36,31 +36,17 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [resetid, setResetid] = useState<number>(Date.now());
   const [applybtn, setApplybtn] = useState<any>("Apply");
   const [qualCopy, setQualCopy] = useState<any>();
-  const [userIdToken, setUserIdToken] = useState<any>(null);
-  const [tracksessionId, setTracksessionId] = useState<any>(null);
+  const [firstTimeUser, setFirstTimeUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const ucasRef = useRef<HTMLDivElement | null>(null);
-  const additionalQual = {
-    SelectedLevel: "Please select",
-    qualId: 0,
-    totalcredit: 0,
-    type: "",
-    maxPoint: 5,
-    maxTotalPoint: 6,
-    getmaxTotalPoint: 0,
-    podSpecificPoints: 0,
-    userEntryPoint: "",
-    min: "",
-    max: "",
-    gradeArray: [],
-  };
+  const [qual, setQual] = useState<any>([]);
   const initialvalue: any = {
-    SelectedLevel: "A Level",
+    SelectedLevel: "Please select",
     totalcredit: 0,
-    qualId: 1,
-    type: "plus-minus",
-    maxPoint: 5,
-    maxTotalPoint: 6,
+    qualId: 0,
+    type: "",
+    maxPoint: 0,
+    maxTotalPoint: 0,
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
     userEntryPoint: "",
@@ -68,16 +54,19 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     max: "",
     gradeArray: [],
   };
-  const [qual, setQual] = useState([initialvalue]);
   useEffect(() => {
     setLoading(true);
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response.tokens ?? {};
       const tracksessionId = getCookie("userTrackId");
-      setUserIdToken(idToken);
+      const isUcasPresentInCookie = getCookie("ucaspoint");
+      if (!isUcasPresentInCookie && idToken) {
+        setFirstTimeUser(true);
+      }
       try {
         if (idToken) {
+          console.log(idToken);
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/ucas-ajax`,
             {
@@ -93,14 +82,18 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
               body: JSON.stringify(ucasAjax),
             }
           );
+          console.log(res);
           const jsonData = await res.json();
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
+          console.log(jsonData);
+          setLoading(false);
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
                 (entry: any, index: number) => ({
-                  ...additionalQual,
+                  //checking
+                  ...initialvalue,
                   SelectedLevel: jsonData?.gradeFilterList?.filter(
                     (item: any) => item.qualId === entry.qualId.toString()
                   )[0]?.qualification,
@@ -154,7 +147,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
-            setLoading(false);
           } else {
             const mappedQuals = {
               ...initialvalue,
@@ -187,14 +179,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           const jsonData = await response.json();
           setUcasGradeData(jsonData?.gradeFilterList);
           const jsonCookies = JSON.parse(getCookie("UCAS") || "{}");
-
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
           if (jsonCookies?.userStudyLevelEntry) {
             const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
               (entry: any, index: number) => ({
-                ...additionalQual,
+                ...initialvalue,
                 SelectedLevel: jsonData?.gradeFilterList?.filter(
                   (item: any) => item.qualId === entry.qualId.toString()
                 )[0]?.qualification,
@@ -232,6 +223,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             );
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
+            setLoading(false);
             if (jsonCookies?.userStudyLevelEntry.length > 0) {
               const temp = Math.abs(
                 qualifications.length -
@@ -245,7 +237,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
-            setLoading(false);
           } else {
             const mappedQuals = {
               ...initialvalue,
@@ -285,7 +276,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         id: Date.now(),
         name: getOrdinalName(prevQualifications.length),
       };
-      qual.push(additionalQual);
+      qual.push(initialvalue);
       return [...prevQualifications, newQualification];
     });
   };
@@ -309,7 +300,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const resetAll = () => {
     setQualifications([]);
     setUcasPoint(0);
-    setQual([initialvalue]);
     setResetid(Date.now());
     const mappedQuals = {
       ...initialvalue,
@@ -327,10 +317,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [valid, setIsInvalid] = useState(false);
   const validateTotalCredit = () => {
     const filteredArray = qual.filter(
-      (item: any) => item.SelectedLevel === "Access to HE Diploma"
+      (item: any) => item?.SelectedLevel === "Access to HE Diploma"
     );
     const totalCredits = filteredArray.reduce(
-      (acc: any, item) => acc + item.totalcredit,
+      (acc: any, item: any) => acc + item.totalcredit,
       0
     );
     const expectedTotal = filteredArray.length * 45;
@@ -350,7 +340,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       setApplybtn("Apply");
     }
     const list: any = [];
-    if (qual[0].SelectedLevel == "UCAS Tariff Points") {
+    if (qual[0]?.SelectedLevel == "UCAS Tariff Points") {
       const obj = {
         qualId: Number(qual[0].qualId),
         SelectedLevel: ucasGradeData?.filter(
@@ -361,8 +351,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       list.push(obj);
     } else {
       qual
-        .filter((item) => item.userEntryPoint !== "")
-        .map((items) => {
+        .filter((item: any) => item.userEntryPoint !== "")
+        .map((items: any) => {
           const obj = {
             qualId: Number(items.qualId),
             SelectedLevel: ucasGradeData?.filter(
@@ -386,29 +376,37 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       ).tokens ?? {};
     if (!validation) {
       if (idToken) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-              Authorization:
-                typeof idToken === "string"
-                  ? idToken
-                  : idToken?.toString() || "",
-            },
-            body: JSON.stringify(saveUcas),
+        if (JSON.stringify(qual) !== JSON.stringify(qualCopy)) {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                Authorization:
+                  typeof idToken === "string"
+                    ? idToken
+                    : idToken?.toString() || "",
+              },
+              body: JSON.stringify(saveUcas),
+            }
+          );
+          const jsonData = await response.json();
+          if (jsonData == "updated") {
+            document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+            setFirstTimeUser(false);
+            onClose();
+            setApplybtn("Apply");
+          } else {
+            alert("failed");
+            onClose();
+            setApplybtn("Apply");
           }
-        );
-        const jsonData = await response.json();
-        if (jsonData == "updated") {
-          onClose();
-          setApplybtn("Apply");
         } else {
-          alert("failed");
-          onClose();
           setApplybtn("Apply");
+          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+          setFirstTimeUser(false);
         }
       } else {
         if (saveUcas) {
@@ -436,7 +434,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
   return (
     <>
       <div
@@ -558,7 +555,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                   for tariff points to be calculated
                 </p>
               )}
-              {qual[0].SelectedLevel === "UCAS Tariff Points" &&
+              {qual[0]?.SelectedLevel === "UCAS Tariff Points" &&
                 qual[0].min > qual[0].max && (
                   <p className="small text-negative-default">
                     The maximum points should be larger than the minimum points
@@ -588,11 +585,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 </Link>
                 <button
                   className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${
-                    (qual[0].SelectedLevel === "UCAS Tariff Points" &&
+                    ((qual[0]?.SelectedLevel === "UCAS Tariff Points" &&
                       qual[0].min > qual[0].max) ||
-                    JSON.stringify(qual) === JSON.stringify(qualCopy) ||
-                    (qual[0].SelectedLevel == "Access to HE Diploma" &&
-                      qual[0].totalcredit < 45)
+                      JSON.stringify(qual) === JSON.stringify(qualCopy) ||
+                      (qual[0]?.SelectedLevel == "Access to HE Diploma" &&
+                        qual[0].totalcredit < 45)) &&
+                    !firstTimeUser
                       ? "cursor-not-allowed bg-grey-300 text-white"
                       : "bg-primary-400 text-white hover:bg-primary-500"
                   }`}
