@@ -38,6 +38,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [qualCopy, setQualCopy] = useState<any>();
   const [userIdToken, setUserIdToken] = useState<any>(null);
   const [tracksessionId, setTracksessionId] = useState<any>(null);
+  const [firstTimeUser, setFirstTimeUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const ucasRef = useRef<HTMLDivElement | null>(null);
   const additionalQual = {
@@ -75,6 +76,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response.tokens ?? {};
       const tracksessionId = getCookie("userTrackId");
+      const isUcasPresentInCookie = getCookie("ucaspoint");
+      if (!isUcasPresentInCookie && idToken) {
+        setFirstTimeUser(true);
+      }
       setUserIdToken(idToken);
       try {
         if (idToken) {
@@ -99,6 +104,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
           console.log(jsonData);
+          setLoading(false);
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
@@ -157,7 +163,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
-            setLoading(false);
           } else {
             const mappedQuals = {
               ...initialvalue,
@@ -190,7 +195,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           const jsonData = await response.json();
           setUcasGradeData(jsonData?.gradeFilterList);
           const jsonCookies = JSON.parse(getCookie("UCAS") || "{}");
-
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
@@ -235,6 +239,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             );
             setQual(mappedQuals);
             setQualCopy(mappedQuals);
+            setLoading(false);
             if (jsonCookies?.userStudyLevelEntry.length > 0) {
               const temp = Math.abs(
                 qualifications.length -
@@ -248,7 +253,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 qualifications.push(newQualification);
               }
             }
-            setLoading(false);
           } else {
             const mappedQuals = {
               ...initialvalue,
@@ -389,29 +393,37 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       ).tokens ?? {};
     if (!validation) {
       if (idToken) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-              Authorization:
-                typeof idToken === "string"
-                  ? idToken
-                  : idToken?.toString() || "",
-            },
-            body: JSON.stringify(saveUcas),
+        if (JSON.stringify(qual) !== JSON.stringify(qualCopy)) {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/update-ucas`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                Authorization:
+                  typeof idToken === "string"
+                    ? idToken
+                    : idToken?.toString() || "",
+              },
+              body: JSON.stringify(saveUcas),
+            }
+          );
+          const jsonData = await response.json();
+          if (jsonData == "updated") {
+            document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+            setFirstTimeUser(false);
+            onClose();
+            setApplybtn("Apply");
+          } else {
+            alert("failed");
+            onClose();
+            setApplybtn("Apply");
           }
-        );
-        const jsonData = await response.json();
-        if (jsonData == "updated") {
-          onClose();
-          setApplybtn("Apply");
         } else {
-          alert("failed");
-          onClose();
           setApplybtn("Apply");
+          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+          setFirstTimeUser(false);
         }
       } else {
         if (saveUcas) {
@@ -439,7 +451,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
   return (
     <>
       <div
@@ -591,11 +602,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 </Link>
                 <button
                   className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${
-                    (qual[0].SelectedLevel === "UCAS Tariff Points" &&
+                    ((qual[0].SelectedLevel === "UCAS Tariff Points" &&
                       qual[0].min > qual[0].max) ||
-                    JSON.stringify(qual) === JSON.stringify(qualCopy) ||
-                    (qual[0].SelectedLevel == "Access to HE Diploma" &&
-                      qual[0].totalcredit < 45)
+                      JSON.stringify(qual) === JSON.stringify(qualCopy) ||
+                      (qual[0].SelectedLevel == "Access to HE Diploma" &&
+                        qual[0].totalcredit < 45)) &&
+                    !firstTimeUser
                       ? "cursor-not-allowed bg-grey-300 text-white"
                       : "bg-primary-400 text-white hover:bg-primary-500"
                   }`}
