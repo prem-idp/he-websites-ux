@@ -36,32 +36,17 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [resetid, setResetid] = useState<number>(Date.now());
   const [applybtn, setApplybtn] = useState<any>("Apply");
   const [qualCopy, setQualCopy] = useState<any>();
-  const [userIdToken, setUserIdToken] = useState<any>(null);
-  const [tracksessionId, setTracksessionId] = useState<any>(null);
   const [firstTimeUser, setFirstTimeUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const ucasRef = useRef<HTMLDivElement | null>(null);
-  const additionalQual = {
-    SelectedLevel: "Please select",
-    qualId: 0,
-    totalcredit: 0,
-    type: "",
-    maxPoint: 5,
-    maxTotalPoint: 6,
-    getmaxTotalPoint: 0,
-    podSpecificPoints: 0,
-    userEntryPoint: "",
-    min: "",
-    max: "",
-    gradeArray: [],
-  };
+  const [qual, setQual] = useState<any>([]);
   const initialvalue: any = {
-    SelectedLevel: "A Level",
+    SelectedLevel: "Please select",
     totalcredit: 0,
-    qualId: 1,
-    type: "plus-minus",
-    maxPoint: 5,
-    maxTotalPoint: 6,
+    qualId: 0,
+    type: "",
+    maxPoint: 0,
+    maxTotalPoint: 0,
     getmaxTotalPoint: 0,
     podSpecificPoints: 0,
     userEntryPoint: "",
@@ -69,7 +54,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     max: "",
     gradeArray: [],
   };
-  const [qual, setQual] = useState([initialvalue]);
   useEffect(() => {
     setLoading(true);
     const fetchUcasData = async () => {
@@ -80,7 +64,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       if (!isUcasPresentInCookie && idToken) {
         setFirstTimeUser(true);
       }
-      setUserIdToken(idToken);
       try {
         if (idToken) {
           console.log(idToken);
@@ -109,7 +92,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
                 (entry: any, index: number) => ({
-                  ...additionalQual,
+                  //checking
+                  ...initialvalue,
                   SelectedLevel: jsonData?.gradeFilterList?.filter(
                     (item: any) => item.qualId === entry.qualId.toString()
                   )[0]?.qualification,
@@ -201,7 +185,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           if (jsonCookies?.userStudyLevelEntry) {
             const mappedQuals = jsonCookies?.userStudyLevelEntry.map(
               (entry: any, index: number) => ({
-                ...additionalQual,
+                ...initialvalue,
                 SelectedLevel: jsonData?.gradeFilterList?.filter(
                   (item: any) => item.qualId === entry.qualId.toString()
                 )[0]?.qualification,
@@ -292,7 +276,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         id: Date.now(),
         name: getOrdinalName(prevQualifications.length),
       };
-      qual.push(additionalQual);
+      qual.push(initialvalue);
       return [...prevQualifications, newQualification];
     });
   };
@@ -316,7 +300,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const resetAll = () => {
     setQualifications([]);
     setUcasPoint(0);
-    setQual([initialvalue]);
     setResetid(Date.now());
     const mappedQuals = {
       ...initialvalue,
@@ -334,10 +317,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [valid, setIsInvalid] = useState(false);
   const validateTotalCredit = () => {
     const filteredArray = qual.filter(
-      (item: any) => item.SelectedLevel === "Access to HE Diploma"
+      (item: any) => item?.SelectedLevel === "Access to HE Diploma"
     );
     const totalCredits = filteredArray.reduce(
-      (acc: any, item) => acc + item.totalcredit,
+      (acc: any, item: any) => acc + item.totalcredit,
       0
     );
     const expectedTotal = filteredArray.length * 45;
@@ -357,7 +340,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       setApplybtn("Apply");
     }
     const list: any = [];
-    if (qual[0].SelectedLevel == "UCAS Tariff Points") {
+    if (qual[0]?.SelectedLevel == "UCAS Tariff Points") {
       const obj = {
         qualId: Number(qual[0].qualId),
         SelectedLevel: ucasGradeData?.filter(
@@ -368,8 +351,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       list.push(obj);
     } else {
       qual
-        .filter((item) => item.userEntryPoint !== "")
-        .map((items) => {
+        .filter((item: any) => item.userEntryPoint !== "")
+        .map((items: any) => {
           const obj = {
             qualId: Number(items.qualId),
             SelectedLevel: ucasGradeData?.filter(
@@ -572,7 +555,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                   for tariff points to be calculated
                 </p>
               )}
-              {qual[0].SelectedLevel === "UCAS Tariff Points" &&
+              {qual[0]?.SelectedLevel === "UCAS Tariff Points" &&
                 qual[0].min > qual[0].max && (
                   <p className="small text-negative-default">
                     The maximum points should be larger than the minimum points
@@ -602,10 +585,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 </Link>
                 <button
                   className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${
-                    ((qual[0].SelectedLevel === "UCAS Tariff Points" &&
+                    ((qual[0]?.SelectedLevel === "UCAS Tariff Points" &&
                       qual[0].min > qual[0].max) ||
                       JSON.stringify(qual) === JSON.stringify(qualCopy) ||
-                      (qual[0].SelectedLevel == "Access to HE Diploma" &&
+                      (qual[0]?.SelectedLevel == "Access to HE Diploma" &&
                         qual[0].totalcredit < 45)) &&
                     !firstTimeUser
                       ? "cursor-not-allowed bg-grey-300 text-white"
