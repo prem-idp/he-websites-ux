@@ -44,6 +44,10 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
               316
             }
             data-src={contentfullRightData?.multimediaBlockLeft?.thumbnail?.url}
+            sizes="(max-width: 640px) 100vw,
+               (max-width: 1024px) 90vw,
+               80vw"
+             quality={75}
           />
         ) : null}
         <div
