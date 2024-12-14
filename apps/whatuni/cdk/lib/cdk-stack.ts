@@ -90,6 +90,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
       sources: [s3deploy.Source.asset("../.open-next/assets")],
       destinationBucket: myBucket,
+      destinationKeyPrefix: "assets",
     });
 
     // Upload files to the S3 bucket
