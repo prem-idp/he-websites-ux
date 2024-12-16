@@ -74,16 +74,37 @@ export default function OneTrustCookieScript(){
 		return returnVal});
     };
 
-	window.OptanonWrapper = handleConsentChange;
+    const handleUserInteraction = () => {
+      window.OptanonWrapper = handleConsentChange;
+       // Remove event listeners after loading the script
+       window.removeEventListener("scroll", handleUserInteraction);
+       window.removeEventListener("click", handleUserInteraction);
+       window.removeEventListener("keypress", handleUserInteraction);
+    };
+
+	
+
+  // Add event listeners for user interaction
+  window.addEventListener("scroll", handleUserInteraction);
+  window.addEventListener("click", handleUserInteraction);
+  window.addEventListener("keypress", handleUserInteraction);
+
+  return () => {
+
+    window.removeEventListener("scroll", handleUserInteraction);
+    window.removeEventListener("click", handleUserInteraction);
+    window.removeEventListener("keypress", handleUserInteraction);
+  };
 
   }, []);
 
   return (
 	<>
+  {/* async defer  */}
 	{userConsentGiven ?
-    <Script src="https://accounts.google.com/gsi/client" id="googleGsiId" async defer /> :
+    <Script src="https://accounts.google.com/gsi/client" id="googleGsiId" strategy="lazyOnload" /> :
 	<>
-		<Script src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`} id="oneTrustCookieeId" data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`} />
+		<Script src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`} id="oneTrustCookieeId" data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`} strategy="lazyOnload" />
 	</>
 	}
 	</>
