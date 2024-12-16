@@ -67,11 +67,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
   };
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
-    // console.log("in the useEffect");
-
     const fetchData = async () => {
-      // console.log("inside the fetch function");
-
       // Define payloads
       const body: any = {
         affiliateId: 220703,
@@ -126,18 +122,17 @@ const SearchBox = ({ pgs_search_data }: any) => {
         setUniData(unibodyData);
 
         // Log results
-        // console.log("Body Data:", bodyData);
-        // console.log("Unibody Data:", unibodyData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     if (
-      startfetch
+      startfetch &&
+      !(Object.keys(uni_data).length > 0) &&
+      !(Object.keys(course_data).length > 0)
     ) {
       fetchData();
-      setStartFetch(false);
     }
   }, [startfetch]);
 
@@ -148,7 +143,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
         <div
           onClick={() => {
             setStartFetch(true);
-            // console.log("clicking");
           }}
           className="md:px-[16px] xl:px-0"
         >
