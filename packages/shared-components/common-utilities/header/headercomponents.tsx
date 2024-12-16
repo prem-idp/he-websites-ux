@@ -283,104 +283,99 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   )}
                 </li>
               )} */}
-              <div className={`${first ? "block" : "hidden"}`}>
-                <li className="relative">
-                  <span
-                    aria-label="User"
-                    ref={userref}
-                    onClick={() =>
-                      isAuthenticated === "true"
-                        ? rightMenuAction("USER")
-                        : router.push("/register")
-                    }
-                    className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
-                  >
-                    {/* Skeleton Loader
+              <li className={`relative ${first ? "block" : "hidden"}`}>
+                <span
+                  title="User"
+                  ref={userref}
+                  onClick={() =>
+                    isAuthenticated === "true"
+                      ? rightMenuAction("USER")
+                      : router.push("/register")
+                  }
+                  className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
+                >
+                  {/* Skeleton Loader
                   {!first && !initial && (
                     <div className="skeleton-loader w-[45px] h-[45px] bg-gray-200 rounded-full animate-pulse shadow-md"></div>
                   )} */}
-                    {/* Render initial or SVG when first is true */}
-                    {initial && isAuthenticated === "true" && first ? (
-                      <span className="text-[16px] font-semibold">
-                        {initial}
-                      </span>
-                    ) : (
-                      first && (
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
-                            stroke="#5C656E"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
-                            stroke="#5C656E"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      )
-                    )}
-                  </span>
-                  {/* user section */}
-                  {clickStates.isUserClicked && (
-                    <>
-                      <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
-                      <div ref={containerRef}>
-                        <User topnav_data={topnav_data} />
-                      </div>
-                    </>
-                  )}
-                </li>
-              </div>
-              <div className={`${first ? "block" : "hidden"}`}>
-                <li className="relative">
-                  <Link
-                    prefetch={false}
-                    href="/degrees/comparison"
-                    aria-label="Shortlist"
-                    className="cursor-pointer"
-                    onClick={() => rightMenuAction("SHORTLIST")}
-                  >
-                    <span
-                      ref={shortlistref}
-                      className="flex items-center justify-center min-h-[48px]"
-                    >
+                  {/* Render initial or SVG when first is true */}
+                  {initial && isAuthenticated === "true" && first ? (
+                    <span className="text-[16px] font-semibold">{initial}</span>
+                  ) : (
+                    first && (
                       <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M4.31802 6.31802C2.56066 8.07538 2.56066 10.9246 4.31802 12.682L12.0001 20.364L19.682 12.682C21.4393 10.9246 21.4393 8.07538 19.682 6.31802C17.9246 4.56066 15.0754 4.56066 13.318 6.31802L12.0001 7.63609L10.682 6.31802C8.92462 4.56066 6.07538 4.56066 4.31802 6.31802Z"
-                          fill="#00BBFD"
-                          stroke="#3460DC"
+                          d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
+                          stroke="#5C656E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
+                          stroke="#5C656E"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </span>
-                    {isAuthenticated === "true" && (
-                      <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
-                        {basketCount}
-                      </div>
-                    )}
-                  </Link>
-                  {/* // commented beacuse the scope out sprint */}
-                  {/* shortlist section */}
-                  {/* {clickStates.isShortlistClicked && (
+                    )
+                  )}
+                </span>
+                {/* user section */}
+                {clickStates.isUserClicked && (
+                  <>
+                    <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
+                    <div ref={containerRef}>
+                      <User topnav_data={topnav_data} />
+                    </div>
+                  </>
+                )}
+              </li>
+              <li className={`relative ${first ? "block" : "hidden"}`}>
+                <Link
+                  prefetch={false}
+                  href="/degrees/comparison"
+                  title="Shortlist"
+                  className="cursor-pointer"
+                  onClick={() => rightMenuAction("SHORTLIST")}
+                >
+                  <span
+                    ref={shortlistref}
+                    className="flex items-center justify-center min-h-[48px]"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.31802 6.31802C2.56066 8.07538 2.56066 10.9246 4.31802 12.682L12.0001 20.364L19.682 12.682C21.4393 10.9246 21.4393 8.07538 19.682 6.31802C17.9246 4.56066 15.0754 4.56066 13.318 6.31802L12.0001 7.63609L10.682 6.31802C8.92462 4.56066 6.07538 4.56066 4.31802 6.31802Z"
+                        fill="#00BBFD"
+                        stroke="#3460DC"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  {isAuthenticated === "true" && (
+                    <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
+                      {basketCount}
+                    </div>
+                  )}
+                </Link>
+                {/* // commented beacuse the scope out sprint */}
+                {/* shortlist section */}
+                {/* {clickStates.isShortlistClicked && (
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
@@ -388,8 +383,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                     </div>
                   </>
                 )} */}
-                </li>
-              </div>
+              </li>
             </ul>
           </div>
         </div>
