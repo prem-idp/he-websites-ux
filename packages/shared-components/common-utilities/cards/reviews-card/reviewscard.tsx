@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ReviewDetails } from "@packages/lib/types/interfaces";
-import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface ReviewCardProps {
   reviewData: ReviewDetails;
   index: any;
@@ -12,16 +12,17 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
     <ClickTrackerWrapper   gaData={{
       event: "ga_contentful_events",
       eventName:"review_event",
-      ctaTitle: "",
-      ctaUrl: `/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`,
+      ctaTitle: "NA",
+      ctaUrl: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
       website:`${process.env.PROJECT}`,
       pageName:"homepage",
-
+      collegeId:reviewData?.collegeId,
+      collegeName:reviewData?.collegeName,
     }}
     >
     <Link
     prefetch={false}
-      href={`/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`}
+      href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
       className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2"
     >
       <div

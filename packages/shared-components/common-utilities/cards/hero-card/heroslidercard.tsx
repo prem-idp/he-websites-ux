@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DynamicMediaComponent } from "@packages/lib/types/interfaces";
-import GADataLayerFn from "../../commonutil/ga-util";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 interface PropsInterface {
   data: DynamicMediaComponent;
 }

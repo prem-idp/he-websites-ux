@@ -1,7 +1,7 @@
 "use server";
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import { getReviewDetailsFunction } from "@packages/lib/server-actions/server-action";
-import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 import {
   CallToAction,
   ReviewDetailsList,
@@ -45,7 +45,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
               <ClickTrackerWrapper   gaData={{
                         event: "ga_contentful_events",
-                        eventName:`${callAction?.primaryCtaLabel}`,
+                        eventName:`${callAction?.primaryCtaEventName}`,
                         ctaTitle: `${callAction?.primaryCtaLabel}`,
                         ctaUrl: `${callAction?.primaryCtaUrl}`,
                         website:`${process.env.PROJECT}`,

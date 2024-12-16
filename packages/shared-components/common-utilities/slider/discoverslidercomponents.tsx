@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper/modules";
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import GADataLayerFn from "../commonutil/ga-util";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 import { useRouter } from "next/router";
 
 export interface discoverContentfulInterface {

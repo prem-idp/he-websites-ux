@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { FooterNavCollectionItem } from "@packages/lib/types/interfaces";
-import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface PropsInterface {
   data: FooterNavCollectionItem[];
 }

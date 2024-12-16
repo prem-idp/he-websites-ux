@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import GADataLayerFn from "../commonutil/ga-util";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
   const calculate = () =>

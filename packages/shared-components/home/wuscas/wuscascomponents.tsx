@@ -2,7 +2,7 @@
 import { statsPodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { HomePageStatInterface } from "@packages/lib/types/interfaces";
-import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 
 import Image from "next/image";
 import Link from "next/link";

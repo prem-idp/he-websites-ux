@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import GADataLayerFn from "../commonutil/ga-util";
-import { useRouter } from "next/router";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 interface ClickTrackingWrapperProps {
   children: React.ReactNode;
@@ -15,6 +14,8 @@ interface ClickTrackingWrapperProps {
     pageName?:any;
     contentfulCategory1?:any;
     contentfulCategory2?:any;
+    collegeId?:any;
+    collegeName?:any;
   };
 }
 
@@ -29,6 +30,8 @@ const ClickTrackingWrapper: React.FC<ClickTrackingWrapperProps> = ({ children, g
       website,
       contentfulCategory1,//added condition for optional field to pass from components
       contentfulCategory2,
+      collegeId,
+      collegeName,
     } = gaData;
 
     GADataLayerFn(
@@ -40,11 +43,11 @@ const ClickTrackingWrapper: React.FC<ClickTrackingWrapperProps> = ({ children, g
       "NA",
       pageName,
       "NA",
+      collegeName,
       "NA",
       "NA",
       "NA",
-      "NA",
-      "NA",
+      collegeId,
       "NA",
       "NA",
       "NA",

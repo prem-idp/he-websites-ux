@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
-import ClickTrackerWrapper from "@packages/shared-components/common-utilities/pageviewlogging/clicktrackerwrapper";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 
 interface headingProps {
   heading: string;

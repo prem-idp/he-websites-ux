@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect, useRef } from "react";
 import Form from "next/form";
-import GADataLayerFn from "@packages/shared-components/common-utilities/commonutil/ga-util";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 interface UniversityTabProps {
   searchFormHandle: any;

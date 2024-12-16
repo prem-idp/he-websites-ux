@@ -8,7 +8,7 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import { PageViewLogging } from "@packages/shared-components/common-utilities/pageviewlogging/pageviewlogging";
+import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
