@@ -154,7 +154,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   "/static/assets/images/imageplaceholder.png"
                 }
                 alt="imageplaceholder"
-                priority
+                priority={true}
                 width={70}
                 height={78}
               />
