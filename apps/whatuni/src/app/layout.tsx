@@ -12,6 +12,7 @@ const farroBold = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const interBold = localFont({
   src: "./fonts/Inter-Bold.woff",
   variable: "--font-geist-mono",
@@ -31,7 +32,7 @@ export default async function RootLayout({
         <OneTrustCookieScript />
         <HeaderWrapper />
         {children}
-        
+
         <Footer />
       </body>
     </html>
