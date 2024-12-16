@@ -4,9 +4,9 @@ const Tagcloudcardskeleton = () => {
     <div className="tag-cloud-container max-w-container mx-auto">
       <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[32px]">
         <div className="tag-cloud-header">
-          <h6 className="font-bold">
+          <div className="h6">
             <div className="skeleton skeleton-text skeleton-text-animated large_heading !w-[20%]"></div>
-          </h6>
+          </div>
         </div>
         <div className="tag-cloud-inner-wrap">
           <ul className="flex flex-wrap gap-[8px]">

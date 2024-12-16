@@ -286,7 +286,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
               <div className={`${first ? "block" : "hidden"}`}>
                 <li className="relative">
                   <span
-                    aria-label="User"
+                    title="User"
                     ref={userref}
                     onClick={() =>
                       isAuthenticated === "true"
@@ -347,7 +347,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   <Link
                     prefetch={false}
                     href="/degrees/comparison"
-                    aria-label="Shortlist"
+                    title="Shortlist"
                     className="cursor-pointer"
                     onClick={() => rightMenuAction("SHORTLIST")}
                   >
