@@ -20,7 +20,7 @@ const Page = async () => {
 
   return (
     <>
-      <GoogleOneTap />
+      {/* <GoogleOneTap /> */}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
