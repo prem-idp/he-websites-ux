@@ -5,9 +5,16 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
+//import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
 import PgsSearch from "./pgs-search";
-
+import dynamic from "next/dynamic";
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
 const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
@@ -19,7 +26,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   //         containerRef.current &&
   //         !containerRef.current.contains(event.target as Node)
   //       ) {
-  //         console.log("click outside in searchbox");
   //         return ucasClose();
   //       }
   //     };
@@ -46,7 +52,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
 
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    //console.log("clicked on ucas");
     SetIsUcasPopupOpen(true);
     const body = document.body;
     body.classList.add("overflow-y-hidden");
@@ -59,7 +64,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   };
 
   // ============================================================================================================================
-  // console.log(searchFormHandle,"______________________________________________");
   return (
     <>
       {process.env.PROJECT == "Whatuni" && (
@@ -67,41 +71,35 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
           <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <ul className="flex gap-[8px] justify-center md:justify-start">
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab1"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab1")}
-                  >
-                    Courses
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab1"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab1")}
+                >
+                  Courses
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab2"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab2")}
-                  >
-                    Universities
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab2"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab2")}
+                >
+                  Universities
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab3"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab3")}
-                  >
-                    Advice
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab3"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab3")}
+                >
+                  Advice
                 </li>
               </ul>
 
@@ -128,10 +126,12 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                     </svg>
                     Calculate your UCAS points
                   </div>
-                  <UcasComponent
-                    onClose={ucasClose}
-                    isUcasOpen={isUcasPopupOpen}
-                  />
+                  {isUcasPopupOpen && (
+                    <UcasComponent
+                      onClose={ucasClose}
+                      isUcasOpen={isUcasPopupOpen}
+                    />
+                  )}
                 </div>
               )}
               {searchFormHandle?.activeTab == "tab2" && (

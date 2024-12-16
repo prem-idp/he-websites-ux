@@ -90,6 +90,14 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
       sources: [s3deploy.Source.asset("../.open-next/assets")],
       destinationBucket: myBucket,
+      destinationKeyPrefix: "assets",
+    });
+
+    // Upload files to the S3 bucket
+    new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
+      sources: [s3deploy.Source.asset("../.open-next/cache")],
+      destinationBucket: myBucket,
+      destinationKeyPrefix: "cache",
     });
 
     const vpc = Vpc.fromLookup(this, "ExistingVpc", {
@@ -140,6 +148,24 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       serverFunctionName
     );
 
+    const s3CacheStatement = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:ListBucket"
+      ],
+      resources: [`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`]
+      });
+
+      const s3AssetStatement = new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "s3:GetObject",
+        ],
+        resources: [`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`]
+        });
+
     const ec2XrayPolicyStatement = new PolicyStatement({
       effect: Effect.ALLOW,
       actions: [
@@ -161,7 +187,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // Create the IAM policy
     const myPolicy = new Policy(this, "MyPolicy", {
       policyName: `${serverFunctionName}-permission`,
-      statements: [cloudwatchPolicyStatement, ec2XrayPolicyStatement],
+      statements: [cloudwatchPolicyStatement, ec2XrayPolicyStatement,s3CacheStatement],
     });
 
     cdk.Tags.of(myPolicy).add("ApplicationService", "CS Channel: HE websites");
@@ -192,7 +218,10 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30), // Adjust as needed
       memorySize: 1024, // Adjust as needed
       environment: {
-        NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
+       // NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
+       CACHE_BUCKET_NAME : myBucket.bucketName,
+       CACHE_BUCKET_KEY_PREFIX : "cache",
+       CACHE_BUCKET_REGION: `${process.env.AWS_REGION}`
       },
       architecture: Architecture.ARM_64,
       role: myRole,
@@ -248,7 +277,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // Create the IAM policy
     const myImagePolicy = new Policy(this, "MyImagePolicy", {
       policyName: `${imageFunctionName}-permission`,
-      statements: [cloudwatchImagePolicyStatement, ec2XrayPolicyStatement],
+      statements: [cloudwatchImagePolicyStatement, ec2XrayPolicyStatement,s3AssetStatement],
     });
 
     cdk.Tags.of(myImagePolicy).add(
@@ -286,7 +315,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       memorySize: 1024, // Adjust as needed
       environment: {
         BUCKET_NAME: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
-        BUCKET_KEY_PREFIX: "_assets",
+        BUCKET_KEY_PREFIX: "assets",
       },
       architecture: Architecture.ARM_64,
       role: myImageRole,

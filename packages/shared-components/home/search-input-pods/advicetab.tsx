@@ -18,7 +18,11 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
     if (searchFormHandle?.advice.trim()) {
       const formattedAdvice = searchFormHandle.advice
         .trim()
-        .replace(/\s+/g, "-");
+        .replace(/[^a-zA-Z0-9\s]+/g, "-")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "")
+        .toLowerCase();
       return router.push(`/article-search/?keyword=${formattedAdvice}`);
     } else {
       setAdviceerror(true);

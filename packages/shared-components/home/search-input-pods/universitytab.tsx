@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Form from "next/form";
 
 interface UniversityTabProps {
@@ -16,13 +17,15 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
-  // console.log("searchFormHandle,", searchFormHandle);
+  const router = useRouter();
+  const [dropdownIndex, setdropdownIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [universityList, setUniversityList] = useState<string[]>([]);
+  const [universityList, setUniversityList] = useState<any>([]);
   const [unierror, setUnierror] = useState(false);
   const [unidetails, setUnidetails] = useState<Array<any>>(
     Array.isArray(data) ? data : []
   );
+  // =====================================use effect for the close popups outside the popups=================================================================================
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -30,18 +33,14 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         !containerRef.current.contains(event.target as Node)
       ) {
         courseActions("");
-        // console.log("click outside in university");
       }
     };
-    // Delay adding listener to avoid immediate triggering
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  // ============================================use effect to filter  uninversity==========================================================================================================
   useEffect(() => {
     if (
       !searchFormHandle?.university?.trim() ||
@@ -56,10 +55,42 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
         ?.toLowerCase()
         .includes(searchFormHandle?.university?.trim().toLowerCase())
     );
+    const prioritySearch = (
+      list: { description: string; [key: string]: any }[],
+      searchText: string
+    ) => {
+      if (!searchText) return list;
+      const searchLower = searchText.toLowerCase();
+      return list
+        ?.map((item) => ({
+          ...item,
+          position: item?.description?.toLowerCase().indexOf(searchLower),
+          startsWithSearch: item?.collegeNameDisplay
+            .toLowerCase()
+            .startsWith(searchLower),
+          exactMatch: item?.collegeNameDisplay?.toLowerCase() === searchLower,
+        }))
+        .filter((item) => item.position !== -1) // Only include items with searchText
+        .sort((a: any, b: any) => {
+          if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1;
+          if (a.startsWithSearch !== b.startsWithSearch)
+            return a.startsWithSearch ? -1 : 1;
+          if (a.position !== b.position) return a.position - b.position;
+          return a?.collegeNameDisplay?.localeCompare(b?.collegeNameDisplay);
+        })
+        ?.map((item: any) => ({
+          collegeId: item?.collegeId,
+          collegeNameDisplay: item.collegeNameDisplay,
+          collegeNameAlias: item.collegeNameAlias,
+          collegeName: item.collegeName,
+        }));
+    };
 
-    setUniversityList(results || []);
+    setUniversityList(
+      prioritySearch(results, searchFormHandle.university) || []
+    );
   }, [searchFormHandle?.university]);
-
+  // ======================================================================================================================================================================/
   const resetAllTabs = (currentTab: string) => ({
     isUniversityClicked:
       currentTab === "University"
@@ -68,7 +99,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   });
 
   const courseActions = (tabName: string) => {
-    // console.log("tabName", tabName);
     setsearchFormHandle((prevData: SearchFormHandle) => ({
       ...prevData,
       ...resetAllTabs(tabName),
@@ -106,6 +136,81 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                 setUnierror(false);
               }}
               value={searchFormHandle?.university || ""}
+              onKeyDown={(e) => {
+                if (!searchFormHandle?.isUniversityClicked) return;
+                const allOptions: any = universityList || [];
+                const currentIndex = dropdownIndex;
+                let newIndex = currentIndex;
+                switch (e.key) {
+                  case "ArrowDown":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex < allOptions.length - 1
+                        ? currentIndex + 1
+                        : 0;
+                    setdropdownIndex(newIndex);
+                    const nextElement = document.querySelector(
+                      `[data-index="${newIndex}"]`
+                    );
+                    nextElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+                    document.querySelectorAll("[data-index]").forEach((el) => {
+                      el.classList.remove("bg-blue-50", "underline");
+                    });
+                    nextElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "ArrowUp":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex > 0
+                        ? currentIndex - 1
+                        : allOptions.length - 1;
+                    setdropdownIndex(newIndex);
+                    const prevElement = document.querySelector(
+                      `[data-index="${newIndex}"]`
+                    );
+                    prevElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+                    document.querySelectorAll("[data-index]").forEach((el) => {
+                      el.classList.remove("bg-blue-50", "underline");
+                    });
+                    prevElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "Enter":
+                    e.preventDefault();
+                    const selectedElement: any =
+                      document.querySelector(".bg-blue-50");
+                    if (selectedElement) {
+                      const selectedIndex: any =
+                        selectedElement?.getAttribute("data-index");
+
+                      setsearchFormHandle((prevData: SearchFormHandle) => ({
+                        ...prevData,
+                        university:
+                          universityList[selectedIndex - 1]?.collegeNameDisplay,
+                        isUniversityClicked: false,
+                      }));
+
+                      router.push(
+                        `/university-profile/${universityList[
+                          selectedIndex - 1
+                        ]?.collegeNameDisplay
+                          ?.toLowerCase()
+                          ?.replace(
+                            /\s+/g,
+                            "-"
+                          )}/${universityList[selectedIndex - 1]?.collegeId}/`
+                      );
+                    }
+                    break;
+                }
+              }}
             />
             {searchFormHandle?.isUniversityClicked &&
               searchFormHandle?.university?.trim().length > 2 && (
@@ -115,15 +220,16 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                       <Link
                         prefetch={false}
                         href={`/university-profile/${item?.collegeNameDisplay
-                          ?.toLowerCase() // Convert to lowercase
+                          ?.toLowerCase()
                           ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
-                        onClick={() =>
+                        onClick={() => {
                           setsearchFormHandle((prevData: any) => ({
                             ...prevData,
                             university: item.collegeNameDisplay,
                             isUniversityClicked: false,
-                          }))
-                        }
+                          }));
+                        }}
+                        data-index={index + 1}
                         key={index}
                         className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                       >
