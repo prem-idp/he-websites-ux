@@ -60,8 +60,8 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
           </div>
         </div>
         <SearchBox
-          course_data={course_data}
-          uni_data={uni_data}
+          // course_data={course_data}
+          // uni_data={uni_data}
           pgs_search_data={pgs_search_data}
         />
       </Suspense>
