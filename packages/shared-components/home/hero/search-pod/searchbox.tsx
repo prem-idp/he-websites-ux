@@ -15,7 +15,7 @@ const UcasComponent = dynamic(
     ),
   { ssr: false }
 );
-const SearchBox = ({pgs_search_data}:any) => {
+const SearchBox = ({ pgs_search_data }: any) => {
   const [startfetch, setStartFetch] = useState(false);
   const [course_data, setCourseData] = useState({});
   const [uni_data, setUniData] = useState({});
@@ -65,12 +65,9 @@ const SearchBox = ({pgs_search_data}:any) => {
     SetIsUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
+  // ===========================initial fetch=============================================================================================
   useEffect(() => {
-    console.log("in the useEffect");
-
     const fetchData = async () => {
-      console.log("inside the fetch function");
-
       // Define payloads
       const body: any = {
         affiliateId: 220703,
@@ -113,7 +110,7 @@ const SearchBox = ({pgs_search_data}:any) => {
               "Content-Type": "application/json",
               "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             },
-            cache: "no-store",
+            cache: "force-cache",
           }),
         ]);
 
@@ -125,26 +122,27 @@ const SearchBox = ({pgs_search_data}:any) => {
         setUniData(unibodyData);
 
         // Log results
-        console.log("Body Data:", bodyData);
-        console.log("Unibody Data:", unibodyData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    if (startfetch) {
+    if (
+      startfetch &&
+      !(Object.keys(uni_data).length > 0) &&
+      !(Object.keys(course_data).length > 0)
+    ) {
       fetchData();
     }
   }, [startfetch]);
 
-  // ============================================================================================================================
+  // ====================================================================================================================================
   return (
     <>
       {process.env.PROJECT == "Whatuni" && (
         <div
           onClick={() => {
             setStartFetch(true);
-            console.log("clicking");
           }}
           className="md:px-[16px] xl:px-0"
         >
@@ -272,11 +270,13 @@ const SearchBox = ({pgs_search_data}:any) => {
                 )}
                 {searchFormHandle?.activeTab === "tab2" &&
                 Object.keys(uni_data).length > 0 ? (
-                  <UniversityTab
-                    searchFormHandle={searchFormHandle}
-                    setsearchFormHandle={setsearchFormHandle}
-                    data={uni_data}
-                  />
+                  <>
+                    <UniversityTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={uni_data}
+                    />
+                  </>
                 ) : (
                   searchFormHandle?.activeTab === "tab2" && (
                     <UniversityTab
@@ -321,7 +321,7 @@ const SearchBox = ({pgs_search_data}:any) => {
       )}
       {/* PGS SEARCH */}
       {process.env.PROJECT == "PGS" && (
-        <PgsSearch pgs_search_data={pgs_search_data}/>
+        <PgsSearch pgs_search_data={pgs_search_data} />
         // <p> aswdsdsd</p>
       )}
     </>
