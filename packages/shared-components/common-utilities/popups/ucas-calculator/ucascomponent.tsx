@@ -260,11 +260,11 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
   };
+  console.log(qual);
   const getOrdinalName = (index: number) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
@@ -352,8 +352,30 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       list.push(obj);
     } else {
+      // qual
+      //   .filter((item: any) => item.userEntryPoint !== "")
+      //   .map((items: any) => {
+      //     const obj = {
+      //       qualId: Number(items.qualId),
+      //       SelectedLevel: ucasGradeData?.filter(
+      //         (item: any) => item.qualId === items.qualId.toString()
+      //       )[0]?.qualificationUrl,
+      //       userEntryPoint: items.userEntryPoint,
+      //     };
+      //     list.push(obj);
+      //   });
       qual
-        .filter((item: any) => item.userEntryPoint !== "")
+        .filter((item: any) => {
+          if (item.userEntryPoint === "") return false;
+          const allGradesZero = item.userEntryPoint
+            .split("-")
+            .every((entry: string) => {
+              const match = entry.match(/^(\d+)([A-Z*]*)$/);
+              const count = parseInt(match?.[1] || "0", 10);
+              return count === 0;
+            });
+          return !allGradesZero;
+        })
         .map((items: any) => {
           const obj = {
             qualId: Number(items.qualId),

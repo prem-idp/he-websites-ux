@@ -30,7 +30,8 @@ const GradeCounterButton = ({
                 podSpecificPoints: item?.podSpecificPoints + btnValue,
                 userEntryPoint: updateUserEntryPointForIncrement(
                   item.userEntryPoint || "",
-                  btnName
+                  btnName,
+                  qual[indexPosition]?.gradeArray.map((item: any) => item.key)
                 ),
               }
             : item
@@ -50,7 +51,8 @@ const GradeCounterButton = ({
                 podSpecificPoints: item?.podSpecificPoints - btnValue,
                 userEntryPoint: updateUserEntryPointForDecrement(
                   item.userEntryPoint || "",
-                  btnName
+                  btnName,
+                  qual[indexPosition]?.gradeArray.map((item: any) => item.key)
                 ),
               }
             : item
