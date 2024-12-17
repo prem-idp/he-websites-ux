@@ -21,7 +21,7 @@ const Page = async () => {
      <PageViewLogging gaData={{
         website: "pgs",
         pageName: "homepage",
-      }} children={undefined}/>  
+      }}/>  
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
