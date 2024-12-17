@@ -6,13 +6,12 @@ import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { GADataLayerFn} from "@packages/lib/utlils/helper-function";
 
 interface PageViewLoggingProps {
-  children: React.ReactNode;
   gaData: {
     website: string;
     pageName:string;
   };
 }
-export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ children, gaData }) => {
+export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
   const {
     pageName,
     website,
