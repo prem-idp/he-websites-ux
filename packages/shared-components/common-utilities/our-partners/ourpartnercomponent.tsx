@@ -25,18 +25,11 @@ const OurPartnerComponent = ({ heading }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const payloadString = JSON.stringify(partnerLogo);
-        // const hash = crypto
-        //   .createHash("sha256")
-        //   .update(payloadString)
-        //   .digest("hex");
-
         const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
-            // "x-amz-content-sha256": hash,
           },
           body: JSON.stringify({ query: partnerLogo }),
         });
@@ -50,7 +43,6 @@ const OurPartnerComponent = ({ heading }: any) => {
           data?.data?.contentData?.items[0]?.bodyContentCollection?.items[0]
             ?.mediaCardsCollection?.items || [];
         setPartners(partnerLogos);
-        // console.log("API Response:", data);
       } catch (error) {
         console.error("Error calling Search Ajax API:", error);
       }

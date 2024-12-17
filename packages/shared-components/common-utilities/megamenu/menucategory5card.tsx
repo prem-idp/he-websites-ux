@@ -30,7 +30,6 @@ const Menucategory5card = ({ data }: any) => {
               <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
                 <Image
                   className="w-full"
-                  loading="eager"
                   src={item?.navIcon?.url || ""}
                   width="289"
                   height="224"

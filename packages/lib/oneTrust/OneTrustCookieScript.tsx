@@ -1,19 +1,20 @@
-"use client"
+"use client";
 
-import Script from 'next/script';
-import { useEffect, useState } from 'react';
-import { createCookieConsent, getOnetrustCookieValue } from './OneTrustcookie';
-
-
-export default function OneTrustCookieScript(){
+import Script from "next/script";
+import { useEffect, useState } from "react";
+import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
 
   var OptanonConsent:string|undefined = undefined;
   var OptanonAlertBoxClosed:string|undefined = undefined;
   
+export default function OneTrustCookieScript() {
+  const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
+    console.log(
+      "User consented to analytics; loading analytics scripts...",
+      window.Optanon
+    );
 
-    //console.log("User consented to analytics; loading analytics scripts...", window.Optanon);
-    
     //if (window.Optanon && typeof window.Optanon.IsConsented === 'function') {
   
       const cookieDate = new Date();
@@ -92,17 +93,50 @@ export default function OneTrustCookieScript(){
     watchOnetrustClosedcookie();
     window.OptanonWrapper = handleConsentChange;
 
+    const handleUserInteraction = () => {
+      setUserinteraction(true);
+      window.OptanonWrapper = handleConsentChange;
+      // Remove event listeners after loading the script
+      window.removeEventListener("scroll", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+    };
+
+    // Add event listeners for user interaction
+    window.addEventListener("scroll", handleUserInteraction);
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("keypress", handleUserInteraction);
+
+    return () => {
+      window.removeEventListener("scroll", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+    };
   }, []);
   
 
   return (
-	<>
-	{userConsentGiven ?
-    <Script src="https://accounts.google.com/gsi/client" id="googleGsiId" async defer /> :
-	<>
-		<Script src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`} id="oneTrustCookieeId" data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`} />
-	</>
-	}
-	</>
+    <>
+      {useinteraction && (
+        <>
+          {userConsentGiven ? (
+            <Script
+              src="https://accounts.google.com/gsi/client"
+              id="googleGsiId"
+              strategy="lazyOnload"
+            />
+          ) : (
+            <>
+              <Script
+                src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`}
+                id="oneTrustCookieeId"
+                data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`}
+                strategy="lazyOnload"
+              />
+            </>
+          )}
+        </>
+      )}
+    </>
   );
 }

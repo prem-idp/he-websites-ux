@@ -77,7 +77,7 @@ const Megamenucomponents = ({ data }: any) => {
                   className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent 
                         lg:hover:shadow-custom-7`}
                 >
-                  {menuItem.navTitle}
+                  {menuItem?.navTitle}
                   {menuItem?.navIcon?.url && (
                     <Image
                       className="block lg:hidden rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
@@ -85,7 +85,7 @@ const Megamenucomponents = ({ data }: any) => {
                       width="44"
                       height="44"
                       quality={100}
-                      alt={menuItem.navTitle || ""}
+                      alt={menuItem?.navTitle || ""}
                     />
                   )}
                 </div>
@@ -112,25 +112,28 @@ const Megamenucomponents = ({ data }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {menuItem.navTitle}
+                      {menuItem?.navTitle}
                     </div>
                     <div className="max-w-container mx-auto">
                       <section className="grid grid-cols-1 lg:grid-cols-1  lg:gap-[16px] p-[0] lg:p-[24px h-[calc(100vh_-_40px)] overflow-y-scroll pb-[40px]">
-                        {menuItem.navChildC1Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC1Collection)}
-                        {menuItem.navChildC2Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC2Collection)}
-                        {menuItem.navChildC3Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC3Collection)}
-                        {menuItem.navChildC4Collection.items.length > 1 &&
-                          Megamenuoptions(menuItem.navChildC4Collection)}
+                        {menuItem?.navChildC1Collection?.items?.length > 1 &&
+                          Megamenuoptions(menuItem?.navChildC1Collection)}
+                        {menuItem?.navChildC2Collection?.items?.length > 1 &&
+                          Megamenuoptions(menuItem?.navChildC2Collection)}
+                        {menuItem?.navChildC3Collection?.items?.length > 1 &&
+                          Megamenuoptions(menuItem?.navChildC3Collection)}
+                        {menuItem?.navChildC4Collection?.items?.length > 1 &&
+                          Megamenuoptions(menuItem?.navChildC4Collection)}
                       </section>
                     </div>
                   </div>
                 ) : (
                   <>
-                    {openMenu === `menu${index}` && (
-                      <>
+                    {
+                      // openMenu === `menu${index}` && (
+                      <div
+                        className={`${openMenu === `menu${index}` ? "block" : "hidden"}`}
+                      >
                         <div
                           onClick={() => handleMenuToggle(`menu${index}`)}
                           className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh]`}
@@ -145,19 +148,23 @@ const Megamenucomponents = ({ data }: any) => {
                               }
                               className={`grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]`}
                             >
-                              {menuItem.navChildC1Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC1Collection)}
-                              {menuItem.navChildC2Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC2Collection)}
-                              {menuItem.navChildC3Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC3Collection)}
-                              {menuItem.navChildC4Collection.items.length > 1 &&
-                                Megamenuoptions(menuItem.navChildC4Collection)}
+                              {menuItem?.navChildC1Collection?.items?.length >
+                                1 &&
+                                Megamenuoptions(menuItem?.navChildC1Collection)}
+                              {menuItem?.navChildC2Collection?.items?.length >
+                                1 &&
+                                Megamenuoptions(menuItem?.navChildC2Collection)}
+                              {menuItem?.navChildC3Collection?.items?.length >
+                                1 &&
+                                Megamenuoptions(menuItem?.navChildC3Collection)}
+                              {menuItem?.navChildC4Collection?.items?.length >
+                                1 &&
+                                Megamenuoptions(menuItem?.navChildC4Collection)}
                             </section>
                           </div>
                         </div>
-                      </>
-                    )}
+                      </div>
+                    }
                   </>
                 )}
               </li>

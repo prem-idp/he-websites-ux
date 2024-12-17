@@ -115,7 +115,6 @@ const getSelectedGrade = (userEntryPoint: string, gradeKey: string): number => {
 export { getSelectedGrade };
 
 export const formatQualificationLabel = (input: string): string => {
-  console.log(input);
   if (!input) return "";
   return input
     .toLowerCase()
@@ -131,3 +130,25 @@ export function uppercaseToLowercase(input: string) {
 export const formatToUpperCase = (input: string): string => {
   return input.replace(/[a-z]/g, (match) => match.toUpperCase());
 };
+
+export function extractValue(input: any, key: any) {
+  const parts = input.split("-");
+
+  for (const part of parts) {
+    if (part.endsWith(key)) {
+      return parseInt(part.slice(0, -1)) || 0;
+    }
+  }
+
+  return 0;
+}
+
+export function extractMinMax(input: any, key: any) {
+  if (input.includes("-")) {
+    const [min, max] = input.split("-").map(Number);
+    if (key === "min") return Number(min);
+    if (key === "max") return Number(max);
+  } else {
+    return "";
+  }
+}

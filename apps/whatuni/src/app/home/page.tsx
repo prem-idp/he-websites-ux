@@ -7,6 +7,10 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
+import { Amplify } from "aws-amplify";
+import awsconfig from "../../../configs/amplifyconfiguration";
+Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
@@ -16,6 +20,7 @@ const Page = async () => {
 
   return (
     <>
+      {/* <GoogleOneTap /> */}
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
@@ -38,6 +43,5 @@ const Page = async () => {
     </>
   );
 };
-
 
 export default Page;

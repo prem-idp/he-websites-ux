@@ -1,13 +1,14 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import { useRouter } from "next/navigation";
-
+import { fetchAuthSession } from "aws-amplify/auth";
+import { getCookie } from "@packages/lib/utlils/helper-function";
+import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
+import { url } from "inspector";
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -19,17 +20,43 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
+  let ucasval: any = 0;
+  const [ucas, setUcas] = useState<any>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  // console.log(data.courseDetails, "getting data as props");
+  const [isAuthenticated, setIsAuthenticated] = useState<any>(false);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
+  const [dropdownIndex, setdropdownIndex] = useState<number>(0);
+  const [dropdownIndexQual, setdropdownIndexQual] = useState<number>(0);
   const [filteredsubject, setFilteredsubject] = useState<
-    { [key: string]: any; description: string }[] | undefined
+    { [key: string]: any; description: string }[] | any
   >(undefined);
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const router = useRouter();
+  // ==============================use effect to check the use authentication======================================================================
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const session = await fetchAuthSession();
+        if (session.tokens) {
+          const hasAccessToken = session.tokens.accessToken !== undefined;
+          const hasIdToken = session.tokens.idToken !== undefined;
+          if (hasAccessToken && hasIdToken) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(true);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+  // ==========================use effect for the handle click outside========================================================================
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -38,32 +65,22 @@ const CourseTab: React.FC<CourseTabProps> = ({
       ) {
         courseActions("UG");
         courseActions("Subject");
-        // courseActions("Location");
         setDropdown(false);
-
-        // console.log("click outside");
       }
     };
-    // Delay adding listener to avoid immediate triggering
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  // ============================== use effect for filter subject list========================================================================
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
-    // console.log(description);
     const { qualCode } = searchFormHandle.courseType || {};
-    // console.log(description, qualCode, "qualcode,descrption");
-    // Early return if description is invalid or too short
     if (!description?.trim() || description?.trim().length < 3) {
       setFilteredsubject([]);
       return;
     }
-
-    // Filter subjects first
     const filteredSubjects = subjectlist?.filter(
       (subjects: any) =>
         subjects?.description
@@ -71,35 +88,31 @@ const CourseTab: React.FC<CourseTabProps> = ({
           .includes(description?.trim().toLowerCase()) &&
         subjects?.qualCode === qualCode
     );
-    // console.log(filteredSubjects);
-    // Priority search function to sort filtered results based on search text position
     const prioritySearch = (
       list: { description: string; [key: string]: any }[],
       searchText: string
     ): { description: string; [key: string]: any }[] => {
       if (!searchText) return list;
-
       const searchLower = searchText.toLowerCase();
-
       return list
         ?.map((item) => ({
           ...item,
-          position: item.description.toLowerCase().indexOf(searchLower),
-          startsWithSearch: item.description
+          position: item?.description?.toLowerCase().indexOf(searchLower),
+          startsWithSearch: item?.description
             .toLowerCase()
             .startsWith(searchLower),
-          exactMatch: item.description.toLowerCase() === searchLower,
+          exactMatch: item?.description?.toLowerCase() === searchLower,
         }))
-        .filter((item) => item.position !== -1) // Only include items with searchText
+        .filter((item) => item.position !== -1)
         .sort((a, b) => {
           if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1;
           if (a.startsWithSearch !== b.startsWithSearch)
             return a.startsWithSearch ? -1 : 1;
           if (a.position !== b.position) return a.position - b.position;
-          return a.description.localeCompare(b.description);
+          return a?.description?.localeCompare(b?.description);
         })
         ?.map((item: any) => ({
-          description: item.description,
+          description: item?.description,
           url: item.url,
           category_code: item.category_code,
           browse_cat_id: item.browse_cat_id,
@@ -107,19 +120,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
           qual_Code: item.qual_Code,
         }));
     };
-
-    // const sortedResults = prioritySearch(filteredSubjects, description);
     setFilteredsubject(prioritySearch(filteredSubjects, description?.trim()));
-    // console.log(
-    //   prioritySearch(filteredSubjects, description),
-    //   "filterdsubject "
-    // );
   }, [
-    searchFormHandle.subject.description,
+    searchFormHandle?.subject?.description,
     searchFormHandle.courseType.qualCode,
   ]);
 
-  // ================================================================================================================================================
+  // ====================================================use effect for the clear subject on qual change============================================================================================
   useEffect(() => {
     setsearchFormHandle((prevData: any) => ({
       ...prevData,
@@ -128,8 +135,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
         url: null,
         parent_subject: null,
         category_code: null,
-        browse_cat_id: "KW", // Retaining other properties of subject
-        description: "", // Setting the description value
+        browse_cat_id: "KW",
+        description: "",
       },
     }));
   }, [searchFormHandle.courseType.qualCode]);
@@ -147,8 +154,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
       ...resetAllTabs(tabName),
     }));
   };
-
+  // ============================serch handler===============================================================================================================
   const searchHandler = () => {
+    if (isAuthenticated) {
+      const cookiesval = getCookie("ucaspoint");
+      ucasval = cookiesval;
+    } else {
+      const cookiesval1: any = getCookie("UCAS");
+      const point: any = JSON.parse(cookiesval1);
+      ucasval = point?.ucasPoint;
+    }
     if (
       searchFormHandle.location.regionName &&
       !searchFormHandle.subject.url &&
@@ -164,29 +179,71 @@ const CourseTab: React.FC<CourseTabProps> = ({
       searchFormHandle.subject?.url
     ) {
       const sanitizedRegionName = searchFormHandle.location.regionName
-        .trim() // Remove spaces from the front and back
-        .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
-        .replace(/\s+/g, "-") // Replace spaces with hyphens
-        .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-        .replace(/^-|-$/g, "") // Remove hyphens from the start and end
-        .toLowerCase(); // Convert the entire string to lowercase
+        .trim()
+        .replace(/[^a-zA-Z0-9\s]+/g, "-")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "")
+        .toLowerCase();
+      // console.log(
+      //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
+      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
+      // );
+      
+      // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
+      // console.log(urlformed);
 
+      // const unencodedUrl = urlformed.replace(/,/g, ",");
+      // console.log(unencodedUrl);
+      // router.push(unencodedUrl);
+      // const decodedUrl = urlformed.replace("%2C", ",");
+      // const params = new URLSearchParams({
+      //   // score: ucasval,
+      //   score: "0,128",
+      // });
+      // const params = new URLSearchParams({
+      //   subject: "law",
+      //   score: "0,128",
+      // })
+      //   .toString()
+      //   .replace(/%2C/g, ",");
+      // router.push(`/degree-courses/search?${params}`);
+      // window.location.href = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}&score=0,2`;
+      // router.push({
+      //   pathname: searchFormHandle.subject.url,
+      //   query: { location: sanitizedRegionName, score: score }
+      // }, locationUrl);
       router.push(
-        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}`
+        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
+      // router.push(`/search?${params.toString()}`);
+      // router.push({
+      //   pathname: '/degree-courses/search',
+      //   query: {
+      //     subject: 'law',
+      //     location: 'central-england',
+      //     score: '0,128'
+      //   }
+      // })
     } else if (searchFormHandle.subject?.url) {
-      router.push(searchFormHandle.subject.url);
+      // console.log(
+      //   searchFormHandle.subject?.url,
+      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
+      // );
+      router.push(
+        `${searchFormHandle.subject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+      );
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch();
     }
   };
   const keywordSearch = () => {
-    const sanitizedDescription = searchFormHandle.subject.description
-      .trim() // Remove spaces from the front and back
-      .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-      .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+    const sanitizedDescription = searchFormHandle?.subject?.description
+      .trim()
+      .replace(/[^a-zA-Z0-9\s]+/g, "-")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
       .toLowerCase();
     const searchUrlMap: Record<string, string> = {
       M: "/degree-courses/search",
@@ -196,9 +253,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
       L: "/postgraduate-courses/search",
     };
     const matchedSubject = filteredsubject?.find(
-      (item) =>
-        item.description.toLowerCase() ===
-        searchFormHandle.subject.description?.trim().toLowerCase()
+      (item: any) =>
+        item?.description?.toLowerCase() ===
+        searchFormHandle?.subject?.description?.trim().toLowerCase()
     );
 
     if (searchFormHandle.location?.regionName && matchedSubject) {
@@ -211,11 +268,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .toLowerCase(); // Convert the entire string to lowercase
 
       return router.push(
-        `${matchedSubject.url}&location=${sanitizedRegionName}`
+        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     if (matchedSubject) {
-      return router.push(`${matchedSubject.url}`);
+      return router.push(
+        `${matchedSubject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+      );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
@@ -239,8 +298,83 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 courseActions("UG");
                 setDropdown(false);
               }}
+              onChange={(event: any) => {
+                setsearchFormHandle((prevData: SearchFormHandle) => ({
+                  ...prevData,
+                  courseType: { ...prevData, qualDesc: event.target.value },
+                }));
+              }}
               className="w-full flex items-center justify-between gap-[4px] pr-0 pb-[24px] text-black md:w-[160px] md:pr-[16px] md:pb-0"
               type="button"
+              // ===========================key handle for the qualification===================================================
+
+              onKeyDown={(e) => {
+                if (!searchFormHandle?.isCourseType) return;
+                const allOptions: any = studymodelist || [];
+                const currentIndex = dropdownIndexQual;
+                let newIndex = currentIndex;
+                switch (e.key) {
+                  case "ArrowDown":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex < allOptions.length - 1
+                        ? currentIndex + 1
+                        : 0;
+                    setdropdownIndexQual(newIndex);
+                    const nextElement = document.querySelector(
+                      `[data-index-1="${newIndex + 1}"]`
+                    );
+                    nextElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+                    document
+                      .querySelectorAll("[data-index-1]")
+                      .forEach((el) => {
+                        el.classList.remove("bg-blue-50", "underline");
+                      });
+                    nextElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "ArrowUp":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex > 0
+                        ? currentIndex - 1
+                        : allOptions.length - 1;
+                    setdropdownIndexQual(newIndex);
+                    const prevElement = document.querySelector(
+                      `[data-index-1="${newIndex}"]`
+                    );
+                    prevElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+                    document
+                      .querySelectorAll("[data-index-1]")
+                      .forEach((el) => {
+                        el.classList.remove("bg-blue-50", "underline");
+                      });
+                    prevElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "Enter":
+                    e.preventDefault();
+
+                    const selectedElement: any =
+                      document.querySelector(".bg-blue-50");
+                    if (selectedElement) {
+                      const selectedIndex: any =
+                        selectedElement?.getAttribute("data-index-1");
+                      setsearchFormHandle((prevData: SearchFormHandle) => ({
+                        ...prevData,
+                        courseType: studymodelist[selectedIndex - 1],
+                      }));
+                      courseActions("UG");
+                    }
+                    break;
+                }
+              }}
             >
               {searchFormHandle?.courseType.qualDesc}
               <Image
@@ -258,11 +392,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
-                          courseType: item, // Update state with the selected course type
+                          courseType: item,
                         }));
-                        courseActions("UG"); // Call your additional function
+                        courseActions("UG");
                       }}
                       className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                      data-index-1={index + 1}
                       key={index}
                     >
                       {item.qualDesc}
@@ -275,14 +410,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
           <div className="w-full relative grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
             <input
               autoComplete="off"
-              value={searchFormHandle.subject.description || ""}
+              value={searchFormHandle?.subject?.description || ""}
               type="text"
               className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
               aria-label="submenu"
               placeholder="Enter subject"
               onChange={(event) => {
-                const trimmedValue = event.target.value.replace(/\s{2,}/g, " "); // Replace multiple spaces with a single space
-
+                const trimmedValue = event.target.value.replace(/\s{2,}/g, " ");
                 setsearchFormHandle((prevData: any) => ({
                   ...prevData,
                   subject: {
@@ -290,8 +424,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     url: null,
                     parent_subject: null,
                     category_code: null,
-                    browse_cat_id: "KW", // Retaining other properties of subject
-                    description: trimmedValue.trimStart(), // Setting the description value
+                    browse_cat_id: "KW",
+                    description: trimmedValue.trimStart(),
                   },
                 }));
                 setDropdown(true);
@@ -300,6 +434,76 @@ const CourseTab: React.FC<CourseTabProps> = ({
               onClick={() => {
                 courseActions("Subject");
                 setDropdown((prev) => !prev);
+                setdropdownIndex(0);
+              }}
+              onKeyDown={(e) => {
+                if (!dropdown) return;
+                const allOptions: any = filteredsubject || [];
+                const currentIndex = dropdownIndex;
+                let newIndex = currentIndex;
+                switch (e.key) {
+                  case "ArrowDown":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex < allOptions.length - 1
+                        ? currentIndex + 1
+                        : 0;
+                    setdropdownIndex(newIndex);
+                    const nextElement = document.querySelector(
+                      `[data-index="${newIndex}"]`
+                    );
+                    nextElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+
+                    document.querySelectorAll("[data-index]").forEach((el) => {
+                      el.classList.remove("bg-blue-50", "underline");
+                    });
+                    nextElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "ArrowUp":
+                    e.preventDefault();
+                    newIndex =
+                      currentIndex > 0
+                        ? currentIndex - 1
+                        : allOptions.length - 1;
+                    setdropdownIndex(newIndex);
+
+                    const prevElement = document.querySelector(
+                      `[data-index="${newIndex}"]`
+                    );
+                    prevElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+
+                    document.querySelectorAll("[data-index]").forEach((el) => {
+                      el.classList.remove("bg-blue-50", "underline");
+                    });
+                    prevElement?.classList.add("bg-blue-50", "underline");
+                    break;
+
+                  case "Enter":
+                    e.preventDefault();
+                    const selectedElement: any =
+                      document.querySelector(".bg-blue-50");
+                    if (selectedElement) {
+                      const selectedIndex: any =
+                        selectedElement?.getAttribute("data-index");
+
+                      setsearchFormHandle((prevData: SearchFormHandle) => ({
+                        ...prevData,
+                        subject: filteredsubject[selectedIndex - 1],
+                        isSubjectClicked: !searchFormHandle?.isSubjectClicked,
+                      }));
+                      setDropdown(false);
+                    } else {
+                      searchHandler();
+                    }
+                    break;
+                }
               }}
             />
             {dropdown && (
@@ -322,7 +526,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       Key word search for
                     </p>
                     <p className="small text-primary-400">
-                      {`'${searchFormHandle.subject.description}'`}
+                      {`'${searchFormHandle?.subject?.description}'`}
                     </p>
                   </div>
                 )}
@@ -339,10 +543,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
                         // setSubjectlist([]);
                         setDropdown(false);
                       }}
+                      data-index={index + 1}
                       key={index + 1} // Increment index to keep the key unique
-                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                      className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer `}
                     >
-                      {item.description}
+                      {item?.description}
                     </li>
                   ))}
                 </ul>
@@ -370,6 +575,70 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 }))
               }
               readOnly
+              onKeyDown={(e) => {
+                if (!searchFormHandle?.isLocationClicked) return;
+
+                const listItems = locationlist || [];
+                const currentIndex = listItems.findIndex(
+                  (item: any) =>
+                    item.regionName === searchFormHandle.location.regionName
+                );
+                switch (e.key) {
+                  case "ArrowDown":
+                    e.preventDefault();
+                    const nextIndex =
+                      currentIndex < listItems.length - 1
+                        ? currentIndex + 1
+                        : 0;
+                    setsearchFormHandle((prevData: any) => ({
+                      ...prevData,
+                      location: listItems[nextIndex],
+                    }));
+                    // Scroll the selected item into view
+                    const nextElement = document.querySelector(
+                      `li[data-index="${nextIndex}"]`
+                    );
+                    nextElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+
+                    break;
+
+                  case "ArrowUp":
+                    e.preventDefault();
+                    const prevIndex =
+                      currentIndex > 0
+                        ? currentIndex - 1
+                        : listItems.length - 1;
+                    setsearchFormHandle((prevData: any) => ({
+                      ...prevData,
+                      location: listItems[prevIndex],
+                    }));
+                    // Scroll the selected item into view
+                    const prevElement = document.querySelector(
+                      `li[data-index="${prevIndex}"]`
+                    );
+                    prevElement?.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+
+                    break;
+
+                  case "Enter":
+                    e.preventDefault();
+
+                    if (searchFormHandle.location) {
+                      courseActions("Location");
+                      setsearchFormHandle((prevData: any) => ({
+                        ...prevData,
+                        isLocationClicked: false,
+                      }));
+                    }
+                    break;
+                }
+              }}
             />
             {searchFormHandle?.isLocationClicked && (
               <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
@@ -379,12 +648,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       onClick={() => {
                         setsearchFormHandle((prevData: SearchFormHandle) => ({
                           ...prevData,
-                          location: item, // Update state with the selected course type
+                          location: item,
                         }));
-                        courseActions("Location"); // Call your additional function
+                        courseActions("Location");
                       }}
                       key={index}
-                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                      data-index={index}
+                      className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer ${
+                        item.regionName ===
+                        searchFormHandle?.location?.regionName
+                          ? "bg-blue-50 underline"
+                          : ""
+                      }`}
                     >
                       {item.regionName}
                     </li>
