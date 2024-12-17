@@ -541,7 +541,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
 
                 {qualifications.length < 2 &&
                   qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
-                  qual[0]?.podSpecificPoints > 0 && (
+                  qual[0]?.podSpecificPoints > 0 &&
+                  (!qual[1] || qual[1]?.podSpecificPoints > 0) && (
                     <div
                       onClick={addQualification}
                       className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"
