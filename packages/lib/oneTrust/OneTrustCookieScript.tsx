@@ -104,20 +104,16 @@ export default function OneTrustCookieScript() {
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script
-      window.removeEventListener("scroll", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
+
+      window.removeEventListener("mousemove", handleUserInteraction);
     };
 
     // Add event listeners for user interaction
-    window.addEventListener("scroll", handleUserInteraction);
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("keypress", handleUserInteraction);
+
+    window.addEventListener("mousemove", handleUserInteraction);
 
     return () => {
-      window.removeEventListener("scroll", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("mousemove", handleUserInteraction);
     };
   }, []);
 
