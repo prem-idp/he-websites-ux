@@ -298,6 +298,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     );
   };
   const resetAll = () => {
+    document.cookie = "UCAS=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie = "ucaspoint=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     setQualifications([]);
     setUcasPoint(0);
     setResetid(Date.now());
