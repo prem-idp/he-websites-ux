@@ -11,11 +11,14 @@ const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: "swap",
 });
+
 const interBold = localFont({
   src: "./fonts/Inter-Bold.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+  display: "swap",
 });
 export default async function RootLayout({
   children,
@@ -29,10 +32,9 @@ export default async function RootLayout({
       >
         <TrackSessionId />
         <OneTrustCookieScript />
-
         <HeaderWrapper />
-
         {children}
+
         <Footer />
       </body>
     </html>

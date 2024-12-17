@@ -15,7 +15,10 @@ const UcasComponent = dynamic(
     ),
   { ssr: false }
 );
-const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
+const SearchBox = ({ pgs_search_data }: any) => {
+  const [startfetch, setStartFetch] = useState(false);
+  const [course_data, setCourseData] = useState({});
+  const [uni_data, setUniData] = useState({});
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
@@ -62,12 +65,87 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
     SetIsUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
+  // ===========================initial fetch=============================================================================================
+  useEffect(() => {
+    const fetchData = async () => {
+      // Define payloads
+      const body: any = {
+        affiliateId: 220703,
+        actionType: "subject",
+        keyword: "",
+        qualCode: "",
+        networkId: 2,
+      };
 
-  // ============================================================================================================================
+      const unibody: any = {
+        affiliateId: 220703,
+        actionType: "institution",
+        keyword: "",
+        qualCode: "",
+        networkId: 2,
+      };
+
+      // Construct query parameters for both payloads
+      const queryParamsBody = new URLSearchParams(body).toString();
+      const queryParamsUnibody = new URLSearchParams(unibody).toString();
+
+      // URLs for both requests
+      const urlBody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsBody}`;
+      const urlUnibody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsUnibody}`;
+
+      try {
+        // Fetch data in parallel
+        const [bodyResponse, unibodyResponse] = await Promise.all([
+          fetch(urlBody, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            },
+            cache: "no-store",
+          }),
+          fetch(urlUnibody, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            },
+            cache: "force-cache",
+          }),
+        ]);
+
+        // Parse JSON responses
+        const bodyData = await bodyResponse.json();
+        const unibodyData = await unibodyResponse.json();
+        setCourseData(bodyData);
+
+        setUniData(unibodyData);
+
+        // Log results
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (
+      startfetch &&
+      !(Object.keys(uni_data).length > 0) &&
+      !(Object.keys(course_data).length > 0)
+    ) {
+      fetchData();
+    }
+  }, [startfetch]);
+
+  // ====================================================================================================================================
   return (
     <>
       {process.env.PROJECT == "Whatuni" && (
-        <div className="md:px-[16px] xl:px-0">
+        <div
+          onClick={() => {
+            setStartFetch(true);
+          }}
+          className="md:px-[16px] xl:px-0"
+        >
           <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <ul className="flex gap-[8px] justify-center md:justify-start">
@@ -77,7 +155,9 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                       ? "bg-neutral-900 text-white"
                       : "bg-white text-neutral-900"
                   }`}
-                  onClick={() => searchTabClick("tab1")}
+                  onClick={() => {
+                    searchTabClick("tab1");
+                  }}
                 >
                   Courses
                 </li>
@@ -170,19 +250,41 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
               )}
 
               <div className="row-start-2 md:col-span-2 mt-[16px]">
-                {searchFormHandle?.activeTab === "tab1" && (
-                  <CourseTab
-                    searchFormHandle={searchFormHandle}
-                    setsearchFormHandle={setsearchFormHandle}
-                    data={course_data}
-                  />
+                {searchFormHandle?.activeTab === "tab1" &&
+                Object.keys(course_data).length > 0 ? (
+                  <>
+                    <CourseTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={course_data}
+                    />
+                  </>
+                ) : (
+                  searchFormHandle?.activeTab === "tab1" && (
+                    <CourseTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={course_data}
+                    />
+                  )
                 )}
-                {searchFormHandle?.activeTab === "tab2" && (
-                  <UniversityTab
-                    searchFormHandle={searchFormHandle}
-                    setsearchFormHandle={setsearchFormHandle}
-                    data={uni_data}
-                  />
+                {searchFormHandle?.activeTab === "tab2" &&
+                Object.keys(uni_data).length > 0 ? (
+                  <>
+                    <UniversityTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={uni_data}
+                    />
+                  </>
+                ) : (
+                  searchFormHandle?.activeTab === "tab2" && (
+                    <UniversityTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={uni_data}
+                    />
+                  )
                 )}
                 {searchFormHandle?.activeTab === "tab3" && (
                   <AdviceTab

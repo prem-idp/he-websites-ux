@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
 
 export default function OneTrustCookieScript() {
+  const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
     console.log(
       "User consented to analytics; loading analytics scripts...",
@@ -99,27 +100,43 @@ export default function OneTrustCookieScript() {
       });
     };
 
-    window.OptanonWrapper = handleConsentChange;
+    const handleUserInteraction = () => {
+      setUserinteraction(true);
+      window.OptanonWrapper = handleConsentChange;
+      // Remove event listeners after loading the script
+
+      window.removeEventListener("mousemove", handleUserInteraction);
+    };
+
+    // Add event listeners for user interaction
+
+    window.addEventListener("mousemove", handleUserInteraction);
+
+    return () => {
+      window.removeEventListener("mousemove", handleUserInteraction);
+    };
   }, []);
 
   return (
     <>
-      {userConsentGiven ? (
-        <Script
-          src="https://accounts.google.com/gsi/client"
-          id="googleGsiId"
-          async
-          defer
-          strategy="lazyOnload"
-        />
-      ) : (
+      {useinteraction && (
         <>
-          <Script
-            strategy="lazyOnload"
-            src={process.env.NEXT_PUBLIC_ONE_TRUST_SRC || ""}
-            id="oneTrustCookieeId"
-            data-domain-script={process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN || ""}
-          />
+          {userConsentGiven ? (
+            <Script
+              src="https://accounts.google.com/gsi/client"
+              id="googleGsiId"
+              strategy="lazyOnload"
+            />
+          ) : (
+            <>
+              <Script
+                src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`}
+                id="oneTrustCookieeId"
+                data-domain-script={`${process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN}`}
+                strategy="lazyOnload"
+              />
+            </>
+          )}
         </>
       )}
     </>

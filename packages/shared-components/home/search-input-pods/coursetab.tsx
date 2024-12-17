@@ -5,6 +5,8 @@ import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { getCookie } from "@packages/lib/utlils/helper-function";
 
 interface CourseTabProps {
   searchFormHandle: any;
@@ -17,7 +19,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
 }) => {
+  let ucasval: any = 0;
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<any>(false);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
@@ -29,6 +33,29 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const router = useRouter();
+  // ==============================use effect to check the use authentication======================================================================
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const session = await fetchAuthSession();
+        // console.log("session", session);
+        if (session.tokens) {
+          const hasAccessToken = session.tokens.accessToken !== undefined;
+          const hasIdToken = session.tokens.idToken !== undefined;
+          if (hasAccessToken && hasIdToken) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(true);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
   // ==========================use effect for the handle click outside========================================================================
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -46,6 +73,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   // ============================== use effect for filter subject list========================================================================
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
@@ -127,8 +155,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
       ...resetAllTabs(tabName),
     }));
   };
-
+  // ============================serch handler===============================================================================================================
   const searchHandler = () => {
+    if (isAuthenticated) {
+      const cookiesval = getCookie("ucaspoint");
+      ucasval = cookiesval;
+    } else {
+      const cookiesval1: any = getCookie("UCAS");
+      const point: any = JSON.parse(cookiesval1);
+      ucasval = point?.ucasPoint;
+    }
     if (
       searchFormHandle.location.regionName &&
       !searchFormHandle.subject.url &&
@@ -150,12 +186,54 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, "")
         .toLowerCase();
+      // console.log(
+      //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
+      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
+      // );
 
+      // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
+      // console.log(urlformed);
+
+      // const unencodedUrl = urlformed.replace(/,/g, ",");
+      // console.log(unencodedUrl);
+      // router.push(unencodedUrl);
+      // const decodedUrl = urlformed.replace("%2C", ",");
+      // const params = new URLSearchParams({
+      //   // score: ucasval,
+      //   score: "0,128",
+      // });
+      // const params = new URLSearchParams({
+      //   subject: "law",
+      //   score: "0,128",
+      // })
+      //   .toString()
+      //   .replace(/%2C/g, ",");
+      // router.push(`/degree-courses/search?${params}`);
+      // window.location.href = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}&score=0,2`;
+      // router.push({
+      //   pathname: searchFormHandle.subject.url,
+      //   query: { location: sanitizedRegionName, score: score }
+      // }, locationUrl);
       router.push(
-        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}`
+        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
+      // router.push(`/search?${params.toString()}`);
+      // router.push({
+      //   pathname: '/degree-courses/search',
+      //   query: {
+      //     subject: 'law',
+      //     location: 'central-england',
+      //     score: '0,128'
+      //   }
+      // })
     } else if (searchFormHandle.subject?.url) {
-      router.push(searchFormHandle.subject.url);
+      // console.log(
+      //   searchFormHandle.subject?.url,
+      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
+      // );
+      router.push(
+        `${searchFormHandle.subject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+      );
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch();
     }
@@ -191,11 +269,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .toLowerCase(); // Convert the entire string to lowercase
 
       return router.push(
-        `${matchedSubject.url}&location=${sanitizedRegionName}`
+        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     if (matchedSubject) {
-      return router.push(`${matchedSubject.url}`);
+      return router.push(
+        `${matchedSubject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+      );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
