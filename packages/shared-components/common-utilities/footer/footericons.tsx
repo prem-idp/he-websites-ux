@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { NavChild } from "@packages/lib/types/interfaces";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface PropsInterface {
   data: NavChild[];
 }
@@ -11,7 +12,17 @@ const FooterIcons = ({ data }: PropsInterface) => {
     <ul className="flex flex-row gap-[16px]">
       {data?.map((item, index) => (
         <li key={index}>
-          <Link prefetch={false} href={item?.navUrl || ""} aria-label="facebook">
+          {/* <ClickTrackerWrapper   gaData={{
+                        event: "ga_contentful_events",
+                        eventName:"footer_clicks",
+                        ctaTitle: item.navName,
+                        ctaUrl: item.navIcon.url,
+                        website:`${process.env.PROJECT}`,
+                        pageName:"homepage",
+
+                      }}
+                      > */}
+          <Link prefetch={false} href={item.navUrl || ""} aria-label="facebook">
             <Image
               alt={item.navName}
               src={item.navIcon.url}
@@ -19,6 +30,7 @@ const FooterIcons = ({ data }: PropsInterface) => {
               height={item.navIcon.height}
             />
           </Link>
+          {/* </ClickTrackerWrapper> */}
         </li>
       ))}
     </ul>

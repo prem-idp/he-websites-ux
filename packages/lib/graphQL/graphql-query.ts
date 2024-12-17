@@ -279,6 +279,7 @@ export const statsPodQuery = `{
                     internalName
                     primaryCtaLabel
                     primaryCtaUrl
+                    primaryCtaEventName
                   }
                 }
               }
@@ -318,6 +319,7 @@ export const homePageQuery = `{
               internalName
               primaryCtaUrl
               primaryCtaLabel
+              primaryCtaEventName
               secondaryCtaUrl
               secondaryCtaLabel
               primaryCtaTarget
@@ -360,6 +362,7 @@ export const homePageQuery = `{
               ... on CallToActionCta {
                 internalName
                 primaryCtaLabel
+                primaryCtaEventName
                 primaryCtaUrl
                 primaryCtaTarget
                 flagStyle
@@ -593,6 +596,7 @@ export const discoverpodQuery = (
                     primaryCtaUrl
                     secondaryCtaUrl
                     primaryCtaLabel
+                    primaryCtaEventName
                     secondaryCtaLabel
                     primaryCtaTarget
                     secondaryCtaTarget

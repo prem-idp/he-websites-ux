@@ -3,6 +3,8 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Heroslidercomponent from "@packages/shared-components/home/hero/heroslidercomponent";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
+import{ PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
+
 import {
   MultipleCardContainer,
   SliderBannerCollection,
@@ -13,9 +15,12 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
   return (
     <>
+    <PageViewLogging gaData={{
+        website: "whatuni",
+        pageName: "homepage",
+      }} />     
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
@@ -35,8 +40,10 @@ const Page = async () => {
           }
         )}
       </div>
+      
     </>
   );
+  
 };
 
 

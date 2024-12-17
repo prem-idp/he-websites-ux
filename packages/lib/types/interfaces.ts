@@ -179,6 +179,7 @@ export interface NavApplinksCollection {
 export interface AppLinkItem {
   primaryCtaLabel: string;
   primaryCtaUrl: string;
+  primaryCtaEventName: string;
 }
 
 export interface FooterNavBtmCollection {
@@ -258,6 +259,7 @@ export interface CallToAction {
   primaryCtaLabel: string;
   primaryCtaUrl: string;
   primaryCtaTarget: string;
+  primaryCtaEventName: string | null;
   flagStyle: string;
 }
 
@@ -269,7 +271,7 @@ export interface ReviewDetails {
   reviewerName: string;
   comment: string;
   initial: string;
-  collegeTextKey: string;
+  collegetextkey: string;
   reviewedDate: string;
   collegeId: string;
   collegeName: string;
@@ -281,6 +283,7 @@ export interface CTA {
   internalName: string;
   primaryCtaUrl: string | null;
   primaryCtaLabel: string | null;
+  primaryCtaEventName: string | null;
   secondaryCtaUrl: string | null;
   secondaryCtaLabel: string | null;
   primaryCtaTarget: string | null;
@@ -303,6 +306,7 @@ export interface Image {
 export interface Cta {
   primaryCtaLabel: string;
   primaryCtaUrl: string;
+  primaryCtaEventName: string;
 }
 
 export interface StatInfo {

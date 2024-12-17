@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Form from "next/form";
 import { useRouter } from "next/navigation";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 export default function PgsSearch({ pgs_search_data }: any) {
   const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
   const [qualification, setQualification] = useState({
@@ -155,14 +156,17 @@ export default function PgsSearch({ pgs_search_data }: any) {
       return setError(true);
     } else {
       if (qualification.qualDesc && !searchValue?.description?.trim()) {
+        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", qualification.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
         return router.push(`${qualification.qualUrl}`);
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
+        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
         return router.push(
           `/postgraduate-courses/search?keyword=${sanitizedDescription}`
         );
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
+        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", qualification.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
         return router.push(
           `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
@@ -262,6 +266,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                             key={index}
                             onClick={() => {
                               setSearchValue(item);
+                              GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", item?.parentSubject ? item?.parentSubject : item?.description, item?.parentSubject ? item?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", qualification?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
                               courseLink(item);
                             }}
                             className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
@@ -288,8 +293,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               .trim()
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`}
-                            key={index}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 hover:underline cursor-pointer"
+                            key={index} onClick={() => {
+                            GADataLayerFn("ga_events", "homepage_search", "university_search", "NA", "NA","NA", "homepage", "NA",item?.collegeNameDisplay, "NA", "NA", "NA", item?.collegeId, "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");}}
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
                             <span className="text-grey900">
                               {item.collegeNameDisplay}
