@@ -217,9 +217,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
           "NA",
           "NA"
         );
-        return router.push(
-          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
-        );
+        return router.push(`/pgs/search?keyword=${sanitizedDescription}`);
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
         GADataLayerFn(
