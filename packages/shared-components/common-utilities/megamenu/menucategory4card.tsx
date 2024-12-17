@@ -50,10 +50,9 @@ const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any })
                 <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
                   <Image
                     className="w-full"
-                    loading="eager"
                     src={item?.navIcon?.url || ""}
                     width="289"
-                    height="50"
+                    height="224"
                     alt="University logo"
                   />
                   <div className="overlay absolute z-0 top-0 left-0 right-0 bottom-0 bg-gradientBlack1"></div>

@@ -48,7 +48,7 @@ const Menucategory3card = ({ data, parentMenu }: { data: any; parentMenu: any })
                   loading="lazy"
                   alt="Megamenu thumb"
                 />{" "}
-                <span className="line-clamp-1">{item?.navTitle}</span>
+                <span className="line-clamp-1 text-center">{item?.navTitle}</span>
               </Link>
             </li>
           ))}

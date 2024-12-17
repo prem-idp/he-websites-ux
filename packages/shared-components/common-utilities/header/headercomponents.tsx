@@ -4,42 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 import { usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
-import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-// import {
-//   getCurrentUser,
-//   fetchUserAttributes,
-//   fetchAuthSession,
-// } from "aws-amplify/auth";
-
-// import { Amplify } from "aws-amplify";
-
-import config from "../../../../apps/whatuni/configs/amplifyconfiguration";
+import { fetchAuthSession } from "aws-amplify/auth";
 import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
-// Amplify.configure(config, { ssr: true });
+// ==========================================don't want for the current sprint=======================================================
+// import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
+// import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 interface props {
   topnav_data: any;
   course_data: CourseData;
   uni_data: UniData;
-  isAuthenticated: string | null;
-  initial: string | null;
-  basketCount: string | any;
 }
-const Header = ({
-  topnav_data,
-  course_data,
-  uni_data,
-  isAuthenticated,
-  initial,
-  basketCount,
-}: props) => {
+const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();
-  // console.log(isAuthenticated, "isAuthenticated");
-
+  const [initial, setInitial] = useState<any>("");
+  const [first, setFirst] = useState<any>(false);
+  const [basketCount, setBasketCount] = useState<any>(0);
+  const [isAuthenticated, setIsAuthenticated] = useState("false");
   const [isMobileView, setIsMobile] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [clickStates, setClickStates] = useState({
@@ -47,13 +31,33 @@ const Header = ({
     isUserClicked: false,
     isShortlistClicked: false,
   });
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
-  const [showUser, setShowUser] = useState(initial);
   const pathname = usePathname();
-
+  // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
+    // -------check the user authentication----------------------------
+    const fetchUser = async () => {
+      try {
+        const session = await fetchAuthSession();
+        if (session.tokens) {
+          const hasAccessToken = session.tokens.accessToken !== undefined;
+          const hasIdToken = session.tokens.idToken !== undefined;
+
+          if (hasAccessToken && hasIdToken) {
+            setIsAuthenticated("true");
+            setFirst(true);
+          }
+        }
+        setFirst(true);
+      } catch (error) {
+        setFirst(true);
+        console.error("Error fetching user:", error);
+      }
+    };
+    // --------------close all popups on clicking outside-----------------------------
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
@@ -66,43 +70,58 @@ const Header = ({
         rightMenuAction("");
       }
     };
-    // Delay adding listener to avoid immediate triggering
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    // ---------------function to close the search on listering the emitter------------------
+    const handleRightMenuAction = (actionType: string) => {
+      rightMenuAction(actionType);
     };
-  }, []);
-
-  const mobileToggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
-  useEffect(() => {
-    // const fetchUser = async () => {
-    //   const { idToken } =
-    //     (
-    //       await fetchAuthSession({
-    //         forceRefresh: true,
-    //       })
-    //     ).tokens ?? {};
-    //   // console.log(idToken, "iddddddd");
-    //   // const session = await fetchAuthSession();
-    //   // console.log(session, "session-----------------------");
-    //   return null;
-    // };
-    // fetchUser();
+    // -------------------function to set ismobile state--------------------------------------
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
+
+    fetchUser();
     handleResize();
+    function getCookieValue(name: any) {
+      const cookieArray = document.cookie.split("; ");
+      const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
+      return cookie ? cookie.split("=")[1] : "";
+    }
+    const user_initial = getCookieValue("USER_INITIAL");
+    const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+    setBasketCount(basket);
+    setInitial(user_initial);
+
+    // Add event listeners
+    document.addEventListener("mousedown", handleClickOutside);
+    emitter.on("rightMenuActionclose", handleRightMenuAction);
     window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on unmount
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      // Cleanup event listeners
+      document.removeEventListener("mousedown", handleClickOutside);
+      emitter.off("rightMenuActionclose", handleRightMenuAction);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  // right menu actions
+  // ==========================================useEffect block the background while popups made=====================================================================
+  useEffect(() => {
+    const body = document.body;
+    if (
+      clickStates.isSearchClicked ||
+      clickStates.isUserClicked ||
+      clickStates.isShortlistClicked
+    ) {
+      body.classList.add("overflow-y-hidden");
+    } else {
+      body.classList.remove("overflow-y-hidden");
+    }
+  }, [clickStates]);
+  // ===================================================================================================================================================================
+  const mobileToggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
   const rightMenuAction = (actionName: string) => {
     setClickStates((prevStates) => {
       const newState = {
@@ -118,42 +137,8 @@ const Header = ({
       } else if (actionName === "SHORTLIST") {
         newState.isShortlistClicked = !prevStates.isShortlistClicked;
       }
-
       return newState;
     });
-  };
-
-  useEffect(() => {
-    const handleRightMenuAction = (actionType: string) => {
-      rightMenuAction(actionType);
-    };
-    // Listen for the `rightMenuAction` event
-    emitter.on("rightMenuActionclose", handleRightMenuAction);
-
-    // Cleanup the listener to prevent memory leaks
-    return () => {
-      emitter.off("rightMenuActionclose", handleRightMenuAction);
-    };
-  }, []);
-  useEffect(() => {
-    const body = document.body;
-    if (
-      clickStates.isSearchClicked ||
-      clickStates.isUserClicked ||
-      clickStates.isShortlistClicked
-    ) {
-      body.classList.add("overflow-y-hidden");
-    } else {
-      body.classList.remove("overflow-y-hidden");
-    }
-  }, [clickStates]);
-  const Usericonfunction = () => {
-    // console.log(isAuthenticated, "isAuthenticated inside the user");
-    if (isAuthenticated === "true") {
-      rightMenuAction("USER");
-    } else {
-      router.push("/register");
-    }
   };
   return (
     <>
@@ -168,8 +153,8 @@ const Header = ({
                   topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
                   "/static/assets/images/imageplaceholder.png"
                 }
-                alt=""
-                priority
+                alt="imageplaceholder"
+                priority={true}
                 width={70}
                 height={78}
               />
@@ -249,7 +234,9 @@ const Header = ({
                     </div>
 
                     {/* Megamenu Component */}
-                    {isOpen && <Megamenucomponents data={topnav_data} />}
+                    <div className={`${isOpen ? "block" : "hidden"}`}>
+                      <Megamenucomponents data={topnav_data} />
+                    </div>
                   </div>
                 </div>
               </>
@@ -260,6 +247,7 @@ const Header = ({
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
+              {/* // commented beacuse the scope out sprint */}
               {/* {pathname !== "/" && (
                 <li>
                   <span
@@ -295,40 +283,49 @@ const Header = ({
                   )}
                 </li>
               )} */}
-              <li className="relative">
+              <li className={`relative ${first ? "block" : "hidden"}`}>
                 <span
-                  aria-label="User"
+                  title="User"
                   ref={userref}
-                  onClick={() => Usericonfunction()}
+                  onClick={() =>
+                    isAuthenticated === "true"
+                      ? rightMenuAction("USER")
+                      : router.push("/register")
+                  }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {showUser ? (
-                    <span className="text-[16px] font-semibold">
-                      {showUser}
-                    </span>
+                  {/* Skeleton Loader
+                  {!first && !initial && (
+                    <div className="skeleton-loader w-[45px] h-[45px] bg-gray-200 rounded-full animate-pulse shadow-md"></div>
+                  )} */}
+                  {/* Render initial or SVG when first is true */}
+                  {initial && isAuthenticated === "true" && first ? (
+                    <span className="text-[16px] font-semibold">{initial}</span>
                   ) : (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
-                        stroke="#5C656E"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
-                        stroke="#5C656E"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    first && (
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
+                          stroke="#5C656E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
+                          stroke="#5C656E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )
                   )}
                 </span>
                 {/* user section */}
@@ -341,10 +338,11 @@ const Header = ({
                   </>
                 )}
               </li>
-              <li className="relative">
+              <li className={`relative ${first ? "block" : "hidden"}`}>
                 <Link
+                  prefetch={false}
                   href="/degrees/comparison"
-                  aria-label="Shortlist"
+                  title="Shortlist"
                   className="cursor-pointer"
                   onClick={() => rightMenuAction("SHORTLIST")}
                 >
@@ -375,6 +373,7 @@ const Header = ({
                     </div>
                   )}
                 </Link>
+                {/* // commented beacuse the scope out sprint */}
                 {/* shortlist section */}
                 {/* {clickStates.isShortlistClicked && (
                   <>

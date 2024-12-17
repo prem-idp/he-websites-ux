@@ -27,9 +27,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const universityClick = () => {
-    // console.log("clicked", isPgsUniversityClicked);
     setIsPgsUniversityClicked((prev) => !prev);
-    // console.log("clicked after", isPgsUniversityClicked);
     setShowDropdown(true);
     setQualDropdown(true);
   };
@@ -56,7 +54,6 @@ export default function PgsSearch({ pgs_search_data }: any) {
       (subjects: any) =>
         subjects?.description?.toLowerCase().includes(description.toLowerCase())
     );
-    // console.log(filteredSubjects);
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (list: any, searchText: any) => {
       if (!searchText) return list;
@@ -178,7 +175,6 @@ export default function PgsSearch({ pgs_search_data }: any) {
   };
 
   const courseLink = (e: any) => {
-    // console.log(e, "e");
     if (qualification.qualCode) {
       return router.push(`${e?.url}&qualification=${qualification.qualUrl}`);
     } else {
@@ -241,10 +237,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   </ul>
                 </div>
               )}
-              {showDropdown && (
+              {showDropdown && searchValue?.description?.length > 2 && (
                 <div
                   //   ref={containerRef}
-                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]"
+                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
+                  max-h-[297px] overflow-y-auto mr-[4px]"
                 >
                   {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
@@ -253,7 +250,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                           KEYWORD SEARCH FOR
                         </p>
                         <p className="small text-primary-400">
-                          {searchValue.description}
+                          {` '${searchValue.description}'`}
                         </p>
                       </div>
                     </div>
@@ -272,9 +269,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", item?.parentSubject ? item?.parentSubject : item?.description, item?.parentSubject ? item?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", qualification?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
                               courseLink(item);
                             }}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900 ">
                               {item.description}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -298,9 +295,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               .toLowerCase()}`}
                             key={index} onClick={() => {
                             GADataLayerFn("ga_events", "homepage_search", "university_search", "NA", "NA","NA", "homepage", "NA",item?.collegeNameDisplay, "NA", "NA", "NA", item?.collegeId, "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");}}
-                            className="px-[16px] py-[10px] block hover:bg-blue-50 cursor-pointer"
+                            className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
-                            <span className="text-grey900 underline">
+                            <span className="text-grey900">
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
@@ -313,12 +310,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
               )}
             </Form>
             {qualification.qualDesc && (
-              <div className="flex items-center justify-between bg-gray-100 p-3 rounded-md shadow-md">
-                <span className="text-gray-700 font-medium">
-                  {qualification?.qualDesc}
-                </span>
-                <button
-                  className="ml-4 p-2 rounded-full bg-black text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              <div className="flex items-center justify-between gap-[4px] bg-gray-100 text-grey-500 font-semibold px-[12px] py-[8px] rounded-[4px]">
+                <span>{qualification?.qualDesc}</span>
+
+                <svg
+                  className="cursor-pointer"
                   onClick={() =>
                     setQualification({
                       qualUrl: "",
@@ -326,9 +322,27 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       qualDesc: "",
                     })
                   }
+                  width="16"
+                  height="16"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  X
-                </button>
+                  <path
+                    d="M18 6L6 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 6L18 18"
+                    stroke="#1f2937"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             )}
 

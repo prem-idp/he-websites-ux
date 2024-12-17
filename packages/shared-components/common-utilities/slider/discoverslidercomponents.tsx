@@ -110,10 +110,11 @@ const Discoverslidercomponents1 = ({
                         onClick={() => {
                           GADataLayerFn("ga_contentful_events", "footer_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
                         }}
-                        className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
+
+                        className={`h-[200px] block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
                       >
-                        <div className="discover-card flex justify-between gap-[8px]">
-                          <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                        <div className="discover-card flex justify-between gap-[8px] h-[100%]">
+                          <div className="flex flex-col justify-between p-[20px] pr-[0] w-[calc(100%_-_194px)]">
                             {discoverItems?.title && (
                               <div
                                 className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]"
@@ -123,15 +124,16 @@ const Discoverslidercomponents1 = ({
                               </div>
                             )}
                             {discoverItems?.subTitle && (
-                              <h5
-                                className="font-bold"
+                              <div
+                                className="h5"
                                 data-testid="cardSubTitle"
                               >
                                 {discoverItems?.subTitle}
-                              </h5>
+                              </div>
                             )}
                           </div>
                           {discoverItems?.image?.imgUpload?.url && (
+                            <div className="discover_media flex self-end w-[186px]">
                             <Image
                               src={discoverItems?.image?.imgUpload?.url || ""}
                               width="186"
@@ -140,6 +142,7 @@ const Discoverslidercomponents1 = ({
                               data-testid="discoverImageId"
                               data-testsrc={discoverItems.image.imgUpload.url}
                             />
+                            </div>
                           )}
                         </div>
                       </Link>
@@ -151,7 +154,7 @@ const Discoverslidercomponents1 = ({
           </Swiper>
         </div>
       ) : (
-        <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px]">
+        <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px] lg:px-[20px] xl-px-[0]">
           {dicoverCardContentfulList.map(
             (discoverItems: any, index: number) => {
               return (
@@ -170,10 +173,10 @@ const Discoverslidercomponents1 = ({
                     onClick={() => {
                       GADataLayerFn("ga_contentful_events", discoverItems.cta?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
                     }}
-                    className={`block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
+                    className={`h-[200px] block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
                   >
-                    <div className="discover-card flex justify-between gap-[8px]">
-                      <div className="flex flex-col justify-between p-[20px] pr-[0]">
+                    <div className="discover-card flex justify-between gap-[8px] h-[100%]">
+                      <div className="flex flex-col justify-between p-[20px] pr-[0] lg:w-[calc(100%_-_145px)] xl:w-[calc(100%_-_194px)]">
                         {discoverItems?.title && (
                           <div
                             className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]"
@@ -183,20 +186,23 @@ const Discoverslidercomponents1 = ({
                           </div>
                         )}
                         {discoverItems?.subTitle && (
-                          <h5 className="font-bold" data-testid="cardSubTitle">
+                          <div className="h5" data-testid="cardSubTitle">
                             {discoverItems?.subTitle}
-                          </h5>
+                          </div>
                         )}
                       </div>
                       {discoverItems?.image?.imgUpload?.url && (
-                        <Image
-                          src={discoverItems?.image?.imgUpload?.url || ""}
-                          width="186"
-                          height="200"
-                          alt="discover"
-                          data-testid="discoverImageId"
-                          data-testsrc={discoverItems.image.imgUpload.url}
-                        />
+                        <div className="discover_media flex self-end lg:w-[145px] xl:w-[186px]">
+                          <Image
+                            className="w-full h-auto"
+                            src={discoverItems?.image?.imgUpload?.url || ""}
+                            width="186"
+                            height="200"
+                            alt="discover"
+                            data-testid="discoverImageId"
+                            data-testsrc={discoverItems.image.imgUpload.url}
+                          />
+                        </div>
                       )}
                     </div>
                   </Link>

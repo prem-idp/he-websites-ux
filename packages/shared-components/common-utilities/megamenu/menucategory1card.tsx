@@ -2,7 +2,13 @@ import Link from "next/link";
 import React from "react";
 import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
+
 const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
+
+  if (!data) {
+    throw new Error("Menucategory1card requires data prop.");
+  }
+
   const calculate = () =>
     data.length - 1 <= 6 ? 1 : Math.ceil((data.length - 1) / 6);
 
@@ -10,14 +16,13 @@ const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any })
   const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
   return (
     <div
-      className={`dropdown-content-col grid gap-[8px] lg:gap-[16px] col-span-1 lg:col-span-${size}`}
+      className={`dropdown-content-col h-fit grid gap-[8px] lg:gap-[16px] col-span-1 lg:col-span-${size}`}
     >
-      <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
-        {
-          data?.find((item: any) => item.flagNavItemStyle === "L2 Text")
-            ?.navTitle
-        }
-      </div>
+      {data.find((item: any) => item.flagNavItemStyle === "L2 Text") ? (
+        <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
+          {data.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle}
+        </div>
+      ) : null}
       <ul
         className={`grid grid-cols-1 lg:grid-cols-${size}  gap-[16px] p-[16px] lg:p-[0] bg-white  `}
       >

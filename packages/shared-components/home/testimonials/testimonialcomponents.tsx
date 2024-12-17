@@ -25,9 +25,9 @@ const Testimonialcomponents = async ({
           <div className="testimonials-inner-wrap grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
             <TestimonialVideo contentfullRightData={contentfullData} />
             <div className="testimonial-card grid content-between p-[24px] rounded-[8px] gap-[16px] bg-primary-500">
-              <h5 className="font-medium para-lg md:text-heading5 md:head text-white">
+              <div className="h5 font-medium para-lg md:text-heading5 md:head text-white">
                 {contentfullData?.testimonialBlockRight?.testimonialText}
-              </h5>
+              </div>
               <div className="testimonial-footer">
                 <div className="author-name font-semibold small text-white">
                   {contentfullData?.testimonialBlockRight?.author?.firstName}

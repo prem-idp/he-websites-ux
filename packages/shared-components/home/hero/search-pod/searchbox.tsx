@@ -5,10 +5,20 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
+//import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
 import PgsSearch from "./pgs-search";
-
-const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
+import dynamic from "next/dynamic";
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
+const SearchBox = ({pgs_search_data}:any) => {
+  const [startfetch, setStartFetch] = useState(false);
+  const [course_data, setCourseData] = useState({});
+  const [uni_data, setUniData] = useState({});
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
@@ -19,7 +29,6 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
   //         containerRef.current &&
   //         !containerRef.current.contains(event.target as Node)
   //       ) {
-  //         console.log("click outside in searchbox");
   //         return ucasClose();
   //       }
   //     };
@@ -46,10 +55,9 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
 
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
   const ucasClick = () => {
-    console.log("clicked on ucas");
-    // SetIsUcasPopupOpen(true);
-    // const body = document.body;
-    // body.classList.add("overflow-y-hidden");
+    SetIsUcasPopupOpen(true);
+    const body = document.body;
+    body.classList.add("overflow-y-hidden");
   };
 
   const ucasClose = () => {
@@ -57,51 +65,123 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
     SetIsUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
+  useEffect(() => {
+    console.log("in the useEffect");
+
+    const fetchData = async () => {
+      console.log("inside the fetch function");
+
+      // Define payloads
+      const body: any = {
+        affiliateId: 220703,
+        actionType: "subject",
+        keyword: "",
+        qualCode: "",
+        networkId: 2,
+      };
+
+      const unibody: any = {
+        affiliateId: 220703,
+        actionType: "institution",
+        keyword: "",
+        qualCode: "",
+        networkId: 2,
+      };
+
+      // Construct query parameters for both payloads
+      const queryParamsBody = new URLSearchParams(body).toString();
+      const queryParamsUnibody = new URLSearchParams(unibody).toString();
+
+      // URLs for both requests
+      const urlBody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsBody}`;
+      const urlUnibody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsUnibody}`;
+
+      try {
+        // Fetch data in parallel
+        const [bodyResponse, unibodyResponse] = await Promise.all([
+          fetch(urlBody, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            },
+            cache: "no-store",
+          }),
+          fetch(urlUnibody, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            },
+            cache: "no-store",
+          }),
+        ]);
+
+        // Parse JSON responses
+        const bodyData = await bodyResponse.json();
+        const unibodyData = await unibodyResponse.json();
+        setCourseData(bodyData);
+
+        setUniData(unibodyData);
+
+        // Log results
+        console.log("Body Data:", bodyData);
+        console.log("Unibody Data:", unibodyData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (startfetch) {
+      fetchData();
+    }
+  }, [startfetch]);
 
   // ============================================================================================================================
-  // console.log(searchFormHandle,"______________________________________________");
   return (
     <>
       {process.env.PROJECT == "Whatuni" && (
-        <div className="md:px-[16px] xl:px-0">
+        <div
+          onClick={() => {
+            setStartFetch(true);
+            console.log("clicking");
+          }}
+          className="md:px-[16px] xl:px-0"
+        >
           <div className="bg-white w-full rounded-none max-w-container mx-auto p-[16px] mt-0 min-h-[160px] relative z-3 md:shadow-custom-5 md:rounded-[32px] md:p-[24px] md:mt-[-82px]">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <ul className="flex gap-[8px] justify-center md:justify-start">
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab1"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab1")}
-                  >
-                    Courses
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab1"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => {
+                    searchTabClick("tab1");
+                  }}
+                >
+                  Courses
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab2"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab2")}
-                  >
-                    Universities
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab2"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab2")}
+                >
+                  Universities
                 </li>
-                <li role="button">
-                  <button
-                    className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                      searchFormHandle?.activeTab === "tab3"
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                    }`}
-                    onClick={() => searchTabClick("tab3")}
-                  >
-                    Advice
-                  </button>
+                <li
+                  className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                    searchFormHandle?.activeTab === "tab3"
+                      ? "bg-neutral-900 text-white"
+                      : "bg-white text-neutral-900"
+                  }`}
+                  onClick={() => searchTabClick("tab3")}
+                >
+                  Advice
                 </li>
               </ul>
 
@@ -128,10 +208,12 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
                     </svg>
                     Calculate your UCAS points
                   </div>
-                  <UcasComponent
-                    onClose={ucasClose}
-                    isUcasOpen={isUcasPopupOpen}
-                  />
+                  {isUcasPopupOpen && (
+                    <UcasComponent
+                      onClose={ucasClose}
+                      isUcasOpen={isUcasPopupOpen}
+                    />
+                  )}
                 </div>
               )}
               {searchFormHandle?.activeTab == "tab2" && (
@@ -170,19 +252,39 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
               )}
 
               <div className="row-start-2 md:col-span-2 mt-[16px]">
-                {searchFormHandle?.activeTab === "tab1" && (
-                  <CourseTab
-                    searchFormHandle={searchFormHandle}
-                    setsearchFormHandle={setsearchFormHandle}
-                    data={course_data}
-                  />
+                {searchFormHandle?.activeTab === "tab1" &&
+                Object.keys(course_data).length > 0 ? (
+                  <>
+                    <CourseTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={course_data}
+                    />
+                  </>
+                ) : (
+                  searchFormHandle?.activeTab === "tab1" && (
+                    <CourseTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={course_data}
+                    />
+                  )
                 )}
-                {searchFormHandle?.activeTab === "tab2" && (
+                {searchFormHandle?.activeTab === "tab2" &&
+                Object.keys(uni_data).length > 0 ? (
                   <UniversityTab
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
                     data={uni_data}
                   />
+                ) : (
+                  searchFormHandle?.activeTab === "tab2" && (
+                    <UniversityTab
+                      searchFormHandle={searchFormHandle}
+                      setsearchFormHandle={setsearchFormHandle}
+                      data={uni_data}
+                    />
+                  )
                 )}
                 {searchFormHandle?.activeTab === "tab3" && (
                   <AdviceTab
@@ -219,7 +321,7 @@ const SearchBox = ({ course_data, uni_data, pgs_search_data }: any) => {
       )}
       {/* PGS SEARCH */}
       {process.env.PROJECT == "PGS" && (
-        <PgsSearch pgs_search_data={pgs_search_data} />
+        <PgsSearch pgs_search_data={pgs_search_data}/>
         // <p> aswdsdsd</p>
       )}
     </>
