@@ -11,14 +11,20 @@ const FooterIcons = ({ data }: PropsInterface) => {
     <ul className="flex flex-row gap-[16px]">
       {data?.map((item, index) => (
         <li key={index}>
-          <Link prefetch={false} href={item?.navUrl || ""} aria-label="facebook">
-            <Image
-              alt={item.navName}
-              src={item.navIcon.url}
-              width={item.navIcon.width}
-              height={item.navIcon.height}
-            />
-          </Link>
+          {item?.navIcon?.url && (
+            <Link
+              prefetch={false}
+              href={item?.navUrl || ""}
+              aria-label="facebook"
+            >
+              <Image
+                alt={item?.navName}
+                src={item?.navIcon.url}
+                width={item?.navIcon.width}
+                height={item?.navIcon.height}
+              />
+            </Link>
+          )}
         </li>
       ))}
     </ul>
