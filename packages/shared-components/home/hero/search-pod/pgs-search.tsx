@@ -158,13 +158,11 @@ export default function PgsSearch({ pgs_search_data }: any) {
         return router.push(`${qualification.qualUrl}`);
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
-        return router.push(
-          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
-        );
+        return router.push(`/pgs/search?keyword=${sanitizedDescription}`);
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
         return router.push(
-          `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+          `/pgs/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
       }
     }

@@ -5,8 +5,7 @@ import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
 import AdviceTab from "../../search-input-pods/advicetab";
-import UcasComponentSkeleton from "@packages/shared-components/common-utilities/skeleton/ucascomponentskeleton";
-//import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
+
 import PgsSearch from "./pgs-search";
 import dynamic from "next/dynamic";
 const UcasComponent = dynamic(
@@ -23,23 +22,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  //   const containerRef = useRef<HTMLDivElement | null>(null);
-  //   useEffect(() => {
-  //     const handleClickOutside = (event: MouseEvent) => {
-  //       if (
-  //         containerRef.current &&
-  //         !containerRef.current.contains(event.target as Node)
-  //       ) {
-  //         return ucasClose();
-  //       }
-  //     };
-  //     // Delay adding listener to avoid immediate triggering
-  //     document.addEventListener("mousedown", handleClickOutside);
-
-  //     return () => {
-  //       document.removeEventListener("mousedown", handleClickOutside);
-  //     };
-  //   }, []);
+  
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
