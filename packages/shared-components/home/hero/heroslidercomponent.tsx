@@ -37,10 +37,10 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
     pgs_search_data = null;
 
   if (process.env.PROJECT === "Whatuni") {
-    [course_data, uni_data] = await Promise.all([
-      searchAjaxFecthFunction(body),
-      searchAjaxFecthFunction(unibody),
-    ]);
+    // [course_data, uni_data] = await Promise.all([
+    //   searchAjaxFecthFunction(body),
+    //   searchAjaxFecthFunction(unibody),
+    // ]);
     pgs_search_data = null;
   } else if (process.env.PROJECT === "PGS") {
     pgs_search_data = await searchAjaxFecthFunction(pgsbody);
@@ -60,8 +60,8 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
           </div>
         </div>
         <SearchBox
-          course_data={course_data}
-          uni_data={uni_data}
+          // course_data={course_data}
+          // uni_data={uni_data}
           pgs_search_data={pgs_search_data}
         />
       </Suspense>

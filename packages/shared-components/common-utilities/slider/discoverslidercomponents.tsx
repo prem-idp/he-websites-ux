@@ -118,12 +118,12 @@ const Discoverslidercomponents1 = ({
                               </div>
                             )}
                             {discoverItems?.subTitle && (
-                              <h5
-                                className="font-bold"
+                              <div
+                                className="h5"
                                 data-testid="cardSubTitle"
                               >
                                 {discoverItems?.subTitle}
-                              </h5>
+                              </div>
                             )}
                           </div>
                           {discoverItems?.image?.imgUpload?.url && (
@@ -177,9 +177,9 @@ const Discoverslidercomponents1 = ({
                           </div>
                         )}
                         {discoverItems?.subTitle && (
-                          <h5 className="font-bold" data-testid="cardSubTitle">
+                          <div className="h5" data-testid="cardSubTitle">
                             {discoverItems?.subTitle}
-                          </h5>
+                          </div>
                         )}
                       </div>
                       {discoverItems?.image?.imgUpload?.url && (

@@ -18,9 +18,9 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
         data-testid="review-card"
         className="review-card-header flex items-center gap-[8px] border-b border-neutrale-200 pb-[16px] min-h-[83px]"
       >
-        <h6 className="review-box__avatar flex justify-center items-center text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">
+        <div className="review-box__avatar flex justify-center items-center h6 text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">
           {reviewData?.initial}
-        </h6>
+        </div>
         <div className="review-box__details flex flex-col justify-center w-[calc(100%_-_48px)]">
           <div className="review-box__name font-semibold small text-grey300 line-clamp-1">
             {reviewData?.reviewerName}

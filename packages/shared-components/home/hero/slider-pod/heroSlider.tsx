@@ -17,7 +17,7 @@ const HeroSlider = ({ data }: PropsInterface) => {
       slidesPerView={1}
       data-testid="parent_swiper"
       effect={"fade"}
-      autoplay={{ delay: 3000 }}
+      //autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
       modules={[Autoplay, EffectFade, Pagination]}
       className="mySwiper hero"
