@@ -1,13 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import GradeBadgeButton from "./grade-badge-button";
-import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
 import Image from "next/image";
 import MaxMinInputBox from "./max-min-input";
-import { KeyValuePair } from "@packages/lib/types/ucas-calc";
 import GradeCounterButton from "./grade-counter-button";
 import GradeDropdown from "./grade-dropdown";
-import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { parseGradeString } from "@packages/lib/utlils/ucas-functions";
 import { getSelectedGrade } from "@packages/lib/utlils/ucas-functions";
 const TopLevelMenu = ({
