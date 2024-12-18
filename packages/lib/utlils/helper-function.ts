@@ -20,7 +20,7 @@ async function currentAuthenticatedUser() {
   try {
     const userData = await getCurrentUser();
 	// Return "1" if userId exists, otherwise "0"
-	return userData?.userId ?  "0" : "1";
+	return userData?.userId ?  "1" : "0";
   } catch (err) {
     console.log(err);
   }
