@@ -9,8 +9,7 @@ import { GADataLayerFn,currentAuthenticatedUser } from "@packages/lib/utlils/hel
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
-import { url } from "inspector";
+
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -23,7 +22,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
   data,
 }) => {
   let ucasval: any = 0;
-  const [ucas, setUcas] = useState<any>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<any>(false);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
@@ -43,6 +41,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
+        // console.log("session", session);
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -58,6 +57,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     };
     fetchUser();
   }, []);
+
   // ==========================use effect for the handle click outside========================================================================
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,6 +75,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   // ============================== use effect for filter subject list========================================================================
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
@@ -192,7 +193,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
       // );
-      
+
       // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
       // console.log(urlformed);
 

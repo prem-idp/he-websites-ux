@@ -260,11 +260,11 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
   };
+  console.log(qual);
   const getOrdinalName = (index: number) => {
     const ordinals = ["Second", "Third"];
     return ordinals[index];
@@ -352,8 +352,30 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       list.push(obj);
     } else {
+      // qual
+      //   .filter((item: any) => item.userEntryPoint !== "")
+      //   .map((items: any) => {
+      //     const obj = {
+      //       qualId: Number(items.qualId),
+      //       SelectedLevel: ucasGradeData?.filter(
+      //         (item: any) => item.qualId === items.qualId.toString()
+      //       )[0]?.qualificationUrl,
+      //       userEntryPoint: items.userEntryPoint,
+      //     };
+      //     list.push(obj);
+      //   });
       qual
-        .filter((item: any) => item.userEntryPoint !== "")
+        .filter((item: any) => {
+          if (item.userEntryPoint === "") return false;
+          const allGradesZero = item.userEntryPoint
+            .split("-")
+            .every((entry: string) => {
+              const match = entry.match(/^(\d+)([A-Z*]*)$/);
+              const count = parseInt(match?.[1] || "0", 10);
+              return count === 0;
+            });
+          return !allGradesZero;
+        })
         .map((items: any) => {
           const obj = {
             qualId: Number(items.qualId),
@@ -519,7 +541,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
 
                 {qualifications.length < 2 &&
                   qual[0]?.SelectedLevel !== "UCAS Tariff Points" &&
-                  qual[0]?.podSpecificPoints > 0 && (
+                  qual[0]?.podSpecificPoints > 0 &&
+                  (!qual[1] || qual[1]?.podSpecificPoints > 0) && (
                     <div
                       onClick={addQualification}
                       className="flex items-center gap-[4px] text-primary-400 font-semibold cursor-pointer hover:underline"

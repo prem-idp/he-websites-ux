@@ -267,6 +267,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                             onClick={async () => {
                               setSearchValue(item);
                               GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", item?.parentSubject ? item?.parentSubject : item?.description, item?.parentSubject ? item?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), qualification?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
+
                               courseLink(item);
                             }}
                             className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
