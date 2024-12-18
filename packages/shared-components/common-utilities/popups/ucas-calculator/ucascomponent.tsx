@@ -1,4 +1,5 @@
 "use client";
+import { v4 as uuidv4 } from "uuid";
 import { fetchAuthSession } from "aws-amplify/auth";
 import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
@@ -64,7 +65,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response.tokens ?? {};
-      const tracksessionId = getCookie("userTrackId");
+      let tracksessionId = getCookie("userTrackId");
+      if (!tracksessionId) {
+        const randomId = uuidv4();
+        document.cookie = `userTrackId=${randomId}; path=/; max-age=3600`;
+        tracksessionId = randomId;
+      }
       const isUcasPresentInCookie = getCookie("ucaspoint");
       if (!isUcasPresentInCookie && idToken) {
         setFirstTimeUser(true);
