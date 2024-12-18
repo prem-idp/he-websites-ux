@@ -14,17 +14,17 @@ export interface GradeFilterInterface {
   gradeFilterList: GradeFilterArrayInterface[];
 }
 
-// export interface KeyValuePair {
-//   key: string;
-//   value: number;
-// }
+export interface KeyValuePair {
+  key: string;
+  value: number;
+}
 
-// export interface GradePointsInterface {
-//   maxPoint: number;
-//   maxTotalPoint: number;
-//   getmaxTotalPoint: number;
-//   podSpecificPoints: number;
-// }
+export interface GradePointsInterface {
+  maxPoint: number;
+  maxTotalPoint: number;
+  getmaxTotalPoint: number;
+  podSpecificPoints: number;
+}
 
 export interface Initialvalue {
   SelectedLevel: string | null;
