@@ -33,38 +33,71 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                 <h2 className="font-bold">{heading}</h2>
                 <p className="font-normal">{subheading}</p>
               </div>
-              <ClickTrackerWrapper  gaData={{
-                        event: "ga_contentful_events",
-                        eventName:statsData?.cta?.primaryCtaEventName || "",
-                        ctaTitle: statsData?.cta?.primaryCtaLabel || "",
-                        ctaUrl: statsData?.cta.primaryCtaUrl || "",
-                        website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
-                      }}>
-              <Link
-                prefetch={false}
-                href={`${statsData?.cta.primaryCtaUrl}`} 
-
-                className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
+              <ClickTrackerWrapper
+                gaData={{
+                  event: "ga_contentful_events",
+                  eventName: statsData?.cta?.primaryCtaEventName || "",
+                  ctaTitle: statsData?.cta?.primaryCtaLabel || "",
+                  ctaUrl: statsData?.cta.primaryCtaUrl || "",
+                  website: `${process.env.PROJECT}`,
+                  pageName: "homepage",
+                }}
               >
-               
-                {statsData?.cta?.primaryCtaLabel}
-                <svg
-                  width="16"
-                  height="14"
-                  viewBox="0 0 16 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                <Link
+                  prefetch={false}
+                  href={`${statsData?.cta.primaryCtaUrl}`}
+                  className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
                 >
-                  <path
-                    d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999"
-                    stroke="#fff"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
+                  {statsData?.cta?.primaryCtaLabel}
+                  <svg
+                    width="16"
+                    height="14"
+                    viewBox="0 0 16 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999"
+                      stroke="#fff"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+              </ClickTrackerWrapper>
+              <ClickTrackerWrapper
+                gaData={{
+                  event: "ga_contentful_events",
+                  eventName: statsData?.cta?.primaryCtaEventName || "",
+                  ctaTitle: statsData?.cta?.primaryCtaLabel || "",
+                  ctaUrl: statsData?.cta.primaryCtaUrl || "",
+                  website: `${process.env.PROJECT}`,
+                  pageName: "homepage",
+                }}
+              >
+                <Link
+                  prefetch={false}
+                  href={`${statsData?.cta.primaryCtaUrl}`}
+                  className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
+                >
+                  {statsData?.cta?.primaryCtaLabel}
+                  <svg
+                    width="16"
+                    height="14"
+                    viewBox="0 0 16 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999"
+                      stroke="#fff"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
               </ClickTrackerWrapper>
             </div>
             <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">

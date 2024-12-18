@@ -84,7 +84,6 @@ const AddQualification = ({
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
-  console.log(ucasPoint);
   return (
     <>
       <div>
