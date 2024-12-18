@@ -22,7 +22,8 @@ async function currentAuthenticatedUser() {
 	// Return "1" if userId exists, otherwise "0"
 	return userData?.userId ?  "1" : "0";
   } catch (err) {
-    console.log(err);
+    // Optionally return "0" if an error occurs
+    return "0";
   }
 }
 
