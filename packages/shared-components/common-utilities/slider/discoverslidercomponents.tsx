@@ -9,6 +9,8 @@ import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper/modules";
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { useRouter } from "next/router";
 
 export interface discoverContentfulInterface {
   data: {
@@ -105,6 +107,10 @@ const Discoverslidercomponents1 = ({
                             ? discoverItems?.cta?.primaryCtaUrl
                             : ""
                         }
+                        onClick={() => {
+                          GADataLayerFn("ga_contentful_events", "footer_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
+                        }}
+
                         className={`h-[200px] block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
                       >
                         <div className="discover-card flex justify-between gap-[8px] h-[100%]">
@@ -118,12 +124,12 @@ const Discoverslidercomponents1 = ({
                               </div>
                             )}
                             {discoverItems?.subTitle && (
-                              <h5
-                                className="font-bold"
+                              <div
+                                className="h5"
                                 data-testid="cardSubTitle"
                               >
                                 {discoverItems?.subTitle}
-                              </h5>
+                              </div>
                             )}
                           </div>
                           {discoverItems?.image?.imgUpload?.url && (
@@ -164,6 +170,9 @@ const Discoverslidercomponents1 = ({
                         ? discoverItems?.cta?.primaryCtaUrl
                         : ""
                     }
+                    onClick={() => {
+                      GADataLayerFn("ga_contentful_events", discoverItems.cta?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
+                    }}
                     className={`h-[200px] block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}
                   >
                     <div className="discover-card flex justify-between gap-[8px] h-[100%]">
@@ -177,9 +186,9 @@ const Discoverslidercomponents1 = ({
                           </div>
                         )}
                         {discoverItems?.subTitle && (
-                          <h5 className="font-bold" data-testid="cardSubTitle">
+                          <div className="h5" data-testid="cardSubTitle">
                             {discoverItems?.subTitle}
-                          </h5>
+                          </div>
                         )}
                       </div>
                       {discoverItems?.image?.imgUpload?.url && (

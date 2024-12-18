@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
-const Menucategory5card = ({ data }: any) => {
+const Menucategory5card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
+  const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
@@ -20,6 +22,9 @@ const Menucategory5card = ({ data }: any) => {
               target={
                 item?.navCtaTarget === "Open in new tab" ? "_blank" : "_parent"
               }
+              onClick={async () => {
+                GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+              }}
               rel={
                 item?.navCtaTarget === "Open in new tab"
                   ? "noopener noreferrer"
@@ -30,7 +35,6 @@ const Menucategory5card = ({ data }: any) => {
               <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
                 <Image
                   className="w-full"
-                  loading="eager"
                   src={item?.navIcon?.url || ""}
                   width="289"
                   height="224"

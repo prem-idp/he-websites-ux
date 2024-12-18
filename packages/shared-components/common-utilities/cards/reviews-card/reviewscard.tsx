@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ReviewDetails } from "@packages/lib/types/interfaces";
-
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface ReviewCardProps {
   reviewData: ReviewDetails;
   index: any;
@@ -9,18 +9,29 @@ interface ReviewCardProps {
 }
 const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
   return (
+    <ClickTrackerWrapper   gaData={{
+      event: "ga_contentful_events",
+      eventName:"review_event",
+      ctaTitle: "NA",
+      ctaUrl: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
+      website:`${process.env.PROJECT}`,
+      pageName:"homepage",
+      collegeId:reviewData?.collegeId,
+      collegeName:reviewData?.collegeName,
+    }}
+    >
     <Link
     prefetch={false}
-      href={`/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`}
+      href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
       className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2"
     >
       <div
         data-testid="review-card"
         className="review-card-header flex items-center gap-[8px] border-b border-neutrale-200 pb-[16px] min-h-[83px]"
       >
-        <h6 className="review-box__avatar flex justify-center items-center text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">
+        <div className="review-box__avatar flex justify-center items-center h6 text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">
           {reviewData?.initial}
-        </h6>
+        </div>
         <div className="review-box__details flex flex-col justify-center w-[calc(100%_-_48px)]">
           <div className="review-box__name font-semibold small text-grey300 line-clamp-1">
             {reviewData?.reviewerName}
@@ -66,6 +77,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
         </div>
       </div>
     </Link>
+    </ClickTrackerWrapper>
   );
 };
 
