@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 const Menucategory3card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
   const calculate = () =>
@@ -35,8 +35,8 @@ const Menucategory3card = ({ data, parentMenu }: { data: any; parentMenu: any })
                 href={item?.navUrl || ""}
                 target={item?.navCtaTarget=== "Open in new tab" ? "_blank" : "_parent"}
                 rel={item?.navCtaTarget === "Open in new tab"? "noopener noreferrer" : undefined}
-                onClick={() => {
-                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                onClick={async () => {
+                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
                 }}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >

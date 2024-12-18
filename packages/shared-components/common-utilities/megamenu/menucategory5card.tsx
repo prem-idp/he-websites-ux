@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 const Menucategory5card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
   const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
@@ -22,8 +22,8 @@ const Menucategory5card = ({ data, parentMenu }: { data: any; parentMenu: any })
               target={
                 item?.navCtaTarget === "Open in new tab" ? "_blank" : "_parent"
               }
-              onClick={() => {
-                GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+              onClick={async () => {
+                GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
               }}
               rel={
                 item?.navCtaTarget === "Open in new tab"
