@@ -21,63 +21,13 @@ const config: Config = {
     "bg-success-400",
     "bg-success-700",
     // Blue colors
-    "bg-blue-50",
     "bg-blue-100",
-    "bg-blue-200",
-    "bg-blue-300",
-    "bg-blue-400",
-    "bg-blue-500",
     // Grey colors
-    "bg-grey300",
-    "bg-grey400",
-    "bg-grey500",
-    "bg-grey600",
-    "bg-grey900",
-    // Neutral colors
-    "bg-neutral50",
-    "bg-neutral100",
-    "bg-neutral200",
-    "bg-neutral300",
-    "bg-neutral400",
+    "bg-grey-200",
     // Green colors
-    "bg-green-50",
-    "bg-green-100",
     "bg-green-200",
     // Orange colors
-    "bg-orange-50",
     "bg-orange-100",
-    "bg-orange-200",
-    // Primary colors
-    "bg-primary-50",
-    "bg-primary-100",
-    "bg-primary-200",
-    "bg-primary-300",
-    "bg-primary-400",
-    "bg-primary-500",
-    // Secondary colors
-    "bg-secondary-100",
-    "bg-secondary-200",
-    "bg-secondary-300",
-    "bg-secondary-400",
-    "bg-secondary-500",
-    // Tertiary colors
-    "bg-tertiary-50",
-    "bg-tertiary-100",
-    "bg-tertiary-200",
-    "bg-tertiary-300",
-    "bg-tertiary-400",
-    "bg-tertiary-500",
-    "bg-tertiary-600",
-    // Positive colors
-    "bg-positive-default",
-    "bg-positive-light",
-    "bg-positive-dark",
-    // Negative colors
-    "bg-negative-default",
-    "bg-negative-light",
-    "bg-negative-dark",
-    // Destructive colors
-    "bg-desturctive-600",
   ],
   theme: {
     maxWidth: {

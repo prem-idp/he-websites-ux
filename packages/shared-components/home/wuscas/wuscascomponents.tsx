@@ -2,6 +2,8 @@
 import { statsPodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { HomePageStatInterface } from "@packages/lib/types/interfaces";
+import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { Suspense } from "react";
@@ -9,6 +11,7 @@ interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
 }
+
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
@@ -30,11 +33,21 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                 <h2 className="font-bold">{heading}</h2>
                 <p className="font-normal">{subheading}</p>
               </div>
+              <ClickTrackerWrapper  gaData={{
+                        event: "ga_contentful_events",
+                        eventName:statsData?.cta?.primaryCtaEventName || "",
+                        ctaTitle: statsData?.cta?.primaryCtaLabel || "",
+                        ctaUrl: statsData?.cta.primaryCtaUrl || "",
+                        website:`${process.env.PROJECT}`,
+                        pageName:"homepage",
+                      }}>
               <Link
                 prefetch={false}
-                href={`${statsData?.cta.primaryCtaUrl}`}
+                href={`${statsData?.cta.primaryCtaUrl}`} 
+
                 className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
               >
+               
                 {statsData?.cta?.primaryCtaLabel}
                 <svg
                   width="16"
@@ -52,6 +65,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   />
                 </svg>
               </Link>
+              </ClickTrackerWrapper>
             </div>
             <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">
               {statsData?.statinfoCollection?.items?.map((stats, index) => (
