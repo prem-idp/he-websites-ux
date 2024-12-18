@@ -37,7 +37,6 @@ function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:a
 		'cpe_parent_subject' : replaceWithNA(cpeParentSubject),
 		'cpe_child_subject' : replaceWithNA(cpeChildSubject),
 		'page_name' : replaceWithNA(pageName)?.toLowerCase(),
-        'page_name_contentful' : replaceWithNA(pageNameContentful),
 		'college_name' : replaceWithNA(collegeName),
 		'provider_type' : replaceWithNA(providerType),
 		'course_name' : replaceWithNA(courseName),
