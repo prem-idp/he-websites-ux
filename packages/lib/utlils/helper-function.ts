@@ -16,13 +16,16 @@ function replaceWithNA(value: any) {
   return value === undefined || value === ''  || value === null ? 'NA' : value;
 }
 
-// async function currentAuthenticatedUser() {
-//   try {
-//     const userData = await currentAuthenticatedUser();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
+async function currentAuthenticatedUser() {
+  try {
+    const userData = await getCurrentUser();
+	// Return "1" if userId exists, otherwise "0"
+	return userData?.userId ?  "1" : "0";
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:any, cpeParentSubject?:any, cpeChildSubject?:any, pageName?:any, pageNameContentful?:any,collegeName?:any, providerType?:any, courseName?:any, sponsoredSr?:any, collegeId?:any, ucasPoints?:any,studyMode?:any, targetYear?:any, clearing?:any, userId?:any, studyLevel?:any, articleCategory?:any, destinationCountry?:any, dataLabel3?:any, dataLabel4?:any,dataLabel5?:any,website?:any,ctaName?:any,ctaUrl?:any,contentful_1?:any,contentful_2?:any) {
 	if (typeof window !== 'undefined' && window.dataLayer) {
         window.dataLayer.push({
@@ -43,7 +46,7 @@ function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:a
 		'study_mode' : replaceWithNA(studyMode),
 		'target_year' : replaceWithNA(targetYear),
 		'clearing': replaceWithNA(clearing),
-		'wu_user_id' : replaceWithNA(userId),
+		'wu_user_id' : userId ,
 		'study_level' : replaceWithNA(studyLevel),
 		'article_category' : replaceWithNA(articleCategory),
 	    'destination_country' : replaceWithNA(destinationCountry),
@@ -62,4 +65,4 @@ function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:a
 
 }
 
-export { getCookie, replaceWithNA,GADataLayerFn };
+export { getCookie, replaceWithNA,GADataLayerFn,currentAuthenticatedUser };

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { GADataLayerFn, currentAuthenticatedUser} from "@packages/lib/utlils/helper-function";
 
 interface ClickTrackingWrapperProps {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ const ClickTrackingWrapper: React.FC<ClickTrackingWrapperProps> = ({ children, g
       collegeId,
       collegeName,
     } = gaData;
-
+const GAData = async() => {
     GADataLayerFn(
       event,
       eventName,
@@ -52,7 +52,7 @@ const ClickTrackingWrapper: React.FC<ClickTrackingWrapperProps> = ({ children, g
       "NA",
       "NA",
       "in_year",
-      "0",
+      await currentAuthenticatedUser(),
       "NA",
       "NA",
       "NA",
@@ -65,6 +65,8 @@ const ClickTrackingWrapper: React.FC<ClickTrackingWrapperProps> = ({ children, g
       contentfulCategory1,
       contentfulCategory2,
     );
+  }
+  GAData();
   };
 
   return <div onClick={handleClick}>{children}</div>;

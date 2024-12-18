@@ -6,7 +6,7 @@ import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Form from "next/form";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { GADataLayerFn,currentAuthenticatedUser } from "@packages/lib/utlils/helper-function";
 
 interface UniversityTabProps {
   searchFormHandle: any;
@@ -223,7 +223,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                       href={`/university-profile/${item?.collegeNameDisplay
                         ?.toLowerCase() // Convert to lowercase
                         ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
-                      onClick={() => {
+                      onClick={async () => {
                         // Update state
                         setsearchFormHandle((prevData: any) => ({
                           ...prevData,
@@ -250,7 +250,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                           "NA",
                           "NA",
                           "NA",
-                          "NA",
+                          await currentAuthenticatedUser(),
                           "NA",
                           "NA",
                           "NA",

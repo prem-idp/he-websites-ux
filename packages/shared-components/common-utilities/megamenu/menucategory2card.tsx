@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 const Menucategory2card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
 
@@ -33,8 +33,8 @@ const Menucategory2card = ({ data, parentMenu }: { data: any; parentMenu: any })
                 prefetch={false}
                 href={item?.navUrl || ""}
                 target={item?.navCtaTarget=== "Open in new tab" ? "_blank" : "_parent"}
-                onClick={() => {
-                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}` ,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                onClick={async () => {
+                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}` ,item.navTitle,item?.navUrl,parentMenu,navTitle);
                 }}
                 rel={item?.navCtaTarget=== "Open in new tab" ? "noopener noreferrer" : undefined}
                 className="flex items-center gap-[10px] font-normal small text-grey300 hover:underline"

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 
 const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
@@ -33,8 +33,8 @@ const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any })
               <Link
                 prefetch={false}
                 href={item?.navUrl || ""}
-                onClick={() => {
-                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                onClick={async () => {
+                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
                 }}
                 target={
                   item.navCtaTarget === "Open in new tab" ? "_blank" : "_parent"

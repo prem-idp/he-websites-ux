@@ -9,7 +9,7 @@ interface AdviceTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
 }
-const AdviceTab: React.FC<AdviceTabProps> = ({
+const AdviceTab: React.FC<AdviceTabProps> = async({
   searchFormHandle,
   setsearchFormHandle,
 }) => {
