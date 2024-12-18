@@ -22,7 +22,7 @@ const nextConfig = {
         has: [
           {
             type: "query",
-            key: "someQueryParam", // Replace "someQueryParam" with a commonly used key or add multiple rules
+            key: "someQueryParam",
           },
         ],
         destination: "/:path*",

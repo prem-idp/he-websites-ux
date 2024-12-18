@@ -19,13 +19,8 @@ export async function graphQlFetchFunction(payload: string) {
 
 export async function searchAjaxFecthFunction(payload: Record<string, any>) {
   try {
-    // Convert the payload to query parameters
     const queryParams = new URLSearchParams(payload).toString();
-
-    // Compute the hash of the payload string
-
     const url = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParams}`;
-    // Make a GET request with the query parameters
     const res = await fetch(url, {
       method: "GET",
       headers: {

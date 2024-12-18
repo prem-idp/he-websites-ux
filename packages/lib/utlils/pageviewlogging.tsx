@@ -1,0 +1,40 @@
+"use client";
+
+import { useEffect } from "react";
+
+import { GoogleAnalytics } from 'nextjs-google-analytics';
+import { GADataLayerFn , currentAuthenticatedUser} from "@packages/lib/utlils/helper-function";
+
+interface PageViewLoggingProps {
+  gaData: {
+    website: string;
+    pageName:string;
+  };
+}
+export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
+  const {
+    pageName,
+    website,
+  } = gaData;
+  useEffect(() => {
+    //Clickstream pageview
+    //sendClickStreamData(attributeValues);
+    const GAData = async() => { 
+      GADataLayerFn("pageview", "NA", "NA", "NA", "NA", "NA", pageName, "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",website,"NA","NA","NA","NA");  
+   }
+   GAData();
+}, []); 
+  return (
+    <>     
+      <GoogleAnalytics
+  gaMeasurementId={
+    website === "PGS"
+      ? process.env.NEXT_PUBLIC_PGS_GA_ACCOUNT 
+      : process.env.NEXT_PUBLIC_WU_GA_ACCOUNT
+  }
+/>  
+    </>
+  );
+}
+
+

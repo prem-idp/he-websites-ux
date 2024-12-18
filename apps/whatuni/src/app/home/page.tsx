@@ -10,6 +10,7 @@ import {
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
+import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
@@ -21,6 +22,10 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
+      <PageViewLogging gaData={{
+        website: `${process.env.PROJECT}`,
+        pageName: "homepage",
+      }}/>  
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
