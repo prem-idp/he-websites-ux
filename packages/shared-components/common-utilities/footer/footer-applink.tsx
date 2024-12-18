@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AppLinkItem } from "@packages/lib/types/interfaces";
-import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 interface PropsInterface {
   data: AppLinkItem[];
 }
@@ -35,8 +35,8 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 ? data[0]?.primaryCtaUrl
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
-            onClick={() => {
-              GADataLayerFn("ga_contentful_events", data[0]?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,data[0]?.primaryCtaLabel,data[0]?.primaryCtaUrl);
+            onClick={async () => {
+              GADataLayerFn("ga_contentful_events", data[0]?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,data[0]?.primaryCtaLabel,data[0]?.primaryCtaUrl);
             }}
             aria-label="App Store"
           >
@@ -167,8 +167,8 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 ? data[1]?.primaryCtaUrl
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
-            onClick={() => {
-              GADataLayerFn("ga_contentful_events", data[1]?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,data[1]?.primaryCtaLabel,data[1]?.primaryCtaUrl);
+            onClick={async () => {
+              GADataLayerFn("ga_contentful_events", data[1]?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,data[1]?.primaryCtaLabel,data[1]?.primaryCtaUrl);
             }}
             aria-label="Google Play"
           >

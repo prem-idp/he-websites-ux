@@ -63,10 +63,10 @@ default:
     - npm run cdk deploy -- --all --require-approval never --ci
 
     # - cd ..
-  artifacts:
-    paths:
-      - ./
-    when: always
+  # artifacts:
+  #   paths:
+  #     - ./
+  #   when: always
 
 .cf_invalidate_job:
   stage: invalidate
