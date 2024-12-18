@@ -19,7 +19,8 @@ function replaceWithNA(value: any) {
 async function currentAuthenticatedUser() {
   try {
     const userData = await getCurrentUser();
-	return userData?.userId ?  userData?.userId : '';
+	// Return "1" if userId exists, otherwise "0"
+	return userData?.userId ?  "0" : "1";
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +46,7 @@ function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:a
 		'study_mode' : replaceWithNA(studyMode),
 		'target_year' : replaceWithNA(targetYear),
 		'clearing': replaceWithNA(clearing),
-		'wu_user_id' : userId ? '1' : '0',
+		'wu_user_id' : userId ,
 		'study_level' : replaceWithNA(studyLevel),
 		'article_category' : replaceWithNA(articleCategory),
 	    'destination_country' : replaceWithNA(destinationCountry),
