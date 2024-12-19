@@ -65,10 +65,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response.tokens ?? {};
-      let tracksessionId = getCookie("userTrackId");
+      let tracksessionId = getCookie("trackSessionId");
       if (!tracksessionId) {
         const randomId = uuidv4();
-        document.cookie = `userTrackId=${randomId}; path=/; max-age=3600`;
+        document.cookie = `trackSessionId=${randomId}; path=/; max-age=3600`;
         tracksessionId = randomId;
       }
       const isUcasPresentInCookie = getCookie("ucaspoint");
@@ -89,6 +89,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                     ? idToken
                     : idToken?.toString() || "",
               },
+              cache: "no-cache",
               body: JSON.stringify(ucasAjax),
             }
           );
@@ -187,6 +188,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
                 tracksessionid: tracksessionId?.toString() || "",
               },
+              cache: "no-cache",
               body: JSON.stringify(ucasAjax),
             }
           );
@@ -389,8 +391,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       //   });
       qual
         .filter((item: Initialvalue) => {
-          if (item.type !== "plus-minus") return item;
           if (item.userEntryPoint === "") return false;
+          if (item.type !== "plus-minus") return item;
           const allGradesZero = item.userEntryPoint
             .split("-")
             .every((entry: string) => {
