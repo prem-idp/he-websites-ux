@@ -17,14 +17,14 @@ const HeroSlider = ({ data }: PropsInterface) => {
       slidesPerView={1}
       data-testid="parent_swiper"
       effect={"fade"}
-      //autoplay={{ delay: 3000 }}
+      autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
       modules={[Autoplay, EffectFade, Pagination]}
       className="mySwiper hero"
     >
       {data?.items?.map((childItems, index: number) => (
         <SwiperSlide key={index + 1} data-testid={`slider${index + 1}`}>
-          <HeroSliderCard data={childItems} />
+          <HeroSliderCard data={childItems} index={index} />
         </SwiperSlide>
       ))}
     </Swiper>

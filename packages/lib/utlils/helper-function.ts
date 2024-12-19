@@ -22,7 +22,8 @@ async function currentAuthenticatedUser() {
 	// Return "1" if userId exists, otherwise "0"
 	return userData?.userId ?  "1" : "0";
   } catch (err) {
-    console.log(err);
+    // Optionally return "0" if an error occurs
+    return "0";
   }
 }
 
@@ -36,7 +37,6 @@ function GADataLayerFn(event?:any, eventName?:any, dataLabel?:any, dataLabel2?:a
 		'cpe_parent_subject' : replaceWithNA(cpeParentSubject),
 		'cpe_child_subject' : replaceWithNA(cpeChildSubject),
 		'page_name' : replaceWithNA(pageName)?.toLowerCase(),
-        'page_name_contentful' : replaceWithNA(pageNameContentful),
 		'college_name' : replaceWithNA(collegeName),
 		'provider_type' : replaceWithNA(providerType),
 		'course_name' : replaceWithNA(courseName),
