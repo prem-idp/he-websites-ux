@@ -66,7 +66,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   </svg>
                 </Link>
               </ClickTrackerWrapper>
-              <ClickTrackerWrapper
+              {/* <ClickTrackerWrapper
                 gaData={{
                   event: "ga_contentful_events",
                   eventName: statsData?.cta?.primaryCtaEventName || "",
@@ -98,7 +98,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                     />
                   </svg>
                 </Link>
-              </ClickTrackerWrapper>
+              </ClickTrackerWrapper> */}
             </div>
             <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">
               {statsData?.statinfoCollection?.items?.map((stats, index) => (

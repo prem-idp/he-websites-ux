@@ -12,7 +12,9 @@ const GradeDropdown = ({
   const initialArray = [
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
   ];
-  const [totalcredit, setTotalcredit] = useState(0);
+  const [totalcredit, setTotalcredit] = useState(
+    qual[indexPosition]?.totalcredit
+  );
   const [openDropdown, setOpenDropdown] = useState<
     "distinction" | "merit" | "pass" | null
   >(null);
@@ -98,6 +100,7 @@ const GradeDropdown = ({
   };
 
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
+  console.log(totalcredit);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">

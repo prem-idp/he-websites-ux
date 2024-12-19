@@ -375,40 +375,41 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       list.push(obj);
     } else {
-      qual
-        .filter((item: any) => item.userEntryPoint !== "")
-        .map((items: any) => {
-          const obj = {
-            qualId: Number(items.qualId),
-            SelectedLevel: ucasGradeData?.filter(
-              (item: any) => item.qualId === items.qualId.toString()
-            )[0]?.qualificationUrl,
-            userEntryPoint: items.userEntryPoint,
-          };
-          list.push(obj);
-        });
       // qual
-      //   .filter((item: Initialvalue) => {
-      //     if (item.userEntryPoint === "") return false;
-      //     const allGradesZero = item.userEntryPoint
-      //       .split("-")
-      //       .every((entry: string) => {
-      //         const match = entry.match(/^(\d+)([A-Z*]*)$/);
-      //         const count = parseInt(match?.[1] || "0", 10);
-      //         return count === 0;
-      //       });
-      //     return !allGradesZero;
-      //   })
-      //   .map((items: Initialvalue) => {
+      //   .filter((item: any) => item.userEntryPoint !== "")
+      //   .map((items: any) => {
       //     const obj = {
       //       qualId: Number(items.qualId),
       //       SelectedLevel: ucasGradeData?.filter(
-      //         (item) => item.qualId === items?.qualId?.toString()
+      //         (item: any) => item.qualId === items.qualId.toString()
       //       )[0]?.qualificationUrl,
       //       userEntryPoint: items.userEntryPoint,
       //     };
       //     list.push(obj);
       //   });
+      qual
+        .filter((item: Initialvalue) => {
+          if (item.userEntryPoint === "") return false;
+          if (item.type !== "plus-minus") return item;
+          const allGradesZero = item.userEntryPoint
+            .split("-")
+            .every((entry: string) => {
+              const match = entry.match(/^(\d+)([A-Z*]*)$/);
+              const count = parseInt(match?.[1] || "0", 10);
+              return count === 0;
+            });
+          return !allGradesZero;
+        })
+        .map((items: Initialvalue) => {
+          const obj = {
+            qualId: Number(items.qualId),
+            SelectedLevel: ucasGradeData?.filter(
+              (item) => item.qualId === items?.qualId?.toString()
+            )[0]?.qualificationUrl,
+            userEntryPoint: items.userEntryPoint,
+          };
+          list.push(obj);
+        });
     }
     const saveUcas = {
       affiliateId: 220703,
@@ -445,6 +446,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           if (jsonData == "updated") {
             document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
             setFirstTimeUser(false);
+            setQualCopy(qual);
             onClose();
             setApplybtn("Apply");
           } else {
@@ -456,6 +458,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setApplybtn("Apply");
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
           setFirstTimeUser(false);
+          setQualCopy(qual);
         }
       } else {
         if (saveUcas) {
@@ -464,12 +467,13 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");
+            setQualCopy(qual);
           }
         } else {
           console.error("saveUcas is not a valid value");
         }
       }
-      setQualCopy(qual);
+      //setQualCopy(qual);
     }
   };
   useEffect(() => {
@@ -483,6 +487,22 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  console.log(qual);
+  console.log(qualCopy);
+  console.log(
+    "qual[0]?.SelectedLevel === 'UCAS Tariff Points' && qual[0].min > qual[0].max",
+    qual[0]?.SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max
+  );
+  console.log(
+    "JSON.stringify(qual) === JSON.stringify(qualCopy)",
+    JSON.stringify(qual) === JSON.stringify(qualCopy)
+  );
+  console.log(
+    `qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45`,
+    qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45
+  );
+  console.log(" not a first time user", !firstTimeUser);
+
   return (
     <>
       <div
