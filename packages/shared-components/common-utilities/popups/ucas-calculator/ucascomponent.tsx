@@ -375,40 +375,41 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       list.push(obj);
     } else {
-      qual
-        .filter((item: any) => item.userEntryPoint !== "")
-        .map((items: any) => {
-          const obj = {
-            qualId: Number(items.qualId),
-            SelectedLevel: ucasGradeData?.filter(
-              (item: any) => item.qualId === items.qualId.toString()
-            )[0]?.qualificationUrl,
-            userEntryPoint: items.userEntryPoint,
-          };
-          list.push(obj);
-        });
       // qual
-      //   .filter((item: Initialvalue) => {
-      //     if (item.userEntryPoint === "") return false;
-      //     const allGradesZero = item.userEntryPoint
-      //       .split("-")
-      //       .every((entry: string) => {
-      //         const match = entry.match(/^(\d+)([A-Z*]*)$/);
-      //         const count = parseInt(match?.[1] || "0", 10);
-      //         return count === 0;
-      //       });
-      //     return !allGradesZero;
-      //   })
-      //   .map((items: Initialvalue) => {
+      //   .filter((item: any) => item.userEntryPoint !== "")
+      //   .map((items: any) => {
       //     const obj = {
       //       qualId: Number(items.qualId),
       //       SelectedLevel: ucasGradeData?.filter(
-      //         (item) => item.qualId === items?.qualId?.toString()
+      //         (item: any) => item.qualId === items.qualId.toString()
       //       )[0]?.qualificationUrl,
       //       userEntryPoint: items.userEntryPoint,
       //     };
       //     list.push(obj);
       //   });
+      qual
+        .filter((item: Initialvalue) => {
+          if (item.type !== "plus-minus") return item;
+          if (item.userEntryPoint === "") return false;
+          const allGradesZero = item.userEntryPoint
+            .split("-")
+            .every((entry: string) => {
+              const match = entry.match(/^(\d+)([A-Z*]*)$/);
+              const count = parseInt(match?.[1] || "0", 10);
+              return count === 0;
+            });
+          return !allGradesZero;
+        })
+        .map((items: Initialvalue) => {
+          const obj = {
+            qualId: Number(items.qualId),
+            SelectedLevel: ucasGradeData?.filter(
+              (item) => item.qualId === items?.qualId?.toString()
+            )[0]?.qualificationUrl,
+            userEntryPoint: items.userEntryPoint,
+          };
+          list.push(obj);
+        });
     }
     const saveUcas = {
       affiliateId: 220703,
