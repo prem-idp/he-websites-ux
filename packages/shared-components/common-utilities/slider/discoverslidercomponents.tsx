@@ -115,6 +115,7 @@ const Discoverslidercomponents1 = ({
                       >
                         <div className="discover-card flex justify-between gap-[8px] h-[100%]">
                           <div className="flex flex-col justify-between p-[20px] pr-[0] w-[calc(100%_-_194px)]">
+                            <div>
                             {discoverItems?.title && (
                               <div
                                 className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]"
@@ -123,6 +124,7 @@ const Discoverslidercomponents1 = ({
                                 {discoverItems?.title}
                               </div>
                             )}
+                            </div>
                             {discoverItems?.subTitle && (
                               <div
                                 className="h5"
@@ -177,6 +179,7 @@ const Discoverslidercomponents1 = ({
                   >
                     <div className="discover-card flex justify-between gap-[8px] h-[100%]">
                       <div className="flex flex-col justify-between p-[20px] pr-[0] lg:w-[calc(100%_-_145px)] xl:w-[calc(100%_-_194px)]">
+                        <div>
                         {discoverItems?.title && (
                           <div
                             className="w-fit uppercase font-bold x-small text-primary-500 bg-white/[.6] px-[6px] py-[2px] rounded-[4px]"
@@ -185,6 +188,7 @@ const Discoverslidercomponents1 = ({
                             {discoverItems.title}
                           </div>
                         )}
+                        </div>
                         {discoverItems?.subTitle && (
                           <div className="h5" data-testid="cardSubTitle">
                             {discoverItems?.subTitle}
