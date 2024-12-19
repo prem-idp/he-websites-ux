@@ -408,11 +408,11 @@ export const internalComponentLoop = (
 export const tagCloudQuery = `{
   contentData: homepageCollection(
     limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/", website: {websiteName:"${process.env.PROJECT}"}}
     ) {
     items {
       bodyContentCollection(limit: 10
-      where:{internalName:"Homepage - Tagcloud - Whatuni"}) {
+      where:{internalName:"Homepage - Tagcloud - ${process.env.PROJECT}"}) {
         items {
           __typename
           ... on MultipleCardContainer {
