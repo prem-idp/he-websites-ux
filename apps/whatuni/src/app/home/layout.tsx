@@ -44,8 +44,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      <GoogleTagManager gtmId="GTM-PKPN9P9" />
-
+      <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT}`} />
       <TrackSessionId />
       {children}
     </>
