@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-
-
+import { GoogleTagManager } from "@next/third-parties/google";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
@@ -21,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
         "Default Description",
       robots:
         metadata?.data?.contentData?.items[0]?.robots?.title || "index, follow",
-      keywords: metadata?.data?.contentData?.items[0]?.seoFields
-        ?.metaKeywords || [],
+      keywords:
+        metadata?.data?.contentData?.items[0]?.seoFields?.metaKeywords || [],
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
@@ -45,6 +44,8 @@ export default async function Layout({
 }) {
   return (
     <>
+      <GoogleTagManager gtmId="GTM-PKPN9P9" />
+
       <TrackSessionId />
       {children}
     </>
