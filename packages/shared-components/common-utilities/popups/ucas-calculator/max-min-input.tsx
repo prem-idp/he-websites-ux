@@ -6,7 +6,6 @@ const MaxMinInputBox = ({
   setUcasPoint,
   qual,
 }: any) => {
-  console.log("drop down", qual[indexPosition]);
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[4px] small">
