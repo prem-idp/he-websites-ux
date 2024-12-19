@@ -1,102 +1,101 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import AddQualification from "@packages/shared-components/common-utilities/popups/ucas-calculator/additional-qual"; // Assuming this is the path to the component
 import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import AddQualification from "@packages/shared-components/common-utilities/popups/ucas-calculator/additional-qual";
 import "@testing-library/jest-dom";
-describe("AddQualification Component", () => {
-  const mockRemoveQual = jest.fn();
-  const mockSetQual = jest.fn();
-  const mockSetUcasPoint = jest.fn();
+jest.mock("@packages/lib/utlils/ucas-functions", () => ({
+  getSelectedGrade: jest.fn(() => 1),
+  parseGradeString: jest.fn(() => [
+    { key: "A", value: 10 },
+    { key: "B", value: 5 },
+  ]),
+}));
 
-  const mockQual = [
+const mockRemoveQual = jest.fn();
+const mockSetQual = jest.fn();
+const mockSetQualifications = jest.fn();
+const mockSetUcasPoint = jest.fn();
+
+const defaultProps = {
+  removeQual: mockRemoveQual,
+  qualOrder: 1,
+  ucasGradeData: [
     {
-      SelectedLevel: "A Level",
+      qualification: "UCAS Tariff Points",
+      gradeOptions: "A,B",
+      maxPoint: "20",
+      maxTotalPoint: "60",
+      template: "single-select",
+      qualId: 123,
+    },
+  ],
+  ucasPoint: 100,
+  setUcasPoint: mockSetUcasPoint,
+  indexPosition: 0,
+  qual: [
+    {
+      SelectedLevel: "Test Level",
       type: "single-select",
       gradeArray: [
-        { key: "A", value: "A" },
-        { key: "B", value: "B" },
+        { key: "A", value: 10 },
+        { key: "B", value: 5 },
       ],
-      qualId: null,
-      userEntryPoint: "",
-      maxPoint: 0,
-      maxTotalPoint: 0,
-      podSpecificPoints: 0,
+      podSpecificPoints: 30,
     },
-  ];
+  ],
+  setQual: mockSetQual,
+  setQualifications: mockSetQualifications,
+};
 
-  const mockUcasPoint = 20;
-  const mockUcasGradeData = [
-    {
-      qualification: "A Level",
-      gradeOptions: "A,B,C",
-      maxPoint: "56",
-      maxTotalPoint: "168",
-      qualId: 1,
-      template: "plus-minus",
-    },
-    {
-      qualification: "BTEC",
-      gradeOptions: "Pass, Merit, Distinction",
-      maxPoint: "48",
-      maxTotalPoint: "144",
-      qualId: 2,
-      template: "credit-selector",
-    },
-  ];
-
-  test("should render dropdown with qualification options and handle click", () => {
-    render(
-      <AddQualification
-        removeQual={mockRemoveQual}
-        qualOrder="First"
-        ucasGradeData={mockUcasGradeData}
-        ucasPoint={mockUcasPoint}
-        setUcasPoint={mockSetUcasPoint}
-        indexPosition={0}
-        qual={mockQual}
-        setQual={mockSetQual}
-      />
-    );
-
-    const dropdownButton = screen.getByText("A Level");
-    fireEvent.click(dropdownButton);
-
-    const items = screen.queryAllByText("A Level");
-    expect(items.length).toBeGreaterThan(0); // Ensure "A Level" appears
-    expect(items[0]).toBeInTheDocument(); // Confirm the item is clickable
-
-    const btecItem = screen.getByText("BTEC");
-    expect(btecItem).toBeInTheDocument(); // Ensure "BTEC" exists
-
-    fireEvent.click(items[0]);
-
-    // Check if setQual was called
-    expect(mockSetQual).toHaveBeenCalledTimes(1); // Ensure setQual was called once
-    expect(mockSetQual).toHaveBeenCalledWith(expect.any(Function)); // Adjust this based on actual function expected
+describe("AddQualification Component", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  test("should handle delete qualification click", () => {
-    render(
-      <AddQualification
-        removeQual={mockRemoveQual}
-        qualOrder="First"
-        ucasGradeData={mockUcasGradeData}
-        ucasPoint={mockUcasPoint}
-        setUcasPoint={mockSetUcasPoint}
-        indexPosition={0}
-        qual={mockQual}
-        setQual={mockSetQual}
-      />
-    );
+  it("renders qualification label and dropdown trigger", () => {
+    render(<AddQualification {...defaultProps} />);
+    expect(screen.getByText(/1 qualification/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test Level/i)).toBeInTheDocument();
+  });
 
-    // Query for the image based on alt text or src, depending on the icon.
-    const deleteIcon = screen.getByAltText(""); // Or use getBySrc('/static/assets/icons/ucas-down-arrow.svg');
-    fireEvent.click(deleteIcon);
+  it("opens and closes the dropdown on click", () => {
+    render(<AddQualification {...defaultProps} />);
 
-    expect(mockRemoveQual).toHaveBeenCalledTimes(1); // Check if the remove function is called
+    const dropdownTrigger = screen.getByText(/Test Level/i);
+    expect(screen.queryByText(/UCAS Tariff Points/i)).not.toBeInTheDocument();
 
-    // Verify the points are updated
-    expect(mockSetUcasPoint).toHaveBeenCalledWith(
-      mockUcasPoint - mockQual[0]?.podSpecificPoints
-    );
+    fireEvent.click(dropdownTrigger);
+    expect(screen.getByText(/UCAS Tariff Points/i)).toBeInTheDocument();
+
+    fireEvent.click(dropdownTrigger);
+    expect(screen.queryByText(/UCAS Tariff Points/i)).not.toBeInTheDocument();
+  });
+
+  it("calls changeUcasLevel when a dropdown item is clicked", () => {
+    render(<AddQualification {...defaultProps} />);
+    const dropdownTrigger = screen.getByText(/Test Level/i);
+    fireEvent.click(dropdownTrigger);
+
+    const ucasItem = screen.getByText(/UCAS Tariff Points/i);
+    fireEvent.click(ucasItem);
+
+    expect(mockSetQual).toHaveBeenCalled();
+    expect(mockSetUcasPoint).toHaveBeenCalledWith(70);
+  });
+
+  it("renders single-select grade buttons and handles selection", () => {
+    render(<AddQualification {...defaultProps} />);
+
+    const gradeButtons = screen.getAllByRole("button", { name: /A|B/i });
+    const gradeButtonA = gradeButtons.find((btn) => btn.textContent === "A");
+    const gradeButtonB = gradeButtons.find((btn) => btn.textContent === "B");
+
+    if (gradeButtonA && gradeButtonB) {
+      fireEvent.click(gradeButtonA);
+      expect(mockSetQual).toHaveBeenCalled();
+      fireEvent.click(gradeButtonB);
+      expect(mockSetQual).toHaveBeenCalledTimes(2);
+    } else {
+      throw new Error("Grade buttons A or B not found");
+    }
   });
 });

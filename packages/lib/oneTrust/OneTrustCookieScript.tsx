@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { createCookieConsent} from "./OneTrustcookie";
 import { getCookieValue } from "../utlils/commonFunction";
 
-  var OptanonConsent:string|undefined = undefined;
-  var OptanonAlertBoxClosed:string|undefined = undefined;
-  
+let OptanonConsent: string | undefined = undefined;
+let OptanonAlertBoxClosed: string | undefined = undefined;
+
 export default function OneTrustCookieScript() {
   const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
@@ -79,14 +79,13 @@ export default function OneTrustCookieScript() {
         watchOnetrustClosedcookie();
       }
     }, 1000);
-  }
+  };
 
-
-	const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
+  const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
   useEffect(() => {
     // Function to check consent, when event fires
     const handleConsentChange = async () => {
-	    console.log("OptanonWrapper function triggered...");
+      console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
       setUserConsentGiven(() => returnVal);
       watchOnetrustClosedcookie();
@@ -97,23 +96,18 @@ export default function OneTrustCookieScript() {
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script
-      window.removeEventListener("scroll", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
+
+      window.removeEventListener("load", handleUserInteraction);
     };
 
     // Add event listeners for user interaction
-    window.addEventListener("scroll", handleUserInteraction);
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("keypress", handleUserInteraction);
+
+    window.addEventListener("load", handleUserInteraction);
 
     return () => {
-      window.removeEventListener("scroll", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
   }, []);
-  
 
   return (
     <>

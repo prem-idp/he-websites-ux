@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 
 import Form from "next/form";
 interface AdviceTabProps {
@@ -23,6 +24,35 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, "")
         .toLowerCase();
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "advice_search",
+        formattedAdvice,
+        "NA",
+        "NA",
+        "homepage",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        "0",
+        "NA",
+        "NA",
+        "NA",
+        "advice keyword searched",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       return router.push(`/article-search/?keyword=${formattedAdvice}`);
     } else {
       setAdviceerror(true);

@@ -5,10 +5,11 @@ import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { GADataLayerFn,currentAuthenticatedUser } from "@packages/lib/utlils/helper-function";
+
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
-import { url } from "inspector";
+
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -21,7 +22,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
   data,
 }) => {
   let ucasval: any = 0;
-  const [ucas, setUcas] = useState<any>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<any>(false);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
@@ -41,6 +41,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
+        // console.log("session", session);
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -56,6 +57,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     };
     fetchUser();
   }, []);
+
   // ==========================use effect for the handle click outside========================================================================
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -73,6 +75,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   // ============================== use effect for filter subject list========================================================================
   useEffect(() => {
     const { description } = searchFormHandle.subject || {};
@@ -116,8 +119,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
           url: item.url,
           category_code: item.category_code,
           browse_cat_id: item.browse_cat_id,
-          parent_subject: item.parent_subject,
-          qual_Code: item.qual_Code,
+          parent_subject: item.parentSubject,
+          qual_Code: item.qualCode,
         }));
     };
     setFilteredsubject(prioritySearch(filteredSubjects, description?.trim()));
@@ -155,7 +158,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     }));
   };
   // ============================serch handler===============================================================================================================
-  const searchHandler = () => {
+  const searchHandler = async () => {
     if (isAuthenticated) {
       const cookiesval = getCookie("ucaspoint");
       ucasval = cookiesval;
@@ -179,17 +182,18 @@ const CourseTab: React.FC<CourseTabProps> = ({
       searchFormHandle.subject?.url
     ) {
       const sanitizedRegionName = searchFormHandle.location.regionName
-        .trim()
-        .replace(/[^a-zA-Z0-9\s]+/g, "-")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-        .toLowerCase();
+        .trim() // Remove spaces from the front and back
+        .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+        .replace(/^-|-$/g, "") // Remove hyphens from the start and end
+        .toLowerCase(); // Convert the entire string to lowercase
+      
       // console.log(
       //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
       // );
-      
+
       // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
       // console.log(urlformed);
 
@@ -213,6 +217,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   pathname: searchFormHandle.subject.url,
       //   query: { location: sanitizedRegionName, score: score }
       // }, locationUrl);
+      GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.parent_subject : searchFormHandle?.subject?.description, searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       router.push(
         `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
@@ -226,6 +231,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   }
       // })
     } else if (searchFormHandle.subject?.url) {
+      GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.parent_subject : searchFormHandle?.subject?.description, searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.description : "NA", "homepage", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
+      router.push(searchFormHandle.subject.url);
       // console.log(
       //   searchFormHandle.subject?.url,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -237,7 +244,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       keywordSearch();
     }
   };
-  const keywordSearch = () => {
+  const keywordSearch = async () => {
     const sanitizedDescription = searchFormHandle?.subject?.description
       .trim()
       .replace(/[^a-zA-Z0-9\s]+/g, "-")
@@ -266,18 +273,20 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
-
+        GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.parent_subject : searchFormHandle?.subject?.description, searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       return router.push(
         `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     if (matchedSubject) {
+      GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.parent_subject : searchFormHandle?.subject?.description, searchFormHandle?.subject?.parent_subject ? searchFormHandle?.subject?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       return router.push(
         `${matchedSubject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
+      GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), searchFormHandle?.courseType?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
       return router.push(`${baseUrl}?q=${sanitizedDescription}`);
     }
   };
@@ -523,7 +532,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                     className="px-[16px] py-[12px] cursor-pointer"
                   >
                     <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
-                      Key word search for
+                      Keyword search for
                     </p>
                     <p className="small text-primary-400">
                       {`'${searchFormHandle?.subject?.description}'`}

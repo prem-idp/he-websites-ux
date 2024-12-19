@@ -7,8 +7,8 @@ import { getSelectedGrade } from "@packages/lib/utlils/ucas-functions";
 import { parseGradeString } from "@packages/lib/utlils/ucas-functions";
 import { GradeFilterArrayInterface } from "@packages/lib/types/ucas-calc";
 import GradeCounterButton from "./grade-counter-button";
-import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
-import { KeyValuePair } from "@packages/lib/types/ucas-calc";
+// import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
+// import { KeyValuePair } from "@packages/lib/types/ucas-calc";
 import GradeDropdown from "./grade-dropdown";
 const AddQualification = ({
   removeQual,
@@ -84,7 +84,6 @@ const AddQualification = ({
     setUcasPoint(ucasPoint - qual[indexPosition]?.podSpecificPoints);
     removeQual();
   };
-  console.log(ucasPoint);
   return (
     <>
       <div>

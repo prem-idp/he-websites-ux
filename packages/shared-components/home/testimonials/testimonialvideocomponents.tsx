@@ -30,11 +30,15 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
           data-src={contentfullRightData?.multimediaBlockLeft?.videoUpload?.url}
         ></video>
       </div>
-      <div className={`w-full relative rounded-[8px] overflow-hidden ${isVideoPlaying ? "hidden" : "block"}`}>
+      <div
+        className={`w-full relative rounded-[8px] overflow-hidden ${isVideoPlaying ? "hidden" : "block"}`}
+      >
         {contentfullRightData?.multimediaBlockLeft?.thumbnail?.url ? (
           <Image
             className="block w-full"
-            src={contentfullRightData?.multimediaBlockLeft?.thumbnail?.url || ""}
+            src={
+              contentfullRightData?.multimediaBlockLeft?.thumbnail?.url || ""
+            }
             alt="video thumbnail image"
             width={
               contentfullRightData?.multimediaBlockLeft?.thumbnail?.width || 600
@@ -47,7 +51,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
             sizes="(max-width: 640px) 100vw,
                (max-width: 1024px) 90vw,
                80vw"
-             quality={75}
+            quality={75}
           />
         ) : null}
         <div

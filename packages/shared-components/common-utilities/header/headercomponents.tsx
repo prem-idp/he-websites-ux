@@ -15,8 +15,8 @@ import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 interface props {
   topnav_data: any;
-  course_data: CourseData;
-  uni_data: UniData;
+  course_data: any;
+  uni_data: any;
 }
 const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();

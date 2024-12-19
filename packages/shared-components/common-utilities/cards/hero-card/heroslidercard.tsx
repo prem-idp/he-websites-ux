@@ -2,10 +2,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DynamicMediaComponent } from "@packages/lib/types/interfaces";
-interface PropsInterface {
+import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
+const HeroSliderCard = ({
+  data,
+  index,
+}: {
   data: DynamicMediaComponent;
-}
-const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
+  index: number;
+}) => {
   return (
     <>
       <div
@@ -13,15 +17,50 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
         data-testid="heroslidercard"
       >
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
-          <h1 className="text-heading-lg mb-[4px]">{data?.title}</h1>
+          {index == 0 ? (
+            <h1 className="text-heading-lg mb-[4px]">{data?.title}</h1>
+          ) : (
+            <h2 className="text-heading-lg mb-[4px]">{data?.title}</h2>
+          )}
           <p className="para-lg mb-[16px]">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
           </p>
           {data?.cta && (
             <Link
-            prefetch={false}
+              prefetch={false}
               data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
+              onClick={() => {
+                GADataLayerFn(
+                  "ga_contentful_events",
+                  data?.cta?.primaryCtaEventName,
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "homepage",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "in_year",
+                  "0",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  `${process.env.PROJECT}`,
+                  data?.cta?.primaryCtaLabel,
+                  data?.cta?.primaryCtaUrl
+                );
+              }}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"
             >
               {data?.cta?.primaryCtaLabel}
@@ -48,7 +87,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
             <Image
               data-testid="HeroImage"
               priority={true}
-              src={data?.image?.imgUpload?.url ||""}
+              src={data?.image?.imgUpload?.url || ""}
               width={365}
               height={445}
               alt={data?.image?.imgAltText}

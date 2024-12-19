@@ -9,48 +9,96 @@ const parseGradeString = (gradeString: string | null) => {
 
 export { parseGradeString };
 
+// const updateUserEntryPointForIncrement = (
+//   currentEntry: string,
+//   btnName: string
+// ): string => {
+//   const key = `${btnName}`;
+//   const entries = currentEntry?.split("-")?.filter(Boolean);
+//   const counts: Record<string, number> = {};
+//   entries.forEach((entry) => {
+//     const match = entry.match(/^(\d+)?(.*)$/);
+//     const count = parseInt(match?.[1] || "1", 10);
+//     const value = match?.[2] || "";
+//     counts[value] = (counts[value] || 0) + count;
+//   });
+//   counts[key] = (counts[key] || 0) + 1;
+//   return Object.entries(counts)
+//     .map(([entry, count]) => `${count > 1 ? count : "1"}${entry}`)
+//     .join("-");
+// };
+
 const updateUserEntryPointForIncrement = (
   currentEntry: string,
-  btnName: string
+  btnName: string,
+  validKeys: string[]
 ): string => {
-  const key = `${btnName}`;
-  const entries = currentEntry?.split("-")?.filter(Boolean);
   const counts: Record<string, number> = {};
+  validKeys.forEach((key) => {
+    counts[key] = 0;
+  });
+  const entries = currentEntry?.split("-")?.filter(Boolean);
   entries.forEach((entry) => {
     const match = entry.match(/^(\d+)?(.*)$/);
-    const count = parseInt(match?.[1] || "1", 10);
+    const count = parseInt(match?.[1] || "0", 10);
     const value = match?.[2] || "";
-    counts[value] = (counts[value] || 0) + count;
+    if (value in counts) {
+      counts[value] = count;
+    }
   });
-  counts[key] = (counts[key] || 0) + 1;
-  return Object.entries(counts)
-    .map(([entry, count]) => `${count > 1 ? count : "1"}${entry}`)
-    .join("-");
+  if (btnName in counts) {
+    counts[btnName] += 1;
+  }
+  return validKeys.map((key) => `${counts[key]}${key}`).join("-");
 };
 export { updateUserEntryPointForIncrement };
 
+// const updateUserEntryPointForDecrement = (
+//   currentEntry: string,
+//   btnName: string
+// ): string => {
+//   const key = `${btnName}`;
+//   const entries = currentEntry?.split("-")?.filter(Boolean);
+//   const counts: Record<string, number> = {};
+//   entries.forEach((entry) => {
+//     const match = entry.match(/^(\d+)?(.*)$/);
+//     const count = parseInt(match?.[1] || "1", 10);
+//     const value = match?.[2] || "";
+//     counts[value] = (counts[value] || 0) + count;
+//   });
+//   if (counts[key]) {
+//     counts[key] -= 1;
+//     if (counts[key] === 0) {
+//       delete counts[key];
+//     }
+//   }
+//   return Object.entries(counts)
+//     .map(([entry, count]) => `${count > 1 ? count : "1"}${entry}`)
+//     .join("-");
+// };
 const updateUserEntryPointForDecrement = (
   currentEntry: string,
-  btnName: string
+  btnName: string,
+  validKeys: string[]
 ): string => {
-  const key = `${btnName}`;
-  const entries = currentEntry?.split("-")?.filter(Boolean);
   const counts: Record<string, number> = {};
+  validKeys.forEach((key) => {
+    counts[key] = 0;
+  });
+  const entries = currentEntry?.split("-")?.filter(Boolean);
   entries.forEach((entry) => {
     const match = entry.match(/^(\d+)?(.*)$/);
-    const count = parseInt(match?.[1] || "1", 10);
+    const count = parseInt(match?.[1] || "0", 10);
     const value = match?.[2] || "";
-    counts[value] = (counts[value] || 0) + count;
-  });
-  if (counts[key]) {
-    counts[key] -= 1;
-    if (counts[key] === 0) {
-      delete counts[key];
+    if (value in counts) {
+      counts[value] = count;
     }
+  });
+
+  if (btnName in counts && counts[btnName] > 0) {
+    counts[btnName] -= 1;
   }
-  return Object.entries(counts)
-    .map(([entry, count]) => `${count > 1 ? count : "1"}${entry}`)
-    .join("-");
+  return validKeys.map((key) => `${counts[key]}${key}`).join("-");
 };
 
 export { updateUserEntryPointForDecrement };
