@@ -2,7 +2,8 @@
 
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
+import { createCookieConsent} from "./OneTrustcookie";
+import { getCookieValue } from "../utlils/commonFunction";
 
   var OptanonConsent:string|undefined = undefined;
   var OptanonAlertBoxClosed:string|undefined = undefined;
@@ -24,8 +25,8 @@ export default function OneTrustCookieScript() {
       const performanceCookieCategoryId = 'C0003';
       const targetingCookieCategoryId = 'C0004';
       //
-       OptanonConsent = await getOnetrustCookieValue('OptanonConsent');
-       OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed');
+       OptanonConsent = getCookieValue('OptanonConsent');
+       OptanonAlertBoxClosed = getCookieValue('OptanonAlertBoxClosed');
   
       //
       const strickCK = OnetrustActiveGroups.includes(defaultCookieCategoryId) ? "0" : "1"; 
@@ -69,8 +70,8 @@ export default function OneTrustCookieScript() {
   const watchOnetrustClosedcookie = async () => {
     
     var timeOutTime = setTimeout(async () => {
-      OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed'); 
-      OptanonConsent = await getOnetrustCookieValue('OptanonConsent'); 
+      OptanonAlertBoxClosed = getCookieValue('OptanonAlertBoxClosed'); 
+      OptanonConsent = getCookieValue('OptanonConsent'); 
       console.log("set time out OptanonAlertBoxClosed: " + OptanonAlertBoxClosed);
       if((OptanonConsent && OptanonConsent != '') && (OptanonAlertBoxClosed && OptanonAlertBoxClosed != '')){
         loadAnalyticsScripts();
@@ -88,9 +89,8 @@ export default function OneTrustCookieScript() {
 	    console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
       setUserConsentGiven(() => returnVal);
+      watchOnetrustClosedcookie();
     };
-
-    watchOnetrustClosedcookie();
     window.OptanonWrapper = handleConsentChange;
 
     const handleUserInteraction = () => {
