@@ -4,8 +4,8 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
 
-var OptanonConsent: string | undefined = undefined;
-var OptanonAlertBoxClosed: string | undefined = undefined;
+let OptanonConsent: string | undefined = undefined;
+let OptanonAlertBoxClosed: string | undefined = undefined;
 
 export default function OneTrustCookieScript() {
   const [useinteraction, setUserinteraction] = useState(false);
@@ -100,7 +100,7 @@ export default function OneTrustCookieScript() {
   };
 
   const watchOnetrustClosedcookie = async () => {
-     setTimeout(async () => {
+    setTimeout(async () => {
       OptanonAlertBoxClosed = await getOnetrustCookieValue(
         "OptanonAlertBoxClosed"
       );
@@ -115,7 +115,7 @@ export default function OneTrustCookieScript() {
         OptanonAlertBoxClosed != ""
       ) {
         loadAnalyticsScripts();
-      } 
+      }
     }, 1000);
   };
 
