@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 import { extractValue } from "@packages/lib/utlils/ucas-functions";
 const GradeDropdown = ({
   qual,
@@ -13,7 +12,9 @@ const GradeDropdown = ({
   const initialArray = [
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45,
   ];
-  const [totalcredit, setTotalcredit] = useState(0);
+  const [totalcredit, setTotalcredit] = useState(
+    qual[indexPosition]?.totalcredit
+  );
   const [openDropdown, setOpenDropdown] = useState<
     "distinction" | "merit" | "pass" | null
   >(null);
@@ -25,7 +26,6 @@ const GradeDropdown = ({
       return foundItem.value;
     }
   };
-  console.log(qual[indexPosition].userEntryPoint);
   const [distinction, setDistinction] = useState({
     point: extractValue(qual[indexPosition].userEntryPoint, "D") || 0,
     score:
@@ -91,8 +91,7 @@ const GradeDropdown = ({
           : item
       )
     );
-    console.log("pod", getPodSpecificvalue(selectedKey, itemValue));
-    console.log("current index pod", qual[indexPosition].podSpecificPoints);
+
     setUcasPoint(
       ucasPoint +
         getPodSpecificvalue(selectedKey, itemValue) -
@@ -100,8 +99,8 @@ const GradeDropdown = ({
     );
   };
 
-  console.log(ucasPoint);
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
+  console.log(totalcredit);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">
@@ -112,8 +111,8 @@ const GradeDropdown = ({
           </label>
           <div className="relative">
             <div
-              id="distinction"
-              aria-labelledby="distinction"
+              role="button"
+              aria-label="Distinction"
               onClick={() =>
                 setOpenDropdown((prev) =>
                   prev === "distinction" ? null : "distinction"
@@ -165,8 +164,8 @@ const GradeDropdown = ({
           </label>
           <div className="relative">
             <div
-              id="merit"
-              aria-labelledby="merit"
+              role="button"
+              aria-label="Merit"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "merit" ? null : "merit"))
               }
@@ -209,8 +208,8 @@ const GradeDropdown = ({
           </label>
           <div className="relative">
             <div
-              id="pass"
-              aria-labelledby="pass"
+              role="button"
+              aria-label="Pass"
               onClick={() =>
                 setOpenDropdown((prev) => (prev === "pass" ? null : "pass"))
               }

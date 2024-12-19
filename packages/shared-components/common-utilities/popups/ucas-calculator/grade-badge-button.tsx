@@ -1,5 +1,5 @@
 import React from "react";
-import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
+// import { GradePointsInterface } from "@packages/lib/types/ucas-calc";
 const GradeBadgeButton = ({
   btnName,
   btnValue,

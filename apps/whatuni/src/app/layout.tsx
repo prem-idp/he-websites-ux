@@ -31,7 +31,7 @@ export default async function RootLayout({
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
         <TrackSessionId />
-        <OneTrustCookieScript />
+        {/* <OneTrustCookieScript /> */}
         <HeaderWrapper />
         {children}
 

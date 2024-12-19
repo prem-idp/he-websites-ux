@@ -4,6 +4,9 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
 
+let OptanonConsent: string | undefined = undefined;
+let OptanonAlertBoxClosed: string | undefined = undefined;
+
 export default function OneTrustCookieScript() {
   const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
@@ -21,8 +24,8 @@ export default function OneTrustCookieScript() {
     const performanceCookieCategoryId = "C0003";
     const targetingCookieCategoryId = "C0004";
     //
-    const OptanonConsent = await getOnetrustCookieValue("OptanonConsent");
-    const OptanonAlertBoxClosed = await getOnetrustCookieValue(
+    OptanonConsent = await getOnetrustCookieValue("OptanonConsent");
+    OptanonAlertBoxClosed = await getOnetrustCookieValue(
       "OptanonAlertBoxClosed"
     );
 
@@ -44,15 +47,23 @@ export default function OneTrustCookieScript() {
     const oneTrustCookieconsentVal = strickCK + funCK + perCK + targetCK;
 
     const isUserAcctpedCookie: boolean =
-      OptanonConsent != null &&
-      OptanonConsent != undefined &&
-      OptanonAlertBoxClosed != null &&
-      OptanonAlertBoxClosed != undefined;
+      OptanonConsent &&
+      OptanonConsent != "" &&
+      OptanonAlertBoxClosed &&
+      OptanonAlertBoxClosed != ""
+        ? true
+        : false;
     const cookieConsentVal = isUserAcctpedCookie
       ? oneTrustCookieconsentVal
       : "0111";
-    console.log("IsAlertBoxClosed", isUserAcctpedCookie);
-    console.log("cookieconsentVal", cookieConsentVal);
+    console.log("IsAlertBoxClosed: ", isUserAcctpedCookie);
+    console.log("cookieConsentVal: ", cookieConsentVal);
+    console.log(
+      "OptanonConsent: ",
+      OptanonConsent,
+      "OptanonAlertBoxClosed: ",
+      OptanonAlertBoxClosed
+    );
 
     // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
     if (isUserAcctpedCookie) {
@@ -88,32 +99,52 @@ export default function OneTrustCookieScript() {
     return isUserAcctpedCookie;
   };
 
-  const [userConsentGiven, setUserConsentGiven] = useState(false);
+  const watchOnetrustClosedcookie = async () => {
+    setTimeout(async () => {
+      OptanonAlertBoxClosed = await getOnetrustCookieValue(
+        "OptanonAlertBoxClosed"
+      );
+      OptanonConsent = await getOnetrustCookieValue("OptanonConsent");
+      console.log(
+        "set time out OptanonAlertBoxClosed: " + OptanonAlertBoxClosed
+      );
+      if (
+        OptanonConsent &&
+        OptanonConsent != "" &&
+        OptanonAlertBoxClosed &&
+        OptanonAlertBoxClosed != ""
+      ) {
+        loadAnalyticsScripts();
+      }
+    }, 1000);
+  };
+
+  const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
   useEffect(() => {
-    // Function to check consent when event fires
+    // Function to check consent, when event fires
     const handleConsentChange = async () => {
       console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
-      setUserConsentGiven(() => {
-        console.log("state triggered...");
-        return returnVal;
-      });
+      setUserConsentGiven(() => returnVal);
     };
+
+    watchOnetrustClosedcookie();
+    window.OptanonWrapper = handleConsentChange;
 
     const handleUserInteraction = () => {
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script
 
-      window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
 
     // Add event listeners for user interaction
 
-    window.addEventListener("mousemove", handleUserInteraction);
+    window.addEventListener("load", handleUserInteraction);
 
     return () => {
-      window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
   }, []);
 
