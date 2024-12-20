@@ -50,8 +50,12 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
     ],
   },
-  env: {
-    PROJECT: "Whatuni",
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.output.workerChunkLoading = "import";
+      config.output.globalObject = "self";
+    }
+    return config;
   },
 };
 

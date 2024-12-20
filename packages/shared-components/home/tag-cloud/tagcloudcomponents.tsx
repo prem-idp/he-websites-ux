@@ -1,6 +1,6 @@
 "use server";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import Link from "next/link";
+
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
@@ -20,7 +20,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
     <Suspense>
       <div className="tag-cloud-container bg-white">
         <div className="max-w-container mx-auto">
-          <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[8px] pb-[32px] md:pt-[16px] md:pb-[64px]">
+          <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[16px] lg:px-[0] pt-[8px] pb-[32px] lg:pt-[16px] md:pb-[64px]">
             <div className="tag-cloud-header">
               <div className="h6">{heading}</div>
             </div>
@@ -29,22 +29,22 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
                 {tagCloudArray?.map((data, index) => (
                   <li key={index}>
                     {data?.tagUrl && (
-                      <ClickTrackerWrapper  gaData={{
-                        event: "ga_contentful_events",
-                        eventName:data?.tagName,
-                        ctaTitle: data?.tagName,
-                        ctaUrl: data?.tagUrl,
-                        website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
-                      }}
+                      <ClickTrackerWrapper
+                        gaData={{
+                          event: "ga_contentful_events",
+                          eventName: data?.tagName,
+                          ctaTitle: data?.tagName,
+                          ctaUrl: data?.tagUrl,
+                          website: `${process.env.PROJECT}`,
+                          pageName: "homepage",
+                        }}
                       >
-                      <Link
-                        href={data?.tagUrl}
-                        prefetch={false}
-                        className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
-                      >
-                        {data?.tagName}
-                      </Link>
+                        <a
+                          href={data?.tagUrl}
+                          className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
+                        >
+                          {data?.tagName}
+                        </a>
                       </ClickTrackerWrapper>
                     )}
                   </li>

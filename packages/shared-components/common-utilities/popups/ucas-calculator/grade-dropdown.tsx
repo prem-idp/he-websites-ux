@@ -100,7 +100,6 @@ const GradeDropdown = ({
   };
 
   const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
-  console.log(totalcredit);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">

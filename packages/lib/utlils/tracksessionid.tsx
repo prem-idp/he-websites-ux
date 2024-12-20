@@ -9,7 +9,7 @@ const TrackSessionId = () => {
     const cookiePresent = cookie?.split("=")[1] || null;
     if (!cookiePresent) {
       const trackSessionId = uuidv4();
-      document.cookie = `${name}=${trackSessionId}; path=/; max-age=3600`;
+      document.cookie = `${name}=${trackSessionId}; path=/; max-age= 2592000`;
     }
   }, []);
   return null;

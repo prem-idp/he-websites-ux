@@ -1,11 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 const AdviceCourseCard = () => {
   return (
-    <Link
+    <a
       href=""
-      prefetch={false}
       className="card flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
     >
       <div className="card-header">
@@ -34,7 +33,7 @@ const AdviceCourseCard = () => {
           11 oct 2023
         </p>
       </div>
-    </Link>
+    </a>
   );
 };
 
