@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { createCookieConsent} from "./OneTrustcookie";
-import { getCookieValue } from "../utlils/commonFunction";
+import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
 
 let OptanonConsent: string | undefined = undefined;
 let OptanonAlertBoxClosed: string | undefined = undefined;
@@ -46,10 +46,10 @@ export default function OneTrustCookieScript() {
       // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
       if(isUserAcctpedCookie){
         const formattedDate = cookieDate.getDate() + '-' + cookieDate.getMonth() + '-' + cookieDate.getFullYear() + ' ' + cookieDate.getHours() + ':' + cookieDate.getMinutes() + ':' + cookieDate.getSeconds();
-        createCookieConsent('cookie_splash_flag_new',encodeURI(formattedDate));
-        createCookieConsent('cookie_splash_flag',encodeURI(formattedDate));
+        setNewCookie(`cookie_splash_flag_new=${encodeURI(formattedDate)}; path=/; secure`);
+        setNewCookie(`cookie_splash_flag=${encodeURI(formattedDate)}; path=/; secure`);
       }
-      createCookieConsent('cookieconsent',cookieConsentVal);
+      setNewCookie(`cookieconsent=${cookieConsentVal}; path=/; secure`);
   
       
       // if (bannerCheck == "bannerExist") {
@@ -93,6 +93,7 @@ export default function OneTrustCookieScript() {
     window.OptanonWrapper = handleConsentChange;
 
     const handleUserInteraction = () => {
+      console.log('page loaded...')
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script

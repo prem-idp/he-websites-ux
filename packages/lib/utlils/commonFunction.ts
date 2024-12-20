@@ -3,3 +3,7 @@ export function getCookieValue(name: any) {
     const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
     return cookie ? cookie.split("=")[1] : "";
 }
+
+export function setNewCookie(cookieString: string){
+    document.cookie = cookieString;
+}
