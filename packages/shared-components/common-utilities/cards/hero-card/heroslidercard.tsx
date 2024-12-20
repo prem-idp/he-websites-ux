@@ -10,7 +10,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
   return (
     <>
       <div
-        className="flex justify-between gap-[16px]"
+        className="flex justify-between gap-[16px] min-h-[442px]"
         data-testid="heroslidercard"
       >
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
@@ -18,6 +18,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
           <p className="para-lg mb-[16px]">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
           </p>
+         
           {data?.cta && (
             <Link
             prefetch={false}
