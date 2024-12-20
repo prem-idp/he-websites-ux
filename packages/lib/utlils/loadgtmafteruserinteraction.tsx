@@ -22,7 +22,7 @@ const LoadGTMAfteruserInteraction = () => {
   }, []);
 
   return gtmLoaded ? (
-    <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""} />
+    <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT || ""} />
   ) : null;
 };
 
