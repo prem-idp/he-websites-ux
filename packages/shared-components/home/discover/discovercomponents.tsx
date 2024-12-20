@@ -22,8 +22,8 @@ const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
     discovercontentfulData && (
       <div className="discover-container bg-white">
         <div className="max-w-container mx-auto">
-          <div className="discover-card-container px-[0] py-[34px] md:py-[64px]">
-            <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
+          <div className="discover-card-container px-[0] py-[34px] lg:py-[64px]">
+            <div className="discover-header px-[16px] lg:px-[0] mb-[26px] md:mb-[32px]">
               <h2 className={`font-bold`} data-testid="discoverHeading">
                 {props.heading}
               </h2>
