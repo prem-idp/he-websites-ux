@@ -3,8 +3,7 @@ export const Seoquery = `{
     limit: 1
     where: {urlSlug: "/", website: {websiteName:"${process.env.PROJECT}"}}
   ) {
-    items {
-     
+    items {    
       seoFields {
         metaTite
         metaDescription
@@ -296,6 +295,7 @@ export const homePageQuery = `{
     where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
+      gaPageName
       pageTitle
       shortDescription
       seoFields {

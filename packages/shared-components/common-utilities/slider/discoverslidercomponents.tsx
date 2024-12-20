@@ -108,7 +108,7 @@ const Discoverslidercomponents1 = ({
                             : ""
                         }
                         onClick={() => {
-                          GADataLayerFn("ga_contentful_events", "footer_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
+                          GADataLayerFn("ga_contentful_events", discoverItems.cta?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, discoverItems?.title, discoverItems?.cta?.primaryCtaUrl);
                         }}
 
                         className={`h-[200px] block ${discoverItems?.backgroundColor} hover:outline-2 hover:outline hover:outline-primary-400 rounded-[8px] overflow-hidden`}

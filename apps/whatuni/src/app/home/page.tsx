@@ -24,7 +24,7 @@ const Page = async () => {
       {/* <GoogleOneTap /> */}
       <PageViewLogging gaData={{
         website: `${process.env.PROJECT}`,
-        pageName: "homepage",
+        pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
       }}/>  
       <Heroslidercomponent data={heroSliderData} />
       <div>
@@ -40,6 +40,7 @@ const Page = async () => {
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
                 callAction={childItems?.callToAction}
+                pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
               />
             );
           }

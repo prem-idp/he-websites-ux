@@ -13,11 +13,13 @@ interface ReviewProps {
   heading?: string | undefined;
   subheading?: string | undefined;
   callAction?: CallToAction;
+  pageName?: any;
 }
 const Reviewscomponents: React.FC<ReviewProps> = async ({
   heading,
   subheading,
   callAction,
+  pageName,
 }) => {
   const jsonResponse: ReviewDetailsList =
     await getReviewDetailsFunction(reviewPayload);
@@ -49,7 +51,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                         ctaTitle: `${callAction?.primaryCtaLabel}`,
                         ctaUrl: `${callAction?.primaryCtaUrl}`,
                         website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
+                        pageName:{pageName},
                       }}
                       >
                 <a

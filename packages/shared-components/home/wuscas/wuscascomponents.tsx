@@ -10,11 +10,13 @@ import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
+  pageName?:any;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
+  pageName,
 }) => {
   const resultData: HomePageStatInterface =
     await graphQlFetchFunction(statsPodQuery);
@@ -40,7 +42,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   ctaTitle: statsData?.cta?.primaryCtaLabel || "",
                   ctaUrl: statsData?.cta.primaryCtaUrl || "",
                   website: `${process.env.PROJECT}`,
-                  pageName: "homepage",
+                  pageName: {pageName},
                 }}
               >
                 <Link

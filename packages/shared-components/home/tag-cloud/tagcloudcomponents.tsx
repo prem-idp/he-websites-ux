@@ -8,9 +8,10 @@ import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 
 interface headingProps {
   heading: string;
+  pageName:any;
 }
 
-const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
+const Tagcloudcomponents: React.FC<headingProps> = async ({ heading,pageName }) => {
   const tagCloudData: HomePageInterface =
     await graphQlFetchFunction(tagCloudQuery);
   const tagCloudArray =
@@ -35,7 +36,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
                         ctaTitle: data?.tagName,
                         ctaUrl: data?.tagUrl,
                         website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
+                        pageName: {pageName},
                       }}
                       >
                       <Link
