@@ -38,6 +38,7 @@ export default function User({ topnav_data }: any) {
               <Link
                 prefetch={false}
                 href={item?.navUrl || ""}
+                className="font-normal small"
                 onClick={() =>
                   item.navTitle === "Logout" ? clearAllCookies() : ""
                 }

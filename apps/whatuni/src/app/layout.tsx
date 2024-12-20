@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${farroBold.variable} ${interBold.variable} antialiased`}
+        className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
         <TrackSessionId />
         <OneTrustCookieScript />
