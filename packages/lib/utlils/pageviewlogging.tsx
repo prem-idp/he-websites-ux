@@ -26,13 +26,7 @@ export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
 }, []); 
   return (
     <>     
-      <GoogleAnalytics
-  gaMeasurementId={
-    website === "PGS"
-      ? process.env.NEXT_PUBLIC_PGS_GA_ACCOUNT 
-      : process.env.NEXT_PUBLIC_WU_GA_ACCOUNT
-  }
-/>  
+        
     </>
   );
 }

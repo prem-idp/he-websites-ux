@@ -22,7 +22,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  
+
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -52,7 +52,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-     
       console.log("inside the use effect");
       // Define payloads
       const body: any = {
@@ -106,7 +105,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
         setCourseData(bodyData);
 
         setUniData(unibodyData);
-        
+
         // Log results
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -126,10 +125,19 @@ const SearchBox = ({ pgs_search_data }: any) => {
     const handleUserInteraction = () => {
       setStartFetch(true);
       window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
     window.addEventListener("mousemove", handleUserInteraction);
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("keypress", handleUserInteraction);
+    window.addEventListener("load", handleUserInteraction);
     return () => {
       window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
   }, []);
 
