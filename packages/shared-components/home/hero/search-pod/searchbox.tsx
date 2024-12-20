@@ -87,7 +87,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
               "Content-Type": "application/json",
               "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             },
-            cache: "no-store",
+            cache: "force-cache",
           }),
           fetch(urlUnibody, {
             method: "GET",
