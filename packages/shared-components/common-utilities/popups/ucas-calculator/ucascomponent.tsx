@@ -97,7 +97,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
           setLoading(false);
-          console.log(jsonData?.userGradeDetails);
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
@@ -282,7 +281,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-  console.log(qual);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
@@ -418,8 +416,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       ucasPoint: ucasPoint,
       userStudyLevelEntry: [...list],
     };
-    console.log(list);
-    console.log(saveUcas);
+
     const { idToken } =
       (
         await fetchAuthSession({
@@ -489,21 +486,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
-  console.log(qualCopy);
-  console.log(
-    "qual[0]?.SelectedLevel === 'UCAS Tariff Points' && qual[0].min > qual[0].max",
-    qual[0]?.SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max
-  );
-  console.log(
-    "JSON.stringify(qual) === JSON.stringify(qualCopy)",
-    JSON.stringify(qual) === JSON.stringify(qualCopy)
-  );
-  console.log(
-    `qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45`,
-    qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45
-  );
-  console.log(" not a first time user", !firstTimeUser);
 
   return (
     <>

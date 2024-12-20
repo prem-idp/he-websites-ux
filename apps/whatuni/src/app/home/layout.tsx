@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-import { GoogleTagManager } from "@next/third-parties/google";
+import GTMScript from "@packages/lib/utlils/gtmscript";
+//import { GoogleTagManager } from "@next/third-parties/google";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
@@ -44,7 +45,8 @@ export default async function Layout({
 }) {
   return (
     <>
-      <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT}`} />
+      {/* <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""} /> */}
+      <GTMScript gtmId={process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""} />
       <TrackSessionId />
       {children}
     </>
