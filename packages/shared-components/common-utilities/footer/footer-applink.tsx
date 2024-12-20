@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+
 import { AppLinkItem } from "@packages/lib/types/interfaces";
 import {
   currentAuthenticatedUser,
@@ -29,9 +29,8 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
     >
       {data[0] && (
         <li data-testid="app_store">
-          <Link
+          <a
             className="block w-fit"
-            prefetch={false}
             target="_blank"
             href={
               isMobile
@@ -184,14 +183,13 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 fill="white"
               />
             </svg>
-          </Link>
+          </a>
         </li>
       )}
       {data[1] && (
         <li data-testid="play_store">
-          <Link
+          <a
             className="block w-fit"
-            prefetch={false}
             target="_blank"
             href={
               isMobile
@@ -501,7 +499,7 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 </linearGradient>
               </defs>
             </svg>
-          </Link>
+          </a>
         </li>
       )}
     </ul>

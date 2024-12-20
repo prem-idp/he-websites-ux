@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import Form from "next/form";
 import { useRouter } from "next/navigation";
@@ -403,8 +403,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       </div>
                       <ul>
                         {filteredUniversity.map((item: any, index) => (
-                          <Link
-                            prefetch={false}
+                          <a
                             href={`/universities/${item.collegeNameDisplay
                               .trim()
                               .replace(/\s+/g, "-")
@@ -447,7 +446,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
-                          </Link>
+                          </a>
                         ))}
                       </ul>
                     </>

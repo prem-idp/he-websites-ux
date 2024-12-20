@@ -1,14 +1,24 @@
-import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import {
+  currentAuthenticatedUser,
+  GADataLayerFn,
+} from "@packages/lib/utlils/helper-function";
 
-const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any }) => {
+const Menucategory4card = ({
+  data,
+  parentMenu,
+}: {
+  data: any;
+  parentMenu: any;
+}) => {
   const calculate = () =>
     data.length - 1 <= 2 ? 1 : Math.ceil((data.length - 1) / 2);
 
   const size = calculate();
-  const navTitle = data?.find((item: any) => item.flagNavItemStyle === "L2 Text")?.navTitle;
+  const navTitle = data?.find(
+    (item: any) => item.flagNavItemStyle === "L2 Text"
+  )?.navTitle;
 
   return (
     <div
@@ -29,8 +39,7 @@ const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any })
           )
           .map((item: any, index: number) => (
             <li key={index}>
-              <Link
-                prefetch={false}
+              <a
                 href={item?.navUrl || ""}
                 target={
                   item?.navCtaTarget === "Open in new tab"
@@ -38,7 +47,37 @@ const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any })
                     : "_parent"
                 }
                 onClick={async () => {
-                  GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
+                  GADataLayerFn(
+                    "ga_contentful_events",
+                    "header_clicks",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "homepage",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "in_year",
+                    await currentAuthenticatedUser(),
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    `${process.env.PROJECT}`,
+                    item.navTitle,
+                    item?.navUrl,
+                    parentMenu,
+                    navTitle
+                  );
                 }}
                 rel={
                   item?.navCtaTarget === "Open in new tab"
@@ -60,7 +99,7 @@ const Menucategory4card = ({ data, parentMenu }: { data: any; parentMenu: any })
                     {item?.navTitle}
                   </div>
                 </div>
-              </Link>
+              </a>
             </li>
           ))}
       </ul>

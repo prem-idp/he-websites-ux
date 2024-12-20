@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 
 const Menucategory1x2card = () => {
@@ -9,112 +8,100 @@ const Menucategory1x2card = () => {
       </div>
       <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] p-[16px] lg:p-[0] bg-white">
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
-            prefetch={false}
+          <a
             href="#"
             className="font-normal small text-grey300 hover:underline line-clamp-2"
           >
             Menu link 1
-          </Link>
+          </a>
         </li>
       </ul>
     </div>

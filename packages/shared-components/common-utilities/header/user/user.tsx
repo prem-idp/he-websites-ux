@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";
@@ -35,30 +35,28 @@ export default function User({ topnav_data }: any) {
                   : "mb-[16px] hover:underline"
               }
             >
-              <Link
-                prefetch={false}
+              <a
                 href={item?.navUrl || ""}
                 onClick={() =>
                   item.navTitle === "Logout" ? clearAllCookies() : ""
                 }
               >
                 {item.navTitle}
-              </Link>
+              </a>
             </li>
           ))}
           {/* <li className={"text-primary-400 hover:underline"}>
-            <Link href="/" onClick={() => clearAllCookies()}>
+            <a href="/" onClick={() => clearAllCookies()}>
               Log Out
-            </Link>
+            </a>
           </li> */}
         </ul>
-        <Link
-          prefetch={false}
+        <a
           href="#"
           className="font-semibold x-small text-success-700 uppercase tracking-[1px] self-start"
         >
           Complete your profile
-        </Link>
+        </a>
       </div>
     </>
   );

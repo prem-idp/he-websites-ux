@@ -1,12 +1,15 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Form from "next/form";
-import { GADataLayerFn,currentAuthenticatedUser } from "@packages/lib/utlils/helper-function";
+import {
+  GADataLayerFn,
+  currentAuthenticatedUser,
+} from "@packages/lib/utlils/helper-function";
 
 interface UniversityTabProps {
   searchFormHandle: any;
@@ -218,56 +221,54 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                 <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[53px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                   <ul>
                     {universityList?.map((item: any, index: any) => (
-                      <Link
-                      prefetch={false}
-                      href={`/university-profile/${item?.collegeNameDisplay
-                        ?.toLowerCase() // Convert to lowercase
-                        ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
-                      onClick={async () => {
-                        // Update state
-                        setsearchFormHandle((prevData: any) => ({
-                          ...prevData,
-                          university: item.collegeNameDisplay,
-                          isUniversityClicked: false,
-                        }));
-                    
-                        // Trigger GADataLayerFn
-                        GADataLayerFn(
-                          "ga_events", // Event type
-                          "homepage_search",
-                          "university_search",
-                          "NA",
-                          "NA",
-                          "NA",
-                          "homepage", // University name
-                          "NA", // University ID
-                          item.collegeNameDisplay,
-                          "NA",
-                          "NA",
-                          "NA",
-                          item.collegeId,
-                          "NA",
-                          "NA",
-                          "NA",
-                          "NA",
-                          await currentAuthenticatedUser(),
-                          "NA",
-                          "NA",
-                          "NA",
-                          "NA",
-                          "NA",
-                          "NA",
-                        `${process.env.PROJECT}`,
-                          "NA",
-                          "NA" // Site name or context
-                        );
-                      }}
-                      key={index}
-                      className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                    >
-                      {item.collegeNameDisplay}
-                    </Link>
-                    
+                      <a
+                        href={`/university-profile/${item?.collegeNameDisplay
+                          ?.toLowerCase() // Convert to lowercase
+                          ?.replace(/\s+/g, "-")}/${item.collegeId}/`}
+                        onClick={async () => {
+                          // Update state
+                          setsearchFormHandle((prevData: any) => ({
+                            ...prevData,
+                            university: item.collegeNameDisplay,
+                            isUniversityClicked: false,
+                          }));
+
+                          // Trigger GADataLayerFn
+                          GADataLayerFn(
+                            "ga_events", // Event type
+                            "homepage_search",
+                            "university_search",
+                            "NA",
+                            "NA",
+                            "NA",
+                            "homepage", // University name
+                            "NA", // University ID
+                            item.collegeNameDisplay,
+                            "NA",
+                            "NA",
+                            "NA",
+                            item.collegeId,
+                            "NA",
+                            "NA",
+                            "NA",
+                            "NA",
+                            await currentAuthenticatedUser(),
+                            "NA",
+                            "NA",
+                            "NA",
+                            "NA",
+                            "NA",
+                            "NA",
+                            `${process.env.PROJECT}`,
+                            "NA",
+                            "NA" // Site name or context
+                          );
+                        }}
+                        key={index}
+                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                      >
+                        {item.collegeNameDisplay}
+                      </a>
                     ))}
                   </ul>
                 </div>

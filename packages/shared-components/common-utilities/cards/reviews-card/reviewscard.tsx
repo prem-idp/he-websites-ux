@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+
 import { ReviewDetails } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface ReviewCardProps {
@@ -21,8 +21,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
         collegeName: reviewData?.collegeName,
       }}
     >
-      <Link
-        prefetch={false}
+      <a
         href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
         className="reviews-card flex flex-col justify-between bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[249px]"
       >
@@ -77,7 +76,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
             Read full review
           </div>
         </div>
-      </Link>
+      </a>
     </ClickTrackerWrapper>
   );
 };
