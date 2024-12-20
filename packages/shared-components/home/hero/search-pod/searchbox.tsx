@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
@@ -87,7 +87,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
               "Content-Type": "application/json",
               "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             },
-            cache: "no-store",
+            cache: "force-cache",
           }),
           fetch(urlUnibody, {
             method: "GET",
@@ -217,8 +217,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                 )}
                 {searchFormHandle?.activeTab == "tab2" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/degrees/find-university/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -229,13 +228,12 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
                 {searchFormHandle?.activeTab == "tab3" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/advice/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -246,7 +244,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
 

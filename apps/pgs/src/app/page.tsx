@@ -15,12 +15,18 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+
+ 
+
   return (
     <>
-     <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: "homepage",
-      }} /> 
+     
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: "homepage",
+        }}
+      />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(

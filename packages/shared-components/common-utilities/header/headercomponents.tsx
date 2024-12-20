@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -31,7 +31,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     isUserClicked: false,
     isShortlistClicked: false,
   });
-
+  const mobileViewRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
@@ -68,12 +68,19 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
         !shortlistref.current.contains(event.target as Node)
       ) {
         rightMenuAction("");
+      } else if (
+        mobileViewRef.current &&
+        !mobileViewRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
       }
     };
+
     // ---------------function to close the search on listering the emitter------------------
     const handleRightMenuAction = (actionType: string) => {
       rightMenuAction(actionType);
     };
+
     // -------------------function to set ismobile state--------------------------------------
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
@@ -151,7 +158,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <Link href="/" prefetch={false}>
+            <a href="/">
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={
@@ -163,7 +170,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 width={70}
                 height={78}
               />
-            </Link>
+            </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
             <button
@@ -239,7 +246,10 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    <div className={`${isOpen ? "block" : "hidden"}`}>
+                    <div
+                      ref={mobileViewRef}
+                      className={`${isOpen ? "block" : "hidden"}`}
+                    >
                       <Megamenucomponents data={topnav_data} />
                     </div>
                   </div>
@@ -344,8 +354,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 )}
               </li>
               <li className={`relative ${first ? "block" : "hidden"}`}>
-                <Link
-                  prefetch={false}
+                <a
                   href="/degrees/comparison"
                   title="Shortlist"
                   className="cursor-pointer"
@@ -377,7 +386,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       {basketCount}
                     </div>
                   )}
-                </Link>
+                </a>
                 {/* // commented beacuse the scope out sprint */}
                 {/* shortlist section */}
                 {/* {clickStates.isShortlistClicked && (
