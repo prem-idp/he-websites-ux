@@ -68,7 +68,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       let tracksessionId = getCookie("trackSessionId");
       if (!tracksessionId) {
         const randomId = uuidv4();
-        document.cookie = `trackSessionId=${randomId}; path=/; max-age=3600`;
+        document.cookie = `trackSessionId=${randomId}; path=/; max-age= 2592000`;
         tracksessionId = randomId;
       }
       const isUcasPresentInCookie = getCookie("ucaspoint");
@@ -444,7 +444,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           );
           const jsonData = await response.json();
           if (jsonData == "updated") {
-            document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+            document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
             setFirstTimeUser(false);
             setQualCopy(qual);
             onClose();
@@ -456,7 +456,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           }
         } else {
           setApplybtn("Apply");
-          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=86400; secure; samesite=lax`;
+          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
           setFirstTimeUser(false);
           setQualCopy(qual);
         }
@@ -464,7 +464,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         if (saveUcas) {
           const stringConvert = JSON.stringify(saveUcas);
           const encodeURI = encodeURIComponent(stringConvert);
-          document.cookie = `UCAS=${encodeURI}; path=/; max-age=3600; SameSite=Strict`;
+          document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");
