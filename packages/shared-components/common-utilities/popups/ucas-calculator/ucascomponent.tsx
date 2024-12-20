@@ -193,7 +193,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           );
           const jsonData = await response.json();
           setUcasGradeData(jsonData?.gradeFilterList);
-          const jsonCookies = JSON.parse(getCookie("UCAS") || "{}");
+          const decodedCookie = decodeURIComponent(getCookie("UCAS") || "{}");
+          const jsonCookies = JSON.parse(decodedCookie);
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
@@ -462,7 +463,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       } else {
         if (saveUcas) {
           const stringConvert = JSON.stringify(saveUcas);
-          document.cookie = `UCAS=${stringConvert}; path=/; max-age=3600; SameSite=Strict`;
+          const encodeURI = encodeURIComponent(stringConvert);
+          document.cookie = `UCAS=${encodeURI}; path=/; max-age=3600; SameSite=Strict`;
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");
