@@ -128,6 +128,11 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const mobileToggleOpen = () => {
     
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
   };
 
   const rightMenuAction = (actionName: string) => {
