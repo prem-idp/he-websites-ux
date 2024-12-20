@@ -5,7 +5,7 @@ import { HomePageStatInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 
 import Image from "next/image";
-import Link from "next/link";
+
 import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
@@ -24,7 +24,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     );
   return (
     <Suspense>
-      <section className="wusca-container bg-neutral-50">
+      <section className="wusca-container bg-grey-50">
         <div className="max-w-container mx-auto">
           {/* container */}
           <div className="wusca-card-container grid  grid-rows-[3_minmax(0_auto)] md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px] py-[40px] md:px-[20px] md:pt-[0] md:pb-[64px] xl:p-[0] gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px]">
@@ -43,8 +43,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   pageName: "homepage",
                 }}
               >
-                <Link
-                  prefetch={false}
+                <a
                   href={`${statsData?.cta.primaryCtaUrl}`}
                   className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
                 >
@@ -64,7 +63,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                </Link>
+                </a>
               </ClickTrackerWrapper>
               {/* <ClickTrackerWrapper
                 gaData={{
@@ -76,8 +75,8 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   pageName: "homepage",
                 }}
               >
-                <Link
-                  prefetch={false}
+                <a
+                  
                   href={`${statsData?.cta.primaryCtaUrl}`}
                   className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
                 >
@@ -97,7 +96,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                </Link>
+                </a>
               </ClickTrackerWrapper> */}
             </div>
             <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">

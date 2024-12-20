@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
@@ -22,7 +22,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
-  
+
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -52,7 +52,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-     
       console.log("inside the use effect");
       // Define payloads
       const body: any = {
@@ -88,7 +87,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
               "Content-Type": "application/json",
               "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             },
-            cache: "no-store",
+            cache: "force-cache",
           }),
           fetch(urlUnibody, {
             method: "GET",
@@ -106,7 +105,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
         setCourseData(bodyData);
 
         setUniData(unibodyData);
-        
+
         // Log results
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -126,10 +125,19 @@ const SearchBox = ({ pgs_search_data }: any) => {
     const handleUserInteraction = () => {
       setStartFetch(true);
       window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
     window.addEventListener("mousemove", handleUserInteraction);
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("keypress", handleUserInteraction);
+    window.addEventListener("load", handleUserInteraction);
     return () => {
       window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keypress", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
   }, []);
 
@@ -209,8 +217,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                 )}
                 {searchFormHandle?.activeTab == "tab2" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/degrees/find-university/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -221,13 +228,12 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
                 {searchFormHandle?.activeTab == "tab3" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/advice/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -238,7 +244,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
 

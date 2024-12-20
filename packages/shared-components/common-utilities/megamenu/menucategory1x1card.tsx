@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 const Menucategory1x1card = () => {
@@ -9,11 +8,7 @@ const Menucategory1x1card = () => {
       </div>
       <ul className="flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white">
         <li>
-          <Link
-            href="#"
-            prefetch={false}
-            className="block bg-neutral-200 min-h-[200px]"
-          >
+          <a href="#" className="block bg-neutral-200 min-h-[200px]">
             <div className="megamenu-image-card min-h-[100px] relative z-0 overflow-hidden">
               <Image
                 className="w-full"
@@ -27,7 +22,7 @@ const Menucategory1x1card = () => {
                 Menu link 1
               </div>
             </div>
-          </Link>
+          </a>
         </li>
       </ul>
     </div>

@@ -15,7 +15,7 @@ const Testimonialcomponents = async ({
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
   return (
-    <div className="testimonials-container bg-white">
+    <section className="testimonials-container bg-white">
       <div className="max-w-container mx-auto">
         <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">
           <div className="testimonials-header mb-[26px] md:mb-[32px]">
@@ -40,7 +40,7 @@ const Testimonialcomponents = async ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

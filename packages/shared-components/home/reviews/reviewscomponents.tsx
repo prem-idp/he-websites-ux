@@ -26,13 +26,12 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
   }
   return (
     <Suspense>
-      <div
-        className="reviews-container bg-neutral-50"
-        data-testid="reviews-container"
-      >
+      <section
+        className="reviews-container bg-grey-50"
+        data-testid="reviews-container">
         <div className="max-w-container mx-auto">
           <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
-            <div className="reviews-header px-[16px] md:px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
+            <div className="reviews-header px-[16px] md:px-[20px] xl:px-[0] mb-[26px] md:mb-[32px]">
               <h2 className="font-bold">{heading}</h2>
               <p className="font-normal small mt-[8px]">{subheading}</p>
             </div>
@@ -78,7 +77,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Suspense>
   );
 };
