@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import { GoogleTagManager } from "@next/third-parties/google";
+import GTMScript from "@packages/lib/utlils/gtmscript";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
@@ -43,7 +44,8 @@ export default async function Layout({
 }) {
   return (
     <>
-      <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT}`} />
+      {/* <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT}`} /> */}
+      <GTMScript gtmId={process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT || ""} />
       {children}
     </>
   );

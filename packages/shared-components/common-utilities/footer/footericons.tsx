@@ -27,6 +27,7 @@ const FooterIcons = ({ data }: PropsInterface) => {
               prefetch={false}
               href={item.navUrl || ""}
               aria-label="facebook"
+              className="flex items-center w-[32px] h-[32px]"
             >
               <Image
                 alt={item.navName}
