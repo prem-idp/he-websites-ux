@@ -31,7 +31,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     isUserClicked: false,
     isShortlistClicked: false,
   });
-
+  const mobileViewRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
@@ -68,12 +68,19 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
         !shortlistref.current.contains(event.target as Node)
       ) {
         rightMenuAction("");
+      } else if (
+        mobileViewRef.current &&
+        !mobileViewRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
       }
     };
+
     // ---------------function to close the search on listering the emitter------------------
     const handleRightMenuAction = (actionType: string) => {
       rightMenuAction(actionType);
     };
+
     // -------------------function to set ismobile state--------------------------------------
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
@@ -119,6 +126,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
+    
     setIsOpen(!isOpen);
   };
 
@@ -187,7 +195,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
               <>
                 {/* Overlay Background for Mobile Menu */}
                 <div
-                  onClick={mobileToggleOpen}
+                  onClick={ mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
                     isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
                   } lg:bg-transparent`}
@@ -234,7 +242,10 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                     </div>
 
                     {/* Megamenu Component */}
-                    <div className={`${isOpen ? "block" : "hidden"}`}>
+                    <div
+                      ref={mobileViewRef}
+                      className={`${isOpen ? "block" : "hidden"}`}
+                    >
                       <Megamenucomponents data={topnav_data} />
                     </div>
                   </div>

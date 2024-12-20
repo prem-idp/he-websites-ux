@@ -34,6 +34,7 @@ const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any })
                 prefetch={false}
                 href={item?.navUrl || ""}
                 onClick={async () => {
+                  
                   GADataLayerFn("ga_contentful_events", "header_clicks", "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,item.navTitle,item?.navUrl,parentMenu,navTitle);
                 }}
                 target={
@@ -44,7 +45,7 @@ const Menucategory1card = ({ data, parentMenu }: { data: any; parentMenu: any })
                     ? "noopener noreferrer"
                     : undefined
                 }
-                className="font-normal small text-grey300 hover:underline line-clamp-2 "
+                className="font-normal small text-grey300 hover:underline line-clamp-1 "
               >
                 {item.navTitle}
               </Link>
