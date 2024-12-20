@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Amplify } from "aws-amplify";
 import { signUp } from "aws-amplify/auth"; // Import specific API from v6
 import awsconfig from "../../../../configs/amplifyconfiguration";
-import Link from "next/link";
 
 // Configure Amplify with your amplifyconfiguration.json
 Amplify.configure(awsconfig, { ssr: true });
@@ -119,13 +118,12 @@ export default function SignupPage() {
         <div className="mt-4">
           <p className="text-sm text-center text-gray-600">
             Already have an account?{" "}
-            <Link
-              prefetch={false}
+            <a
               href="/new/signin"
               className="text-indigo-600 hover:text-indigo-500 font-semibold"
             >
               Sign In
-            </Link>
+            </a>
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -126,7 +126,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
-    
     setIsOpen(!isOpen);
     if (!isOpen) {
       document.body.classList.add("overflow-y-hidden");
@@ -159,7 +158,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <Link href="/" prefetch={false}>
+            <a href="/">
               <Image
                 className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                 src={
@@ -171,7 +170,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 width={70}
                 height={78}
               />
-            </Link>
+            </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
             <button
@@ -200,7 +199,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
               <>
                 {/* Overlay Background for Mobile Menu */}
                 <div
-                  onClick={ mobileToggleOpen}
+                  onClick={mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
                     isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
                   } lg:bg-transparent`}
@@ -355,8 +354,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 )}
               </li>
               <li className={`relative ${first ? "block" : "hidden"}`}>
-                <Link
-                  prefetch={false}
+                <a
                   href="/degrees/comparison"
                   title="Shortlist"
                   className="cursor-pointer"
@@ -388,7 +386,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       {basketCount}
                     </div>
                   )}
-                </Link>
+                </a>
                 {/* // commented beacuse the scope out sprint */}
                 {/* shortlist section */}
                 {/* {clickStates.isShortlistClicked && (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+
 import React from "react";
 import { CarouselItem } from "@packages/lib/types/interfaces";
 
@@ -77,13 +77,12 @@ const CourseCard = ({
                 </svg>
               </div>
             )}
-            <Link
+            <a
               href="/"
-              prefetch={false}
               className="text-para font-semibold text-primary400 lg:text-darkGrey lg:hover:text-primary-400"
             >
               {courseTitle}
-            </Link>
+            </a>
           </div>
           <div className="flex gap-[12px] items-center">
             <Image

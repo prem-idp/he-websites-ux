@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { DynamicMediaComponent } from "@packages/lib/types/interfaces";
 import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 const HeroSliderCard = ({
@@ -25,10 +25,9 @@ const HeroSliderCard = ({
           <p className="para-lg mb-[16px]">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
           </p>
-         
+
           {data?.cta && (
-            <Link
-              prefetch={false}
+            <a
               data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
               onClick={() => {
@@ -80,7 +79,7 @@ const HeroSliderCard = ({
                   strokeLinejoin="round"
                 />
               </svg>
-            </Link>
+            </a>
           )}
         </div>
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">

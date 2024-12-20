@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { fetchAuthSession } from "aws-amplify/auth";
 import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
-import Link from "next/link";
+
 import TopLevelMenu from "./toplevel-menu";
 import {
   GradeFilterArrayInterface,
@@ -628,15 +628,14 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 </div>
               )}
               <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
-                <Link
-                  prefetch={false}
+                <a
                   href="#"
                   onClick={resetAll}
                   aria-label="reset filters"
                   className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
                 >
                   Reset
-                </Link>
+                </a>
                 <button
                   className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${
                     ((qual[0]?.SelectedLevel === "UCAS Tariff Points" &&
