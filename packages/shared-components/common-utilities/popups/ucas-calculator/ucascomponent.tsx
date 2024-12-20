@@ -65,10 +65,10 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response.tokens ?? {};
-      let tracksessionId = getCookie("userTrackId");
+      let tracksessionId = getCookie("trackSessionId");
       if (!tracksessionId) {
         const randomId = uuidv4();
-        document.cookie = `userTrackId=${randomId}; path=/; max-age=3600`;
+        document.cookie = `trackSessionId=${randomId}; path=/; max-age=3600`;
         tracksessionId = randomId;
       }
       const isUcasPresentInCookie = getCookie("ucaspoint");
@@ -89,6 +89,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                     ? idToken
                     : idToken?.toString() || "",
               },
+              cache: "no-cache",
               body: JSON.stringify(ucasAjax),
             }
           );
@@ -96,7 +97,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasGradeData(jsonData?.gradeFilterList);
           setUcasPoint(Math.floor(jsonData?.userGradeDetails?.ucasPoint));
           setLoading(false);
-          console.log(jsonData?.userGradeDetails);
           if (jsonData?.userGradeDetails?.userStudyLevelEntry?.length > 0) {
             const mappedQuals =
               jsonData?.userGradeDetails.userStudyLevelEntry.map(
@@ -187,6 +187,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
                 tracksessionid: tracksessionId?.toString() || "",
               },
+              cache: "no-cache",
               body: JSON.stringify(ucasAjax),
             }
           );
@@ -280,7 +281,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     };
     fetchUcasData();
   }, []);
-  console.log(qual);
   const ucasHandleClose = () => {
     onClose();
     SetIsUcasPopupOpen(!isUcasPopupOpen);
@@ -416,8 +416,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       ucasPoint: ucasPoint,
       userStudyLevelEntry: [...list],
     };
-    console.log(list);
-    console.log(saveUcas);
+
     const { idToken } =
       (
         await fetchAuthSession({
@@ -487,21 +486,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
-  console.log(qualCopy);
-  console.log(
-    "qual[0]?.SelectedLevel === 'UCAS Tariff Points' && qual[0].min > qual[0].max",
-    qual[0]?.SelectedLevel === "UCAS Tariff Points" && qual[0].min > qual[0].max
-  );
-  console.log(
-    "JSON.stringify(qual) === JSON.stringify(qualCopy)",
-    JSON.stringify(qual) === JSON.stringify(qualCopy)
-  );
-  console.log(
-    `qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45`,
-    qual[0]?.SelectedLevel == "Access to HE Diploma" && qual[0].totalcredit < 45
-  );
-  console.log(" not a first time user", !firstTimeUser);
 
   return (
     <>
