@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { signIn } from "aws-amplify/auth";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../../configs/amplifyconfiguration";
-import Link from "next/link";
+
 // import { serverSignIn } from "./signinfunction";
 Amplify.configure(awsconfig, { ssr: true });
 
@@ -97,13 +97,12 @@ export default function SignInPage() {
           <div className="mt-4">
             <p className="text-sm text-center text-gray-600">
               Don have an account?{" "}
-              <Link
-                prefetch={false}
+              <a
                 href="/new/signup"
                 className="text-indigo-600 hover:text-indigo-500 font-semibold"
               >
                 Sign Up
-              </Link>
+              </a>
             </p>
           </div>
         )}

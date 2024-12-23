@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+
 import React from "react";
 import { CarouselItem } from "@packages/lib/types/interfaces";
 
@@ -13,7 +13,7 @@ const ArticleCardComponent = ({
   "articleImg" | "articleTitle" | "articleContent" | "articlePostedDate"
 >) => {
   return (
-    <Link href={"/"}   prefetch={false}>
+    <a href={"/"}>
       <div className="group">
         <Image
           src={articleImg || ""}
@@ -26,11 +26,13 @@ const ArticleCardComponent = ({
           <p className="font-semibold font-farro para-lg mb-[8px] lg:group-hover:text-primary-400">
             {articleTitle}
           </p>
-          <p className="line-clamp-2 mb-[16px] text-grey500">{articleContent}</p>
+          <p className="line-clamp-2 mb-[16px] text-grey500">
+            {articleContent}
+          </p>
           <p>{articlePostedDate}</p>
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 

@@ -2,11 +2,12 @@
 
 import Script from "next/script";
 import { useEffect, useState } from "react";
-import { createCookieConsent, getOnetrustCookieValue } from "./OneTrustcookie";
+import { createCookieConsent} from "./OneTrustcookie";
+import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
 
-  var OptanonConsent:string|undefined = undefined;
-  var OptanonAlertBoxClosed:string|undefined = undefined;
-  
+let OptanonConsent: string | undefined = undefined;
+let OptanonAlertBoxClosed: string | undefined = undefined;
+
 export default function OneTrustCookieScript() {
   const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
@@ -24,8 +25,8 @@ export default function OneTrustCookieScript() {
       const performanceCookieCategoryId = 'C0003';
       const targetingCookieCategoryId = 'C0004';
       //
-       OptanonConsent = await getOnetrustCookieValue('OptanonConsent');
-       OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed');
+       OptanonConsent = getCookieValue('OptanonConsent');
+       OptanonAlertBoxClosed = getCookieValue('OptanonAlertBoxClosed');
   
       //
       const strickCK = OnetrustActiveGroups.includes(defaultCookieCategoryId) ? "0" : "1"; 
@@ -45,10 +46,10 @@ export default function OneTrustCookieScript() {
       // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
       if(isUserAcctpedCookie){
         const formattedDate = cookieDate.getDate() + '-' + cookieDate.getMonth() + '-' + cookieDate.getFullYear() + ' ' + cookieDate.getHours() + ':' + cookieDate.getMinutes() + ':' + cookieDate.getSeconds();
-        createCookieConsent('cookie_splash_flag_new',encodeURI(formattedDate));
-        createCookieConsent('cookie_splash_flag',encodeURI(formattedDate));
+        setNewCookie(`cookie_splash_flag_new=${encodeURI(formattedDate)}; path=/; secure`);
+        setNewCookie(`cookie_splash_flag=${encodeURI(formattedDate)}; path=/; secure`);
       }
-      createCookieConsent('cookieconsent',cookieConsentVal);
+      setNewCookie(`cookieconsent=${cookieConsentVal}; path=/; secure`);
   
       
       // if (bannerCheck == "bannerExist") {
@@ -69,8 +70,8 @@ export default function OneTrustCookieScript() {
   const watchOnetrustClosedcookie = async () => {
     
     var timeOutTime = setTimeout(async () => {
-      OptanonAlertBoxClosed = await getOnetrustCookieValue('OptanonAlertBoxClosed'); 
-      OptanonConsent = await getOnetrustCookieValue('OptanonConsent'); 
+      OptanonAlertBoxClosed = getCookieValue('OptanonAlertBoxClosed'); 
+      OptanonConsent = getCookieValue('OptanonConsent'); 
       console.log("set time out OptanonAlertBoxClosed: " + OptanonAlertBoxClosed);
       if((OptanonConsent && OptanonConsent != '') && (OptanonAlertBoxClosed && OptanonAlertBoxClosed != '')){
         loadAnalyticsScripts();
@@ -78,38 +79,36 @@ export default function OneTrustCookieScript() {
         watchOnetrustClosedcookie();
       }
     }, 1000);
-  }
+  };
 
-
-	const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
+  const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
   useEffect(() => {
     // Function to check consent, when event fires
     const handleConsentChange = async () => {
-	    console.log("OptanonWrapper function triggered...");
+      console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
       setUserConsentGiven(() => returnVal);
+      watchOnetrustClosedcookie();
     };
-
-    watchOnetrustClosedcookie();
     window.OptanonWrapper = handleConsentChange;
 
     const handleUserInteraction = () => {
+      console.log('page loaded...')
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script
 
-      window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
 
     // Add event listeners for user interaction
 
-    window.addEventListener("mousemove", handleUserInteraction);
+    window.addEventListener("load", handleUserInteraction);
 
     return () => {
-      window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("load", handleUserInteraction);
     };
   }, []);
-  
 
   return (
     <>

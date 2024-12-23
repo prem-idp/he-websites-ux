@@ -1,31 +1,65 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { DynamicMediaComponent } from "@packages/lib/types/interfaces";
 import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
-interface PropsInterface {
+const HeroSliderCard = ({
+  data,
+  index,
+}: {
   data: DynamicMediaComponent;
-}
-const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
+  index: number;
+}) => {
   return (
     <>
       <div
-        className={`flex justify-between gap-[16px]  ${process.env.PROJECT === "PGS" ? "min-h-[278px]" : "min-h-[442px]"}`}
+        className="flex justify-between gap-[16px] min-h-[442px]"
         data-testid="heroslidercard"
       >
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
-          <h1 className="text-heading-lg mb-[4px] line-clamp-2">{data?.title}</h1>
-          <p className="para-lg mb-[16px] line-clamp-2">
+          {index == 0 ? (
+            <h1 className="text-heading-lg mb-[4px]">{data?.title}</h1>
+          ) : (
+            <h2 className="text-heading-lg mb-[4px]">{data?.title}</h2>
+          )}
+          <p className="para-lg mb-[16px]">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
           </p>
-         
+
           {data?.cta && (
-            <Link
-            prefetch={false}
+            <a
               data-testid="linktag"
               href={data?.cta?.primaryCtaUrl || ""}
               onClick={() => {
-                GADataLayerFn("ga_contentful_events", data?.cta?.primaryCtaEventName, "NA", "NA", "NA", "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", "0", "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`, data?.cta?.primaryCtaLabel, data?.cta?.primaryCtaUrl);
+                GADataLayerFn(
+                  "ga_contentful_events",
+                  data?.cta?.primaryCtaEventName,
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "homepage",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "in_year",
+                  "0",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  "NA",
+                  `${process.env.PROJECT}`,
+                  data?.cta?.primaryCtaLabel,
+                  data?.cta?.primaryCtaUrl
+                );
               }}
               className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer"
             >
@@ -45,7 +79,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </Link>
+            </a>
           )}
         </div>
         <div className="md:w-[354px] lg:w-[495px] shrink-0 self-end hidden md:block md:pb-[80px] md:px-[21px] lg:pb-0 lg:pt-[38px] lg:px-[66px]">
@@ -53,7 +87,7 @@ const HeroSliderCard: React.FC<PropsInterface> = ({ data }) => {
             <Image
               data-testid="HeroImage"
               priority={true}
-              src={data?.image?.imgUpload?.url ||""}
+              src={data?.image?.imgUpload?.url || ""}
               width={365}
               height={445}
               alt={data?.image?.imgAltText}

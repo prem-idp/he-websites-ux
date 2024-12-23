@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
+import Script from "next/script";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
@@ -25,8 +26,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+ 
   return (
     <html lang="en">
+      {/* GTM Head Script */}
+
       <body
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >

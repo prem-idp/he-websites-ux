@@ -1,10 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import Form from "next/form";
 import { useRouter } from "next/navigation";
-import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
+import {
+  currentAuthenticatedUser,
+  GADataLayerFn,
+} from "@packages/lib/utlils/helper-function";
 export default function PgsSearch({ pgs_search_data }: any) {
   const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
   const [qualification, setQualification] = useState({
@@ -156,19 +159,101 @@ export default function PgsSearch({ pgs_search_data }: any) {
       return setError(true);
     } else {
       if (qualification.qualDesc && !searchValue?.description?.trim()) {
-        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), qualification.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
+        GADataLayerFn(
+          "ga_events",
+          "homepage_search",
+          "NA",
+          sanitizedDescription,
+          "NA",
+          "NA",
+          "homepage",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "in_year",
+          await currentAuthenticatedUser(),
+          qualification.qualDesc,
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          `${process.env.PROJECT}`,
+          "NA",
+          "NA"
+        );
         return router.push(`${qualification.qualUrl}`);
       }
       if (searchValue?.description?.trim() && !qualification.qualDesc) {
-        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
-        return router.push(
-          `/postgraduate-courses/search?keyword=${sanitizedDescription}`
+        GADataLayerFn(
+          "ga_events",
+          "homepage_search",
+          "NA",
+          sanitizedDescription,
+          "NA",
+          "NA",
+          "homepage",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "in_year",
+          await currentAuthenticatedUser(),
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          `${process.env.PROJECT}`,
+          "NA",
+          "NA"
         );
+        return router.push(`/pgs/search?keyword=${sanitizedDescription}`);
       }
       if (searchValue?.description?.trim() && qualification.qualDesc) {
-        GADataLayerFn("ga_events", "homepage_search", "NA", sanitizedDescription, "NA","NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), qualification.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
+        GADataLayerFn(
+          "ga_events",
+          "homepage_search",
+          "NA",
+          sanitizedDescription,
+          "NA",
+          "NA",
+          "homepage",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "in_year",
+          await currentAuthenticatedUser(),
+          qualification.qualDesc,
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          "NA",
+          `${process.env.PROJECT}`,
+          "NA",
+          "NA"
+        );
         return router.push(
-          `/postgraduate-courses/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+          `/pgs/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
         );
       }
     }
@@ -266,7 +351,37 @@ export default function PgsSearch({ pgs_search_data }: any) {
                             key={index}
                             onClick={async () => {
                               setSearchValue(item);
-                              GADataLayerFn("ga_events", "homepage_search", "subject_search", "NA", item?.parentSubject ? item?.parentSubject : item?.description, item?.parentSubject ? item?.description : "NA", "homepage", "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), qualification?.qualDesc, "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");
+                              GADataLayerFn(
+                                "ga_events",
+                                "homepage_search",
+                                "subject_search",
+                                "NA",
+                                item?.parentSubject
+                                  ? item?.parentSubject
+                                  : item?.description,
+                                item?.parentSubject ? item?.description : "NA",
+                                "homepage",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "in_year",
+                                await currentAuthenticatedUser(),
+                                qualification?.qualDesc,
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                `${process.env.PROJECT}`,
+                                "NA",
+                                "NA"
+                              );
 
                               courseLink(item);
                             }}
@@ -288,21 +403,50 @@ export default function PgsSearch({ pgs_search_data }: any) {
                       </div>
                       <ul>
                         {filteredUniversity.map((item: any, index) => (
-                          <Link
-                            prefetch={false}
+                          <a
                             href={`/universities/${item.collegeNameDisplay
                               .trim()
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`}
-                            key={index} onClick={async () => {
-                            GADataLayerFn("ga_events", "homepage_search", "university_search", "NA", "NA","NA", "homepage", "NA",item?.collegeNameDisplay, "NA", "NA", "NA", item?.collegeId, "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",`${process.env.PROJECT}`,"NA","NA");}}
+                            key={index}
+                            onClick={async () => {
+                              GADataLayerFn(
+                                "ga_events",
+                                "homepage_search",
+                                "university_search",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "homepage",
+                                "NA",
+                                item?.collegeNameDisplay,
+                                "NA",
+                                "NA",
+                                "NA",
+                                item?.collegeId,
+                                "NA",
+                                "NA",
+                                "NA",
+                                "in_year",
+                                await currentAuthenticatedUser(),
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                "NA",
+                                `${process.env.PROJECT}`,
+                                "NA",
+                                "NA"
+                              );
+                            }}
                             className="px-[16px] py-[10px] block hover:bg-blue-50  hover:underline cursor-pointer"
                           >
                             <span className="text-grey900">
                               {item.collegeNameDisplay}
                             </span>{" "}
                             {/* <span className="text-grey-700">{item.course}</span> */}
-                          </Link>
+                          </a>
                         ))}
                       </ul>
                     </>
