@@ -20,7 +20,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
     <Suspense>
       <div className={`tag-cloud-container ${process.env.PROJECT === "PGS" ? "bg-grey-50" : "bg-white"}`}>
         <div className="max-w-container mx-auto">
-          <div className={`tag-cloud-card-container flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-[0]   ${process.env.PROJECT === "PGS" ? "py-[40px] md:py-[64px]" : "pt-[8px] pb-[32px] lg:pt-[16px] md:pb-[64px]"}`}>
+          <div className={`tag-cloud-card-container flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-[0] ${process.env.PROJECT === "PGS" ? "py-[40px] md:py-[64px]" : "pt-[8px] pb-[32px] lg:pt-[16px] md:pb-[64px]"}`}>
             <div className="tag-cloud-header">
               <div className="h6">{heading}</div>
             </div>
