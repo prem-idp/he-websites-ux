@@ -84,14 +84,16 @@ const Menucategory2card = ({
                 }
                 className="flex items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >
-                <Image
-                  className="block rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
-                  src={item?.navIcon?.url || ""}
-                  width="44"
-                  height="44"
-                  quality={100}
-                  alt="Megamenu thumb"
-                />{" "}
+                {item?.navIcon?.url && (
+                  <Image
+                    className="block rounded-[24px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[44px]"
+                    src={item?.navIcon?.url || ""}
+                    width="44"
+                    height="44"
+                    quality={100}
+                    alt="Megamenu thumb"
+                  />
+                )}
                 <span className="line-clamp-1">{item?.navTitle}</span>
               </a>
             </li>

@@ -72,13 +72,15 @@ const Menucategory5card = ({
               className="block bg-neutral-200 "
             >
               <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
-                <Image
-                  className="w-full"
-                  src={item?.navIcon?.url || ""}
-                  width="289"
-                  height="224"
-                  alt="University logo"
-                />
+                {item?.navIcon?.url && (
+                  <Image
+                    className="w-full"
+                    src={item?.navIcon?.url || ""}
+                    width="289"
+                    height="224"
+                    alt="University logo"
+                  />
+                )}
                 <div className="overlay absolute z-0 top-0 left-0 right-0 bottom-0 bg-gradientBlack1"></div>
                 <div className="font-semibold small text-white absolute z-1 bottom-[0] p-[10px]">
                   {item?.navTitle}
