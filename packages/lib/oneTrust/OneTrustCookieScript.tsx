@@ -83,6 +83,7 @@ export default function OneTrustCookieScript() {
 
   const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
   useEffect(() => {
+
     // Function to check consent, when event fires
     const handleConsentChange = async () => {
       console.log("OptanonWrapper function triggered...");
@@ -90,6 +91,7 @@ export default function OneTrustCookieScript() {
       setUserConsentGiven(() => returnVal);
       watchOnetrustClosedcookie();
     };
+
     window.OptanonWrapper = handleConsentChange;
 
     const handleUserInteraction = () => {
@@ -101,9 +103,12 @@ export default function OneTrustCookieScript() {
       window.removeEventListener("load", handleUserInteraction);
     };
 
-    // Add event listeners for user interaction
-
-    window.addEventListener("load", handleUserInteraction);
+    if (document.readyState === "complete") {
+      handleUserInteraction();
+    } else {
+      window.addEventListener("load", handleUserInteraction);
+    }
+    
 
     return () => {
       window.removeEventListener("load", handleUserInteraction);
