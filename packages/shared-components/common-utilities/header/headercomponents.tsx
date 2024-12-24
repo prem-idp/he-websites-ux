@@ -133,6 +133,13 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       document.body.classList.remove("overflow-y-hidden");
     }
   };
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }, [isOpen]);
 
   
    useEffect(() => {
