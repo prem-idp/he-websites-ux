@@ -1,4 +1,4 @@
-import Eligibilitycriteriacard from '@/app/components/cards/eligibility-criteria/eligibilitycriteriacard'
+import Eligibilitycriteriacard from '@packages/shared-components/common-utilities/cards/eligibility-criteria/eligibilitycriteriacard'
 import React from 'react'
 
 const Eligibilitycriteriacomponents = () => {

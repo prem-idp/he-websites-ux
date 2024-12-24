@@ -1,5 +1,4 @@
-import Ctabutton from '@/app/components/cards/interaction-button/ctabutton'
-import Subscribebtn from '@/app/components/cards/interaction-button/subscribebtn'
+import Subscribebtn from '@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn'
 import Link from 'next/link'
 import React from 'react'
 Link

@@ -1,4 +1,4 @@
-import Scholarshipunislidercomponents from '@/app/components/slider/scholarshipunislidercomponents'
+import Scholarshipunislidercomponents from '@packages/shared-components/common-utilities/slider/scholarshipunislidercomponents'
 import React from 'react'
 
 const Scholarshipunicomponents = () => {
