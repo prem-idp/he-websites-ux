@@ -12,7 +12,7 @@ const Menucategory1x1card = () => {
             <div className="megamenu-image-card min-h-[100px] relative z-0 overflow-hidden">
               <Image
                 className="w-full"
-                src="/assets/images/megamenu/menu-thumb.jpg"
+                src="/static/assets/images/megamenu/menu-thumb.jpg"
                 width="289"
                 height="224"
                 alt="University logo"
