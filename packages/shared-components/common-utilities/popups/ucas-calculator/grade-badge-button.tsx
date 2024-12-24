@@ -29,7 +29,12 @@ const GradeBadgeButton = ({
   };
   return (
     <button
-      className={`min-w-[66px] text-center small border border-primary-400 text-primary-400 py-[8px] px-[16px] rounded-[20px] block font-semibold ${qual[indexPosition].podSpecificPoints === btnValue ? "bg-primary-400 text-white " : "bg-white hover:bg-primary-400 hover:text-white"}`}
+      className={`min-w-[66px] text-center small border border-primary-400 text-primary-400 py-[8px] px-[16px] rounded-[20px] block font-semibold ${
+        qual[indexPosition]?.userEntryPoint?.toLowerCase() ===
+        btnName?.toLowerCase()
+          ? "bg-primary-400 text-white "
+          : "bg-white hover:bg-primary-400 hover:text-white"
+      }`}
       onClick={() => selectGradeButton(btnValue)}
     >
       {btnName}
