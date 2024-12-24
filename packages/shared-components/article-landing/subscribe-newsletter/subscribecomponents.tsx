@@ -25,7 +25,7 @@ const Subscribecomponents = () => {
                     </div>
                 </div>
             <div className='subscribe-form-control w-full lg:w-[714px]'>
-                <input type="text" className="form-control w-full focus:outline-none p-[11px_10px_11px_24px] small text-grey-900 placeholder:text-grey-700  border border-grey-200 rounded-[30px] shadow-custom-1" aria-label="email address field" placeholder="Enter Enter your email address" />
+                <input type="text" className="form-control w-full focus:outline-none p-[11px_10px_11px_24px] small text-grey-900 placeholder:text-grey-700  border border-grey-200 rounded-[30px] shadow-custom-1 hover:border-primary-400" aria-label="email address field" placeholder="Enter Enter your email address" />
                 <div className='error mt-[8px]'>
                     <p className='x-small font-regular text md:text-center text-negative-default'>Please enter a valid email address</p>
                 </div>
