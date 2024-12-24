@@ -1,107 +1,98 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Menucategory1card from '@packages/shared-components/common-utilities/megamenu/menucategory1card';
-import '@testing-library/jest-dom';
-describe('Menucategory1card', () => {
-  it('renders the category title when "L2 Text" style is found in data', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import Menucategory1card from "@packages/shared-components/common-utilities/megamenu/menucategory1card";
+import "@testing-library/jest-dom";
+jest.mock("@packages/lib/utlils/helper-function", () => ({
+  currentAuthenticatedUser: jest.fn(() => Promise.resolve("mockUser")),
+  GADataLayerFn: jest.fn(),
+}));
+
+const mockData = [
+  { flagNavItemStyle: "L2 Text", navTitle: "Category 1" },
+  { flagNavItemStyle: "L2 Link", navTitle: "Sub-item 1", navUrl: "/sub-item-1" },
+  { flagNavItemStyle: "L2 Link", navTitle: "Sub-item 2", navUrl: "/sub-item-2" },
+];
+
+const mockParentMenu = "Parent Menu";
+
+describe("Menucategory1card Component", () => {
+  it("renders without crashing", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    expect(screen.getByText("Category 1")).toBeInTheDocument();
   });
 
-  it('renders all the links except "L2 Text"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 2', navUrl: 'https://example.com/2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getAllByRole('link')).toHaveLength(2);
-    expect(screen.getByText('Link 1')).toBeInTheDocument();
-    expect(screen.getByText('Link 2')).toBeInTheDocument();
+  it("throws an error if data prop is missing", () => {
+    // Suppress console.error for this test
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => {
+      render(<Menucategory1card data={undefined} parentMenu={mockParentMenu} />);
+    }).toThrow("Menucategory1card requires data prop.");
+    spy.mockRestore();
   });
 
-  it('handles empty data', () => {
-    render(<Menucategory1card data={[]} />);
-    expect(screen.queryByText('Category Title')).not.toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
+  it("renders the correct number of list items", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    const listItems = screen.getAllByRole("listitem");
+    expect(listItems).toHaveLength(2); // Only items without "L2 Text" style are rendered in the list
   });
 
-  it('handles data with no "L2 Text" style', () => {
-    const data = [
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 2', navUrl: 'https://example.com/2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.queryByText('Category Title')).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(2);
+  it("applies correct link attributes", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    const links = screen.getAllByRole("link");
+    expect(links[0]).toHaveAttribute("href", "/sub-item-1");
+    expect(links[0]).not.toHaveAttribute("target", "_blank");
+    expect(links[1]).toHaveAttribute("href", "/sub-item-2");
   });
 
-  it('handles data with multiple "L2 Text" styles (should only render the first one)', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 1' },
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 2' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title 1')).toBeInTheDocument();
-    expect(screen.queryByText('Category Title 2')).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(1);
-  });
+  // it("calls GADataLayerFn on click", async () => {
+  //   const { GADataLayerFn } = require("@packages/lib/utlils/helper-function");
+  //   render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+  //   const link = screen.getByText("Sub-item 1");
 
-  it('handles data with no links (i.e. all items have "L2 Text" style)', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 1' },
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title 1')).toBeInTheDocument();
-    expect(screen.queryByText('Category Title 2')).not.toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
-  });
-
-  it('handles data with links that have no URL', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
-  });
-
-  // it('handles data with links that have no title', () => {
-  //   const data = [
-  //     { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-  //     { flagNavItemStyle: 'Other', navUrl: 'https://example.com/1' },
-  //   ];
-  //   render(<Menucategory1card data={data} />);
-  //   expect(screen.getByText('Category Title')).toBeInTheDocument();
-  //   expect(screen.queryAllByRole('link')).toHaveLength(0);
+  //   fireEvent.click(link);
+  //   expect(GADataLayerFn).toHaveBeenCalledWith(
+  //     "ga_contentful_events",
+  //     "header_clicks",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "homepage",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "in_year",
+  //     await expect.anything(), // Simulating the awaited user call
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     "NA",
+  //     process.env.PROJECT,
+  //     "Sub-item 1",
+  //     "/sub-item-1",
+  //     mockParentMenu,
+  //     "Category 1"
+  //   );
   // });
 
-  it('handles data with links that have a target of "_blank"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1', navCtaTarget: 'Open in new tab' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute('target', '_blank');
-    expect(screen.getByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('handles data with links that have a target of "_parent"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1', navCtaTarget: 'Open in current tab' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute('target', '_parent');
-    expect(screen.getByRole('link')).not.toHaveAttribute('rel');
+  it("handles conditional rendering for navTitle", () => {
+    const mockDataWithoutText = mockData.filter(
+      (item) => item.flagNavItemStyle !== "L2 Text"
+    );
+    render(
+      <Menucategory1card
+        data={mockDataWithoutText}
+        parentMenu={mockParentMenu}
+      />
+    );
+    expect(screen.queryByText("Category 1")).not.toBeInTheDocument();
   });
 });

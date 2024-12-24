@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
-import { GoogleTagManager } from "@next/third-parties/google";
-import GTMScript from "@packages/lib/utlils/gtmscript";
+//import { GoogleTagManager } from "@next/third-parties/google";
+//import GTMScript from "@packages/lib/utlils/gtmscript";
 import Script from "next/script";
-import LoadGTMAfteruserInteraction from "@packages/lib/utlils/loadgtmafteruserinteraction";
+//import LoadGTMAfteruserInteraction from "@packages/lib/utlils/loadgtmafteruserinteraction";
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
@@ -46,10 +46,10 @@ export default async function Layout({
 }) {
   return (
     <>
-      <LoadGTMAfteruserInteraction />
+      {/* <LoadGTMAfteruserInteraction /> */}
       {/* <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT}`} /> */}
       {/* <GTMScript gtmId={process.env.NEXT_PUBLIC_PGS_GTM_ACCOUNT || ""} /> */}
-      {/* <Script
+      <Script
         id="gtm-script"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
@@ -61,7 +61,7 @@ export default async function Layout({
             })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""}');
           `,
         }}
-      /> */}
+      />
       {children}
     </>
   );

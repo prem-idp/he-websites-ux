@@ -87,14 +87,16 @@ const Menucategory3card = ({
                 }}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >
-                <Image
-                  className="block rounded-[40px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[72px]"
-                  src={item?.navIcon?.url || ""}
-                  width="72"
-                  height="72"
-                  loading="lazy"
-                  alt="Megamenu thumb"
-                />{" "}
+                {item?.navIcon?.url && (
+                  <Image
+                    className="block rounded-[40px] outline outline-1 outline-neutral-200 outline-offset-2 !h-[72px]"
+                    src={item?.navIcon?.url || ""}
+                    width="72"
+                    height="72"
+                    loading="lazy"
+                    alt="Megamenu thumb"
+                  />
+                )}
                 <span className="line-clamp-1 text-center">
                   {item?.navTitle}
                 </span>

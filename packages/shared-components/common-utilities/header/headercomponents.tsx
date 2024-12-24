@@ -141,6 +141,14 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     }
   }, [isOpen]);
 
+  
+   useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+   },[isOpen])
   const rightMenuAction = (actionName: string) => {
     setClickStates((prevStates) => {
       const newState = {
