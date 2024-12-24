@@ -84,7 +84,11 @@ const Menucategory1card = ({
                     ? "noopener noreferrer"
                     : undefined
                 }
-                className="font-normal small text-grey300 hover:underline line-clamp-1 "
+                className={`small text-grey300 hover:underline line-clamp-1 ${
+                  item?.flagNavItemStyle === "Nav Bold"
+                    ? "font-bold"
+                    : "font-normal"
+                }`}
               >
                 {item.navTitle}
               </a>

@@ -44,7 +44,7 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -61,7 +61,7 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -78,7 +78,7 @@ export const Headerquery = `{
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -175,6 +175,34 @@ export const Headerquery = `{
               }
               navCtaTarget
               flagNavItemStyle
+            }
+          }
+        }
+      }
+      shortlistMenu {
+        ... on LinkPanel {
+          navigationElementsCollection(limit: 5) {
+            items {
+              ... on Navigation {
+                navTitle
+                navChildC1Collection(limit: 5) {
+                  items {
+                    ... on Navigation {
+                      navName
+                      navTitle
+                      navUrl
+                      navCtAlabel
+                      navIcon {
+                        url
+                        width
+                        height
+                      }
+                      navCtaTarget
+                      flagNavItemStyle
+                    }
+                  }
+                }
+              }
             }
           }
         }
