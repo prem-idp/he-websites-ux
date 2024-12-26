@@ -24,11 +24,13 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }
+  console.log(jsonResponse);
   return (
     <Suspense>
       <section
         className="reviews-container bg-grey-50"
-        data-testid="reviews-container">
+        data-testid="reviews-container"
+      >
         <div className="max-w-container mx-auto">
           <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
             <div className="reviews-header px-[16px] md:px-[20px] xl:px-[0] mb-[26px] md:mb-[32px]">
@@ -42,36 +44,37 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                 data-review-count={jsonResponse.reviewDetail.length}
               />
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-              <ClickTrackerWrapper   gaData={{
-                        event: "ga_contentful_events",
-                        eventName:`${callAction?.primaryCtaEventName}`,
-                        ctaTitle: `${callAction?.primaryCtaLabel}`,
-                        ctaUrl: `${callAction?.primaryCtaUrl}`,
-                        website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
-                      }}
-                      >
-                <a
-                  href={`${callAction?.primaryCtaUrl}`}
-                  className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
+                <ClickTrackerWrapper
+                  gaData={{
+                    event: "ga_contentful_events",
+                    eventName: `${callAction?.primaryCtaEventName}`,
+                    ctaTitle: `${callAction?.primaryCtaLabel}`,
+                    ctaUrl: `${callAction?.primaryCtaUrl}`,
+                    website: `${process.env.PROJECT}`,
+                    pageName: "homepage",
+                  }}
                 >
-                  {callAction?.primaryCtaLabel}
-                  <svg
-                    width="16"
-                    height="12"
-                    viewBox="0 0 16 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <a
+                    href={`${callAction?.primaryCtaUrl}`}
+                    className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"
                   >
-                    <path
-                      d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6"
-                      stroke="#3460DC"
-                      strokeWidth="1.48148"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
+                    {callAction?.primaryCtaLabel}
+                    <svg
+                      width="16"
+                      height="12"
+                      viewBox="0 0 16 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6"
+                        stroke="#3460DC"
+                        strokeWidth="1.48148"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </a>
                 </ClickTrackerWrapper>
               </div>
             </div>
