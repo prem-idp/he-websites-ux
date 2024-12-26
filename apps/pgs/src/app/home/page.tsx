@@ -17,7 +17,6 @@ const Page = async () => {
 
   return (
     <>
-    PGS
      <PageViewLogging gaData={{
         website: `${process.env.PROJECT}`,
         pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
@@ -35,6 +34,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
               />
             );
           }
