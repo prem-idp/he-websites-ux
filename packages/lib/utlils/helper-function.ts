@@ -72,7 +72,7 @@ function GADataLayerFn(
         course_name: replaceWithNA(courseName),
         sponsored_sr: replaceWithNA(sponsoredSr),
         college_id: replaceWithNA(collegeId),
-        ucas_points: replaceWithNA(getCookie("UCAS")),
+        ucas_points: "NA",
         study_mode: replaceWithNA(studyMode),
         target_year: replaceWithNA(targetYear),
         clearing: replaceWithNA(clearing),
