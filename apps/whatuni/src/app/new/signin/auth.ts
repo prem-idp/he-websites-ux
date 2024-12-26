@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { signInWithRedirect, signOut, getCurrentUser } from "aws-amplify/auth";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "aws-amplify/auth";
 import { Hub } from "@aws-amplify/core";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../../configs/amplifyconfiguration";
@@ -12,7 +12,7 @@ interface AuthUser {
   [key: string]: any;
 }
 
-export default function App() {
+export default function Authcomponent() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [customState, setCustomState] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export default function App() {
           setError("An error has occurred during the OAuth flow.");
           break;
         case "customOAuthState":
-          setCustomState(payload.data); // this is the customState provided on signInWithRedirect function
+          setCustomState(payload.data);
           break;
       }
     });
@@ -46,22 +46,5 @@ export default function App() {
     }
   };
 
-  return (
-    <div className="App">
-      <button
-        onClick={() =>
-          signInWithRedirect({
-            provider: "Google",
-            customState: "http://localhost:3000/new/home",
-          })
-        }
-      >
-        Open Google
-      </button>
-
-      {/* <button onClick={() => signOut()}>Sign Out</button> */}
-      <div>{user?.username}</div>
-      <div>{customState}</div>
-    </div>
-  );
+  return { user, error, customState };
 }
