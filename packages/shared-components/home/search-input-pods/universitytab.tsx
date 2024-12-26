@@ -241,7 +241,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                             "NA",
                             "NA",
                             "NA",
-                            "homepage", // University name
+                            "home_page", // University name
                             "NA", // University ID
                             item.collegeNameDisplay,
                             "NA",

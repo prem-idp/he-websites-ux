@@ -6,9 +6,11 @@ import { GADataLayerFn } from "@packages/lib/utlils/helper-function";
 const HeroSliderCard = ({
   data,
   index,
+  pageName,
 }: {
   data: DynamicMediaComponent;
   index: number;
+  pageName:any;
 }) => {
   return (
     <>
@@ -38,7 +40,7 @@ const HeroSliderCard = ({
                   "NA",
                   "NA",
                   "NA",
-                  "homepage",
+                  pageName,
                   "NA",
                   "NA",
                   "NA",

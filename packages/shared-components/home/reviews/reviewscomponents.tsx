@@ -40,6 +40,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
             <div className="reviews-inner-wrap">
               <Reviewslidercomponents
                 reviewData={jsonResponse?.reviewDetail}
+                pageName={pageName}
                 data-testid="review-slider"
                 data-review-count={jsonResponse.reviewDetail.length}
               />
@@ -50,7 +51,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                         ctaTitle: `${callAction?.primaryCtaLabel}`,
                         ctaUrl: `${callAction?.primaryCtaUrl}`,
                         website:`${process.env.PROJECT}`,
-                        pageName:{pageName},
+                        pageName:pageName,
                       }}
                       >
                 <a

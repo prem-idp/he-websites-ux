@@ -66,7 +66,7 @@ function GADataLayerFn(
         data_label2: replaceWithNA(dataLabel2),
         cpe_parent_subject: replaceWithNA(cpeParentSubject),
         cpe_child_subject: replaceWithNA(cpeChildSubject),
-        page_name: replaceWithNA(pageName)?.toLowerCase(),
+        page_name: replaceWithNA(pageName),
         college_name: replaceWithNA(collegeName),
         provider_type: replaceWithNA(providerType),
         course_name: replaceWithNA(courseName),

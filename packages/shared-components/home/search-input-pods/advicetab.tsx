@@ -31,7 +31,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
         formattedAdvice,
         "NA",
         "NA",
-        "homepage",
+        "home_page",
         "NA",
         "NA",
         "NA",
