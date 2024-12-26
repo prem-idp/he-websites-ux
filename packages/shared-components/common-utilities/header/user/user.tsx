@@ -1,12 +1,10 @@
 "use client";
 
 import { signOut } from "aws-amplify/auth";
-import { useRouter } from "next/navigation";
 import { Amplify } from "aws-amplify";
-import awsconfig from "../../../../../apps/whatuni/configs/amplifyconfiguration";
+import awsconfig from "@whatuni/configs/amplifyconfiguration";
 Amplify.configure(awsconfig, { ssr: true });
 export default function User({ topnav_data }: any) {
-  const router = useRouter();
   async function clearAllCookies() {
     try {
       sessionStorage.clear();
@@ -46,11 +44,7 @@ export default function User({ topnav_data }: any) {
               </a>
             </li>
           ))}
-          {/* <li className={"text-primary-400 hover:underline"}>
-            <a href="/" onClick={() => clearAllCookies()}>
-              Log Out
-            </a>
-          </li> */}
+          
         </ul>
         <a
           href="#"

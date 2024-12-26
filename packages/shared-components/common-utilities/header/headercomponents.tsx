@@ -1,15 +1,12 @@
 "use client";
-import React from "react";
 import Image from "next/image";
-
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter, usePathname} from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
+
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -44,7 +41,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
-
           if (hasAccessToken && hasIdToken) {
             setIsAuthenticated("true");
           }
@@ -82,18 +78,22 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       setIsMobile(window.innerWidth <= 991);
     };
 
-    fetchUser();
     handleResize();
     function getCookieValue(name: any) {
       const cookieArray = document.cookie.split("; ");
       const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
       return cookie ? cookie.split("=")[1] : "";
     }
-    const user_initial = getCookieValue("USER_INITIAL");
-    const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-    setBasketCount(basket);
-    setInitial(user_initial);
 
+    if (process.env.PROJECT === "Whatuni") {
+      fetchUser();
+      const user_initial = getCookieValue("USER_INITIAL");
+      const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+      setBasketCount(basket);
+      setInitial(user_initial);
+    } else {
+      setIsAuthenticated("false");
+    }
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     emitter.on("rightMenuActionclose", handleRightMenuAction);
@@ -136,14 +136,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       document.body.classList.remove("overflow-y-hidden");
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add("overflow-y-hidden");
-    } else {
-      document.body.classList.remove("overflow-y-hidden");
-    }
-  }, [isOpen]);
   const rightMenuAction = (actionName: string) => {
     setClickStates((prevStates) => {
       const newState = {
@@ -164,22 +156,24 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
-      {/* <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0"> */}
+   
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
             <a href="/">
+            {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && 
               <Image
-                className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-                src={
-                  topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
-                  "/static/assets/images/imageplaceholder.png"
+              className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
+              src={
+                topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
+                "/static/assets/images/imageplaceholder.png"
                 }
                 alt="imageplaceholder"
                 priority={true}
                 width={70}
                 height={78}
-              />
+                />
+              }
             </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
@@ -207,7 +201,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
             {isMobileView ? (
               <>
-                {/* Overlay Background for Mobile Menu */}
+               
                 <div
                   onClick={mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
@@ -215,7 +209,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } lg:bg-transparent`}
                 ></div>
 
-                {/* Mobile Menu Container */}
+                
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
                     isOpen
@@ -224,7 +218,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
-                    {/* Close Button for Mobile Menu */}
+                  
                     <div
                       onClick={mobileToggleOpen}
                       className={`absolute right-[-40px] ${isMobileView ? "lg:hidden" : ""}`}
@@ -255,7 +249,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       </div>
                     </div>
 
-                    {/* Megamenu Component */}
+                   
                     <div
                       ref={mobileViewRef}
                       className={`${isOpen ? "block" : "hidden"}`}
@@ -319,11 +313,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {/* Skeleton Loader
-                  {!first && !initial && (
-                    <div className="skeleton-loader w-[45px] h-[45px] bg-gray-200 rounded-full animate-pulse shadow-md"></div>
-                  )} */}
-                  {/* Render initial or SVG when first is true */}
                   {initial && isAuthenticated === "true" ? (
                     <span className="text-[16px] font-semibold">{initial}</span>
                   ) : (
