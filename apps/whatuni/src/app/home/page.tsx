@@ -22,10 +22,12 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
-      <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: "homepage",
-      }}/>  
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: "homepage",
+        }}
+      />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
