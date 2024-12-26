@@ -9,15 +9,12 @@ const LoadGTMAfteruserInteraction = () => {
   useEffect(() => {
     const handlePageLoad = () => {
       setGtmLoaded(true);
-      window.removeEventListener("mousemove", handlePageLoad);
-      window.removeEventListener("click", handlePageLoad);
+      window.removeEventListener("load", handlePageLoad);
     };
-    window.addEventListener("mousemove", handlePageLoad);
-    window.addEventListener("click", handlePageLoad);
+    window.addEventListener("load", handlePageLoad);
 
     return () => {
-      window.removeEventListener("mousemove", handlePageLoad);
-      window.removeEventListener("click", handlePageLoad);
+      window.removeEventListener("load", handlePageLoad);
     };
   }, []);
 
@@ -27,3 +24,5 @@ const LoadGTMAfteruserInteraction = () => {
 };
 
 export default LoadGTMAfteruserInteraction;
+
+

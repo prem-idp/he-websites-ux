@@ -179,7 +179,7 @@ const Discoverslidercomponents1 = ({
           </Swiper>
         </div>
       ) : (
-        <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px]">
+        <div className="discover grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-[20px] lg:px-[20px] xl:px-[0]">
           {dicoverCardContentfulList.map(
             (discoverItems: any, index: number) => {
               return (

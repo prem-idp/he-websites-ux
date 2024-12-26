@@ -40,11 +40,11 @@ export const Headerquery = `{
             width
             height
           }
-          navChildC1Collection(limit: 10) {
+          navChildC1Collection(limit: 20) {
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -57,11 +57,11 @@ export const Headerquery = `{
               }
             }
           }
-          navChildC2Collection(limit: 10) {
+          navChildC2Collection(limit: 20) {
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -74,11 +74,11 @@ export const Headerquery = `{
               }
             }
           }
-          navChildC3Collection(limit: 10) {
+          navChildC3Collection(limit: 20) {
             items {
               ... on Navigation {
                 navName
-                    navTitle
+                navTitle
                 navUrl
                 navCtAlabel
                 navIcon {
@@ -91,7 +91,7 @@ export const Headerquery = `{
               }
             }
           }
-          navChildC4Collection(limit: 10) {
+          navChildC4Collection(limit: 20) {
             items {
               ... on Navigation {
                 navName
@@ -175,6 +175,34 @@ export const Headerquery = `{
               }
               navCtaTarget
               flagNavItemStyle
+            }
+          }
+        }
+      }
+      shortlistMenu {
+        ... on LinkPanel {
+          navigationElementsCollection(limit: 5) {
+            items {
+              ... on Navigation {
+                navTitle
+                navChildC1Collection(limit: 5) {
+                  items {
+                    ... on Navigation {
+                      navName
+                      navTitle
+                      navUrl
+                      navCtAlabel
+                      navIcon {
+                        url
+                        width
+                        height
+                      }
+                      navCtaTarget
+                      flagNavItemStyle
+                    }
+                  }
+                }
+              }
             }
           }
         }

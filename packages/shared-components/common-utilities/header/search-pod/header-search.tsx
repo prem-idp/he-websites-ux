@@ -4,7 +4,6 @@ import UniversityTab from "@packages/shared-components/home/search-input-pods/un
 import AdviceTab from "@packages/shared-components/home/search-input-pods/advicetab";
 import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
 import Image from "next/image";
-
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { CourseData, UniData } from "@packages/lib/types/interfaces";
 interface props {
