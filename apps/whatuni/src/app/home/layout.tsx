@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 //import GTMScript from "@packages/lib/utlils/gtmscript";
 import Script from "next/script";
 import dynamic from "next/dynamic";
@@ -47,8 +48,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      {/* <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""} /> */}
-      {/* <GTMScript gtmId={process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT || ""} /> */}
+      <GoogleOneTap />
 
       <Script
         id="gtm-script"

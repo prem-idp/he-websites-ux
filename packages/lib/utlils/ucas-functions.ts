@@ -200,3 +200,12 @@ export function extractMinMax(input: any, key: any) {
     return "";
   }
 }
+
+export function isNumeric(value: any) {
+  return (
+    !isNaN(value) &&
+    value !== null &&
+    value !== "" &&
+    typeof value !== "boolean"
+  );
+}
