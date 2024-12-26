@@ -1,7 +1,7 @@
 "use server";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 import { NavChild } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface PropsInterface {
@@ -23,10 +23,10 @@ const FooterIcons = ({ data }: PropsInterface) => {
                       }}
                       > */}
           {item?.navIcon?.url && (
-            <Link
-              prefetch={false}
+            <a
               href={item.navUrl || ""}
               aria-label="facebook"
+              className="flex items-center w-[32px] h-[32px]"
             >
               <Image
                 alt={item.navName}
@@ -34,7 +34,7 @@ const FooterIcons = ({ data }: PropsInterface) => {
                 width={item.navIcon.width}
                 height={item.navIcon.height}
               />
-            </Link>
+            </a>
           )}
           {/* </ClickTrackerWrapper> */}
         </li>

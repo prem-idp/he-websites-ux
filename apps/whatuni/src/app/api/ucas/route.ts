@@ -5,7 +5,7 @@ export async function POST(request: any) {
   try {
     const { ucasAjax } = await request.json();
     const cookie = await cookies();
-    const tracksessionid: any = cookie.get("tracksessionid");
+    const tracksessionid: any = cookie.get("trackSessionId");
     const payloadString = JSON.stringify(ucasAjax);
     const hash = crypto
       .createHash("sha256")

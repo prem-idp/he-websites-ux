@@ -24,6 +24,13 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
     ],
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.output.workerChunkLoading = "import";
+      config.output.globalObject = "self";
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
