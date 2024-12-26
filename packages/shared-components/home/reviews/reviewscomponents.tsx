@@ -24,7 +24,6 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }
-  console.log(jsonResponse);
   return (
     <Suspense>
       <section
