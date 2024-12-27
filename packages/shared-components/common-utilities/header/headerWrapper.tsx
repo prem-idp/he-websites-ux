@@ -45,7 +45,7 @@ export default async function HeaderWrapper() {
   } catch (error) {
     console.error("Unexpected error:", error);
   }
-
+  console.log(topnav_data);
   return (
     <>
       <Header
