@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter, usePathname} from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-
+import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -39,10 +39,23 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       try {
         const session = await fetchAuthSession();
         if (session.tokens) {
+          console.log("in the if of the session.tokens");
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
             setIsAuthenticated("true");
+            const user_initial = getCookieValue("USER_INITIAL");
+            console.log(user_initial, "initial");
+            if (!user_initial && session.tokens.idToken) {
+              console.log("insinde the if of the user_initial");
+              const user_initial = getInitialsFromJWT(session.tokens.idToken);
+              console.log(user_initial, "8888888888888888888");
+              setInitial(user_initial);
+            } else {
+              setInitial(user_initial);
+            }
+            const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+            setBasketCount(basket);
           }
         }
       } catch (error) {
@@ -87,10 +100,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
-      const user_initial = getCookieValue("USER_INITIAL");
-      const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-      setBasketCount(basket);
-      setInitial(user_initial);
     } else {
       setIsAuthenticated("false");
     }
@@ -156,24 +165,23 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
-   
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
             <a href="/">
-            {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && 
-              <Image
-              className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-              src={
-                topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
-                "/static/assets/images/imageplaceholder.png"
-                }
-                alt="imageplaceholder"
-                priority={true}
-                width={70}
-                height={78}
+              {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
+                <Image
+                  className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
+                  src={
+                    topnav_data?.data?.contentData?.items[0]?.websiteLogo
+                      ?.url || "/static/assets/images/imageplaceholder.png"
+                  }
+                  alt="imageplaceholder"
+                  priority={true}
+                  width={70}
+                  height={78}
                 />
-              }
+              )}
             </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
@@ -201,7 +209,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
             {isMobileView ? (
               <>
-               
                 <div
                   onClick={mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
@@ -209,7 +216,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } lg:bg-transparent`}
                 ></div>
 
-                
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
                     isOpen
@@ -218,7 +224,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
-                  
                     <div
                       onClick={mobileToggleOpen}
                       className={`absolute right-[-40px] ${isMobileView ? "lg:hidden" : ""}`}
@@ -249,7 +254,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       </div>
                     </div>
 
-                   
                     <div
                       ref={mobileViewRef}
                       className={`${isOpen ? "block" : "hidden"}`}
