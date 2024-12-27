@@ -16,7 +16,7 @@ const UcasComponent = dynamic(
   { ssr: false }
 );
 const SearchBox = ({ pgs_search_data }: any) => {
-  const [startfetch, setStartFetch] = useState(false);
+  // const [startfetch, setStartFetch] = useState(false);
   const [course_data, setCourseData] = useState({});
   const [uni_data, setUniData] = useState({});
   const searchTabClick = (tabName: string) => {
@@ -52,7 +52,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-      console.log("inside the use effect");
+      
       // Define payloads
       const body: any = {
         affiliateId: 220703,
@@ -113,33 +113,33 @@ const SearchBox = ({ pgs_search_data }: any) => {
     };
 
     if (
-      startfetch &&
       !(Object.keys(uni_data).length > 0) &&
-      !(Object.keys(course_data).length > 0)
+      !(Object.keys(course_data).length > 0) &&
+      process.env.PROJECT == "Whatuni"
     ) {
       fetchData();
     }
-  }, [startfetch]);
-  // ===================================================use effect to start the fetch=======================================================
-  useEffect(() => {
-    const handleUserInteraction = () => {
-      setStartFetch(true);
-      window.removeEventListener("mousemove", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-      window.removeEventListener("load", handleUserInteraction);
-    };
-    window.addEventListener("mousemove", handleUserInteraction);
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("keypress", handleUserInteraction);
-    window.addEventListener("load", handleUserInteraction);
-    return () => {
-      window.removeEventListener("mousemove", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-      window.removeEventListener("load", handleUserInteraction);
-    };
   }, []);
+  // ===================================================use effect to start the fetch=======================================================
+  // useEffect(() => {
+  //   const handleUserInteraction = () => {
+  //     setStartFetch(true);
+  //     window.removeEventListener("mousemove", handleUserInteraction);
+  //     window.removeEventListener("click", handleUserInteraction);
+  //     window.removeEventListener("keypress", handleUserInteraction);
+  //     window.removeEventListener("load", handleUserInteraction);
+  //   };
+  //   window.addEventListener("mousemove", handleUserInteraction);
+  //   window.addEventListener("click", handleUserInteraction);
+  //   window.addEventListener("keypress", handleUserInteraction);
+  //   window.addEventListener("load", handleUserInteraction);
+  //   return () => {
+  //     window.removeEventListener("mousemove", handleUserInteraction);
+  //     window.removeEventListener("click", handleUserInteraction);
+  //     window.removeEventListener("keypress", handleUserInteraction);
+  //     window.removeEventListener("load", handleUserInteraction);
+  //   };
+  // }, []);
 
   // ====================================================================================================================================
   return (

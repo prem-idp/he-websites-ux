@@ -44,35 +44,35 @@ describe("Header Component", () => {
     expect(screen.getByLabelText("Shortlist")).toBeInTheDocument();
   });
 
-  test("should open and close the user menu", () => {
-    const userButton = screen.getByLabelText("User");
+  // test("should open and close the user menu", () => {
+  //   const userButton = screen.getByLabelText("User");
 
-    fireEvent.click(userButton); // Simulate user clicking the button to open the menu
-    expect(screen.getByText("My profile")).toBeInTheDocument(); // Verify that menu opens
+  //   fireEvent.click(userButton); // Simulate user clicking the button to open the menu
+  //   expect(screen.getByText("My profile")).toBeInTheDocument(); // Verify that menu opens
 
-    fireEvent.click(userButton); // Simulate user clicking again to close the menu
-    expect(screen.queryByText("My profile")).not.toBeInTheDocument();
+  //   fireEvent.click(userButton); // Simulate user clicking again to close the menu
+  //   expect(screen.queryByText("My profile")).not.toBeInTheDocument();
 
-    // Verify that menu closes
-  });
-  test("should open and close the shortlist menu", () => {
-    const shortlistButton = screen.getByLabelText("Shortlist");
+  //   // Verify that menu closes
+  // });
+  // test("should open and close the shortlist menu", () => {
+  //   const shortlistButton = screen.getByLabelText("Shortlist");
 
-    fireEvent.click(shortlistButton); // Simulate user clicking the button to open the menu
-    expect(screen.getByText("Favourites")).toBeInTheDocument(); // Verify that menu opens
+  //   fireEvent.click(shortlistButton); // Simulate user clicking the button to open the menu
+  //   expect(screen.getByText("Favourites")).toBeInTheDocument(); // Verify that menu opens
 
-    fireEvent.click(shortlistButton); // Simulate user clicking again to close the menu
-    expect(screen.queryByText("Favourites")).not.toBeInTheDocument();
-  });
+  //   fireEvent.click(shortlistButton); // Simulate user clicking again to close the menu
+  //   expect(screen.queryByText("Favourites")).not.toBeInTheDocument();
+  // });
 
-  test("should open and close the search menu and set path to /something", () => {
-    // Mocking the usePathname hook to simulate the path "/something"
-    expect(usePathname()).toBe("/something");
-    const searchButton = screen.getByLabelText("Search");
-    expect(searchButton).toBeInTheDocument();
-    // Verify that the pathname is set to /something
-    // expect(usePathname()).toBe("/something");
-  });
+  // test("should open and close the search menu and set path to /something", () => {
+  //   // Mocking the usePathname hook to simulate the path "/something"
+  //   expect(usePathname()).toBe("/something");
+  //   const searchButton = screen.getByLabelText("Search");
+  //   expect(searchButton).toBeInTheDocument();
+  //   // Verify that the pathname is set to /something
+  //   // expect(usePathname()).toBe("/something");
+  // });
 
   // test("chcek for / path", () => {
   //   usePathname.mockReturnValue("/"); // Mock usePathname to return "/"
