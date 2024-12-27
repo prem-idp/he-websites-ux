@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -7,7 +8,8 @@ import TrackSessionId from "@packages/lib/utlils/tracksessionid";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
-import { Suspense } from "react";
+
+import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -35,6 +37,7 @@ export default async function RootLayout({
       <body
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
+        <GoogleOneTap/>
         <TrackSessionId />
         <OneTrustCookieScript />
         <HeaderWrapper />

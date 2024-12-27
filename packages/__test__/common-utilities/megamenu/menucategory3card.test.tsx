@@ -1,105 +1,115 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import Menucategory3card from "@packages/shared-components/common-utilities/megamenu/menucategory3card";
-import {
-  currentAuthenticatedUser,
-  GADataLayerFn,
-} from "@packages/lib/utlils/helper-function";
-import "@testing-library/jest-dom";
-jest.mock("@packages/lib/utlils/helper-function", () => ({
-  currentAuthenticatedUser: jest.fn().mockResolvedValue("testUser"),
-  GADataLayerFn: jest.fn(),
+import React from 'react';
+import { render, screen, fireEvent,act } from '@testing-library/react';
+import Menucategory3card from '@packages/shared-components/common-utilities/megamenu/menucategory3card';
+import { GADataLayerFn } from '@packages/lib/utlils/helper-function';
+import "@testing-library/jest-dom"
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt }: { src: any; alt: any }) => <img src={src} alt={alt} />
 }));
 
-describe("Menucategory3card", () => {
+jest.mock('@packages/lib/utlils/helper-function', () => ({
+  GADataLayerFn: jest.fn(),
+  currentAuthenticatedUser: jest.fn(() => Promise.resolve('test-user')),
+}));
+
+describe('Menucategory3card', () => {
   const mockData = [
     {
-      flagNavItemStyle: "L2 Text",
-      navTitle: "Menu Title",
+      flagNavItemStyle: 'L2 Text',
+      navTitle: 'Category Title',
     },
     {
-      flagNavItemStyle: "Icon",
-      navIcon: { url: "/icon1.png" },
-      navTitle: "Item 1",
-      navUrl: "/item1",
-      navCtaTarget: "Open in new tab",
+      flagNavItemStyle: 'Normal Item',
+      navTitle: 'Item 1',
+      navUrl: '/item1',
+      navCtaTarget: 'Open in new tab',
+      navIcon: { url: '/icon1.png' },
     },
     {
-      flagNavItemStyle: "Icon",
-      navIcon: { url: "/icon2.png" },
-      navTitle: "Item 2",
-      navUrl: "/item2",
-      navCtaTarget: "Same tab",
+      flagNavItemStyle: 'Normal Item',
+      navTitle: 'Item 2',
+      navUrl: '/item2',
+      navIcon: { url: '/icon2.png' },
     },
   ];
 
-  const mockParentMenu = "Parent Menu";
+  const parentMenu = 'Parent Menu';
 
-  it("renders the menu title correctly", () => {
-    render(<Menucategory3card data={mockData} parentMenu={mockParentMenu} />);
-    expect(screen.getByText("Menu Title")).toBeInTheDocument();
+  it('renders the category title correctly', () => {
+    render(<Menucategory3card data={mockData} parentMenu={parentMenu} />);
+    expect(screen.getByText('Category Title')).toBeInTheDocument();
   });
 
-  it("renders all menu items except the one with 'L2 Text'", () => {
-    render(<Menucategory3card data={mockData} parentMenu={mockParentMenu} />);
-    expect(screen.getByText("Item 1")).toBeInTheDocument();
-    expect(screen.getByText("Item 2")).toBeInTheDocument();
-    expect(screen.queryByText("L2 Text")).not.toBeInTheDocument();
+  it('renders the list items correctly', () => {
+    render(<Menucategory3card data={mockData} parentMenu={parentMenu} />);
+
+    const items = screen.getAllByRole('link');
+    expect(items).toHaveLength(2); // Excludes the L2 Text item
+
+    expect(items[0]).toHaveAttribute('href', '/item1');
+    expect(items[0]).toHaveAttribute('target', '_blank');
+    expect(items[0]).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(items[0].textContent).toContain('Item 1');
+
+    expect(items[1]).toHaveAttribute('href', '/item2');
+    expect(items[1].textContent).toContain('Item 2');
   });
 
-  it("applies the correct link attributes", () => {
-    render(<Menucategory3card data={mockData} parentMenu={mockParentMenu} />);
+  it("calls GADataLayerFn on item click", async () => {
+    render(<Menucategory3card data={mockData} parentMenu={parentMenu} />);
 
-    const link1 = screen.getByText("Item 1").closest("a");
-    const link2 = screen.getByText("Item 2").closest("a");
+    const item = screen.getByText("Item 1");
+    expect(item).toBeInTheDocument();
 
-    expect(link1).toHaveAttribute("href", "/item1");
-    expect(link1).toHaveAttribute("target", "_blank");
-    expect(link1).toHaveAttribute("rel", "noopener noreferrer");
+    await act(async () => {
+      fireEvent.click(item);
+    });
 
-    expect(link2).toHaveAttribute("href", "/item2");
-    expect(link2).toHaveAttribute("target", "_parent");
+    expect(GADataLayerFn).toHaveBeenCalledWith(
+      "ga_contentful_events",
+      "header_clicks",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "homepage",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "in_year",
+      "test-user",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      `${process.env.PROJECT}`,
+      "Item 1",
+      "/item1",
+      parentMenu,
+      "Category Title"
+    );
   });
 
-//   it("calls GADataLayerFn on link click", async () => {
-//     render(<Menucategory3card data={mockData} parentMenu={mockParentMenu} />);
 
-//     const link = screen.getByText("Item 1").closest("a");
-//     if (link) {
-//       await fireEvent.click(link);
-//     }
+  it('renders images for items with icons', () => {
+    render(<Menucategory3card data={mockData} parentMenu={parentMenu} />);
 
-//     expect(GADataLayerFn).toHaveBeenCalledWith(
-//       "ga_contentful_events",
-//       "header_clicks",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "homepage",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "in_year",
-//       "testUser",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "NA",
-//       "test-project", // Replace with your process.env.PROJECT mock value
-//       "Item 1",
-//       "/item1",
-//       mockParentMenu,
-//       "Menu Title"
-//     );
-//   });
+    const images = screen.getAllByRole('img');
+    expect(images).toHaveLength(2);
 
+    expect(images[0]).toHaveAttribute('src', '/icon1.png');
+    expect(images[0]).toHaveAttribute('alt', 'Megamenu thumb');
 
+    expect(images[1]).toHaveAttribute('src', '/icon2.png');
+    expect(images[1]).toHaveAttribute('alt', 'Megamenu thumb');
+  });
 });

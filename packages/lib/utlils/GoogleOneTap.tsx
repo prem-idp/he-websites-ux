@@ -1,36 +1,27 @@
 "use client";
 import { useEffect, use } from "react";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { signInWithRedirect } from "aws-amplify/auth";
 const GoogleOneTap = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
 
   useEffect(() => {
-    // console.log("chcek for ");
     const checkSession = async () => {
-      // console.log("inside the check session");
       try {
         const session = await fetchAuthSession();
-
         if (session.tokens) {
-          // console.log(session, "inside the if of session");
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
-
           if (hasAccessToken && hasIdToken) {
-            // console.log(session, "inside the if of session");
             return null;
           } else {
             loadGoogleScript();
           }
         } else {
-          // console.log("inside the else of session");
           loadGoogleScript();
         }
       } catch (error) {
-        // console.log(
-        //   "0000000000000000000000098888888888888888888888888888888888888888888888888888888888888"
-        // );
         console.error("Error checking session:", error);
       }
     };
@@ -54,10 +45,16 @@ const GoogleOneTap = () => {
     };
     const initializeGoogleOneTap = () => {
       if (typeof window !== "undefined" && (window as any).google) {
+        
         (window as any).google.accounts.id.initialize({
           client_id:
             "310464352984-52q8deiepmmnslhkehui0llrmvlvq5lu.apps.googleusercontent.com",
           callback: (response: any) => {
+            signInWithRedirect({
+              provider: 'Google',
+              customState: "home page" // You can pass the credential as custom state if needed
+            });
+            console.log("inside he callback")
             const { credential } = response;
             console.log(credential);
           },
