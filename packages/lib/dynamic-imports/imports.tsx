@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import DynamicSkeleton from "./skeletons";
-
 const dynamicComponentImports = (input: string | null | undefined) => {
   if (!input) {
     return null;
@@ -51,6 +50,13 @@ const dynamicComponentImports = (input: string | null | undefined) => {
         () =>
           import("@packages/shared-components/home/reviews/reviewscomponents"),
         { loading: () => <DynamicSkeleton skeletonName={input} /> }
+      );
+    case "PageNewsletterSubscription":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents"
+          )
       );
     default:
       throw new Error(`Unsupported input: ${input}`);
