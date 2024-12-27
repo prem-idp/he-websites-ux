@@ -29,28 +29,25 @@ const Page = async () => {
         }}
       />
       <Heroslidercomponent data={heroSliderData} />
-      <div>
-        {componentList.map(
-          (childItems: MultipleCardContainer, index: number) => {
-            const Component: any = dynamicComponentImports(
-              childItems.flagComponentStyle
-            );
-            return (
-              <div
-                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
-                key={index}
-              >
-                <Component
-                  heading={childItems?.cardSectionTitle}
-                  subheading={childItems?.shortDescription}
-                  internalName={childItems?.internalName}
-                  callAction={childItems?.callToAction}
-                />
-              </div>
-            );
-          }
-        )}
-      </div>
+
+      {componentList.map((childItems: MultipleCardContainer, index: number) => {
+        const Component: any = dynamicComponentImports(
+          childItems.flagComponentStyle
+        );
+        return (
+          <div
+            className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+            key={index}
+          >
+            <Component
+              heading={childItems?.cardSectionTitle}
+              subheading={childItems?.shortDescription}
+              internalName={childItems?.internalName}
+              callAction={childItems?.callToAction}
+            />
+          </div>
+        );
+      })}
     </>
   );
 };

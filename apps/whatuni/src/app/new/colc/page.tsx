@@ -1,4 +1,5 @@
 "use server";
+import Link from "next/link";
 import React from "react";
 import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
 import Faqcomponents from "@packages/shared-components/common-utilities/faq/faqcomponents";
@@ -8,16 +9,16 @@ import Subscribecomponents from "@packages/shared-components/article-landing/sub
 import Articlelinkcomponents from "@packages/shared-components/common-utilities/article-link/articlelinkcomponents";
 import Articlesnippetcomponents from "@packages/shared-components/common-utilities/article-snippet/articlesnippetcomponents";
 import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
-
+import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
+import Testimonialcomponents from "@packages/shared-components/home/testimonials/testimonialcomponents";
 const page = async () => {
   return (
     <div className="article_landing">
       <ColcBanner />
-      <Articlesnippetcomponents />
-      <Articlelinkcomponents />
-      <Scholarshipunicomponents />
+      <Wuscascomponents />
       <Eligibilitycriteriacomponents />
-      <Faqcomponents />
+      <Testimonialcomponents heading={"Testimonial"} subheading="Subheading" />
+      <Testimonialcomponents heading={"Testimonial"} subheading="Subheading" />
       <Advicecomponents />
       <Subscribecomponents />
     </div>
