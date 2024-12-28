@@ -47,8 +47,8 @@ const ColcBanner = ({ routename }: { routename: string }) => {
             <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
               <Image
                 src="/static/assets/images/article/slice_1.png"
-                width={205}
-                height={260}
+                width={routename === "article" ? 205 : 150}
+                height={routename === "article" ? 260 : 150}
                 priority
                 alt="Colc Banner"
               />

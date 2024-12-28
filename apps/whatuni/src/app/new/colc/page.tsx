@@ -24,7 +24,10 @@ const page = async () => {
             routename="colc"
             key={index}
             heading={childItems?.cardSectionTitle}
-            subheading={childItems?.shortDescription}
+            subheading={
+              childItems?.shortDescription ||
+              "Wondering what your uni life will really cost? Our Cost of Living Calculator gives you a quick, no-nonsense breakdown Get your estimate now"
+            }
             internalName={childItems?.internalName}
             callAction={childItems?.callToAction}
           />
