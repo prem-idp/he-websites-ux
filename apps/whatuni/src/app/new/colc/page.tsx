@@ -4,15 +4,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import { ColcLandingPageQuery } from "@packages/lib/graphQL/cocl-landing";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-const page = async ({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  console.log(params);
-  console.log(searchParams);
+const page = async () => {
   const componentList = (await graphQlFetchFunction(ColcLandingPageQuery))?.data
     ?.contentData?.items[0]?.bodyContentCollection.items;
   return (
@@ -29,6 +21,7 @@ const page = async ({
         }
         return (
           <Component
+            routename="colc"
             key={index}
             heading={childItems?.cardSectionTitle}
             subheading={childItems?.shortDescription}
