@@ -1,27 +1,43 @@
 "use server";
-import Link from "next/link";
 import React from "react";
-import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
-import Faqcomponents from "@packages/shared-components/common-utilities/faq/faqcomponents";
-import Eligibilitycriteriacomponents from "@packages/shared-components/article-landing/eligibility-criteria/eligibilitycriteriacomponents";
-import Scholarshipunicomponents from "@packages/shared-components/article-landing/scholarship-universities/scholarshipunicomponents";
-import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
-import Articlelinkcomponents from "@packages/shared-components/common-utilities/article-link/articlelinkcomponents";
-import Articlesnippetcomponents from "@packages/shared-components/common-utilities/article-snippet/articlesnippetcomponents";
-import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
-import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
-import Testimonialcomponents from "@packages/shared-components/home/testimonials/testimonialcomponents";
-const page = async () => {
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { ColcLandingPageQuery } from "@packages/lib/graphQL/cocl-landing";
+import { MultipleCardContainer } from "@packages/lib/types/interfaces";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  console.log(params);
+  console.log(searchParams);
+  const componentList = (await graphQlFetchFunction(ColcLandingPageQuery))?.data
+    ?.contentData?.items[0]?.bodyContentCollection.items;
   return (
-    <div className="article_landing">
-      <ColcBanner />
-      <Wuscascomponents />
-      <Eligibilitycriteriacomponents />
-      <Testimonialcomponents heading={"Testimonial"} subheading="Subheading" />
-      <Testimonialcomponents heading={"Testimonial"} subheading="Subheading" />
-      <Advicecomponents />
-      <Subscribecomponents />
-    </div>
+    <>
+      {componentList.map((childItems: MultipleCardContainer, index: number) => {
+        const Component: any = dynamicComponentImports(
+          childItems.flagComponentStyle
+        );
+        if (!Component) {
+          console.warn(
+            `No component found for flagComponentStyle: ${childItems.internalName}`
+          );
+          return null;
+        }
+        return (
+          <Component
+            key={index}
+            heading={childItems?.cardSectionTitle}
+            subheading={childItems?.shortDescription}
+            internalName={childItems?.internalName}
+            callAction={childItems?.callToAction}
+          />
+        );
+      })}
+    </>
   );
 };
 
