@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Authorprofile = () => {
+const Authorprofile = ({data}:any) => {
   return (
     <div className="flex flex-col lg:flex-row lg:gap-[20px]">
     <div className="border-t-[1px] lg:border-y-[1px] border-grey-200 py-[16px] min-w-[289px] max-w-[100%]">
