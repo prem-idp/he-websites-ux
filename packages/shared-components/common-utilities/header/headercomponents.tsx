@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { useRouter, usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
@@ -181,19 +180,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   priority={true}
                   width={70}
                   height={78}
-              {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
-                <Image
-                  className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-                  src={
-                    topnav_data?.data?.contentData?.items[0]?.websiteLogo
-                      ?.url || "/static/assets/images/imageplaceholder.png"
-                  }
-                  alt="imageplaceholder"
-                  priority={true}
-                  width={70}
-                  height={78}
                 />
-              )}
               )}
             </a>
           </div>
@@ -228,7 +215,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                     isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
                   } lg:bg-transparent`}
                 ></div>
-
 
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
@@ -267,7 +253,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                         </svg>
                       </div>
                     </div>
-
 
                     <div
                       ref={mobileViewRef}
