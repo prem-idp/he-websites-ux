@@ -171,7 +171,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                   src={
                     topnav_data?.data?.contentData?.items[0]?.websiteLogo
-                      ?.url || "/static/assets/images/imageplaceholder.png"
+                      ?.url 
                   }
                   alt="imageplaceholder"
                   priority={true}

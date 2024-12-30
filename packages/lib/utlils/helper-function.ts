@@ -172,31 +172,18 @@ function GADataLayerFn(
   waitForDataLayer();
 }
 function getInitialsFromJWT(token: any) {
-  console.log(token);
-  // Decode the JWT without verifying (for client-side operations)
-  // const base64Url = token?.split(".")[1];
-  // const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  // const jsonPayload = JSON.parse(atob(base64));
-
-  // Extract the email from the payload
   const email = token?.payload?.email;
-
   if (!email) {
     throw new Error("Email not found in token payload");
   }
-
-  // Generate initials (always 2 characters)
   const namePart = email.split("@")[0];
   const initials = namePart
     .split(".")
     .map((part: any) => part.charAt(0).toUpperCase())
     .join("")
     .slice(0, 2);
-
-  // Ensure initials are exactly 2 characters
-  return initials.padEnd(2, "_"); // Adds '_' if initials are less than 2 characters
+  return initials;
 }
-
 export {
   getCookie,
   replaceWithNA,
