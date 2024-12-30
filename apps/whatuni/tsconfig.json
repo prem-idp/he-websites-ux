@@ -32,6 +32,6 @@
     "src/**/*",
     "packages/**/*",
     "public/main.js"
-  ],
+, "configs/amplifyconfiguration.ts"  ],
   "exclude": ["node_modules"]
 }

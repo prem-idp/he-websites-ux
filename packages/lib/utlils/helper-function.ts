@@ -171,5 +171,23 @@ function GADataLayerFn(
 
   waitForDataLayer();
 }
-
-export { getCookie, replaceWithNA, GADataLayerFn, currentAuthenticatedUser };
+function getInitialsFromJWT(token: any) {
+  const email = token?.payload?.email;
+  if (!email) {
+    throw new Error("Email not found in token payload");
+  }
+  const namePart = email.split("@")[0];
+  const initials = namePart
+    .split(".")
+    .map((part: any) => part.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
+  return initials;
+}
+export {
+  getCookie,
+  replaceWithNA,
+  GADataLayerFn,
+  currentAuthenticatedUser,
+  getInitialsFromJWT,
+};
