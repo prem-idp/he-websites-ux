@@ -42,7 +42,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   ctaTitle: statsData?.cta?.primaryCtaLabel || "",
                   ctaUrl: statsData?.cta.primaryCtaUrl || "",
                   website: `${process.env.PROJECT}`,
-                  pageName: {pageName},
+                  pageName: pageName,
                 }}
               >
                 <a

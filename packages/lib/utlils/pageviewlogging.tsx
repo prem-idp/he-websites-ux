@@ -19,40 +19,19 @@ export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
   useEffect(() => {
     //Clickstream pageview
     //sendClickStreamData(attributeValues);
-    const GAData = async () => {
-      GADataLayerFn(
-        "pageview",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        pageName,
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "in_year",
-        await currentAuthenticatedUser(),
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        "NA",
-        website,
-        "NA",
-        "NA",
-        "NA",
-        "NA"
-      );
-    };
-    GAData();
-  }, []);
-  return <></>;
-};
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('gaPageName', pageName);
+    }
+    const GAData = async() => { 
+      GADataLayerFn("pageview", "NA", "NA", "NA", "NA", "NA", pageName, "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",website,"NA","NA","NA","NA");  
+   }
+   GAData();
+}, []); 
+  return (
+    <>     
+        
+    </>
+  );
+}
+
+

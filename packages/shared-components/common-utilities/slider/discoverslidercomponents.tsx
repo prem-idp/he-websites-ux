@@ -174,7 +174,7 @@ const Discoverslidercomponents1 = ({
                         "NA",
                         "NA",
                         "NA",
-                        "homepage",
+                        localStorage?.getItem('gaPageName'),
                         "NA",
                         "NA",
                         "NA",

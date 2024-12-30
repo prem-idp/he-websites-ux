@@ -38,7 +38,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading,pageName }) 
                         ctaTitle: data?.tagName,
                         ctaUrl: data?.tagUrl,
                         website:`${process.env.PROJECT}`,
-                        pageName: {pageName},
+                        pageName: pageName,
                       }}
                       >
                       <Link
