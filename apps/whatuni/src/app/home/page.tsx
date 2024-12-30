@@ -22,29 +22,32 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
-      <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: "homepage",
-      }}/>  
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: "homepage",
+        }}
+      />
       <Heroslidercomponent data={heroSliderData} />
-      <div>
-        {componentList.map(
-          (childItems: MultipleCardContainer, index: number) => {
-            const Component: any = dynamicComponentImports(
-              childItems.flagComponentStyle
-            );
-            return (
-              <Component
-                key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                callAction={childItems?.callToAction}
-              />
-            );
-          }
-        )}
-      </div>
+
+      {componentList.map((childItems: MultipleCardContainer, index: number) => {
+        const Component: any = dynamicComponentImports(
+          childItems.flagComponentStyle
+        );
+        return (
+          <div
+            className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+            key={index}
+          >
+            <Component
+              heading={childItems?.cardSectionTitle}
+              subheading={childItems?.shortDescription}
+              internalName={childItems?.internalName}
+              callAction={childItems?.callToAction}
+            />
+          </div>
+        );
+      })}
     </>
   );
 };
