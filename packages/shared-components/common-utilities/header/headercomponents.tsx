@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter, usePathname} from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
@@ -156,24 +156,23 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
-   
-      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
+      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0 relative">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
             <a href="/">
-            {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && 
-              <Image
-              className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
-              src={
-                topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
-                "/static/assets/images/imageplaceholder.png"
-                }
-                alt="imageplaceholder"
-                priority={true}
-                width={70}
-                height={78}
+              {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
+                <Image
+                  className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
+                  src={
+                    topnav_data?.data?.contentData?.items[0]?.websiteLogo
+                      ?.url || "/static/assets/images/imageplaceholder.png"
+                  }
+                  alt="imageplaceholder"
+                  priority={true}
+                  width={70}
+                  height={78}
                 />
-              }
+              )}
             </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
@@ -201,7 +200,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
             {isMobileView ? (
               <>
-               
                 <div
                   onClick={mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
@@ -209,7 +207,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } lg:bg-transparent`}
                 ></div>
 
-                
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
                     isOpen
@@ -218,7 +215,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
-                  
                     <div
                       onClick={mobileToggleOpen}
                       className={`absolute right-[-40px] ${isMobileView ? "lg:hidden" : ""}`}
@@ -249,7 +245,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       </div>
                     </div>
 
-                   
                     <div
                       ref={mobileViewRef}
                       className={`${isOpen ? "block" : "hidden"}`}

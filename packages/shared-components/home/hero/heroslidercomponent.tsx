@@ -51,11 +51,11 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data ,pageName}) =
 
   return (
     <>
-      <section>
+      <section className="bg-grey-50">
         <Suspense fallback={<HeroSliderComponentSkeleton />}>
           <div
             data-testid="hero-banner-colour"
-            className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0`}
+            className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-green-200"} px-[16px] md:px-[20px] xl2:px-0`}
           >
             <div className="max-w-container mx-auto">
               <HeroSlider data={data} pageName={pageName}/>

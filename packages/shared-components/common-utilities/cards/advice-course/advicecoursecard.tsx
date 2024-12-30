@@ -10,7 +10,7 @@ const AdviceCourseCard = () => {
       <div className="card-header">
         <Image
           src={
-            `${process.env.SUBDOMAIN}/static/assets/images/article_image1.jpg ` ||
+            `${process.env.SUBDOMAIN}/static/assets/images/article_image1.jpg` ||
             ""
           }
           width="392"
