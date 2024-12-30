@@ -10,6 +10,7 @@ import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+
 interface props {
   topnav_data: any;
   course_data: any;
@@ -39,17 +40,13 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       try {
         const session = await fetchAuthSession();
         if (session.tokens) {
-          console.log("in the if of the session.tokens");
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
             setIsAuthenticated("true");
             const user_initial = getCookieValue("USER_INITIAL");
-            console.log(user_initial, "initial");
             if (!user_initial && session.tokens.idToken) {
-              console.log("insinde the if of the user_initial");
               const user_initial = getInitialsFromJWT(session.tokens.idToken);
-              console.log(user_initial, "8888888888888888888");
               setInitial(user_initial);
             } else {
               setInitial(user_initial);
