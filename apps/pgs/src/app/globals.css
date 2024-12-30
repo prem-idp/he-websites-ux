@@ -65,7 +65,9 @@
   .btn-neutral-outline {
     @apply bg-transparent border-primary-400 text-neutral-900 border rounded-[20px] px-[12px] py-[7px] hover:bg-primary-500 hover:text-white font-semibold select-none;
   }
-
+  .btn-primary-outline {
+    @apply bg-transparent border-primary-400 text-primary-400 border rounded-[20px] px-[20px] py-[10px] hover:border-primary-500 hover:bg-primary-500 hover:text-white font-semibold cursor-pointer
+  }
   .btn-secondary-outline {
     @apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold;
   }
