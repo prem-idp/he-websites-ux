@@ -19,9 +19,11 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading,pageName }) 
       .mediaCardsCollection.items;
   return (
     <Suspense>
-      <div className="tag-cloud-container bg-white">
+      <div className="tag-cloud-container">
         <div className="max-w-container mx-auto">
-          <div className="tag-cloud-card-container flex flex-col gap-[16px] px-[20px] lg:px-[0] pt-[8px] pb-[32px] md:pt-[16px] md:pb-[64px]">
+          <div
+            className={`tag-cloud-card-container flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-[0] ${process.env.PROJECT === "PGS" ? "py-[40px] md:py-[64px]" : "pt-[8px] pb-[32px] lg:pt-[16px] md:pb-[64px]"}`}
+          >
             <div className="tag-cloud-header">
               <div className="h6">{heading}</div>
             </div>

@@ -5,7 +5,10 @@ import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { GADataLayerFn,currentAuthenticatedUser } from "@packages/lib/utlils/helper-function";
+import {
+  GADataLayerFn,
+  currentAuthenticatedUser,
+} from "@packages/lib/utlils/helper-function";
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
@@ -41,7 +44,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        // console.log("session", session);
+    
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -106,6 +109,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
             .startsWith(searchLower),
           exactMatch: item?.description?.toLowerCase() === searchLower,
         }))
+
         .filter((item) => item.position !== -1)
         .sort((a, b) => {
           if (a.exactMatch !== b.exactMatch) return a.exactMatch ? -1 : 1;
@@ -160,10 +164,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
   // ============================serch handler===============================================================================================================
   const searchHandler = async () => {
     if (isAuthenticated) {
-      const cookiesval = getCookie("ucaspoint");
+      const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "{}");
       ucasval = cookiesval;
     } else {
-      const cookiesval1: any = getCookie("UCAS");
+      const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
       const point: any = JSON.parse(cookiesval1);
       ucasval = point?.ucasPoint;
     }
@@ -188,7 +192,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
-      
+
       // console.log(
       //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
