@@ -241,7 +241,7 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                             "NA",
                             "NA",
                             "NA",
-                            "homepage", // University name
+                            localStorage?.getItem('gaPageName'), // University name
                             "NA", // University ID
                             item.collegeNameDisplay,
                             "NA",

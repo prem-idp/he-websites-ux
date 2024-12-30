@@ -8,10 +8,11 @@ import { ReviewDetailsList } from "@packages/lib/types/interfaces";
 
 interface ReviewSliderProps {
   reviewData: ReviewDetailsList["reviewDetail"];
+  pageName?:any;
 }
 
 const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
-  reviewData,
+  reviewData,pageName
 }) => {
   return (
     <>
@@ -38,7 +39,7 @@ const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
         >
           {reviewData.map((review, index) => (
             <SwiperSlide key={index}>
-              <Reviewscard reviewData={review} index={index} ratings={5} />
+              <Reviewscard reviewData={review} index={index} ratings={5} pageName={pageName}/>
             </SwiperSlide>
           ))}
         </Swiper>

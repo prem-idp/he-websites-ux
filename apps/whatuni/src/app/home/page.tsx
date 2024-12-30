@@ -22,32 +22,34 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
-      <PageViewLogging
-        gaData={{
-          website: `${process.env.PROJECT}`,
-          pageName: "homepage",
-        }}
-      />
-      <Heroslidercomponent data={heroSliderData} />
-
-      {componentList.map((childItems: MultipleCardContainer, index: number) => {
-        const Component: any = dynamicComponentImports(
-          childItems.flagComponentStyle
-        );
-        return (
-          <div
-            className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
-            key={index}
-          >
-            <Component
-              heading={childItems?.cardSectionTitle}
-              subheading={childItems?.shortDescription}
-              internalName={childItems?.internalName}
-              callAction={childItems?.callToAction}
-            />
-          </div>
-        );
-      })}
+      <PageViewLogging gaData={{
+        website: `${process.env.PROJECT}`,
+        pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+      }}/>  
+      <Heroslidercomponent data={heroSliderData} pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}/>
+      <div>
+        {componentList.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <div
+                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+                key={index}
+              >
+                <Component
+                  heading={childItems?.cardSectionTitle}
+                  subheading={childItems?.shortDescription}
+                  internalName={childItems?.internalName}
+                  callAction={childItems?.callToAction}
+                  pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                />
+              </div>
+            );
+          }
+        )}
+      </div>
     </>
   );
 };

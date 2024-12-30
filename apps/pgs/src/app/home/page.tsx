@@ -17,13 +17,11 @@ const Page = async () => {
 
   return (
     <>
-      <PageViewLogging
-        gaData={{
-          website: `${process.env.PROJECT}`,
-          pageName: "homepage",
-        }}
-      />
-      <Heroslidercomponent data={heroSliderData} />
+     <PageViewLogging gaData={{
+        website: `${process.env.PROJECT}`,
+        pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+      }}/>  
+      <Heroslidercomponent data={heroSliderData} pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}/>
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {
@@ -36,6 +34,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
               />
             );
           }

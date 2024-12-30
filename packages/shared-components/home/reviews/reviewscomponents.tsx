@@ -13,11 +13,13 @@ interface ReviewProps {
   heading?: string | undefined;
   subheading?: string | undefined;
   callAction?: CallToAction;
+  pageName?: any;
 }
 const Reviewscomponents: React.FC<ReviewProps> = async ({
   heading,
   subheading,
   callAction,
+  pageName,
 }) => {
   const jsonResponse: ReviewDetailsList =
     await getReviewDetailsFunction(reviewPayload);
@@ -36,20 +38,20 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
             <div className="reviews-inner-wrap">
               <Reviewslidercomponents
                 reviewData={jsonResponse?.reviewDetail}
+                pageName={pageName}
                 data-testid="review-slider"
                 data-review-count={jsonResponse.reviewDetail.length}
               />
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-                <ClickTrackerWrapper
-                  gaData={{
-                    event: "ga_contentful_events",
-                    eventName: `${callAction?.primaryCtaEventName}`,
-                    ctaTitle: `${callAction?.primaryCtaLabel}`,
-                    ctaUrl: `${callAction?.primaryCtaUrl}`,
-                    website: `${process.env.PROJECT}`,
-                    pageName: "homepage",
-                  }}
-                >
+              <ClickTrackerWrapper   gaData={{
+                        event: "ga_contentful_events",
+                        eventName:`${callAction?.primaryCtaEventName}`,
+                        ctaTitle: `${callAction?.primaryCtaLabel}`,
+                        ctaUrl: `${callAction?.primaryCtaUrl}`,
+                        website:`${process.env.PROJECT}`,
+                        pageName:pageName,
+                      }}
+                      >
                   <a
                     href={`${callAction?.primaryCtaUrl}`}
                     className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"

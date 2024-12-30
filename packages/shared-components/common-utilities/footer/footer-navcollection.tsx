@@ -33,7 +33,7 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                         ctaTitle: childItem.navTitle,
                         ctaUrl: childItem?.navUrl || "",
                         website: `${process.env.PROJECT}`,
-                        pageName: "homepage",
+                        pageName:  "",
                         contentfulCategory1: navItems?.navTitle,
                       }}
                     >
