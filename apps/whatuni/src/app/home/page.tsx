@@ -11,14 +11,11 @@ import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
 //import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 //const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
-const PageViewLogging:any = dynamicComponentImports(
-  "pageviewlog"
-);
-
-
+const PageViewLogging: any = dynamicComponentImports("pageviewlog");
+import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
@@ -30,11 +27,16 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
-      <PageViewLogging gaData={{
+      {/* <PageViewLogging gaData={{
         website: `${process.env.PROJECT}`,
         pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
-      }}/>  
-      <Heroslidercomponent data={heroSliderData} pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}/>
+      }}/>   */}
+      <ErrorBoundary>
+        <Heroslidercomponent
+          data={heroSliderData}
+          pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+        />
+      </ErrorBoundary>
       <div>
         {componentList.map(
           (childItems: MultipleCardContainer, index: number) => {
@@ -42,18 +44,19 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
-              <div
-                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
-                key={index}
-              >
-                <Component
-                  heading={childItems?.cardSectionTitle}
-                  subheading={childItems?.shortDescription}
-                  internalName={childItems?.internalName}
-                  callAction={childItems?.callToAction}
-                  pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
-                />
-              </div>
+              <ErrorBoundary key={index}>
+                <div
+                  className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+                >
+                  <Component
+                    heading={childItems?.cardSectionTitle}
+                    subheading={childItems?.shortDescription}
+                    internalName={childItems?.internalName}
+                    callAction={childItems?.callToAction}
+                    pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                  />
+                </div>
+              </ErrorBoundary>
             );
           }
         )}
