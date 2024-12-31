@@ -13,7 +13,10 @@ import awsconfig from "../../../configs/amplifyconfiguration";
 //import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
 import dynamic from 'next/dynamic';
 
-const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
+//const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
+const PageViewLogging:any = dynamicComponentImports(
+  "pageviewlog"
+);
 
 
 Amplify.configure(awsconfig, { ssr: true });

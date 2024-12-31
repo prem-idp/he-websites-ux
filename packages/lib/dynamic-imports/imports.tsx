@@ -58,6 +58,10 @@ const dynamicComponentImports = (input: string | null | undefined) => {
             "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents"
           )
       );
+    case "pageviewlog":
+      return dynamic(
+        () => import("@packages/lib/utlils/pageviewlogging")
+      );
     default:
       throw new Error(`Unsupported input: ${input}`);
   }
