@@ -7,14 +7,13 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
+//import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
 //import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
-import dynamic from "next/dynamic";
-
+//import dynamic from "next/dynamic";
 //const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
-const PageViewLogging: any = dynamicComponentImports("pageviewlog");
+//const PageViewLogging: any = dynamicComponentImports("pageviewlog");
 import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {

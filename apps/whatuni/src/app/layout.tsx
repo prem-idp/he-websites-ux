@@ -5,7 +5,7 @@ import Script from "next/script";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
+//import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
