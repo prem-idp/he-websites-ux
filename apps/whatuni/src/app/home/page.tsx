@@ -23,6 +23,56 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
+  console.log("NEXT_PUBLIC_GRAPHQL_API:", process.env.NEXT_PUBLIC_GRAPHQL_API);
+  console.log(
+    "NEXT_PUBLIC_GRAPHQL_AUTH:",
+    process.env.NEXT_PUBLIC_GRAPHQL_AUTH
+  );
+  console.log(
+    "NEXT_PUBLIC_SEARCH_AJAX_API:",
+    process.env.NEXT_PUBLIC_SEARCH_AJAX_API
+  );
+  console.log("NEXT_PUBLIC_X_API_KEY:", process.env.NEXT_PUBLIC_X_API_KEY);
+  console.log(
+    "NEXT_PUBLIC_BFF_API_DOMAIN:",
+    process.env.NEXT_PUBLIC_BFF_API_DOMAIN
+  );
+  console.log(
+    "NEXT_PUBLIC_AWS_USER_POOLS_ID:",
+    process.env.NEXT_PUBLIC_AWS_USER_POOLS_ID
+  );
+  console.log(
+    "NEXT_PUBLIC_AWS_USER_POOLS_WEB_CLIENT_ID:",
+    process.env.NEXT_PUBLIC_AWS_USER_POOLS_WEB_CLIENT_ID
+  );
+  console.log(
+    "NEXT_PUBLIC_AWS_COGNITO_REGION:",
+    process.env.NEXT_PUBLIC_AWS_COGNITO_REGION
+  );
+  console.log(
+    "NEXT_PUBLIC_CLICKSTREAM_API:",
+    process.env.NEXT_PUBLIC_CLICKSTREAM_API
+  );
+  console.log(
+    "NEXT_PUBLIC_CLICKSTREAM_API_KEY:",
+    process.env.NEXT_PUBLIC_CLICKSTREAM_API_KEY
+  );
+  console.log(
+    "NEXT_PUBLIC_WU_GA_ACCOUNT:",
+    process.env.NEXT_PUBLIC_WU_GA_ACCOUNT
+  );
+  console.log(
+    "NEXT_PUBLIC_WU_GTM_ACCOUNT:",
+    process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT
+  );
+  console.log(
+    "NEXT_PUBLIC_ONE_TRUST_SRC:",
+    process.env.NEXT_PUBLIC_ONE_TRUST_SRC
+  );
+  console.log(
+    "NEXT_PUBLIC_ONE_TRUST_DOMAIN:",
+    process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN
+  );
 
   return (
     <>

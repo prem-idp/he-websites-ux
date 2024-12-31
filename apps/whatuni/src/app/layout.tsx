@@ -65,7 +65,7 @@ export default async function RootLayout({
       <body
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        <GoogleOneTap />
+        {/* <GoogleOneTap /> */}
         <Script
           id="gtm-ga-script"
           strategy="lazyOnload"
@@ -82,9 +82,9 @@ export default async function RootLayout({
         />
         <TrackSessionId />
         <OneTrustCookieScript />
-        {/* <HeaderWrapper /> */}
+        <HeaderWrapper />
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
