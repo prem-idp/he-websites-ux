@@ -38,35 +38,35 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
             onClick={async () => {
-              GADataLayerFn(
-                "ga_contentful_events",
-                data[0]?.primaryCtaEventName,
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                localStorage?.getItem('gaPageName'),
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "in_year",
-                await currentAuthenticatedUser(),
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                `${process.env.PROJECT}`,
-                data[0]?.primaryCtaLabel,
-                data[0]?.primaryCtaUrl
-              );
+              // GADataLayerFn(
+              //   "ga_contentful_events",
+              //   data[0]?.primaryCtaEventName,
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   localStorage?.getItem("gaPageName"),
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "in_year",
+              //   await currentAuthenticatedUser(),
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   `${process.env.PROJECT}`,
+              //   data[0]?.primaryCtaLabel,
+              //   data[0]?.primaryCtaUrl
+              // );
             }}
             aria-label="App Store"
           >
@@ -197,35 +197,35 @@ const FooterAppLinks = ({ data }: PropsInterface) => {
                 : "https://mdev.dev.aws.whatuni.com/whatuni-mobile-app"
             }
             onClick={async () => {
-              GADataLayerFn(
-                "ga_contentful_events",
-                data[1]?.primaryCtaEventName,
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                localStorage?.getItem('gaPageName'),
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "in_year",
-                await currentAuthenticatedUser(),
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                "NA",
-                `${process.env.PROJECT}`,
-                data[1]?.primaryCtaLabel,
-                data[1]?.primaryCtaUrl
-              );
+              // GADataLayerFn(
+              //   "ga_contentful_events",
+              //   data[1]?.primaryCtaEventName,
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   localStorage?.getItem("gaPageName"),
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "in_year",
+              //   await currentAuthenticatedUser(),
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   "NA",
+              //   `${process.env.PROJECT}`,
+              //   data[1]?.primaryCtaLabel,
+              //   data[1]?.primaryCtaUrl
+              // );
             }}
             aria-label="Google Play"
           >

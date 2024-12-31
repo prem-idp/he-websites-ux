@@ -45,37 +45,37 @@ const Menucategory2card = ({
                     : "_parent"
                 }
                 onClick={async () => {
-                  GADataLayerFn(
-                    "ga_contentful_events",
-                    "header_clicks",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    localStorage?.getItem('gaPageName'),
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "in_year",
-                    await currentAuthenticatedUser(),
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    "NA",
-                    `${process.env.PROJECT}`,
-                    item.navTitle,
-                    item?.navUrl,
-                    parentMenu,
-                    navTitle
-                  );
+                  // GADataLayerFn(
+                  //   "ga_contentful_events",
+                  //   "header_clicks",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   localStorage?.getItem('gaPageName'),
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "in_year",
+                  //   await currentAuthenticatedUser(),
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   "NA",
+                  //   `${process.env.PROJECT}`,
+                  //   item.navTitle,
+                  //   item?.navUrl,
+                  //   parentMenu,
+                  //   navTitle
+                  // );
                 }}
                 rel={
                   item?.navCtaTarget === "Open in new tab"

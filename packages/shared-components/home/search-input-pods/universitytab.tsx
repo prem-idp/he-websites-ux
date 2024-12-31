@@ -234,35 +234,35 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
                           }));
 
                           // Trigger GADataLayerFn
-                          GADataLayerFn(
-                            "ga_events", // Event type
-                            "homepage_search",
-                            "university_search",
-                            "NA",
-                            "NA",
-                            "NA",
-                            localStorage?.getItem('gaPageName'), // University name
-                            "NA", // University ID
-                            item.collegeNameDisplay,
-                            "NA",
-                            "NA",
-                            "NA",
-                            item.collegeId,
-                            "NA",
-                            "NA",
-                            "NA",
-                            "NA",
-                            await currentAuthenticatedUser(),
-                            "NA",
-                            "NA",
-                            "NA",
-                            "NA",
-                            "NA",
-                            "NA",
-                            `${process.env.PROJECT}`,
-                            "NA",
-                            "NA" // Site name or context
-                          );
+                          // GADataLayerFn(
+                          //   "ga_events",
+                          //   "homepage_search",
+                          //   "university_search",
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   localStorage?.getItem('gaPageName'),
+                          //   "NA",
+                          //   item.collegeNameDisplay,
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   item.collegeId,
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   await currentAuthenticatedUser(),
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   "NA",
+                          //   `${process.env.PROJECT}`,
+                          //   "NA",
+                          //   "NA" // Site name or context
+                          // );
                         }}
                         key={index}
                         className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
