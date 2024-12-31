@@ -7,13 +7,9 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-//import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
-//import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
-//import dynamic from "next/dynamic";
-//const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
-//const PageViewLogging: any = dynamicComponentImports("pageviewlog");
+const PageViewLogging: any = dynamicComponentImports("pageviewlog");
 import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
@@ -22,64 +18,14 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log("NEXT_PUBLIC_GRAPHQL_API:", process.env.NEXT_PUBLIC_GRAPHQL_API);
-  console.log(
-    "NEXT_PUBLIC_GRAPHQL_AUTH:",
-    process.env.NEXT_PUBLIC_GRAPHQL_AUTH
-  );
-  console.log(
-    "NEXT_PUBLIC_SEARCH_AJAX_API:",
-    process.env.NEXT_PUBLIC_SEARCH_AJAX_API
-  );
-  console.log("NEXT_PUBLIC_X_API_KEY:", process.env.NEXT_PUBLIC_X_API_KEY);
-  console.log(
-    "NEXT_PUBLIC_BFF_API_DOMAIN:",
-    process.env.NEXT_PUBLIC_BFF_API_DOMAIN
-  );
-  console.log(
-    "NEXT_PUBLIC_AWS_USER_POOLS_ID:",
-    process.env.NEXT_PUBLIC_AWS_USER_POOLS_ID
-  );
-  console.log(
-    "NEXT_PUBLIC_AWS_USER_POOLS_WEB_CLIENT_ID:",
-    process.env.NEXT_PUBLIC_AWS_USER_POOLS_WEB_CLIENT_ID
-  );
-  console.log(
-    "NEXT_PUBLIC_AWS_COGNITO_REGION:",
-    process.env.NEXT_PUBLIC_AWS_COGNITO_REGION
-  );
-  console.log(
-    "NEXT_PUBLIC_CLICKSTREAM_API:",
-    process.env.NEXT_PUBLIC_CLICKSTREAM_API
-  );
-  console.log(
-    "NEXT_PUBLIC_CLICKSTREAM_API_KEY:",
-    process.env.NEXT_PUBLIC_CLICKSTREAM_API_KEY
-  );
-  console.log(
-    "NEXT_PUBLIC_WU_GA_ACCOUNT:",
-    process.env.NEXT_PUBLIC_WU_GA_ACCOUNT
-  );
-  console.log(
-    "NEXT_PUBLIC_WU_GTM_ACCOUNT:",
-    process.env.NEXT_PUBLIC_WU_GTM_ACCOUNT
-  );
-  console.log(
-    "NEXT_PUBLIC_ONE_TRUST_SRC:",
-    process.env.NEXT_PUBLIC_ONE_TRUST_SRC
-  );
-  console.log(
-    "NEXT_PUBLIC_ONE_TRUST_DOMAIN:",
-    process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN
-  );
-  console.log(componentList);
   return (
     <>
-      {/* <GoogleOneTap /> */}
-      {/* <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
-      }}/>   */}
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+        }}
+      />
       <ErrorBoundary>
         <Heroslidercomponent
           data={heroSliderData}

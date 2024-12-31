@@ -52,7 +52,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-      
       // Define payloads
       const body: any = {
         affiliateId: 220703,
@@ -205,7 +204,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Calculate your UCAS points
+                      Don’t know your UCAS points? Calculate them
                     </div>
                     {isUcasPopupOpen && (
                       <UcasComponent
