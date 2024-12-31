@@ -6,8 +6,9 @@ interface ReviewCardProps {
   reviewData: ReviewDetails;
   index: any;
   ratings: any;
+  pageName?:any;
 }
-const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
+const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
   return (
     <ClickTrackerWrapper
       gaData={{
@@ -16,7 +17,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData }) => {
         ctaTitle: "NA",
         ctaUrl: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
         website: `${process.env.PROJECT}`,
-        pageName: "homepage",
+        pageName: pageName,
         collegeId: reviewData?.collegeId,
         collegeName: reviewData?.collegeName,
       }}
