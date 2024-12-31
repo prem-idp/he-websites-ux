@@ -72,7 +72,7 @@ const Page = async () => {
     "NEXT_PUBLIC_ONE_TRUST_DOMAIN:",
     process.env.NEXT_PUBLIC_ONE_TRUST_DOMAIN
   );
-
+  console.log(componentList);
   return (
     <>
       {/* <GoogleOneTap /> */}
@@ -87,7 +87,7 @@ const Page = async () => {
         />
       </ErrorBoundary>
       <div>
-        {componentList.map(
+        {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle
