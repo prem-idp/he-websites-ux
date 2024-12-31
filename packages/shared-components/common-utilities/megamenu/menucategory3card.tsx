@@ -53,37 +53,37 @@ const Menucategory3card = ({
                     : undefined
                 }
                 onClick={async () => {
-                  // GADataLayerFn(
-                  //   "ga_contentful_events",
-                  //   "header_clicks",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   localStorage?.getItem('gaPageName'),
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "in_year",
-                  //   await currentAuthenticatedUser(),
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   "NA",
-                  //   `${process.env.PROJECT}`,
-                  //   item.navTitle,
-                  //   item?.navUrl,
-                  //   parentMenu,
-                  //   navTitle
-                  // );
+                  GADataLayerFn(
+                    "ga_contentful_events",
+                    "header_clicks",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    localStorage?.getItem("gaPageName") || "",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "in_year",
+                    await currentAuthenticatedUser(),
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    "NA",
+                    `${process.env.PROJECT}`,
+                    item.navTitle,
+                    item?.navUrl,
+                    parentMenu,
+                    navTitle
+                  );
                 }}
                 className="flex flex-row lg:flex-col items-center gap-[10px] font-normal small text-grey300 hover:underline"
               >

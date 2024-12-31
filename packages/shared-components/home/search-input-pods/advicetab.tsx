@@ -24,35 +24,35 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, "")
         .toLowerCase();
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "advice_search",
-      //   formattedAdvice,
-      //   "NA",
-      //   "NA",
-      //   localStorage?.getItem('gaPageName'),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   "0",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "advice keyword searched",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "advice_search",
+        formattedAdvice,
+        "NA",
+        "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        "0",
+        "NA",
+        "NA",
+        "NA",
+        "advice keyword searched",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       return router.push(`/article-search/?keyword=${formattedAdvice}`);
     } else {
       setAdviceerror(true);

@@ -221,39 +221,39 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   pathname: searchFormHandle.subject.url,
       //   query: { location: sanitizedRegionName, score: score }
       // }, locationUrl);
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "subject_search",
-      //   "NA",
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.parent_subject
-      //     : searchFormHandle?.subject?.description,
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.description
-      //     : "NA",
-      //   localStorage?.getItem("gaPageName"),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   await currentAuthenticatedUser(),
-      //   searchFormHandle?.courseType?.qualDesc,
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "subject_search",
+        "NA",
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.parent_subject
+          : searchFormHandle?.subject?.description,
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.description
+          : "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        await currentAuthenticatedUser(),
+        searchFormHandle?.courseType?.qualDesc,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       router.push(
         `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
@@ -267,40 +267,40 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   }
       // })
     } else if (searchFormHandle.subject?.url) {
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "subject_search",
-      //   "NA",
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.parent_subject
-      //     : searchFormHandle?.subject?.description,
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.description
-      //     : "NA",
-      //   localStorage?.getItem("gaPageName"),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   "0",
-      //   searchFormHandle?.courseType?.qualDesc,
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "subject_search",
+        "NA",
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.parent_subject
+          : searchFormHandle?.subject?.description,
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.description
+          : "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        "0",
+        searchFormHandle?.courseType?.qualDesc,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       router.push(searchFormHandle.subject.url);
       // console.log(
       //   searchFormHandle.subject?.url,
@@ -342,112 +342,112 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "subject_search",
-      //   "NA",
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.parent_subject
-      //     : searchFormHandle?.subject?.description,
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.description
-      //     : "NA",
-      //   localStorage?.getItem("gaPageName"),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   await currentAuthenticatedUser(),
-      //   searchFormHandle?.courseType?.qualDesc,
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "subject_search",
+        "NA",
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.parent_subject
+          : searchFormHandle?.subject?.description,
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.description
+          : "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        await currentAuthenticatedUser(),
+        searchFormHandle?.courseType?.qualDesc,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       return router.push(
         `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     if (matchedSubject) {
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "subject_search",
-      //   "NA",
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.parent_subject
-      //     : searchFormHandle?.subject?.description,
-      //   searchFormHandle?.subject?.parent_subject
-      //     ? searchFormHandle?.subject?.description
-      //     : "NA",
-      //   localStorage?.getItem("gaPageName"),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   await currentAuthenticatedUser(),
-      //   searchFormHandle?.courseType?.qualDesc,
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "subject_search",
+        "NA",
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.parent_subject
+          : searchFormHandle?.subject?.description,
+        searchFormHandle?.subject?.parent_subject
+          ? searchFormHandle?.subject?.description
+          : "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        await currentAuthenticatedUser(),
+        searchFormHandle?.courseType?.qualDesc,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       return router.push(
         `${matchedSubject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
     if (baseUrl) {
-      // GADataLayerFn(
-      //   "ga_events",
-      //   "homepage_search",
-      //   "NA",
-      //   sanitizedDescription,
-      //   "NA",
-      //   "NA",
-      //   localStorage?.getItem("gaPageName"),
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "in_year",
-      //   await currentAuthenticatedUser(),
-      //   searchFormHandle?.courseType?.qualDesc,
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   "NA",
-      //   `${process.env.PROJECT}`,
-      //   "NA",
-      //   "NA"
-      // );
+      GADataLayerFn(
+        "ga_events",
+        "homepage_search",
+        "NA",
+        sanitizedDescription,
+        "NA",
+        "NA",
+        localStorage?.getItem("gaPageName") || "",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        await currentAuthenticatedUser(),
+        searchFormHandle?.courseType?.qualDesc,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        `${process.env.PROJECT}`,
+        "NA",
+        "NA"
+      );
       return router.push(`${baseUrl}?q=${sanitizedDescription}`);
     }
   };
