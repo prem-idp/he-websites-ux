@@ -13,10 +13,10 @@ const Articledescription = ({ data }: any) => {
     <>
       <div className="flex flex-col gap-[8px]">
         <span className="x-small font-inter tracking-[1px] text-blue-400">
-          CATEGORY
+          {data?.articleType?.title}
         </span>
         <h1 className="font-farro text-heading1 text-grey900">
-          {data?.articleType?.title}
+          {data?.pageTitle}
         </h1>
         <p className="text-para-lg max-w-[907px] w-full text-grey900 text-inter">
           {data?.shortDescription}

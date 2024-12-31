@@ -27,69 +27,42 @@ const page = async () => {
       label: "Overview",
     },
   ];
-
   const customOptions = {
     renderNode: {
-      // Custom style for paragraphs
-      "embedded-asset-block": (node: any) => {
-        return (
-          <img
-            src={node.data.target.fields.file.url}
-            alt={node.data.target.fields.title}
-            className="w-full h-auto rounded-lg shadow-md mx-auto"
-          />
-        );
-      },
-      "embedded-entry-block": (node: any) => {
-        return (
-          <div className="bg-gray-200 p-4 rounded-lg shadow-md">
-            Custom Entry
-          </div>
-        );
-      },
-      // Custom style for paragraphs
-      paragraph: (node: any) => {
-        return (
-          <p className="text-lg mb-4 text-grey-400">{node.content[0].value}</p>
-        );
-      },
-      // Custom style for headings
-      "heading-1": (node: any) => {
-        return (
-          <h1 className="text-3xl font-bold my-4">{node.content[0].value}</h1>
-        );
-      },
-      "heading-2": (node: any) => {
-        return (
-          <h2 className="text-2xl font-semibold my-3">
-            {node.content[0].value}
-          </h2>
-        );
-      },
-      "heading-3": (node: any) => {
-        return (
-          <h3 className="text-xl font-medium my-2">{node.content[0].value}</h3>
-        );
-      },
-      // Custom style for hyperlinks
-      hyperlink: (node: any) => {
-        console.log(node);
-        return (
-          <a
-            href={node.data.uri}
-            className="text-green-500 hover:text-blue-700 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {node.content[0].value}
-          </a>
-        );
-      },
+      paragraph: (node: any, children: any) => (
+        <p className="mb-4 text-base leading-relaxed w-[700px] ">{children}</p>
+      ),
+      "heading-1": (node: any, children: any) => (
+        <h1 className="text-3xl font-bold mb-6">{children}</h1>
+      ),
+      "heading-2": (node: any, children: any) => (
+        <h2 className="text-2xl font-semibold mb-4">{children}</h2>
+      ),
+      "heading-3": (node: any, children: any) => (
+        <h3 className="text-xl font-semibold mb-3">{children}</h3>
+      ),
+      "unordered-list": (node: any, children: any) => (
+        <ul className="list-disc pl-6 mb-4">{children}</ul>
+      ),
+      "ordered-list": (node: any, children: any) => (
+        <ol className="list-decimal pl-6 mb-4">{children}</ol>
+      ),
+      "list-item": (node: any, children: any) => (
+        <li className="mb-2">{children}</li>
+      ),
+      hyperlink: (node: any, children: any) => (
+        <a href={node.data.uri} className="text-blue-600 hover:underline">
+          {children}
+        </a>
+      ),
     },
-    renderText: (text: string) => {
-      return text; // Keep text as is, but you could add classes or other modifications here.
+    renderMark: {
+      bold: (text: any) => <strong className="font-bold">{text}</strong>,
+      italic: (text: any) => <em className="italic">{text}</em>,
+      underline: (text: any) => <u className="underline">{text}</u>,
     },
   };
+
   return (
     <>
       {/* breadcrumb  */}
@@ -110,29 +83,31 @@ const page = async () => {
           <Authorprofile data={data} />
         </div>
       </section>
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 sm:px-12 lg:px-16 w-full max-w-4xl">
         {data?.bodyContentCollection?.items?.map((dt: any, index: any) => (
-          <div key={index} className="mb-8 max-w-3xl w-full">
-            {dt?.paragraphTitle && (
-              <h2 className="text-xl font-bold mb-4">{dt?.paragraphTitle}</h2>
-            )}
-            {dt?.media?.url && (
-              <Image
-                alt="Image"
-                src={dt?.media?.url}
-                width={700}
-                height={700}
-                className="mb-4 mx-auto"
-              />
-            )}
-            <div className="prose mx-auto">
-              {dt?.paragraphBodyRichText?.json &&
-                documentToReactComponents(
-                  dt?.paragraphBodyRichText.json,
-                  customOptions
-                )}
-            </div>
-          </div>
+         <div
+         key={index}
+         className="mb-8 max-w-3xl w-full flex flex-col items-center text-center overflow-hidden"
+       >
+         {dt?.paragraphTitle && (
+           <h2 className="text-xl font-bold mb-4">{dt?.paragraphTitle}</h2>
+         )}
+         {dt?.media?.url && (
+           <Image
+             alt="Image"
+             src={dt?.media?.url}
+             width={700}
+             height={700}
+             className="mb-4"
+           />
+         )}
+
+         <div className="prose max-w-full">
+           {dt?.paragraphBodyRichText?.json &&
+             documentToReactComponents(dt?.paragraphBodyRichText.json, customOptions)}
+         </div>
+         
+       </div>
         ))}
       </div>
     </>

@@ -4,6 +4,7 @@ export const articleDetailQuery = `{
     where: {urlSlug: "article-the-best-resources-for-saving-money-at-university-whatuni", website: {websiteName: "Whatuni"}}
   ) {
     items {
+      pageTitle
       seoFields {
         metaTite
         metaDescription
@@ -31,11 +32,9 @@ export const articleDetailQuery = `{
       }
       bannerImageCollection {
         items {
-          ... on PageImage {
-            imgAltText
-            imgUpload {
-              url
-            }
+          imgAltText
+          imgUpload {
+            url
           }
         }
       }
@@ -47,93 +46,70 @@ export const articleDetailQuery = `{
       }
       metaTagTopicsCollection {
         items {
-          ... on MetaTagTopic {
-            title
-          }
+          title
         }
       }
       metaTagSubTopicsCollection {
         items {
-          ... on MetaTagSubTopic {
-            title
-            subTopic
-          }
+          title
+          subTopic
         }
       }
       metaTagCitiesCollection {
         items {
-          ... on MetaTagCity {
+          title
+          parent {
             title
-            parent {
-              title
-            }
           }
         }
       }
       metaTagNationsCollection {
         items {
-          ... on MetaTagNation {
-            title
-          }
+          title
         }
       }
       metaTagRegionsCollection {
         items {
-          ... on MetaTagRegion {
-            title
-          }
+          title
         }
       }
       metaTagUserTypesCollection {
         items {
-          ... on MetaTagUserType {
-            title
-          }
+          title
         }
       }
       metaTagStudyLevelsCollection {
         items {
-          ... on MetaTagStudyLevel {
-            title
-          }
+          title
         }
       }
       metaTagStudentYearsCollection {
         items {
-          ... on MetaTagStudyYear {
-            title
-          }
+          title
         }
       }
       metaTagJourneyStepsCollection {
         items {
-          ... on MetaTagJourneyStep {
-            title
-          }
+          title
         }
       }
       metaTagSubjectCategoryL1Collection {
         items {
-          ... on MetaTagSubjectCategory1 {
-            title
-            id
-          }
+          title
+          id
         }
       }
       metaTagSubjectCategoryL2Collection {
         items {
-          ... on MetaTagSubjectCategory2 {
+          title
+          parent {
             title
-            parent {
-              ... on MetaTagSubjectCategory1 {
-                title
-              }
-            }
           }
         }
       }
       bodyContentCollection {
         items {
+          __typename
           ... on PageComponentRichText {
             paragraphTitle
             media {
@@ -166,4 +142,4 @@ export const articleDetailQuery = `{
       }
     }
   }
-}`
+}`;
