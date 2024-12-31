@@ -82,9 +82,9 @@ export default async function RootLayout({
         />
         <TrackSessionId />
         <OneTrustCookieScript />
-        {/* <HeaderWrapper /> */}
+        <HeaderWrapper />
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );

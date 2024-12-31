@@ -1,7 +1,7 @@
-"use client";
+"use server";
 import React from "react";
 import Image from "next/image";
-const ColcBanner = () => {
+const ColcBanner = ({ routename }: { routename: string }) => {
   return (
     <>
       <section className="bg-blue-100">
@@ -15,38 +15,40 @@ const ColcBanner = () => {
                   Praesent a risus
                 </p>
               </div>
-              <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
-                <div className="flex flex-col gap-x-[10px] justify-between md:flex-row">
-                  <div className="relative grow">
-                    <input
-                      type="text"
-                      className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 md:py-[10px] border-b border-neutral200 md:border-none"
-                      aria-label="enter keyword"
-                      placeholder="Text goes here"
-                    />
-                  </div>
-                  <div className="pt-[16px] md:pt-[0]">
-                    <button
-                      type="submit"
-                      className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
-                    >
-                      <Image
-                        src="/static/assets/icons/search_icon.svg"
-                        width="18"
-                        height="18"
-                        alt="Search icon"
+              {routename === "article" && (
+                <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
+                  <div className="flex flex-col gap-x-[10px] justify-between md:flex-row">
+                    <div className="relative grow">
+                      <input
+                        type="text"
+                        className="form-control w-full focus:outline-none pb-[16px] small text-black placeholder:text-gray-500 md:py-[10px] border-b border-neutral200 md:border-none"
+                        aria-label="enter keyword"
+                        placeholder="Text goes here"
                       />
-                      Search
-                    </button>
+                    </div>
+                    <div className="pt-[16px] md:pt-[0]">
+                      <button
+                        type="submit"
+                        className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:w-[114px]"
+                      >
+                        <Image
+                          src="/static/assets/icons/search_icon.svg"
+                          width="18"
+                          height="18"
+                          alt="Search icon"
+                        />
+                        Search
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
               <Image
                 src="/static/assets/images/article/slice_1.png"
-                width={205}
-                height={260}
+                width={routename === "article" ? 205 : 150}
+                height={routename === "article" ? 260 : 150}
                 priority
                 alt="Colc Banner"
               />

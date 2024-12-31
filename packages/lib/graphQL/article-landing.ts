@@ -1,17 +1,21 @@
-export const ColcLandingPageQuery = `
+export const ArticleLandingPageQuery = `
 {
   contentData: pageTemplateLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/student-finace", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/advice", website: {websiteName: "Whatuni"}}
   ) {
     items {
       seoFields {
         metaTite
         metaDescription
       }
-      bodyContentCollection(limit: 10) {
+      bodyContentCollection(
+        limit: 10
+      #where: {internalName: "Whatuni - COLC - Hero Banner"}
+      ) {
         items {
           ... on MultipleCardContainer {
+            internalName
             cardSectionTitle
             shortDescription
             flagComponentStyle
@@ -111,21 +115,20 @@ export const ColcLandingPageQuery = `
     }
   }
 }
- `;
+`;
 
-export const ColcLandingPageSeoQuery = `
- {
-   contentData: pageTemplateLandingPageCollection(
-     limit: 1
-     where: {urlSlug: "/student-finace", website: {websiteName: "Whatuni"}}
-   ) {
-     items {
-       seoFields {
-         metaTite
-         metaDescription
-       }
-      
-     }
-   }
- }
-  `;
+export const ArticleLandingSeoQuery = `{
+  contentData: pageTemplateLandingPageCollection(
+    limit: 1
+     where: {urlSlug: "/advice", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      seoFields {
+        metaTite
+        metaDescription
+         metaKeywords
+        canonical
+      }
+    }
+  }
+}`;

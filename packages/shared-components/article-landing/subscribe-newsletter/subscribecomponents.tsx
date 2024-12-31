@@ -2,7 +2,6 @@
 import Subscribebtn from "@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn";
 import Link from "next/link";
 import React from "react";
-
 const Subscribecomponents = () => {
   return (
     <div className="subscribe-container bg-primary-50">

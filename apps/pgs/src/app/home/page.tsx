@@ -14,7 +14,7 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
+  console.log(componentList);
   return (
     <>
       <PageViewLogging
@@ -28,7 +28,7 @@ const Page = async () => {
         pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
       />
       <div>
-        {componentList.map(
+        {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle

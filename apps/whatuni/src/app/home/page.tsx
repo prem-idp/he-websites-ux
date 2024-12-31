@@ -7,13 +7,8 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
-//import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
-import dynamic from "next/dynamic";
-
-//const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
 const PageViewLogging: any = dynamicComponentImports("pageviewlog");
 import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
@@ -23,14 +18,14 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
   return (
     <>
-      {/* <GoogleOneTap /> */}
-      {/* <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
-      }}/>   */}
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+        }}
+      />
       <ErrorBoundary>
         <Heroslidercomponent
           data={heroSliderData}
@@ -38,7 +33,7 @@ const Page = async () => {
         />
       </ErrorBoundary>
       <div>
-        {componentList.map(
+        {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle

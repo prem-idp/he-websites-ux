@@ -235,14 +235,14 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
 
                           // Trigger GADataLayerFn
                           GADataLayerFn(
-                            "ga_events", // Event type
+                            "ga_events",
                             "homepage_search",
                             "university_search",
                             "NA",
                             "NA",
                             "NA",
-                            localStorage?.getItem('gaPageName'), // University name
-                            "NA", // University ID
+                            localStorage?.getItem("gaPageName") || "",
+                            "NA",
                             item.collegeNameDisplay,
                             "NA",
                             "NA",

@@ -54,7 +54,7 @@ const Menucategory4card = ({
                     "NA",
                     "NA",
                     "NA",
-                    localStorage?.getItem('gaPageName'),
+                    localStorage?.getItem("gaPageName") || "",
                     "NA",
                     "NA",
                     "NA",
