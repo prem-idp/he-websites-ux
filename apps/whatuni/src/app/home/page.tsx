@@ -10,7 +10,12 @@ import {
 import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
-import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
+//import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
+import dynamic from 'next/dynamic';
+
+const PageViewLogging = dynamic(() => import("@packages/lib/utlils/pageviewlogging"), { ssr: false });
+
+
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);

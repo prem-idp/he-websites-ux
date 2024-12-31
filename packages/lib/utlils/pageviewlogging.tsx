@@ -14,7 +14,7 @@ interface PageViewLoggingProps {
     pageName: string;
   };
 }
-export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
+ const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
   const { pageName, website } = gaData;
   useEffect(() => {
     //Clickstream pageview
@@ -28,10 +28,11 @@ export const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
    GAData();
 }, []); 
   return (
-    <>     
-        
+    <>         
     </>
   );
 }
+
+export default PageViewLogging;
 
 
