@@ -1,4 +1,3 @@
-
 const awsconfig: any = {
   Auth: {
     Cognito: {
@@ -16,7 +15,12 @@ const awsconfig: any = {
             "openid",
             //'aws.cognito.signin.user.admin'
           ],
-          redirectSignIn: ["https://mdev.dev.aws.whatuni.com","https://mdev.dev.aws.whatuni.com/new/whatuni"],
+          redirectSignIn: [
+            "http://localhost:3000",
+            "https://mdev.dev.aws.whatuni.com",
+            "https://mdev.dev.aws.whatuni.com/new/whatuni",
+          ],
+          redirectSignOut: ["http://localhost:3000"],
           responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
         },
       },
