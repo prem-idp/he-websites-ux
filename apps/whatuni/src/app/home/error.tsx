@@ -1,10 +1,11 @@
-"use client"; // Required for error boundaries in the app router
-
+"use client";
 import { useEffect } from "react";
-
 export default function Error({ error, reset }: any) {
   useEffect(() => {
-    console.error(error); // Log the error to the console
+    console.error("Error:", error);
+    if (error.digest) {
+      console.error("Digest:", error.digest);
+    }
   }, [error]);
 
   return (
@@ -15,6 +16,11 @@ export default function Error({ error, reset }: any) {
           Something went wrong. Please try again later.
         </p>
         <p className="text-gray-700 text-lg mb-6">{error.message}</p>
+        {error.digest && (
+          <p className="text-sm text-gray-500 mb-6">
+            Error Digest: {error.digest}
+          </p>
+        )}
         <button
           onClick={() => reset()} // Attempt to recover
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
