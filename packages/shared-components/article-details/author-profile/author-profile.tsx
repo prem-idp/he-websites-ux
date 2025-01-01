@@ -17,7 +17,7 @@ const Authorprofile = ({ data }: any) => {
           )}
           <div className="flex flex-col">
             <span className="text-blue-400 small font-medium">
-              {data?.author?.firstName}
+              {`${data?.author?.firstName} ${data?.author?.middleName ? data?.author?.middleName : ""} ${data?.author?.lastName ? data?.author?.lastName : ""}`}
             </span>
             <span className="text-grey300 small font-normal">
               {data?.author?.audienceGroup}
