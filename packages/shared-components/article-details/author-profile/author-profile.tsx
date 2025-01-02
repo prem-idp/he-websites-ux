@@ -13,6 +13,7 @@ const Authorprofile = ({ data }: any) => {
               width="40"
               height="40"
               alt={data?.author?.image?.imgAltText ?? "profile pic"}
+              priority={true}
             />
           )}
           <div className="flex flex-col">
@@ -33,6 +34,8 @@ const Authorprofile = ({ data }: any) => {
             height="511"
             className="block w-full h-auto"
             alt={data?.bannerImageCollection?.items[0]}
+            priority={true}
+            
           />
         )}
       </div>
