@@ -61,7 +61,6 @@ const Megamenucomponents = ({ data }: any) => {
     }
   }
 
-  
   return (
     <>
       <div className="flex lg:items-center lg:justify-center">
@@ -75,8 +74,7 @@ const Megamenucomponents = ({ data }: any) => {
                 }
                 onMouseLeave={!isMobile ? () => setOpenMenu(false) : undefined}
               >
-                <a
-                  href={menuItem?.navUrl ?? ""}
+                <div
                   onClick={
                     isMobile
                       ? () => handleMenuToggle(`menu${index}`)
@@ -96,7 +94,7 @@ const Megamenucomponents = ({ data }: any) => {
                       alt={menuItem?.navTitle || ""}
                     />
                   )}
-                </a>
+                </div>
                 {isMobile ? (
                   <div
                     className={`${openMenu == `menu${index}` ? "translate-x-0 opacity-[1]" : "-translate-x-full opacity-0"} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}
