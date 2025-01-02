@@ -24,13 +24,9 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }
-  console.log(jsonResponse);
   return (
     <Suspense>
-      <section
-        className="reviews-container bg-grey-50"
-        data-testid="reviews-container"
-      >
+      <section className="reviews-container" data-testid="reviews-container">
         <div className="max-w-container mx-auto">
           <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
             <div className="reviews-header px-[16px] md:px-[20px] xl:px-[0] mb-[26px] md:mb-[32px]">

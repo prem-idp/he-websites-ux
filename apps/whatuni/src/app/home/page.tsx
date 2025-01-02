@@ -22,10 +22,12 @@ const Page = async () => {
   return (
     <>
       {/* <GoogleOneTap /> */}
-      <PageViewLogging gaData={{
-        website: `${process.env.PROJECT}`,
-        pageName: "homepage",
-      }}/>  
+      <PageViewLogging
+        gaData={{
+          website: `${process.env.PROJECT}`,
+          pageName: "homepage",
+        }}
+      />
       <Heroslidercomponent data={heroSliderData} />
       <div>
         {componentList.map(
@@ -34,13 +36,17 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
-              <Component
+              <div
+                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
                 key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                callAction={childItems?.callToAction}
-              />
+              >
+                <Component
+                  heading={childItems?.cardSectionTitle}
+                  subheading={childItems?.shortDescription}
+                  internalName={childItems?.internalName}
+                  callAction={childItems?.callToAction}
+                />
+              </div>
             );
           }
         )}
