@@ -44,6 +44,8 @@ const Page = async () => {
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
                   callAction={childItems?.callToAction}
+                  pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                  routename={"/"}
                 />
               </div>
             );

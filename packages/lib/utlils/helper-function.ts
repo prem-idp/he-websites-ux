@@ -132,7 +132,6 @@ function GADataLayerFn(
 ) {
   const waitForDataLayer = () => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      console.log("data layer is available");
       window.dataLayer.push({
         event: replaceWithNA(event),
         "event name": replaceWithNA(eventName),
@@ -164,7 +163,6 @@ function GADataLayerFn(
         contentful_2: replaceWithNA(contentful_2),
       });
     } else {
-      console.log("GTM dataLayer is not available yet, retrying...");
       setTimeout(waitForDataLayer, 100); // Retry after 100ms
     }
   };
