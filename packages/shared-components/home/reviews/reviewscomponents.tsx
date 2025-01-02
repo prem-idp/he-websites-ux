@@ -13,24 +13,22 @@ interface ReviewProps {
   heading?: string | undefined;
   subheading?: string | undefined;
   callAction?: CallToAction;
+  pageName?: any;
 }
 const Reviewscomponents: React.FC<ReviewProps> = async ({
   heading,
   subheading,
   callAction,
+  pageName,
 }) => {
   const jsonResponse: ReviewDetailsList =
     await getReviewDetailsFunction(reviewPayload);
   if (!jsonResponse?.reviewDetail?.length) {
     return <div data-testid="empty-data"></div>;
   }
-  console.log(jsonResponse);
   return (
     <Suspense>
-      <section
-        className="reviews-container bg-grey-50"
-        data-testid="reviews-container"
-      >
+      <section className="reviews-container" data-testid="reviews-container">
         <div className="max-w-container mx-auto">
           <div className="reviews-card-container py-[34px] lg:py-[60px] lg:px-[0]">
             <div className="reviews-header px-[16px] md:px-[20px] xl:px-[0] mb-[26px] md:mb-[32px]">
@@ -40,20 +38,20 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
             <div className="reviews-inner-wrap">
               <Reviewslidercomponents
                 reviewData={jsonResponse?.reviewDetail}
+                pageName={pageName}
                 data-testid="review-slider"
                 data-review-count={jsonResponse.reviewDetail.length}
               />
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-                <ClickTrackerWrapper
-                  gaData={{
-                    event: "ga_contentful_events",
-                    eventName: `${callAction?.primaryCtaEventName}`,
-                    ctaTitle: `${callAction?.primaryCtaLabel}`,
-                    ctaUrl: `${callAction?.primaryCtaUrl}`,
-                    website: `${process.env.PROJECT}`,
-                    pageName: "homepage",
-                  }}
-                >
+              <ClickTrackerWrapper   gaData={{
+                        event: "ga_contentful_events",
+                        eventName:`${callAction?.primaryCtaEventName}`,
+                        ctaTitle: `${callAction?.primaryCtaLabel}`,
+                        ctaUrl: `${callAction?.primaryCtaUrl}`,
+                        website:`${process.env.PROJECT}`,
+                        pageName:pageName,
+                      }}
+                      >
                   <a
                     href={`${callAction?.primaryCtaUrl}`}
                     className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"

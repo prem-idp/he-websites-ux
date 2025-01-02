@@ -44,7 +44,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-    
+
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -232,7 +232,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.parent_subject
           ? searchFormHandle?.subject?.description
           : "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",
@@ -278,7 +278,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.parent_subject
           ? searchFormHandle?.subject?.description
           : "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",
@@ -353,7 +353,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.parent_subject
           ? searchFormHandle?.subject?.description
           : "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",
@@ -391,7 +391,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.parent_subject
           ? searchFormHandle?.subject?.description
           : "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",
@@ -426,7 +426,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         sanitizedDescription,
         "NA",
         "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",

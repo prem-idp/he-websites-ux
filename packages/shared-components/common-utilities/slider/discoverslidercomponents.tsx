@@ -109,12 +109,12 @@ const Discoverslidercomponents1 = ({
                         onClick={() => {
                           GADataLayerFn(
                             "ga_contentful_events",
-                            "footer_clicks",
+                            discoverItems.cta?.primaryCtaEventName,
                             "NA",
                             "NA",
                             "NA",
                             "NA",
-                            "homepage",
+                            "home_page",
                             "NA",
                             "NA",
                             "NA",
@@ -202,7 +202,7 @@ const Discoverslidercomponents1 = ({
                         "NA",
                         "NA",
                         "NA",
-                        "homepage",
+                        localStorage?.getItem("gaPageName") || "",
                         "NA",
                         "NA",
                         "NA",

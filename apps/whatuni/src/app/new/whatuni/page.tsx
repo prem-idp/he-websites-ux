@@ -7,23 +7,20 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
-import { Amplify } from "aws-amplify";
-import awsconfig from "../../../../configs/amplifyconfiguration";
-Amplify.configure(awsconfig, { ssr: true });
+
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
+  console.log(componentList);
   return (
     <>
-      <GoogleOneTap />
+      
       <Heroslidercomponent data={heroSliderData} />
       <div>
-        {componentList.map(
+        {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle
