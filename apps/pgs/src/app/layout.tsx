@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        <OneTrustCookieScript />
+        <OneTrustCookieScript domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`} />
         <HeaderWrapper />
         {children}
         <Footer />
