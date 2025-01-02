@@ -31,7 +31,7 @@ const AdviceTab: React.FC<AdviceTabProps> = ({
         formattedAdvice,
         "NA",
         "NA",
-        "homepage",
+        localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
         "NA",

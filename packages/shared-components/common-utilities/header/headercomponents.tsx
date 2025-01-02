@@ -6,10 +6,11 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-
+import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+
 interface props {
   topnav_data: any;
   course_data: any;
@@ -43,6 +44,15 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
           const hasIdToken = session.tokens.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
             setIsAuthenticated("true");
+            const user_initial = getCookieValue("USER_INITIAL");
+            if (!user_initial && session.tokens.idToken) {
+              const user_initial = getInitialsFromJWT(session.tokens.idToken);
+              setInitial(user_initial);
+            } else {
+              setInitial(user_initial);
+            }
+            const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+            setBasketCount(basket);
           }
         }
       } catch (error) {
@@ -87,10 +97,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
-      const user_initial = getCookieValue("USER_INITIAL");
-      const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-      setBasketCount(basket);
-      setInitial(user_initial);
     } else {
       setIsAuthenticated("false");
     }
@@ -156,7 +162,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
-      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0 relative">
+      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
             <a href="/">
@@ -165,7 +171,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                   src={
                     topnav_data?.data?.contentData?.items[0]?.websiteLogo
-                      ?.url || "/static/assets/images/imageplaceholder.png"
+                      ?.url 
                   }
                   alt="imageplaceholder"
                   priority={true}

@@ -10,12 +10,14 @@ import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
+  pageName?: any;
   routename?: string;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
+  pageName,
   routename,
 }) => {
   const resultData: HomePageStatInterface =
@@ -27,7 +29,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   return (
     <Suspense>
       <section className="wusca-container">
-        <div className="max-w-container mx-auto ">
+        <div className="max-w-container mx-auto">
           {/* container */}
           <div className="wusca-card-container grid  grid-rows-[3_minmax(0_auto)] md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px] py-[40px] md:px-[20px] md:pt-[0] md:pb-[64px] xl:p-[0] gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px]">
             <div className="wusca-content flex flex-col justify-center xl:justify-end col-start-1 row-start-2 md:row-start-1 xl:col-span-1 gap-[16px] md:gap-[24px]">
@@ -42,7 +44,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   ctaTitle: statsData?.cta?.primaryCtaLabel || "",
                   ctaUrl: statsData?.cta.primaryCtaUrl || "",
                   website: `${process.env.PROJECT}`,
-                  pageName: "homepage",
+                  pageName: pageName,
                 }}
               >
                 <a

@@ -7,10 +7,10 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
-import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
+const PageViewLogging: any = dynamicComponentImports("pageviewlog");
+import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
@@ -18,37 +18,44 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
   return (
     <>
-      {/* <GoogleOneTap /> */}
       <PageViewLogging
         gaData={{
           website: `${process.env.PROJECT}`,
-          pageName: "homepage",
+          pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
         }}
       />
-      <Heroslidercomponent data={heroSliderData} />
-
-      {componentList.map((childItems: MultipleCardContainer, index: number) => {
-        const Component: any = dynamicComponentImports(
-          childItems.flagComponentStyle
-        );
-        return (
-          <div
-            className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
-            key={index}
-          >
-            <Component
-              routename=""
-              heading={childItems?.cardSectionTitle}
-              subheading={childItems?.shortDescription}
-              internalName={childItems?.internalName}
-              callAction={childItems?.callToAction}
-            />
-          </div>
-        );
-      })}
+      <ErrorBoundary>
+        <Heroslidercomponent
+          data={heroSliderData}
+          pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+        />
+      </ErrorBoundary>
+      <div>
+        {componentList?.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <ErrorBoundary key={index}>
+                <div
+                  className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+                >
+                  <Component
+                    heading={childItems?.cardSectionTitle}
+                    subheading={childItems?.shortDescription}
+                    internalName={childItems?.internalName}
+                    callAction={childItems?.callToAction}
+                    pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                  />
+                </div>
+              </ErrorBoundary>
+            );
+          }
+        )}
+      </div>
     </>
   );
 };

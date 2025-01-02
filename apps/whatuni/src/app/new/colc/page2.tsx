@@ -13,7 +13,7 @@ import ColcBanner from "@packages/shared-components/common-utilities/colc-banner
 const ComponentPage = async () => {
   return (
     <div className="article_landing">
-      <ColcBanner />
+      <ColcBanner routename="" />
       <Articlesnippetcomponents />
       <Articlelinkcomponents />
       <Scholarshipunicomponents />

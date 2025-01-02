@@ -140,13 +140,13 @@ function GADataLayerFn(
         data_label2: replaceWithNA(dataLabel2),
         cpe_parent_subject: replaceWithNA(cpeParentSubject),
         cpe_child_subject: replaceWithNA(cpeChildSubject),
-        page_name: replaceWithNA(pageName)?.toLowerCase(),
+        page_name: replaceWithNA(pageName),
         college_name: replaceWithNA(collegeName),
         provider_type: replaceWithNA(providerType),
         course_name: replaceWithNA(courseName),
         sponsored_sr: replaceWithNA(sponsoredSr),
         college_id: replaceWithNA(collegeId),
-        ucas_points: replaceWithNA(getCookie("UCAS")),
+        ucas_points: "NA",
         study_mode: replaceWithNA(studyMode),
         target_year: replaceWithNA(targetYear),
         clearing: replaceWithNA(clearing),
@@ -171,5 +171,23 @@ function GADataLayerFn(
 
   waitForDataLayer();
 }
-
-export { getCookie, replaceWithNA, GADataLayerFn, currentAuthenticatedUser };
+function getInitialsFromJWT(token: any) {
+  const email = token?.payload?.email;
+  if (!email) {
+    throw new Error("Email not found in token payload");
+  }
+  const namePart = email.split("@")[0];
+  const initials = namePart
+    .split(".")
+    .map((part: any) => part.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
+  return initials;
+}
+export {
+  getCookie,
+  replaceWithNA,
+  GADataLayerFn,
+  currentAuthenticatedUser,
+  getInitialsFromJWT,
+};
