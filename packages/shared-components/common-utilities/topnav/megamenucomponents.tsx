@@ -24,10 +24,8 @@ const Megamenucomponents = ({ data }: any) => {
   const handleMenuToggle = (menuId: string) => {
     setOpenMenu(openMenu === menuId ? false : menuId);
     if (openMenu === menuId ? false : menuId) {
-  
       document.body.classList.add("overflow-y-hidden");
     } else {
-     
       document.body.classList.remove("overflow-y-hidden");
     }
   };
@@ -63,6 +61,7 @@ const Megamenucomponents = ({ data }: any) => {
     }
   }
 
+  
   return (
     <>
       <div className="flex lg:items-center lg:justify-center">
@@ -76,7 +75,8 @@ const Megamenucomponents = ({ data }: any) => {
                 }
                 onMouseLeave={!isMobile ? () => setOpenMenu(false) : undefined}
               >
-                <div
+                <a
+                  href={menuItem?.navUrl ?? ""}
                   onClick={
                     isMobile
                       ? () => handleMenuToggle(`menu${index}`)
@@ -96,7 +96,7 @@ const Megamenucomponents = ({ data }: any) => {
                       alt={menuItem?.navTitle || ""}
                     />
                   )}
-                </div>
+                </a>
                 {isMobile ? (
                   <div
                     className={`${openMenu == `menu${index}` ? "translate-x-0 opacity-[1]" : "-translate-x-full opacity-0"} megamenu !fixed top-0 right-auto w-[335px] bg-neutral-50 lg:bg-white shadow-custom-5 lg:absolute lg:top-[76px] left-[0] transition-all duration-300 ease-in-out`}
@@ -155,7 +155,6 @@ const Megamenucomponents = ({ data }: any) => {
                         className={`${openMenu === `menu${index}` ? "block" : "hidden"}`}
                       >
                         <div
-                        
                           className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh]`}
                         ></div>
                         <div

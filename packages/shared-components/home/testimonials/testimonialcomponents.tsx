@@ -1,16 +1,20 @@
 "use server";
 import React from "react";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { testimonial } from "@packages/lib/graphQL/graphql-query";
 import TestimonialVideo from "./testimonialvideocomponents";
 const Testimonialcomponents = async ({
   heading,
   subheading,
+  internalName,
 }: {
   heading: string;
   subheading: string;
+  internalName: string;
 }) => {
-  const testimonialJsonData = await graphQlFetchFunction(testimonial);
+  const query = homePageComponentQueryFormation(internalName, testimonial);
+  const testimonialJsonData = await graphQlFetchFunction(query);
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
@@ -26,7 +30,9 @@ const Testimonialcomponents = async ({
             <TestimonialVideo contentfullRightData={contentfullData} />
             <div className="testimonial-card grid content-between p-[24px] rounded-[8px] gap-[16px] bg-primary-500">
               <div className="h5 !font-medium para-lg md:text-heading5 md:head text-white">
-                "{contentfullData?.testimonialBlockRight?.testimonialText}"
+                &ldquo;
+                {contentfullData?.testimonialBlockRight?.testimonialText}
+                &rdquo;
               </div>
               <div className="testimonial-footer">
                 <div className="author-name font-semibold small text-white">
