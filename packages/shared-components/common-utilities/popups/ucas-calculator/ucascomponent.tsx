@@ -64,7 +64,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     setLoading(true);
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
+      console.log("Ucas response", response);
       const { idToken } = response.tokens ?? {};
+      console.log("ucas id token", idToken);
       let tracksessionId = getCookie("trackSessionId");
       if (!tracksessionId) {
         const randomId = uuidv4();
@@ -488,7 +490,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
   return (
     <>
       <div

@@ -45,7 +45,6 @@ export default async function HeaderWrapper() {
   } catch (error) {
     console.error("Unexpected error:", error);
   }
-
   return (
     <>
       <Header

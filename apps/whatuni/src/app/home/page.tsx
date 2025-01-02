@@ -10,7 +10,6 @@ import {
 import { Amplify } from "aws-amplify";
 import awsconfig from "../../../configs/amplifyconfiguration";
 const PageViewLogging: any = dynamicComponentImports("pageviewlog");
-import ErrorBoundary from "@packages/lib/utlils/errorboundary";
 Amplify.configure(awsconfig, { ssr: true });
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
@@ -26,12 +25,10 @@ const Page = async () => {
           pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
         }}
       />
-      <ErrorBoundary>
-        <Heroslidercomponent
-          data={heroSliderData}
-          pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
-        />
-      </ErrorBoundary>
+      <Heroslidercomponent
+        data={heroSliderData}
+        pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+      />
       <div>
         {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
@@ -39,19 +36,19 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
-              <ErrorBoundary key={index}>
-                <div
-                  className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
-                >
-                  <Component
-                    heading={childItems?.cardSectionTitle}
-                    subheading={childItems?.shortDescription}
-                    internalName={childItems?.internalName}
-                    callAction={childItems?.callToAction}
-                    pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
-                  />
-                </div>
-              </ErrorBoundary>
+              <div
+                key={index}
+                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : "bg-white"}`}
+              >
+                <Component
+                  heading={childItems?.cardSectionTitle}
+                  subheading={childItems?.shortDescription}
+                  internalName={childItems?.internalName}
+                  callAction={childItems?.callToAction}
+                  pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                  routename={"/"}
+                />
+              </div>
             );
           }
         )}
