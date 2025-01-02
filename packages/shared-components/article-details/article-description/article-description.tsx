@@ -35,6 +35,8 @@ const Articledescription = ({ data }: any) => {
             width="20"
             height="20"
             alt="Share icon"
+            priority={true}
+            
           />
           Share
         </button>
@@ -53,6 +55,7 @@ const Articledescription = ({ data }: any) => {
                   width="12"
                   height="12"
                   alt="modal close"
+                  priority={true}
                 />
               </div>
               <div className="flex flex-col gap-[32px] items-center">
@@ -66,6 +69,7 @@ const Articledescription = ({ data }: any) => {
                       height="40"
                       src="/static/assets/icons/facebook-blue.svg"
                       alt="Facebook"
+                      priority={true}
                     />
                     <span className="small font-inter">Facebook</span>
                   </button>
@@ -75,6 +79,7 @@ const Articledescription = ({ data }: any) => {
                       height="40"
                       src="/static/assets/icons/twitter-blue.svg"
                       alt="twitter"
+                      priority={true}
                     />
                     <span className="small font-inter">Twitter</span>
                   </button>
@@ -84,6 +89,7 @@ const Articledescription = ({ data }: any) => {
                       height="40"
                       src="/static/assets/icons/pinterest.svg"
                       alt="pinterest"
+                      priority={true}
                     />
                     <span className="small font-inter">Pinterest</span>
                   </button>
@@ -93,6 +99,7 @@ const Articledescription = ({ data }: any) => {
                       height="40"
                       src="/static/assets/icons/copy-link.svg"
                       alt="Copy link"
+                      priority={true}
                     />
                     <span className="small font-inter">Copy link</span>
                   </button>
