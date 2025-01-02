@@ -415,7 +415,7 @@ export const homePageComponentQueryFormation = (
   return query;
 };
 
-export const tagCloudQuery33 = `
+export const tagCloudQuery = `
 ... on PageTagCloud {
 tagName
 tagUrl
