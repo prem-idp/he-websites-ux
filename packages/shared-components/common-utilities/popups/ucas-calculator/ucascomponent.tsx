@@ -488,7 +488,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(qual);
   return (
     <>
       <div

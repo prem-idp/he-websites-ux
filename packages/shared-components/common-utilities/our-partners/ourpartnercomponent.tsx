@@ -1,12 +1,11 @@
 "use client";
 import { Suspense } from "react";
 import { partnerLogo } from "@packages/lib/graphQL/graphql-query";
-import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { useEffect, useState } from "react";
-import crypto from "crypto";
 interface LogoImage {
   url: string;
   width: number;
@@ -19,11 +18,12 @@ interface Partner {
   logoImage: LogoImage;
 }
 
-const OurPartnerComponent = ({ heading }: any) => {
+const OurPartnerComponent = ({ heading, internalName }: any) => {
   const [partners, setPartners] = useState<Partner[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      const query = internalComponentLoop(internalName, partnerLogo);
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
           method: "POST",
@@ -31,7 +31,7 @@ const OurPartnerComponent = ({ heading }: any) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
           },
-          body: JSON.stringify({ query: partnerLogo }),
+          body: JSON.stringify({ query }),
         });
 
         if (!response.ok) {

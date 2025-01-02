@@ -265,59 +265,38 @@ export const footerQuery = `{
     }
   }
 }`;
-export const statsPodQuery = `{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
-  ) {
+export const statsPodQuery = `
+... on PageStatPodContainer {
+  bgColor
+  marginPadding
+  statPodContainerName
+  statinfoCollection {
     items {
-      bodyContentCollection(limit: 10) {
-        items {
-          __typename
-          ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 2) {
-              items {
-                __typename
-                ... on PageStatPodContainer {
-                  bgColor
-                  marginPadding
-                  statPodContainerName
-                  statinfoCollection {
-                  
-                    items {
-                      internalName
-                      statLabel
-                      icon {
-                        url
-                        width
-                        height
-                        title                         
-                      }
-                      statNumber
-                    }
-                      
-                  }
-                  image {
-                    url
-                    width
-                    height
-                    title
-                  }
-                  cta{
-                    internalName
-                    primaryCtaLabel
-                    primaryCtaUrl
-                    primaryCtaEventName
-                  }
-                }
-              }
-            }
-          }
-        }
+      internalName
+      statLabel
+      icon {
+        url
+        width
+        height
+        title
       }
+      statNumber
     }
   }
-}`;
+  image {
+    url
+    width
+    height
+    title
+  }
+  cta {
+    internalName
+    primaryCtaLabel
+    primaryCtaUrl
+    primaryCtaEventName
+  }
+}
+`;
 export const homePageQuery = `{
   contentData: homepageCollection(
     limit: 1
@@ -402,241 +381,106 @@ export const homePageQuery = `{
     }
   }
 }`;
-
 export const internalComponentLoop = (
-  internalName: string,
+  internalName: string | undefined,
   componentQuery: string
 ) => {
-  const query = `{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
-  ) {
-    items {
-      bodyContentCollection(limit: 1
-      where:{internalName:"${internalName}"}) {
+  const query = `
+    {
+      contentData: homepageCollection(
+        limit: 1
+        where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
+      ) {
         items {
-          __typename
-          ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 20 ) {
-              items {
-                __typename
-                ${componentQuery}
+          bodyContentCollection(
+            limit: 1
+            where: {internalName: "${internalName}"}
+          ) {
+            items {
+              __typename
+              ... on MultipleCardContainer {
+                mediaCardsCollection(limit: 20) {
+                  items {
+                    __typename
+                    ${componentQuery}
+                  }
+                }
               }
             }
           }
         }
       }
     }
-  }
-}`;
+  `;
   return query;
 };
 
-export const tagCloudQuery = `{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName:"${process.env.PROJECT}"}}
-    ) {
-    items {
-      bodyContentCollection(limit: 10
-      where:{internalName:"Homepage - Tagcloud - ${process.env.PROJECT}"}) {
-        items {
-          __typename
-          ... on MultipleCardContainer {
-            mediaCardsCollection {
-              items {
-                __typename
-                ... on PageTagCloud {
-                  tagName
-                  tagUrl
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+export const tagCloudQuery33 = `
+... on PageTagCloud {
+tagName
+tagUrl
 }`;
 
 export const partnerLogo = `
-{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName: "Whatuni"}}
-  ) {
-    items {
-      bodyContentCollection(limit: 1
-      where:{internalName:"Homepage - Logos - Whatuni"}) {
-        items {
-          __typename
-          ... on MultipleCardContainer {
-            mediaCardsCollection(limit: 20 ) {
-              items {
-                __typename
-                ... on PageLogo {
-                  logoName
-                  logoImage {
-                    url
-                    width
-                    height
-                  }
-                  logoLink
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+ ... on PageLogo {
+  logoName
+  logoImage {
+    url
+    width
+    height
   }
+  logoLink
 }`;
 
-// export const discoverpodQuery = (
-//   websiteName: string | undefined,
-//   internalName: string
-// ) => `{
-// export const testimonial = `
-// {
-//   contentData: homepageCollection(
-//     limit: 1
-//     where: {urlSlug: "/", website: {websiteName: "${process.env.PROJECT}"}}
-//   ) {
-//     items {
-//       bodyContentCollection(limit: 1
-//       where:{internalName:"Homepage - Testimonials - Whatuni"}) {
-//         items {
-//           __typename
-//           ... on MultipleCardContainer {
-//             mediaCardsCollection(limit: 20 ) {
-//               items {
-//                 __typename
-//                 ... on PageMultimediaTestimonials {
-//                   sectionTitle
-//                   multimediaBlockLeft {
-//                     ... on PageVideo {
-//                       videoIntName
-//                       videoAltText
-//                       thumbnail{
-//                         url
-//                         width
-//                         height
-//                         fileName
-//                       }
-//                       videoUpload {
-//                         url
-//                         width
-//                         height
-//                         title
-//                       }
-//                     }
-//                     ... on PageImage {
-//                       imgIntName
-//                       imgAltText
-//                       imgUpload {
-//                         url
-//                         width
-//                         height
-//                         title
-//                       }
-//                     }
-//                   }
-//                   testimonialBlockRight {
-//                     internalName
-//                     ... on PageTestimonial {
-//                       testimonialText
-//                       author {
-//                         firstName
-//                         lastName
-//                         middleName
-//                         shortBio
-//                       }
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }`;
-export const discoverpodQuery = (
-  websiteName: string | undefined,
-  internalName: string
-) => `{
-  contentData: homepageCollection(
-    limit: 1
-    where: {urlSlug: "/", website: {websiteName: "${websiteName}"}}
-  ) {
-    items {
-      bodyContentCollection(limit: 10
-      where: {internalName: "${internalName}"}
-     ) {
-        items {
-         
-          ... on MultipleCardContainer {
-    
-            mediaCardsCollection(limit: 6) {
-              items {
-                ... on DynamicMediaComponent {
-                  internalName
-                  title
-                  subTitle
-                  shortDescription
-                  backgroundColor
-                  longDescription {
-                    json
-                  }
-                  image {
-                    imageTitle
-                    imgIntName
-                    imgUpload {
-                      url
-                      width
-                      height
-                    }
-                    imgAltText
-                  }
-                  video {
-                    videoIntName
-                    videoTitle
-                    videoDesc
-                    videoAltText
-                    videoTranscript
-                    thumbnail {
-                      url
-                      width
-                      height
-                      title
-                    }
-                    videoUpload {
-                      url
-                      width
-                      height
-                      title
-                    }
-                  }
-                  cta {
-                    internalName
-                    primaryCtaUrl
-                    secondaryCtaUrl
-                    primaryCtaLabel
-                    primaryCtaEventName
-                    secondaryCtaLabel
-                    primaryCtaTarget
-                    secondaryCtaTarget
-                    flagStyle
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+export const discoverpodQuery = `
+... on DynamicMediaComponent {
+  internalName
+  title
+  subTitle
+  shortDescription
+  backgroundColor
+  longDescription {
+    json
+  }
+  image {
+    imageTitle
+    imgIntName
+    imgUpload {
+      url
+      width
+      height
     }
+    imgAltText
+  }
+  video {
+    videoIntName
+    videoTitle
+    videoDesc
+    videoAltText
+    videoTranscript
+    thumbnail {
+      url
+      width
+      height
+      title
+    }
+    videoUpload {
+      url
+      width
+      height
+      title
+    }
+  }
+  cta {
+    internalName
+    primaryCtaUrl
+    secondaryCtaUrl
+    primaryCtaLabel
+    primaryCtaEventName
+    secondaryCtaLabel
+    primaryCtaTarget
+    secondaryCtaTarget
+    flagStyle
   }
 }`;
 

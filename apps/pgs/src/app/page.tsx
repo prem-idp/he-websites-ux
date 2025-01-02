@@ -16,11 +16,8 @@ const Page = async () => {
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
 
- 
-
   return (
     <>
-     
       <PageViewLogging
         gaData={{
           website: `${process.env.PROJECT}`,
@@ -40,6 +37,7 @@ const Page = async () => {
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
+                routename={"homepage"}
               />
             );
           }

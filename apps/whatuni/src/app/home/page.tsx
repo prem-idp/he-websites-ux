@@ -40,11 +40,11 @@ const Page = async () => {
             key={index}
           >
             <Component
-              routename=""
               heading={childItems?.cardSectionTitle}
               subheading={childItems?.shortDescription}
               internalName={childItems?.internalName}
               callAction={childItems?.callToAction}
+              routename="/"
             />
           </div>
         );

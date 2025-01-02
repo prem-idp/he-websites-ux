@@ -3,23 +3,25 @@ import { statsPodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { HomePageStatInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-
+import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
 import Image from "next/image";
 
 import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
-  routename?: string;
+  routename: string | undefined;
+  internalName: string | undefined;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
   routename,
+  internalName,
 }) => {
-  const resultData: HomePageStatInterface =
-    await graphQlFetchFunction(statsPodQuery);
+  const query = internalComponentLoop(internalName, statsPodQuery);
+  const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
@@ -68,7 +70,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                 </a>
               </ClickTrackerWrapper>
             </div>
-            {routename === "" && (
+            {routename == "/" && (
               <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">
                 {statsData?.statinfoCollection?.items?.map((stats, index) => (
                   <div

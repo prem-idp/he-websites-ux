@@ -1,18 +1,21 @@
 "use server";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-
+import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
-import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-
+import { tagCloudQuery33 } from "@packages/lib/graphQL/graphql-query";
 interface headingProps {
   heading: string;
+  internalName: string | undefined;
 }
 
-const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
-  const tagCloudData: HomePageInterface =
-    await graphQlFetchFunction(tagCloudQuery);
+const Tagcloudcomponents: React.FC<headingProps> = async ({
+  heading,
+  internalName,
+}) => {
+  const query = internalComponentLoop(internalName, tagCloudQuery33);
+  const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
       .mediaCardsCollection.items;
