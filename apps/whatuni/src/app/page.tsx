@@ -44,6 +44,7 @@ const Page = async () => {
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
                   callAction={childItems?.callToAction}
+                  routename="/"
                 />
               </div>
             );

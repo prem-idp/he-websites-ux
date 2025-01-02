@@ -1,17 +1,21 @@
 "use server";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Link from "next/link";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
-import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-
+import { tagCloudQuery33 } from "@packages/lib/graphQL/graphql-query";
 interface headingProps {
   heading: string;
-  pageName:any;
+  pageName: any;
+  internalName: string | undefined;
 }
 
-const Tagcloudcomponents: React.FC<headingProps> = async ({ heading,pageName }) => {
+const Tagcloudcomponents: React.FC<headingProps> = async ({
+  heading,
+  pageName,
+}) => {
   const tagCloudData: HomePageInterface =
     await graphQlFetchFunction(tagCloudQuery);
   const tagCloudArray =
@@ -32,22 +36,23 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading,pageName }) 
                 {tagCloudArray?.map((data, index) => (
                   <li key={index}>
                     {data?.tagUrl && (
-                      <ClickTrackerWrapper  gaData={{
-                        event: "ga_contentful_events",
-                        eventName:data?.tagName,
-                        ctaTitle: data?.tagName,
-                        ctaUrl: data?.tagUrl,
-                        website:`${process.env.PROJECT}`,
-                        pageName: pageName,
-                      }}
+                      <ClickTrackerWrapper
+                        gaData={{
+                          event: "ga_contentful_events",
+                          eventName: data?.tagName,
+                          ctaTitle: data?.tagName,
+                          ctaUrl: data?.tagUrl,
+                          website: `${process.env.PROJECT}`,
+                          pageName: pageName,
+                        }}
                       >
-                      <Link
-                        href={data?.tagUrl}
-                        prefetch={false}
-                        className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
-                      >
-                        {data?.tagName}
-                      </Link>
+                        <Link
+                          href={data?.tagUrl}
+                          prefetch={false}
+                          className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
+                        >
+                          {data?.tagName}
+                        </Link>
                       </ClickTrackerWrapper>
                     )}
                   </li>
