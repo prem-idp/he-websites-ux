@@ -3,7 +3,7 @@ import { statsPodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { HomePageStatInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import Image from "next/image";
 
 import React, { Suspense } from "react";
@@ -20,7 +20,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   routename,
   internalName,
 }) => {
-  const query = internalComponentLoop(internalName, statsPodQuery);
+  const query = homePageComponentQueryFormation(internalName, statsPodQuery);
   const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(

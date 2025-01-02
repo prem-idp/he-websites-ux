@@ -3,7 +3,7 @@ import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Discoverslidercomponents from "@packages/shared-components/common-utilities/slider/discoverslidercomponents";
 import React from "react";
-import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 interface DiscoverSliderInterface {
   heading: string;
   subheading: string;
@@ -11,7 +11,10 @@ interface DiscoverSliderInterface {
 }
 
 const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
-  const query = internalComponentLoop(props.internalName, discoverpodQuery);
+  const query = homePageComponentQueryFormation(
+    props.internalName,
+    discoverpodQuery
+  );
   const discovercontentfulData: any = (await graphQlFetchFunction(query)).data
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]
     ?.mediaCardsCollection?.items;

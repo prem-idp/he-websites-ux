@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import { partnerLogo } from "@packages/lib/graphQL/graphql-query";
-import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
@@ -23,7 +23,7 @@ const OurPartnerComponent = ({ heading, internalName }: any) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const query = internalComponentLoop(internalName, partnerLogo);
+      const query = homePageComponentQueryFormation(internalName, partnerLogo);
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
           method: "POST",

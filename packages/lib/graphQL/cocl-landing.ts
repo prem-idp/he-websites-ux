@@ -130,7 +130,7 @@ export const ColcLandingPageSeoQuery = `
  }
   `;
 
-export const internalComponentLoop = (
+export const homePageComponentQueryFormation = (
   internalName: string,
   componentQuery: string
 ) => {

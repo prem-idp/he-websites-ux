@@ -1,6 +1,6 @@
 "use server";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import { internalComponentLoop } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
@@ -14,7 +14,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
   heading,
   internalName,
 }) => {
-  const query = internalComponentLoop(internalName, tagCloudQuery33);
+  const query = homePageComponentQueryFormation(internalName, tagCloudQuery33);
   const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
