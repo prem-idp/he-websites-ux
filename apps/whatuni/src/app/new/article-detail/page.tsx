@@ -5,7 +5,9 @@ import Authorprofile from "@packages/shared-components/article-details/author-pr
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+
 import Image from "next/image";
+
 const page = async () => {
   const articledetaildata = await graphQlFetchFunction(articleDetailQuery);
   const data = articledetaildata?.data?.contentData?.items[0];
@@ -27,6 +29,7 @@ const page = async () => {
       label: "Overview",
     },
   ];
+  console.log(data);
   const customOptions = {
     renderNode: {
       paragraph: (node: any, children: any) => (
@@ -85,29 +88,32 @@ const page = async () => {
       </section>
       <div className="flex flex-col items-center justify-center min-h-screen px-6 sm:px-12 lg:px-16 w-full max-w-4xl">
         {data?.bodyContentCollection?.items?.map((dt: any, index: any) => (
-         <div
-         key={index}
-         className="mb-8 max-w-3xl w-full flex flex-col items-center text-center overflow-hidden"
-       >
-         {dt?.paragraphTitle && (
-           <h2 className="text-xl font-bold mb-4">{dt?.paragraphTitle}</h2>
-         )}
-         {dt?.media?.url && (
-           <Image
-             alt="Image"
-             src={dt?.media?.url}
-             width={700}
-             height={700}
-             className="mb-4"
-           />
-         )}
+          <div
+            key={index}
+            className="mb-8 max-w-3xl w-full flex flex-col items-center text-center overflow-hidden"
+          >
+            {dt?.paragraphTitle && (
+              <h2 className="text-xl font-bold mb-4">{dt?.paragraphTitle}</h2>
+            )}
+            {dt?.media?.url && (
+              <Image
+                priority={true}
+                alt="Image"
+                src={dt?.media?.url}
+                width={700}
+                height={700}
+                className="mb-4"
+              />
+            )}
 
-         <div className="prose max-w-full">
-           {dt?.paragraphBodyRichText?.json &&
-             documentToReactComponents(dt?.paragraphBodyRichText.json, customOptions)}
-         </div>
-         
-       </div>
+            <div className="prose max-w-full">
+              {dt?.paragraphBodyRichText?.json &&
+                documentToReactComponents(
+                  dt?.paragraphBodyRichText.json,
+                  customOptions
+                )}
+            </div>
+          </div>
         ))}
       </div>
     </>
