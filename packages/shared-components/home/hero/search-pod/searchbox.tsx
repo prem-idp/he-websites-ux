@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import CourseTab from "../../search-input-pods/coursetab";
 import UniversityTab from "../../search-input-pods/universitytab";
@@ -16,7 +16,7 @@ const UcasComponent = dynamic(
   { ssr: false }
 );
 const SearchBox = ({ pgs_search_data }: any) => {
-  const [startfetch, setStartFetch] = useState(false);
+  // const [startfetch, setStartFetch] = useState(false);
   const [course_data, setCourseData] = useState({});
   const [uni_data, setUniData] = useState({});
   const searchTabClick = (tabName: string) => {
@@ -52,7 +52,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-      console.log("inside the use effect");
       // Define payloads
       const body: any = {
         affiliateId: 220703,
@@ -87,7 +86,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
               "Content-Type": "application/json",
               "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             },
-            cache: "no-store",
+            cache: "force-cache",
           }),
           fetch(urlUnibody, {
             method: "GET",
@@ -113,33 +112,33 @@ const SearchBox = ({ pgs_search_data }: any) => {
     };
 
     if (
-      startfetch &&
       !(Object.keys(uni_data).length > 0) &&
-      !(Object.keys(course_data).length > 0)
+      !(Object.keys(course_data).length > 0) &&
+      process.env.PROJECT == "Whatuni"
     ) {
       fetchData();
     }
-  }, [startfetch]);
-  // ===================================================use effect to start the fetch=======================================================
-  useEffect(() => {
-    const handleUserInteraction = () => {
-      setStartFetch(true);
-      window.removeEventListener("mousemove", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-      window.removeEventListener("load", handleUserInteraction);
-    };
-    window.addEventListener("mousemove", handleUserInteraction);
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("keypress", handleUserInteraction);
-    window.addEventListener("load", handleUserInteraction);
-    return () => {
-      window.removeEventListener("mousemove", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-      window.removeEventListener("load", handleUserInteraction);
-    };
   }, []);
+  // ===================================================use effect to start the fetch=======================================================
+  // useEffect(() => {
+  //   const handleUserInteraction = () => {
+  //     setStartFetch(true);
+  //     window.removeEventListener("mousemove", handleUserInteraction);
+  //     window.removeEventListener("click", handleUserInteraction);
+  //     window.removeEventListener("keypress", handleUserInteraction);
+  //     window.removeEventListener("load", handleUserInteraction);
+  //   };
+  //   window.addEventListener("mousemove", handleUserInteraction);
+  //   window.addEventListener("click", handleUserInteraction);
+  //   window.addEventListener("keypress", handleUserInteraction);
+  //   window.addEventListener("load", handleUserInteraction);
+  //   return () => {
+  //     window.removeEventListener("mousemove", handleUserInteraction);
+  //     window.removeEventListener("click", handleUserInteraction);
+  //     window.removeEventListener("keypress", handleUserInteraction);
+  //     window.removeEventListener("load", handleUserInteraction);
+  //   };
+  // }, []);
 
   // ====================================================================================================================================
   return (
@@ -205,7 +204,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Calculate your UCAS points
+                      Don’t know your UCAS points? Calculate them
                     </div>
                     {isUcasPopupOpen && (
                       <UcasComponent
@@ -217,8 +216,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                 )}
                 {searchFormHandle?.activeTab == "tab2" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/degrees/find-university/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -229,13 +227,12 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
                 {searchFormHandle?.activeTab == "tab3" && (
                   <div className="flex justify-center md:justify-end my-[24px] md:my-0">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/advice/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
                     >
@@ -246,7 +243,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 )}
 

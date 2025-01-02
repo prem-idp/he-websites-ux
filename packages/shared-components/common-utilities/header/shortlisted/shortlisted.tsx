@@ -1,43 +1,29 @@
-import Link from "next/link";
-
-export default function Shortlisted() {
-  // Array of items to display in the list
+export default function Shortlisted({ topnav_data }: any) {
+  const data =
+    topnav_data?.data?.contentData?.items[0]?.shortlistMenu
+      ?.navigationElementsCollection?.items[0]?.navChildC1Collection?.items;
+  console.log(data);
   return (
     <>
       <div className="flex justify-between p-[16px] absolute z-10 top-[56px] right-[-5px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] md:top-[65px] lg:top-[62px]">
         <ul className="small">
-          <li className="mb-[16px] hover:underline">
-            <Link href="/degrees/comparison"   prefetch={false}>
-              Favourites
-              {/* <span className="w-[16px] h-[16px] rounded-[8px] bg-success-400 ml-[8px] text-black font-semibold xs-small px-[5px] py-[2px]">
-                5
-              </span> */}
-            </Link>
-          </li>
-          <li className="mb-[16px] hover:underline">
-            <Link href="#"   prefetch={false}>
-              Courses
-              {/* <span className="w-[16px] h-[16px] rounded-[8px] bg-success-400 ml-[8px] text-black font-semibold xs-small px-[5px] py-[2px]">
-                2
-              </span> */}
-            </Link>
-          </li>
-          <li className="hover:underline">
-            <Link href="#"   prefetch={false}>
-              Universities
-              {/* <span className="w-[16px] h-[16px] rounded-[8px] bg-success-400 ml-[8px] text-black font-semibold xs-small px-[5px] py-[2px]">
-                3
-              </span> */}
-            </Link>
-          </li>
+          {data?.map((dt: any, index: any) => (
+            <li className="mb-[16px] hover:underline" key={index}>
+              <a href={dt?.navUrl}>
+                {dt?.navTitle}
+                {/* <span className="w-[16px] h-[16px] rounded-[8px] bg-success-400 ml-[8px] text-black font-semibold xs-small px-[5px] py-[2px]">
+                 5
+               </span> */}
+              </a>
+            </li>
+          ))}
         </ul>
-        <Link
+        <a
           href="/degrees/comparison"
-          prefetch={false}
           className="font-semibold small bg-primary-400 text-white px-[16px] py-[8px] rounded-[18px] self-start hover:bg-primary-500"
         >
           Compare
-        </Link>
+        </a>
       </div>
     </>
   );

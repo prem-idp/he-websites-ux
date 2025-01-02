@@ -4,7 +4,6 @@ import UniversityTab from "@packages/shared-components/home/search-input-pods/un
 import AdviceTab from "@packages/shared-components/home/search-input-pods/advicetab";
 import CourseTab from "@packages/shared-components/home/search-input-pods/coursetab";
 import Image from "next/image";
-import Link from "next/link";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { CourseData, UniData } from "@packages/lib/types/interfaces";
 interface props {
@@ -117,13 +116,12 @@ export default function Search({ course_data, uni_data }: props) {
                     <div className="ml-[4px] mr-[8px]">
                       Don’t know your UCAS points?
                     </div>
-                    <Link
-                      prefetch={false}
+                    <a
                       href="#"
                       className="text-blue-500 font-semibold hover:underline"
                     >
                       Calculate them
-                    </Link>
+                    </a>
                   </div>
                 </div>
               )}
@@ -135,8 +133,7 @@ export default function Search({ course_data, uni_data }: props) {
                     data={uni_data}
                   />
                   <div className="flex justify-center">
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/degrees/find-university/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
@@ -147,7 +144,7 @@ export default function Search({ course_data, uni_data }: props) {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               )}
@@ -158,9 +155,7 @@ export default function Search({ course_data, uni_data }: props) {
                     setsearchFormHandle={setsearchFormHandle}
                   />
                   <div className="flex justify-center">
-                    
-                    <Link
-                      prefetch={false}
+                    <a
                       href="/advice/"
                       className="flex items-center gap-[4px] text-blue-500 small font-semibold hover:underline"
                     >
@@ -171,7 +166,7 @@ export default function Search({ course_data, uni_data }: props) {
                         height={20}
                         alt="Right Arrow"
                       />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               )}

@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import Link from "next/link";
+
 import { FooterNavCollectionItem } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 interface PropsInterface {
@@ -26,31 +26,29 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
               {navItems?.navChildC1Collection?.items?.map(
                 (childItem, index) => (
                   <li key={index + 1} data-testid={`childMenu${index + 1}`}>
-                    <ClickTrackerWrapper   gaData={{
+                    <ClickTrackerWrapper
+                      gaData={{
                         event: "ga_contentful_events",
-                        eventName:"footer_clicks",
+                        eventName: "footer_clicks",
                         ctaTitle: childItem.navTitle,
                         ctaUrl: childItem?.navUrl || "",
-                        website:`${process.env.PROJECT}`,
-                        pageName:"homepage",
-                        contentfulCategory1:navItems?.navTitle,
-
+                        website: `${process.env.PROJECT}`,
+                        pageName:  "",
+                        contentfulCategory1: navItems?.navTitle,
                       }}
-                      >
-                    <Link
-                    
-                      data-testid={`${childItem.navTitle}${index + 1}`}
-                      prefetch={false}
-                      target={
-                        childItem.navCtaTarget?.includes("new")
-                          ? "_blank"
-                          : "_parent"
-                      }
-                      href={childItem?.navUrl || ""}
-                      className="small text-grey300 hover:underline"
                     >
-                      {childItem?.navTitle}
-                    </Link>
+                      <a
+                        data-testid={`${childItem.navTitle}${index + 1}`}
+                        target={
+                          childItem.navCtaTarget?.includes("new")
+                            ? "_blank"
+                            : "_parent"
+                        }
+                        href={childItem?.navUrl || ""}
+                        className="small text-grey300 hover:underline"
+                      >
+                        {childItem?.navTitle}
+                      </a>
                     </ClickTrackerWrapper>
                   </li>
                 )

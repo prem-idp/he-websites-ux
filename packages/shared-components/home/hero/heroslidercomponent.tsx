@@ -7,9 +7,10 @@ import { SliderBannerCollection } from "@packages/lib/types/interfaces";
 import HeroSliderComponentSkeleton from "@packages/shared-components/common-utilities/skeleton/heroslidercomponentskeleton";
 interface PropjectProps {
   data: SliderBannerCollection;
+  pageName?:any
 }
 
-const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
+const HeroSliderComponent: React.FC<PropjectProps> = async ({ data ,pageName}) => {
   const body = {
     affiliateId: 220703,
     actionType: "subject",
@@ -50,21 +51,23 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({ data }) => {
 
   return (
     <>
-      <Suspense fallback={<HeroSliderComponentSkeleton />}>
-        <div
-          data-testid="hero-banner-colour"
-          className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-yellow-200"} px-[16px] md:px-[20px] xl2:px-0.5`}
-        >
-          <div className="max-w-container mx-auto">
-            <HeroSlider data={data} />
+      <section className="bg-grey-50">
+        <Suspense fallback={<HeroSliderComponentSkeleton />}>
+          <div
+            data-testid="hero-banner-colour"
+            className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-200" : "bg-green-200"} px-[16px] md:px-[20px] xl2:px-0`}
+          >
+            <div className="max-w-container mx-auto">
+              <HeroSlider data={data} pageName={pageName}/>
+            </div>
           </div>
-        </div>
-        <SearchBox
-          // course_data={course_data}
-          // uni_data={uni_data}
-          pgs_search_data={pgs_search_data}
-        />
-      </Suspense>
+          <SearchBox
+            // course_data={course_data}
+            // uni_data={uni_data}
+            pgs_search_data={pgs_search_data}
+          />
+        </Suspense>
+      </section>
     </>
   );
 };

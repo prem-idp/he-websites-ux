@@ -54,7 +54,7 @@ const OurPartnerComponent = ({ heading }: any) => {
   return (
     <Suspense>
       {partners.length > 1 && (
-        <section className="bg-grey-50 py-[40px] md:pt-[64px] md:pb-[39px] px-[16px] md:px-[20px] xl2:px-0">
+        <section className=" py-[40px] md:pt-[64px] md:pb-[39px] px-[16px] md:px-[20px] xl2:px-0">
           <div className="max-w-container mx-auto">
             <h2 className="text-center font-bold">{heading}</h2>
             <div className="flex items-center pt-[32px]">

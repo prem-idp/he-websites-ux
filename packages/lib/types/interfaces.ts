@@ -407,6 +407,7 @@ export interface HomePageInterface {
     contentData: {
       items: [
         {
+          gaPageName: any,
           bodyContentCollection: {
             items: Array<{
               __typename: string;
@@ -416,6 +417,7 @@ export interface HomePageInterface {
             }>;
           };
         },
+        
       ];
     };
   };
@@ -440,6 +442,7 @@ export interface HomePageInterface {
     contentData: {
       items: [
         {
+          gaPageName: any,
           bodyContentCollection: {
             items: Array<{
               __typename: string;

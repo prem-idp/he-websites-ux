@@ -1,107 +1,115 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Menucategory1card from '@packages/shared-components/common-utilities/megamenu/menucategory1card';
-import '@testing-library/jest-dom';
-describe('Menucategory1card', () => {
-  it('renders the category title when "L2 Text" style is found in data', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import Menucategory1card from "@packages/shared-components/common-utilities/megamenu/menucategory1card";
+import {
+  GADataLayerFn,
+  currentAuthenticatedUser,
+} from "@packages/lib/utlils/helper-function";
+import "@testing-library/jest-dom";
+
+// Mocking helper functions
+jest.mock("@packages/lib/utlils/helper-function", () => ({
+  GADataLayerFn: jest.fn(),
+  currentAuthenticatedUser: jest.fn(() => Promise.resolve("test-user")),
+}));
+
+describe("Menucategory1card", () => {
+  const mockData = [
+    { flagNavItemStyle: "L2 Text", navTitle: "Category Title" },
+    {
+      flagNavItemStyle: "Nav Bold",
+      navTitle: "Item 1",
+      navUrl: "/item1",
+      navCtaTarget: "Open in new tab",
+    },
+    { flagNavItemStyle: "Nav Normal", navTitle: "Item 2", navUrl: "/item2" },
+  ];
+  const mockParentMenu = "Parent Menu";
+
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear mocks before each test
   });
 
-  it('renders all the links except "L2 Text"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 2', navUrl: 'https://example.com/2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getAllByRole('link')).toHaveLength(2);
-    expect(screen.getByText('Link 1')).toBeInTheDocument();
-    expect(screen.getByText('Link 2')).toBeInTheDocument();
+  it("throws an error if the data prop is missing", () => {
+    expect(() =>
+      render(<Menucategory1card data={null} parentMenu={mockParentMenu} />)
+    ).toThrow("Menucategory1card requires data prop.");
   });
 
-  it('handles empty data', () => {
-    render(<Menucategory1card data={[]} />);
-    expect(screen.queryByText('Category Title')).not.toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
+  it("renders the navTitle if an item with flagNavItemStyle 'L2 Text' exists", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    expect(screen.getByText("Category Title")).toBeInTheDocument();
   });
 
-  it('handles data with no "L2 Text" style', () => {
-    const data = [
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 2', navUrl: 'https://example.com/2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.queryByText('Category Title')).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(2);
+  it("renders the list of items excluding 'L2 Text'", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    expect(screen.getByText("Item 1")).toBeInTheDocument();
+    expect(screen.getByText("Item 2")).toBeInTheDocument();
   });
 
-  it('handles data with multiple "L2 Text" styles (should only render the first one)', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 1' },
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 2' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title 1')).toBeInTheDocument();
-    expect(screen.queryByText('Category Title 2')).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(1);
+  it("calls GADataLayerFn and currentAuthenticatedUser on link click", async () => {
+    process.env.PROJECT = "test-project"; // Ensure environment variable is set
+
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    const link = screen.getByText("Item 1");
+
+    fireEvent.click(link);
+
+    await waitFor(() => {
+      expect(GADataLayerFn).toHaveBeenCalledWith(
+        "ga_contentful_events",
+        "header_clicks",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "homepage",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        "test-user",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "test-project",
+        "Item 1",
+        "/item1",
+        "Parent Menu",
+        "Category Title"
+      );
+    });
   });
 
-  it('handles data with no links (i.e. all items have "L2 Text" style)', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 1' },
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title 2' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title 1')).toBeInTheDocument();
-    expect(screen.queryByText('Category Title 2')).not.toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
+  it("renders links with correct target and rel attributes", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    const link = screen.getByText("Item 1");
+
+    expect(link).toHaveAttribute("href", "/item1");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+
+    const link2 = screen.getByText("Item 2");
+    expect(link2).toHaveAttribute("href", "/item2");
+    expect(link2).toHaveAttribute("target", "_parent");
+    expect(link2).not.toHaveAttribute("rel");
   });
 
-  it('handles data with links that have no URL', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
-  });
+  it("applies correct styles for 'Nav Bold' and 'Nav Normal'", () => {
+    render(<Menucategory1card data={mockData} parentMenu={mockParentMenu} />);
+    const boldItem = screen.getByText("Item 1");
+    const normalItem = screen.getByText("Item 2");
 
-  // it('handles data with links that have no title', () => {
-  //   const data = [
-  //     { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-  //     { flagNavItemStyle: 'Other', navUrl: 'https://example.com/1' },
-  //   ];
-  //   render(<Menucategory1card data={data} />);
-  //   expect(screen.getByText('Category Title')).toBeInTheDocument();
-  //   expect(screen.queryAllByRole('link')).toHaveLength(0);
-  // });
-
-  it('handles data with links that have a target of "_blank"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1', navCtaTarget: 'Open in new tab' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute('target', '_blank');
-    expect(screen.getByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('handles data with links that have a target of "_parent"', () => {
-    const data = [
-      { flagNavItemStyle: 'L2 Text', navTitle: 'Category Title' },
-      { flagNavItemStyle: 'Other', navTitle: 'Link 1', navUrl: 'https://example.com/1', navCtaTarget: 'Open in current tab' },
-    ];
-    render(<Menucategory1card data={data} />);
-    expect(screen.getByText('Category Title')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute('target', '_parent');
-    expect(screen.getByRole('link')).not.toHaveAttribute('rel');
+    expect(boldItem).toHaveClass("font-bold");
+    expect(normalItem).toHaveClass("font-normal");
   });
 });

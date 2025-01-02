@@ -41,7 +41,7 @@ const GAData = async() => {
       "NA",
       "NA",
       "NA",
-      pageName,
+      pageName === "" ?  localStorage?.getItem('gaPageName') : pageName,
       "NA",
       collegeName,
       "NA",
