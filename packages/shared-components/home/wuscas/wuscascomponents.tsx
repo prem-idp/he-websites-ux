@@ -10,11 +10,13 @@ import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
+  routename?: string;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   heading,
   subheading,
+  routename,
 }) => {
   const resultData: HomePageStatInterface =
     await graphQlFetchFunction(statsPodQuery);
@@ -65,63 +67,32 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   </svg>
                 </a>
               </ClickTrackerWrapper>
-              {/* <ClickTrackerWrapper
-                gaData={{
-                  event: "ga_contentful_events",
-                  eventName: statsData?.cta?.primaryCtaEventName || "",
-                  ctaTitle: statsData?.cta?.primaryCtaLabel || "",
-                  ctaUrl: statsData?.cta.primaryCtaUrl || "",
-                  website: `${process.env.PROJECT}`,
-                  pageName: "homepage",
-                }}
-              >
-                <a
-                  
-                  href={`${statsData?.cta.primaryCtaUrl}`}
-                  className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
-                >
-                  {statsData?.cta?.primaryCtaLabel}
-                  <svg
-                    width="16"
-                    height="14"
-                    viewBox="0 0 16 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999"
-                      stroke="#fff"
-                      strokeWidth="1.67"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-              </ClickTrackerWrapper> */}
             </div>
-            <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">
-              {statsData?.statinfoCollection?.items?.map((stats, index) => (
-                <div
-                  className="wusca-card flex items-center flex-col md:flex-row gap-[8px] px-[16px] py-[12px] rounded-[4px] border border-grey300"
-                  key={index}
-                >
-                  <Image
-                    className="w-[32px] h-[32px]"
-                    src={`${stats?.icon.url || ""}`}
-                    width="32"
-                    height="32"
-                    alt={stats.icon.title}
-                    priority={true}
-                  />
-                  <div className="wusca-content text-center md:text-left">
-                    <h3 className="font-bold">{stats?.statNumber}</h3>
-                    <div className="font-semibold small">
-                      {stats?.statLabel}
+            {routename === "" && (
+              <div className="wusca-highlights grid grid-cols-3 items-baseline gap-[8px] row-start-3 row-end-4 col-start-1 col-end-2 md:row-start-2 md:row-end-3 md:col-start-1 md:col-end-3  xl:col-end-2 ">
+                {statsData?.statinfoCollection?.items?.map((stats, index) => (
+                  <div
+                    className="wusca-card flex items-center flex-col md:flex-row gap-[8px] px-[16px] py-[12px] rounded-[4px] border border-grey300"
+                    key={index}
+                  >
+                    <Image
+                      className="w-[32px] h-[32px]"
+                      src={`${stats?.icon.url || ""}`}
+                      width="32"
+                      height="32"
+                      alt={stats.icon.title}
+                      priority={true}
+                    />
+                    <div className="wusca-content text-center md:text-left">
+                      <h3 className="font-bold">{stats?.statNumber}</h3>
+                      <div className="font-semibold small">
+                        {stats?.statLabel}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             <div className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1">
               <Image
                 priority={true}

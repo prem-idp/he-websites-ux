@@ -15,21 +15,21 @@ const nextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      {
-        source: "/:path*/",
-        has: [
-          {
-            type: "query",
-            key: "someQueryParam",
-          },
-        ],
-        destination: "/:path*",
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/:path*/",
+  //       has: [
+  //         {
+  //           type: "query",
+  //           key: "someQueryParam",
+  //         },
+  //       ],
+  //       destination: "/:path*",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
   reactStrictMode: false,
 
   env: {
@@ -50,7 +50,6 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
     ],
   },
-  
 };
 
 export default nextConfig;
