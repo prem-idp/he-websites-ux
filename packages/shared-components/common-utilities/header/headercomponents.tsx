@@ -39,6 +39,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
+        console.log("From header ==========================", session);
         if (session.tokens) {
           const hasAccessToken = session.tokens.accessToken !== undefined;
           const hasIdToken = session.tokens.idToken !== undefined;
@@ -170,8 +171,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 <Image
                   className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                   src={
-                    topnav_data?.data?.contentData?.items[0]?.websiteLogo
-                      ?.url 
+                    topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url
                   }
                   alt="imageplaceholder"
                   priority={true}
