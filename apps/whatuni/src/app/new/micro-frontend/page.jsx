@@ -1,7 +1,7 @@
 "use server";
 import Script from "next/script";
 import Head from "next/head";
-export default async function Home() {
+export default async function page() {
   return (
     <>
       <Head>

@@ -11,7 +11,7 @@ const page = async () => {
   return (
     <>
       <h1>
-        <Link href="/new/mf">Calculation page</Link>
+        <Link href="/new/micro-frontend">Calculation page</Link>
       </h1>
       {componentList.map((childItems: MultipleCardContainer, index: number) => {
         const Component: any = dynamicComponentImports(
