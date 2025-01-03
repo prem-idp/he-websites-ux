@@ -24,7 +24,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
     >
       <a
         href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
-        className="reviews-card group  flex flex-col justify-between bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[249px]"
+        className="reviews-card group  flex flex-col justify-between bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[267px]"
       >
         <div
           data-testid="review-card"
@@ -67,7 +67,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
           <div className="reviewed__date x-small text-grey-500">
             {reviewData?.reviewedDate}
           </div>
-          <div className="reviewed__date font-semibold para line-clamp-1">
+          <div className="reviewed__dat e font-semibold para line-clamp-1">
             {reviewData?.courseTitle}
           </div>
           <div className="reviewed__date small text-grey-500 line-clamp-3 min-h-[63px] break-words">

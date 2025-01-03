@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 const config: Config = {
   content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "../../packages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -44,7 +47,7 @@ const config: Config = {
       xxl2: "1600px",
       xxxl: "1920px",
     },
-    fontFamily: {
+    fontFamily: {   
       farro: ["Farro", "sans-serif"],
       inter: ["Inter", "sans-serif"],
     },
@@ -55,7 +58,7 @@ const config: Config = {
       heading2: ["3.6rem", "4.7rem"], //'36px','47px'
       heading3: ["3.2rem", "4.2rem"], //'32px','42px'
       heading4: ["2.8rem", "3.6rem"], //'28px', '36px'
-      heading5: ["2.4rem", "3.1rem"], //'24px', '31px'a
+      heading5: ["2.4rem", "3.1rem"], //'24px', '31px'
       heading6: ["2rem", "2.6rem"], //'20px', '26 px'
       "para-lg": ["1.8rem", "2.4rem"], //'18px', '24px'
       para: ["1.6rem", "2.4rem"], //'16px', '24px'
@@ -73,25 +76,26 @@ const config: Config = {
         //"blue-200": "#0FBEFD",
         //"blue-300": "#0086F8",
         //"blue-500": "#3460DC",
-        grey300: "#333",
-        grey400: "#707070",
-        grey500: "#767676",
-        grey600: "#e6e6e6",
-        grey900: "#0F172A",
-        neutral50: "#F8FAFC",
-        neutral100: "#F1F5F9",
-        neutral200: "#E2E8F0",
-        neutral300: "#CBD5E1",
-        neutral400: "#94A3B8",
-        blue: {
-          50: "#EDFCFF",
+        "grey300": "#333",
+        "grey400": "#707070",
+        "grey500": "#767676",
+        "grey600": "#e6e6e6",
+        "grey900": "#0F172A",
+        "neutral50":"#F8FAFC",
+        "neutral100": "#F1F5F9",
+        "neutral200": "#E2E8F0",
+        "neutral300": "#CBD5E1",
+        "neutral400": "#94A3B8",
+        "green200":"#B4E646",
+        blue:{
+          50:"#EDFCFF",
           100: "#C8F0F5",
           200: "#0FBEFD",
           300: "#0086F8",
           400: "#4664DC",
           500: "#3460DC",
         },
-        green: {
+        green:{
           50: "#F1F4FD",
           100: "#FDFAAF",
           200: "#B4E646",
@@ -100,6 +104,7 @@ const config: Config = {
           50: "#FFF7E0",
           100: "#FFF0BE",
           200: "#FFD700",
+          600:"#C5422B"
         },
         grey: {
           50: "#F9FAFB",
@@ -110,6 +115,7 @@ const config: Config = {
           500: "#5C656E",
           600: "#333F48",
           700: "#767676",
+          900: "#0F172A",
         },
         neutral: {
           100: "#EFEFF1",
@@ -117,8 +123,8 @@ const config: Config = {
         },
         primary: {
           50: "#EDFCFF",
-          100: "#E6F1FB",
-          200: "#E6F1FB",
+          100: "#C8F0F5",
+          200: "#0FBEFD",
           300: "#0086F8",
           400: "#4664DC",
           500: "#0657AD",
@@ -152,13 +158,11 @@ const config: Config = {
         },
         desturctive: {
           600: "#B01030",
-        },
+        }
       },
       backgroundImage: {
-        gradientBlack:
-          "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
-        gradientBlack1:
-          "linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
+        gradientBlack:"linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
+        gradientBlack1:"linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
         gradient1: "linear-gradient(98.41deg, #6EE7B7 0%, #F59E0B 100%)",
         gradient2: "linear-gradient(98.41deg, #00BBFD 0%, #3460DC 100%)",
         gradient3: "linear-gradient(98.41deg, #10B981 0%, #00BBFD 100%)",
@@ -169,30 +173,25 @@ const config: Config = {
         gradient8: "linear-gradient(98.41deg, #D97706 0%, #87E0FF 100%)",
         gradient9: "linear-gradient(98.41deg, #0A28A3 0%, #00A4DD 100%)",
         gradient10: "linear-gradient(98.41deg, #34D399 0%, #059669 100%)",
+        gradient11: "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)",
       },
       boxShadow: {
-        "custom-1":
-          "0px 2px 4px -2px rgba(16, 24, 40, 0.1), 0px 4px 6px -1px rgba(16, 24, 40, 0.1)",
-        "custom-2": "0px 1px 2px 0px rgba(16,24,40,0.05)",
-        "custom-3":
-          "0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
-        "custom-4":
-          "0px 2px 4px -2px rgba(16, 24, 40, 0.1),0px -2px 6px -1px rgba(16,24,40,0.07)",
-        "custom-5":
-          "0px 4px 6px -4px rgba(16,24,40,0.1),0px 10px 15px -3px rgba(16,24,40,0.1)",
-        "custom-6": "0px 25px 50px -12px rgba(16, 24, 40, 0.25)",
-        "custom-7": "inset 0 -4px 0 0 rgba(15,190,253,1)",
-        "custom-8": "0px 6px 12px 0px rgba(0, 0, 0, 0.11)",
-        "custom-9":
-          "0px 4px 6px -4px rgba(16, 24, 40, 0.1), 0px 10px 15px -3px rgba(16, 24, 40, 0.1)",
-        "custom-10":
-          "0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px -2px 3px 0px rgba(16, 24, 40, 0.1)",
-        "custom-11":
-          "0px 2px 3px 0px rgba(0, 0, 0, 0.168), 0px 0px 3px 0px rgba(0, 0, 0, 0.084)",
+        "custom-1":"0px 2px 4px -2px rgba(16, 24, 40, 0.1), 0px 4px 6px -1px rgba(16, 24, 40, 0.1)",
+        "custom-2":"0px 1px 2px 0px rgba(16,24,40,0.05)",
+        "custom-3":"0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
+        "custom-4":"0px 2px 4px -2px rgba(16, 24, 40, 0.1),0px -2px 6px -1px rgba(16,24,40,0.07)",
+        "custom-5":"0px 4px 6px -4px rgba(16,24,40,0.1),0px 10px 15px -3px rgba(16,24,40,0.1)",
+        "custom-6":"0px 25px 50px -12px rgba(16, 24, 40, 0.25)",
+        "custom-7":"inset 0 -4px 0 0 rgba(15,190,253,1)",
+        "custom-8":"0px 6px 12px 0px rgba(0, 0, 0, 0.11)",
+        "custom-9":"0px 4px 6px -4px rgba(16, 24, 40, 0.1), 0px 10px 15px -3px rgba(16, 24, 40, 0.1)",
+        "custom-10":"0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px -2px 3px 0px rgba(16, 24, 40, 0.1)",
+        "custom-11":"0px 2px 3px 0px rgba(0, 0, 0, 0.168), 0px 0px 3px 0px rgba(0, 0, 0, 0.084)",
+        "custom-12": "0 10px 15px -3px rgba(16, 24, 40, 0.102",
       },
-      backdropBlur: {
-        "custom-1": "261px",
-      },
+      backdropBlur:{
+        "custom-1":"261px"
+      }
     },
   },
   plugins: [],
