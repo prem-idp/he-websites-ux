@@ -1,4 +1,5 @@
 "use server";
+import Link from "next/link";
 import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { ColcLandingPageQuery } from "@packages/lib/graphQL/cocl-landing";
@@ -9,6 +10,9 @@ const page = async () => {
     ?.contentData?.items[0]?.bodyContentCollection.items;
   return (
     <>
+      <h1>
+        <Link href="/new/mf">Calculation page</Link>
+      </h1>
       {componentList.map((childItems: MultipleCardContainer, index: number) => {
         const Component: any = dynamicComponentImports(
           childItems.flagComponentStyle

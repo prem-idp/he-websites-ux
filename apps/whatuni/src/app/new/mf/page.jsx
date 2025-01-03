@@ -1,7 +1,7 @@
-"use client";
+"use server";
 import Script from "next/script";
 import Head from "next/head";
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Head>

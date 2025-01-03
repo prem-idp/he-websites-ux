@@ -1,5 +1,4 @@
 "use server";
-import Link from "next/link";
 import React from "react";
 import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
 import Faqcomponents from "@packages/shared-components/common-utilities/faq/faqcomponents";
@@ -13,7 +12,7 @@ import ColcBanner from "@packages/shared-components/common-utilities/colc-banner
 const ComponentPage = async () => {
   return (
     <div className="article_landing">
-      <ColcBanner />
+      <ColcBanner routename="colc" />
       <Articlesnippetcomponents />
       <Articlelinkcomponents />
       <Scholarshipunicomponents />
