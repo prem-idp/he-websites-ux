@@ -52,7 +52,6 @@ const SearchBox = ({ pgs_search_data }: any) => {
   // ===========================initial fetch=============================================================================================
   useEffect(() => {
     const fetchData = async () => {
-      
       // Define payloads
       const body: any = {
         affiliateId: 220703,
