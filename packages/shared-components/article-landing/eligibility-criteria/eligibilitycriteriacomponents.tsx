@@ -3,7 +3,7 @@ import Eligibilitycriteriacard from "@packages/shared-components/common-utilitie
 import React from "react";
 import { discoverpodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import { articlePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 interface PropsInterface {
   heading: string | undefined;
   subheading: string | undefined;
@@ -14,10 +14,7 @@ const Eligibilitycriteriacomponents = async ({
   subheading,
   internalName,
 }: PropsInterface) => {
-  const query = articlePageComponentQueryFormation(
-    internalName,
-    discoverpodQuery
-  );
+  const query = homePageComponentQueryFormation(internalName, discoverpodQuery);
   const jsondata = await graphQlFetchFunction(query);
   console.log(jsondata);
   return (
