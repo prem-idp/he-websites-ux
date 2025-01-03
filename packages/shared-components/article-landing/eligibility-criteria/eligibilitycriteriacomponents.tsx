@@ -8,13 +8,19 @@ interface PropsInterface {
   heading: string | undefined;
   subheading: string | undefined;
   internalName: string | undefined;
+  routename: string;
 }
 const Eligibilitycriteriacomponents = async ({
   heading,
   subheading,
   internalName,
+  routename,
 }: PropsInterface) => {
-  const query = homePageComponentQueryFormation(internalName, discoverpodQuery);
+  const query = homePageComponentQueryFormation(
+    internalName,
+    discoverpodQuery,
+    routename
+  );
   const jsondata = await graphQlFetchFunction(query);
   console.log(jsondata);
   return (
