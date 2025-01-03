@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { testimonial } from "@packages/lib/graphQL/graphql-query";
 import TestimonialVideo from "./testimonialvideocomponents";
@@ -8,16 +8,23 @@ const Testimonialcomponents = async ({
   heading,
   subheading,
   internalName,
+  routename,
 }: {
   heading: string;
   subheading: string;
   internalName: string;
+  routename: string;
 }) => {
-  const query = homePageComponentQueryFormation(internalName, testimonial);
+  const query = homePageComponentQueryFormation(
+    internalName,
+    testimonial,
+    routename
+  );
   const testimonialJsonData = await graphQlFetchFunction(query);
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
+  console.log(contentfullData);
   return (
     <section className="testimonials-container">
       <div className="max-w-container mx-auto">

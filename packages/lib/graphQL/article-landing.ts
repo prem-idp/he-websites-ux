@@ -2,7 +2,7 @@ export const ArticleLandingPageQuery = `
 {
   contentData: pageTemplateLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "/advice", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       seoFields {

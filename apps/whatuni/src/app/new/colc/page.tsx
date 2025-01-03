@@ -1,4 +1,5 @@
 "use server";
+import Link from "next/link";
 import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { ColcLandingPageQuery } from "@packages/lib/graphQL/cocl-landing";
@@ -7,8 +8,12 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 const page = async () => {
   const componentList = (await graphQlFetchFunction(ColcLandingPageQuery))?.data
     ?.contentData?.items[0]?.bodyContentCollection.items;
+  console.log(componentList);
   return (
     <>
+      <h1>
+        <Link href="/new/micro-frontend">Calculation page</Link>
+      </h1>
       {componentList.map((childItems: MultipleCardContainer, index: number) => {
         const Component: any = dynamicComponentImports(
           childItems.flagComponentStyle
@@ -21,7 +26,7 @@ const page = async () => {
         }
         return (
           <Component
-            routename="colc"
+            routename="/student-finance"
             key={index}
             heading={childItems?.cardSectionTitle}
             subheading={childItems?.shortDescription}
