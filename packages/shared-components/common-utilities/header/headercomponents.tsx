@@ -6,10 +6,11 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-
+import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+
 interface props {
   topnav_data: any;
   course_data: any;
@@ -18,6 +19,7 @@ interface props {
 const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();
   const [initial, setInitial] = useState<any>("");
+  const [profilepic, setProfilepic] = useState<any>("");
   const [basketCount, setBasketCount] = useState<any>(0);
   const [isAuthenticated, setIsAuthenticated] = useState("false");
   const [isMobileView, setIsMobile] = useState(true);
@@ -32,17 +34,29 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
+
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        if (session.tokens) {
-          const hasAccessToken = session.tokens.accessToken !== undefined;
-          const hasIdToken = session.tokens.idToken !== undefined;
+        console.log("From header ==========================", session);
+        if (session?.tokens) {
+          const hasAccessToken = session?.tokens?.accessToken !== undefined;
+          const hasIdToken = session?.tokens?.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
+            setProfilepic(session?.tokens?.idToken?.payload?.picture);
             setIsAuthenticated("true");
+            const user_initial = getCookieValue("USER_INITIAL");
+            if (!user_initial && session.tokens.idToken) {
+              const user_initial = getInitialsFromJWT(session.tokens.idToken);
+              setInitial(user_initial);
+            } else {
+              setInitial(user_initial);
+            }
+            const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+            setBasketCount(basket);
           }
         }
       } catch (error) {
@@ -87,10 +101,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
-      const user_initial = getCookieValue("USER_INITIAL");
-      const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-      setBasketCount(basket);
-      setInitial(user_initial);
     } else {
       setIsAuthenticated("false");
     }
@@ -156,7 +166,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
-      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0 relative">
+      <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
             <a href="/">
@@ -164,8 +174,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 <Image
                   className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
                   src={
-                    topnav_data?.data?.contentData?.items[0]?.websiteLogo
-                      ?.url || "/static/assets/images/imageplaceholder.png"
+                    topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url
                   }
                   alt="imageplaceholder"
                   priority={true}
@@ -308,7 +317,15 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {initial && isAuthenticated === "true" ? (
+                  {initial && isAuthenticated === "true" && profilepic ? (
+                    <Image
+                      src={profilepic}
+                      alt=" profile pic"
+                      width={48}
+                      height={48}
+                      className="relative rounded-[40px] flex items-center justify-center w-[48px] h-[48px]"
+                    />
+                  ) : initial && isAuthenticated === "true" ? (
                     <span className="text-[16px] font-semibold">{initial}</span>
                   ) : (
                     <svg

@@ -73,6 +73,8 @@ const dynamicComponentImports = (input: string | null | undefined) => {
             "@packages/shared-components/common-utilities/colc-banner/colc-banner"
           )
       );
+    case "pageviewlog":
+      return dynamic(() => import("@packages/lib/utlils/pageviewlogging"));
     default:
       throw new Error(`Unsupported input: ${input}`);
   }
