@@ -3,6 +3,9 @@ import React from 'react'
 import Breadcrumblayoutcomponent from '../../../../../packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import Articledescription from '../../../../../packages/shared-components/article-details/article-description/article-description';
 import Authorprofile from '../../../../../packages/shared-components/article-details/author-profile/author-profile';
+import Skiplinkdetails from '../../../../../packages/shared-components/article-details/skiplinkdetails/skiplinkdetailscomponent';
+import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
+
 
 
 const page = () => {
@@ -50,7 +53,42 @@ const page = () => {
         <Authorprofile />
         </div>
         </section>
-        {/* Author profile END */}
+      {/* Author profile END */}
+      {/* skiplink article details */}
+      <section>
+          <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+            <Skiplinkdetails />
+        </div>
+        </section>
+        {/* skiplink article details END */}
+         {/* Slider section  */}
+         <section>
+        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        {/* <Advicecourseslidercomponents categoryTag={false} adviceBgWhite={false} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className='bg-white'>
+        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section>
+        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={false} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className='bg-white'>
+        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
       </>
   )
 }
