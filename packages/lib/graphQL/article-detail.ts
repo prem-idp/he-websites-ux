@@ -1,7 +1,8 @@
-export const articleDetailQuery = `{
-  contentData: articleCollection(
+export function articleDetailQuery(category: any, title: any, id: any) {
+  const query = `{
+    contentData: articleCollection(
     limit: 1
-    where: {urlSlug: "article-the-best-resources-for-saving-money-at-university-whatuni", website: {websiteName: "Whatuni"}}
+    where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       pageTitle
@@ -143,3 +144,6 @@ export const articleDetailQuery = `{
     }
   }
 }`;
+
+  return query;
+}
