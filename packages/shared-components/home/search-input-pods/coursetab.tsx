@@ -164,7 +164,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   // ============================serch handler===============================================================================================================
   const searchHandler = async () => {
     if (isAuthenticated) {
-      const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "{}");
+      const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "");
       ucasval = cookiesval;
     } else {
       const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
@@ -313,7 +313,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       keywordSearch(true);
     }
   };
-  const keywordSearch = async (canmatch:any) => {
+  const keywordSearch = async (canmatch: any) => {
     const sanitizedDescription = searchFormHandle?.subject?.description
       .trim()
       .replace(/[^a-zA-Z0-9\s]+/g, "-")
@@ -379,7 +379,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
-    if (matchedSubject  && canmatch) {
+    if (matchedSubject && canmatch) {
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -689,7 +689,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       }));
                       setDropdown(false);
                       keywordSearch(false);
-                 
                     }}
                     className="px-[16px] py-[12px] cursor-pointer"
                   >
