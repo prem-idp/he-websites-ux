@@ -9,27 +9,25 @@ const page = async () => {
     ?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   return (
     <div className="article_landing">
-      {componentList.map((childItems: MultipleCardContainer, index: number) => {
-        const Component: any = dynamicComponentImports(
-          childItems.flagComponentStyle
-        );
-        if (!Component) {
-          console.warn(
-            `No component found for flagComponentStyle: ${childItems.internalName}`
-          );
-          return null;
+      {componentList?.map(
+        (childItems: MultipleCardContainer, index: number) => {
+          if (childItems?.flagComponentStyle) {
+            const Component: any = dynamicComponentImports(
+              childItems.flagComponentStyle
+            );
+            return (
+              <Component
+                routename="article"
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
+              />
+            );
+          }
         }
-        return (
-          <Component
-            routename="article"
-            key={index}
-            heading={childItems?.cardSectionTitle}
-            subheading={childItems?.shortDescription}
-            internalName={childItems?.internalName}
-            callAction={childItems?.callToAction}
-          />
-        );
-      })}
+      )}
     </div>
   );
 };

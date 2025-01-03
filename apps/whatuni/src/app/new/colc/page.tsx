@@ -8,6 +8,7 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 const page = async () => {
   const componentList = (await graphQlFetchFunction(ColcLandingPageQuery))?.data
     ?.contentData?.items[0]?.bodyContentCollection.items;
+  console.log(componentList);
   return (
     <>
       <h1>
@@ -25,7 +26,7 @@ const page = async () => {
         }
         return (
           <Component
-            routename="colc"
+            routename="/student-finance"
             key={index}
             heading={childItems?.cardSectionTitle}
             subheading={childItems?.shortDescription}
