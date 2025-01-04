@@ -9,13 +9,15 @@ interface DiscoverSliderInterface {
   subheading: string;
   internalName: string;
   routename: string;
+  contentModelName: string;
 }
 
 const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
   const query = homePageComponentQueryFormation(
     props.internalName,
     discoverpodQuery,
-    props.routename
+    props.routename,
+    props.contentModelName
   );
   const discovercontentfulData: any = (await graphQlFetchFunction(query)).data
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]

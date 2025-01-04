@@ -46,6 +46,7 @@ const Page = async () => {
                   callAction={childItems?.callToAction}
                   pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
                   routename={"/"}
+                  contentModelName={"homepageCollection"}
                 />
               </div>
             );

@@ -9,38 +9,47 @@ interface PropsInterface {
   subheading: string | undefined;
   internalName: string | undefined;
   routename: string;
+  contentModelName: string;
 }
 const Eligibilitycriteriacomponents = async ({
   heading,
   subheading,
   internalName,
   routename,
+  contentModelName,
 }: PropsInterface) => {
   const query = homePageComponentQueryFormation(
     internalName,
     discoverpodQuery,
-    routename
+    routename,
+    contentModelName
   );
-  const jsondata = await graphQlFetchFunction(query);
-  console.log(jsondata);
+  const jsondata = (await graphQlFetchFunction(query))?.data?.contentData
+    ?.items[0]?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items;
   return (
-    <div className="eligibility-container bg-grey-50">
-      <div className="max-w-container mx-auto">
-        <div className="eligibility-card-container flex flex-col gap-[32px] px-[16px] md:px-[20px] xl:px-[0] py-[34px] md:py-[64px]">
-          <div className="eligibility-header">
-            <div className="h2 font-bold">{heading}</div>
-            <p className="font-normal small mt-[8px]">{subheading}</p>
-          </div>
-          <div className="eligibility-course-container ">
-            <div className="eligibility-inner-wrap grid grid-col-1 md:grid-cols-3 gap-[16px]">
-              <Eligibilitycriteriacard />
-              <Eligibilitycriteriacard />
-              <Eligibilitycriteriacard />
+    <>
+      {jsondata && (
+        <div className="eligibility-container bg-grey-50">
+          <div className="max-w-container mx-auto">
+            <div className="eligibility-card-container flex flex-col gap-[32px] px-[16px] md:px-[20px] xl:px-[0] py-[34px] md:py-[64px]">
+              <div className="eligibility-header">
+                {heading && <div className="h2 font-bold">{heading}</div>}
+                {subheading && (
+                  <p className="font-normal small mt-[8px]">{subheading}</p>
+                )}
+              </div>
+              <div className="eligibility-course-container ">
+                <div className="eligibility-inner-wrap grid grid-col-1 md:grid-cols-3 gap-[16px]">
+                  {jsondata?.map((items: any, index: number) => (
+                    <Eligibilitycriteriacard key={index} data={items} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

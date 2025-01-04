@@ -17,12 +17,13 @@ const page = async () => {
             );
             return (
               <Component
-                routename="article"
                 key={index}
                 heading={childItems?.cardSectionTitle}
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
                 callAction={childItems?.callToAction}
+                routename="article"
+                contentModelName={"pageTemplateLandingPageCollection"}
               />
             );
           }

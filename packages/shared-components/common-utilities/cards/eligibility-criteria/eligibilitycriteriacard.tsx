@@ -3,7 +3,8 @@ import Image from "next/image";
 import React from "react";
 import Ctabutton from "../interaction-button/ctabutton";
 
-const Eligibilitycriteriacard = () => {
+const Eligibilitycriteriacard = ({ data }: any) => {
+  console.log(data);
   return (
     <Link
       href=""
@@ -11,22 +12,26 @@ const Eligibilitycriteriacard = () => {
     >
       <div className="card-body flex flex-col gap-[8px]">
         <div className="card-header w-[48px]">
-          <Image
-            src="/static/assets/images/article/eligibility_criteria_thumb_image.svg"
-            width="48"
-            height="48"
-            className="block w-full h-auto min-h-[48px]"
-            alt="Article_image"
-          />
+          {data?.image?.imgUpload?.url && (
+            <Image
+              src={data?.image?.imgUpload?.url}
+              width="48"
+              height="48"
+              className="block w-full h-auto min-h-[48px]"
+              alt={data?.image?.imgAltText}
+            />
+          )}
         </div>
         <h5 className="card-title font-semibold text-para-lg text-grey300 line-clamp-2">
-          Subheading
+          {data?.title}
         </h5>
         <p className="card-description font-normal small text-grey300 line-clamp-2">
-          Review the eligibility criteria for your chosen scholarship.
+          {data?.subTitle}
         </p>
       </div>
-      <Ctabutton />
+      {data?.cta?.primaryCtaUrl && data?.cta?.primaryCtaLabel && (
+        <Ctabutton cta={data?.cta} />
+      )}
     </Link>
   );
 };
