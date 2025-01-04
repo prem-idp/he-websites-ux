@@ -7,26 +7,34 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 const page = async () => {
   const componentList = (await graphQlFetchFunction(ArticleLandingPageQuery))
     ?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  console.log(
+    "actual data",
+    await graphQlFetchFunction(ArticleLandingPageQuery)
+  );
   return (
     <div className="article_landing">
       {componentList?.map(
         (childItems: MultipleCardContainer, index: number) => {
-          if (childItems?.flagComponentStyle) {
-            const Component: any = dynamicComponentImports(
-              childItems.flagComponentStyle
+          const Component: any = dynamicComponentImports(
+            childItems.flagComponentStyle
+          );
+          if (!Component) {
+            console.warn(
+              `No component found for flagComponentStyle: ${childItems.internalName}`
             );
-            return (
-              <Component
-                key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                callAction={childItems?.callToAction}
-                routename="article"
-                contentModelName={"pageTemplateLandingPageCollection"}
-              />
-            );
+            return null;
           }
+          return (
+            <Component
+              key={index}
+              heading={childItems?.cardSectionTitle}
+              subheading={childItems?.shortDescription}
+              internalName={childItems?.internalName}
+              callAction={childItems?.callToAction}
+              routename="/advice"
+              contentModelName={"pageTemplateLandingPageCollection"}
+            />
+          );
         }
       )}
     </div>

@@ -7,18 +7,18 @@ export const homePageComponentQueryFormation = (
   const query = `
       {
         contentData: ${contentModelName}(
-          limit: 1
+          limit: 10
           where: {urlSlug: "${urlpath}", website: {websiteName: "${process.env.PROJECT}"}}
         ) {
           items {
             bodyContentCollection(
-              limit: 1
+              limit: 10
               where: {internalName: "${internalName}"}
             ) {
               items {
                 __typename
                 ... on MultipleCardContainer {
-                  mediaCardsCollection(limit:1) {
+                  mediaCardsCollection(limit:10) {
                     items {
                       __typename
                       ${componentQuery}
