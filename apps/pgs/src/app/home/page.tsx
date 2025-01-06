@@ -14,7 +14,6 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-  console.log(componentList);
   return (
     <>
       <PageViewLogging
@@ -34,13 +33,17 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
-              <Component
+              <div
+                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : ""}`}
                 key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
-              />
+              >
+                <Component
+                  key={index}
+                  heading={childItems?.cardSectionTitle}
+                  subheading={childItems?.shortDescription}
+                  internalName={childItems?.internalName}
+                />
+              </div>
             );
           }
         )}
