@@ -327,8 +327,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.description?.trim().toLowerCase()
     );
 
-    if (searchFormHandle.location?.regionName && matchedSubject) {
-      console.log("subject if:" + searchFormHandle?.subject);
+    if (searchFormHandle.location?.regionName && matchedSubject && canmatch) {
       const sanitizedRegionName = searchFormHandle.location.regionName
         .trim() // Remove spaces from the front and back
         .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
