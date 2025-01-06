@@ -8,14 +8,13 @@ import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
 let OptanonConsent: string | undefined = undefined;
 let OptanonAlertBoxClosed: string | undefined = undefined;
 
-export default function OneTrustCookieScript({domianValue}:{domianValue: string}) {
+export default function OneTrustCookieScript({
+  domianValue,
+}: {
+  domianValue: string;
+}) {
   const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
-    // console.log(
-    //   "User consented to analytics; loading analytics scripts...",
-    //   window.Optanon
-    // );
-
     //if (window.Optanon && typeof window.Optanon.IsConsented === 'function') {
 
     const cookieDate = new Date();
@@ -55,14 +54,6 @@ export default function OneTrustCookieScript({domianValue}:{domianValue: string}
     const cookieConsentVal = isUserAcctpedCookie
       ? oneTrustCookieconsentVal
       : "0111";
-    // console.log("IsAlertBoxClosed: ", isUserAcctpedCookie);
-    // console.log("cookieConsentVal: ", cookieConsentVal);
-    // console.log(
-    //   "OptanonConsent: ",
-    //   OptanonConsent,
-    //   "OptanonAlertBoxClosed: ",
-    //   OptanonAlertBoxClosed
-    // );
 
     // --> dataLayerFn("cookieconsent_ga4", "NA", dataLabel, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA");
     if (isUserAcctpedCookie) {
@@ -106,9 +97,7 @@ export default function OneTrustCookieScript({domianValue}:{domianValue: string}
     const timeOutTime = setTimeout(async () => {
       OptanonAlertBoxClosed = getCookieValue("OptanonAlertBoxClosed");
       OptanonConsent = getCookieValue("OptanonConsent");
-      // console.log(
-      //   "set time out OptanonAlertBoxClosed: " + OptanonAlertBoxClosed
-      // );
+
       if (
         OptanonConsent &&
         OptanonConsent != "" &&
@@ -126,7 +115,6 @@ export default function OneTrustCookieScript({domianValue}:{domianValue: string}
   useEffect(() => {
     // Function to check consent, when event fires
     const handleConsentChange = async () => {
-      console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
       setUserConsentGiven(() => returnVal);
       //watchOnetrustClosedcookie();

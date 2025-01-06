@@ -41,7 +41,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log("From header ==========================", session);
         if (session?.tokens) {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
