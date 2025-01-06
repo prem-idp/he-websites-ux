@@ -204,7 +204,7 @@ const SearchBox = ({ pgs_search_data }: any) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Don’t know your UCAS points? Calculate them
+                      Calculate your UCAS points
                     </div>
                     {isUcasPopupOpen && (
                       <UcasComponent
