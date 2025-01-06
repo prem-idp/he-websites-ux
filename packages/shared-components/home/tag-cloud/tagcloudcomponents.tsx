@@ -2,7 +2,7 @@
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
 import Link from "next/link";
-import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
@@ -10,14 +10,20 @@ interface headingProps {
   heading: string;
   pageName: any;
   internalName: string | undefined;
+  routename: string;
 }
 
 const Tagcloudcomponents: React.FC<headingProps> = async ({
   heading,
   pageName,
   internalName,
+  routename,
 }) => {
-  const query = homePageComponentQueryFormation(internalName, tagCloudQuery);
+  const query = homePageComponentQueryFormation(
+    internalName,
+    tagCloudQuery,
+    routename
+  );
   const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]

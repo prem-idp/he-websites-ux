@@ -41,7 +41,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log("From header ==========================", session);
         if (session?.tokens) {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
@@ -326,7 +325,9 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       className="relative rounded-[40px] flex items-center justify-center w-[48px] h-[48px]"
                     />
                   ) : initial && isAuthenticated === "true" ? (
-                    <span className="text-[16px] font-semibold">{initial}</span>
+                    <span className="text-[16px] font-semibold">
+                      {initial.toUpperCase()}
+                    </span>
                   ) : (
                     <svg
                       width="20"

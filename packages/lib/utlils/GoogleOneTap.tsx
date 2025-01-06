@@ -53,9 +53,7 @@ const GoogleOneTap = () => {
               provider: "Google",
               customState: "home page", // You can pass the credential as custom state if needed
             });
-            console.log("inside he callback");
             const { credential } = response;
-            console.log(credential);
           },
         });
         (window as any).google.accounts.id.prompt();
@@ -90,7 +88,6 @@ const GoogleOneTap = () => {
     }
 
     // Initialize the cookie watcher
-   
   }, []);
 
   return null;

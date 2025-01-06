@@ -34,7 +34,7 @@ export default function User({ topnav_data }: any) {
               }
             >
               <a
-                href={item?.navUrl || ""}
+                href={item?.navTitle === "Logout" ? "" : item?.navUrl}
                 className="font-normal small"
                 onClick={() =>
                   item?.navTitle === "Logout" ? clearAllCookies() : ""
@@ -44,7 +44,6 @@ export default function User({ topnav_data }: any) {
               </a>
             </li>
           ))}
-          
         </ul>
         <a
           href="#"

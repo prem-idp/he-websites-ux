@@ -29,6 +29,7 @@ const page = async () => {
       label: "Overview",
     },
   ];
+  console.log(data);
   const customOptions = {
     renderNode: {
       paragraph: (node: any, children: any) => (

@@ -3,7 +3,7 @@ import { statsPodQuery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { HomePageStatInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import Image from "next/image";
 
 import React, { Suspense } from "react";
@@ -11,7 +11,7 @@ interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
   pageName?: any;
-  routename: string | undefined;
+  routename: string;
   internalName: string | undefined;
 }
 
@@ -22,12 +22,17 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   routename,
   internalName,
 }) => {
-  const query = homePageComponentQueryFormation(internalName, statsPodQuery);
+  const query = homePageComponentQueryFormation(
+    internalName,
+    statsPodQuery,
+    routename
+  );
   const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
+  console.log(statsData);
   return (
     <Suspense>
       <section className="wusca-container">
