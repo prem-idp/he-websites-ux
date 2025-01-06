@@ -43,7 +43,7 @@ const Page = async () => {
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
                   contentModelName={"homepageCollection"}
-                  routename={"homepage"}
+                  routename={"/"}
                 />
               </div>
             );
