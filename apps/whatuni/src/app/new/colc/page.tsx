@@ -23,7 +23,7 @@ const page = async () => {
           }
           return (
             <Component
-              key={index}
+              key={index + 1}
               heading={childItems?.cardSectionTitle}
               subheading={childItems?.shortDescription}
               internalName={childItems?.internalName}
