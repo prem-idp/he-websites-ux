@@ -32,13 +32,17 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
-              <Component
+              <div
+                className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : ""}`}
                 key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                routename={"homepage"}
-              />
+              >
+                <Component
+                  key={index}
+                  heading={childItems?.cardSectionTitle}
+                  subheading={childItems?.shortDescription}
+                  internalName={childItems?.internalName}
+                />
+              </div>
             );
           }
         )}
