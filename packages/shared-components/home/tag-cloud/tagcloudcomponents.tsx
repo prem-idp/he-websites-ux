@@ -1,18 +1,24 @@
 "use server";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-
+import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
+import Link from "next/link";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
-import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
-
 interface headingProps {
   heading: string;
+  pageName: any;
+  internalName: string | undefined;
 }
 
-const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
-  const tagCloudData: HomePageInterface =
-    await graphQlFetchFunction(tagCloudQuery);
+const Tagcloudcomponents: React.FC<headingProps> = async ({
+  heading,
+  pageName,
+  internalName,
+}) => {
+  const query = homePageComponentQueryFormation(internalName, tagCloudQuery);
+  const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
       .mediaCardsCollection.items;
@@ -38,15 +44,16 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({ heading }) => {
                           ctaTitle: data?.tagName,
                           ctaUrl: data?.tagUrl,
                           website: `${process.env.PROJECT}`,
-                          pageName: "homepage",
+                          pageName: pageName,
                         }}
                       >
-                        <a
+                        <Link
                           href={data?.tagUrl}
+                          prefetch={false}
                           className="font-bold x-small text-primary-500 uppercase rounded-[4px] bg-primary-50 hover:bg-primary-500 hover:text-white px-[8px] py-[3px]"
                         >
                           {data?.tagName}
-                        </a>
+                        </Link>
                       </ClickTrackerWrapper>
                     )}
                   </li>

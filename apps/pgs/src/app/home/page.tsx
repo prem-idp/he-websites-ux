@@ -7,25 +7,27 @@ import {
   MultipleCardContainer,
   SliderBannerCollection,
 } from "@packages/lib/types/interfaces";
-import { PageViewLogging } from "@packages/lib/utlils/pageviewlogging";
+import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
 const Page = async () => {
   const jsonData = await graphQlFetchFunction(homePageQuery);
   const componentList =
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
   return (
     <>
       <PageViewLogging
         gaData={{
           website: `${process.env.PROJECT}`,
-          pageName: "homepage",
+          pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
         }}
       />
-      <Heroslidercomponent data={heroSliderData} />
+      <Heroslidercomponent
+        data={heroSliderData}
+        pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+      />
       <div>
-        {componentList.map(
+        {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
               childItems.flagComponentStyle

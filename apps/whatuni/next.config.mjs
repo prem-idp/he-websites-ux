@@ -48,9 +48,9 @@ const nextConfig = {
         hostname: "mdev.dev.aws.whatuni.com",
       },
       { protocol: "https", hostname: "videos.ctfassets.net" },
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
   },
-  
 };
 
 export default nextConfig;

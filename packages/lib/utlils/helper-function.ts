@@ -58,9 +58,7 @@ async function currentAuthenticatedUser() {
 //   contentful_2?: any
 // ) {
 //   if (typeof window !== "undefined") {
-//     console.log("window is not equal to undefined, entered into first 'IF' ");
 //     if (window.dataLayer) {
-//       console.log("data layer is available");
 //       window.dataLayer.push({
 //         event: replaceWithNA(event),
 //         "event name": replaceWithNA(eventName),
@@ -92,7 +90,6 @@ async function currentAuthenticatedUser() {
 //         contentful_2: replaceWithNA(contentful_2),
 //       });
 //     } else {
-//       console.log("GTM dataLayer is not available yet");
 //     }
 //   } else {
 //     console.warn("Window is not available to log GA");
@@ -132,7 +129,6 @@ function GADataLayerFn(
 ) {
   const waitForDataLayer = () => {
     if (typeof window !== "undefined" && window.dataLayer) {
-      console.log("data layer is available");
       window.dataLayer.push({
         event: replaceWithNA(event),
         "event name": replaceWithNA(eventName),
@@ -140,13 +136,13 @@ function GADataLayerFn(
         data_label2: replaceWithNA(dataLabel2),
         cpe_parent_subject: replaceWithNA(cpeParentSubject),
         cpe_child_subject: replaceWithNA(cpeChildSubject),
-        page_name: replaceWithNA(pageName)?.toLowerCase(),
+        page_name: replaceWithNA(pageName),
         college_name: replaceWithNA(collegeName),
         provider_type: replaceWithNA(providerType),
         course_name: replaceWithNA(courseName),
         sponsored_sr: replaceWithNA(sponsoredSr),
         college_id: replaceWithNA(collegeId),
-        ucas_points: replaceWithNA(getCookie("UCAS")),
+        ucas_points: "NA",
         study_mode: replaceWithNA(studyMode),
         target_year: replaceWithNA(targetYear),
         clearing: replaceWithNA(clearing),
@@ -164,12 +160,29 @@ function GADataLayerFn(
         contentful_2: replaceWithNA(contentful_2),
       });
     } else {
-      console.log("GTM dataLayer is not available yet, retrying...");
       setTimeout(waitForDataLayer, 100); // Retry after 100ms
     }
   };
 
   waitForDataLayer();
 }
-
-export { getCookie, replaceWithNA, GADataLayerFn, currentAuthenticatedUser };
+function getInitialsFromJWT(token: any) {
+  const email = token?.payload?.email;
+  if (!email) {
+    throw new Error("Email not found in token payload");
+  }
+  const namePart = email.split("@")[0];
+  const initials = namePart
+    .split(".")
+    .map((part: any) => part.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
+  return initials;
+}
+export {
+  getCookie,
+  replaceWithNA,
+  GADataLayerFn,
+  currentAuthenticatedUser,
+  getInitialsFromJWT,
+};
