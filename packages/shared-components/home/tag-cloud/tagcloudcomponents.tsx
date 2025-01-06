@@ -27,10 +27,13 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
     routename,
     contentModelName
   );
+  console.log(query);
   const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
+  console.log(tagCloudData);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
       .mediaCardsCollection.items;
+  console.log(tagCloudArray);
   return (
     <Suspense>
       <div className="tag-cloud-container">
