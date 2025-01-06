@@ -193,16 +193,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
 
-      // console.log(
       //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
       // );
 
       // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
-      // console.log(urlformed);
 
       // const unencodedUrl = urlformed.replace(/,/g, ",");
-      // console.log(unencodedUrl);
       // router.push(unencodedUrl);
       // const decodedUrl = urlformed.replace("%2C", ",");
       // const params = new URLSearchParams({
@@ -302,10 +299,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       router.push(searchFormHandle.subject.url);
-      // console.log(
-      //   searchFormHandle.subject?.url,
-      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
-      // );
       router.push(
         `${searchFormHandle.subject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
       );

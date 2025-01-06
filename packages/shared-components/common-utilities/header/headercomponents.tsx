@@ -325,7 +325,9 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       className="relative rounded-[40px] flex items-center justify-center w-[48px] h-[48px]"
                     />
                   ) : initial && isAuthenticated === "true" ? (
-                    <span className="text-[16px] font-semibold">{initial}</span>
+                    <span className="text-[16px] font-semibold">
+                      {initial.toUpperCase()}
+                    </span>
                   ) : (
                     <svg
                       width="20"
