@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
       (cookie) =>
         !["CognitoIdentityServiceProvider", "test"].includes(cookie.name)
     )
-    .map((cookie) => `${cookie.name}=${cookie.value}`);
+    ?.map((cookie) => `${cookie.name}=${cookie.value}`);
   const finalCookieString = filteredCookies.join("; ");
   requestHeaders.set("cookie", finalCookieString);
   return NextResponse.next({

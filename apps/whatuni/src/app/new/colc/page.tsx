@@ -1,5 +1,4 @@
 "use server";
-import Link from "next/link";
 import React from "react";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { ColcLandingPageQuery } from "@packages/lib/graphQL/cocl-landing";
@@ -11,30 +10,30 @@ const page = async () => {
   console.log(componentList);
   return (
     <>
-      <h1>
-        <Link href="/new/micro-frontend">Calculation page</Link>
-      </h1>
-      {componentList.map((childItems: MultipleCardContainer, index: number) => {
-        const Component: any = dynamicComponentImports(
-          childItems.flagComponentStyle
-        );
-        if (!Component) {
-          console.warn(
-            `No component found for flagComponentStyle: ${childItems.internalName}`
+      {componentList?.map(
+        (childItems: MultipleCardContainer, index: number) => {
+          const Component: any = dynamicComponentImports(
+            childItems.flagComponentStyle
           );
-          return null;
+          if (!Component) {
+            console.warn(
+              `No component found for flagComponentStyle: ${childItems.internalName}`
+            );
+            return null;
+          }
+          return (
+            <Component
+              key={index + 1}
+              heading={childItems?.cardSectionTitle}
+              subheading={childItems?.shortDescription}
+              internalName={childItems?.internalName}
+              callAction={childItems?.callToAction}
+              routename="/student-finance"
+              contentModelName={"pageTemplateLandingPageCollection"}
+            />
+          );
         }
-        return (
-          <Component
-            routename="/student-finance"
-            key={index}
-            heading={childItems?.cardSectionTitle}
-            subheading={childItems?.shortDescription}
-            internalName={childItems?.internalName}
-            callAction={childItems?.callToAction}
-          />
-        );
-      })}
+      )}
     </>
   );
 };

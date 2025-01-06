@@ -9,22 +9,24 @@ const Testimonialcomponents = async ({
   subheading,
   internalName,
   routename,
+  contentModelName,
 }: {
   heading: string;
   subheading: string;
   internalName: string;
   routename: string;
+  contentModelName: string;
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
     testimonial,
-    routename
+    routename,
+    contentModelName
   );
   const testimonialJsonData = await graphQlFetchFunction(query);
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
-  console.log(contentfullData);
   return (
     <section className="testimonials-container">
       <div className="max-w-container mx-auto">
