@@ -9,6 +9,7 @@ import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import HeaderWrapper from "../../../../packages/shared-components/common-utilities/header/headerWrapper";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
+import SetCookiewuIdToken from "@packages/lib/utlils/setcookie";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default async function RootLayout({
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
         <GoogleOneTap />
+        <SetCookiewuIdToken />
         <Script
           id="gtm-ga-script"
           strategy="lazyOnload"
