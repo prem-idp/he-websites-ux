@@ -267,6 +267,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   }
       // })
     } else if (searchFormHandle.subject?.url) {
+      
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -335,6 +336,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     );
 
     if (searchFormHandle.location?.regionName && matchedSubject) {
+      console.log( "subject if:" + searchFormHandle?.subject)
       const sanitizedRegionName = searchFormHandle.location.regionName
         .trim() // Remove spaces from the front and back
         .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
@@ -346,12 +348,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        "NA",
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.parent_subject
-          : searchFormHandle?.subject?.description,
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.description
+        matchedSubject?.description,
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+          matchedSubject?.parent_subject
+          ? matchedSubject?.description
           : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
@@ -384,12 +386,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        "NA",
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.parent_subject
-          : searchFormHandle?.subject?.description,
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.description
+        matchedSubject?.description,
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+          matchedSubject?.parent_subject
+          ? matchedSubject?.description
           : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
@@ -422,7 +424,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       GADataLayerFn(
         "ga_events",
         "homepage_search",
-        "NA",
+        "subject_search",
         sanitizedDescription,
         "NA",
         "NA",

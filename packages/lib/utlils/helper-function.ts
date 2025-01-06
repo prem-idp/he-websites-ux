@@ -10,9 +10,12 @@ function getCookie(name: string): string | null {
   }
   return null;
 }
+function replaceSpaceWithUnderscore(value: any){
+	return(value && value != "NA") ? value.toString().trim().toLowerCase().replaceAll(" ", "_") : value;
+}
 
 function replaceWithNA(value: any) {
-  return value === undefined || value === "" || value === null ? "NA" : value;
+  return (!value) ? "NA" : replaceSpaceWithUnderscore(value);
 }
 
 async function currentAuthenticatedUser() {
@@ -126,11 +129,13 @@ function GADataLayerFn(
   dataLabel5?: any,
   website?: any,
   ctaName?: any,
-  ctaUrl?: any,
+  cta_url?: any,
   contentful_1?: any,
   contentful_2?: any
 ) {
   const waitForDataLayer = () => {
+    const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
+    const point: any = JSON.parse(cookiesval1);
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
         event: replaceWithNA(event),
@@ -145,9 +150,9 @@ function GADataLayerFn(
         course_name: replaceWithNA(courseName),
         sponsored_sr: replaceWithNA(sponsoredSr),
         college_id: replaceWithNA(collegeId),
-        ucas_points: "NA",
+        ucas_points: replaceWithNA(point?.ucasPoint),
         study_mode: replaceWithNA(studyMode),
-        target_year: replaceWithNA(targetYear),
+        target_year: "2025",
         clearing: replaceWithNA(clearing),
         wu_user_id: userId,
         study_level: replaceWithNA(studyLevel),
@@ -157,7 +162,7 @@ function GADataLayerFn(
         data_label4: replaceWithNA(dataLabel4),
         data_label5: replaceWithNA(dataLabel5),
         cta_name: replaceWithNA(ctaName),
-        ctaUrl: replaceWithNA(ctaUrl),
+        cta_url: replaceWithNA(cta_url),
         website_name: replaceWithNA(website)?.toLowerCase(),
         contentful_1: replaceWithNA(contentful_1),
         contentful_2: replaceWithNA(contentful_2),
@@ -184,6 +189,7 @@ function getInitialsFromJWT(token: any) {
 }
 export {
   getCookie,
+  replaceSpaceWithUnderscore,
   replaceWithNA,
   GADataLayerFn,
   currentAuthenticatedUser,
