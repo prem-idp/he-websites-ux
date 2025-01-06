@@ -162,7 +162,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
         GADataLayerFn(
           "ga_events",
           "homepage_search",
-          "NA",
+          "keyword_search",
           sanitizedDescription,
           "NA",
           "NA",
@@ -194,7 +194,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
         GADataLayerFn(
           "ga_events",
           "homepage_search",
-          "NA",
+          "keyword_search",
           sanitizedDescription,
           "NA",
           "NA",
@@ -226,7 +226,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
         GADataLayerFn(
           "ga_events",
           "homepage_search",
-          "NA",
+          "keyword_search",
           sanitizedDescription,
           "NA",
           "NA",
