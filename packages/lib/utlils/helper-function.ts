@@ -11,11 +11,11 @@ function getCookie(name: string): string | null {
   return null;
 }
 function replaceSpaceWithUnderscore(value: any){
-	return (value != undefined || value != "" || value != null) &&  value != "NA" ? value.toString().trim().toLowerCase().replaceAll(" ", "_") : value;
+	return(value && value != "NA") ? value.toString().trim().toLowerCase().replaceAll(" ", "_") : value;
 }
 
 function replaceWithNA(value: any) {
-  return value === undefined || value === "" || value === null ? "NA" : replaceSpaceWithUnderscore(value);
+  return (!value) ? "NA" : replaceSpaceWithUnderscore(value);
 }
 
 async function currentAuthenticatedUser() {
@@ -150,9 +150,9 @@ function GADataLayerFn(
         course_name: replaceWithNA(courseName),
         sponsored_sr: replaceWithNA(sponsoredSr),
         college_id: replaceWithNA(collegeId),
-        ucas_points: `${point?.ucasPoint}` || "NA",
+        ucas_points: replaceWithNA(point?.ucasPoint),
         study_mode: replaceWithNA(studyMode),
-        target_year: replaceWithNA(targetYear),
+        target_year: "2025",
         clearing: replaceWithNA(clearing),
         wu_user_id: userId,
         study_level: replaceWithNA(studyLevel),
