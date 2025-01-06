@@ -81,7 +81,9 @@ export default async function RootLayout({
           }}
         />
         <TrackSessionId />
-        <OneTrustCookieScript domianValue={`${process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN}`} />
+        <OneTrustCookieScript
+          domianValue={process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN || ""}
+        />
         <HeaderWrapper />
         {children}
         <Footer />
