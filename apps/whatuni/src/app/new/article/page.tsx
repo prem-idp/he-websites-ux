@@ -9,7 +9,8 @@ const page = async () => {
     ?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   console.log(
     "actual data",
-    await graphQlFetchFunction(ArticleLandingPageQuery)
+    await graphQlFetchFunction(ArticleLandingPageQuery),
+    componentList
   );
   return (
     <div className="article_landing">

@@ -17,7 +17,6 @@ const ColcBanner = async ({
   );
   const jsondata = (await graphQlFetchFunction(query))?.data?.contentData
     ?.items[0]?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items[0];
-  console.log(jsondata);
   return (
     <>
       {jsondata && (

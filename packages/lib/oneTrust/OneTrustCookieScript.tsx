@@ -8,7 +8,11 @@ import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
 let OptanonConsent: string | undefined = undefined;
 let OptanonAlertBoxClosed: string | undefined = undefined;
 
-export default function OneTrustCookieScript({domianValue}:{domianValue: string}) {
+export default function OneTrustCookieScript({
+  domianValue,
+}: {
+  domianValue: string;
+}) {
   const [useinteraction, setUserinteraction] = useState(false);
   const loadAnalyticsScripts = async (): Promise<boolean> => {
     // console.log(
@@ -126,7 +130,6 @@ export default function OneTrustCookieScript({domianValue}:{domianValue: string}
   useEffect(() => {
     // Function to check consent, when event fires
     const handleConsentChange = async () => {
-      console.log("OptanonWrapper function triggered...");
       const returnVal = await loadAnalyticsScripts();
       setUserConsentGiven(() => returnVal);
       //watchOnetrustClosedcookie();

@@ -24,6 +24,7 @@ const Eligibilitycriteriacomponents = async ({
     routename,
     contentModelName
   );
+
   const jsondata = (await graphQlFetchFunction(query))?.data?.contentData
     ?.items[0]?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items;
   return (

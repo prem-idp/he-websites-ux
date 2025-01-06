@@ -19,17 +19,10 @@ const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
     props.routename,
     props.contentModelName
   );
-  console.log(
-    props.internalName,
-    discoverpodQuery,
-    props.routename,
-    props.contentModelName
-  );
   const discovercontentfulData: any = (await graphQlFetchFunction(query)).data
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]
     ?.mediaCardsCollection?.items;
-  console.log("data for sicover pod", discovercontentfulData);
-  console.log("actual data", await graphQlFetchFunction(query));
+
   return (
     discovercontentfulData && (
       <div className="discover-container">

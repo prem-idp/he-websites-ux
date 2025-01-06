@@ -27,7 +27,6 @@ const Testimonialcomponents = async ({
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
-  console.log(contentfullData);
   return (
     <section className="testimonials-container">
       <div className="max-w-container mx-auto">

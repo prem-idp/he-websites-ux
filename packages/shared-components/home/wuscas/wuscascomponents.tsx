@@ -30,13 +30,11 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     routename,
     contentModelName
   );
-  console.log(query);
   const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
-  console.log(statsData);
   return (
     <>
       {statsData && (

@@ -4,7 +4,6 @@ import React from "react";
 import Ctabutton from "../interaction-button/ctabutton";
 
 const Eligibilitycriteriacard = ({ data }: any) => {
-  console.log(data);
   return (
     <Link
       href=""
