@@ -6,6 +6,7 @@ import awsconfig from "../../../../../apps/whatuni/configs/amplifyconfiguration"
 Amplify.configure(awsconfig, { ssr: true });
 export default function User({ topnav_data }: any) {
   async function clearAllCookies() {
+    console.log("clearcookies trigered");
     try {
       sessionStorage.clear();
       document.cookie =
@@ -33,15 +34,18 @@ export default function User({ topnav_data }: any) {
                   : "mb-[16px] hover:underline"
               }
             >
-              <a
-                href={item?.navTitle === "Logout" ? "" : item?.navUrl}
-                className="font-normal small"
-                onClick={() =>
-                  item?.navTitle === "Logout" ? clearAllCookies() : ""
-                }
-              >
-                {item?.navTitle}
-              </a>
+              {item?.navTitle?.toLowerCase() === "logout" ? (
+                <button
+                  className="font-normal small"
+                  onClick={() => clearAllCookies()}
+                >
+                  {item?.navTitle}
+                </button>
+              ) : (
+                <a href={item?.navUrl || ""} className="font-normal small">
+                  {item?.navTitle}
+                </a>
+              )}
             </li>
           ))}
         </ul>
