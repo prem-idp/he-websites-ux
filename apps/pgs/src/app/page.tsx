@@ -15,7 +15,8 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
+  console.log(componentList);
+  console.log(jsonData);
   return (
     <>
       <PageViewLogging
@@ -32,6 +33,14 @@ const Page = async () => {
               childItems.flagComponentStyle
             );
             return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+                routename={"homepage"}
+                contentModelName={"homepageCollection"}
+              />
               <div
                 className={`${index === 0 || index % 2 === 0 ? "bg-grey-50" : ""}`}
                 key={index}
