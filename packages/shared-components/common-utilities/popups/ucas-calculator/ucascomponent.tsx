@@ -195,7 +195,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasGradeData(jsonData?.gradeFilterList);
           const decodedCookie = decodeURIComponent(getCookie("UCAS") || "{}");
           const jsonCookies = JSON.parse(decodedCookie);
-          console.log(jsonCookies);
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
@@ -463,7 +462,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         }
       } else {
         if (saveUcas) {
-          console.log(saveUcas);
           const stringConvert = JSON.stringify(saveUcas);
           const encodeURI = encodeURIComponent(stringConvert);
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
