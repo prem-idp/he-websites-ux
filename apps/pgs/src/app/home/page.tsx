@@ -40,6 +40,8 @@ const Page = async () => {
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
                 pageName={jsonData?.data?.contentData?.items[0]?.gaPageName}
+                routename={"/"}
+                contentModelName={"homepageCollection"}
               />
             );
           }

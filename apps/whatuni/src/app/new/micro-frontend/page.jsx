@@ -11,6 +11,7 @@ export default async function page() {
         />
       </Head>
       <Script src="https://mdev.dev.aws.whatuni.com/colc/static/js/main.colc.0.1.1.js" />
+      {/* <Script src="./main" /> */}
       <colc-calculator></colc-calculator>
     </>
   );
