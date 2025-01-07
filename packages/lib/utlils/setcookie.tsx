@@ -12,13 +12,12 @@ export default function SetCookiewuIdToken() {
           // Set the cookie with the idToken
           document.cookie = `wuIdToken=${session.tokens.idToken}; path=/; secure; samesite=strict`;
         } else {
-          // Set the cookie to null if idToken is not present
-          document.cookie = `wuIdToken=null; path=/; secure; samesite=strict`;
+          document.cookie = `wuIdToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
         }
       } catch (error) {
         console.error("Failed to fetch session or set cookie:", error);
-        // Optionally, set the cookie to null in case of errors
-        document.cookie = `wuIdToken=null; path=/; secure; samesite=strict`;
+
+        document.cookie = `wuIdToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
       }
     }
 

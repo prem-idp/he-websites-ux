@@ -58,10 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${farroBold.variable} ${interBold.variable} antialiased`}
-      >
-        <OneTrustCookieScript domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`} />
+      <head>
         <Script
           id="gtm-ga-script"
           strategy="lazyOnload"
@@ -76,6 +73,14 @@ export default function RootLayout({
     `,
           }}
         />
+      </head>
+      <body
+        className={`${farroBold.variable} ${interBold.variable} antialiased`}
+      >
+        <OneTrustCookieScript
+          domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`}
+        />
+
         <HeaderWrapper />
         {children}
         <Footer />
