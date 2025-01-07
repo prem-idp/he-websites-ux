@@ -20,7 +20,6 @@ export default function User({ topnav_data }: any) {
   const userprofile =
     topnav_data?.data?.contentData?.items[0]?.customerProfileMenu
       ?.navChildC1Collection?.items;
-
   return (
     <>
       <div className="flex justify-between p-[16px] absolute z-10 top-[56px] right-[-39px] shadow-custom-5 bg-white min-w-[339px] rounded-[4px] md:top-[65px] lg:top-[62px] lg:right-0">
@@ -34,15 +33,18 @@ export default function User({ topnav_data }: any) {
                   : "mb-[16px] hover:underline"
               }
             >
-              <a
-                href={item?.navUrl || ""}
-                className="font-normal small"
-                onClick={() =>
-                  item?.navTitle === "Logout" ? clearAllCookies() : ""
-                }
-              >
-                {item?.navTitle}
-              </a>
+              {item?.navTitle?.toLowerCase() === "logout" ? (
+                <button
+                  className="font-normal small"
+                  onClick={() => clearAllCookies()}
+                >
+                  {item?.navTitle}
+                </button>
+              ) : (
+                <a href={item?.navUrl || ""} className="font-normal small">
+                  {item?.navTitle}
+                </a>
+              )}
             </li>
           ))}
         </ul>

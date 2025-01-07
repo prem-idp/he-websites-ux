@@ -17,18 +17,18 @@ const awsconfig: any = {
           redirectSignIn: [
             "http://localhost:3000",
             "https://mdev.dev.aws.whatuni.com",
-            "https://mdev.dev.aws.whatuni.com/new/whatuni",
+
             "https://mdev.dev.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com/new/whatuni",
+
             "https://mtest.test.aws.whatuni.com/home",
             "https://mtest.test.aws.whatuni.com",
           ],
           redirectSignOut: [
             "http://localhost:3000",
             "https://mdev.dev.aws.whatuni.com",
-            "https://mdev.dev.aws.whatuni.com/new/whatuni",
+
             "https://mdev.dev.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com/new/whatuni",
+
             "https://mtest.test.aws.whatuni.com/home",
             "https://mtest.test.aws.whatuni.com",
           ],
