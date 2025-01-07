@@ -285,7 +285,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA",
         "NA",
-        "NA",
         "in_year",
         "0",
         searchFormHandle?.courseType?.qualDesc,
