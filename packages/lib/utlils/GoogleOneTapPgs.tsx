@@ -1,23 +1,21 @@
 "use client";
-import { useEffect, use } from "react";
-import { fetchAuthSession } from "aws-amplify/auth";
-import { signInWithRedirect } from "aws-amplify/auth";
-const GoogleOneTap = () => {
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+const GoogleOneTapPgs = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
+  function getCookieValue(name: any) {
+    const cookieArray = document.cookie.split("; ");
+    const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
+    return cookie ? cookie.split("=")[1] : "";
+  }
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const session = await fetchAuthSession();
-        if (session.tokens) {
-          const hasAccessToken = session.tokens.accessToken !== undefined;
-          const hasIdToken = session.tokens.idToken !== undefined;
-          if (hasAccessToken && hasIdToken) {
-            return null;
-          } else {
-            watchForOptanonCookie();
-          }
+        const user_initial = getCookieValue("pgs_auth") || "";
+        if (user_initial !== "null" && user_initial) {
+          return null;
         } else {
           watchForOptanonCookie();
         }
@@ -47,13 +45,10 @@ const GoogleOneTap = () => {
       if (typeof window !== "undefined" && (window as any).google) {
         (window as any).google.accounts.id.initialize({
           client_id:
-            "310464352984-52q8deiepmmnslhkehui0llrmvlvq5lu.apps.googleusercontent.com",
+            "1007776276005-306decchqtue4pjqffn8qidnphccg2km.apps.googleusercontent.com",
           callback: (response: any) => {
-            signInWithRedirect({
-              provider: "Google",
-              customState: "home page", // You can pass the credential as custom state if needed
-            });
             const { credential } = response;
+            console.log(credential);
           },
         });
         (window as any).google.accounts.id.prompt();
@@ -69,27 +64,21 @@ const GoogleOneTap = () => {
 
           if (document.cookie.includes("OptanonAlertBoxClosed")) {
             loadGoogleScript();
-            observer.disconnect(); // Stop observing once cookie is found
+            observer.disconnect();
           }
         }
       });
-
-      // Start observing
       observer.observe(document, {
         subtree: true,
         childList: true,
       });
-
-      // Initial check in case cookie is already present
       if (document.cookie.includes("OptanonAlertBoxClosed")) {
         loadGoogleScript();
         observer.disconnect();
       }
     }
-
-    // Initialize the cookie watcher
   }, []);
 
   return null;
 };
-export default GoogleOneTap;
+export default GoogleOneTapPgs;

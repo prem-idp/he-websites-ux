@@ -7,6 +7,7 @@ import Script from "next/script";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import HeaderWrapper from "@packages/shared-components/common-utilities/header/headerWrapper";
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
+import GoogleOneTapPgs from "@packages/lib/utlils/GoogleOneTapPgs";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff2",
   variable: "--font-geist-sans",
@@ -58,10 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${farroBold.variable} ${interBold.variable} antialiased`}
-      >
-        <OneTrustCookieScript domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`} />
+      <head>
         <Script
           id="gtm-ga-script"
           strategy="lazyOnload"
@@ -76,6 +74,14 @@ export default function RootLayout({
     `,
           }}
         />
+      </head>
+      <body
+        className={`${farroBold.variable} ${interBold.variable} antialiased`}
+      >
+        <OneTrustCookieScript
+          domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`}
+        />
+        {/* <GoogleOneTapPgs /> */}
         <HeaderWrapper />
         {children}
         <Footer />

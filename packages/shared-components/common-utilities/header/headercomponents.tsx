@@ -19,7 +19,7 @@ interface props {
 const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();
   const [initial, setInitial] = useState<any>("");
-  const [profilepic, setProfilepic] = useState<any>("");
+
   const [basketCount, setBasketCount] = useState<any>(0);
   const [isAuthenticated, setIsAuthenticated] = useState("false");
   const [isMobileView, setIsMobile] = useState(true);
@@ -41,12 +41,10 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log("From header ==========================", session);
         if (session?.tokens) {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
-            setProfilepic(session?.tokens?.idToken?.payload?.picture);
             setIsAuthenticated("true");
             const user_initial = getCookieValue("USER_INITIAL");
             if (!user_initial && session.tokens.idToken) {
@@ -102,8 +100,15 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
     } else {
-      setIsAuthenticated("false");
+      const user_initial = getCookieValue("pgs_auth") || "";
+      const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
+      if (user_initial !== "null" && user_initial) {
+        setIsAuthenticated("true");
+        setInitial(user_initial);
+        setBasketCount(basket_count);
+      }
     }
+
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     emitter.on("rightMenuActionclose", handleRightMenuAction);
@@ -317,16 +322,10 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {initial && isAuthenticated === "true" && profilepic ? (
-                    <Image
-                      src={profilepic}
-                      alt=" profile pic"
-                      width={48}
-                      height={48}
-                      className="relative rounded-[40px] flex items-center justify-center w-[48px] h-[48px]"
-                    />
-                  ) : initial && isAuthenticated === "true" ? (
-                    <span className="text-[16px] font-semibold">{initial}</span>
+                  {initial && isAuthenticated === "true" ? (
+                    <span className="relative para font-semibold text-white rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer bg-primary-400 hover:bg-primary-500">
+                      {initial.toUpperCase()}
+                    </span>
                   ) : (
                     <svg
                       width="20"
