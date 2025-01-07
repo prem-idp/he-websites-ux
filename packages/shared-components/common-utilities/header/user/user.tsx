@@ -6,7 +6,6 @@ import awsconfig from "../../../../../apps/whatuni/configs/amplifyconfiguration"
 Amplify.configure(awsconfig, { ssr: true });
 export default function User({ topnav_data }: any) {
   async function clearAllCookies() {
-    console.log("clearcookies trigered");
     try {
       sessionStorage.clear();
       document.cookie =
