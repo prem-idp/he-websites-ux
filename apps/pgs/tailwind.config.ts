@@ -1,8 +1,44 @@
 import type { Config } from "tailwindcss";
 const config: Config = {
   content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "../../packages/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  safelist: [
+    "lg:grid-cols-1",
+    "lg:grid-cols-2",
+    "lg:grid-cols-3",
+    "lg:grid-cols-4",
+    "lg:grid-cols-5",
+    "lg:grid-cols-6",
+    "lg:col-span-1",
+    "lg:col-span-2",
+    "lg:col-span-3",
+    "lg:col-span-4",
+    "lg:col-span-5",
+    "lg:col-span-6",
+    "lg:col-span-7",
+    "bg-success-400",
+    "bg-success-700",
+    // Blue colors
+    "bg-blue-50",
+    "bg-blue-100",
+    "bg-blue-200",
+    // Grey colors
+    "bg-grey-50",
+    "bg-grey-100",
+    "bg-grey-200",
+    // Green colors
+    "bg-green-50",
+    "bg-green-100",
+    "bg-green-200",
+    // Orange colors
+    "bg-orange-50",
+    "bg-orange-100",
+    "bg-orange-200",
   ],
   theme: {
     maxWidth: {
@@ -76,6 +112,7 @@ const config: Config = {
           50: "#FFF7E0",
           100: "#FFF0BE",
           200: "#FFD700",
+          600:"#C5422B"
         },
         grey: {
           50: "#F9FAFB",
@@ -132,10 +169,8 @@ const config: Config = {
         }
       },
       backgroundImage: {
-        gradientBlack:
-          "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
-        gradientBlack1:
-          "linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
+        gradientBlack:"linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)",
+        gradientBlack1:"linear-gradient(180deg, rgba(0,0,0,0) 50.5%, rgba(0,0,0,1) 100%)",
         gradient1: "linear-gradient(98.41deg, #6EE7B7 0%, #F59E0B 100%)",
         gradient2: "linear-gradient(98.41deg, #00BBFD 0%, #3460DC 100%)",
         gradient3: "linear-gradient(98.41deg, #10B981 0%, #00BBFD 100%)",
@@ -146,6 +181,7 @@ const config: Config = {
         gradient8: "linear-gradient(98.41deg, #D97706 0%, #87E0FF 100%)",
         gradient9: "linear-gradient(98.41deg, #0A28A3 0%, #00A4DD 100%)",
         gradient10: "linear-gradient(98.41deg, #34D399 0%, #059669 100%)",
+        gradient11: "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)",
       },
       boxShadow: {
         "custom-1":"0px 2px 4px -2px rgba(16, 24, 40, 0.1), 0px 4px 6px -1px rgba(16, 24, 40, 0.1)",
