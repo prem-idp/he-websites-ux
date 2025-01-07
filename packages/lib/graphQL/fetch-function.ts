@@ -7,12 +7,12 @@ export const homePageComponentQueryFormation = (
   const query = `
       {
         contentData: ${contentModelName}(
-          limit: 10
+          limit: 1
           where: {urlSlug: "${urlpath}", website: {websiteName: "${process.env.PROJECT}"}}
         ) {
           items {
             bodyContentCollection(
-              limit: 10
+              limit: 1
               where: {internalName: "${internalName}"}
             ) {
               items {
