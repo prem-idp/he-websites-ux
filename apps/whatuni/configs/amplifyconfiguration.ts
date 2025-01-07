@@ -6,7 +6,7 @@ const awsconfig: any = {
       loginWith: {
         // OPTIONAL - Hosted UI configuration
         oauth: {
-          domain: "dev-idpc-dom-user.auth.eu-west-2.amazoncognito.com",
+          domain: `${process.env.NEXT_PUBLIC_ENVIRONMENT}-idpc-dom-user.auth.eu-west-2.amazoncognito.com`,
           scopes: [
             //'phone',
             "email",
