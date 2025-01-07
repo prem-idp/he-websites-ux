@@ -87,13 +87,6 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
     // Upload files to the S3 bucket
-    new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
-      sources: [s3deploy.Source.asset("../.open-next/assets")],
-      destinationBucket: myBucket,
-      destinationKeyPrefix: "assets",
-    });
-
-    // Upload files to the S3 bucket
     new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
       sources: [s3deploy.Source.asset("../.open-next/cache")],
       destinationBucket: myBucket,
@@ -125,7 +118,13 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       process.env.AWS_SECURITY_GROUP || "",
       vpc
     );
-
+    // Upload files to the S3 bucket
+    new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
+      sources: [s3deploy.Source.asset("../.open-next/assets")],
+      destinationBucket: myBucket,
+      destinationKeyPrefix: "assets",
+      vpc: vpcConfig,
+    });
     const serverFunctionName = process.env.WHATUNI_SERVER_FN_LAMBDA_NAME || " ";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
@@ -150,21 +149,21 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
 
     const s3CacheStatement = new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:ListBucket"
+      actions: ["s3:GetObject", "s3:PutObject", "s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,
+        `arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`,
       ],
-      resources: [`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`]
-      });
+    });
 
-      const s3AssetStatement = new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: [
-          "s3:GetObject",
-        ],
-        resources: [`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,`arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`]
-        });
+    const s3AssetStatement = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject"],
+      resources: [
+        `arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}`,
+        `arn:aws:s3:::${process.env.AWS_WHATUNI_S3_BUCKET_NAME}/*`,
+      ],
+    });
 
     const ec2XrayPolicyStatement = new PolicyStatement({
       effect: Effect.ALLOW,
@@ -187,7 +186,11 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // Create the IAM policy
     const myPolicy = new Policy(this, "MyPolicy", {
       policyName: `${serverFunctionName}-permission`,
-      statements: [cloudwatchPolicyStatement, ec2XrayPolicyStatement,s3CacheStatement],
+      statements: [
+        cloudwatchPolicyStatement,
+        ec2XrayPolicyStatement,
+        s3CacheStatement,
+      ],
     });
 
     cdk.Tags.of(myPolicy).add("ApplicationService", "CS Channel: HE websites");
@@ -218,10 +221,10 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(30), // Adjust as needed
       memorySize: 1024, // Adjust as needed
       environment: {
-       // NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
-       CACHE_BUCKET_NAME : myBucket.bucketName,
-       CACHE_BUCKET_KEY_PREFIX : "cache",
-       CACHE_BUCKET_REGION: `${process.env.AWS_REGION}`
+        // NEXT_PUBLIC_S3_BUCKET: myBucket.bucketName, // Make S3 bucket name accessible in Lambda
+        CACHE_BUCKET_NAME: myBucket.bucketName,
+        CACHE_BUCKET_KEY_PREFIX: "cache",
+        CACHE_BUCKET_REGION: `${process.env.AWS_REGION}`,
       },
       architecture: Architecture.ARM_64,
       role: myRole,
@@ -277,7 +280,11 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // Create the IAM policy
     const myImagePolicy = new Policy(this, "MyImagePolicy", {
       policyName: `${imageFunctionName}-permission`,
-      statements: [cloudwatchImagePolicyStatement, ec2XrayPolicyStatement,s3AssetStatement],
+      statements: [
+        cloudwatchImagePolicyStatement,
+        ec2XrayPolicyStatement,
+        s3AssetStatement,
+      ],
     });
 
     cdk.Tags.of(myImagePolicy).add(
