@@ -338,7 +338,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        matchedSubject?.description,
+        "NA",
         matchedSubject?.parent_subject
           ? matchedSubject?.parent_subject
           : matchedSubject?.description,
@@ -374,7 +374,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        matchedSubject?.description,
+        "NA",
         matchedSubject?.parent_subject
           ? matchedSubject?.parent_subject
           : matchedSubject?.description,
@@ -411,9 +411,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        sanitizedDescription,
-        "NA",
-        "NA",
+        (!matchedSubject && sanitizedDescription) ? sanitizedDescription : "NA",
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
