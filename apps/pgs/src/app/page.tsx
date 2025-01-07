@@ -42,16 +42,10 @@ const Page = async () => {
                   heading={childItems?.cardSectionTitle}
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
+                  routename={"/"}
+                  contentModelName={"homepageCollection"}
                 />
               </div>
-              <Component
-                key={index}
-                heading={childItems?.cardSectionTitle}
-                subheading={childItems?.shortDescription}
-                internalName={childItems?.internalName}
-                routename={"/"}
-                contentModelName={"homepageCollection"}
-              />
             );
           }
         )}
