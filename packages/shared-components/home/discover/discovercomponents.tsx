@@ -22,7 +22,6 @@ const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
   const discovercontentfulData: any = (await graphQlFetchFunction(query)).data
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]
     ?.mediaCardsCollection?.items;
-
   return (
     discovercontentfulData && (
       <div className="discover-container">

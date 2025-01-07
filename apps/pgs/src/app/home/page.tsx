@@ -42,8 +42,8 @@ const Page = async () => {
                   heading={childItems?.cardSectionTitle}
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
-                  contentModelName={"homepageCollection"}
                   routename={"/"}
+                  contentModelName={"homepageCollection"}
                 />
               </div>
             );

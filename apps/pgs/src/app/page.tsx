@@ -15,7 +15,8 @@ const Page = async () => {
     jsonData?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const heroSliderData: SliderBannerCollection =
     jsonData?.data?.contentData?.items[0]?.sliderBannerCollection;
-
+  console.log(componentList);
+  console.log(jsonData);
   return (
     <>
       <PageViewLogging
@@ -41,8 +42,8 @@ const Page = async () => {
                   heading={childItems?.cardSectionTitle}
                   subheading={childItems?.shortDescription}
                   internalName={childItems?.internalName}
-                  contentModelName={"homepageCollection"}
                   routename={"/"}
+                  contentModelName={"homepageCollection"}
                 />
               </div>
             );
