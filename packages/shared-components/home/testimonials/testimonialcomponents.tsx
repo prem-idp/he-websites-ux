@@ -9,16 +9,19 @@ const Testimonialcomponents = async ({
   subheading,
   internalName,
   routename,
+  contentModelName,
 }: {
   heading: string;
   subheading: string;
   internalName: string;
   routename: string;
+  contentModelName: string;
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
     testimonial,
-    routename
+    routename,
+    contentModelName
   );
   const testimonialJsonData = await graphQlFetchFunction(query);
   const contentfullData =

@@ -11,6 +11,7 @@ interface headingProps {
   pageName: any;
   internalName: string | undefined;
   routename: string;
+  contentModelName: string;
 }
 
 const Tagcloudcomponents: React.FC<headingProps> = async ({
@@ -18,11 +19,13 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
   pageName,
   internalName,
   routename,
+  contentModelName,
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
     tagCloudQuery,
-    routename
+    routename,
+    contentModelName
   );
   const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =

@@ -67,7 +67,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
           <div className="reviewed__date x-small text-grey-500">
             {reviewData?.reviewedDate}
           </div>
-          <div className="reviewed__date font-semibold para line-clamp-1">
+          <div className="reviewed__dat e font-semibold para line-clamp-1">
             {reviewData?.courseTitle}
           </div>
           <div className="reviewed__date small text-grey-500 line-clamp-3 min-h-[63px] break-words">

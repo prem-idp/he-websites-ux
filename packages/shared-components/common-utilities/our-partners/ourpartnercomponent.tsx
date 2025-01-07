@@ -18,7 +18,12 @@ interface Partner {
   logoImage: LogoImage;
 }
 
-const OurPartnerComponent = ({ heading, internalName, routename }: any) => {
+const OurPartnerComponent = ({
+  heading,
+  internalName,
+  routename,
+  contentModelName,
+}: any) => {
   const [partners, setPartners] = useState<Partner[]>([]);
 
   useEffect(() => {
@@ -26,7 +31,8 @@ const OurPartnerComponent = ({ heading, internalName, routename }: any) => {
       const query = homePageComponentQueryFormation(
         internalName,
         partnerLogo,
-        routename
+        routename,
+        contentModelName
       );
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
