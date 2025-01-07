@@ -101,8 +101,15 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
     } else {
-      setIsAuthenticated("false");
+      const user_initial = getCookieValue("pgs_auth") || "";
+      const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
+      if (user_initial !== "null" && user_initial) {
+        setIsAuthenticated("true");
+        setInitial(user_initial);
+        setBasketCount(basket_count);
+      }
     }
+
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     emitter.on("rightMenuActionclose", handleRightMenuAction);
