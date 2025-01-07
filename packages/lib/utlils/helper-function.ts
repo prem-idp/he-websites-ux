@@ -61,9 +61,7 @@ async function currentAuthenticatedUser() {
 //   contentful_2?: any
 // ) {
 //   if (typeof window !== "undefined") {
-//     console.log("window is not equal to undefined, entered into first 'IF' ");
 //     if (window.dataLayer) {
-//       console.log("data layer is available");
 //       window.dataLayer.push({
 //         event: replaceWithNA(event),
 //         "event name": replaceWithNA(eventName),
@@ -95,7 +93,6 @@ async function currentAuthenticatedUser() {
 //         contentful_2: replaceWithNA(contentful_2),
 //       });
 //     } else {
-//       console.log("GTM dataLayer is not available yet");
 //     }
 //   } else {
 //     console.warn("Window is not available to log GA");

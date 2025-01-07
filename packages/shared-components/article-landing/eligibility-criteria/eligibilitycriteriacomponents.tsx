@@ -22,7 +22,6 @@ const Eligibilitycriteriacomponents = async ({
     routename
   );
   const jsondata = await graphQlFetchFunction(query);
-  console.log(jsondata);
   return (
     <div className="eligibility-container bg-grey-50">
       <div className="max-w-container mx-auto">

@@ -164,7 +164,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   // ============================serch handler===============================================================================================================
   const searchHandler = async () => {
     if (isAuthenticated) {
-      const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "{}");
+      const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "");
       ucasval = cookiesval;
     } else {
       const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
@@ -193,16 +193,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         .toLowerCase(); // Convert the entire string to lowercase
 
-      // console.log(
       //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
       //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
       // );
 
       // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
-      // console.log(urlformed);
 
       // const unencodedUrl = urlformed.replace(/,/g, ",");
-      // console.log(unencodedUrl);
       // router.push(unencodedUrl);
       // const decodedUrl = urlformed.replace("%2C", ",");
       // const params = new URLSearchParams({
@@ -267,7 +264,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
       //   }
       // })
     } else if (searchFormHandle.subject?.url) {
-      
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -302,18 +298,14 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       router.push(searchFormHandle.subject.url);
-      // console.log(
-      //   searchFormHandle.subject?.url,
-      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
-      // );
       router.push(
         `${searchFormHandle.subject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     } else if (searchFormHandle?.subject?.description?.trim()) {
-      keywordSearch();
+      keywordSearch(true);
     }
   };
-  const keywordSearch = async () => {
+  const keywordSearch = async (canmatch: any) => {
     const sanitizedDescription = searchFormHandle?.subject?.description
       .trim()
       .replace(/[^a-zA-Z0-9\s]+/g, "-")
@@ -334,8 +326,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         searchFormHandle?.subject?.description?.trim().toLowerCase()
     );
 
-    if (searchFormHandle.location?.regionName && matchedSubject) {
-      console.log( "subject if:" + searchFormHandle?.subject)
+    if (searchFormHandle.location?.regionName && matchedSubject && canmatch) {
       const sanitizedRegionName = searchFormHandle.location.regionName
         .trim() // Remove spaces from the front and back
         .replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
@@ -351,9 +342,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         matchedSubject?.parent_subject
           ? matchedSubject?.parent_subject
           : matchedSubject?.description,
-          matchedSubject?.parent_subject
-          ? matchedSubject?.description
-          : "NA",
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
@@ -380,7 +369,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
       );
     }
-    if (matchedSubject) {
+    if (matchedSubject && canmatch) {
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -389,9 +378,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         matchedSubject?.parent_subject
           ? matchedSubject?.parent_subject
           : matchedSubject?.description,
-          matchedSubject?.parent_subject
-          ? matchedSubject?.description
-          : "NA",
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
@@ -689,7 +676,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                         isSubjectClicked: !searchFormHandle?.isSubjectClicked,
                       }));
                       setDropdown(false);
-                      keywordSearch();
+                      keywordSearch(false);
                     }}
                     className="px-[16px] py-[12px] cursor-pointer"
                   >

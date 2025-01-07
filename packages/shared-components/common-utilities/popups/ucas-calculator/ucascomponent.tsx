@@ -64,9 +64,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     setLoading(true);
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
-      console.log("Ucas response", response);
       const { idToken } = response.tokens ?? {};
-      console.log("ucas id token", idToken);
       let tracksessionId = getCookie("trackSessionId");
       if (!tracksessionId) {
         const randomId = uuidv4();
@@ -197,7 +195,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setUcasGradeData(jsonData?.gradeFilterList);
           const decodedCookie = decodeURIComponent(getCookie("UCAS") || "{}");
           const jsonCookies = JSON.parse(decodedCookie);
-          console.log(jsonCookies);
           setUcasPoint(
             jsonCookies?.ucasPoint ? Math.floor(jsonCookies.ucasPoint) : 0
           );
@@ -465,7 +462,6 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         }
       } else {
         if (saveUcas) {
-          console.log(saveUcas);
           const stringConvert = JSON.stringify(saveUcas);
           const encodeURI = encodeURIComponent(stringConvert);
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
