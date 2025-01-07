@@ -152,7 +152,7 @@ function GADataLayerFn(
         college_id: replaceWithNA(collegeId),
         ucas_points: replaceWithNA(point?.ucasPoint),
         study_mode: replaceWithNA(studyMode),
-        target_year: "2025",
+        target_year: "NA",
         clearing: replaceWithNA(clearing),
         wu_user_id: userId,
         study_level: replaceWithNA(studyLevel),
