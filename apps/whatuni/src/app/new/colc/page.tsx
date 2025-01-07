@@ -7,6 +7,7 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 const page = async () => {
   const componentList = (await graphQlFetchFunction(ColcLandingPageQuery))?.data
     ?.contentData?.items[0]?.bodyContentCollection.items;
+  console.log(await graphQlFetchFunction(ColcLandingPageQuery));
   return (
     <>
       {componentList?.map(
