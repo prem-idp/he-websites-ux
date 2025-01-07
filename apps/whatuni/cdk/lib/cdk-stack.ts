@@ -86,13 +86,6 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
     // cdk.Tags.of(myBucket).add("Name", whatuniBucketName);
     // cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
-    // Upload files to the S3 bucket
-    new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
-      sources: [s3deploy.Source.asset("../.open-next/cache")],
-      destinationBucket: myBucket,
-      destinationKeyPrefix: "cache",
-    });
-
     const vpc = Vpc.fromLookup(this, "ExistingVpc", {
       // region: "ap-south-1",
       tags: { Name: process.env.AWS_VPC_TAG_NAME || "" },
@@ -125,6 +118,14 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       destinationKeyPrefix: "assets",
       vpc: vpcConfig,
     });
+    // Upload files to the S3 bucket
+    new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
+      sources: [s3deploy.Source.asset("../.open-next/cache")],
+      destinationBucket: myBucket,
+      destinationKeyPrefix: "cache",
+      vpc: vpcConfig,
+    });
+
     const serverFunctionName = process.env.WHATUNI_SERVER_FN_LAMBDA_NAME || " ";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
