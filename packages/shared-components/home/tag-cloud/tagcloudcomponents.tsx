@@ -17,7 +17,12 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
   pageName,
   internalName,
 }) => {
-  const query = homePageComponentQueryFormation(internalName, tagCloudQuery);
+  const query = homePageComponentQueryFormation(
+    internalName,
+    tagCloudQuery,
+    routename,
+    contentModelName
+  );
   const tagCloudData: HomePageInterface = await graphQlFetchFunction(query);
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
