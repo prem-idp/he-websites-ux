@@ -137,6 +137,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
+    console.log("btn clicked");
     setIsOpen(!isOpen);
     if (!isOpen) {
       document.body.classList.add("overflow-y-hidden");
