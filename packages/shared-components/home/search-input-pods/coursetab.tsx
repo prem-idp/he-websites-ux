@@ -285,7 +285,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA",
         "NA",
-        "NA",
         "in_year",
         "0",
         searchFormHandle?.courseType?.qualDesc,
@@ -340,12 +339,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "homepage_search",
         "subject_search",
         "NA",
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.parent_subject
-          : searchFormHandle?.subject?.description,
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.description
-          : "NA",
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
@@ -378,12 +375,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "homepage_search",
         "subject_search",
         "NA",
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.parent_subject
-          : searchFormHandle?.subject?.description,
-        searchFormHandle?.subject?.parent_subject
-          ? searchFormHandle?.subject?.description
-          : "NA",
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",
@@ -415,10 +410,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
       GADataLayerFn(
         "ga_events",
         "homepage_search",
-        "NA",
-        sanitizedDescription,
-        "NA",
-        "NA",
+        "subject_search",
+        (!matchedSubject && sanitizedDescription) ? sanitizedDescription : "NA",
+        matchedSubject?.parent_subject
+          ? matchedSubject?.parent_subject
+          : matchedSubject?.description,
+        matchedSubject?.parent_subject ? matchedSubject?.description : "NA",
         localStorage?.getItem("gaPageName") || "",
         "NA",
         "NA",

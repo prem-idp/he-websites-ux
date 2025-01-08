@@ -2,7 +2,7 @@
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { tagCloudQuery } from "@packages/lib/graphQL/graphql-query";
 import Link from "next/link";
-import { homePageComponentQueryFormation } from "@packages/lib/graphQL/graphql-query";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import React, { Suspense } from "react";
 import { HomePageInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
@@ -10,12 +10,16 @@ interface headingProps {
   heading: string;
   pageName: any;
   internalName: string | undefined;
+  routename: string;
+  contentModelName: string;
 }
 
 const Tagcloudcomponents: React.FC<headingProps> = async ({
   heading,
   pageName,
   internalName,
+  routename,
+  contentModelName,
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,

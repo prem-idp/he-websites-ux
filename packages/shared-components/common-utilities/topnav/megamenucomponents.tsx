@@ -24,10 +24,8 @@ const Megamenucomponents = ({ data }: any) => {
   const handleMenuToggle = (menuId: string) => {
     setOpenMenu(openMenu === menuId ? false : menuId);
     if (openMenu === menuId ? false : menuId) {
-  
       document.body.classList.add("overflow-y-hidden");
     } else {
-     
       document.body.classList.remove("overflow-y-hidden");
     }
   };
@@ -155,7 +153,6 @@ const Megamenucomponents = ({ data }: any) => {
                         className={`${openMenu === `menu${index}` ? "block" : "hidden"}`}
                       >
                         <div
-                        
                           className={`${openMenu ? "animate-fadeIn block" : "hidden"} backdrop-shadow absolute top-[76px] left-0 right-0 bottom-0 z-[5] h-[100vh]`}
                         ></div>
                         <div

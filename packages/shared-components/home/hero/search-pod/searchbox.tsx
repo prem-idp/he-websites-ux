@@ -8,6 +8,7 @@ import AdviceTab from "../../search-input-pods/advicetab";
 
 import PgsSearch from "./pgs-search";
 import dynamic from "next/dynamic";
+import { currentAuthenticatedUser, GADataLayerFn } from "@packages/lib/utlils/helper-function";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -219,6 +220,38 @@ const SearchBox = ({ pgs_search_data }: any) => {
                     <a
                       href="/degrees/find-university/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
+                      onClick={async () => {
+                        GADataLayerFn(
+                          "ga_events",
+                          "homepage_search",
+                          "university_search",
+                          "view_all_clicks",
+                          "NA",
+                          "NA",
+                          localStorage?.getItem("gaPageName") || "",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "in_year",
+                          await currentAuthenticatedUser(),
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          `${process.env.PROJECT}`,
+                          "NA",
+                          "NA" // Site name or context
+                        );
+
+                      }}
                     >
                       Browse unis A-Z
                       <Image
@@ -231,10 +264,42 @@ const SearchBox = ({ pgs_search_data }: any) => {
                   </div>
                 )}
                 {searchFormHandle?.activeTab == "tab3" && (
-                  <div className="flex justify-center md:justify-end my-[24px] md:my-0">
+                  <div className="flex justify-center md:justify-end my-[24px] md:my-0">                    
                     <a
                       href="/advice/"
                       className="flex items-center gap-[6px] text-primary-400 font-semibold small hover:underline"
+                      onClick={async () => {
+                        GADataLayerFn(
+                          "ga_events",
+                          "homepage_search",
+                          "advice_search",
+                          "view_all_clicks",
+                          "NA",
+                          "NA",
+                          localStorage?.getItem("gaPageName") || "",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "in_year",
+                          await currentAuthenticatedUser(),
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          "NA",
+                          `${process.env.PROJECT}`,
+                          "NA",
+                          "NA" // Site name or context
+                        );
+
+                      }}
                     >
                       Browse advice
                       <Image
