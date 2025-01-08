@@ -272,7 +272,7 @@ export interface ReviewDetails {
   comment: string;
   initial: string;
   collegetextkey: string;
-  reviewedDate: string;
+  to_char: string;
   collegeId: string;
   collegeName: string;
   courseTitle: string;
@@ -407,7 +407,7 @@ export interface HomePageInterface {
     contentData: {
       items: [
         {
-          gaPageName: any,
+          gaPageName: any;
           bodyContentCollection: {
             items: Array<{
               __typename: string;
@@ -417,7 +417,6 @@ export interface HomePageInterface {
             }>;
           };
         },
-        
       ];
     };
   };
@@ -442,7 +441,7 @@ export interface HomePageInterface {
     contentData: {
       items: [
         {
-          gaPageName: any,
+          gaPageName: any;
           bodyContentCollection: {
             items: Array<{
               __typename: string;
