@@ -64,7 +64,7 @@ export default function User({ topnav_data }: any) {
                     : ""
                 }
               >
-                {item.navTitle}
+                {item?.navTitle}
               </a>
             </li>
           ))}
