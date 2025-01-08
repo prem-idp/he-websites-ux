@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { CallbackComponent } from "./callbackofonetap";
 const GoogleOneTapPgs = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
@@ -48,6 +49,7 @@ const GoogleOneTapPgs = () => {
             "1007776276005-306decchqtue4pjqffn8qidnphccg2km.apps.googleusercontent.com",
           callback: (response: any) => {
             const { credential } = response;
+            CallbackComponent(credential);
             console.log(credential);
           },
         });
