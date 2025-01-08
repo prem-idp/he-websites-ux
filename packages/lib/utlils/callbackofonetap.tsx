@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export const CallbackComponent = (credential: any) => {
-  //   const credential = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg5Y2UzNTk4YzQ3M2FmMWJkYTRiZmY5NWU2Yzg3MzY0NTAyMDZmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIzMTA0NjQzNTI5ODQtNTJxOGRlaWVwbW1uc2xoa2VodWkwbGxybXZsdnE1bHUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIzMTA0NjQzNTI5ODQtNTJxOGRlaWVwbW1uc2xoa2VodWkwbGxybXZsdnE1bHUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTgyNDU3MzcxOTg5NzM2Nzc2OTgiLCJlbWFpbCI6InVkaGF5YWt1bWFyLmRAaWRwLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYmYiOjE3MzYyNDMzMTAsIm5hbWUiOiJVZGhheWEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSWkzcWgwU1lDeFRTZFdRRjRldWZYX3lkcG9Dc1pXUzlJWFhBeVQIbmFabV9yUlJnPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IlVkaGF5YSIsImlhdCI6MTczNjI0MzYxMCwiZXhwIjoxNzM2MjQ3MjEwLCJqdGkiOiJlYTBlNjU5ODA5OGJlYTlmZmNjZDg4YmJlZGI1NTNjZjExMGFiYWY3In0.XhhxtSa4keX4uBPB2Jvu96wF4PYZWQKN-gQ2xLJT18Gz-Sj2emJrlr5N-VTSVwdoxnePIuBp9Vbe1m61gpi-nALTsIjNahDKp0EOyUisjqXIXQ6B4U6wr4MltQ4swyc9Hrg09ctGueL6o-GFIkUV7cp5Z7s_mrYMhkIlMfIr-mbnu7Wn4dafph5U5N31cGEhy0ZY7I8mp4sJXhkRWGmbHmB_2tvzpitfk4DPZHSzk37kBEirupW0l0KjLi1mMAcJSZw_oTkUNBD0BZs2g_t3uj8bi9K2ZtywBfojLUgVSLelWJ18JMudORNitDNq89D-Ph0NdiBbQdacFMx6jaVb8w";
-
+const CallbackComponent = (credential: any) => {
+  console.log(credential, "credentialssssssssssssssssssssssssssssssss");
   function extractLastNumber(input: any) {
     const segments = input.toString().split("##SPLIT##");
     const lastSegment = segments[segments.length - 1];
@@ -25,7 +24,7 @@ export const CallbackComponent = (credential: any) => {
       try {
         const decodedToken: any = jwtDecode(credential.toString());
         console.log(decodedToken, "decodedtoken in callback");
-        const url = `pgs/pgs_interactive.check_email_exist_prc?p_email="${decodedToken?.email}"`;
+        const url = `https://mdev.dev.aws.postgraduatesearch.com/pgs/pgs_interactive.check_email_exist_prc?p_email=${decodedToken?.email}`;
 
         const response = await fetch(url, {
           method: "POST",
@@ -74,3 +73,4 @@ export const CallbackComponent = (credential: any) => {
 
   return null;
 };
+export default CallbackComponent;
