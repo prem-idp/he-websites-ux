@@ -19,42 +19,42 @@ const GradeDropdown = ({
     "distinction" | "merit" | "pass" | null
   >(null);
   const getValue = (selectedKey: string) => {
-    const foundItem = qual[indexPosition].gradeArray?.find(
-      (item: any) => item.key === selectedKey
+    const foundItem = qual[indexPosition]?.gradeArray?.find(
+      (item: any) => item?.key === selectedKey
     );
     if (foundItem) {
-      return foundItem.value;
+      return foundItem?.value;
     }
   };
   const [distinction, setDistinction] = useState({
-    point: extractValue(qual[indexPosition].userEntryPoint, "D") || 0,
+    point: extractValue(qual[indexPosition]?.userEntryPoint, "D") || 0,
     score:
-      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      getValue("D") * extractValue(qual[indexPosition]?.userEntryPoint, "D") ||
       0,
   });
   const [merit, setMerit] = useState({
-    point: extractValue(qual[indexPosition].userEntryPoint, "M") || 0,
+    point: extractValue(qual[indexPosition]?.userEntryPoint, "M") || 0,
     score:
-      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      getValue("D") * extractValue(qual[indexPosition]?.userEntryPoint, "D") ||
       0,
   });
   const [pass, setPass] = useState({
-    point: extractValue(qual[indexPosition].userEntryPoint, "P") || 0,
+    point: extractValue(qual[indexPosition]?.userEntryPoint, "P") || 0,
     score:
-      getValue("D") * extractValue(qual[indexPosition].userEntryPoint, "D") ||
+      getValue("D") * extractValue(qual[indexPosition]?.userEntryPoint, "D") ||
       0,
   });
 
   const getPodSpecificvalue = (selectedKey: string, itemValue: number) => {
     if (selectedKey === "D") {
       const dvalue = itemValue * getValue(selectedKey);
-      return dvalue + merit.score + pass.score;
+      return dvalue + merit?.score + pass?.score;
     } else if (selectedKey === "M") {
       const mvalue = itemValue * getValue(selectedKey);
-      return mvalue + distinction.score + pass.score;
+      return mvalue + distinction?.score + pass?.score;
     } else if (selectedKey === "P") {
       const pvalue = itemValue * getValue(selectedKey);
-      return pvalue + distinction.score + merit.score;
+      return pvalue + distinction?.score + merit?.score;
     }
   };
 
@@ -99,7 +99,8 @@ const GradeDropdown = ({
     );
   };
 
-  const remainingCredits = 45 - (distinction.point + merit.point + pass.point);
+  const remainingCredits =
+    45 - (distinction?.point + merit?.point + pass?.point);
   return (
     <div className="flex flex-col gap-[16px] px-[16px] pb-[32px]">
       <div className="flex flex-col gap-[16px] max-w-[200px]">
@@ -119,7 +120,7 @@ const GradeDropdown = ({
               }
               className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
-              <span>{distinction.point} credits</span>
+              <span>{distinction?.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
                 alt="ucas-down-arrow"
@@ -142,7 +143,7 @@ const GradeDropdown = ({
                           selectValue(
                             item,
                             setDistinction,
-                            distinction.point,
+                            distinction?.point,
                             "D"
                           )
                         }
@@ -170,7 +171,7 @@ const GradeDropdown = ({
               }
               className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
-              <span>{merit.point} credits</span>
+              <span>{merit?.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
                 alt="ucas-down-arrow"
@@ -182,13 +183,13 @@ const GradeDropdown = ({
               <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
                 <ul>
                   {initialArray
-                    .filter((item) => item <= remainingCredits + merit.point)
-                    .map((item, index) => (
+                    ?.filter((item) => item <= remainingCredits + merit?.point)
+                    ?.map((item, index) => (
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                         onClick={() =>
-                          selectValue(item, setMerit, merit.point, "M")
+                          selectValue(item, setMerit, merit?.point, "M")
                         }
                       >
                         {item} credits
@@ -214,7 +215,7 @@ const GradeDropdown = ({
               }
               className="border border-grey300 text-grey300 rounded-[20px] flex items-center justify-center gap-[4px] p-[8px] font-semibold small cursor-pointer"
             >
-              <span>{pass.point} credits</span>
+              <span>{pass?.point} credits</span>
               <Image
                 src="/static/assets/icons/ucas-down-arrow.svg"
                 alt="ucas-down-arrow"
@@ -226,13 +227,13 @@ const GradeDropdown = ({
               <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
                 <ul>
                   {initialArray
-                    .filter((item) => item <= remainingCredits + pass.point)
-                    .map((item, index) => (
+                    ?.filter((item) => item <= remainingCredits + pass.point)
+                    ?.map((item, index) => (
                       <li
                         key={index}
                         className="py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                         onClick={() =>
-                          selectValue(item, setPass, pass.point, "P")
+                          selectValue(item, setPass, pass?.point, "P")
                         }
                       >
                         {item} credits
