@@ -16,22 +16,22 @@ const GradeCounterButton = ({
   const [count, setCount] = useState(populateCount ? populateCount : 0);
   const increment = (btnValue: number) => {
     if (
-      count < qual[indexPosition].maxPoint &&
-      qual[indexPosition].getmaxTotalPoint < qual[indexPosition].maxTotalPoint
+      count < qual[indexPosition]?.maxPoint &&
+      qual[indexPosition]?.getmaxTotalPoint < qual[indexPosition]?.maxTotalPoint
     ) {
       setCount(count + 1);
       setUcasPoint(ucasPoint + Number(btnValue));
       setQual((prev: any) =>
-        prev.map((item: any, index: any) =>
+        prev?.map((item: any, index: any) =>
           index === indexPosition
             ? {
                 ...item,
-                getmaxTotalPoint: item.getmaxTotalPoint + 1,
+                getmaxTotalPoint: item?.getmaxTotalPoint + 1,
                 podSpecificPoints: item?.podSpecificPoints + btnValue,
                 userEntryPoint: updateUserEntryPointForIncrement(
-                  item.userEntryPoint || "",
+                  item?.userEntryPoint || "",
                   btnName,
-                  qual[indexPosition]?.gradeArray.map((item: any) => item.key)
+                  qual[indexPosition]?.gradeArray?.map((item: any) => item?.key)
                 ),
               }
             : item
@@ -43,16 +43,16 @@ const GradeCounterButton = ({
     if (count > 0) {
       setCount(count - 1);
       setQual((prev: any) =>
-        prev.map((item: any, index: any) =>
+        prev?.map((item: any, index: any) =>
           index === indexPosition
             ? {
                 ...item,
-                getmaxTotalPoint: item.getmaxTotalPoint - 1,
+                getmaxTotalPoint: item?.getmaxTotalPoint - 1,
                 podSpecificPoints: item?.podSpecificPoints - btnValue,
                 userEntryPoint: updateUserEntryPointForDecrement(
-                  item.userEntryPoint || "",
+                  item?.userEntryPoint || "",
                   btnName,
-                  qual[indexPosition]?.gradeArray.map((item: any) => item.key)
+                  qual[indexPosition]?.gradeArray?.map((item: any) => item?.key)
                 ),
               }
             : item
@@ -106,7 +106,7 @@ const GradeCounterButton = ({
         <button
           aria-label="increment"
           onClick={() => increment(btnValue)}
-          className={`${count >= qual[indexPosition].maxPoint || qual[indexPosition].maxTotalPoint <= qual[indexPosition].getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
+          className={`${count >= qual[indexPosition]?.maxPoint || qual[indexPosition]?.maxTotalPoint <= qual[indexPosition]?.getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
         >
           <svg
             width="40"

@@ -52,7 +52,7 @@ const TopLevelMenu = ({
       setUcasPoint(0);
     } else {
       setQual((prev: any) =>
-        prev.map((item: any, index: any) =>
+        prev?.map((item: any, index: any) =>
           index === indexPosition
             ? {
                 ...item,
@@ -90,19 +90,19 @@ const TopLevelMenu = ({
             height="16"
           />
         </div>
-        {isDropDownOpen && ucasGradeData.length > 1 && (
+        {isDropDownOpen && ucasGradeData?.length > 1 && (
           <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto w-full bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 z-10">
             <ul>
               {ucasGradeData.map((childItems: any, index: number) => (
                 <li
                   key={index + 1}
                   className={
-                    childItems.qualId === null
+                    childItems?.qualId === null
                       ? "py-[10px] px-[16px] font-semibold x-small uppercase bg-neutral50 text-grey500 tracking-[1px]"
                       : "py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                   }
                   onClick={
-                    childItems.qualId !== null
+                    childItems?.qualId !== null
                       ? () => {
                           changeUcasLevel(
                             childItems.qualification,
@@ -117,7 +117,7 @@ const TopLevelMenu = ({
                       : undefined
                   }
                 >
-                  {childItems.qualification}
+                  {childItems?.qualification}
                 </li>
               ))}
             </ul>
@@ -126,7 +126,7 @@ const TopLevelMenu = ({
       </div>
       {qual[indexPosition]?.type === "plus-minus" && !isDropDownOpen && (
         <div className="flex items-center justify-between gap-[32px] flex-wrap">
-          {qual[indexPosition].gradeArray?.map(
+          {qual[indexPosition]?.gradeArray?.map(
             (childItems: any, index: number) => (
               <GradeCounterButton
                 key={qual[indexPosition]?.SelectedLevel + index + resetid}
@@ -149,7 +149,7 @@ const TopLevelMenu = ({
 
       {qual[indexPosition]?.type === "single-select" && !isDropDownOpen && (
         <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
-          {qual[indexPosition].gradeArray?.map(
+          {qual[indexPosition]?.gradeArray?.map(
             (childItems: any, index: any) => (
               <GradeBadgeButton
                 key={qual[indexPosition]?.SelectedLevel + index}

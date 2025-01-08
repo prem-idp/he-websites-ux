@@ -15,7 +15,7 @@ const GradeBadgeButton = ({
         ucasPoint + btnValue - qual[indexPosition]?.podSpecificPoints
       );
       setQual((prev: any) =>
-        prev.map((item: any, index: any) =>
+        prev?.map((item: any, index: any) =>
           index === indexPosition
             ? {
                 ...item,

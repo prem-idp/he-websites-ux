@@ -6,9 +6,9 @@ interface ReviewCardProps {
   reviewData: ReviewDetails;
   index: any;
   ratings: any;
-  pageName?:any;
+  pageName?: any;
 }
-const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
+const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName }) => {
   return (
     <ClickTrackerWrapper
       gaData={{
@@ -24,7 +24,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
     >
       <a
         href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
-        className="reviews-card group  flex flex-col justify-between bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[267px]"
+        className="reviews-card group  flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[267px]"
       >
         <div
           data-testid="review-card"
@@ -64,13 +64,15 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
           </div>
         </div>
         <div className="review-card-footer flex flex-col gap-[4px] pt-[12px]">
-          <div className="reviewed__date x-small text-grey-500">
-            {reviewData?.reviewedDate}
-          </div>
+          {reviewData?.to_char && (
+            <div className="reviewed__date x-small text-grey-500">
+              {`Reviewed: ${reviewData?.to_char}`}
+            </div>
+          )}
           <div className="reviewed__dat e font-semibold para line-clamp-1">
             {reviewData?.courseTitle}
           </div>
-          <div className="reviewed__date small text-grey-500 line-clamp-3 min-h-[63px] break-words">
+          <div className="reviewed__date small text-grey-500 line-clamp-3 break-words">
             {reviewData?.comment}
           </div>
           <div className="reviewed__date font-semibold small text-primary-400 group-hover:underline">
