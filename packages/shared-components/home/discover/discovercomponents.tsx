@@ -53,7 +53,7 @@ const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
       //     </div>
       //   </div>
       // </div>
-      <div className="discover-container bg-white">
+      <div className="discover-container">
         <div className="max-w-container mx-auto">
           <div
             className={`discover-card-container px-[0] py-[34px] ${process.env.PROJECT === "PGS" ? "md:py-[64px]" : "md:pt-[64px] md:pb-[16px]"}`}
