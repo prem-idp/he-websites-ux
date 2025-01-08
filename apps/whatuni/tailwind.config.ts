@@ -24,13 +24,21 @@ const config: Config = {
     "bg-success-400",
     "bg-success-700",
     // Blue colors
+    "bg-blue-50",
     "bg-blue-100",
+    "bg-blue-200",
     // Grey colors
+    "bg-grey-50",
+    "bg-grey-100",
     "bg-grey-200",
     // Green colors
+    "bg-green-50",
+    "bg-green-100",
     "bg-green-200",
     // Orange colors
+    "bg-orange-50",
     "bg-orange-100",
+    "bg-orange-200",
   ],
   theme: {
     maxWidth: {

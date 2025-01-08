@@ -6,9 +6,9 @@ interface ReviewCardProps {
   reviewData: ReviewDetails;
   index: any;
   ratings: any;
-  pageName?:any;
+  pageName?: any;
 }
-const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
+const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName }) => {
   return (
     <ClickTrackerWrapper
       gaData={{
@@ -64,9 +64,11 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData ,pageName}) => {
           </div>
         </div>
         <div className="review-card-footer flex flex-col gap-[4px] pt-[12px]">
-          <div className="reviewed__date x-small text-grey-500">
-            {reviewData?.reviewedDate}
-          </div>
+          {reviewData?.to_char && (
+            <div className="reviewed__date x-small text-grey-500">
+              {`Reviewed: ${reviewData?.to_char}`}
+            </div>
+          )}
           <div className="reviewed__dat e font-semibold para line-clamp-1">
             {reviewData?.courseTitle}
           </div>

@@ -55,7 +55,7 @@ const AddQualification = ({
       setQualifications([]);
     } else {
       setQual((prev: any) =>
-        prev.map((item: any, index: number) =>
+        prev?.map((item: any, index: number) =>
           index === indexPosition
             ? {
                 ...item,
@@ -108,7 +108,7 @@ const AddQualification = ({
               {isDropDownOpen && ucasGradeData && (
                 <div className="absolute top-[46px] left-0 max-h-[343px] overflow-y-auto bg-white border border-neutral-300 rounded-[8px] small shadow-custom-9 custom-scrollbar-2 w-[calc(100%+30px)] z-10">
                   <ul>
-                    {ucasGradeData.map((childItems: any, index: number) => (
+                    {ucasGradeData?.map((childItems: any, index: number) => (
                       <li
                         key={index + 1}
                         className={
@@ -117,7 +117,7 @@ const AddQualification = ({
                             : "py-[10px] px-[16px] cursor-pointer hover:bg-secondary-50 hover:underline"
                         }
                         onClick={
-                          childItems.qualId !== null
+                          childItems?.qualId !== null
                             ? () => {
                                 changeUcasLevel(
                                   childItems.qualification,
@@ -132,7 +132,7 @@ const AddQualification = ({
                             : undefined
                         }
                       >
-                        {childItems.qualification}
+                        {childItems?.qualification}
                       </li>
                     ))}
                   </ul>
@@ -161,7 +161,7 @@ const AddQualification = ({
 
           {qual[indexPosition]?.type == "plus-minus" && (
             <div className="flex items-center justify-between gap-[32px] flex-wrap">
-              {qual[indexPosition].gradeArray?.map(
+              {qual[indexPosition]?.gradeArray?.map(
                 (childItems: any, index: number) => (
                   <GradeCounterButton
                     key={qual[indexPosition].SelectedLevel + index}
@@ -192,7 +192,7 @@ const AddQualification = ({
           )}
           {qual[indexPosition]?.type == "single-select" && (
             <div className="flex items-center gap-[8px] flex-wrap cursor-pointer">
-              {qual[indexPosition].gradeArray?.map(
+              {qual[indexPosition]?.gradeArray?.map(
                 (childItems: any, index: number) => (
                   <GradeBadgeButton
                     key={index + 1}

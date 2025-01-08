@@ -137,6 +137,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
+    console.log("btn clicked");
     setIsOpen(!isOpen);
     if (!isOpen) {
       document.body.classList.add("overflow-y-hidden");
@@ -173,11 +174,16 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     <>
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
-          <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <a href="/">
+          <div
+            className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
+          >
+            <a
+              href="/"
+              className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
+            >
               {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
                 <Image
-                  className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
+                  className={`w-full md:mx-auto lg:mx-0`}
                   src={
                     topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url
                   }
