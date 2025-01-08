@@ -15,20 +15,20 @@ const HeroSliderCard = ({
   return (
     <>
       <div
-        className={`flex justify-between gap-[16px]  ${process.env.PROJECT === "PGS" ? "min-h-[278px]" : "min-h-[442px]"}`}
+        className={`flex justify-between gap-[16px]  ${process.env.PROJECT === "PGS" ? "min-h-[278px]" : "min-h-[260px] md:min-h-[442px]"}`}
         data-testid="heroslidercard"
       >
         <div className="w-full pt-[64px] pb-[40px] md:pt-[68px] md:pb-[108px] lg:py-[88px]">
           {index == 0 ? (
-            <h1 className="text-heading-lg mb-[4px] md:line-clamp-3 lg:line-clamp-2">
+            <h1 className="text-heading-lg mb-[4px] md:line-clamp-2">
               {data?.title}
             </h1>
           ) : (
-            <h2 className="text-heading-lg mb-[4px] md:line-clamp-3 lg:line-clamp-2">
+            <h2 className="text-heading-lg mb-[4px] md:line-clamp-2">
               {data?.title}
             </h2>
           )}
-          <p className="para-lg mb-[16px] md:line-clamp-4 lg:line-clamp-2">
+          <p className="para-lg mb-[16px] md:line-clamp-2">
             {data?.longDescription?.json?.content[0]?.content[0]?.value}
           </p>
 
