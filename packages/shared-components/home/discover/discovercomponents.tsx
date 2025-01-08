@@ -25,30 +25,51 @@ const Discovercomponents: React.FC<DiscoverSliderInterface> = async (props) => {
 
   return (
     discovercontentfulData && (
-      <div className="discover-container">
+      // <div className="discover-container">
+      //   <div className="max-w-container mx-auto">
+      //     <div className="discover-card-container px-[0] py-[34px] md:pt-[64px] md:pb-[16px]">
+      //       <div className="discover-header px-[16px] md:px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
+      //         <div
+      //           className={`discover-card-container px-[0] py-[34px] ${process.env.PROJECT === "PGS" ? "md:py-[64px]" : "md:pt-[64px] md:pb-[16px]"}`}
+      //         >
+      //           <div className="discover-header px-[16px] md:px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
+      //             <h2 className={`font-bold`} data-testid="discoverHeading">
+      //               {props.heading}
+      //             </h2>
+      //             <p
+      //               className={`small mt-[8px]`}
+      //               data-testid="discoverSubHeading"
+      //             >
+      //               {props.subheading}
+      //             </p>
+      //           </div>
+      //           <div className="discover-inner-wrap">
+      //             <Discoverslidercomponents
+      //               dicoverCardContentfulList={discovercontentfulData}
+      //             />
+      //           </div>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>
+      <div className="discover-container bg-white">
         <div className="max-w-container mx-auto">
-          <div className="discover-card-container px-[0] py-[34px] md:pt-[64px] md:pb-[16px]">
+          <div
+            className={`discover-card-container px-[0] py-[34px] ${process.env.PROJECT === "PGS" ? "md:py-[64px]" : "md:pt-[64px] md:pb-[16px]"}`}
+          >
             <div className="discover-header px-[16px] md:px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
-              <div
-                className={`discover-card-container px-[0] py-[34px] ${process.env.PROJECT === "PGS" ? "md:py-[64px]" : "md:pt-[64px] md:pb-[16px]"}`}
-              >
-                <div className="discover-header px-[16px] md:px-[20px]  mb-[26px] xl:px-[0] md:mb-[32px]">
-                  <h2 className={`font-bold`} data-testid="discoverHeading">
-                    {props.heading}
-                  </h2>
-                  <p
-                    className={`small mt-[8px]`}
-                    data-testid="discoverSubHeading"
-                  >
-                    {props.subheading}
-                  </p>
-                </div>
-                <div className="discover-inner-wrap">
-                  <Discoverslidercomponents
-                    dicoverCardContentfulList={discovercontentfulData}
-                  />
-                </div>
-              </div>
+              <h2 className={`font-bold`} data-testid="discoverHeading">
+                {props.heading}
+              </h2>
+              <p className={`small mt-[8px]`} data-testid="discoverSubHeading">
+                {props.subheading}
+              </p>
+            </div>
+            <div className="discover-inner-wrap">
+              <Discoverslidercomponents
+                dicoverCardContentfulList={discovercontentfulData}
+              />
             </div>
           </div>
         </div>
