@@ -164,8 +164,8 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       {/* <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0"> */}
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
-          <div className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}>
-            <a href="/" className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}>
+          <div className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[122px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}>
+            <a href="/" className={`block ${process.env.PROJECT === "PGS" ? "w-[122px] md:w-[187px]" : "w-[54px]"}`}>
               <Image
                 className={`w-full md:mx-auto lg:mx-0`}
                 src={
