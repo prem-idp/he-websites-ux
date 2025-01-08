@@ -216,7 +216,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
                     isOpen
-                      ? "animate-fadeInLeft"
+                      ? ""
                       : "-translate-x-full duration-300"
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
