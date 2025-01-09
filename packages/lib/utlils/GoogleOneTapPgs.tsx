@@ -10,43 +10,49 @@ const GoogleOneTapPgs = () => {
     const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
     return cookie ? cookie.split("=")[1] : "";
   }
-  function extractLastNumber(input: any) {
-    console.log(input, "input from the extractLastuser function");
-    const segments = input.toString().split("##SPLIT##");
-    const lastSegment = segments[segments.length - 1];
-    const match = lastSegment.match(/\d+/);
-    console.log(
-      match ? match[0] : null,
-      "return value in the extractLastNumber"
-    );
-    return match ? match[0] : null;
-  }
   function extractdetailsforregister(text: any) {
-    const regex = /##SPLIT##"([^"]*)"##SPLIT##([\d]+)##SPLIT##([\d]+)/;
-    const match = text.toString().match(regex);
-    console.log(match);
+    const parts = text.toString().split("##SPLIT##");
+    console.log(parts);
+    if (parts) {
+      const initial =
+        parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : " ";
+      const count = parts[2] || " ";
+      const sessionId = parts[3] || " ";
+      if (initial) {
+        console.log(initial, "initila from the register");
+        setCookie("pgs_auth:", initial, 7);
+      }
+      if (count) {
+        console.log(count, "count from the register");
 
-    if (match) {
-      const initial = match[1] ? match[1] : " "; // Use captured value or default to " "
-      const count = match[2] || " "; // Use captured value or default to " "
-      const sessionId = match[3] || " "; // Use captured value or default to " "
+        setCookie("pgs_bskt_cnt:", count, 7);
+      }
+      if (sessionId) {
+        console.log(sessionId, "sessionId from the register");
 
-      setCookie("pgs_auth:", initial, 7); // Returns " " if empty
-      setCookie("pgs_bskt_cnt:", count, 7); // 0
-      setCookie("pgs_x:", sessionId, 7); // 4866858105
+        setCookie("pgs_x:", sessionId, 7);
+      }
     }
   }
-  function extractDetails(text: any) {
-    const regex = /##SPLIT##([\w]+)##SPLIT##([\d]+)##SPLIT##([\d]+)/;
-    const match = text.toString().match(regex);
-    console.log(match, "match string --------");
-    if (match) {
-      const initial = match[1] || "";
-      const favCount = match[2] || "";
-      const sessionId = match[3] || "";
 
+  function extractDetails(text: any) {
+    const parts = text.toString().split("##SPLIT##");
+    console.log(parts, "split parts --------");
+    const initial = parts[3] || "";
+    const favCount = parts[4] || "";
+    const sessionId = parts[5] || "";
+    if (initial) {
+      console.log(initial, "initila fomr the login");
       setCookie("pgs_auth:", initial, 7);
+    }
+    if (favCount) {
+      console.log(favCount, "favCount fomr the login");
+
       setCookie("pgs_bskt_cnt:", favCount, 7);
+    }
+    if (sessionId) {
+      console.log(sessionId, "sessionId fomr the login");
+
       setCookie("pgs_x:", sessionId, 7);
     }
   }
