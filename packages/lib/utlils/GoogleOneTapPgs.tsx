@@ -67,6 +67,18 @@ const GoogleOneTapPgs = () => {
           if (session_id) {
             setCookie("pgs_x", session_id, 7); // Expires in 7 days
           }
+        } else {
+          const loginResponse = await fetch(
+            `/pgs/pgs_user.do_register_new?p_first_name=${decodedToken?.given_name}&p_last_name=${decodedToken?.family_name}&p_email=${decodedToken?.email}&p_form_type=GOOGLE ONE TAP`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "text/html",
+              },
+            }
+          );
+          const loginData = await loginResponse.text();
+          console.log(loginData, "login data from the registraion api");
         }
       } else {
         const data = await response.json();
