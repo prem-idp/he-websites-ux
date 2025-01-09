@@ -102,6 +102,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     } else {
       const user_initial = getCookieValue("pgs_auth") || "";
       const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
+
       if (user_initial !== "null" && user_initial) {
         setIsAuthenticated("true");
         setInitial(user_initial);
@@ -229,9 +230,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
-                    isOpen
-                      ? ""
-                      : "-translate-x-full duration-300"
+                    isOpen ? "" : "-translate-x-full duration-300"
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
