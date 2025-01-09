@@ -19,13 +19,13 @@ const GoogleOneTapPgs = () => {
       const count = parts[2] || " ";
       const sessionId = parts[3] || " ";
       if (initial) {
-        setCookie("pgs_auth:", initial, 7);
+        setCookie("pgs_auth", initial, 7);
       }
       if (count) {
-        setCookie("pgs_bskt_cnt:", count, 7);
+        setCookie("pgs_bskt_cnt", count, 7);
       }
       if (sessionId) {
-        setCookie("pgs_x:", sessionId, 7);
+        setCookie("pgs_x", sessionId, 7);
       }
     }
   }
@@ -37,13 +37,13 @@ const GoogleOneTapPgs = () => {
     const favCount = parts[4] || "";
     const sessionId = parts[5] || "";
     if (initial) {
-      setCookie("pgs_auth:", initial, 7);
+      setCookie("pgs_auth", initial, 7);
     }
     if (favCount) {
-      setCookie("pgs_bskt_cnt:", favCount, 7);
+      setCookie("pgs_bskt_cnt", favCount, 7);
     }
     if (sessionId) {
-      setCookie("pgs_x:", sessionId, 7);
+      setCookie("pgs_x", sessionId, 7);
     }
   }
   function setCookie(name: string, value: string, days: number) {
