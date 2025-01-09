@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-
+import { ClickStream } from "./clickstream";
 const GoogleOneTapPgs = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
@@ -28,7 +28,7 @@ const GoogleOneTapPgs = () => {
         setCookie("pgs_x", sessionId, 7);
       }
     }
-    window.location.href = "/";
+    window.location.reload();
   }
 
   function extractDetails(text: any) {
@@ -47,7 +47,7 @@ const GoogleOneTapPgs = () => {
         setCookie("pgs_x", sessionId, 7);
       }
     }
-    window.location.href = "/";
+    window.location.reload();
   }
   function setCookie(name: string, value: string, days: number) {
     const d = new Date();
@@ -83,7 +83,24 @@ const GoogleOneTapPgs = () => {
               },
             }
           );
+
           const loginData = await loginResponse.text();
+          if (loginData) {
+            ClickStream({
+              siteName: process.env.PROJECT,
+              affilateId: process.env.AFFILATE_ID,
+              pageName: localStorage.getItem("gaPageName") || "",
+              CTATitle: "Continue with Google",
+              signedInMethod: "GoogleOneTap",
+              functionalityName: "Sign In",
+              eventType: "SignedIn",
+              actionType: "Interaction",
+              deviceWidth:
+                window.innerWidth ||
+                document.documentElement.clientWidth ||
+                document.body.clientWidth,
+            });
+          }
           extractDetails(loginData);
           // const session_id = extractLastNumber(loginData);
           // If session_id exists, set it in cookies
@@ -91,7 +108,7 @@ const GoogleOneTapPgs = () => {
           //   setCookie("pgs_x", session_id, 7); // Expires in 7 days
           // }
         } else {
-          const loginResponse = await fetch(
+          const RegisterResponse = await fetch(
             `/pgs/pgs_user.do_register_new?p_first_name=${decodedToken?.given_name}&p_last_name=${decodedToken?.family_name}&p_email=${decodedToken?.email}&p_form_type=GOOGLE ONE TAP`,
             {
               method: "GET",
@@ -100,7 +117,7 @@ const GoogleOneTapPgs = () => {
               },
             }
           );
-          const loginData = await loginResponse.text();
+          const loginData = await RegisterResponse.text();
           extractdetailsforregister(loginData);
         }
       } else {
