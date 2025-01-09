@@ -21,15 +21,29 @@ const GoogleOneTapPgs = () => {
     );
     return match ? match[0] : null;
   }
+  function extractdetailsforregister(text: any) {
+    const regex = /##SPLIT##"([^"]*)"##SPLIT##([\d]+)##SPLIT##([\d]+)/;
+    const match = text.toString().match(regex);
+    console.log(match);
 
+    if (match) {
+      const initial = match[1] ? match[1] : " "; // Use captured value or default to " "
+      const count = match[2] || " "; // Use captured value or default to " "
+      const sessionId = match[3] || " "; // Use captured value or default to " "
+
+      setCookie("pgs_auth:", initial, 7); // Returns " " if empty
+      setCookie("pgs_bskt_cnt:", count, 7); // 0
+      setCookie("pgs_x:", sessionId, 7); // 4866858105
+    }
+  }
   function extractDetails(text: any) {
     const regex = /##SPLIT##([\w]+)##SPLIT##([\d]+)##SPLIT##([\d]+)/;
     const match = text.toString().match(regex);
     console.log(match, "match string --------");
     if (match) {
-      const initial = match[1];
-      const favCount = match[2];
-      const sessionId = match[3];
+      const initial = match[1] || "";
+      const favCount = match[2] || "";
+      const sessionId = match[3] || "";
 
       setCookie("pgs_auth:", initial, 7);
       setCookie("pgs_bskt_cnt:", favCount, 7);
@@ -93,6 +107,7 @@ const GoogleOneTapPgs = () => {
             }
           );
           const loginData = await loginResponse.text();
+          extractdetailsforregister(loginData);
           console.log(loginData, "login data from the registraion api");
         }
       } else {
