@@ -33,28 +33,32 @@ const GoogleOneTapPgs = () => {
         setCookie("pgs_x", sessionId, 7);
       }
     }
+    window.location.href = "/";
   }
 
   function extractDetails(text: any) {
     const parts = text.toString().split("##SPLIT##");
     console.log(parts, "split parts --------");
-    const initial = parts[3] || "";
-    const favCount = parts[4] || "";
-    const sessionId = parts[5] || "";
-    if (initial) {
-      console.log(initial, "initila fomr the login");
-      setCookie("pgs_auth", initial, 7);
-    }
-    if (favCount) {
-      console.log(favCount, "favCount fomr the login");
+    if (parts) {
+      const initial = parts[3] || "";
+      const favCount = parts[4] || "";
+      const sessionId = parts[5] || "";
+      if (initial) {
+        console.log(initial, "initila fomr the login");
+        setCookie("pgs_auth", initial, 7);
+      }
+      if (favCount) {
+        console.log(favCount, "favCount fomr the login");
 
-      setCookie("pgs_bskt_cnt", favCount, 7);
-    }
-    if (sessionId) {
-      console.log(sessionId, "sessionId fomr the login");
+        setCookie("pgs_bskt_cnt", favCount, 7);
+      }
+      if (sessionId) {
+        console.log(sessionId, "sessionId fomr the login");
 
-      setCookie("pgs_x", sessionId, 7);
+        setCookie("pgs_x", sessionId, 7);
+      }
     }
+    window.location.href = "/";
   }
   function setCookie(name: string, value: string, days: number) {
     console.log("inside the setcookies function ");
