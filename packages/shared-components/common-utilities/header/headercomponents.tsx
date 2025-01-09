@@ -6,7 +6,10 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
+import {
+  getCookie,
+  getInitialsFromJWT,
+} from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -102,7 +105,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     } else {
       const user_initial = getCookieValue("pgs_auth") || "";
       const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
-      const pgs_x = getCookieValue("pgs_x") || "";
+      const pgs_x = getCookieValue("pgs_x") || 0;
       if (user_initial !== "null" && user_initial && pgs_x) {
         setIsAuthenticated("true");
         setInitial(user_initial);
@@ -138,7 +141,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
-    console.log("btn clicked");
     setIsOpen(!isOpen);
     if (!isOpen) {
       document.body.classList.add("overflow-y-hidden");
