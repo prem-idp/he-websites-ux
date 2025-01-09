@@ -22,6 +22,20 @@ const GoogleOneTapPgs = () => {
     return match ? match[0] : null;
   }
 
+  function extractDetails(text: any) {
+    const regex = /##SPLIT##([\w]+)##SPLIT##([\d]+)##SPLIT##([\d]+)/;
+    const match = text.toString().match(regex);
+    console.log(match, "match string --------");
+    if (match) {
+      const initial = match[1];
+      const favCount = match[2];
+      const sessionId = match[3];
+
+      setCookie("pgs_auth:", initial, 7);
+      setCookie("pgs_bskt_cnt:", favCount, 7);
+      setCookie("pgs_x:", sessionId, 7);
+    }
+  }
   function setCookie(name: string, value: string, days: number) {
     console.log("inside the setcookies function ");
     const d = new Date();
@@ -51,7 +65,7 @@ const GoogleOneTapPgs = () => {
         if (htmlResponse.trim().toLowerCase() === "y") {
           // Second fetch if the response is 'Y'
           const loginResponse = await fetch(
-            `pgs/pgs_user.do_login_lbx?pm_email=${decodedToken?.email}&p_from_page=GOOLE ONE TAP`,
+            `pgs/pgs_user.do_login_lbx?pm_email=${decodedToken?.email}&p_from_page=GOOGLE ONE TAP`,
             {
               method: "GET",
               headers: {
@@ -61,12 +75,13 @@ const GoogleOneTapPgs = () => {
           );
           const loginData = await loginResponse.text();
           console.log("Login Response:", loginData);
-          const session_id = extractLastNumber(loginData);
-          console.log(session_id, "session id wet get from the responce");
+          extractDetails(loginData);
+          // const session_id = extractLastNumber(loginData);
+          // console.log(session_id, "session id wet get from the responce");
           // If session_id exists, set it in cookies
-          if (session_id) {
-            setCookie("pgs_x", session_id, 7); // Expires in 7 days
-          }
+          // if (session_id) {
+          //   setCookie("pgs_x", session_id, 7); // Expires in 7 days
+          // }
         } else {
           const loginResponse = await fetch(
             `/pgs/pgs_user.do_register_new?p_first_name=${decodedToken?.given_name}&p_last_name=${decodedToken?.family_name}&p_email=${decodedToken?.email}&p_form_type=GOOGLE ONE TAP`,
