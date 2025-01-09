@@ -1,16 +1,18 @@
 "use client";
+import React from "react";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter, usePathname } from "next/navigation";
+
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Megamenucomponents from "@packages/shared-components/common-utilities/topnav/megamenucomponents";
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
-// ==========================================don't want for the current sprint =======================================================
+import { CourseData, UniData, Topnav } from "@packages/lib/types/interfaces";
+// ==========================================don't want for the current sprint=======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
-
 interface props {
   topnav_data: any;
   course_data: any;
@@ -19,7 +21,7 @@ interface props {
 const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();
   const [initial, setInitial] = useState<any>("");
-
+  const [first, setFirst] = useState<any>(false);
   const [basketCount, setBasketCount] = useState<any>(0);
   const [isAuthenticated, setIsAuthenticated] = useState("false");
   const [isMobileView, setIsMobile] = useState(true);
@@ -34,30 +36,24 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
-
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        if (session?.tokens) {
-          const hasAccessToken = session?.tokens?.accessToken !== undefined;
-          const hasIdToken = session?.tokens?.idToken !== undefined;
+        if (session.tokens) {
+          const hasAccessToken = session.tokens.accessToken !== undefined;
+          const hasIdToken = session.tokens.idToken !== undefined;
+
           if (hasAccessToken && hasIdToken) {
             setIsAuthenticated("true");
-            const user_initial = getCookieValue("USER_INITIAL");
-            if (!user_initial && session.tokens.idToken) {
-              const user_initial = getInitialsFromJWT(session.tokens.idToken);
-              setInitial(user_initial);
-            } else {
-              setInitial(user_initial);
-            }
-            const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-            setBasketCount(basket);
+            setFirst(true);
           }
         }
+        setFirst(true);
       } catch (error) {
+        setFirst(true);
         console.error("Error fetching user:", error);
       }
     };
@@ -90,24 +86,17 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       setIsMobile(window.innerWidth <= 991);
     };
 
+    fetchUser();
     handleResize();
     function getCookieValue(name: any) {
       const cookieArray = document.cookie.split("; ");
       const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
       return cookie ? cookie.split("=")[1] : "";
     }
-
-    if (process.env.PROJECT === "Whatuni") {
-      fetchUser();
-    } else {
-      const user_initial = getCookieValue("pgs_auth") || "";
-      const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
-      if (user_initial !== "null" && user_initial) {
-        setIsAuthenticated("true");
-        setInitial(user_initial);
-        setBasketCount(basket_count);
-      }
-    }
+    const user_initial = getCookieValue("USER_INITIAL");
+    const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
+    setBasketCount(basket);
+    setInitial(user_initial);
 
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
@@ -137,7 +126,6 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   }, [clickStates]);
   // ===================================================================================================================================================================
   const mobileToggleOpen = () => {
-    console.log("btn clicked");
     setIsOpen(!isOpen);
     if (!isOpen) {
       document.body.classList.add("overflow-y-hidden");
@@ -152,6 +140,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       document.body.classList.remove("overflow-y-hidden");
     }
   }, [isOpen]);
+
   const rightMenuAction = (actionName: string) => {
     setClickStates((prevStates) => {
       const newState = {
@@ -172,6 +161,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   };
   return (
     <>
+      {/* <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0"> */}
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div
@@ -219,6 +209,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
             {isMobileView ? (
               <>
+                {/* Overlay Background for Mobile Menu */}
                 <div
                   onClick={mobileToggleOpen}
                   className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
@@ -226,12 +217,14 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   } lg:bg-transparent`}
                 ></div>
 
+                {/* Mobile Menu Container */}
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
                     isOpen ? "" : "-translate-x-full duration-300"
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
+                    {/* Close Button for Mobile Menu */}
                     <div
                       onClick={mobileToggleOpen}
                       className={`absolute right-[-40px] ${isMobileView ? "lg:hidden" : ""}`}
@@ -262,6 +255,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                       </div>
                     </div>
 
+                    {/* Megamenu Component */}
                     <div
                       ref={mobileViewRef}
                       className={`${isOpen ? "block" : "hidden"}`}
@@ -314,7 +308,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   )}
                 </li>
               )} */}
-              <li className="relative">
+              <li className={`relative ${first ? "block" : "hidden"}`}>
                 <span
                   title="User"
                   ref={userref}
@@ -325,33 +319,40 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {initial && isAuthenticated === "true" ? (
+                  {/* Skeleton Loader
+                  {!first && !initial && (
+                    <div className="skeleton-loader w-[45px] h-[45px] bg-gray-200 rounded-full animate-pulse shadow-md"></div>
+                  )} */}
+                  {/* Render initial or SVG when first is true */}
+                  {initial && isAuthenticated === "true" && first ? (
                     <span className="relative para font-semibold text-white rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer bg-primary-400 hover:bg-primary-500">
-                      {initial.toUpperCase()}
+                      {initial}
                     </span>
                   ) : (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
-                        stroke="#5C656E"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
-                        stroke="#5C656E"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    first && (
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.3332 5.83333C13.3332 7.67428 11.8408 9.16667 9.99984 9.16667C8.15889 9.16667 6.6665 7.67428 6.6665 5.83333C6.6665 3.99238 8.15889 2.5 9.99984 2.5C11.8408 2.5 13.3332 3.99238 13.3332 5.83333Z"
+                          stroke="#5C656E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M9.99984 11.6667C6.77818 11.6667 4.1665 14.2783 4.1665 17.5H15.8332C15.8332 14.2783 13.2215 11.6667 9.99984 11.6667Z"
+                          stroke="#5C656E"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )
                   )}
                 </span>
                 {/* user section */}
@@ -364,7 +365,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   </>
                 )}
               </li>
-              <li className="relative">
+              <li className={`relative ${first ? "block" : "hidden"}`}>
                 <a
                   href="/degrees/comparison"
                   title="Shortlist"
@@ -404,7 +405,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   <>
                     <div className="backdrop-shadow fixed top-[64px] left-0 right-0 bottom-0 z-[5] md:top-[84px] lg:top-[76px]"></div>
                     <div ref={containerRef}>
-                      <Shortlisted topnav_data={topnav_data}/>
+                      <Shortlisted />
                     </div>
                   </>
                 )} */}
