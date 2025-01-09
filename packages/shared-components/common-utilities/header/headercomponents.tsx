@@ -175,24 +175,23 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
           <div
-            className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
+            className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[122px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
           >
             <a
               href="/"
-              className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
+              className={`block ${process.env.PROJECT === "PGS" ? "w-[122px] md:w-[187px]" : "w-[54px]"}`}
             >
-              {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
-                <Image
-                  className={`w-full md:mx-auto lg:mx-0`}
-                  src={
-                    topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url
-                  }
-                  alt="imageplaceholder"
-                  priority={true}
-                  width={70}
-                  height={78}
-                />
-              )}
+              <Image
+                className={`w-full md:mx-auto lg:mx-0`}
+                src={
+                  topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url ||
+                  "/static/assets/images/imageplaceholder.png"
+                }
+                alt="imageplaceholder"
+                priority={true}
+                width={70}
+                height={78}
+              />
             </a>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
@@ -229,9 +228,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
-                    isOpen
-                      ? ""
-                      : "-translate-x-full duration-300"
+                    isOpen ? "" : "-translate-x-full duration-300"
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
