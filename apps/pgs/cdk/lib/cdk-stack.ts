@@ -86,8 +86,6 @@ export class PgsHeCdkStack extends cdk.Stack {
     // cdk.Tags.of(myBucket).add("Name", pgsBucketName || "");
     // cdk.Tags.of(myBucket).add("ProjectName", "HE Websites");
 
-    // Upload files to the S3 bucket
-
     const vpc = Vpc.fromLookup(this, "ExistingVpc", {
       // region: "ap-south-1",
       tags: { Name: process.env.AWS_VPC_TAG_NAME || "" },
@@ -113,6 +111,7 @@ export class PgsHeCdkStack extends cdk.Stack {
       process.env.AWS_SECURITY_GROUP || "",
       vpc
     );
+    // Upload files to the S3 bucket
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
       sources: [s3deploy.Source.asset("../.open-next/assets")],
       destinationBucket: myBucket,

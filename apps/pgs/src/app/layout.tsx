@@ -81,7 +81,7 @@ export default function RootLayout({
         <OneTrustCookieScript
           domianValue={`${process.env.NEXT_PUBLIC_PGS_ONE_TRUST_DOMAIN}`}
         />
-        {/* <GoogleOneTapPgs /> */}
+        <GoogleOneTapPgs />
         <HeaderWrapper />
         {children}
         <Footer />
