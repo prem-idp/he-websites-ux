@@ -10,9 +10,9 @@ const GoogleOneTapPgs = () => {
     const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
     return cookie ? cookie.split("=")[1] : "";
   }
+
   function extractdetailsforregister(text: any) {
     const parts = text.toString().split("##SPLIT##");
-    console.log(parts);
     if (parts) {
       const initial =
         parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : " ";
@@ -28,26 +28,28 @@ const GoogleOneTapPgs = () => {
         setCookie("pgs_x", sessionId, 7);
       }
     }
+    window.location.href = "/";
   }
 
   function extractDetails(text: any) {
     const parts = text.toString().split("##SPLIT##");
-    console.log(parts, "split parts --------");
-    const initial = parts[3] || "";
-    const favCount = parts[4] || "";
-    const sessionId = parts[5] || "";
-    if (initial) {
-      setCookie("pgs_auth", initial, 7);
+    if (parts) {
+      const initial = parts[3] || "";
+      const favCount = parts[4] || "";
+      const sessionId = parts[5] || "";
+      if (initial) {
+        setCookie("pgs_auth", initial, 7);
+      }
+      if (favCount) {
+        setCookie("pgs_bskt_cnt", favCount, 7);
+      }
+      if (sessionId) {
+        setCookie("pgs_x", sessionId, 7);
+      }
     }
-    if (favCount) {
-      setCookie("pgs_bskt_cnt", favCount, 7);
-    }
-    if (sessionId) {
-      setCookie("pgs_x", sessionId, 7);
-    }
+    window.location.href = "/";
   }
   function setCookie(name: string, value: string, days: number) {
-    console.log("inside the setcookies function ");
     const d = new Date();
     d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = "expires=" + d.toUTCString();
@@ -56,7 +58,6 @@ const GoogleOneTapPgs = () => {
   async function fetchData(credential: any) {
     try {
       const decodedToken: any = jwtDecode(credential.toString());
-      console.log(decodedToken, "decodedtoken in callback");
       const url = `pgs/pgs_interactive.check_email_exist_prc?p_email=${decodedToken?.email}`;
 
       const response = await fetch(url, {
@@ -70,7 +71,6 @@ const GoogleOneTapPgs = () => {
 
       if (contentType && contentType.includes("text/html")) {
         const htmlResponse = await response.text();
-        console.log("HTML Response:", htmlResponse);
 
         if (htmlResponse.trim().toLowerCase() === "y") {
           // Second fetch if the response is 'Y'
@@ -84,10 +84,8 @@ const GoogleOneTapPgs = () => {
             }
           );
           const loginData = await loginResponse.text();
-          console.log("Login Response:", loginData);
           extractDetails(loginData);
           // const session_id = extractLastNumber(loginData);
-          // console.log(session_id, "session id wet get from the responce");
           // If session_id exists, set it in cookies
           // if (session_id) {
           //   setCookie("pgs_x", session_id, 7); // Expires in 7 days
@@ -104,11 +102,9 @@ const GoogleOneTapPgs = () => {
           );
           const loginData = await loginResponse.text();
           extractdetailsforregister(loginData);
-          console.log(loginData, "login data from the registraion api");
         }
       } else {
         const data = await response.json();
-        console.log("API Response:", data);
       }
     } catch (error) {
       console.error("Error fetching the email data:", error);
@@ -118,7 +114,8 @@ const GoogleOneTapPgs = () => {
     async function checkSession() {
       try {
         const user_initial = getCookieValue("pgs_auth") || "";
-        if (user_initial !== "null" && user_initial) {
+        const pgs_x = getCookieValue("pgs_x") || "";
+        if (user_initial !== "null" && user_initial && pgs_x) {
           return null;
         } else {
           watchForOptanonCookie();
@@ -152,7 +149,6 @@ const GoogleOneTapPgs = () => {
             "1007776276005-306decchqtue4pjqffn8qidnphccg2km.apps.googleusercontent.com",
           callback: (response: any) => {
             const { credential } = response;
-            console.log(credential);
             fetchData(credential);
           },
         });
