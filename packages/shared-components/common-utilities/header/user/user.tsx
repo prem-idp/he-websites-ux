@@ -20,6 +20,7 @@ export default function User({ topnav_data }: any) {
     } else {
       document.cookie = `pgs_auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
       document.cookie = `pgs_bskt_cnt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      document.cookie = `pgs_x=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
 
       setTimeout(() => {
         const cookies: any = document.cookie
