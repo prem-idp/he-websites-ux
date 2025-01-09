@@ -20,17 +20,17 @@ const GoogleOneTapPgs = () => {
       const sessionId = parts[3] || " ";
       if (initial) {
         console.log(initial, "initila from the register");
-        setCookie("pgs_auth:", initial, 7);
+        setCookie("pgs_auth", initial, 7);
       }
       if (count) {
         console.log(count, "count from the register");
 
-        setCookie("pgs_bskt_cnt:", count, 7);
+        setCookie("pgs_bskt_cnt", count, 7);
       }
       if (sessionId) {
         console.log(sessionId, "sessionId from the register");
 
-        setCookie("pgs_x:", sessionId, 7);
+        setCookie("pgs_x", sessionId, 7);
       }
     }
   }
@@ -43,17 +43,17 @@ const GoogleOneTapPgs = () => {
     const sessionId = parts[5] || "";
     if (initial) {
       console.log(initial, "initila fomr the login");
-      setCookie("pgs_auth:", initial, 7);
+      setCookie("pgs_auth", initial, 7);
     }
     if (favCount) {
       console.log(favCount, "favCount fomr the login");
 
-      setCookie("pgs_bskt_cnt:", favCount, 7);
+      setCookie("pgs_bskt_cnt", favCount, 7);
     }
     if (sessionId) {
       console.log(sessionId, "sessionId fomr the login");
 
-      setCookie("pgs_x:", sessionId, 7);
+      setCookie("pgs_x", sessionId, 7);
     }
   }
   function setCookie(name: string, value: string, days: number) {
