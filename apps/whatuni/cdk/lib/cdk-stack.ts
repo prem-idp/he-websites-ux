@@ -118,7 +118,6 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       destinationKeyPrefix: "assets",
       vpc: vpcConfig,
     });
-
     // Upload files to the S3 bucket
     new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
       sources: [s3deploy.Source.asset("../.open-next/cache")],
@@ -126,6 +125,7 @@ export class WhatuniWebsiteHeCdkStack extends cdk.Stack {
       destinationKeyPrefix: "cache",
       vpc: vpcConfig,
     });
+
     const serverFunctionName = process.env.WHATUNI_SERVER_FN_LAMBDA_NAME || " ";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
