@@ -28,9 +28,13 @@ const ColcBanner = async ({
                   <h1 className="text-heading1 md:text-heading-xl">
                     {jsondata?.title}
                   </h1>
-                  <p className="small">{jsondata?.longDescription}</p>
+                  <p className="small">
+                    {jsondata?.longDescription} Lorem, ipsum dolor sit amet
+                    consectetur adipisicing elit. Adipisci, maxime quidem
+                    quaerat aspernatur doloribus aliquid magni minus
+                  </p>
                 </div>
-                {routename === "article" && (
+                {routename === "/advice" && (
                   <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
                     <div className="flex flex-col gap-x-[10px] justify-between md:flex-row">
                       <div className="relative grow">
@@ -63,8 +67,8 @@ const ColcBanner = async ({
                 {jsondata?.image?.imgUpload?.url && (
                   <Image
                     src={jsondata?.image?.imgUpload?.url}
-                    width={routename === "article" ? 205 : 150}
-                    height={routename === "article" ? 260 : 150}
+                    width={routename === "/advice" ? 205 : 150}
+                    height={routename === "/advice" ? 260 : 150}
                     priority
                     alt={jsondata?.image?.imgAltText}
                   />

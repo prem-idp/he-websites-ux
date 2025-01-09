@@ -1,7 +1,14 @@
 "use server";
 import React from "react";
 
-const Articlesnippetcomponents = () => {
+const Articlesnippetcomponents = ({
+  heading,
+  subheading,
+  internalName,
+  callAction,
+  routename,
+  contentModelName,
+}: any) => {
   return (
     <div className="articlesnippet-container bg-white">
       <div className="max-w-container mx-auto">

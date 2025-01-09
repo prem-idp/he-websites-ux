@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
 
-const Faqcomponents = () => {
+const Faqcomponents = ({
+  heading,
+  subheading,
+  internalName,
+  callAction,
+  routename,
+  contentModelName,
+}: any) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleAccordion = (index: number) => {
@@ -45,8 +52,8 @@ const Faqcomponents = () => {
       <div className="max-w-container mx-auto">
         <div className="faq-card-container px-[16px] py-[34px] lg:py-[60px] lg:px-[20px] xl:px-[0]">
           <div className="faq-header mb-[26px]  lg:px-[20px] xl:px-[0] xl:mb-[32px]">
-            <h2 className="font-bold">Frequently asked questions</h2>
-            <p className="font-normal small mt-[8px]">Subheading</p>
+            <h2 className="font-bold">{heading}</h2>
+            <p className="font-normal small mt-[8px]">{subheading}</p>
           </div>
           <div className="accordion flex flex-col rounded-[6px] border border-grey-200 px-[16px]">
             {faq_items.map((item, index) => (
