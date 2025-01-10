@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextResponse) {
+export async function GET(request: NextRequest) {
   try {
     // Extract query parameters from the request URL
     const { searchParams } = new URL(request.url);
@@ -34,9 +34,6 @@ export async function GET(request: NextResponse) {
 
     // Handle the response from the POST request
     if (!response.ok) {
-      console.log(
-        "inside the apiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
-      );
       const errorData = await response.json();
       return NextResponse.json(
         { error: "Error in API call", details: errorData },
