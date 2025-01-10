@@ -20,7 +20,13 @@ const GoogleOneTap = () => {
         if (document.cookie !== previousCookies) {
           previousCookies = document.cookie;
 
-          if (document.cookie.includes("CognitoIdentityServiceProvider")) {
+          if (
+            document.cookie
+              .split("; ")
+              .some((cookie) =>
+                cookie.startsWith("CognitoIdentityServiceProvider=")
+              )
+          ) {
             console.log("call that");
 
             try {

@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
       actionType: searchParams.get("actionType") || "Interaction",
       deviceWidth: Number(searchParams.get("deviceWidth")) || 1024, // Default width
     };
-
     // Make the POST request
     const response = await fetch(
       "https://idp-cug-dom-services-dev-web-service:8080/dom-services/clickstream-logging",
