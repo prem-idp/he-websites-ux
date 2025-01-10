@@ -2,11 +2,71 @@
 import { useEffect, use } from "react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { signInWithRedirect } from "aws-amplify/auth";
+import { v4 as uuidv4 } from "uuid";
 const GoogleOneTap = () => {
+  const randomid = uuidv4();
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
+  function getCookieValue(name: any) {
+    const cookieArray = document.cookie.split("; ");
+    const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
+    return cookie ? cookie.split("=")[1] : "";
+  }
+  function setCookie(name: string, value: string, days: number) {
+    const d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+  }
 
   useEffect(() => {
+    async function callRegisterfunction() {
+      console.log("inside the ccallRegisterfuncti");
+      try {
+        const cookieval = getCookieValue("Signinonetap");
+        if (cookieval === "true") {
+          console.log("inside the cookieval from the ");
+          const session: any = await fetchAuthSession();
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                siteCode: "WU_WEB",
+                "x-correlation-id": randomid,
+                authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
+              },
+              body: JSON.stringify({}),
+            }
+          );
+
+          if (!response.ok) {
+            console.error("Failed to register user:", response.statusText);
+          } else {
+            const res = await response.json();
+            if (res.message.toLowerCase() === "user updated") {
+              console.log(res, "User updated successfully");
+            } else {
+              console.log(res, "User registered successfully");
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error during user registration:", error);
+      }
+    }
+    callRegisterfunction();
+
+    async function watchForCognitoCookie() {
+      console.log("inside thewatchCognitoCookies");
+      setCookie("Signinonetap", "true", 7);
+      signInWithRedirect({
+        provider: "Google",
+        customState: "home page",
+      });
+    }
     const checkSession = async () => {
       try {
         const session = await fetchAuthSession();
@@ -43,16 +103,14 @@ const GoogleOneTap = () => {
         initializeGoogleOneTap();
       }
     };
+
     const initializeGoogleOneTap = () => {
       if (typeof window !== "undefined" && (window as any).google) {
         (window as any).google.accounts.id.initialize({
           client_id:
             "310464352984-52q8deiepmmnslhkehui0llrmvlvq5lu.apps.googleusercontent.com",
           callback: (response: any) => {
-            signInWithRedirect({
-              provider: "Google",
-              customState: "home page", // You can pass the credential as custom state if needed
-            });
+            watchForCognitoCookie();
             const { credential } = response;
           },
         });
