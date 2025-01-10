@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="bg-white hidden">
+    <div className="bg-white ">
       <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
         {/* Skeleton Breadcrum  */}
         <div className="pt-[16px] pb-[40px]">
