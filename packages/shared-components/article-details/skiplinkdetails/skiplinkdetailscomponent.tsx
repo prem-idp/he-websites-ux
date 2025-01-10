@@ -72,8 +72,8 @@ const toggleFunc = () => {
    
 
       <div className="flex flex-col lg:flex-row gap-[20px]">
-        <div className="min-w-[289px] hidden lg:flex flex-col lg:gap-[8px] relative max-w-[100%]">
-          <div className="sticky top-[50px]">
+        <div className="min-w-[289px] hidden lg:flex flex-col relative max-w-[100%]">
+          <div className="sticky lg:flex flex-col lg:gap-[8px] top-[50px]">
           <h2 className="text-black para font-semibold font-inter">
             On this page
           </h2>
