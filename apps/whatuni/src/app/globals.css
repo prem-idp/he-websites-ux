@@ -421,6 +421,13 @@ p,
 .error .err_msg{display: block}
 /* Registeration */
 /* Article details  */
+.article-details-aside .reviews-container {
+  @apply bg-white  
+ }
+ 
+ .article-details-aside .reviews-card-container {
+   @apply lg:py-[40px]
+ }
 .pull-quotes {
   quotes: '"' "”";
 }
@@ -438,14 +445,14 @@ p,
 .skiplinkoption.active .burger-menu span:nth-child(2) {opacity:0;}
 .skiplinkoption.active .burger-menu span:nth-child(3) {transform: translate(0, -4px) rotate(45deg);}
 /* skiplink hamburger menu END */
-@media only screen and (min-width: 992px) and (max-width: 1275px) {
+@media only screen and (min-width: 992px) and (max-width: 1169px) {
   .article-details-aside {
     width: calc(100% - 321px);
   }
 }
-@media only screen and (min-width: 1276px) {
+@media only screen and (min-width: 1170px) {
   .article-details-aside {
-    width: calc(100% - 289px);
+    width: 804px;
   }
 }
 /* Article details END  */

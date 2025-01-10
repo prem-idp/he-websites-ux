@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-// Components
-import Breadcrumblayoutcomponent from "../../../../../packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent";
-import Articledescription from "../../../../../packages/shared-components/article-details/article-description/article-description";
-import Authorprofile from "../../../../../packages/shared-components/article-details/author-profile/author-profile";
-import Skiplinkdetails from "../../../../../packages/shared-components/article-details/skiplinkdetails/skiplinkdetailscomponent";
+// Components 
+import Breadcrumblayoutcomponent from '../../../../../packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
+import Articledescription from '../../../../../packages/shared-components/article-details/article-description/article-description';
+import Authorprofile from '../../../../../packages/shared-components/article-details/author-profile/author-profile';
+import Skiplinkdetails from '../../../../../packages/shared-components/article-details/skiplinkdetails/skiplinkdetailscomponent';
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
@@ -18,33 +18,34 @@ import Dontmissout from "@packages/shared-components/article-details/dont-missou
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Reviewscomponents from "@packages/shared-components/home/reviews/reviewscomponents";
 
-const Page = () => {
-  const breadcrumbData = [
-    // {
-    //   url: "#",
-    //   Imgurl: "/assets/icons/breadcrumbs-home-icon.svg"
-    // },
-    {
-      url: "#",
-      label: "Home",
-    },
-    {
-      url: "#",
-      label: "Payments",
-    },
-    {
-      url: "#",
-      label: "Online payments",
-    },
-    {
-      url: "",
-      label: "Overview",
-    },
+
+const page = () => {
+    const breadcrumbData = [
+        // {
+        //   url: "#",
+        //   Imgurl: "/assets/icons/breadcrumbs-home-icon.svg"
+        // },
+        {
+          url: "#",
+          label: "Home",
+        },
+        {
+          url: "#",
+          label: "Payments",
+        },
+        {
+          url: "#",
+          label: "Online payments",
+        },
+        {
+          url: "",
+          label: "Overview",
+        },
   ];
   const [modelOpen, setModalOpen] = useState(false);
-  const toggleFunc = () => {
-    setModalOpen(!modelOpen);
-  };
+const toggleFunc = () => { 
+  setModalOpen(!modelOpen);
+}
 
   const skiplinkLabel = [
     "Heading skip link",
@@ -67,349 +68,364 @@ const Page = () => {
     </li>
   ));
   const skiplinkmobilelisting = skiplinkLabel.map((items, index) => (
-    <li
-      className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal ${
-        index == 0
-          ? "border-grey300 text-grey300"
-          : "border-grey-300 text-white"
-      }`}
-      key={`${items}-${index + 1}`}
-    >
-      <Link href={`#skiplink-${index + 1}`}>
+    <li className="border-s-[2px]  py-[10px] px-[16px] text-white border-white small font-inter font-normal" key={`${items}-${index + 1}`}>
+       <Link href={`#skiplink-${index + 1}`}>
         {items} {index + 1}
       </Link>
-    </li>
+</li>
   ));
   return (
     <>
-      {/* breadcrumb  */}
-      <section className="pt-[16px] pb-[40px]">
+            {/* Skeleton loader  */}
+            <div className="bg-white hidden">
         <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Breadcrumblayoutcomponent data={breadcrumbData} />
+          {/* Skeleton Breadcrum  */}
+          <div className="pt-[16px] pb-[40px]">
+      <nav aria-label="breadcrumb">
+              <ul className="flex flex-wrap gap-[20px]">
+                <li className="flex relative">
+                  <span className="skeleton after:absolute after:flex after:justify-center after:content-['/'] after:w-[20px] after:h-[20px] after:right-[-20px] rounded-none after:text-grey-300 min-w-[65px] h-[17px] flex skeleton-text-animated"></span>
+                </li>
+                <li className="flex relative">
+                  <span className="skeleton after:absolute after:flex after:justify-center after:content-['/'] after:w-[20px] after:h-[20px] after:right-[-20px] rounded-none after:text-grey-300 min-w-[65px] h-[17px] flex skeleton-text-animated"></span>
+                </li>
+                <li className="flex relative">
+                  <span className="skeleton after:absolute after:flex after:justify-center after:content-['/'] after:w-[20px] after:h-[20px] after:right-[-20px] rounded-none after:text-grey-300 min-w-[65px] h-[17px] flex skeleton-text-animated"></span>
+                </li>
+                <li className="flex relative">
+                  <span className="skeleton after:absolute after:flex after:justify-center after:content-[''] after:w-[20px] after:h-[20px] after:right-[-20px] rounded-none after:text-grey-300 min-w-[65px] h-[17px] flex skeleton-text-animated"></span>
+                </li>
+      </ul>
+    </nav>
         </div>
-      </section>
-      {/* breadcrumb  */}
-      {/* Article card  */}
-      <section className="pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Articledescription />
+          {/* Skeleton Breadcrum END */}
+          {/* skeleton article description  */}
+          <section className='pb-[40px]'>
+       
+            <div className="flex flex-col">
+              <span className="skeleton skeleton-text-animated flex max-w-[100px] h-[10px]"></span>
+              <span className="skeleton skeleton-text-animated flex max-w-[200px] h-[30px]"></span>
+              <span className="skeleton skeleton-text-animated flex max-w-[90%] h-[10px]"></span>
+              <span className="skeleton skeleton-text-animated flex max-w-[80%] h-[10px]"></span>            
+              <span className="skeleton skeleton-text-animated flex max-w-[60%] min-h-[10px]"></span>
+              <span className="skeleton skeleton-text-animated flex max-w-[100px] min-h-[40px]"></span>
+              
+       </div>
+       
+        </section>
+          {/* skeleton article description END */}
+          {/* skeleton article author  */}
+          <section className='lg:pb-[40px]'>          
+           <div className="flex flex-col lg:flex-row lg:gap-[20px]">
+           <div className="border-t-[1px] lg:border-y-[1px] border-grey-200 py-[16px] min-w-[289px] max-w-[100%]">
+             <div className="flex gap-[16px]">                 
+               <span className='skeleton skeleton-text-animated flex max-w-[40px] min-h-[40px]'></span>
+               <div className="flex w-full flex-col">
+                    <span className='skeleton skeleton-text-animated flex max-w-[90%] min-h-[10px]'></span>
+                    <span className='skeleton skeleton-text-animated flex max-w-[60%] min-h-[10px]'></span>     
+               </div>
+       </div>
+           </div>
+           <div className="w-full">
+         <span className='skeleton skeleton-text-animated flex min-h-[500px]'></span>
+           </div>
+       </div>
+        </section>
+          {/* skeleton article author END */}
+     
+        </div>      
+      </div>
+      {/* Skeleton loader END */}
+      <div className='bg-white'>
+   {/* breadcrumb  */}
+   <section className="pt-[16px] pb-[40px]">
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+        <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
-      </section>
-      {/* Article card END  */}
-      {/* Author profile  */}
-      <section className="pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Authorprofile />
+        </section>
+        {/* breadcrumb  */}
+        {/* Article card  */}       
+        <section className='pb-[40px]'>
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+        <Articledescription /> 
         </div>
-      </section>
+        </section>
+        {/* Article card END  */}
+        {/* Author profile  */}
+        <section className='lg:pb-[40px]'>          
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+        <Authorprofile />
+        </div>
+        </section>
       {/* Author profile END */}
       {/* skiplink article details */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+          <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
           {/* <Skiplinkdetails /> */}
-
-          <div className="pb-[16px] border-b border-grey-200 lg:hidden mb-[40px]">
-            <div
-              className={`bg-blue-400 rounded-[4px] overflow-hidden border-b relative border-grey-200 skiplinkoption ${modelOpen ? "active" : ""}`}
-            >
-              <div className="">
-                <div
-                  onClick={toggleFunc}
-                  className="bg-blue-400 cursor-pointer flex justify-between p-[18px]"
-                >
-                  <span className="text-white">On this page</span>
-                  <div className="burger-menu flex flex-col justify-center gap-[4px]">
-                    <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
-                    <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
-                    <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
-                  </div>
-                </div>
-                <ul>{skiplinkmobilelisting}</ul>
-              </div>
+          
+      <div className="py-[16px] border-b border-grey-200 lg:hidden mb-[40px]">
+      <div className={`bg-blue-400 rounded-[4px] overflow-hidden border-b relative border-grey-200 skiplinkoption ${modelOpen ? "active" : ""}`}>
+        <div className="">
+                  <div onClick={toggleFunc} className="bg-blue-400 cursor-pointer flex justify-between p-[18px]">
+              <span className="text-white small font-inter font-semibold">On this page</span>
+              <div className="burger-menu flex flex-col justify-center gap-[4px]">
+              <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
+              <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
+              <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
+              </div>             
             </div>
+          
+                  {modelOpen && (
+              <ul className="p-[16px]">
+              {skiplinkmobilelisting}
+            </ul>
+            ) }
+        </div>    
           </div>
+      </div>
+   
 
-          <div className="flex flex-col lg:flex-row gap-[20px]">
-            <div className="min-w-[289px] hidden lg:flex flex-col relative max-w-[100%]">
-              <div className="sticky lg:flex flex-col lg:gap-[8px] top-[50px]">
-                <h2 className="text-black para font-semibold font-inter">
-                  On this page
-                </h2>
-                <ul>{skiplinklabellisting}</ul>
+      <div className="flex flex-col lg:flex-row gap-[20px]">
+        <div className="min-w-[289px] hidden lg:flex flex-col relative max-w-[100%]">
+          <div className="sticky lg:flex flex-col lg:gap-[8px] top-[50px]">
+          <h2 className="text-black para font-semibold font-inter">
+            On this page
+          </h2>
+          <ul>{skiplinklabellisting}</ul>
+          </div>         
+        </div>
+        <div className="w-full article-details-aside">
+          <div id="skiplink-1">
+            {/* RTF content  */}
+            <section className="pb-[40px]">
+              <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                <h1>Level 1 heading</h1>                
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  placerat lectus nec suscipit faucibus. Vestibulum arcu urna,
+                  malesuada vitae euismod ultrices, accumsan vitae ex. Nunc
+                  scelerisque nibh ac feugiat auctor. Class aptent taciti
+                  sociosqu ad litora torquent per conubia nostra, per inceptos
+                  himenaeos. Nulla pharetra posuere ligula, eget commodo turpis
+                  semper a. Phasellus tincidunt elementum sem, nec feugiat
+                  lectus dignissim nec.
+                </p>
+                <h2>Level 2 heading</h2>
+                <ul>
+                  <li>Business Administration</li>
+                  <li>Business Management</li>
+                  <li>Business Studies</li>
+                  <li>Global Business Management</li>
+                  <li>Human Resource Management (HRM)</li>
+                </ul>
+                {/* Article-Image  */}
+                <Articleimage />
+                {/* Article-Image END */}
+                {/* Pull quotes END */}
+                <Pullquote />
+                {/* Pull quotes END */}
+                <h5>Level 2 heading</h5>
+                <ul>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>Undertaking one extra year of study before progressing to your degree is ideal if you do not meet the entry qualifications 
+                      nd/or need to improve your English Language proficiency.</p>
+                  </li>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>You’ll spend one extra year of study, typically after Year 2 or Year 3, gaining valuable experience in work or studying abroad.</p>
+                  </li>
+                </ul>  
+                <Articletables />
+                <Findoutmore />
               </div>
-            </div>
-            <div className="w-full article-details-aside">
-              <div id="skiplink-1">
-                {/* RTF content  */}
-                <section className="pb-[40px]">
-                  <div className="rtf-innerstyle flex flex-col gap-[16px]">
-                    <h1>Level 1 heading</h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Donec placerat lectus nec suscipit faucibus. Vestibulum
-                      arcu urna, malesuada vitae euismod ultrices, accumsan
-                      vitae ex. Nunc scelerisque nibh ac feugiat auctor. Class
-                      aptent taciti sociosqu ad litora torquent per conubia
-                      nostra, per inceptos himenaeos. Nulla pharetra posuere
-                      ligula, eget commodo turpis semper a. Phasellus tincidunt
-                      elementum sem, nec feugiat lectus dignissim nec.
-                    </p>
-                    <h2>Level 2 heading</h2>
-                    <ul>
-                      <li>Business Administration</li>
-                      <li>Business Management</li>
-                      <li>Business Studies</li>
-                      <li>Global Business Management</li>
-                      <li>Human Resource Management (HRM)</li>
-                    </ul>
-                    {/* Article-Image  */}
-                    <Articleimage />
-                    {/* Article-Image END */}
-                    {/* Pull quotes END */}
-                    <Pullquote />
-                    {/* Pull quotes END */}
-                    <h5>Level 2 heading</h5>
-                    <ul>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          Undertaking one extra year of study before progressing
-                          to your degree is ideal if you do not meet the entry
-                          qualifications nd/or need to improve your English
-                          Language proficiency.
-                        </p>
-                      </li>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          You’ll spend one extra year of study, typically after
-                          Year 2 or Year 3, gaining valuable experience in work
-                          or studying abroad.
-                        </p>
-                      </li>
-                    </ul>
-                    <Articletables />
-                    <Findoutmore />
-                  </div>
-                  <section className="pt-[40px]">
-                    <Ctabanner />
-                  </section>
-                </section>
-                {/* RTF content END */}
+              <section className="pt-[40px]"><Ctabanner/></section>
+            </section>
+            {/* RTF content END */}                            
+          </div>     
+          <div id="skiplink-2">
+            {/* RTF content  */}
+            <section className="pb-[40px]">
+              <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                <h1>Level 1 heading</h1>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  placerat lectus nec suscipit faucibus. Vestibulum arcu urna,
+                  malesuada vitae euismod ultrices, accumsan vitae ex. Nunc
+                  scelerisque nibh ac feugiat auctor. Class aptent taciti
+                  sociosqu ad litora torquent per conubia nostra, per inceptos
+                  himenaeos. Nulla pharetra posuere ligula, eget commodo turpis
+                  semper a. Phasellus tincidunt elementum sem, nec feugiat
+                  lectus dignissim nec.
+                </p>
+                <h2>Level 2 heading</h2>
+                <ul>
+                  <li>Business Administration</li>
+                  <li>Business Management</li>
+                  <li>Business Studies</li>
+                  <li>Global Business Management</li>
+                  <li>Human Resource Management (HRM)</li>
+                </ul>
+                {/* Article-Image  */}
+                <Articleimage />
+                {/* Article-Image END */}
+                {/* Pull quotes END */}
+                <Pullquote />
+                {/* Pull quotes END */}
+                <h5>Level 2 heading</h5>
+                <ul>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>Undertaking one extra year of study before progressing to your degree is ideal if you do not meet the entry qualifications 
+                      nd/or need to improve your English Language proficiency.</p>
+                  </li>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>You’ll spend one extra year of study, typically after Year 2 or Year 3, gaining valuable experience in work or studying abroad.</p>
+                  </li>
+                </ul>  
+                <Articletables />
+                <Findoutmore />
               </div>
-              <div id="skiplink-2">
-                {/* RTF content  */}
-                <section className="pb-[40px]">
-                  <div className="rtf-innerstyle flex flex-col gap-[16px]">
-                    <h1>Level 1 heading</h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Donec placerat lectus nec suscipit faucibus. Vestibulum
-                      arcu urna, malesuada vitae euismod ultrices, accumsan
-                      vitae ex. Nunc scelerisque nibh ac feugiat auctor. Class
-                      aptent taciti sociosqu ad litora torquent per conubia
-                      nostra, per inceptos himenaeos. Nulla pharetra posuere
-                      ligula, eget commodo turpis semper a. Phasellus tincidunt
-                      elementum sem, nec feugiat lectus dignissim nec.
-                    </p>
-                    <h2>Level 2 heading</h2>
-                    <ul>
-                      <li>Business Administration</li>
-                      <li>Business Management</li>
-                      <li>Business Studies</li>
-                      <li>Global Business Management</li>
-                      <li>Human Resource Management (HRM)</li>
-                    </ul>
-                    {/* Article-Image  */}
-                    <Articleimage />
-                    {/* Article-Image END */}
-                    {/* Pull quotes END */}
-                    <Pullquote />
-                    {/* Pull quotes END */}
-                    <h5>Level 2 heading</h5>
-                    <ul>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          Undertaking one extra year of study before progressing
-                          to your degree is ideal if you do not meet the entry
-                          qualifications nd/or need to improve your English
-                          Language proficiency.
-                        </p>
-                      </li>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          You’ll spend one extra year of study, typically after
-                          Year 2 or Year 3, gaining valuable experience in work
-                          or studying abroad.
-                        </p>
-                      </li>
-                    </ul>
-                    <Articletables />
-                    <Findoutmore />
-                  </div>
-                  <section className="pt-[40px]">
-                    <Ctabanner />
-                  </section>
-                </section>
-                {/* RTF content END */}
+              <section className="pt-[40px]"><Ctabanner/></section>
+            </section>
+            {/* RTF content END */}                            
+          </div>     
+          <div id="skiplink-3">
+            {/* RTF content  */}
+            <section className="pb-[40px]">
+              <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                <h1>Level 1 heading</h1>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  placerat lectus nec suscipit faucibus. Vestibulum arcu urna,
+                  malesuada vitae euismod ultrices, accumsan vitae ex. Nunc
+                  scelerisque nibh ac feugiat auctor. Class aptent taciti
+                  sociosqu ad litora torquent per conubia nostra, per inceptos
+                  himenaeos. Nulla pharetra posuere ligula, eget commodo turpis
+                  semper a. Phasellus tincidunt elementum sem, nec feugiat
+                  lectus dignissim nec.
+                </p>
+                <h2>Level 2 heading</h2>
+                <ul>
+                  <li>Business Administration</li>
+                  <li>Business Management</li>
+                  <li>Business Studies</li>
+                  <li>Global Business Management</li>
+                  <li>Human Resource Management (HRM)</li>
+                </ul>
+                {/* Article-Image  */}
+                <Articleimage />
+                {/* Article-Image END */}
+                {/* Pull quotes END */}
+                <Pullquote />
+                {/* Pull quotes END */}
+                <h5>Level 2 heading</h5>
+                <ul>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>Undertaking one extra year of study before progressing to your degree is ideal if you do not meet the entry qualifications 
+                      nd/or need to improve your English Language proficiency.</p>
+                  </li>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>You’ll spend one extra year of study, typically after Year 2 or Year 3, gaining valuable experience in work or studying abroad.</p>
+                  </li>
+                </ul>  
+                <Articletables />
+                <Findoutmore />
               </div>
-              <div id="skiplink-3">
-                {/* RTF content  */}
-                <section className="pb-[40px]">
-                  <div className="rtf-innerstyle flex flex-col gap-[16px]">
-                    <h1>Level 1 heading</h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Donec placerat lectus nec suscipit faucibus. Vestibulum
-                      arcu urna, malesuada vitae euismod ultrices, accumsan
-                      vitae ex. Nunc scelerisque nibh ac feugiat auctor. Class
-                      aptent taciti sociosqu ad litora torquent per conubia
-                      nostra, per inceptos himenaeos. Nulla pharetra posuere
-                      ligula, eget commodo turpis semper a. Phasellus tincidunt
-                      elementum sem, nec feugiat lectus dignissim nec.
-                    </p>
-                    <h2>Level 2 heading</h2>
-                    <ul>
-                      <li>Business Administration</li>
-                      <li>Business Management</li>
-                      <li>Business Studies</li>
-                      <li>Global Business Management</li>
-                      <li>Human Resource Management (HRM)</li>
-                    </ul>
-                    {/* Article-Image  */}
-                    <Articleimage />
-                    {/* Article-Image END */}
-                    {/* Pull quotes END */}
-                    <Pullquote />
-                    {/* Pull quotes END */}
-                    <h5>Level 2 heading</h5>
-                    <ul>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          Undertaking one extra year of study before progressing
-                          to your degree is ideal if you do not meet the entry
-                          qualifications nd/or need to improve your English
-                          Language proficiency.
-                        </p>
-                      </li>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          You’ll spend one extra year of study, typically after
-                          Year 2 or Year 3, gaining valuable experience in work
-                          or studying abroad.
-                        </p>
-                      </li>
-                    </ul>
-                    <Articletables />
-                    <Findoutmore />
-                  </div>
-                  <section className="pt-[40px]">
-                    <Ctabanner />
-                  </section>
-                </section>
-                {/* RTF content END */}
-              </div>
-              <div id="skiplink-4">
-                {/* RTF content  */}
-                <section className="pb-[40px]">
-                  <div className="rtf-innerstyle flex flex-col gap-[16px]">
-                    <h1>Level 1 heading</h1>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Donec placerat lectus nec suscipit faucibus. Vestibulum
-                      arcu urna, malesuada vitae euismod ultrices, accumsan
-                      vitae ex. Nunc scelerisque nibh ac feugiat auctor. Class
-                      aptent taciti sociosqu ad litora torquent per conubia
-                      nostra, per inceptos himenaeos. Nulla pharetra posuere
-                      ligula, eget commodo turpis semper a. Phasellus tincidunt
-                      elementum sem, nec feugiat lectus dignissim nec.
-                    </p>
-                    <h2>Level 2 heading</h2>
-                    <ul>
-                      <li>Business Administration</li>
-                      <li>Business Management</li>
-                      <li>Business Studies</li>
-                      <li>Global Business Management</li>
-                      <li>Human Resource Management (HRM)</li>
-                    </ul>
-                    {/* Article-Image  */}
-                    <Articleimage />
-                    {/* Article-Image END */}
-                    {/* Pull quotes END */}
-                    <Pullquote />
-                    {/* Pull quotes END */}
-                    <h5>Level 2 heading</h5>
-                    <ul>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          Undertaking one extra year of study before progressing
-                          to your degree is ideal if you do not meet the entry
-                          qualifications nd/or need to improve your English
-                          Language proficiency.
-                        </p>
-                      </li>
-                      <li>
-                        <h6>Level 3 heading</h6>
-                        <p>
-                          You’ll spend one extra year of study, typically after
-                          Year 2 or Year 3, gaining valuable experience in work
-                          or studying abroad.
-                        </p>
-                      </li>
-                    </ul>
-                    <Articletables />
-                    <Findoutmore />
-                  </div>
-                </section>
-                <section className="pb-[40px]">
-                  <Ctabanner />
-                </section>
-                <section>
-                  <Dontmissout />
-                </section>
-                {/* <section><Reviewscomponents/></section> */}
-                {/* RTF content END */}
-              </div>
-            </div>
+              <section className="pt-[40px]"><Ctabanner/></section>
+            </section>
+            {/* RTF content END */}                            
+          </div>     
+          <div id="skiplink-4">
+            {/* RTF content  */}
+            <section className="pb-[40px]">
+              <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                <h1>Level 1 heading</h1>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  placerat lectus nec suscipit faucibus. Vestibulum arcu urna,
+                  malesuada vitae euismod ultrices, accumsan vitae ex. Nunc
+                  scelerisque nibh ac feugiat auctor. Class aptent taciti
+                  sociosqu ad litora torquent per conubia nostra, per inceptos
+                  himenaeos. Nulla pharetra posuere ligula, eget commodo turpis
+                  semper a. Phasellus tincidunt elementum sem, nec feugiat
+                  lectus dignissim nec.
+                </p>
+                <h2>Level 2 heading</h2>
+                <ul>
+                  <li>Business Administration</li>
+                  <li>Business Management</li>
+                  <li>Business Studies</li>
+                  <li>Global Business Management</li>
+                  <li>Human Resource Management (HRM)</li>
+                </ul>
+                {/* Article-Image  */}
+                <Articleimage />
+                {/* Article-Image END */}
+                {/* Pull quotes END */}
+                <Pullquote />
+                {/* Pull quotes END */}
+                <h5>Level 2 heading</h5>
+                <ul>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>Undertaking one extra year of study before progressing to your degree is ideal if you do not meet the entry qualifications 
+                      nd/or need to improve your English Language proficiency.</p>
+                  </li>
+                  <li>
+                    <h6>Level 3 heading</h6>
+                    <p>You’ll spend one extra year of study, typically after Year 2 or Year 3, gaining valuable experience in work or studying abroad.</p>
+                  </li>
+                </ul>  
+                <Articletables />
+                <Findoutmore />
+              </div>             
+            </section>
+            <section className="pb-[40px]"><Ctabanner/></section>
+            <section><Dontmissout/></section>
+            {/* <section><Reviewscomponents/></section> */}
+            {/* RTF content END */}                            
+          </div>     
+        </div>
+      </div>
+        </div>
+        </section>
+        {/* skiplink article details END */}
+         {/* Slider section  */}
+         <section className="bg-grey-50">
+        <div className="max-w-container mx-auto">
+        {/* <Advicecourseslidercomponents categoryTag={false} adviceBgWhite={false} /> */}
           </div>
-        </div>
-      </section>
-      {/* skiplink article details END */}
-      {/* Slider section  */}
-      <section>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          {/* <Advicecourseslidercomponents categoryTag={false} adviceBgWhite={false} /> */}
-        </div>
-      </section>
-      {/* Slider section END */}
-      {/* Slider section  */}
-      <section className="bg-white">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
-        </div>
-      </section>
-      {/* Slider section END */}
-      {/* Slider section  */}
-      <section>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={false} /> */}
-        </div>
-      </section>
-      {/* Slider section END */}
-      {/* Slider section  */}
-      <section className="bg-white">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
-        </div>
-      </section>
-      {/* Slider section END */}
-    </>
-  );
-};
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className='bg-white'>
+        <div className="max-w-container mx-auto">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className="bg-grey-50">
+        <div className="max-w-container mx-auto">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={false} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className='bg-white'>
+        <div className="max-w-container mx-auto">
+        {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+      </div>
+     
+      </>
+  )
+}
 
-export default Page;
+export default page
