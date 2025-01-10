@@ -62,64 +62,9 @@ const GoogleOneTap = () => {
     async function watchForCognitoCookie() {
       console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
-      let previousCookies = document.cookie;
       signInWithRedirect({
         provider: "Google",
-        customState: "home page", // You can pass the credential as custom state if needed
-      });
-
-      const observer = new MutationObserver(async () => {
-        if (document.cookie !== previousCookies) {
-          previousCookies = document.cookie;
-          console.log("inside the observer frist if");
-          if (
-            document.cookie
-              .split("; ")
-              .some((cookie) =>
-                cookie.startsWith("CognitoIdentityServiceProvider")
-              )
-          ) {
-            console.log("call that");
-
-            try {
-              const session: any = await fetchAuthSession();
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-                    siteCode: "WU_WEB",
-                    "x-correlation-id": randomid,
-                    authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
-                  },
-                }
-              );
-
-              if (!response.ok) {
-                console.error("Failed to register user:", response.statusText);
-              } else {
-                const res = await response.json();
-                if (res.message.toLowerCase() === "user updated") {
-                  console.log(res, "User updated successfully");
-                } else {
-                  console.log(res, "User registered successfully");
-                }
-              }
-            } catch (error) {
-              console.error("Error during user registration:", error);
-            } finally {
-              observer.disconnect(); // Stop observing once cookie is processed
-            }
-          }
-        }
-      });
-
-      // Start observing
-      observer.observe(document, {
-        subtree: true,
-        childList: true,
+        customState: "home page",
       });
     }
     const checkSession = async () => {
