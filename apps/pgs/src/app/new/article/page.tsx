@@ -4,14 +4,13 @@ import { ArticleLandingPageQuery } from "@packages/lib/graphQL/article-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
 const page = async () => {
-  const componentList = (await graphQlFetchFunction(ArticleLandingPageQuery))
-    ?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-  console.log(
-    "actual data",
-    await graphQlFetchFunction(ArticleLandingPageQuery),
-    componentList
-  );
+  const jsondata = await graphQlFetchFunction(ArticleLandingPageQuery);
+  const componentList =
+    jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+  const bannerData = jsondata?.data?.contentData?.items[0];
+  console.log("banner", bannerData);
   return (
     <div className="article_landing">
       {componentList?.map(
@@ -33,7 +32,7 @@ const page = async () => {
               internalName={childItems?.internalName}
               callAction={childItems?.callToAction}
               routename="/advice"
-              contentModelName={"pageTemplateLandingPageCollection"}
+              contentModelName={"pageTemplateHeroLandingPageCollection"}
             />
           );
         }

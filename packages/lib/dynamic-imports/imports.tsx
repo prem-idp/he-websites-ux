@@ -51,13 +51,7 @@ const dynamicComponentImports = (input: string | null | undefined) => {
           import("@packages/shared-components/home/reviews/reviewscomponents"),
         { loading: () => <DynamicSkeleton skeletonName={input} /> }
       );
-    case "NewsLetter":
-      return dynamic(
-        () =>
-          import(
-            "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents"
-          )
-      );
+
     case "EligibilityCriteria":
       return dynamic(
         () =>
