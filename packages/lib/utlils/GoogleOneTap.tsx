@@ -9,7 +9,12 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function watchForCognitoCookie() {
+      console.log("inside thewatchCognitoCookies");
       let previousCookies = document.cookie;
+      signInWithRedirect({
+        provider: "Google",
+        customState: "home page", // You can pass the credential as custom state if needed
+      });
       const randomid = uuidv4();
       const observer = new MutationObserver(async () => {
         if (document.cookie !== previousCookies) {
@@ -102,10 +107,6 @@ const GoogleOneTap = () => {
           client_id:
             "310464352984-52q8deiepmmnslhkehui0llrmvlvq5lu.apps.googleusercontent.com",
           callback: (response: any) => {
-            signInWithRedirect({
-              provider: "Google",
-              customState: "home page", // You can pass the credential as custom state if needed
-            });
             watchForCognitoCookie();
             const { credential } = response;
           },
