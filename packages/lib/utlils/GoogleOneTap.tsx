@@ -24,7 +24,7 @@ const GoogleOneTap = () => {
             console.log("call that");
 
             try {
-              const session = await fetchAuthSession();
+              const session: any = await fetchAuthSession();
               const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
                 {
@@ -32,16 +32,10 @@ const GoogleOneTap = () => {
                   headers: {
                     "Content-Type": "application/json",
                     "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                    siteCode: "WU_WEB",
+                    "x-correlation-id": randomid,
+                    authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
                   },
-                  body: JSON.stringify({
-                    params: {
-                      header: {
-                        siteCode: "WU_APP",
-                        "x-correlation-id": randomid,
-                        authorization: session?.tokens?.idToken,
-                      },
-                    },
-                  }),
                 }
               );
 
