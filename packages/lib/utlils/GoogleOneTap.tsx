@@ -38,6 +38,7 @@ const GoogleOneTap = () => {
                 "x-correlation-id": randomid,
                 authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
               },
+              body: JSON.stringify({}),
             }
           );
 
