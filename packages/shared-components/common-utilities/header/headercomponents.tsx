@@ -6,10 +6,7 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-import {
-  getCookie,
-  getInitialsFromJWT,
-} from "@packages/lib/utlils/helper-function";
+import { getCookie } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -37,6 +34,19 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
+  const getUserInitials = (firstName: any, lastName: any) => {
+    let initials = "";
+
+    if (firstName && firstName.length > 1) {
+      initials += firstName.charAt(0);
+    }
+
+    if (lastName && lastName.length > 1) {
+      initials += lastName.charAt(0);
+    }
+
+    return initials;
+  };
 
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
@@ -51,7 +61,10 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
             setIsAuthenticated("true");
             const user_initial = getCookieValue("USER_INITIAL");
             if (!user_initial && session.tokens.idToken) {
-              const user_initial = getInitialsFromJWT(session.tokens.idToken);
+              const user_initial = getUserInitials(
+                session.tokens.idToken?.payload?.given_name,
+                session.tokens.idToken?.payload?.family_name
+              );
               setInitial(user_initial);
             } else {
               setInitial(user_initial);

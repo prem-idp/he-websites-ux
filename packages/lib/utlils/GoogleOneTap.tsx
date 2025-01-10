@@ -48,8 +48,11 @@ const GoogleOneTap = () => {
                 console.error("Failed to register user:", response.statusText);
               } else {
                 const res = await response.json();
-
-                console.log(res, "User registered successfully");
+                if (res.message.toLowerCase() === "user updated") {
+                  console.log(res, "User updated successfully");
+                } else {
+                  console.log(res, "User registered successfully");
+                }
               }
             } catch (error) {
               console.error("Error during user registration:", error);
