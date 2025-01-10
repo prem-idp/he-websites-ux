@@ -10,7 +10,41 @@ const GoogleOneTapPgs = () => {
     const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
     return cookie ? cookie.split("=")[1] : "";
   }
+  async function clickstreamSigin() {
+    try {
+      // Construct query parameters
+      const queryParams = new URLSearchParams({
+        siteName: `${process.env.PROJECT}`,
+        affilateId: `${process.env.AFFILATE_ID}`,
+        pageName: localStorage.getItem("gaPageName") || "",
+        CTATitle: "Continue with Google",
+        signedInMethod: "GoogleOneTap",
+        functionalityName: "Sign In",
+        eventType: "SignedIn",
+        actionType: "Interaction",
+        deviceWidth: String(
+          window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth
+        ), // Convert to string
+      });
 
+      // Call the GET API
+      const response = await fetch(`/api/clickstream?${queryParams}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error from API:", errorData);
+      } else {
+        const result = await response.json();
+        console.log("API call successful:", result);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
   function extractdetailsforregister(text: any) {
     const parts = text.toString().split("##SPLIT##");
     if (parts) {
@@ -86,20 +120,7 @@ const GoogleOneTapPgs = () => {
 
           const loginData = await loginResponse.text();
           if (loginData) {
-            ClickStream({
-              siteName: process.env.PROJECT,
-              affilateId: process.env.AFFILATE_ID,
-              pageName: localStorage.getItem("gaPageName") || "",
-              CTATitle: "Continue with Google",
-              signedInMethod: "GoogleOneTap",
-              functionalityName: "Sign In",
-              eventType: "SignedIn",
-              actionType: "Interaction",
-              deviceWidth:
-                window.innerWidth ||
-                document.documentElement.clientWidth ||
-                document.body.clientWidth,
-            });
+            clickstreamSigin();
           }
           extractDetails(loginData);
           // const session_id = extractLastNumber(loginData);
