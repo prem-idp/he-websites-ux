@@ -4,10 +4,10 @@ import Link from "next/link";
 
 const Dontmissout = () => {
   return (
-    <div className="bg-blue-100 p-[24px] flex flex-col gap-[16px] rounded-[8px]">
+    <div className="bg-blue-100 p-[16px] md:p-[24px] flex flex-col gap-[16px] rounded-[8px]">
       <div className="">
         <div className="h4">Don't miss out!</div>
-        <span>
+        <span className="small font-inter font-normal text-grey300">
           Receive a monthly newsletter packed with useful tips and updates to
           help you find the right uni.
         </span>
@@ -138,21 +138,21 @@ const Dontmissout = () => {
                   <p className="select-none small font-normal text-grey-600">
                     I confirm I’m over 13 and agree to the
                     <Link
-                      className="text-blue-400 hover:underline pl-[4px]"
+                      className="text-primary-500 underline pl-[4px]"
                       href="#"
                     >
                       terms and conditions
                     </Link>
-                    and
+                    &nbsp;and
                     <Link
-                      className="text-blue-400 hover:underline pl-[4px]"
+                      className="text-primary-500 underline pl-[4px]"
                       href="#"
                     >
                       privacy notice
                     </Link>
                     , and agree to become a member of the
                     <Link
-                      className="text-blue-400 hover:underline pl-[4px]"
+                      className="text-primary-500 underline pl-[4px]"
                       href="#"
                     >
                       Whatuni community
@@ -161,10 +161,11 @@ const Dontmissout = () => {
                   </p>
                 </label>
               </div>
+              <span className="x-small font-normal text-negative-default">Please agree to our terms and conditions and privacy notice</span>
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="btn btn-grey-400 h-[41px] px-[20px] py-[10px] flex justify-end gap-[10px] items-center">
+            <button className="btn btn-primary h-[41px] px-[20px] py-[10px] flex justify-end gap-[10px] items-center">
               Get free newsletters
               <Image
                 src="/static/assets/icons/arrow-right-white.svg"

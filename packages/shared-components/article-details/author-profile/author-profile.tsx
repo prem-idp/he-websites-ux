@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Authorprofile = () => {
   return (
@@ -8,7 +9,7 @@ const Authorprofile = () => {
       <div className="flex gap-[16px]">                 
         <Image className='w-[40px] h-[40px] rounded-[30px] object-cover' src="/static/assets/images/article_image1.jpg" width="40" height="40" alt='profile icon'/>                                    
         <div className="flex flex-col">
-          <span className="text-blue-400 small font-medium">Author name</span>
+          <span className="text-blue-400 small font-medium"><Link className='hover:underline' href="#">Author name</Link></span>
           <span className="text-grey300 small font-normal">Job title</span>
         </div>
 </div>

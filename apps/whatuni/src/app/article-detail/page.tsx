@@ -68,11 +68,7 @@ const toggleFunc = () => {
     </li>
   ));
   const skiplinkmobilelisting = skiplinkLabel.map((items, index) => (
-    <li className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal ${
-      index == 0
-        ? "border-grey300 text-grey300"
-        : "border-grey-300 text-white"
-    }`} key={`${items}-${index + 1}`}>
+    <li className="border-s-[2px]  py-[10px] px-[16px] text-white border-white small font-inter font-normal" key={`${items}-${index + 1}`}>
        <Link href={`#skiplink-${index + 1}`}>
         {items} {index + 1}
       </Link>
@@ -140,23 +136,24 @@ const toggleFunc = () => {
         </div>      
       </div>
       {/* Skeleton loader END */}
-        {/* breadcrumb  */}
-        <section className="pt-[16px] pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+      <div className='bg-white'>
+   {/* breadcrumb  */}
+   <section className="pt-[16px] pb-[40px]">
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
         <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
         </section>
         {/* breadcrumb  */}
         {/* Article card  */}       
         <section className='pb-[40px]'>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
         <Articledescription /> 
         </div>
         </section>
         {/* Article card END  */}
         {/* Author profile  */}
-        <section className='pb-[40px]'>          
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        <section className='lg:pb-[40px]'>          
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
         <Authorprofile />
         </div>
         </section>
@@ -166,20 +163,23 @@ const toggleFunc = () => {
           <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
           {/* <Skiplinkdetails /> */}
           
-      <div className="pb-[16px] border-b border-grey-200 lg:hidden mb-[40px]">
+      <div className="py-[16px] border-b border-grey-200 lg:hidden mb-[40px]">
       <div className={`bg-blue-400 rounded-[4px] overflow-hidden border-b relative border-grey-200 skiplinkoption ${modelOpen ? "active" : ""}`}>
         <div className="">
                   <div onClick={toggleFunc} className="bg-blue-400 cursor-pointer flex justify-between p-[18px]">
-              <span className="text-white">On this page</span>
+              <span className="text-white small font-inter font-semibold">On this page</span>
               <div className="burger-menu flex flex-col justify-center gap-[4px]">
               <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
               <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
               <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
               </div>             
             </div>
-            <ul>
+          
+                  {modelOpen && (
+              <ul className="p-[16px]">
               {skiplinkmobilelisting}
             </ul>
+            ) }
         </div>    
           </div>
       </div>
@@ -395,33 +395,35 @@ const toggleFunc = () => {
         </section>
         {/* skiplink article details END */}
          {/* Slider section  */}
-         <section>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+         <section className="bg-grey-50">
+        <div className="max-w-container mx-auto">
         {/* <Advicecourseslidercomponents categoryTag={false} adviceBgWhite={false} /> */}
           </div>
         </section>
         {/* Slider section END */}
         {/* Slider section  */}
         <section className='bg-white'>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        <div className="max-w-container mx-auto">
         {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
           </div>
         </section>
         {/* Slider section END */}
         {/* Slider section  */}
-        <section>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        <section className="bg-grey-50">
+        <div className="max-w-container mx-auto">
         {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={false} /> */}
           </div>
         </section>
         {/* Slider section END */}
         {/* Slider section  */}
         <section className='bg-white'>
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+        <div className="max-w-container mx-auto">
         {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
           </div>
         </section>
         {/* Slider section END */}
+      </div>
+     
       </>
   )
 }

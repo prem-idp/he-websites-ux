@@ -21,7 +21,7 @@ const Breadcrumblayoutcomponent = ({ data } : { data:any }) => {
           <Image src={breadcrumbData.Imgurl} width="17" className="inline-block" height="18" alt="breadcrumb icon" />
         </Link>
       ) : (
-        <span className="text-grey-400">{breadcrumbData.label}</span>
+        <span className="text-grey300">{breadcrumbData.label}</span>
       )}
     </li>
   ));

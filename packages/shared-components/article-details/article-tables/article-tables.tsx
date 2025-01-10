@@ -103,7 +103,7 @@ const Articletables = () => {
                           </> )
                           : (<></>) }
                              
-            <span className="content-center font-inter small text-grey300 font-normal">
+            <span className="content-center font-inter small text-grey400 font-normal">
               {items.rankRating}
             </span>
           </div>
