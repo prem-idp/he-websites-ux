@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 const GoogleOneTap = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
-
   useEffect(() => {
     async function watchForCognitoCookie() {
       console.log("inside thewatchCognitoCookies");
@@ -24,7 +23,7 @@ const GoogleOneTap = () => {
             document.cookie
               .split("; ")
               .some((cookie) =>
-                cookie.startsWith("CognitoIdentityServiceProvider=")
+                cookie.startsWith("CognitoIdentityServiceProvider")
               )
           ) {
             console.log("call that");
@@ -48,7 +47,9 @@ const GoogleOneTap = () => {
               if (!response.ok) {
                 console.error("Failed to register user:", response.statusText);
               } else {
-                console.log("User registered successfully");
+                const res = await response.json();
+
+                console.log(res, "User registered successfully");
               }
             } catch (error) {
               console.error("Error during user registration:", error);
@@ -101,6 +102,7 @@ const GoogleOneTap = () => {
         initializeGoogleOneTap();
       }
     };
+
     const initializeGoogleOneTap = () => {
       if (typeof window !== "undefined" && (window as any).google) {
         (window as any).google.accounts.id.initialize({
