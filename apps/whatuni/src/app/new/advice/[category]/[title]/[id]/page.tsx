@@ -1,15 +1,17 @@
-"use server";
-import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent";
 import Articledescription from "@packages/shared-components/article-details/article-description/article-description";
 import Authorprofile from "@packages/shared-components/article-details/author-profile/author-profile";
-import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
+import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
+import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
+import Articleimage from "@packages/shared-components/article-details/article-image/article-image";
+import Articletables from "@packages/shared-components/article-details/article-tables/article-tables";
+import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
+import Skiplink from "@packages/shared-components/article-details/skiplink/skiplink";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-
 import dynamicComponentImports from "./dynamicimport";
-
-const page = async ({ params }: any) => {
-  // const { category, title, id } = await params;
+import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
+import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
+const Page = async ({ params }: any) => {
   const category = "money";
   const title =
     "article-the-best-resources-for-saving-money-at-university-whatuni";
@@ -18,41 +20,119 @@ const page = async ({ params }: any) => {
     articleDetailQuery(category, title, id)
   );
   const data = articledetaildata?.data?.contentData?.items[0];
-  // console.log(data);
   const breadcrumbData = [
-    { url: "#", label: "Home" },
-    { url: "#", label: "Payments" },
-    { url: "#", label: "Online payments" },
-    { url: "", label: "Overview" },
+    // {
+    //   url: "#",
+    //   Imgurl: "/assets/icons/breadcrumbs-home-icon.svg"
+    // },
+    {
+      url: "#",
+      label: "Home",
+    },
+    {
+      url: "#",
+      label: "Payments",
+    },
+    {
+      url: "#",
+      label: "Online payments",
+    },
+    {
+      url: "",
+      label: "Overview",
+    },
   ];
 
   return (
     <>
-      <section className="pt-[16px] pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Breadcrumblayoutcomponent data={breadcrumbData} />
-        </div>
-      </section>
+      <div className="bg-white">
+        <section className="pt-[16px] pb-[40px]">
+          <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+            <Breadcrumblayoutcomponent data={breadcrumbData} />
+          </div>
+        </section>
 
-      <section className="pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Articledescription data={data} />
-        </div>
-      </section>
+        <section className="pb-[40px]">
+          <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+            <Articledescription data={data} />
+          </div>
+        </section>
 
-      <section className="pb-[40px]">
-        <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
-          <Authorprofile data={data} />
-        </div>
-      </section>
-      <div className="flex flex-col items-center justify-center min-h-screen px-6 sm:px-12 lg:px-16 w-full max-w-4xl">
-        {data?.bodyContentCollection?.items?.map((dt: any, index: any) => {
-          const Component: any = dynamicComponentImports(dt?.__typename);
-          return <Component key={index} data={dt} />;
-        })}
+        <section className="lg:pb-[40px]">
+          <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+            <Authorprofile data={data} />
+          </div>
+        </section>
+
+        <section>
+          <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+            <div className="flex flex-col lg:flex-row gap-[20px]">
+              <Skiplink />
+              <div className="w-full article-details-aside">
+                <section className="pb-[40px]">
+                  <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                    {data?.bodyContentCollection?.items?.map(
+                      (dt: any, index: any) => {
+                        const Component: any = dynamicComponentImports(
+                          dt?.__typename
+                        );
+                        return <Component key={index} data={dt} />;
+                      }
+                    )}
+                    <div>
+                      <b>
+                        <i style={{ color: "red" }}>
+                          --------------------------------------below Component
+                          are static------------------------------------
+                        </i>
+                      </b>
+                    </div>
+                    <Articleimage />
+                    <Pullquote />
+                    <Articletables />
+                    <Findoutmore />
+                  </div>
+                  <section className="pt-[40px]">
+                    <Ctabanner />
+                  </section>
+                </section>
+                <Dontmissout />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Slider section  */}
+        <section className="bg-grey-50">
+          <div className="max-w-container mx-auto">
+            {/* <Advicecourseslidercomponents categoryTag={false} adviceBgWhite={false} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className="bg-white">
+          <div className="max-w-container mx-auto">
+            {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className="bg-grey-50">
+          <div className="max-w-container mx-auto">
+            {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={false} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
+        {/* Slider section  */}
+        <section className="bg-white">
+          <div className="max-w-container mx-auto">
+            {/* <Advicecourseslidercomponents categoryTag={true} adviceBgWhite={true} /> */}
+          </div>
+        </section>
+        {/* Slider section END */}
       </div>
     </>
   );
 };
 
-export default page;
+export default Page;

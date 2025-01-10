@@ -13,21 +13,15 @@ const Articledescription = ({ data }: any) => {
     <>
       <div className="flex flex-col gap-[8px]">
         <span className="x-small font-inter tracking-[1px] text-blue-400">
-          {data?.articleType?.title}
-        <Link className='hover:underline' href="#">
-          CATEGORY
-          </Link> 
+          <Link className="hover:underline" href="#">
+            {data?.articleType?.title}
+          </Link>
         </span>
         <h1 className="font-farro text-heading1 text-grey900">
           {data?.pageTitle}
         </h1>
-        <p className="text-para-lg max-w-[907px] w-full text-grey900 text-inter">
-          {data?.shortDescription}
-        <h1 className="font-farro text-heading1 text-grey900">Article title</h1>
         <p className="text-para-lg max-w-[907px] w-full text-grey300 text-inter">
-          Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-          per inceptos himenaeos. Nulla pharetra posuere ligula, eget commodo
-          turpis semper a. Phasellus t
+          {data?.shortDescription}
         </p>
         <span className="x-small text-grey300 text-inter">
           {` Updated:${data?.modifiedDate ?? ""}`}
