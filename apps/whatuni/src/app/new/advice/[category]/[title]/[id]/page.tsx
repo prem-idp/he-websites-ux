@@ -18,7 +18,7 @@ const page = async ({ params }: any) => {
     articleDetailQuery(category, title, id)
   );
   const data = articledetaildata?.data?.contentData?.items[0];
-
+  // console.log(data);
   const breadcrumbData = [
     { url: "#", label: "Home" },
     { url: "#", label: "Payments" },
@@ -28,7 +28,6 @@ const page = async ({ params }: any) => {
 
   return (
     <>
-      
       <section className="pt-[16px] pb-[40px]">
         <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
           <Breadcrumblayoutcomponent data={breadcrumbData} />
