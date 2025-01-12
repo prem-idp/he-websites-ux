@@ -11,7 +11,7 @@ export default function User({ topnav_data }: any) {
         sessionStorage.clear();
         document.cookie =
           "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
+        document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
         await signOut({ global: true }); // Wait for the signOut process to complete
         window.location.href = "/"; // Force a full reload to the home page
       } catch (error) {

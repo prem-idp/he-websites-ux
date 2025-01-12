@@ -52,6 +52,7 @@ const GoogleOneTap = () => {
               console.log(res, "User registered successfully");
             }
           }
+          document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
         }
       } catch (error) {
         console.error("Error during user registration:", error);
