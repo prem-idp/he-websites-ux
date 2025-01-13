@@ -3,7 +3,12 @@ import { useEffect, use } from "react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { signInWithRedirect } from "aws-amplify/auth";
 import { v4 as uuidv4 } from "uuid";
+import { signOut } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+
 const GoogleOneTap = () => {
+  const router = useRouter();
+
   const randomid = uuidv4();
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
@@ -21,11 +26,9 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function callRegisterfunction() {
-      console.log("inside the ccallRegisterfuncti");
       try {
         const cookieval = getCookieValue("Signinonetap");
         if (cookieval === "true") {
-          console.log("inside the cookieval from the ");
           const session: any = await fetchAuthSession();
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
@@ -43,13 +46,50 @@ const GoogleOneTap = () => {
           );
 
           if (!response.ok) {
-            console.error("Failed to register user:", response.statusText);
+            await signOut({ global: true });
+            router.push("/degrees/userLogin.html?e=logout");
           } else {
             const res = await response.json();
             if (res.message.toLowerCase() === "user updated") {
               console.log(res, "User updated successfully");
             } else {
-              console.log(res, "User registered successfully");
+              try {
+                const session: any = await fetchAuthSession();
+                const clickstreamresponse = await fetch(
+                  `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/logs/clickstream`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                      tracksessionid: getCookieValue("trackSessionId"),
+                      authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
+                    },
+                    body: JSON.stringify({
+                      networkId: 2,
+                      affiliateId: 220703,
+                      userloggedIn: "Y",
+                      functionalityName: "Sign Up",
+                      signupMethod: "Google",
+                      siteName: "Whatuni",
+                      eventType: "UserRegistered",
+                      refererURL: window.location.href,
+                      pageName: "home",
+                      actionType: "Interaction",
+                      siteLanguage: "English",
+                      sessionTrackId: getCookieValue("trackSessionId"),
+                      isMobileUser: `${window.innerWidth < 1024 ? "Y" : "N"}`,
+                      screenResolution:
+                        window.innerWidth ||
+                        document.documentElement.clientWidth ||
+                        document.body.clientWidth,
+                      CTATitle: "Continue with Google",
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error("Error during clickstream logging:", error);
+              }
             }
           }
           document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
@@ -61,7 +101,6 @@ const GoogleOneTap = () => {
     callRegisterfunction();
 
     async function watchForCognitoCookie() {
-      console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
       signInWithRedirect({
         provider: "Google",
