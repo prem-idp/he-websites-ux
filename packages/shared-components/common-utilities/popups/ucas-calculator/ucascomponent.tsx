@@ -448,6 +448,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           );
           const jsonData = await response.json();
           if (jsonData == "updated") {
+            document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
             document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
             setFirstTimeUser(false);
             setQualCopy(qual);
@@ -461,6 +462,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         } else {
           setApplybtn("Apply");
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
+          document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
           setFirstTimeUser(false);
           setQualCopy(qual);
         }
