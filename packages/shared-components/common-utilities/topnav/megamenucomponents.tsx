@@ -164,7 +164,7 @@ const Megamenucomponents = ({ data }: any) => {
                               onMouseLeave={
                                 !isMobile ? () => setOpenMenu(false) : undefined
                               }
-                              className={`grid grid-cols-1 lg:grid-cols-4 lg:gap-[16px] p-[0] lg:p-[24px]`}
+                              className={`grid grid-cols-1 lg:grid-cols-4 lg:gap-[20px] p-[0] lg:p-[24px_0]`}
                             >
                               {menuItem.navChildC1Collection.items.length > 1 &&
                                 Megamenuoptions(

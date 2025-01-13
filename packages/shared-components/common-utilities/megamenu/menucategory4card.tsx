@@ -31,7 +31,7 @@ const Menucategory4card = ({
         }
       </div>
       <ul
-        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[16px] p-[16px] lg:p-[0] bg-white`}
+        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[8px] p-[16px] lg:p-[0] bg-white`}
       >
         {data
           ?.filter(
@@ -86,12 +86,12 @@ const Menucategory4card = ({
                 }
                 className="block"
               >
-                <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
+                <div className="megamenu-image-card min-h-[108px] max-h-[108px]  relative z-0 overflow-hidden">
                   <Image
                     className="w-full"
                     src={item?.navIcon?.url || ""}
                     width="289"
-                    height="224"
+                    height="108"
                     alt="University logo"
                   />
                   <div className="overlay absolute z-0 top-0 left-0 right-0 bottom-0 bg-gradientBlack1"></div>
