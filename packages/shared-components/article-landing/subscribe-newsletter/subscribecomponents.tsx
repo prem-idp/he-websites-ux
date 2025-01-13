@@ -73,9 +73,9 @@ const Subscribecomponents = () => {
                   {jsondata?.data?.newsLetterData?.items[0]?.newsTitle}
                 </div>
                 <p className="font-normal small md:text-center">
-                  {documentToReactComponents(
+                  {/* {documentToReactComponents(
                     jsondata?.data?.newsLetterData?.items[0]?.newsDesc?.json
-                  )}
+                  )} */}
                 </p>
               </div>
               {success && (
