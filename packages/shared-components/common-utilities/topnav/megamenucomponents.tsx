@@ -80,7 +80,7 @@ const Megamenucomponents = ({ data }: any) => {
                       ? () => handleMenuToggle(`menu${index}`)
                       : undefined
                   }
-                  className={`flex justify-between items-center px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 hover:bg-neutral300 lg:hover:bg-transparent lg:bg-transparent 
+                  className={`flex justify-between items-center min-h-[64px] px-[16px] py-[10px] lg:py-[26px] lg:px-[12px] font-semibold para text-grey300 bg-neutral100 lg:hover:bg-transparent lg:bg-transparent 
                         lg:hover:shadow-custom-7`}
                 >
                   {menuItem?.navTitle}

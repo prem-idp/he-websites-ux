@@ -6,7 +6,7 @@ import Megamenucomponents from "@packages/shared-components/common-utilities/top
 import User from "@packages/shared-components/common-utilities/header/user/user";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
-import { getInitialsFromJWT } from "@packages/lib/utlils/helper-function";
+import { getCookie } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 // import Search from "@packages/shared-components/common-utilities/header/search-pod/header-search";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -19,7 +19,7 @@ interface props {
 const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const router = useRouter();
   const [initial, setInitial] = useState<any>("");
-  const [profilepic, setProfilepic] = useState<any>("");
+
   const [basketCount, setBasketCount] = useState<any>(0);
   const [isAuthenticated, setIsAuthenticated] = useState("false");
   const [isMobileView, setIsMobile] = useState(true);
@@ -34,6 +34,19 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
   const userref = useRef<HTMLSpanElement | null>(null);
   const shortlistref = useRef<HTMLSpanElement | null>(null);
   const pathname = usePathname();
+  const getUserInitials = (firstName: any, lastName: any) => {
+    let initials = "";
+
+    if (firstName && firstName.length > 1) {
+      initials += firstName.charAt(0);
+    }
+
+    if (lastName && lastName.length > 1) {
+      initials += lastName.charAt(0);
+    }
+
+    return initials;
+  };
 
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
@@ -45,11 +58,13 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
-            setProfilepic(session?.tokens?.idToken?.payload?.picture);
             setIsAuthenticated("true");
             const user_initial = getCookieValue("USER_INITIAL");
             if (!user_initial && session.tokens.idToken) {
-              const user_initial = getInitialsFromJWT(session.tokens.idToken);
+              const user_initial = getUserInitials(
+                session.tokens.idToken?.payload?.given_name,
+                session.tokens.idToken?.payload?.family_name
+              );
               setInitial(user_initial);
             } else {
               setInitial(user_initial);
@@ -101,8 +116,16 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     if (process.env.PROJECT === "Whatuni") {
       fetchUser();
     } else {
-      setIsAuthenticated("false");
+      const user_initial = getCookieValue("pgs_auth") || "";
+      const basket_count = getCookieValue("pgs_bskt_cnt") || 0;
+      const pgs_x = getCookieValue("pgs_x") || 0;
+      if (user_initial !== "null" && user_initial && pgs_x) {
+        setIsAuthenticated("true");
+        setInitial(user_initial);
+        setBasketCount(basket_count);
+      }
     }
+
     // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
     emitter.on("rightMenuActionclose", handleRightMenuAction);
@@ -167,11 +190,16 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
     <>
       <header className="bg-white pl-[16px] pr-[21px]  md:px-[20px] xl2:px-0">
         <div className="max-w-container mx-auto flex items-center ">
-          <div className="order-2 md:grow md:basis-[100%] lg:order-1 lg:grow-0 lg:basis-[54px] py-[4px] lg:py-[8px]">
-            <a href="/">
+          <div
+            className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
+          >
+            <a
+              href="/"
+              className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
+            >
               {topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url && (
                 <Image
-                  className="md:w-[54px] lg:w-full md:mx-auto lg:mx-0"
+                  className={`w-full md:mx-auto lg:mx-0`}
                   src={
                     topnav_data?.data?.contentData?.items[0]?.websiteLogo?.url
                   }
@@ -217,9 +245,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
 
                 <div
                   className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
-                    isOpen
-                      ? "animate-fadeInLeft"
-                      : "-translate-x-full duration-300"
+                    isOpen ? "" : "-translate-x-full duration-300"
                   } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
@@ -316,15 +342,7 @@ const Header = ({ topnav_data, course_data, uni_data }: props) => {
                   }
                   className="relative border border-gray-500 rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer hover:border-primary-500 hover:bg-primary-500"
                 >
-                  {initial && isAuthenticated === "true" && profilepic ? (
-                    <Image
-                      src={profilepic}
-                      alt=" profile pic"
-                      width={48}
-                      height={48}
-                      className="relative rounded-[40px] flex items-center justify-center w-[48px] h-[48px]"
-                    />
-                  ) : initial && isAuthenticated === "true" ? (
+                  {initial && isAuthenticated === "true" ? (
                     <span className="relative para font-semibold text-white rounded-[34px] flex items-center justify-center w-[48px] h-[48px] cursor-pointer bg-primary-400 hover:bg-primary-500">
                       {initial.toUpperCase()}
                     </span>

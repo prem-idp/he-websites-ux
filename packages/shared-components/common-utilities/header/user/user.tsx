@@ -6,16 +6,38 @@ import awsconfig from "../../../../../apps/whatuni/configs/amplifyconfiguration"
 Amplify.configure(awsconfig, { ssr: true });
 export default function User({ topnav_data }: any) {
   async function clearAllCookies() {
-    console.log("clearcookies trigered");
-    try {
-      sessionStorage.clear();
-      document.cookie =
-        "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    if (process.env.PROJECT === "Whatuni") {
+      try {
+        sessionStorage.clear();
+        document.cookie =
+          "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-      await signOut({ global: true }); // Wait for the signOut process to complete
-      window.location.href = "/"; // Force a full reload to the home page
-    } catch (error) {
-      console.error("Error signing out:", error); // Handle errors if signOut fails
+        await signOut({ global: true }); // Wait for the signOut process to complete
+        window.location.href = "/"; // Force a full reload to the home page
+      } catch (error) {
+        console.error("Error signing out:", error); // Handle errors if signOut fails
+      }
+    } else {
+      document.cookie = `pgs_auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      document.cookie = `pgs_bskt_cnt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      document.cookie = `pgs_x=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+
+      setTimeout(() => {
+        const cookies: any = document.cookie
+          .split(";")
+          .reduce((acc: any, cookie: any) => {
+            const [key, value] = cookie
+              .split("=")
+              .map((part: any) => part.trim());
+            acc[key] = value;
+            return acc;
+          }, {});
+
+        if (!cookies["pgs_auth"] && !cookies["pgs_bskt_cnt"]) {
+          // Redirect only if cookies are deleted
+          window.location.href = "/";
+        }
+      }, 100);
     }
   }
   const userprofile =
@@ -34,18 +56,17 @@ export default function User({ topnav_data }: any) {
                   : "mb-[16px] hover:underline"
               }
             >
-              {item?.navTitle?.toLowerCase() === "logout" ? (
-                <button
-                  className="font-normal small"
-                  onClick={() => clearAllCookies()}
-                >
-                  {item?.navTitle}
-                </button>
-              ) : (
-                <a href={item?.navUrl || ""} className="font-normal small">
-                  {item?.navTitle}
-                </a>
-              )}
+              <a
+                href={item?.navUrl || ""}
+                className="font-normal small"
+                onClick={() =>
+                  item?.navTitle?.toLowerCase() === "logout"
+                    ? clearAllCookies()
+                    : ""
+                }
+              >
+                {item?.navTitle}
+              </a>
             </li>
           ))}
         </ul>
