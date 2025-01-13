@@ -71,7 +71,7 @@ const Menucategory5card = ({
               }
               className="block bg-neutral-200 "
             >
-              <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
+              <div className="megamenu-image-card  min-h-[224px] max-h-[224px] relative z-0 overflow-hidden">
                 {item?.navIcon?.url && (
                   <Image
                     className="w-full"
