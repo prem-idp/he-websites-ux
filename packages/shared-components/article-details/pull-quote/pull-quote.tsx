@@ -4,7 +4,7 @@ const Pullquote = () => {
   return (
 <div className="border-x-8 border-blue-200 p-[16px] bg-blue-50 text-grey300 flex flex-col gap-[8px]">
       <p>
-        <q className='pull-quotes text-heading6 font-inter font-medium'>
+        <q className='pull-quotes text-heading6 font-farro  font-noraml'>
         Empowering our students goes beyond the classroom; it's about fostering the skills, resilience,
         and curiosity that will propel them into a world of endless
       </q>
