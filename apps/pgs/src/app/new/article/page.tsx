@@ -10,7 +10,7 @@ const page = async () => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0];
-  console.log("banner", bannerData);
+  // console.log("banner", bannerData);
   return (
     <div className="article_landing">
       {componentList?.map(

@@ -17,7 +17,7 @@ const Articlesnippetcomponents = async ({
   );
   const data = (await graphQlFetchFunction(query))?.data?.contentData?.items[0]
     ?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items[0];
-  console.log(data?.longDescription?.json?.content[0]?.content[0].value);
+  // console.log(data?.longDescription?.json?.content[0]?.content[0].value);
   return (
     <div className="articlesnippet-container bg-white">
       <div className="max-w-container mx-auto">
