@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 import Script from "next/script";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
@@ -90,6 +91,7 @@ export default async function RootLayout({
         />
         <HeaderWrapper />
         {children}
+        <Subscribecomponents />
         <Footer />
       </body>
     </html>

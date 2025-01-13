@@ -13,18 +13,18 @@ const Menucategory5card = ({
   parentMenu: any;
 }) => {
   const navTitle = data?.find(
-    (item: any) => item.flagNavItemStyle === "L2 Text"
+    (item: any) => item?.flagNavItemStyle === "L2 Text"
   )?.navTitle;
   return (
     <div className="dropdown-content-col flex flex-col gap-[8px] lg:gap-[16px]">
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
         {
-          data?.find((item: any) => item.flagNavItemStyle === "L2 Text")
+          data?.find((item: any) => item?.flagNavItemStyle === "L2 Text")
             ?.navTitle
         }
       </div>
       <ul className="flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white grid lg:grid-cols-1">
-        {data.slice(1).map((item: any, index: any) => (
+        {data?.slice(1)?.map((item: any, index: any) => (
           <li key={index}>
             <a
               href={item?.navUrl || ""}
@@ -58,7 +58,7 @@ const Menucategory5card = ({
                   "NA",
                   "NA",
                   `${process.env.PROJECT}`,
-                  item.navTitle,
+                  item?.navTitle,
                   item?.navUrl,
                   parentMenu,
                   navTitle
@@ -71,7 +71,7 @@ const Menucategory5card = ({
               }
               className="block bg-neutral-200 "
             >
-              <div className="megamenu-image-card  min-h-[224px] relative z-0 overflow-hidden">
+              <div className="megamenu-image-card  min-h-[224px] max-h-[224px] relative z-0 overflow-hidden">
                 {item?.navIcon?.url && (
                   <Image
                     className="w-full"
