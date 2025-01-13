@@ -31,7 +31,7 @@ const Menucategory4card = ({
         }
       </div>
       <ul
-        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[16px] p-[16px] lg:p-[0] bg-white`}
+        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[8px] p-[16px] lg:p-[0] bg-white`}
       >
         {data
           ?.filter(
@@ -86,7 +86,7 @@ const Menucategory4card = ({
                 }
                 className="block"
               >
-                <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
+                <div className="megamenu-image-card min-h-[108px] max-h-[108px]  relative z-0 overflow-hidden">
                   {item?.navIcon?.url && (
                     <Image
                       className="w-full"

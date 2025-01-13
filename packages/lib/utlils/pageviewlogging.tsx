@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-import { GoogleAnalytics } from "nextjs-google-analytics";
 import {
   GADataLayerFn,
   currentAuthenticatedUser,
@@ -14,25 +13,50 @@ interface PageViewLoggingProps {
     pageName: string;
   };
 }
- const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
+const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData }) => {
   const { pageName, website } = gaData;
   useEffect(() => {
     //Clickstream pageview
     //sendClickStreamData(attributeValues);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('gaPageName', pageName);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("gaPageName", pageName);
     }
-    const GAData = async() => { 
-      GADataLayerFn("pageview", "NA", "NA", "NA", "NA", "NA", pageName, "NA","NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "in_year", await currentAuthenticatedUser(), "NA", "NA", "NA", "NA", "NA","NA",website,"NA","NA","NA","NA");  
-   }
-   GAData();
-}, []); 
-  return (
-    <>         
-    </>
-  );
-}
+    const GAData = async () => {
+      GADataLayerFn(
+        "pageview",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        pageName,
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "in_year",
+        await currentAuthenticatedUser(),
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        "NA",
+        website,
+        "NA",
+        "NA",
+        "NA",
+        "NA"
+      );
+    };
+    GAData();
+  }, []);
+  return <></>;
+};
 
 export default PageViewLogging;
-
-

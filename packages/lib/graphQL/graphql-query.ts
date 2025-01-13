@@ -7,7 +7,7 @@ export const Seoquery = `{
       seoFields {
         metaTite
         metaDescription
-         metaKeywords
+        metaKeywords
         canonical
       }
       robots {

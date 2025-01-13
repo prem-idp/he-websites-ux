@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import DynamicSkeleton from "./skeletons";
-
 const dynamicComponentImports = (input: string | null | undefined) => {
   if (!input) {
     return null;
@@ -52,31 +51,46 @@ const dynamicComponentImports = (input: string | null | undefined) => {
           import("@packages/shared-components/home/reviews/reviewscomponents"),
         { loading: () => <DynamicSkeleton skeletonName={input} /> }
       );
-    // case "NewsLetter":
-    //   return dynamic(
-    //     () =>
-    //       import(
-    //         "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents"
-    //       )
-    //   );
-    // case "EligibilityCriteria":
-    //   return dynamic(
-    //     () =>
-    //       import(
-    //         "@packages/shared-components/article-landing/eligibility-criteria/eligibilitycriteriacomponents"
-    //       )
-    //   );
-    // case "HeroBanner":
-    //   return dynamic(
-    //     () =>
-    //       import(
-    //         "@packages/shared-components/common-utilities/colc-banner/colc-banner"
-    //       )
-    //   );
+
+    case "EligibilityCriteria":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/article-landing/eligibility-criteria/eligibilitycriteriacomponents"
+          )
+      );
+    case "HeroBanner":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/common-utilities/colc-banner/colc-banner"
+          )
+      );
+    case "TextSnippet":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/common-utilities/article-snippet/articlesnippetcomponents"
+          )
+      );
+    case "Links":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/common-utilities/article-link/articlelinkcomponents"
+          )
+      );
+    case "Faqs":
+      return dynamic(
+        () =>
+          import(
+            "@packages/shared-components/common-utilities/faq/faqcomponents"
+          )
+      );
     case "pageviewlog":
       return dynamic(() => import("@packages/lib/utlils/pageviewlogging"));
     default:
-      throw new Error(`Unsupported input: ${input}`);
+      return null;
   }
 };
 export default dynamicComponentImports;
