@@ -13,12 +13,13 @@ const GoogleOneTapPgs = () => {
   }
 
   async function extractdetailsforregister(text: any) {
+    console.log("inside the extractdetailsforregister");
     const parts = text.toString().split("##SPLIT##");
     if (parts) {
       const initial =
-        parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : " ";
-      const count = parts[2] || " ";
-      const sessionId = parts[3] || " ";
+        parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : "";
+      const count = parts[2] || "";
+      const sessionId = parts[3] || "";
       if (initial) {
         setCookie("pgs_auth", initial, 7);
       }
@@ -28,7 +29,10 @@ const GoogleOneTapPgs = () => {
       if (sessionId) {
         setCookie("pgs_x", sessionId, 7);
       }
-      if (initial && sessionId) {
+      const sessionIdtolog = sessionId ? sessionId : getCookieValue("pgs_x");
+      console.log(sessionIdtolog, "session id for logging");
+      if (sessionIdtolog) {
+        console.log(sessionIdtolog, "inside the if ");
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/logs/clickstream`,
@@ -37,7 +41,7 @@ const GoogleOneTapPgs = () => {
               headers: {
                 "Content-Type": "application/json",
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-                tracksessionid: sessionId,
+                tracksessionid: sessionIdtolog,
               },
               body: JSON.stringify({
                 affiliateId: 607022,
@@ -51,7 +55,7 @@ const GoogleOneTapPgs = () => {
                 pageName: "home",
                 actionType: "Interaction",
                 siteLanguage: "English",
-                sessionTrackId: sessionId,
+                sessionTrackId: sessionIdtolog,
                 isMobileUser: `${window.innerWidth < 1024 ? "Y" : "N"}`,
                 screenResolution:
                   window.innerWidth ||

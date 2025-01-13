@@ -10,7 +10,7 @@ const GoogleOneTap = () => {
   const router = useRouter();
 
   const randomid = uuidv4();
-  const tracksessionid = uuidv4().replace(/\D/g, "");
+  const tracksession_id = uuidv4().replace(/\D/g, "").slice(0, 8);
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
   function getCookieValue(name: any) {
@@ -63,7 +63,7 @@ const GoogleOneTap = () => {
                     headers: {
                       "Content-Type": "application/json",
                       "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-                      tracksessionid: tracksessionid,
+                      tracksessionid: tracksession_id,
                       authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
                     },
                     body: JSON.stringify({
@@ -78,7 +78,7 @@ const GoogleOneTap = () => {
                       pageName: "home",
                       actionType: "Interaction",
                       siteLanguage: "English",
-                      sessionTrackId: tracksessionid,
+                      sessionTrackId: tracksession_id,
                       isMobileUser: `${window.innerWidth < 1024 ? "Y" : "N"}`,
                       screenResolution:
                         window.innerWidth ||
