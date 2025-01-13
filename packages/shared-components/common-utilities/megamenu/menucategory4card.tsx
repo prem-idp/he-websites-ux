@@ -13,11 +13,11 @@ const Menucategory4card = ({
   parentMenu: any;
 }) => {
   const calculate = () =>
-    data.length - 1 <= 2 ? 1 : Math.ceil((data.length - 1) / 2);
+    data?.length - 1 <= 2 ? 1 : Math.ceil((data?.length - 1) / 2);
 
   const size = calculate();
   const navTitle = data?.find(
-    (item: any) => item.flagNavItemStyle === "L2 Text"
+    (item: any) => item?.flagNavItemStyle === "L2 Text"
   )?.navTitle;
 
   return (
@@ -26,7 +26,7 @@ const Menucategory4card = ({
     >
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
         {
-          data?.find((item: any) => item.flagNavItemStyle === "L2 Text")
+          data?.find((item: any) => item?.flagNavItemStyle === "L2 Text")
             ?.navTitle
         }
       </div>
@@ -35,9 +35,9 @@ const Menucategory4card = ({
       >
         {data
           ?.filter(
-            (item: any) => item.flagNavItemStyle !== "L2 Text" // Exclude the L2 Text item
+            (item: any) => item?.flagNavItemStyle !== "L2 Text" // Exclude the L2 Text item
           )
-          .map((item: any, index: number) => (
+          ?.map((item: any, index: number) => (
             <li key={index}>
               <a
                 href={item?.navUrl || ""}
@@ -73,7 +73,7 @@ const Menucategory4card = ({
                     "NA",
                     "NA",
                     `${process.env.PROJECT}`,
-                    item.navTitle,
+                    item?.navTitle,
                     item?.navUrl,
                     parentMenu,
                     navTitle
