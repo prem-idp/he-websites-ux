@@ -16,7 +16,7 @@ const Subscribecomponents = () => {
   const path = usePathname();
   const arr = path.split("/");
   const routename = arr[arr.length - 1];
-  console.log(routename);
+  // console.log(routename);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
@@ -61,7 +61,7 @@ const Subscribecomponents = () => {
       setSuccess(true);
     }
   };
-  console.log(jsondata?.data?.newsLetterData?.items[0]?.newsTitle);
+  // console.log(jsondata?.data?.newsLetterData?.items[0]?.newsTitle);
   return (
     <>
       {routename !== "article-detail" && (

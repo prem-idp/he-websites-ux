@@ -361,7 +361,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       return false;
     }
   };
-  console.log(qual);
+  // console.log(qual);
   const updateUcas = async () => {
     setApplybtn("Applying...");
     const validation = validateTotalCredit();
@@ -462,7 +462,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           }
         } else {
           setApplybtn("Apply");
-          console.log(qual[0]);
+          // console.log(qual[0]);
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
           document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
           setFirstTimeUser(false);

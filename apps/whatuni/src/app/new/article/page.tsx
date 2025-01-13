@@ -10,7 +10,7 @@ const page = async () => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log(componentList);
+  // console.log(componentList);
   return (
     <div className="article_landing">
       {bannerData && <ColcBanner data={bannerData} routename={"/advice"} />}
