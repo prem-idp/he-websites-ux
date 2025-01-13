@@ -37,7 +37,7 @@ const GoogleOneTapPgs = () => {
               headers: {
                 "Content-Type": "application/json",
                 "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-                tracksessionid: getCookieValue("trackSessionId"),
+                tracksessionid: sessionId,
               },
               body: JSON.stringify({
                 affiliateId: 607022,
