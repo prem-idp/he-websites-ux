@@ -76,7 +76,11 @@ export default function OneTrustCookieScript({
         `cookie_splash_flag=${encodeURI(formattedDate)}; path=/; secure`
       );
     }
-    setNewCookie(`cookieconsent_v1=${cookieConsentVal}; path=/; secure`);
+    if (process.env.PROJECT == "Whatuni") {
+      setNewCookie(`cookieconsent=${cookieConsentVal}; path=/; secure`);
+    } else {
+      setNewCookie(`cookieconsent_v1=${cookieConsentVal}; path=/; secure`);
+    }
 
     // if (bannerCheck == "bannerExist") {
     // 	var limitedAdStatus = targetCK == "0" ? true : false;
