@@ -2,7 +2,7 @@ export const ArticleLandingPageQuery = `
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
      bannerImage {
