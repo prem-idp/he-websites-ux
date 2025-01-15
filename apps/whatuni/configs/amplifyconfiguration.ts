@@ -17,14 +17,8 @@ const awsconfig: any = {
           redirectSignIn: [
             "https://www.whatuni.com",
             "https://www.whatuni.com/home",
-            "https://www.whatuni.com/home",
-            "https://www.whatuni.com",
           ],
           redirectSignOut: [
-            "https://www.whatuni.com",
-
-            "https://www.whatuni.com/home",
-
             "https://www.whatuni.com/home",
             "https://www.whatuni.com",
           ],
