@@ -15,22 +15,18 @@ const awsconfig: any = {
             //'aws.cognito.signin.user.admin'
           ],
           redirectSignIn: [
-            "http://localhost:3000",
-            "https://mdev.dev.aws.whatuni.com",
-
-            "https://mdev.dev.aws.whatuni.com/home",
-
-            "https://mtest.test.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com",
+            "https://www.whatuni.com",
+            "https://www.whatuni.com/home",
+            "https://www.whatuni.com/home",
+            "https://www.whatuni.com",
           ],
           redirectSignOut: [
-            "http://localhost:3000",
-            "https://mdev.dev.aws.whatuni.com",
+            "https://www.whatuni.com",
 
-            "https://mdev.dev.aws.whatuni.com/home",
+            "https://www.whatuni.com/home",
 
-            "https://mtest.test.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com",
+            "https://www.whatuni.com/home",
+            "https://www.whatuni.com",
           ],
           responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
         },
