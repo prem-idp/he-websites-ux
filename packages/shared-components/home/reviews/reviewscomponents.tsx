@@ -46,7 +46,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                 <ClickTrackerWrapper
                   gaData={{
                     event: "ga_contentful_events",
-                    eventName: "university_reviews",
+                    eventName: `${callAction?.primaryCtaEventName}`,
                     ctaTitle: `${callAction?.primaryCtaLabel}`,
                     ctaUrl: `${callAction?.primaryCtaUrl}`,
                     website: `${process.env.PROJECT}`,
