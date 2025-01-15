@@ -6,7 +6,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
-const page = async ({ params, searchParams }: any) => {
+const page = async ({ searchParams }: any) => {
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -15,6 +15,8 @@ const page = async ({ params, searchParams }: any) => {
     HeroLandingPageQuery(iscontentPreview),
     iscontentPreview
   );
+  const q = HeroLandingPageQuery(iscontentPreview);
+  console.log("query", q);
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;

@@ -4,8 +4,8 @@ export const HeroLandingPageQuery = (preview: boolean) => {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
     where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}
+    }
      ${preview ? `preview : ${preview}` : ""}
-     }
   ) {
     items {
     sys {
