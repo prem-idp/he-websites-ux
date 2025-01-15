@@ -1,7 +1,10 @@
 "use server";
 import React from "react";
 import Image from "next/image";
+import { ContentfulField } from "../../../../apps/whatuni/src/app/advice/[hero]/client-com";
+
 const ColcBanner = async ({ data, routename }: any) => {
+  console.log(data);
   return (
     <>
       {data && (
@@ -10,6 +13,10 @@ const ColcBanner = async ({ data, routename }: any) => {
             <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[24px_20px] lg:py-0 xl:px-0 min-h-[194px]">
               <div className="flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
                 <div className="flex flex-col gap-[4px]">
+                  <ContentfulField
+                    entryId={data.sys.id}
+                    fieldId="title"
+                  ></ContentfulField>
                   <h1 className="text-heading1 md:text-heading-xl">
                     {data?.title}
                   </h1>
@@ -52,8 +59,8 @@ const ColcBanner = async ({ data, routename }: any) => {
                 {data?.image?.imgUpload?.url && (
                   <Image
                     src={data?.image?.imgUpload?.url}
-                    width={routename === "/advice" ? 205 : 150}
-                    height={routename === "/advice" ? 260 : 150}
+                    width={205}
+                    height={260}
                     priority
                     alt={data?.image?.imgAltText}
                   />

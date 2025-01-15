@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { ArticleLandingPageQuery } from "@packages/lib/graphQL/article-landing";
+import { HeroLandingPageQuery } from "@packages/lib/graphQL/article-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";

@@ -1,11 +1,20 @@
-export const ArticleLandingPageQuery = `
+export const HeroLandingPageQuery = (preview: boolean) => {
+  return `
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}
+     ${preview ? `preview : ${preview}` : ""}
+     }
   ) {
     items {
+    sys {
+         id
+        }
      bannerImage {
+        sys {
+         id
+        }
         internalName
         title
         subTitle
@@ -21,6 +30,9 @@ export const ArticleLandingPageQuery = `
       }
       bodyContentCollection(limit: 10) {
         items {
+             sys {
+         id
+        }
           internalName
           cardSectionTitle
           flagComponentStyle
@@ -38,6 +50,8 @@ export const ArticleLandingPageQuery = `
   }
 }
 `;
+};
+
 export const ArticleLandingSeoQuery = `{
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1

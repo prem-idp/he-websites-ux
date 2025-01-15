@@ -1,28 +1,29 @@
 "use server";
 import React from "react";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { ArticleLandingPageQuery } from "@packages/lib/graphQL/article-landing";
+import { HeroLandingPageQuery } from "@packages/lib/graphQL/article-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
 const page = async ({ params, searchParams }: any) => {
   const searchparams = await searchParams;
+  const iscontentPreview =
+    searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
 
-  const jsondata = await graphQlFetchFunction(ArticleLandingPageQuery);
+  const jsondata = await graphQlFetchFunction(
+    HeroLandingPageQuery(iscontentPreview),
+    iscontentPreview
+  );
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
-      enableInspectorMode={
-        searchparams?.preview === "MY_SECRET_TOKEN" ? true : false
-      }
-      enableLiveUpdates={
-        searchparams?.preview === "MY_SECRET_TOKEN" ? true : false
-      }
-      debugMode={searchparams?.preview === "MY_SECRET_TOKEN" ? true : false}
+      enableInspectorMode={iscontentPreview}
+      enableLiveUpdates={iscontentPreview}
+      debugMode={iscontentPreview}
     >
       <div className="article_landing">
         {bannerData && <ColcBanner data={bannerData} routename={"/advice"} />}

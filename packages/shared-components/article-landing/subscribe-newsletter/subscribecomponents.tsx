@@ -1,10 +1,9 @@
 "use client";
 import Subscribebtn from "@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn";
 import Link from "next/link";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { NewsletterQuery } from "@packages/lib/graphQL/article-landing";
 import { usePathname } from "next/navigation";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 const Subscribecomponents = () => {
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
