@@ -13,7 +13,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName }) => {
     <ClickTrackerWrapper
       gaData={{
         event: "ga_contentful_events",
-        eventName: "review_event",
+        eventName: "university_reviews",
         ctaTitle: "NA",
         ctaUrl: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
         website: `${process.env.PROJECT}`,
