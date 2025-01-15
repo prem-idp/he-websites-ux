@@ -2,11 +2,25 @@
 import React from "react";
 import Image from "next/image";
 import { ContentfulField } from "../../../../apps/whatuni/src/app/advice/[hero]/client-com";
-
+import { ContentfulInspectorManager } from "../../../../apps/whatuni/src/app/advice/[hero]/ContentfulInspector";
 const ColcBanner = async ({ data, routename }: any) => {
   console.log(data);
   return (
     <>
+     <ContentfulInspectorManager
+        fields={[
+          {
+            entryId: data.sys.id,
+            fieldId: 'title',
+            targetSelector: '#title-element'
+          },
+          {
+            entryId: data.sys.id,
+            fieldId: 'subTitle',
+            targetSelector: '#description-element'
+          }
+        ]}
+      />
       {data && (
         <section className="bg-blue-100">
           <div className="max-w-container mx-auto">
@@ -17,10 +31,15 @@ const ColcBanner = async ({ data, routename }: any) => {
                     entryId={data.sys.id}
                     fieldId="title"
                   ></ContentfulField>
-                  <h1 className="text-heading1 md:text-heading-xl">
+                  <h1 className="text-heading1 md:text-heading-xl" id="title-element">
                     {data?.title}
                   </h1>
-                  <p className="small">
+                  {/* <ContentfulInspector
+                  entryId={data.sys.id}
+                  fieldId="title"
+                  targetSelector="#title-element">
+                  </ContentfulInspector> */}
+                  <p className="small" id="description-element">
                     {data?.longDescription} Lorem, ipsum dolor sit amet
                     consectetur adipisicing elit. Adipisci, maxime quidem
                     quaerat aspernatur doloribus aliquid magni minus

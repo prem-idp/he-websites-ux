@@ -20,6 +20,7 @@ const page = async ({ searchParams }: any) => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
+  console.log("bannerData", bannerData);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"

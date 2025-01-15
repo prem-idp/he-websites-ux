@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const fetchDest = request.headers.get("sec-fetch-dest");
   let query;
   if (fetchDest === "iframe") {
-    query = slug + "?preview=true";
+    query = slug + "?preview=MY_SECRET_TOKEN";
   } else {
     query = slug;
   }
@@ -49,6 +49,8 @@ export async function GET(request: Request) {
     secure: true,
     sameSite: "none",
   });
+
+  console.log(query,'query54');
 
   redirect(`${query}`);
 }
