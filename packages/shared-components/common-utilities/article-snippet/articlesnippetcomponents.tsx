@@ -1,0 +1,35 @@
+"use server";
+import React from "react";
+import TextToggleComponent from "./text-toggle-comp";
+import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { ArticleTextSnippet } from "@packages/lib/graphQL/article-landing";
+import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
+const Articlesnippetcomponents = async ({
+  internalName,
+  routename,
+  contentModelName,
+}: any) => {
+  const query = homePageComponentQueryFormation(
+    internalName,
+    ArticleTextSnippet,
+    routename,
+    contentModelName
+  );
+  const data = (await graphQlFetchFunction(query))?.data?.contentData?.items[0]
+    ?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items[0];
+  // console.log(data?.longDescription?.json?.content[0]?.content[0].value);
+  return (
+    <div className="articlesnippet-container bg-white">
+      <div className="max-w-container mx-auto">
+        <div className="articlesnippet-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px] md:py-[64px]">
+          {data?.title && <div className="h5">{data?.title}</div>}
+          <TextToggleComponent
+            text={data?.longDescription?.json?.content[0]?.content[0].value}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Articlesnippetcomponents;
