@@ -40,7 +40,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     );
   return (
     <>
-      {iscontentPreview && (
+      {/* {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -55,7 +55,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
             },
           ]}
         />
-      )}
+      )} */}
       {statsData && (
         <Suspense>
           <section className="wusca-container">

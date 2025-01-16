@@ -6,7 +6,7 @@ import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/Con
 const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
   return (
     <>
-      {iscontentPreview && (
+      {/* {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -26,7 +26,7 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
             },
           ]}
         />
-      )}
+      )} */}
       <Link
         href=""
         className="card group flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden p-[16px] gap-[16px]"

@@ -34,7 +34,7 @@ const Testimonialcomponents = async ({
   console.log("testimoniallll", contentfullData);
   return (
     <>
-      {iscontentPreview && (
+      {/* {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -54,7 +54,7 @@ const Testimonialcomponents = async ({
             },
           ]}
         />
-      )}
+      )} */}
       <section className="testimonials-container">
         <div className="max-w-container mx-auto">
           <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">

@@ -4,7 +4,7 @@ import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/Con
 const Ctabutton = ({ cta, sysId, iscontentPreview }: any) => {
   return (
     <>
-      {iscontentPreview && (
+      {/* {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -14,7 +14,7 @@ const Ctabutton = ({ cta, sysId, iscontentPreview }: any) => {
             },
           ]}
         />
-      )}
+      )} */}
       <button
         type="button"
         id="cta_btn"
