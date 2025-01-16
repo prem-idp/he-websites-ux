@@ -43,15 +43,16 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                 data-review-count={jsonResponse.reviewDetail.length}
               />
               <div className="flex justify-center mt-[16px] lg:mt-[28px]">
-              <ClickTrackerWrapper   gaData={{
-                        event: "ga_contentful_events",
-                        eventName:`${callAction?.primaryCtaEventName}`,
-                        ctaTitle: `${callAction?.primaryCtaLabel}`,
-                        ctaUrl: `${callAction?.primaryCtaUrl}`,
-                        website:`${process.env.PROJECT}`,
-                        pageName:pageName,
-                      }}
-                      >
+                <ClickTrackerWrapper
+                  gaData={{
+                    event: "ga_contentful_events",
+                    eventName: `${callAction?.primaryCtaEventName}`,
+                    ctaTitle: `${callAction?.primaryCtaLabel}`,
+                    ctaUrl: `${callAction?.primaryCtaUrl}`,
+                    website: `${process.env.PROJECT}`,
+                    pageName: pageName,
+                  }}
+                >
                   <a
                     href={`${callAction?.primaryCtaUrl}`}
                     className="flex items-center w-fit font-semibold para text-primary-400 hover:underline gap-[8px]"

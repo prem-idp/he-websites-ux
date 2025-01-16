@@ -386,6 +386,7 @@ export const tagCloudQuery = `
 ... on PageTagCloud {
 tagName
 tagUrl
+eventName
 }`;
 
 export const partnerLogo = `
