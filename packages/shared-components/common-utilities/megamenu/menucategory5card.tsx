@@ -24,7 +24,7 @@ const Menucategory5card = ({
         }
       </div>
       <ul className="flex flex-col gap-[16px] p-[16px] lg:p-[0] bg-white grid lg:grid-cols-1">
-        {data.slice(1).map((item: any, index: any) => (
+        {data?.slice(1).map((item: any, index: any) => (
           <li key={index}>
             <a
               href={item?.navUrl || ""}

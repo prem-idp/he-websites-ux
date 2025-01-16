@@ -18,7 +18,8 @@ const page = async ({ searchParams }: any) => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-
+  console.log("component list", componentList);
+  console.log(iscontentPreview);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"

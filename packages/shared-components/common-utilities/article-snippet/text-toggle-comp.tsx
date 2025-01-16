@@ -6,7 +6,7 @@ const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
-  const truncatedText = text.slice(0, 550);
+  const truncatedText = text?.slice(0, 550);
   return (
     <>
       {iscontentPreview && (
