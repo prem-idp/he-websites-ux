@@ -434,6 +434,7 @@ export interface MultipleCardContainer {
 export interface TagCloudDataInterface {
   tagName: string;
   tagUrl: string | null;
+  eventName: string | null;
 }
 
 export interface HomePageInterface {

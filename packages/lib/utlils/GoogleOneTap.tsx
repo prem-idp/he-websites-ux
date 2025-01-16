@@ -3,8 +3,14 @@ import { useEffect, use } from "react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { signInWithRedirect } from "aws-amplify/auth";
 import { v4 as uuidv4 } from "uuid";
+import { signOut } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+
 const GoogleOneTap = () => {
+  const router = useRouter();
+
   const randomid = uuidv4();
+  const tracksession_id = uuidv4().replace(/\D/g, "").slice(0, 8);
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
   function getCookieValue(name: any) {
@@ -21,11 +27,11 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function callRegisterfunction() {
-      // console.log("inside the ccallRegisterfuncti");
+      console.log("inside the ccallRegisterfuncti");
       try {
         const cookieval = getCookieValue("Signinonetap");
         if (cookieval === "true") {
-          // console.log("inside the cookieval from the ");
+          console.log("inside the cookieval from the ");
           const session: any = await fetchAuthSession();
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
@@ -43,13 +49,14 @@ const GoogleOneTap = () => {
           );
 
           if (!response.ok) {
-            console.error("Failed to register user:", response.statusText);
+            await signOut({ global: true });
+            router.push("/degrees/userLogin.html?e=logout");
           } else {
             const res = await response.json();
             if (res.message.toLowerCase() === "user updated") {
               // console.log(res, "User updated successfully");
             } else {
-              // console.log(res, "User registered successfully");
+              console.log(res, "User registered successfully");
             }
           }
         }
@@ -60,7 +67,7 @@ const GoogleOneTap = () => {
     callRegisterfunction();
 
     async function watchForCognitoCookie() {
-      // console.log("inside thewatchCognitoCookies");
+      console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
       signInWithRedirect({
         provider: "Google",

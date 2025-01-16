@@ -361,6 +361,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       return false;
     }
   };
+  // console.log(qual);
   const updateUcas = async () => {
     setApplybtn("Applying...");
     const validation = validateTotalCredit();
@@ -448,6 +449,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           );
           const jsonData = await response.json();
           if (jsonData == "updated") {
+            document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
             document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
             setFirstTimeUser(false);
             setQualCopy(qual);
@@ -460,7 +462,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           }
         } else {
           setApplybtn("Apply");
+          // console.log(qual[0]);
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
+          document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
           setFirstTimeUser(false);
           setQualCopy(qual);
         }
@@ -469,6 +473,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           const stringConvert = JSON.stringify(saveUcas);
           const encodeURI = encodeURIComponent(stringConvert);
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
+          document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");
