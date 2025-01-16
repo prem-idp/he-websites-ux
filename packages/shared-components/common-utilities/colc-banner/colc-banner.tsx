@@ -1,36 +1,56 @@
 "use server";
 import React from "react";
-import { BannersQuery } from "@packages/lib/graphQL/cocl-landing";
-import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import Image from "next/image";
-const ColcBanner = async ({
-  routename,
-  contentModelName,
-  internalName,
-}: any) => {
-  const query = homePageComponentQueryFormation(
-    internalName,
-    BannersQuery,
-    routename,
-    contentModelName
-  );
-  const jsondata = (await graphQlFetchFunction(query))?.data?.contentData
-    ?.items[0]?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items[0];
+import { ContentfulField } from "../../../../apps/whatuni/src/app/advice/[hero]/client-com";
+import { ContentfulInspectorManager } from "../../../../apps/whatuni/src/app/advice/[hero]/ContentfulInspector";
+const ColcBanner = async ({ data, routename }: any) => {
+  console.log(data);
   return (
     <>
-      {jsondata && (
+     <ContentfulInspectorManager
+        fields={[
+          {
+            entryId: data.sys.id,
+            fieldId: 'title',
+            targetSelector: '#title-element'
+          },
+          {
+            entryId: data.sys.id,
+            fieldId: 'subTitle',
+            targetSelector: '#description-element'
+          },
+          {
+            entryId: data.sys.id,
+            fieldId: 'image',
+            targetSelector: '#image-element'
+          }
+        ]}
+      />
+      {data && (
         <section className="bg-blue-100">
           <div className="max-w-container mx-auto">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[24px_20px] lg:py-0 xl:px-0 min-h-[194px]">
               <div className="flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
                 <div className="flex flex-col gap-[4px]">
-                  <h1 className="text-heading1 md:text-heading-xl">
-                    {jsondata?.title}
+                  {/* <ContentfulField
+                    entryId={data.sys.id}
+                    fieldId="title"
+                  ></ContentfulField> */}
+                  <h1 className="text-heading1 md:text-heading-xl" id="title-element">
+                    {data?.title}
                   </h1>
-                  <p className="small">{jsondata?.longDescription}</p>
+                  {/* <ContentfulInspector
+                  entryId={data.sys.id}
+                  fieldId="title"
+                  targetSelector="#title-element">
+                  </ContentfulInspector> */}
+                  <p className="small" id="description-element">
+                    {data?.longDescription} Lorem, ipsum dolor sit amet
+                    consectetur adipisicing elit. Adipisci, maxime quidem
+                    quaerat aspernatur doloribus aliquid magni minus
+                  </p>
                 </div>
-                {routename === "article" && (
+                {routename === "/advice" && (
                   <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
                     <div className="flex flex-col gap-x-[10px] justify-between md:flex-row">
                       <div className="relative grow">
@@ -60,13 +80,13 @@ const ColcBanner = async ({
                 )}
               </div>
               <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
-                {jsondata?.image?.imgUpload?.url && (
-                  <Image
-                    src={jsondata?.image?.imgUpload?.url}
-                    width={routename === "article" ? 205 : 150}
-                    height={routename === "article" ? 260 : 150}
+                {data?.image?.imgUpload?.url && (
+                  <Image id="image-element"
+                    src={data?.image?.imgUpload?.url}
+                    width={205}
+                    height={260}
                     priority
-                    alt={jsondata?.image?.imgAltText}
+                    alt={data?.image?.imgAltText}
                   />
                 )}
               </div>
