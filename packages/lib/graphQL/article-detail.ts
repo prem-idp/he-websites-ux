@@ -1,18 +1,29 @@
-export function articleDetailQuery(category: any, title: any, id: any) {
+export function articleDetailQuery(
+  category: any,
+  title: any,
+  id: any,
+  preview: any
+) {
   const query = `{
     contentData: articleCollection(
     limit: 1
+    ${preview ? `preview : ${preview}` : ""}
     where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
+    
       pageTitle
       seoFields {
+        
         metaTite
         metaDescription
         canonical
         metaKeywords
       }
       author {
+      sys {
+      id
+    }
         internalName
         firstName
         lastName

@@ -29,7 +29,7 @@ const Faqcomponents = ({
         });
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error("Error calling Search Ajax API:", error);
       }

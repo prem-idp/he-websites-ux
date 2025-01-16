@@ -21,11 +21,11 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function callRegisterfunction() {
-      console.log("inside the ccallRegisterfuncti");
+      // console.log("inside the ccallRegisterfuncti");
       try {
         const cookieval = getCookieValue("Signinonetap");
         if (cookieval === "true") {
-          console.log("inside the cookieval from the ");
+          // console.log("inside the cookieval from the ");
           const session: any = await fetchAuthSession();
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
@@ -47,9 +47,9 @@ const GoogleOneTap = () => {
           } else {
             const res = await response.json();
             if (res.message.toLowerCase() === "user updated") {
-              console.log(res, "User updated successfully");
+              // console.log(res, "User updated successfully");
             } else {
-              console.log(res, "User registered successfully");
+              // console.log(res, "User registered successfully");
             }
           }
         }
@@ -60,7 +60,7 @@ const GoogleOneTap = () => {
     callRegisterfunction();
 
     async function watchForCognitoCookie() {
-      console.log("inside thewatchCognitoCookies");
+      // console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
       signInWithRedirect({
         provider: "Google",

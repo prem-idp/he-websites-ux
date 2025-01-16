@@ -15,13 +15,14 @@ const page = async ({ searchParams }: any) => {
     HeroLandingPageQuery(iscontentPreview),
     iscontentPreview
   );
+
   const q = HeroLandingPageQuery(iscontentPreview);
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log("bannerData", bannerData);
-  console.log("component list", componentList);
-  console.log("query", q);
+  // console.log("bannerData", bannerData);
+  // console.log("component list", componentList);
+  // console.log("query", q);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"

@@ -39,7 +39,7 @@ const GoogleOneTapPgs = () => {
         console.error("Error from API:", errorData);
       } else {
         const result = await response.json();
-        console.log("API call successful:", result);
+        // console.log("API call successful:", result);
       }
     } catch (error) {
       console.error("An error occurred:", error);

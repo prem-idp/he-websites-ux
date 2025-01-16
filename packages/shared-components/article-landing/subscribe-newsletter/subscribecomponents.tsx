@@ -16,15 +16,15 @@ const Subscribecomponents = () => {
   const path = usePathname();
   const arr = path.split("/");
   const routename = arr[arr.length - 1];
-  console.log(routename);
+  // console.log(routename);
   const searchparams = useSearchParams();
   const isPreviewTrue =
     searchparams.get("preview") === "MY_SECRET_TOKEN" ? true : false;
-  console.log(isPreviewTrue);
+  // console.log(isPreviewTrue);
   useEffect(() => {
     const fetchData = async () => {
       const query = NewsletterQuery(isPreviewTrue);
-      console.log(query);
+      // console.log(query);
       const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
         method: "POST",
         headers: {
@@ -35,7 +35,7 @@ const Subscribecomponents = () => {
       });
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
+        // console.log(responseData);
         setjsonData(responseData);
       } else {
         setjsonData(null);
@@ -68,7 +68,7 @@ const Subscribecomponents = () => {
       setSuccess(true);
     }
   };
-  console.log(jsondata?.data?.newsLetterData?.items[0]?.newsTitle);
+  // console.log(jsondata?.data?.newsLetterData?.items[0]?.newsTitle);
   return (
     <>
       {routename !== "article-detail" && (

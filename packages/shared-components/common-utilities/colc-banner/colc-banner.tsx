@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { ContentfulInspectorManager } from "../../../lib/contentful-preview/ContentfulInspector";
 const ColcBanner = async ({ data, routename, iscontentPreview }: any) => {
-  console.log(data);
+  // console.log(data);
   return (
     <>
       {iscontentPreview && (

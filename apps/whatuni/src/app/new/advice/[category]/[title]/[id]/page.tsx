@@ -11,13 +11,17 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import dynamicComponentImports from "./dynamicimport";
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
 import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
-const Page = async ({ params }: any) => {
+const Page = async ({ params, searchParams }: any) => {
+  console.log(await params, await searchParams.preview);
+  const preview =
+    (await searchParams.preview) === "MY_SECRET_TOKEN" ? true : false;
   const category = "money";
   const title =
     "article-the-best-resources-for-saving-money-at-university-whatuni";
   const id = "121213";
   const articledetaildata = await graphQlFetchFunction(
-    articleDetailQuery(category, title, id)
+    articleDetailQuery(category, title, id, preview),
+    preview
   );
   const data = articledetaildata?.data?.contentData?.items[0];
   const breadcrumbData = [
@@ -60,7 +64,7 @@ const Page = async ({ params }: any) => {
 
         <section className="lg:pb-[40px]">
           <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-            <Authorprofile data={data} />
+            <Authorprofile preview={preview} data={data} />
           </div>
         </section>
 
