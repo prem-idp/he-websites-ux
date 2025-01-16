@@ -139,6 +139,7 @@ export const NewsletterQuery = (preview: boolean) => {
     sys{
     id
     }
+    __typename
       newsTitle
       newsDesc {
         json
