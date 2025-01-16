@@ -9,6 +9,19 @@ const Articledescription = ({ data }: any) => {
   const modalPopToggle = () => {
     setModalOpen(!modalOpen);
   };
+
+  const handleCopyLink = () => {
+    const link = window.location.href; // Get the current page's URL
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        alert("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  };
+
   return (
     <>
       <div className="flex flex-col gap-[8px]">
@@ -60,7 +73,10 @@ const Articledescription = ({ data }: any) => {
                   Share on
                 </span>
                 <div className="flex flex-wrap gap-[6px] justify-center">
-                  <button className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline">
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
+                    className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline"
+                  >
                     <Image
                       width="40"
                       height="40"
@@ -68,8 +84,11 @@ const Articledescription = ({ data }: any) => {
                       alt="Facebook"
                     />
                     <span className="small font-inter">Facebook</span>
-                  </button>
-                  <button className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline">
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
+                    className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline"
+                  >
                     <Image
                       width="40"
                       height="40"
@@ -77,8 +96,11 @@ const Articledescription = ({ data }: any) => {
                       alt="twitter"
                     />
                     <span className="small font-inter">Twitter</span>
-                  </button>
-                  <button className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline">
+                  </a>
+                  <a
+                    href={`https://www.pinterest.com/pin/create/button/?url=${window.location.href}&media=${data?.bannerImageCollection?.items[0]?.imgUpload?.url}&description=${data?.pageTitle}`}
+                    className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline"
+                  >
                     <Image
                       width="40"
                       height="40"
@@ -86,8 +108,11 @@ const Articledescription = ({ data }: any) => {
                       alt="pinterest"
                     />
                     <span className="small font-inter">Pinterest</span>
-                  </button>
-                  <button className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline">
+                  </a>
+                  <button
+                    onClick={() => handleCopyLink()}
+                    className="md:min-w-[111.5px] min-w-[69px] flex flex-col gap-[9px] items-center text-blue-400 hover:text-grey300 hover:underline"
+                  >
                     <Image
                       width="40"
                       height="40"

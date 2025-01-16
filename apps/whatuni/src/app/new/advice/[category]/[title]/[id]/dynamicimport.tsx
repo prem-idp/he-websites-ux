@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-
 const componentMap: any = {
   PageComponentRichText: () =>
     dynamic(
