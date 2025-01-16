@@ -125,8 +125,10 @@ export const FaqsQuery = `
 }
 `;
 
-export const NewsletterQuery = `{
-  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1) {
+export const NewsletterQuery = (preview: boolean) => {
+  return `{
+  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1    
+    ${preview ? `preview : ${preview}` : ""}) {
     items {
       newsTitle
       newsDesc {
@@ -142,3 +144,4 @@ export const NewsletterQuery = `{
     }
   }
 }`;
+};
