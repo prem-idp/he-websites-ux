@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Subscribebtn from "@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn";
 import Link from "next/link";

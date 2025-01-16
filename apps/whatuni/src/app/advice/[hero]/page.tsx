@@ -6,6 +6,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams }: any) => {
   const searchparams = await searchParams;
   const iscontentPreview =
@@ -61,6 +62,7 @@ const page = async ({ searchParams }: any) => {
           }
         )}
       </div>
+      <Subscribecomponents iscontentPreview={iscontentPreview} />
     </ContentfulPreviewProvider>
   );
 };
