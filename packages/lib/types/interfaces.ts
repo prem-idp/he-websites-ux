@@ -298,6 +298,9 @@ export interface Icon {
   title: string;
 }
 export interface Image {
+  sys: {
+    id: string;
+  };
   url: string;
   width: number;
   height: number;
@@ -318,6 +321,7 @@ export interface StatInfo {
 
 export interface PageStatPodContainerInterface {
   bgColor: string;
+  sys: { id: string };
   marginPadding: string;
   statPodContainerName: string;
   statinfoCollection: {

@@ -5,7 +5,7 @@ import { HomePageStatInterface } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-function";
 import Image from "next/image";
-
+import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 import React, { Suspense } from "react";
 interface WuscascomponentsProps {
   heading?: string | undefined;
@@ -14,6 +14,7 @@ interface WuscascomponentsProps {
   internalName: string | undefined;
   routename: string;
   contentModelName: string;
+  iscontentPreview?: boolean;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
@@ -23,22 +24,38 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   routename,
   internalName,
   contentModelName,
+  iscontentPreview,
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
     statsPodQuery,
     routename,
-    contentModelName
+    contentModelName,
+    iscontentPreview
   );
   const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
-  console.log(query);
-  console.log(await graphQlFetchFunction(query));
   return (
     <>
+      {iscontentPreview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: statsData?.sys?.id,
+              fieldId: "primaryCtaLabel",
+              targetSelector: "#primaryCtaLabel",
+            },
+            {
+              entryId: statsData?.image?.sys?.id,
+              fieldId: "image",
+              targetSelector: "#image",
+            },
+          ]}
+        />
+      )}
       {statsData && (
         <Suspense>
           <section className="wusca-container">
@@ -62,6 +79,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   >
                     <a
                       href={`${statsData?.cta.primaryCtaUrl}`}
+                      id="primaryCtaLabel"
                       className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-inter font-semibold text-small px-[20px] py-[10px]"
                     >
                       {statsData?.cta?.primaryCtaLabel}
@@ -110,7 +128,10 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                     )}
                   </div>
                 )}
-                <div className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1">
+                <div
+                  className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1"
+                  id="image"
+                >
                   <Image
                     priority={true}
                     src={`${statsData?.image.url || ""}`}

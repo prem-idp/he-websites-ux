@@ -71,8 +71,11 @@ export const ArticleLandingSeoQuery = `{
   }
 }`;
 
-export const ArticleTextSnippet = `
+export const ArticleTextSnippetQuery = `
    ... on DynamicMediaComponent {
+   sys{
+   id
+   }
   internalName
   title
   subTitle
@@ -113,6 +116,9 @@ export const LinksQuery = `
 
 export const FaqsQuery = `
    ... on PageComponentFaq {
+   sys{
+   id
+   }
   faqComponentTitle
   faqCategoriesCollection {
     items {

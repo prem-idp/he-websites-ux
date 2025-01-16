@@ -1,14 +1,18 @@
-'use client';
-import { useEffect } from 'react';
-import { useContentfulInspectorMode } from '@contentful/live-preview/react';
+"use client";
+import { useEffect } from "react";
+import { useContentfulInspectorMode } from "@contentful/live-preview/react";
 
 interface InspectorField {
-  entryId: string;
+  entryId: string | undefined;
   fieldId: string;
   targetSelector: string;
 }
 
-export function ContentfulInspectorManager({ fields }: { fields: InspectorField[] }) {
+export function ContentfulInspectorManager({
+  fields,
+}: {
+  fields: InspectorField[];
+}) {
   const inspectorMode = useContentfulInspectorMode();
 
   useEffect(() => {
@@ -19,10 +23,10 @@ export function ContentfulInspectorManager({ fields }: { fields: InspectorField[
     fields.forEach(({ entryId, fieldId, targetSelector }) => {
       const element = document.querySelector(targetSelector);
       if (element) {
-        const props:any = inspectorMode({ entryId, fieldId });
-        
+        const props: any = inspectorMode({ entryId, fieldId });
+
         Object.entries(props).forEach(([key, value]) => {
-          if (typeof value === 'string') {
+          if (typeof value === "string") {
             element.setAttribute(key, value);
           }
         });
@@ -36,7 +40,7 @@ export function ContentfulInspectorManager({ fields }: { fields: InspectorField[
     });
 
     return () => {
-      cleanup.forEach(fn => fn());
+      cleanup.forEach((fn) => fn());
     };
   }, [fields, inspectorMode]);
 
