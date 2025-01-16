@@ -7,7 +7,7 @@ import { NewsletterQuery } from "@packages/lib/graphQL/article-landing";
 // import { useSearchParams } from "next/navigation";
 const Subscribecomponents = async ({ iscontentPreview }: any) => {
   const query = NewsletterQuery(iscontentPreview);
-  const jsondata = await graphQlFetchFunction(query);
+  const jsondata = await graphQlFetchFunction(query, iscontentPreview);
   // const [jsondata, setjsonData] = useState<any>();
   // const path = usePathname();
   // const arr = path.split("/");

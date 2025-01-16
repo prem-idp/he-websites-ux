@@ -136,6 +136,9 @@ export const NewsletterQuery = (preview: boolean) => {
   newsLetterData: pageNewsletterSubscriptionCollection(limit: 1    
     ${preview ? `preview : ${preview}` : ""}) {
     items {
+    sys{
+    id
+    }
       newsTitle
       newsDesc {
         json
