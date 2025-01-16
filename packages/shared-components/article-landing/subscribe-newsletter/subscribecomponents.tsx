@@ -27,7 +27,6 @@ const Subscribecomponents = () => {
       });
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
         setjsonData(responseData);
       } else {
         setjsonData(null);
@@ -36,7 +35,13 @@ const Subscribecomponents = () => {
     fetchData();
   }, []);
 
-  return <>{routename !== "article-detail" && <Subscribe data={jsondata} />}</>;
+  return (
+    <>
+      {routename !== "article-detail" && (
+        <Subscribe data={jsondata} isPreviewTrue={isPreviewTrue} />
+      )}
+    </>
+  );
 };
 
 export default Subscribecomponents;

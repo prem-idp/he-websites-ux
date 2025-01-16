@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Subscribebtn from "@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn";
 import Link from "next/link";
 import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
-const Subscribe = ({ data }: any) => {
-  const jsondata = useContentfulLiveUpdates(data);
+const Subscribe = ({ data, isPreviewTrue }: any) => {
+  const jsondata: any = useContentfulLiveUpdates(data);
+
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [errorstate, SetErrorState] = useState({
