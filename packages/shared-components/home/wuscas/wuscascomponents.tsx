@@ -33,14 +33,18 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     contentModelName,
     iscontentPreview
   );
-  const resultData: HomePageStatInterface = await graphQlFetchFunction(query);
+  const resultData: HomePageStatInterface = await graphQlFetchFunction(
+    query,
+    iscontentPreview
+  );
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item.__typename === "PageStatPodContainer"
     );
+  console.log("wuscs", resultData);
   return (
     <>
-      {/* {iscontentPreview && (
+      {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -55,7 +59,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
             },
           ]}
         />
-      )} */}
+      )}
       {statsData && (
         <Suspense>
           <section className="wusca-container">

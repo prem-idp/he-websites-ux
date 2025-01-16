@@ -7,9 +7,10 @@ const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
     setIsExpanded(!isExpanded);
   };
   const truncatedText = text?.slice(0, 550);
+  console.log("toggle text", text);
   return (
     <>
-      {/* {iscontentPreview && (
+      {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -19,7 +20,7 @@ const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
             },
           ]}
         />
-      )} */}
+      )}
       <div className="flex flex-col gap-[8px] w-full lg:w-[calc(100%_-_289px)]">
         <div className="flex flex-col gap-[24px]">
           <p className="para font-normal" id="description-element">

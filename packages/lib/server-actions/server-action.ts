@@ -14,8 +14,10 @@ export async function graphQlFetchFunction(
       cache: "no-store",
     });
     const data = await res.json();
+    console.log(data);
     return data;
   } catch (error) {
+    console.warn(error);
     throw error;
   }
 }

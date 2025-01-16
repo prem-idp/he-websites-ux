@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const Ctabutton = ({ cta, sysId, iscontentPreview }: any) => {
+  console.log("cta button", cta);
   return (
     <>
-      {/* {iscontentPreview && (
+      {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -14,7 +15,7 @@ const Ctabutton = ({ cta, sysId, iscontentPreview }: any) => {
             },
           ]}
         />
-      )} */}
+      )}
       <button
         type="button"
         id="cta_btn"

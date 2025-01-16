@@ -28,8 +28,9 @@ const Eligibilitycriteriacomponents = async ({
     iscontentPreview
   );
 
-  const data = (await graphQlFetchFunction(query))?.data?.contentData?.items[0]
-    ?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items;
+  const data = (await graphQlFetchFunction(query, iscontentPreview))?.data
+    ?.contentData?.items[0]?.bodyContentCollection?.items[0]
+    ?.mediaCardsCollection?.items;
 
   console.log(data);
   return (

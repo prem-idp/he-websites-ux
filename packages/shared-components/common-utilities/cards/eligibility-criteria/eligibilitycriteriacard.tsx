@@ -4,9 +4,10 @@ import React from "react";
 import Ctabutton from "../interaction-button/ctabutton";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
+  console.log("Eligiblity criteria", data);
   return (
     <>
-      {/* {iscontentPreview && (
+      {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -26,7 +27,7 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
             },
           ]}
         />
-      )} */}
+      )}
       <Link
         href=""
         className="card group flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden p-[16px] gap-[16px]"

@@ -27,14 +27,16 @@ const Testimonialcomponents = async ({
     contentModelName,
     iscontentPreview
   );
-  const testimonialJsonData = await graphQlFetchFunction(query);
+  const testimonialJsonData = await graphQlFetchFunction(
+    query,
+    iscontentPreview
+  );
   const contentfullData =
     testimonialJsonData?.data?.contentData?.items[0]?.bodyContentCollection
       ?.items[0]?.mediaCardsCollection?.items[0] || [];
-  console.log("testimoniallll", contentfullData);
   return (
     <>
-      {/* {iscontentPreview && (
+      {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
             {
@@ -54,7 +56,7 @@ const Testimonialcomponents = async ({
             },
           ]}
         />
-      )} */}
+      )}
       <section className="testimonials-container">
         <div className="max-w-container mx-auto">
           <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">
