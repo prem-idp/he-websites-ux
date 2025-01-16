@@ -18,6 +18,11 @@ const ColcBanner = async ({ data, routename }: any) => {
             entryId: data.sys.id,
             fieldId: 'subTitle',
             targetSelector: '#description-element'
+          },
+          {
+            entryId: data.sys.id,
+            fieldId: 'image',
+            targetSelector: '#image-element'
           }
         ]}
       />
@@ -27,10 +32,10 @@ const ColcBanner = async ({ data, routename }: any) => {
             <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[24px_20px] lg:py-0 xl:px-0 min-h-[194px]">
               <div className="flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
                 <div className="flex flex-col gap-[4px]">
-                  <ContentfulField
+                  {/* <ContentfulField
                     entryId={data.sys.id}
                     fieldId="title"
-                  ></ContentfulField>
+                  ></ContentfulField> */}
                   <h1 className="text-heading1 md:text-heading-xl" id="title-element">
                     {data?.title}
                   </h1>
@@ -76,7 +81,7 @@ const ColcBanner = async ({ data, routename }: any) => {
               </div>
               <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
                 {data?.image?.imgUpload?.url && (
-                  <Image
+                  <Image id="image-element"
                     src={data?.image?.imgUpload?.url}
                     width={205}
                     height={260}
