@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { NewsletterQuery } from "@packages/lib/graphQL/article-landing";
 import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 const Subscribecomponents = () => {
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
@@ -16,18 +17,25 @@ const Subscribecomponents = () => {
   const arr = path.split("/");
   const routename = arr[arr.length - 1];
   console.log(routename);
+  const searchparams = useSearchParams();
+  const isPreviewTrue =
+    searchparams.get("preview") === "MY_SECRET_TOKEN" ? true : false;
+  console.log(isPreviewTrue);
   useEffect(() => {
     const fetchData = async () => {
+      const query = NewsletterQuery(isPreviewTrue);
+      console.log(query);
       const response = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
+          Authorization: `Bearer ${isPreviewTrue ? process.env.NEXT_PUBLIC_GRAPHQL_preview_AUTH : process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
         },
-        body: JSON.stringify({ query: NewsletterQuery }),
+        body: JSON.stringify({ query }),
       });
       if (response.ok) {
         const responseData = await response.json();
+        console.log(responseData);
         setjsonData(responseData);
       } else {
         setjsonData(null);

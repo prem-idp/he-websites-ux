@@ -1,31 +1,32 @@
 "use server";
 import React from "react";
 import Image from "next/image";
-import { ContentfulField } from "../../../../apps/whatuni/src/app/advice/[hero]/client-com";
-import { ContentfulInspectorManager } from "../../../../apps/whatuni/src/app/advice/[hero]/ContentfulInspector";
-const ColcBanner = async ({ data, routename }: any) => {
+import { ContentfulInspectorManager } from "../../../lib/contentful-preview/ContentfulInspector";
+const ColcBanner = async ({ data, routename, iscontentPreview }: any) => {
   console.log(data);
   return (
     <>
-     <ContentfulInspectorManager
-        fields={[
-          {
-            entryId: data.sys.id,
-            fieldId: 'title',
-            targetSelector: '#title-element'
-          },
-          {
-            entryId: data.sys.id,
-            fieldId: 'subTitle',
-            targetSelector: '#description-element'
-          },
-          {
-            entryId: data.sys.id,
-            fieldId: 'image',
-            targetSelector: '#image-element'
-          }
-        ]}
-      />
+      {iscontentPreview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: data.sys.id,
+              fieldId: "title",
+              targetSelector: "#title-element",
+            },
+            {
+              entryId: data.sys.id,
+              fieldId: "subTitle",
+              targetSelector: "#description-element",
+            },
+            {
+              entryId: data.sys.id,
+              fieldId: "image",
+              targetSelector: "#image-element",
+            },
+          ]}
+        />
+      )}
       {data && (
         <section className="bg-blue-100">
           <div className="max-w-container mx-auto">
@@ -36,7 +37,10 @@ const ColcBanner = async ({ data, routename }: any) => {
                     entryId={data.sys.id}
                     fieldId="title"
                   ></ContentfulField> */}
-                  <h1 className="text-heading1 md:text-heading-xl" id="title-element">
+                  <h1
+                    className="text-heading1 md:text-heading-xl"
+                    id="title-element"
+                  >
                     {data?.title}
                   </h1>
                   {/* <ContentfulInspector
@@ -81,7 +85,8 @@ const ColcBanner = async ({ data, routename }: any) => {
               </div>
               <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
                 {data?.image?.imgUpload?.url && (
-                  <Image id="image-element"
+                  <Image
+                    id="image-element"
                     src={data?.image?.imgUpload?.url}
                     width={205}
                     height={260}

@@ -16,11 +16,12 @@ const page = async ({ searchParams }: any) => {
     iscontentPreview
   );
   const q = HeroLandingPageQuery(iscontentPreview);
-  console.log("query", q);
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
   console.log("bannerData", bannerData);
+  console.log("component list", componentList);
+  console.log("query", q);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -29,7 +30,13 @@ const page = async ({ searchParams }: any) => {
       debugMode={iscontentPreview}
     >
       <div className="article_landing">
-        {bannerData && <ColcBanner data={bannerData} routename={"/advice"} />}
+        {bannerData && (
+          <ColcBanner
+            data={bannerData}
+            routename={"/advice"}
+            iscontentPreview={iscontentPreview}
+          />
+        )}
         {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
@@ -50,6 +57,7 @@ const page = async ({ searchParams }: any) => {
                 callAction={childItems?.callToAction}
                 routename="/advice/budgeting"
                 contentModelName={"pageTemplateHeroLandingPageCollection"}
+                iscontentPreview={iscontentPreview}
               />
             );
           }
