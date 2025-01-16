@@ -53,6 +53,7 @@ const Eligibilitycriteriacomponents = async ({
                       data={items}
                       iscontentPreview={iscontentPreview}
                       sysId={items?.sys?.id}
+                      index={index}
                     />
                   ))}
                 </div>

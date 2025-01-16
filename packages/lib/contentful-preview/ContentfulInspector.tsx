@@ -18,9 +18,12 @@ export function ContentfulInspectorManager({
   useEffect(() => {
     if (!inspectorMode) return;
 
+    
+
     const cleanup: (() => void)[] = [];
 
     fields.forEach(({ entryId, fieldId, targetSelector }) => {
+      if (!entryId || !fieldId) return;
       const element = document.querySelector(targetSelector);
       if (element) {
         const props: any = inspectorMode({ entryId, fieldId });

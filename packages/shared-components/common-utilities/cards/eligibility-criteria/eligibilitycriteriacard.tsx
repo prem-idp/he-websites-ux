@@ -3,7 +3,8 @@ import Image from "next/image";
 import React from "react";
 import Ctabutton from "../interaction-button/ctabutton";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
-const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
+import { CfnIndex } from "aws-cdk-lib/aws-kendra";
+const Eligibilitycriteriacard = ({ index, data, sysId, iscontentPreview }: any) => {
   console.log("Eligiblity criteria", data);
   return (
     <>
@@ -13,17 +14,17 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
             {
               entryId: data?.image?.sys?.id,
               fieldId: "imgUpload",
-              targetSelector: "#eligiblity_image",
+              targetSelector: `#eligiblity_image${index}`,
             },
             {
               entryId: sysId,
               fieldId: "title",
-              targetSelector: "#title",
+              targetSelector: `#eligiblity_title_${index}`,
             },
             {
               entryId: sysId,
               fieldId: "subtitle",
-              targetSelector: "#subtitle",
+              targetSelector: `#eligiblity_subTitle_${index}`,
             },
           ]}
         />
@@ -36,7 +37,7 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
           <div className="card-header w-[48px]">
             {data?.image?.imgUpload?.url && (
               <Image
-                id="eligiblity_image"
+                id={`eligiblity_image${index}`}
                 src={data?.image?.imgUpload?.url}
                 width="48"
                 height="48"
@@ -47,13 +48,13 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
           </div>
           <h5
             className="card-title font-semibold text-para-lg text-grey300 line-clamp-2"
-            id="title"
+            id={`eligiblity_title_${index}`}
           >
             {data?.title}
           </h5>
           <p
             className="card-description font-normal small text-grey300 line-clamp-2"
-            id="subtitle"
+            id={`eligiblity_subTitle_${index}`}
           >
             {data?.subTitle}
           </p>
@@ -63,6 +64,7 @@ const Eligibilitycriteriacard = ({ data, sysId, iscontentPreview }: any) => {
             cta={data?.cta}
             sysId={data?.sys?.id}
             iscontentPreview={iscontentPreview}
+            index ={index}
           />
         )}
       </Link>

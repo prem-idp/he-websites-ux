@@ -16,14 +16,14 @@ const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
             {
               entryId: sysId,
               fieldId: "longDescription",
-              targetSelector: "#description-element",
+              targetSelector: "#toggle-description-element",
             },
           ]}
         />
       )}
       <div className="flex flex-col gap-[8px] w-full lg:w-[calc(100%_-_289px)]">
         <div className="flex flex-col gap-[24px]">
-          <p className="para font-normal" id="description-element">
+          <p className="para font-normal" id="toggle-description-element">
             {isExpanded ? text : truncatedText}
           </p>
         </div>
