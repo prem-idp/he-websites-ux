@@ -3,9 +3,12 @@ import Image from "next/image";
 import React from "react";
 import Ctabutton from "../interaction-button/ctabutton";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
-import { CfnIndex } from "aws-cdk-lib/aws-kendra";
-const Eligibilitycriteriacard = ({ index, data, sysId, iscontentPreview }: any) => {
-  console.log("Eligiblity criteria", data);
+const Eligibilitycriteriacard = ({
+  index,
+  data,
+  sysId,
+  iscontentPreview,
+}: any) => {
   return (
     <>
       {iscontentPreview && (
@@ -14,7 +17,7 @@ const Eligibilitycriteriacard = ({ index, data, sysId, iscontentPreview }: any) 
             {
               entryId: data?.image?.sys?.id,
               fieldId: "imgUpload",
-              targetSelector: `#eligiblity_image${index}`,
+              targetSelector: `#eligiblity_image_${index}`,
             },
             {
               entryId: sysId,
@@ -37,7 +40,7 @@ const Eligibilitycriteriacard = ({ index, data, sysId, iscontentPreview }: any) 
           <div className="card-header w-[48px]">
             {data?.image?.imgUpload?.url && (
               <Image
-                id={`eligiblity_image${index}`}
+                id={`eligiblity_image_${index}`}
                 src={data?.image?.imgUpload?.url}
                 width="48"
                 height="48"
@@ -64,7 +67,7 @@ const Eligibilitycriteriacard = ({ index, data, sysId, iscontentPreview }: any) 
             cta={data?.cta}
             sysId={data?.sys?.id}
             iscontentPreview={iscontentPreview}
-            index ={index}
+            index={index}
           />
         )}
       </Link>

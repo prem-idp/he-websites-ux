@@ -12,6 +12,7 @@ const Testimonialcomponents = async ({
   routename,
   contentModelName,
   iscontentPreview,
+  parentSysId,
 }: {
   heading: string;
   subheading: string;
@@ -19,6 +20,7 @@ const Testimonialcomponents = async ({
   routename: string;
   contentModelName: string;
   iscontentPreview?: boolean;
+  parentSysId?: string;
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
@@ -39,6 +41,16 @@ const Testimonialcomponents = async ({
       {iscontentPreview && (
         <ContentfulInspectorManager
           fields={[
+            {
+              entryId: parentSysId,
+              fieldId: "cardSectionTitle",
+              targetSelector: "#testimonial_heading",
+            },
+            {
+              entryId: parentSysId,
+              fieldId: "shortDescription",
+              targetSelector: "#testimonial_subheading",
+            },
             {
               entryId: contentfullData?.testimonialBlockRight?.sys?.id,
               fieldId: "firstname",
@@ -61,8 +73,15 @@ const Testimonialcomponents = async ({
         <div className="max-w-container mx-auto">
           <div className="testimonials-card-container px-[16px] md:px-[20px] py-[34px] md:py-[64px] xl:px-[0]">
             <div className="testimonials-header mb-[26px] md:mb-[32px]">
-              <h2 className="font-bold">{heading}</h2>
-              <p className="font-normal small mt-[8px]">{subheading}</p>
+              <h2 className="font-bold" id="testimonial_heading">
+                {heading}
+              </h2>
+              <p
+                className="font-normal small mt-[8px]"
+                id="testimonial_subheading"
+              >
+                {subheading}
+              </p>
             </div>
             <div className="testimonials-inner-wrap grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
               <TestimonialVideo contentfullRightData={contentfullData} />

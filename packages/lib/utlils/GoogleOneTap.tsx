@@ -21,11 +21,9 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function callRegisterfunction() {
-      console.log("inside the ccallRegisterfuncti");
       try {
         const cookieval = getCookieValue("Signinonetap");
         if (cookieval === "true") {
-          console.log("inside the cookieval from the ");
           const session: any = await fetchAuthSession();
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
@@ -60,7 +58,6 @@ const GoogleOneTap = () => {
     callRegisterfunction();
 
     async function watchForCognitoCookie() {
-      console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
       signInWithRedirect({
         provider: "Google",

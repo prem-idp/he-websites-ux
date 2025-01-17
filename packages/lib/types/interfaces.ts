@@ -245,6 +245,9 @@ export interface TextNode {
 
 export interface MultipleCardContainer {
   __typename: "MultipleCardContainer";
+  sys: {
+    id: string;
+  };
   internalName: string;
   cardSectionTitle: string;
   shortDescription: string;

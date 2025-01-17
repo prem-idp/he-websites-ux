@@ -5,13 +5,12 @@ import { HeroLandingPageQuery } from "@packages/lib/graphQL/article-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-import ColcBanner from "@packages/shared-components/common-utilities/colc-banner/colc-banner";
+import ColcBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams }: any) => {
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
-
   const jsondata = await graphQlFetchFunction(
     HeroLandingPageQuery(iscontentPreview),
     iscontentPreview
@@ -19,8 +18,7 @@ const page = async ({ searchParams }: any) => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log("component list", componentList);
-  console.log(iscontentPreview);
+
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -54,6 +52,7 @@ const page = async ({ searchParams }: any) => {
                 subheading={childItems?.shortDescription}
                 internalName={childItems?.internalName}
                 callAction={childItems?.callToAction}
+                parentSysId={childItems?.sys?.id}
                 routename="/advice/budgeting"
                 contentModelName={"pageTemplateHeroLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
