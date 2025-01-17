@@ -9,18 +9,19 @@ import ColcBanner from "@packages/shared-components/common-utilities/mini-banner
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
-  const slug = Params?.hero;
+
+  const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.hero}`;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
   const jsondata = await graphQlFetchFunction(
-    HeroLandingPageQuery(iscontentPreview, slug),
+    HeroLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-
+  console.log(jsondata);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -55,7 +56,7 @@ const page = async ({ searchParams, params }: any) => {
                 internalName={childItems?.internalName}
                 callAction={childItems?.callToAction}
                 parentSysId={childItems?.sys?.id}
-                routename={`/advice/${slug}`}
+                routename={slugurl}
                 contentModelName={"pageTemplateHeroLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
               />

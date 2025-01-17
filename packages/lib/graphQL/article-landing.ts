@@ -3,7 +3,7 @@ export const HeroLandingPageQuery = (preview: boolean, slug: string) => {
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice/${slug}", website: {websiteName: "${process.env.PROJECT}"}
+    where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}
     }
      ${preview ? `preview : ${preview}` : ""}
   ) {
