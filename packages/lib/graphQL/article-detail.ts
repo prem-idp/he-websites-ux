@@ -11,6 +11,9 @@ export function articleDetailQuery(
     where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
+     sys{
+    id
+    }
       pageTitle
       seoFields {
         metaTite
@@ -115,9 +118,15 @@ export function articleDetailQuery(
         }
       }
       skipLinks {
+       sys{
+      id
+      }
         skipLinkTitle
         anchorLinksCollection {
           items {
+           sys{
+      id
+      }
             urlLabel
             moreLinkUrl
             moreLinkTarget
@@ -128,6 +137,9 @@ export function articleDetailQuery(
         items {
           __typename
           ... on PageComponentRichText {
+           sys{
+    id
+    }
             skipLinkId
             paragraphTitle
             media {
@@ -139,6 +151,9 @@ export function articleDetailQuery(
             }
           }
           ... on PagePullQuotes {
+           sys{
+    id
+    }
             pullQuote {
               json
             }
@@ -146,6 +161,9 @@ export function articleDetailQuery(
             pullQuoteRole
           }
           ... on PageImage {
+           sys{
+    id
+    }
             imgAltText
             imgUpload {
               url

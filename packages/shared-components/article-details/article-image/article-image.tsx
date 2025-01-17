@@ -1,19 +1,33 @@
 import React from "react";
 import Image from "next/image";
-
-const Articleimage = ({ data, key }: any) => {
+import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
+const Articleimage = ({ propsdata, key, preview }: any) => {
   return (
-    <div>
-      {data?.imgUpload?.url && (
-        <Image
-          src={data?.imgUpload?.url}
-          width="804"
-          height="452"
-          className="block w-full h-auto"
-          alt={data?.imgAltText ?? "Article_image"}
+    <>
+      {preview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: propsdata?.sys?.id,
+              fieldId: "imgUpload",
+              targetSelector: "#article_title-imgUpload-inrichtext",
+            },
+          ]}
         />
       )}
-    </div>
+      <div>
+        {propsdata?.imgUpload?.url && (
+          <Image
+            id="article_title-imgUpload-inrichtext"
+            src={propsdata?.imgUpload?.url}
+            width="804"
+            height="452"
+            className="block w-full h-auto"
+            alt={propsdata?.imgAltText ?? "Article_image"}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

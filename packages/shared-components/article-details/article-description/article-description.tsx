@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const Articledescription = ({ data }: any) => {
+import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
+import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
+const Articledescription = ({ propsdata, preview }: any) => {
+  const data = useContentfulLiveUpdates(propsdata);
   const [modalOpen, setModalOpen] = useState(false);
   const modalPopToggle = () => {
     setModalOpen(!modalOpen);
@@ -24,19 +26,56 @@ const Articledescription = ({ data }: any) => {
 
   return (
     <>
+      {preview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: data?.sys?.id,
+              fieldId: "title",
+              targetSelector: "#article_title",
+            },
+            {
+              entryId: data?.sys?.id,
+              fieldId: "pageTitle",
+              targetSelector: "#artilce-page-title",
+            },
+            {
+              entryId: data?.sys?.id,
+              fieldId: "shortDescription",
+              targetSelector: "#artilce-page-description",
+            },
+
+            {
+              entryId: data?.sys?.id,
+              fieldId: "modifiedDate",
+              targetSelector: "#artilce-page-modified-date",
+            },
+          ]}
+        />
+      )}
+
       <div className="flex flex-col gap-[8px]">
         <span className="x-small font-inter tracking-[1px] text-blue-400">
-          <Link className="hover:underline" href="#">
+          <Link id="article_title" className="hover:underline" href="#">
             {data?.articleType?.title}
           </Link>
         </span>
-        <h1 className="font-farro text-heading1 text-grey900">
+        <h1
+          id="artilce-page-title"
+          className="font-farro text-heading1 text-grey900"
+        >
           {data?.pageTitle}
         </h1>
-        <p className="text-para-lg max-w-[907px] w-full text-grey300 text-inter">
+        <p
+          id="artilce-page-description"
+          className="text-para-lg max-w-[907px] w-full text-grey300 text-inter"
+        >
           {data?.shortDescription}
         </p>
-        <span className="x-small text-grey300 text-inter">
+        <span
+          id="artilce-page-modified-date"
+          className="x-small text-grey300 text-inter"
+        >
           {` Updated:${data?.modifiedDate ?? ""}`}
         </span>
         <button

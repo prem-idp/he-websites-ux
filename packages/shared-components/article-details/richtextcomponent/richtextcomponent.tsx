@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-
-export default function Richtextcomponent({ data }: any) {
+import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
+import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
+export default function Richtextcomponent({ propsdata, key, preview }: any) {
+  const data = useContentfulLiveUpdates(propsdata);
   const customOptions = {
     renderNode: {
       paragraph: (node: any, children: any) => <p>{children}</p>,
@@ -30,9 +32,33 @@ export default function Richtextcomponent({ data }: any) {
 
   return (
     <>
-      {data?.paragraphTitle && <h2>{data?.paragraphTitle}</h2>}
+      {preview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: data?.sys?.id,
+              fieldId: "paragraphTitle",
+              targetSelector: "#artilce-page-paragraph-title",
+            },
+            {
+              entryId: data?.sys?.id,
+              fieldId: "media",
+              targetSelector: "#artilce-page-media",
+            },
+            {
+              entryId: data?.sys?.id,
+              fieldId: "paragraphBodyRichText",
+              targetSelector: `#${data?.skipLinkId}`,
+            },
+          ]}
+        />
+      )}
+      {data?.paragraphTitle && (
+        <h2 id="artilce-page-paragraph-title">{data?.paragraphTitle}</h2>
+      )}
       {data?.media?.url && (
         <Image
+          id="artilce-page-media"
           priority={true}
           alt="Image"
           src={data?.media?.url}

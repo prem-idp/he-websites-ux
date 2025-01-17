@@ -2,11 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const Breadcrumblayoutcomponent = ({ data }: { data: any }) => {
+const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
   return (
     <nav aria-label="breadcrumb">
       <ul className="flex flex-wrap gap-[20px]">
-        {data.map((breadcrumbData: any) => (
+        {propsdata.map((breadcrumbData: any) => (
           <li className="inter small" key={breadcrumbData.label}>
             {breadcrumbData.url && !breadcrumbData.Imgurl ? (
               <Link
