@@ -22,6 +22,9 @@ export function articleDetailQuery(
         metaKeywords
       }
       author {
+       sys{
+      id
+      }
         internalName
         firstName
         lastName
@@ -32,6 +35,9 @@ export function articleDetailQuery(
         longBio
         audienceGroup
         image {
+         sys{
+      id
+      }
           imgUpload {
             url
             height
@@ -42,6 +48,9 @@ export function articleDetailQuery(
       }
       bannerImageCollection {
         items {
+         sys{
+      id
+      }
           imgAltText
           imgUpload {
             url
