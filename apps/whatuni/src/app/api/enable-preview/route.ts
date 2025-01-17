@@ -17,10 +17,6 @@ export async function GET(request: Request) {
     query = slug;
   }
 
-  //console.log(referer, "referer");
-  // console.log(isIframe,'isIframe')
-  // console.log(fetchDest, "fetchDest");
-
   // Check the secret and next parameters
   // This secret should only be known to this Route Handler and the CMS
   if (secret !== "MY_SECRET_TOKEN" || !slug) {
@@ -50,7 +46,7 @@ export async function GET(request: Request) {
     sameSite: "none",
   });
 
-  // console.log(query,'query54');
+  console.log(query, "query54");
 
   redirect(`${query}`);
 }

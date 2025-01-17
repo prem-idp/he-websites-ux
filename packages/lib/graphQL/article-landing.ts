@@ -1,9 +1,9 @@
-export const HeroLandingPageQuery = (preview: boolean) => {
+export const HeroLandingPageQuery = (preview: boolean, slug: string) => {
   return `
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}
+    where: {urlSlug: "/advice/${slug}", website: {websiteName: "${process.env.PROJECT}"}
     }
      ${preview ? `preview : ${preview}` : ""}
   ) {
@@ -71,8 +71,11 @@ export const ArticleLandingSeoQuery = `{
   }
 }`;
 
-export const ArticleTextSnippet = `
+export const ArticleTextSnippetQuery = `
    ... on DynamicMediaComponent {
+   sys{
+   id
+   }
   internalName
   title
   subTitle
@@ -113,6 +116,9 @@ export const LinksQuery = `
 
 export const FaqsQuery = `
    ... on PageComponentFaq {
+   sys{
+   id
+   }
   faqComponentTitle
   faqCategoriesCollection {
     items {
@@ -130,6 +136,10 @@ export const NewsletterQuery = (preview: boolean) => {
   newsLetterData: pageNewsletterSubscriptionCollection(limit: 1    
     ${preview ? `preview : ${preview}` : ""}) {
     items {
+    sys{
+    id
+    }
+    __typename
       newsTitle
       newsDesc {
         json

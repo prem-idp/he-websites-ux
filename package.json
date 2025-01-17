@@ -12,6 +12,7 @@
   },
   "scripts": {
     "build": "npm run build --workspace=whatuni",
+    "start": "npm run start --workspace=whatuni",
     "dev": "npm run dev --workspace=whatuni",
     "lint": "eslint .",
     "test": "jest --watchAll",
