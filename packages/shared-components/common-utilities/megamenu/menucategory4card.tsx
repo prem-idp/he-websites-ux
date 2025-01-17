@@ -13,11 +13,11 @@ const Menucategory4card = ({
   parentMenu: any;
 }) => {
   const calculate = () =>
-    data.length - 1 <= 2 ? 1 : Math.ceil((data.length - 1) / 2);
+    data?.length - 1 <= 2 ? 1 : Math.ceil((data?.length - 1) / 2);
 
   const size = calculate();
   const navTitle = data?.find(
-    (item: any) => item.flagNavItemStyle === "L2 Text"
+    (item: any) => item?.flagNavItemStyle === "L2 Text"
   )?.navTitle;
 
   return (
@@ -26,18 +26,18 @@ const Menucategory4card = ({
     >
       <div className="font-semibold x-small text-neutral-500 uppercase px-[16px] pt-[32px] lg:p-[0]">
         {
-          data?.find((item: any) => item.flagNavItemStyle === "L2 Text")
+          data?.find((item: any) => item?.flagNavItemStyle === "L2 Text")
             ?.navTitle
         }
       </div>
       <ul
-        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[16px] p-[16px] lg:p-[0] bg-white`}
+        className={`grid lg:grid-cols-1 grid-rows-2 lg:grid-cols-${size} gap-[8px] p-[16px] lg:p-[0] bg-white`}
       >
         {data
           ?.filter(
-            (item: any) => item.flagNavItemStyle !== "L2 Text" // Exclude the L2 Text item
+            (item: any) => item?.flagNavItemStyle !== "L2 Text" // Exclude the L2 Text item
           )
-          .map((item: any, index: number) => (
+          ?.map((item: any, index: number) => (
             <li key={index}>
               <a
                 href={item?.navUrl || ""}
@@ -73,7 +73,7 @@ const Menucategory4card = ({
                     "NA",
                     "NA",
                     `${process.env.PROJECT}`,
-                    item.navTitle,
+                    item?.navTitle,
                     item?.navUrl,
                     parentMenu,
                     navTitle
@@ -86,7 +86,7 @@ const Menucategory4card = ({
                 }
                 className="block"
               >
-                <div className="megamenu-image-card max-h-[112px]  relative z-0 overflow-hidden">
+                <div className="megamenu-image-card min-h-[108px] max-h-[108px]  relative z-0 overflow-hidden">
                   {item?.navIcon?.url && (
                     <Image
                       className="w-full"

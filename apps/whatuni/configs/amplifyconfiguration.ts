@@ -6,7 +6,7 @@ const awsconfig: any = {
       loginWith: {
         // OPTIONAL - Hosted UI configuration
         oauth: {
-          domain: `${process.env.NEXT_PUBLIC_ENVIRONMENT}-idpc-dom-user.auth.eu-west-2.amazoncognito.com`,
+          domain: `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "" : process.env.NEXT_PUBLIC_ENVIRONMENT}${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "" : "-"}idpc-dom-user.auth.eu-west-2.amazoncognito.com`,
           scopes: [
             //'phone',
             "email",
@@ -14,24 +14,8 @@ const awsconfig: any = {
             "openid",
             //'aws.cognito.signin.user.admin'
           ],
-          redirectSignIn: [
-            "http://localhost:3000",
-            "https://mdev.dev.aws.whatuni.com",
-
-            "https://mdev.dev.aws.whatuni.com/home",
-
-            "https://mtest.test.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com",
-          ],
-          redirectSignOut: [
-            "http://localhost:3000",
-            "https://mdev.dev.aws.whatuni.com",
-
-            "https://mdev.dev.aws.whatuni.com/home",
-
-            "https://mtest.test.aws.whatuni.com/home",
-            "https://mtest.test.aws.whatuni.com",
-          ],
+          redirectSignIn: ["https://mdev.dev.aws.whatuni.com"],
+          redirectSignOut: ["https://mdev.dev.aws.whatuni.com"],
           responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
         },
       },

@@ -31,6 +31,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
   const tagCloudArray =
     tagCloudData?.data?.contentData.items?.[0]?.bodyContentCollection.items[0]
       .mediaCardsCollection.items;
+  console.log(tagCloudArray);
   return (
     <Suspense>
       <div className="tag-cloud-container">
@@ -49,7 +50,7 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
                       <ClickTrackerWrapper
                         gaData={{
                           event: "ga_contentful_events",
-                          eventName: data?.tagName,
+                          eventName: data?.eventName,
                           ctaTitle: data?.tagName,
                           ctaUrl: data?.tagUrl,
                           website: `${process.env.PROJECT}`,
