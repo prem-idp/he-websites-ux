@@ -9,8 +9,8 @@ import ColcBanner from "@packages/shared-components/common-utilities/mini-banner
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
-  console.log(Params);
-  const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.slug}`;
+
+  const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.hero}`;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
