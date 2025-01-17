@@ -7,7 +7,6 @@ const FaqClient = ({ jsondata, iscontentPreview }: any) => {
   if (!iscontentPreview) {
     data = jsondata;
   }
-  console.log(data);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const toggleAccordion = (index: number) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));

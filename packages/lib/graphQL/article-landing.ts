@@ -52,10 +52,11 @@ export const HeroLandingPageQuery = (preview: boolean, slug: string) => {
 `;
 };
 
-export const ArticleLandingSeoQuery = `{
+export const HeroLandingSeoQuery = (slug: string) => {
+  return `{
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-     where: {urlSlug: "/advice", website: {websiteName: "${process.env.PROJECT}"}}
+     where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
       seoFields {
@@ -70,6 +71,7 @@ export const ArticleLandingSeoQuery = `{
     }
   }
 }`;
+};
 
 export const ArticleTextSnippetQuery = `
    ... on DynamicMediaComponent {

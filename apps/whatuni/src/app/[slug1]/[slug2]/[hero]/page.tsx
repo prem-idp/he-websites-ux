@@ -5,8 +5,9 @@ import { HeroLandingPageQuery } from "@packages/lib/graphQL/article-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-import ColcBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
+import HeroMiniBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
+import { notFound } from "next/navigation";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
 
@@ -18,10 +19,12 @@ const page = async ({ searchParams, params }: any) => {
     HeroLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
+  if (jsondata?.data?.contentData?.items.length < 1) {
+    notFound();
+  }
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log(jsondata);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -31,7 +34,7 @@ const page = async ({ searchParams, params }: any) => {
     >
       <div className="article_landing">
         {bannerData && (
-          <ColcBanner
+          <HeroMiniBanner
             data={bannerData}
             routename={"/advice"}
             iscontentPreview={iscontentPreview}
