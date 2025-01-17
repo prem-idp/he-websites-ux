@@ -9,7 +9,6 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
   if (!isPreviewTrue) {
     jsondata = data;
   }
-  console.log(data);
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [errorstate, SetErrorState] = useState({
@@ -25,21 +24,37 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
   };
   const submitNewsletter = async () => {
     if (!errorstate.emailError && !errorstate.checkboxError) {
-      alert(`passed-email: ${email}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/users/registration`,
+        {
+          method: "POST",
+          headers: {
+            "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            ContentType: "application/json",
+          },
+          body: JSON.stringify({
+            userDetails: {
+              personalDetails: {
+                email: email,
+                marketingSolusFlag: "Y",
+              },
+              userSourceType: "SPAMBOXREGISTERED",
+            },
+            affiliateId: 220703,
+            cognitoFlag: "N",
+          }),
+        }
+      );
+      const isSuccess = await res.json();
+      if (isSuccess === "Successfully Subscribed") {
+        setSuccess(true);
+      } else if (isSuccess === "Already Subscribed") {
+        setSuccess(true);
+      } else {
+        console.log("error");
+      }
     } else {
       alert(`failed-email: ${email}`);
-    }
-
-    const res = await fetch("", {
-      method: "POST",
-      headers: {
-        "x-api-key": "",
-        ContentType: "application/json",
-      },
-    });
-    const isSuccess = await res.json();
-    if (isSuccess) {
-      setSuccess(true);
     }
   };
 

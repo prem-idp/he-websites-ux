@@ -4,12 +4,12 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-import ColcBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
+import HeroMiniBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 import { ThemeLandingPageQuery } from "@packages/lib/graphQL/theme-landing";
+import { notFound } from "next/navigation";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
-  console.log(Params);
   const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.hero}/${Params.theme}`;
   const searchparams = await searchParams;
   const iscontentPreview =
@@ -18,11 +18,13 @@ const page = async ({ searchParams, params }: any) => {
     ThemeLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
+  if (jsondata?.data?.contentData?.items.length < 1) {
+    notFound();
+  }
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
-  console.log(componentList);
+
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -32,9 +34,8 @@ const page = async ({ searchParams, params }: any) => {
     >
       <div className="article_landing">
         {bannerData && (
-          <ColcBanner
+          <HeroMiniBanner
             data={bannerData}
-            routename={"/advice"}
             iscontentPreview={iscontentPreview}
           />
         )}
@@ -58,7 +59,7 @@ const page = async ({ searchParams, params }: any) => {
                 callAction={childItems?.callToAction}
                 parentSysId={childItems?.sys?.id}
                 routename={slugurl}
-                contentModelName={"pageTemplateHeroLandingPageCollection"}
+                contentModelName={"pageTemplateThemedLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
               />
             );

@@ -61,3 +61,23 @@ export const ThemeLandingPageQuery = (preview: boolean, slug: string) => {
     }
   }`;
 };
+
+export const ThemeLandingSeoQuery = (slug: string) => {
+  return `{contentData:pageTemplateThemedLandingPageCollection(
+    limit: 1
+     where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      seoFields {
+        metaTite
+        metaDescription
+         metaKeywords
+        canonical
+      }
+        robots {
+        title
+      }
+    }
+  }
+}`;
+};
