@@ -27,11 +27,9 @@ const GoogleOneTap = () => {
 
   useEffect(() => {
     async function callRegisterfunction() {
-      console.log("inside the ccallRegisterfuncti");
       try {
         const cookieval = getCookieValue("Signinonetap");
         if (cookieval === "true") {
-          console.log("inside the cookieval from the ");
           const session: any = await fetchAuthSession();
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/registration`,
@@ -54,11 +52,48 @@ const GoogleOneTap = () => {
           } else {
             const res = await response.json();
             if (res.message.toLowerCase() === "user updated") {
-              // console.log(res, "User updated successfully");
+              console.log(res, "User updated successfully");
             } else {
-              console.log(res, "User registered successfully");
+              try {
+                const session: any = await fetchAuthSession();
+                const clickstreamresponse = await fetch(
+                  `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/logs/clickstream`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                      tracksessionid: tracksession_id,
+                      authorization: session?.tokens?.idToken?.toString(), // Ensure it's a string
+                    },
+                    body: JSON.stringify({
+                      networkId: 2,
+                      affiliateId: 220703,
+                      userloggedIn: "Y",
+                      functionalityName: "Sign Up",
+                      signupMethod: "Google",
+                      siteName: "Whatuni",
+                      eventType: "UserRegistered",
+                      refererURL: window.location.href,
+                      pageName: "home",
+                      actionType: "Interaction",
+                      siteLanguage: "English",
+                      sessionTrackId: tracksession_id,
+                      isMobileUser: `${window.innerWidth < 1024 ? "Y" : "N"}`,
+                      screenResolution:
+                        window.innerWidth ||
+                        document.documentElement.clientWidth ||
+                        document.body.clientWidth,
+                      CTATitle: "Continue with Google",
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error("Error during clickstream logging:", error);
+              }
             }
           }
+          document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
         }
       } catch (error) {
         console.error("Error during user registration:", error);
@@ -67,7 +102,6 @@ const GoogleOneTap = () => {
     callRegisterfunction();
 
     async function watchForCognitoCookie() {
-      console.log("inside thewatchCognitoCookies");
       setCookie("Signinonetap", "true", 7);
       signInWithRedirect({
         provider: "Google",

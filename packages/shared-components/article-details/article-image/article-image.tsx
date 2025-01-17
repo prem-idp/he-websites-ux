@@ -1,12 +1,20 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
 
-const Articleimage = () => {
+const Articleimage = ({ data, key }: any) => {
   return (
-      <div>
-           <Image src="/static/assets/images/article_image1.jpg" width="804" height="452" className='block w-full h-auto' alt='Article_image' />
+    <div>
+      {data?.imgUpload?.url && (
+        <Image
+          src={data?.imgUpload?.url}
+          width="804"
+          height="452"
+          className="block w-full h-auto"
+          alt={data?.imgAltText ?? "Article_image"}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Articleimage
+export default Articleimage;

@@ -5,25 +5,20 @@ export function articleDetailQuery(
   preview: any
 ) {
   const query = `{
-    contentData: articleCollection(
+  contentData: articleCollection(
     limit: 1
     ${preview ? `preview : ${preview}` : ""}
     where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
-    
       pageTitle
       seoFields {
-        
         metaTite
         metaDescription
         canonical
         metaKeywords
       }
       author {
-      sys {
-      id
-    }
         internalName
         firstName
         lastName
@@ -119,10 +114,21 @@ export function articleDetailQuery(
           }
         }
       }
+      skipLinks {
+        skipLinkTitle
+        anchorLinksCollection {
+          items {
+            urlLabel
+            moreLinkUrl
+            moreLinkTarget
+          }
+        }
+      }
       bodyContentCollection {
         items {
           __typename
           ... on PageComponentRichText {
+            skipLinkId
             paragraphTitle
             media {
               url
@@ -144,11 +150,6 @@ export function articleDetailQuery(
             imgUpload {
               url
             }
-          }
-          ... on PageDataTableStatic {
-            lTname
-            lTtitle
-            apiUrl
           }
         }
       }

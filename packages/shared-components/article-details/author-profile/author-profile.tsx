@@ -12,32 +12,33 @@ const Authorprofile = ({ data, preview }: any) => {
             {
               entryId: data?.author?.sys?.id,
               fieldId: "firstName",
-              targetSelector: "#title-element",
+              targetSelector: "#Author-Name",
             },
             {
               entryId: data?.author?.sys?.id,
               fieldId: "middleName",
-              targetSelector: "#title-element",
+              targetSelector: "#Author-Name",
             },
             {
               entryId: data?.author?.sys?.id,
               fieldId: "lastName",
-              targetSelector: "#title-element",
+              targetSelector: "#Author-Name",
             },
-            {
-              entryId: data?.author?.sys?.id,
-              fieldId: "firstName",
-              targetSelector: "#title-element",
-            },
+
             {
               entryId: data?.author?.sys?.id,
               fieldId: "audienceGroup",
-              targetSelector: "#description-element",
+              targetSelector: "#audienceGroup",
             },
             {
-              entryId: data?.author?.sys?.id,
-              fieldId: "image",
-              targetSelector: "#image-element",
+              entryId: data?.author?.image?.sys?.id,
+              fieldId: "imgUpload",
+              targetSelector: "#imgUpload",
+            },
+            {
+              entryId: data?.bannerImageCollection?.items[0]?.sys?.id,
+              fieldId: "imgUpload",
+              targetSelector: "#imgUpload",
             },
           ]}
         />
@@ -47,6 +48,7 @@ const Authorprofile = ({ data, preview }: any) => {
           <div className="flex gap-[16px]">
             {data?.author?.image?.imgUpload?.url && (
               <Image
+                id="imgUpload"
                 className="w-[40px] h-[40px] rounded-[30px] object-cover"
                 src={data?.author?.image?.imgUpload?.url}
                 width="40"
@@ -57,11 +59,15 @@ const Authorprofile = ({ data, preview }: any) => {
             <div className="flex flex-col">
               <span className="text-blue-400 small font-medium">
                 <Link
+                  id="Author-Name"
                   className="hover:underline"
                   href="#"
                 >{`${data?.author?.firstName ?? ""}${data?.author?.middleName ?? ""}${data?.author?.lastName ?? ""}`}</Link>
               </span>
-              <span className="text-grey300 small font-normal">
+              <span
+                id="audienceGroup"
+                className="text-grey300 small font-normal"
+              >
                 {data?.author?.audienceGroup}
               </span>
             </div>
@@ -70,6 +76,7 @@ const Authorprofile = ({ data, preview }: any) => {
         <div className="w-full">
           {data?.bannerImageCollection?.items[0]?.imgUpload?.url && (
             <Image
+              id="imgUpload"
               src={data?.bannerImageCollection?.items[0]?.imgUpload?.url}
               width="907"
               height="511"

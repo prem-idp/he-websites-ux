@@ -12,18 +12,19 @@ import dynamicComponentImports from "./dynamicimport";
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
 import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
 const Page = async ({ params, searchParams }: any) => {
-  console.log(await params, await searchParams.preview);
+  // console.log(await params, await searchParams?.preview);
   const preview =
-    (await searchParams.preview) === "MY_SECRET_TOKEN" ? true : false;
+    (await searchParams?.preview) === "MY_SECRET_TOKEN" ? true : false;
   const category = "money";
-  const title =
-    "article-the-best-resources-for-saving-money-at-university-whatuni";
+  const title = "the-best-resources-for-saving-money-at-university";
   const id = "121213";
   const articledetaildata = await graphQlFetchFunction(
     articleDetailQuery(category, title, id, preview),
     preview
   );
+  console.dir(articledetaildata, "Asddddddddddddddddddddd");
   const data = articledetaildata?.data?.contentData?.items[0];
+
   const breadcrumbData = [
     // {
     //   url: "#",
@@ -71,7 +72,7 @@ const Page = async ({ params, searchParams }: any) => {
         <section>
           <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
             <div className="flex flex-col lg:flex-row gap-[20px]">
-              <Skiplink />
+              <Skiplink data={data} />
               <div className="w-full article-details-aside">
                 <section className="pb-[40px]">
                   <div className="rtf-innerstyle flex flex-col gap-[16px]">
@@ -83,7 +84,7 @@ const Page = async ({ params, searchParams }: any) => {
                         return <Component key={index} data={dt} />;
                       }
                     )}
-                    <div>
+                    {/* <div>
                       <b>
                         <i style={{ color: "red" }}>
                           --------------------------------------below Component
@@ -94,13 +95,13 @@ const Page = async ({ params, searchParams }: any) => {
                     <Articleimage />
                     <Pullquote />
                     <Articletables />
-                    <Findoutmore />
+                    <Findoutmore /> */}
                   </div>
-                  <section className="pt-[40px]">
+                  {/* <section className="pt-[40px]">
                     <Ctabanner />
-                  </section>
+                  </section> */}
                 </section>
-                <Dontmissout />
+                {/* <Dontmissout /> */}
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Articletables = () => {
+const Articletables = ({ data, key }: any) => {
   const tableQualificationData = [
     {
       qualification: "UCAS points",
@@ -34,7 +34,8 @@ const Articletables = () => {
       rankRating: "1",
       rankRatingIcon: "",
       universityName: "University of Kent",
-      universityLogo: "/static/assets/images/article-details/university-logo.svg",
+      universityLogo:
+        "/static/assets/images/article-details/university-logo.svg",
       universityrating: "4.5",
       score: "100.0",
     },
@@ -76,8 +77,11 @@ const Articletables = () => {
     },
   ];
   // table for qualification with requirments
-  const tableQualification = tableQualificationData.map((items,index) => (
-    <div key={index} className="py-[12px] pl-[24px] pr-[20px] flex justify-between border-b-[1px] border-grey-200">
+  const tableQualification = tableQualificationData.map((items, index) => (
+    <div
+      key={index}
+      className="py-[12px] pl-[24px] pr-[20px] flex justify-between border-b-[1px] border-grey-200"
+    >
       <span className="font-inter small text-grey300 font-medium">
         {items.qualification}
       </span>
@@ -88,21 +92,33 @@ const Articletables = () => {
   ));
   // Table for ranking unversity guide
   const tableuniversity = tableUniversityData.map((items, index) => (
-    <div key={index} className="flex justify-between pl-[24px] pr-[20px] py-[5px] border-b-[1px] border-grey-200">
+    <div
+      key={index}
+      className="flex justify-between pl-[24px] pr-[20px] py-[5px] border-b-[1px] border-grey-200"
+    >
       <div className="flex">
         <div className="flex min-w-[92px] md:min-w-[124px] justify-between pr-[34px]">
           <span className="content-center font-inter small text-grey300 font-medium">
             {items.rank}
           </span>
-          <div key={items.rankRatingIcon} className="flex flex-col items-center justify-center md:flex-row ">
-                      {items.rankRatingIcon ? (
-                          <>
-                               <Image src={items.rankRatingIcon} width={16}
-                          height={16} alt="icon" aria-label={`Rank rating icon for ${items.rankRating}`}
-                      />
-                          </> )
-                          : (<></>) }
-                             
+          <div
+            key={items.rankRatingIcon}
+            className="flex flex-col items-center justify-center md:flex-row "
+          >
+            {items.rankRatingIcon ? (
+              <>
+                <Image
+                  src={items.rankRatingIcon}
+                  width={16}
+                  height={16}
+                  alt="icon"
+                  aria-label={`Rank rating icon for ${items.rankRating}`}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+
             <span className="content-center font-inter small text-grey400 font-normal">
               {items.rankRating}
             </span>
@@ -123,7 +139,12 @@ const Articletables = () => {
               {items.universityName}
             </span>
             <div className="flex items-center">
-              <Image src="/static/assets/icons/blue-star.svg" width="24" height="24" alt="star-blue" />
+              <Image
+                src="/static/assets/icons/blue-star.svg"
+                width="24"
+                height="24"
+                alt="star-blue"
+              />
               <span className="align-middle font-inter small text-grey300 font-normal">
                 {items.universityrating}
               </span>
@@ -141,38 +162,37 @@ const Articletables = () => {
   return (
     <>
       <div>
-      <div className="flex flex-col">
-        <div className="bg-grey-100 py-[12px] px-[24px] flex justify-between border-b-[1px] border-grey-200">
-          <span className="font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
-            QUALIFICATION
-          </span>
-          <span className="font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
-            REQUIREMENTS
-          </span>
-        </div>
-        {tableQualification}
-      </div>
-      <div className="flex flex-col">
-        <span className="py-[16px] px font-inter tracking-[1px] x-small text-grey-500 uppercase font-semibold">
-          SOURCE: COMPLETE UNIVERSITY GUIDE
-        </span>
-        <div className="bg-grey-100 py-[12px] flex justify-between px-[24px] border-b-[1px] border-grey-200">
-          <div className="flex">
-            <span className="min-width-[60px] md:min-w-[124px] font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
-              RANK
+        <div className="flex flex-col">
+          <div className="bg-grey-100 py-[12px] px-[24px] flex justify-between border-b-[1px] border-grey-200">
+            <span className="font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
+              QUALIFICATION
             </span>
-            <span className="pl-[56px] md:pl-[24px] font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
-              University name
+            <span className="font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
+              REQUIREMENTS
             </span>
           </div>
-          <span className="font-inter hidden md:block x-small tracking-[1px] text-grey300 uppercase font-semibold">
-            Score
-          </span>
+          {tableQualification}
         </div>
-        {tableuniversity}
+        <div className="flex flex-col">
+          <span className="py-[16px] px font-inter tracking-[1px] x-small text-grey-500 uppercase font-semibold">
+            SOURCE: COMPLETE UNIVERSITY GUIDE
+          </span>
+          <div className="bg-grey-100 py-[12px] flex justify-between px-[24px] border-b-[1px] border-grey-200">
+            <div className="flex">
+              <span className="min-width-[60px] md:min-w-[124px] font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
+                RANK
+              </span>
+              <span className="pl-[56px] md:pl-[24px] font-inter x-small tracking-[1px] text-grey300 uppercase font-semibold">
+                University name
+              </span>
+            </div>
+            <span className="font-inter hidden md:block x-small tracking-[1px] text-grey300 uppercase font-semibold">
+              Score
+            </span>
+          </div>
+          {tableuniversity}
+        </div>
       </div>
-      </div>
-      
     </>
   );
 };

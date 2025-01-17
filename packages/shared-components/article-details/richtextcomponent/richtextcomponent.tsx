@@ -41,12 +41,13 @@ export default function Richtextcomponent({ data }: any) {
           className="mb-4"
         />
       )}
-
-      {data?.paragraphBodyRichText?.json &&
-        documentToReactComponents(
-          data?.paragraphBodyRichText.json,
-          customOptions
-        )}
+      <div id={data?.skipLinkId}>
+        {data?.paragraphBodyRichText?.json &&
+          documentToReactComponents(
+            data?.paragraphBodyRichText.json,
+            customOptions
+          )}
+      </div>
     </>
   );
 }

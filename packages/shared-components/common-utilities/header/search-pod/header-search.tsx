@@ -6,18 +6,38 @@ import CourseTab from "@packages/shared-components/home/search-input-pods/course
 import Image from "next/image";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { CourseData, UniData } from "@packages/lib/types/interfaces";
+import dynamic from "next/dynamic";
+
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
 interface props {
   course_data: CourseData;
   uni_data: UniData;
 }
-export default function Search({ course_data, uni_data }: props) {
+export default function Search({ course_data, uni_data }: any) {
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
   const rightMenuAction = (actionType: string) => {
     emitter.emit("rightMenuActionclose", actionType);
   };
+  const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState(false);
+  const ucasClick = () => {
+    SetIsUcasPopupOpen(true);
+    const body = document.body;
+    body.classList.add("overflow-y-hidden");
+  };
 
+  const ucasClose = () => {
+    const body = document.body;
+    SetIsUcasPopupOpen(false);
+    body.classList.remove("overflow-y-hidden");
+  };
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -117,11 +137,18 @@ export default function Search({ course_data, uni_data }: props) {
                       Don’t know your UCAS points?
                     </div>
                     <a
+                      onClick={ucasClick}
                       href="#"
                       className="text-blue-500 font-semibold hover:underline"
                     >
                       Calculate them
                     </a>
+                    {isUcasPopupOpen && (
+                      <UcasComponent
+                        onClose={ucasClose}
+                        isUcasOpen={isUcasPopupOpen}
+                      />
+                    )}
                   </div>
                 </div>
               )}
