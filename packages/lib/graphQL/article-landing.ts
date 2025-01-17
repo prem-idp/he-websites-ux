@@ -1,9 +1,9 @@
-export const HeroLandingPageQuery = (preview: boolean) => {
+export const HeroLandingPageQuery = (preview: boolean, slug: string) => {
   return `
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}
+    where: {urlSlug: "/advice/${slug}", website: {websiteName: "${process.env.PROJECT}"}
     }
      ${preview ? `preview : ${preview}` : ""}
   ) {

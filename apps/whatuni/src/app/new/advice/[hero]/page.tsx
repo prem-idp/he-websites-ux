@@ -8,20 +8,18 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import ColcBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams, params }: any) => {
+  const slug = await params?.hero;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
   const jsondata = await graphQlFetchFunction(
-    HeroLandingPageQuery(iscontentPreview),
+    HeroLandingPageQuery(iscontentPreview, slug),
     iscontentPreview
   );
-  console.log(params);
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log("query", HeroLandingPageQuery(iscontentPreview));
-  console.log("jsondata", jsondata);
-  console.log("componentList", componentList);
+
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
