@@ -115,17 +115,15 @@ export const LinksQuery = `
 `;
 
 export const FaqsQuery = `
-   ... on PageComponentFaq {
-   sys{
-   id
-   }
+ ... on PageComponentFaq {
+  sys{id}
   faqComponentTitle
-  faqCategoriesCollection {
+  faqEntriesCollection {
+    
     items {
-      ... on PageComponentQa {
-        question
-        answer
-      }
+        sys{id}
+      question
+      answer
     }
   }
 }

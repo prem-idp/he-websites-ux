@@ -8,7 +8,8 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import ColcBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = async ({ searchParams, params }: any) => {
-  const slug = await params?.hero;
+  const Params = await params;
+  const slug = Params?.hero;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -54,7 +55,7 @@ const page = async ({ searchParams, params }: any) => {
                 internalName={childItems?.internalName}
                 callAction={childItems?.callToAction}
                 parentSysId={childItems?.sys?.id}
-                routename="/advice/budgeting"
+                routename={`/advice/${slug}`}
                 contentModelName={"pageTemplateHeroLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
               />
