@@ -1,7 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { ClickStream } from "./clickstream";
+import { v4 as uuidv4 } from "uuid";
+
 const GoogleOneTapPgs = () => {
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
@@ -10,48 +11,15 @@ const GoogleOneTapPgs = () => {
     const cookie = cookieArray.find((c) => c.startsWith(`${name}=`));
     return cookie ? cookie.split("=")[1] : "";
   }
-  async function clickstreamSigin() {
-    try {
-      // Construct query parameters
-      const queryParams = new URLSearchParams({
-        siteName: `${process.env.PROJECT}`,
-        affilateId: `${process.env.AFFILATE_ID}`,
-        pageName: localStorage.getItem("gaPageName") || "",
-        CTATitle: "Continue with Google",
-        signedInMethod: "GoogleOneTap",
-        functionalityName: "Sign In",
-        eventType: "SignedIn",
-        actionType: "Interaction",
-        deviceWidth: String(
-          window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth
-        ), // Convert to string
-      });
 
-      // Call the GET API
-      const response = await fetch(`/api/clickstream?${queryParams}`, {
-        method: "GET",
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error from API:", errorData);
-      } else {
-        const result = await response.json();
-        console.log("API call successful:", result);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  }
-  function extractdetailsforregister(text: any) {
+  async function extractdetailsforregister(text: any) {
+    console.log("inside the extractdetailsforregister");
     const parts = text.toString().split("##SPLIT##");
     if (parts) {
       const initial =
-        parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : " ";
-      const count = parts[2] || " ";
-      const sessionId = parts[3] || " ";
+        parts[1] && parts[1] !== '""' ? parts[1].replace(/"/g, "") : "";
+      const count = parts[2] || "";
+      const sessionId = parts[3] || "";
       if (initial) {
         setCookie("pgs_auth", initial, 7);
       }
@@ -61,8 +29,57 @@ const GoogleOneTapPgs = () => {
       if (sessionId) {
         setCookie("pgs_x", sessionId, 7);
       }
+      const sessionIdtolog = sessionId ? sessionId : getCookieValue("pgs_x");
+      console.log(sessionIdtolog, "session id for logging");
+      if (sessionIdtolog) {
+        console.log(sessionIdtolog, "inside the if ");
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/logs/clickstream`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+                tracksessionid: sessionIdtolog,
+              },
+              body: JSON.stringify({
+                affiliateId: 607022,
+                networkId: 3,
+                userloggedIn: "Y",
+                functionalityName: "Sign Up",
+                signupMethod: "Google",
+                siteName: "Pgs",
+                eventType: "UserRegistered",
+                refererURL: window.location.href,
+                pageName: "home",
+                actionType: "Interaction",
+                siteLanguage: "English",
+                sessionTrackId: sessionIdtolog,
+                isMobileUser: `${window.innerWidth < 1024 ? "Y" : "N"}`,
+                screenResolution:
+                  window.innerWidth ||
+                  document.documentElement.clientWidth ||
+                  document.body.clientWidth,
+                CTATitle: "Continue with Google",
+              }),
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Clickstream logging failed");
+          }
+          console.log("Clickstream logged successfully");
+        } catch (error) {
+          console.error("Error during clickstream logging:", error);
+        }
+      }
+      window.location.reload();
+    } else {
+      document.cookie = `pgs_auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      document.cookie = `pgs_bskt_cnt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      document.cookie = `pgs_x=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+      window.location.reload();
     }
-    window.location.reload();
   }
 
   function extractDetails(text: any) {
@@ -120,14 +137,8 @@ const GoogleOneTapPgs = () => {
 
           const loginData = await loginResponse.text();
           if (loginData) {
-            clickstreamSigin();
+            extractDetails(loginData);
           }
-          extractDetails(loginData);
-          // const session_id = extractLastNumber(loginData);
-          // If session_id exists, set it in cookies
-          // if (session_id) {
-          //   setCookie("pgs_x", session_id, 7); // Expires in 7 days
-          // }
         } else {
           const RegisterResponse = await fetch(
             `/pgs/pgs_user.do_register_new?p_first_name=${decodedToken?.given_name}&p_last_name=${decodedToken?.family_name}&p_email=${decodedToken?.email}&p_form_type=GOOGLE ONE TAP`,
@@ -139,6 +150,7 @@ const GoogleOneTapPgs = () => {
             }
           );
           const loginData = await RegisterResponse.text();
+
           extractdetailsforregister(loginData);
         }
       } else {

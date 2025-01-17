@@ -25,6 +25,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   data,
 }) => {
   let ucasval: any = 0;
+  let min: any = 0;
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<any>(false);
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
@@ -165,8 +166,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const searchHandler = async () => {
     if (isAuthenticated) {
       const cookiesval = decodeURIComponent(getCookie("ucaspoint") || "");
+      const minval: any = getCookie("min");
+      min = parseInt(minval, 10);
       ucasval = cookiesval;
     } else {
+      const minval: any = getCookie("min");
+      min = parseInt(minval, 10);
       const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
       const point: any = JSON.parse(cookiesval1);
       ucasval = point?.ucasPoint;
@@ -252,7 +257,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       router.push(
-        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
+        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
       // router.push(`/search?${params.toString()}`);
       // router.push({
@@ -299,7 +304,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
       );
       router.push(searchFormHandle.subject.url);
       router.push(
-        `${searchFormHandle.subject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+        `${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
@@ -366,7 +371,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       return router.push(
-        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`
+        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     if (matchedSubject && canmatch) {
@@ -402,7 +407,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       return router.push(
-        `${matchedSubject.url}${ucasval ? `&score=0,${ucasval}` : ""}`
+        `${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
@@ -411,7 +416,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "ga_events",
         "homepage_search",
         "subject_search",
-        (!matchedSubject && sanitizedDescription) ? sanitizedDescription : "NA",
+        !matchedSubject && sanitizedDescription ? sanitizedDescription : "NA",
         matchedSubject?.parent_subject
           ? matchedSubject?.parent_subject
           : matchedSubject?.description,
