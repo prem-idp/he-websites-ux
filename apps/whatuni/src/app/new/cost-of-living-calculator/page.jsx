@@ -1,18 +1,15 @@
 "use client";
-
 import { useEffect } from "react";
 import Script from "next/script";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 export default function Page() {
   useEffect(() => {
-    // Dynamically create and append the CSS link
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href =
       "https://mdev.dev.aws.whatuni.com/colc/static/css/main.colc.0.1.1.css";
     link.type = "text/css";
     document.head.appendChild(link);
-
-    // Clean up: Remove the link on component unmount
     return () => {
       document.head.removeChild(link);
     };
@@ -21,10 +18,9 @@ export default function Page() {
   return (
     <>
       <div>
-        {/* Include the script tag directly */}
-        <h1>hi</h1>
         <Script src="https://mdev.dev.aws.whatuni.com/colc/static/js/main.colc.0.1.1.js"></Script>
         <colc-calculator></colc-calculator>
+        <Subscribecomponents isContentPreview={false} />
       </div>
     </>
   );
