@@ -1,19 +1,9 @@
-export function articleDetailQuery(
-  category: any,
-  title: any,
-  id: any,
-  preview: any
-) {
-  const query = `{
+export const articleDetailQuery = `{
   contentData: articleCollection(
     limit: 1
-    ${preview ? `preview : ${preview}` : ""}
-    where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "article-the-best-resources-for-saving-money-at-university-whatuni", website: {websiteName: "Whatuni"}}
   ) {
     items {
-     sys{
-    id
-    }
       pageTitle
       seoFields {
         metaTite
@@ -22,9 +12,6 @@ export function articleDetailQuery(
         metaKeywords
       }
       author {
-       sys{
-      id
-      }
         internalName
         firstName
         lastName
@@ -35,9 +22,6 @@ export function articleDetailQuery(
         longBio
         audienceGroup
         image {
-         sys{
-      id
-      }
           imgUpload {
             url
             height
@@ -48,9 +32,6 @@ export function articleDetailQuery(
       }
       bannerImageCollection {
         items {
-         sys{
-      id
-      }
           imgAltText
           imgUpload {
             url
@@ -126,30 +107,10 @@ export function articleDetailQuery(
           }
         }
       }
-      skipLinks {
-       sys{
-      id
-      }
-        skipLinkTitle
-        anchorLinksCollection {
-          items {
-           sys{
-      id
-      }
-            urlLabel
-            moreLinkUrl
-            moreLinkTarget
-          }
-        }
-      }
       bodyContentCollection {
         items {
           __typename
           ... on PageComponentRichText {
-           sys{
-    id
-    }
-            skipLinkId
             paragraphTitle
             media {
               url
@@ -160,9 +121,6 @@ export function articleDetailQuery(
             }
           }
           ... on PagePullQuotes {
-           sys{
-    id
-    }
             pullQuote {
               json
             }
@@ -170,19 +128,18 @@ export function articleDetailQuery(
             pullQuoteRole
           }
           ... on PageImage {
-           sys{
-    id
-    }
             imgAltText
             imgUpload {
               url
             }
+          }
+          ... on PageDataTableStatic {
+            lTname
+            lTtitle
+            apiUrl
           }
         }
       }
     }
   }
 }`;
-
-  return query;
-}
