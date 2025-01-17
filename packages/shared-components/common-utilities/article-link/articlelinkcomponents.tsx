@@ -11,15 +11,18 @@ const Articlelinkcomponents = async ({
   internalName,
   routename,
   contentModelName,
+  iscontentPreview,
 }: any) => {
   const query = homePageComponentQueryFormation(
     internalName,
     LinksQuery,
     routename,
-    contentModelName
+    contentModelName,
+    iscontentPreview
   );
-  const data = (await graphQlFetchFunction(query))?.data?.contentData?.items[0]
-    ?.bodyContentCollection?.items[0]?.mediaCardsCollection?.items;
+  const data = (await graphQlFetchFunction(query, iscontentPreview))?.data
+    ?.contentData?.items[0]?.bodyContentCollection?.items[0]
+    ?.mediaCardsCollection?.items;
   return (
     <div className="articlelink-container bg-grey-50">
       <div className="max-w-container mx-auto">

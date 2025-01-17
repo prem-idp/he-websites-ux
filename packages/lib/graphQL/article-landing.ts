@@ -1,11 +1,20 @@
-export const ArticleLandingPageQuery = `
+export const HeroLandingPageQuery = (preview: boolean) => {
+  return `
 {
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
-    where: {urlSlug: "/advice", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "/advice/budgeting", website: {websiteName: "${process.env.PROJECT}"}
+    }
+     ${preview ? `preview : ${preview}` : ""}
   ) {
     items {
+    sys {
+         id
+        }
      bannerImage {
+        sys {
+         id
+        }
         internalName
         title
         subTitle
@@ -21,6 +30,9 @@ export const ArticleLandingPageQuery = `
       }
       bodyContentCollection(limit: 10) {
         items {
+             sys {
+         id
+        }
           internalName
           cardSectionTitle
           flagComponentStyle
@@ -38,6 +50,8 @@ export const ArticleLandingPageQuery = `
   }
 }
 `;
+};
+
 export const ArticleLandingSeoQuery = `{
   contentData: pageTemplateHeroLandingPageCollection(
     limit: 1
@@ -57,8 +71,11 @@ export const ArticleLandingSeoQuery = `{
   }
 }`;
 
-export const ArticleTextSnippet = `
+export const ArticleTextSnippetQuery = `
    ... on DynamicMediaComponent {
+   sys{
+   id
+   }
   internalName
   title
   subTitle
@@ -99,6 +116,9 @@ export const LinksQuery = `
 
 export const FaqsQuery = `
    ... on PageComponentFaq {
+   sys{
+   id
+   }
   faqComponentTitle
   faqCategoriesCollection {
     items {
@@ -111,9 +131,15 @@ export const FaqsQuery = `
 }
 `;
 
-export const NewsletterQuery = `{
-  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1) {
+export const NewsletterQuery = (preview: boolean) => {
+  return `{
+  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1    
+    ${preview ? `preview : ${preview}` : ""}) {
     items {
+    sys{
+    id
+    }
+    __typename
       newsTitle
       newsDesc {
         json
@@ -128,3 +154,4 @@ export const NewsletterQuery = `{
     }
   }
 }`;
+};

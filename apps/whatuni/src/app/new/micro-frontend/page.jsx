@@ -22,6 +22,7 @@ export default function Page() {
     <>
       <div>
         {/* Include the script tag directly */}
+        <h1>hi</h1>
         <Script src="https://mdev.dev.aws.whatuni.com/colc/static/js/main.colc.0.1.1.js"></Script>
         <colc-calculator></colc-calculator>
       </div>
