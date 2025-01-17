@@ -15,7 +15,6 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
     emailError: false,
     checkboxError: false,
   });
-
   const emailChange = (event: any) => {
     setEmail(event.target.value);
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.uk)$/;
