@@ -25,6 +25,13 @@ const page = async ({ searchParams, params }: any) => {
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
+  console.log("hero-lannding-page-slug", slugurl);
+  console.log(
+    "hero-landing-page-query",
+    HeroLandingPageQuery(iscontentPreview, slugurl)
+  );
+  console.log("Hero-json-response", jsondata);
+  console.log("Hero-components", componentList);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"

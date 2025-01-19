@@ -1,12 +1,6 @@
 import React from "react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
-const Subscribebtn = ({
-  btnAction,
-  btnName,
-  error,
-  sysId,
-  isContentPreview,
-}: any) => {
+const Subscribebtn = ({ btnAction, btnName, sysId, isContentPreview }: any) => {
   return (
     <>
       {isContentPreview && (
@@ -26,7 +20,7 @@ const Subscribebtn = ({
         id="newsletter_btn"
         onClick={btnAction}
       >
-        {btnName} {error && "error"}
+        {btnName}
       </button>
     </>
   );
