@@ -8,7 +8,7 @@ export async function graphQlFetchFunction(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${isContentPreview ? process.env.NEXT_PUBLIC_GRAPHQL_preview_AUTH : "dPYwKtJ4UdtMv4mHmwQ1LmZ9tkdcM4YfPBq1UYboQWI"}`,
+        Authorization: `Bearer ${isContentPreview ? "dPYwKtJ4UdtMv4mHmwQ1LmZ9tkdcM4YfPBq1UYboQWI" : process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
     });
