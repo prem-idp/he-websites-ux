@@ -6,7 +6,6 @@ import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/Con
 
 const Pullquote = ({ propsdata, key, preview }: any) => {
   const data = useContentfulLiveUpdates(propsdata);
-  console.log(data, "rrrrrrrrrrrrrrrrrrrrrrrrrr");
   return (
     <>
       {preview && (

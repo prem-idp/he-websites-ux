@@ -28,7 +28,12 @@ const page = async ({ searchParams, params }: any) => {
   const articleLoop = (
     await graphQlFetchFunction(ArticleQuery(iscontentPreview, slugurl))
   )?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-  console.log("heading", articleLoop);
+  console.log("theme-lannding-page-slug", slugurl);
+  console.log(
+    "theme-landing-page-query",
+    ThemeLandingPageQuery(iscontentPreview, slugurl)
+  );
+  console.log("theme-json-response", jsondata);
 
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
