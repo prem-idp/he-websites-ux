@@ -11,7 +11,8 @@ import { ThemeLandingPageQuery } from "@packages/lib/graphQL/theme-landing";
 import { notFound } from "next/navigation";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
-  const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.hero}/${Params.theme}`;
+  const slugurl = `/${Params.herohub}/${Params.money}/${Params.budgeting}`;
+  console.log(slugurl);
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;

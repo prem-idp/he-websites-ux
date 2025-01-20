@@ -1,5 +1,5 @@
 "use client";
-
+import { useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { createCookieConsent } from "./OneTrustcookie";
@@ -110,7 +110,9 @@ export default function OneTrustCookieScript({
       }
     }, 1000);
   };
-
+  const searchParams = useSearchParams();
+  const ispreviewtrue =
+    searchParams.get("preview") === "MY_SECRET_TOKEN" ? true : false;
   const [userConsentGiven, setUserConsentGiven] = useState<boolean>(false);
   useEffect(() => {
     // Function to check consent, when event fires
@@ -143,7 +145,7 @@ export default function OneTrustCookieScript({
 
   return (
     <>
-      {useinteraction && (
+      {useinteraction && !ispreviewtrue && (
         <>
           {userConsentGiven ? (
             <Script

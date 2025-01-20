@@ -1,14 +1,14 @@
 export function articleDetailQuery(
-  category: any,
-  title: any,
-  id: any,
+  // category: any,
+  urlSlug: any,
+  // id: any,
   preview: any
 ) {
   const query = `{
   contentData: articleCollection(
     limit: 1
+    where: {urlSlug: "${urlSlug}", website: {websiteName: "${process.env.PROJECT}"}}
     ${preview ? `preview : ${preview}` : ""}
-    where: {urlSlug: "${title}", website: {websiteName: "${process.env.PROJECT}"}}
   ) {
     items {
      sys{
