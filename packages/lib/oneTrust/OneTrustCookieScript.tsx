@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { createCookieConsent } from "./OneTrustcookie";
 import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
 
@@ -144,7 +144,7 @@ export default function OneTrustCookieScript({
   }, []);
 
   return (
-    <>
+    <Suspense fallback={<p>loading</p>}>
       {useinteraction && !ispreviewtrue && (
         <>
           {userConsentGiven ? (
@@ -165,6 +165,6 @@ export default function OneTrustCookieScript({
           )}
         </>
       )}
-    </>
+    </Suspense>
   );
 }
