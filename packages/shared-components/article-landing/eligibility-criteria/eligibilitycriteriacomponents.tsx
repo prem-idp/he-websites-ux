@@ -56,7 +56,7 @@ const Eligibilitycriteriacomponents = async ({
         <div className="eligibility-container bg-grey-50">
           <div className="max-w-container mx-auto">
             <div className="eligibility-card-container flex flex-col gap-[32px] px-[16px] md:px-[20px] xl:px-[0] py-[34px] md:py-[64px]">
-              <div className="eligibility-header">
+              <div className="eligibility-header flex flex-col gap-[4px]">
                 {heading && (
                   <div className="h2 font-bold" id="eligiblitycard_heading">
                     {heading}
@@ -64,7 +64,7 @@ const Eligibilitycriteriacomponents = async ({
                 )}
                 {subheading && (
                   <p
-                    className="font-normal small mt-[8px]"
+                    className="font-normal small"
                     id="eligiblitycard_subheading"
                   >
                     {subheading}

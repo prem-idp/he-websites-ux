@@ -173,7 +173,7 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
                     </div>
                     <label
                       htmlFor="newsletters"
-                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                      className="check-label small font-normal text-grey300"
                     >
                       I confirm I am over 16 and agree to the{" "}
                       <Link
