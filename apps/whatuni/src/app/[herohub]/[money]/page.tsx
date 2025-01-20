@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
 
-  const slugurl = `/${Params.slug1}/${Params.slug2}/${Params.hero}`;
+  const slugurl = `/${Params.herohub}/${Params.money}`;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -43,7 +43,6 @@ const page = async ({ searchParams, params }: any) => {
         {bannerData && (
           <HeroMiniBanner
             data={bannerData}
-            routename={"/advice"}
             iscontentPreview={iscontentPreview}
           />
         )}

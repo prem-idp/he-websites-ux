@@ -1,29 +1,25 @@
+"use server";
 import Breadcrumblayoutcomponent from "@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent";
 import Articledescription from "@packages/shared-components/article-details/article-description/article-description";
 import Authorprofile from "@packages/shared-components/article-details/author-profile/author-profile";
-import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
-import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
-import Articleimage from "@packages/shared-components/article-details/article-image/article-image";
-import Articletables from "@packages/shared-components/article-details/article-tables/article-tables";
-import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Skiplink from "@packages/shared-components/article-details/skiplink/skiplink";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import dynamicComponentImports from "./dynamicimport";
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
-import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-
 const Page = async ({ params, searchParams }: any) => {
-  // console.log(await params, await searchParams?.preview);
+  const searchparams = await searchParams;
   const preview =
-    (await searchParams?.preview) === "MY_SECRET_TOKEN" ? true : false;
-  const category = "money";
-  const title = "the-best-resources-for-saving-money-at-university";
-  const id = "121213";
+    (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
+  const Params = await params;
+  const slugurl = `/${Params.herohub}/${Params.money}/${Params.budgeting}/${Params.article}`;
+
+  console.log(articleDetailQuery(slugurl, preview));
   const articledetaildata = await graphQlFetchFunction(
-    articleDetailQuery(category, title, id, preview),
+    articleDetailQuery(slugurl, preview),
     preview
   );
+
   console.dir(articledetaildata, "Asddddddddddddddddddddd");
   const data = articledetaildata?.data?.contentData?.items[0];
 
