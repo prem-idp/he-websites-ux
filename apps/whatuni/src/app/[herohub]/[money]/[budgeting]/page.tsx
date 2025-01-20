@@ -28,40 +28,7 @@ const page = async ({ searchParams, params }: any) => {
   const articleLoop = (
     await graphQlFetchFunction(ArticleQuery(iscontentPreview, slugurl))
   )?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-  console.log("theme-", articleLoop);
-
-  function customStringify(obj: any): string {
-    if (Array.isArray(obj)) {
-      return `[${obj.map(customStringify).join(", ")}]`;
-    } else if (typeof obj === "object" && obj !== null) {
-      return `{ ${Object.entries(obj)
-        .map(([key, value]) => `${key}: ${customStringify(value)}`)
-        .join(", ")} }`;
-    } else if (typeof obj === "string") {
-      return `"${obj}"`;
-    } else {
-      return String(obj);
-    }
-  }
-  const dataArray: any = [];
-  const fetchAllData = () => {
-    const promises = articleLoop?.map((elements: any) => {
-      const newdt: any = [];
-      elements?.mediaCardsCollection?.items?.forEach((item: any) => {
-        const obj = {
-          metaTagTopics: { title: item?.title },
-        };
-        newdt.push(obj);
-      });
-      const stringifiedArray = customStringify(newdt);
-      return stringifiedArray;
-    });
-    const results = promises;
-    dataArray.push(...results);
-    return dataArray;
-  };
-
-  fetchAllData();
+  console.log(articleLoop);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -88,18 +55,17 @@ const page = async ({ searchParams, params }: any) => {
             iscontentPreview={iscontentPreview}
           />
         )}
-
-        {dataArray?.length > 0 && (
+        {articleLoop?.length > 0 && (
           <>
-            {dataArray.map((items: any, index: number) => {
-              if (items.length > 0) {
+            {articleLoop.map((items: any, index: number) => {
+              if (items?.mediaCardsCollection?.items?.length > 0) {
                 return (
                   <Advicecomponent
                     key={index}
                     iscontentPreview={iscontentPreview}
                     articleKeyString={items}
-                    heading={articleLoop[index]?.cardSectionTitle}
-                    subheading={articleLoop[index]?.shortDescription}
+                    heading={items?.cardSectionTitle}
+                    subheading={items?.shortDescription}
                   />
                 );
               }

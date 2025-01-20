@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FreeMode, Navigation, Pagination } from "swiper/modules";
 const Advicecourseslidercomponents = ({ articledata }: any) => {
-  console.log("in the components ", articledata);
   return (
     <>
       {articledata && (

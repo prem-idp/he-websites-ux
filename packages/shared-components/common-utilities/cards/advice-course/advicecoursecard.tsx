@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 const AdviceCourseCard = ({ data }: any) => {
-  console.log(data);
   return (
     <>
       {data && (
