@@ -140,9 +140,13 @@ export const ArtcileSliderQuery = (preview: boolean, articleArray: string) => {
        ${preview ? `preview : ${preview}` : ""} 
   ) {
     items {
+    sys{id}
       pageTitle
       bannerImageCollection {
         items {
+        sys{
+        id
+        }
           imgAltText
           imgUpload {
             url

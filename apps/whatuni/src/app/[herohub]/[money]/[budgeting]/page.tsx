@@ -12,7 +12,6 @@ import { notFound } from "next/navigation";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
   const slugurl = `/${Params.herohub}/${Params.money}/${Params.budgeting}`;
-  console.log(slugurl);
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -29,12 +28,7 @@ const page = async ({ searchParams, params }: any) => {
   const articleLoop = (
     await graphQlFetchFunction(ArticleQuery(iscontentPreview, slugurl))
   )?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-  console.log("theme-lannding-page-slug", slugurl);
-  console.log(
-    "theme-landing-page-query",
-    ThemeLandingPageQuery(iscontentPreview, slugurl)
-  );
-  console.log("theme-json-response", jsondata);
+  console.log("theme-", articleLoop);
 
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
