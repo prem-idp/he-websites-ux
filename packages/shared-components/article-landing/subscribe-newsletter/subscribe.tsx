@@ -139,8 +139,8 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
                     </div>
                   )}
                 </div>
-                <div className="col form_check relative">
-                  <div className="flex items-start gap-[12px]">
+                <div className="col form_check relative w-full lg:w-[714px]">
+                  <div className="flex items-start justify-center gap-[8px]">
                     <div className="checkbox_card">
                       <input
                         type="checkbox"
