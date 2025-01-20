@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const toggleReadMore = () => {
