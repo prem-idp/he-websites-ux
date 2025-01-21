@@ -2,12 +2,15 @@
 import { ArtcileSliderQuery } from "@packages/lib/graphQL/theme-landing";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
+import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const Advicecomponents = async ({
   iscontentPreview,
   articleKeyArray,
   heading,
   subheading,
+  parentSysId,
 }: any) => {
+  console.log(iscontentPreview, articleKeyArray, heading, subheading);
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
       return `[${obj.map(customStringify).join(", ")}]`;
@@ -32,23 +35,50 @@ const Advicecomponents = async ({
   const stringifiedArray = customStringify(newdt);
   const query = ArtcileSliderQuery(iscontentPreview, stringifiedArray);
   const data = await graphQlFetchFunction(query, iscontentPreview);
-
+  console.log(query);
+  console.log("new landing pae data", data);
   return (
     <>
+      {iscontentPreview && (
+        <ContentfulInspectorManager
+          fields={[
+            {
+              entryId: parentSysId,
+              fieldId: "cardSectionTitle",
+              targetSelector: "#advice_carosoul_heading",
+            },
+            {
+              entryId: parentSysId,
+              fieldId: "shortDescription",
+              targetSelector: "#advice_carosoul_subheading",
+            },
+          ]}
+        />
+      )}
       {data?.data?.contentData?.items.length > 0 && (
         <section className="advice-container bg-grey-50">
           <div className="max-w-container mx-auto">
             <div className="advice-card-container px-[0] py-[34px] md:py-[64px]">
               <div className="advice-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
-                {heading && <h2 className="font-bold">{heading}</h2>}
+                {heading && (
+                  <h2 className="font-bold" id="advice_carosoul_heading">
+                    {heading}
+                  </h2>
+                )}
                 {subheading && (
-                  <p className="font-normal small mt-[8px]">{subheading}</p>
+                  <p
+                    className="font-normal small mt-[8px]"
+                    id="advice_carosoul_subheading"
+                  >
+                    {subheading}
+                  </p>
                 )}
               </div>
               <div className="advice-course-container">
                 <div className="advice-inner-wrap">
                   <Advicecourseslidercomponents
                     articledata={data?.data?.contentData?.items}
+                    iscontentPreview={iscontentPreview}
                   />
                   {/* view more section commented */}
                   {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">

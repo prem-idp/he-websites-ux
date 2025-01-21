@@ -23,7 +23,6 @@ const Articlesnippetcomponents = async ({
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]
     ?.mediaCardsCollection?.items[0];
 
-  console.log(await graphQlFetchFunction(query, iscontentPreview));
   return (
     <>
       {iscontentPreview && (
