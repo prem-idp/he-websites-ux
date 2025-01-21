@@ -1,8 +1,14 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { formatDate } from "@packages/lib/utlils/helper-function";
+import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
-const AdviceCourseCard = ({ data, iscontentPreview, index }: any) => {
+const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
+  let data = useContentfulLiveUpdates(jsondata);
+  if (!iscontentPreview) {
+    data = jsondata;
+  }
   return (
     <>
       {iscontentPreview && (
