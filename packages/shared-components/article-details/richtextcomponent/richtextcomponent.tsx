@@ -53,26 +53,28 @@ export default function Richtextcomponent({ propsdata, key, preview }: any) {
           ]}
         />
       )}
-      {data?.paragraphTitle && (
-        <h2 id="artilce-page-paragraph-title">{data?.paragraphTitle}</h2>
-      )}
-      {data?.media?.url && (
-        <Image
-          id="artilce-page-media"
-          priority={true}
-          alt="Image"
-          src={data?.media?.url}
-          width={700}
-          height={700}
-          className="mb-4"
-        />
-      )}
       <div id={data?.skipLinkId}>
-        {data?.paragraphBodyRichText?.json &&
-          documentToReactComponents(
-            data?.paragraphBodyRichText.json,
-            customOptions
-          )}
+        {data?.paragraphTitle && (
+          <h2 id="artilce-page-paragraph-title">{data?.paragraphTitle}</h2>
+        )}
+        {data?.media?.url && (
+          <Image
+            id="artilce-page-media"
+            priority={true}
+            alt="Image"
+            src={data?.media?.url}
+            width={700}
+            height={700}
+            className="mb-4"
+          />
+        )}
+        <div>
+          {data?.paragraphBodyRichText?.json &&
+            documentToReactComponents(
+              data?.paragraphBodyRichText.json,
+              customOptions
+            )}
+        </div>
       </div>
     </>
   );
