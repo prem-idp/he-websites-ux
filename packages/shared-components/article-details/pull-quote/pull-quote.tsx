@@ -26,12 +26,6 @@ const Pullquote = ({ propsdata, key, preview }: any) => {
               fieldId: "pullQuote",
               targetSelector: "#artilce-page-pullQuote-isrichtext",
             },
-
-            {
-              entryId: data?.sys?.id,
-              fieldId: "modifiedDate",
-              targetSelector: "#artilce-page-modified-date",
-            },
           ]}
         />
       )}
