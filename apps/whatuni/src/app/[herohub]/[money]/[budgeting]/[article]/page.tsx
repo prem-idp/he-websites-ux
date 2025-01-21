@@ -7,6 +7,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import dynamicComponentImports from "./dynamicimport";
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
+import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
 const Page = async ({ params, searchParams }: any) => {
   const searchparams = await searchParams;
   const preview =
@@ -88,6 +89,9 @@ const Page = async ({ params, searchParams }: any) => {
                           const Component: any = dynamicComponentImports(
                             dt?.__typename
                           );
+                          if (!Component) {
+                            return null;
+                          }
                           return (
                             <Component
                               key={index}
@@ -114,7 +118,6 @@ const Page = async ({ params, searchParams }: any) => {
                     <Ctabanner />
                   </section> */}
                   </section>
-                  {/* <Dontmissout /> */}
                 </div>
               </div>
             </div>
