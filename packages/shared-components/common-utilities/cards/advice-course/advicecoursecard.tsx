@@ -33,7 +33,7 @@ const AdviceCourseCard = ({ data, iscontentPreview, index }: any) => {
       )}
       {data && (
         <a
-          href=""
+          href={data?.urlSlug || "/"}
           className="card flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
         >
           <div className="card-header">
