@@ -10,7 +10,6 @@ const Advicecomponents = async ({
   subheading,
   parentSysId,
 }: any) => {
-  console.log(iscontentPreview, articleKeyArray, heading, subheading);
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
       return `[${obj?.map(customStringify).join(", ")}]`;

@@ -37,7 +37,7 @@ const Advicecourseslidercomponents = ({
             {articledata?.map((items: any, index: number) => (
               <SwiperSlide key={index + 1}>
                 <AdviceCourseCard
-                  data={items}
+                  jsondata={items}
                   index={index}
                   iscontentPreview={iscontentPreview}
                 />
