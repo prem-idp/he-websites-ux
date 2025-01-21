@@ -4,13 +4,35 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 const Advicecomponents = async ({
   iscontentPreview,
-  articleKeyString,
+  articleKeyArray,
   heading,
   subheading,
 }: any) => {
-  const query = ArtcileSliderQuery(iscontentPreview, articleKeyString);
+  function customStringify(obj: any): string {
+    if (Array.isArray(obj)) {
+      return `[${obj.map(customStringify).join(", ")}]`;
+    } else if (typeof obj === "object" && obj !== null) {
+      return `{ ${Object.entries(obj)
+        .map(([key, value]) => `${key}: ${customStringify(value)}`)
+        .join(", ")} }`;
+    } else if (typeof obj === "string") {
+      return `"${obj}"`;
+    } else {
+      return String(obj);
+    }
+  }
+
+  const newdt: any = [];
+  articleKeyArray?.forEach((item: any) => {
+    const obj = {
+      metaTagTopics: { title: item?.title },
+    };
+    newdt.push(obj);
+  });
+  const stringifiedArray = customStringify(newdt);
+  const query = ArtcileSliderQuery(iscontentPreview, stringifiedArray);
   const data = await graphQlFetchFunction(query, iscontentPreview);
-  console.log(data);
+
   return (
     <>
       {data?.data?.contentData?.items.length > 0 && (
@@ -25,8 +47,11 @@ const Advicecomponents = async ({
               </div>
               <div className="advice-course-container">
                 <div className="advice-inner-wrap">
-                  <Advicecourseslidercomponents />
-                  <div className="flex justify-center mt-[16px] lg:mt-[28px]">
+                  <Advicecourseslidercomponents
+                    articledata={data?.data?.contentData?.items}
+                  />
+                  {/* view more section commented */}
+                  {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
                     <a
                       href="#"
                       className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
@@ -48,7 +73,7 @@ const Advicecomponents = async ({
                         />
                       </svg>
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

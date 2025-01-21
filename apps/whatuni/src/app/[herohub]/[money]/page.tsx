@@ -49,11 +49,11 @@ const page = async ({ searchParams, params }: any) => {
         {componentList?.map(
           (childItems: MultipleCardContainer, index: number) => {
             const Component: any = dynamicComponentImports(
-              childItems.flagComponentStyle
+              childItems?.flagComponentStyle
             );
             if (!Component) {
               console.warn(
-                `No component found for flagComponentStyle: ${childItems.internalName}`
+                `No component found for flagComponentStyle: ${childItems?.internalName}`
               );
               return null;
             }
