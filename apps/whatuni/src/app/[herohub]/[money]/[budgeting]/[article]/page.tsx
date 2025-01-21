@@ -61,10 +61,10 @@ const Page = async ({ params, searchParams }: any) => {
         <div className="bg-white">
           <section className="pt-[16px] pb-[40px]">
             <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-              <Breadcrumblayoutcomponent
+              {/* <Breadcrumblayoutcomponent
                 propsdata={breadcrumbData}
                 preview={preview}
-              />
+              /> */}
             </div>
           </section>
 
