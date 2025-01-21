@@ -45,7 +45,7 @@ const Page = async ({ params, searchParams }: any) => {
       label: "Overview",
     },
   ];
-
+  console.log("detail page", data?.bodyContentCollection?.items);
   return (
     <>
       <ContentfulPreviewProvider
@@ -82,7 +82,7 @@ const Page = async ({ params, searchParams }: any) => {
                 <Skiplink propsdata={data} preview={preview} />
                 <div className="w-full article-details-aside">
                   <section className="pb-[40px]">
-                    <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                    {/* <div className="rtf-innerstyle flex flex-col gap-[16px]">
                       {data?.bodyContentCollection?.items?.map(
                         (dt: any, index: any) => {
                           const Component: any = dynamicComponentImports(
@@ -97,19 +97,7 @@ const Page = async ({ params, searchParams }: any) => {
                           );
                         }
                       )}
-                      {/* <div>
-                      <b>
-                      <i style={{ color: "red" }}>
-                      --------------------------------------below Component
-                      are static------------------------------------
-                      </i>
-                      </b>
-                      </div>
-                      <Articleimage />
-                    <Pullquote />
-                    <Articletables />
-                    <Findoutmore /> */}
-                    </div>
+                    </div> */}
                     {/* <section className="pt-[40px]">
                     <Ctabanner />
                   </section> */}
