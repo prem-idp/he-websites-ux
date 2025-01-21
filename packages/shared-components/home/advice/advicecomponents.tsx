@@ -4,7 +4,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 const Advicecomponents = async ({
   iscontentPreview,
-  articleKeyString,
+  articleKeyArray,
   heading,
   subheading,
 }: any) => {
@@ -21,18 +21,9 @@ const Advicecomponents = async ({
       return String(obj);
     }
   }
-  const items = [
-    {
-      title: "Uni Life",
-      id: "Uni Life",
-    },
-    {
-      title: "City Guides",
-      id: "City Guides",
-    },
-  ];
+
   const newdt: any = [];
-  items?.forEach((item: any) => {
+  articleKeyArray?.forEach((item: any) => {
     const obj = {
       metaTagTopics: { title: item?.title },
     };
@@ -59,7 +50,8 @@ const Advicecomponents = async ({
                   <Advicecourseslidercomponents
                     articledata={data?.data?.contentData?.items}
                   />
-                  <div className="flex justify-center mt-[16px] lg:mt-[28px]">
+                  {/* view more section commented */}
+                  {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
                     <a
                       href="#"
                       className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
@@ -81,7 +73,7 @@ const Advicecomponents = async ({
                         />
                       </svg>
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

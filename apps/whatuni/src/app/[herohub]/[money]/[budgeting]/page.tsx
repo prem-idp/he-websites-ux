@@ -1,7 +1,9 @@
 "use server";
 import React from "react";
+import { MultipleCardContainer } from "@packages/lib/types/interfaces";
 import Advicecomponent from "@packages/shared-components/home/advice/advicecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import Articlesnippetcomponents from "@packages/shared-components/common-utilities/article-snippet/articlesnippetcomponents";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { ArticleQuery } from "@packages/lib/graphQL/theme-landing";
@@ -19,16 +21,18 @@ const page = async ({ searchParams, params }: any) => {
     ThemeLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
+  const componentList =
+    jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
+
   if (jsondata?.data?.contentData?.items.length < 1) {
     notFound();
   }
-  const textSnippet =
-    jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items[0];
+  console.log(componentList);
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
   const articleLoop = (
     await graphQlFetchFunction(ArticleQuery(iscontentPreview, slugurl))
   )?.data?.contentData?.items[0]?.bodyContentCollection?.items;
-  console.log(articleLoop);
+  console.log("article looping", jsondata);
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -36,7 +40,7 @@ const page = async ({ searchParams, params }: any) => {
       enableLiveUpdates={iscontentPreview}
       debugMode={iscontentPreview}
     >
-      <div className="article_landing">
+      {/* <div className="article_landing">
         {bannerData && (
           <HeroMiniBanner
             data={bannerData}
@@ -73,6 +77,41 @@ const page = async ({ searchParams, params }: any) => {
           </>
         )}
         <Subscribecomponents iscontentPreview={iscontentPreview} />
+      </div> */}
+      <div className="article_landing">
+        {bannerData && (
+          <HeroMiniBanner
+            data={bannerData}
+            iscontentPreview={iscontentPreview}
+          />
+        )}
+        {componentList?.map(
+          (childItems: MultipleCardContainer, index: number) => {
+            const Component: any = dynamicComponentImports(
+              childItems?.flagComponentStyle
+            );
+            if (!Component) {
+              console.warn(
+                `No component found for flagComponentStyle: ${childItems?.internalName}`
+              );
+              return null;
+            }
+            return (
+              <Component
+                key={index}
+                heading={childItems?.cardSectionTitle}
+                subheading={childItems?.shortDescription}
+                internalName={childItems?.internalName}
+                callAction={childItems?.callToAction}
+                parentSysId={childItems?.sys?.id}
+                articleKeyArray={childItems?.mediaCardsCollection?.items}
+                routename={slugurl}
+                contentModelName={"pageTemplateThemedLandingPageCollection"}
+                iscontentPreview={iscontentPreview}
+              />
+            );
+          }
+        )}
       </div>
     </ContentfulPreviewProvider>
   );
