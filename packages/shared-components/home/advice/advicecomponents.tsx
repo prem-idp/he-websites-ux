@@ -13,10 +13,10 @@ const Advicecomponents = async ({
   console.log(iscontentPreview, articleKeyArray, heading, subheading);
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
-      return `[${obj.map(customStringify).join(", ")}]`;
+      return `[${obj?.map(customStringify).join(", ")}]`;
     } else if (typeof obj === "object" && obj !== null) {
       return `{ ${Object.entries(obj)
-        .map(([key, value]) => `${key}: ${customStringify(value)}`)
+        ?.map(([key, value]) => `${key}: ${customStringify(value)}`)
         .join(", ")} }`;
     } else if (typeof obj === "string") {
       return `"${obj}"`;

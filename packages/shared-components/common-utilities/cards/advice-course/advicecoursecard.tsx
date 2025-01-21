@@ -3,7 +3,6 @@ import Image from "next/image";
 import { formatDate } from "@packages/lib/utlils/helper-function";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const AdviceCourseCard = ({ data, iscontentPreview, index }: any) => {
-  console.log(data?.modifiedDate);
   return (
     <>
       {iscontentPreview && (
