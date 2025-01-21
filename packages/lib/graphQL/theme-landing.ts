@@ -139,6 +139,7 @@ export const ArtcileSliderQuery = (preview: boolean, articleArray: string) => {
     items {
     sys{id}
       pageTitle
+      urlSlug
       bannerImageCollection {
         items {
         sys{
