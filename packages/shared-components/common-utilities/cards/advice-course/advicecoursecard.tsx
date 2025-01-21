@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import { formatDate } from "@packages/lib/utlils/helper-function";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const AdviceCourseCard = ({ data, iscontentPreview, index }: any) => {
-  console.log(data);
+  console.log(data?.modifiedDate);
   return (
     <>
       {iscontentPreview && (
@@ -68,7 +69,7 @@ const AdviceCourseCard = ({ data, iscontentPreview, index }: any) => {
               className="card-date font-normal x-small text-grey300"
               id={`advice_carosoul_pod_date${index}`}
             >
-              {data?.modifiedDate}
+              {formatDate(data?.modifiedDate)}
             </p>
           </div>
         </a>
