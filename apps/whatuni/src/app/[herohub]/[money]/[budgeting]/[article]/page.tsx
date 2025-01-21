@@ -7,6 +7,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import dynamicComponentImports from "./dynamicimport";
 import { articleDetailQuery } from "@packages/lib/graphQL/article-detail";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
+import Dontmissout from "@packages/shared-components/article-details/dont-missout/dontmissout";
 const Page = async ({ params, searchParams }: any) => {
   const searchparams = await searchParams;
   const preview =
@@ -82,12 +83,15 @@ const Page = async ({ params, searchParams }: any) => {
                 <Skiplink propsdata={data} preview={preview} />
                 <div className="w-full article-details-aside">
                   <section className="pb-[40px]">
-                    {/* <div className="rtf-innerstyle flex flex-col gap-[16px]">
+                    <div className="rtf-innerstyle flex flex-col gap-[16px]">
                       {data?.bodyContentCollection?.items?.map(
                         (dt: any, index: any) => {
                           const Component: any = dynamicComponentImports(
                             dt?.__typename
                           );
+                          if (!Component) {
+                            return null;
+                          }
                           return (
                             <Component
                               key={index}
@@ -97,12 +101,11 @@ const Page = async ({ params, searchParams }: any) => {
                           );
                         }
                       )}
-                    </div> */}
+                    </div>
                     {/* <section className="pt-[40px]">
                     <Ctabanner />
                   </section> */}
                   </section>
-                  {/* <Dontmissout /> */}
                 </div>
               </div>
             </div>
