@@ -28,6 +28,30 @@ export default function Richtextcomponent({ propsdata, key, preview }: any) {
       italic: (text: any) => <em>{text}</em>,
       underline: (text: any) => <u>{text}</u>,
     },
+    renderText: (text: any) => {
+      return (
+        text
+          // Replace `<br>` with a special marker for processing
+          .replace(/<br>/g, "__BR__")
+          // Split on newlines or markers
+          .split(/(\n\n|__BR__)/)
+          .flatMap((part: any, index: any) => {
+            if (part === "\n\n") {
+              // Add an empty line for double newlines
+              return [
+                <br key={`br-double-${index}`} />,
+                <br key={`br-empty-${index}`} />,
+              ];
+            } else if (part === "__BR__") {
+              // Add a single line break for `<br>`
+              return <br key={`br-${index}`} />;
+            } else {
+              // Regular text
+              return part;
+            }
+          })
+      );
+    },
   };
 
   return (
