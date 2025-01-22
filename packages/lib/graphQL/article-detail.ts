@@ -234,3 +234,23 @@ export function articleDetailQuery(
 
   return query;
 }
+
+export const ArticleDetailSeoQuery = (slug: string) => {
+  return `{contentData:pageTemplateThemedLandingPageCollection(
+    limit: 1
+     where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}}
+  ) {
+    items {
+      seoFields {
+        metaTite
+        metaDescription
+         metaKeywords
+        canonical
+      }
+        robots {
+        title
+      }
+    }
+  }
+}`;
+};

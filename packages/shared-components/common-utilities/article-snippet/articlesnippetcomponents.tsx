@@ -47,7 +47,7 @@ const Articlesnippetcomponents = async ({
             <TextToggleComponent
               iscontentPreview={iscontentPreview}
               sysId={data?.sys?.id}
-              text={data?.longDescription?.json?.content[0]?.content[0]?.value}
+              text={data?.longDescription?.json}
             />
           </div>
         </div>

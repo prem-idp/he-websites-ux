@@ -49,7 +49,7 @@ const Page = async ({ params, searchParams }: any) => {
       label: "Overview",
     },
   ];
-
+  console.log("detail page", data?.bodyContentCollection?.items);
   return (
     <>
       <ContentfulPreviewProvider
@@ -129,18 +129,6 @@ const Page = async ({ params, searchParams }: any) => {
                           }
                         }
                       )}
-                      {/* <div>
-                      <b>
-                      <i style={{ color: "red" }}>
-                      --------------------------------------below Component
-                      are static------------------------------------
-                      </i>
-                      </b>
-                      </div>
-                      <Articleimage />
-                    <Pullquote />
-                    <Articletables />
-                    <Findoutmore /> */}
                     </div>
                     {/* <section className="pt-[40px]">
                     <Ctabanner />

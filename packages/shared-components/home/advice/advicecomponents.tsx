@@ -10,13 +10,12 @@ const Advicecomponents = async ({
   subheading,
   parentSysId,
 }: any) => {
-  console.log(iscontentPreview, articleKeyArray, heading, subheading);
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
-      return `[${obj.map(customStringify).join(", ")}]`;
+      return `[${obj?.map(customStringify).join(", ")}]`;
     } else if (typeof obj === "object" && obj !== null) {
       return `{ ${Object.entries(obj)
-        .map(([key, value]) => `${key}: ${customStringify(value)}`)
+        ?.map(([key, value]) => `${key}: ${customStringify(value)}`)
         .join(", ")} }`;
     } else if (typeof obj === "string") {
       return `"${obj}"`;
@@ -45,12 +44,12 @@ const Advicecomponents = async ({
             {
               entryId: parentSysId,
               fieldId: "cardSectionTitle",
-              targetSelector: "#advice_carosoul_heading",
+              targetSelector: `#advice_carosoul_heading${parentSysId}`,
             },
             {
               entryId: parentSysId,
               fieldId: "shortDescription",
-              targetSelector: "#advice_carosoul_subheading",
+              targetSelector: `#advice_carosoul_subheading${parentSysId}`,
             },
           ]}
         />
@@ -61,14 +60,17 @@ const Advicecomponents = async ({
             <div className="advice-card-container px-[0] py-[34px] md:py-[64px]">
               <div className="advice-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
                 {heading && (
-                  <h2 className="font-bold" id="advice_carosoul_heading">
+                  <h2
+                    className="font-bold"
+                    id={`advice_carosoul_heading${parentSysId}`}
+                  >
                     {heading}
                   </h2>
                 )}
                 {subheading && (
                   <p
                     className="font-normal small mt-[8px]"
-                    id="advice_carosoul_subheading"
+                    id={`advice_carosoul_subheading${parentSysId}`}
                   >
                     {subheading}
                   </p>
