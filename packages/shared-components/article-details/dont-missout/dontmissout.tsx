@@ -132,8 +132,19 @@ const Dontmissout = ({ key, data, preview }: any) => {
       prevemail !== email
     ) {
       res()
-        .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((response) => {
+          if (response.ok) {
+            setSuccessMessage(true);
+            return response.json(); // Parse the JSON data
+          } else {
+            throw new Error("Response not OK"); // Handle non-OK responses
+          }
+        })
+        .then((data) => console.log(data)) // Log data if response is OK
+        .catch((error) => {
+          console.error("Error:", error); // Handle any errors
+          setSuccessMessage(false); // Optionally set success to false on error
+        });
     } else if (prevemail === email) {
       setAlreadyregisteruser(true);
     }
