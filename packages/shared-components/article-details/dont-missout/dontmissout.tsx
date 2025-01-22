@@ -97,24 +97,22 @@ const Dontmissout = ({ key, data, preview }: any) => {
           headers: {
             "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             sitecode: "WU_WEB",
-
+            "Content-Type": "application/json",
             "x-correlation-id": uuidv4(),
           },
           body: JSON.stringify({
-            "body-json": {
-              userDetails: {
-                personalDetails: {
-                  email: email,
-                  firstName: firstname,
-                  secondName: lastname,
-                  yearOfEntry: year,
-                  marketingSolusFlag: "Y",
-                },
-                userSourceType: "SPAMBOXREGISTERED",
+            userDetails: {
+              personalDetails: {
+                email: email,
+                firstName: firstname,
+                secondName: lastname,
+                yearOfEntry: year,
+                marketingSolusFlag: "Y",
               },
-              affiliateId: 220703,
-              cognitoFlag: "N",
+              userSourceType: "SPAMBOXREGISTERED",
             },
+            affiliateId: 220703,
+            cognitoFlag: "N",
           }),
         }
       );
@@ -135,6 +133,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
     ) {
       res()
         .then((response) => {
+          console.log();
           if (response.ok) {
             setSuccessMessage(true);
             const resdata = response.json();
@@ -148,6 +147,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
           setSuccessMessage(false); // Optionally set success to false on error
         });
     } else if (prevemail === email) {
+      setSuccessMessage(true);
       setAlreadyregisteruser(true);
     }
     // setFristname("");
@@ -286,6 +286,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       onChange={(e) => {
                         setFristname(e.target.value);
                         setFristnameerror(false);
+                        setSuccessMessage(false);
+                        setAlreadyregisteruser(false);
                       }}
                       type="text"
                       placeholder={`${propsdata?.newsFirstName ?? "First name*"}`}
@@ -303,6 +305,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       onChange={(e) => {
                         setLastname(e.target.value);
                         setLastnameerror(false);
+                        setSuccessMessage(false);
+                        setAlreadyregisteruser(false);
                       }}
                       value={lastname ?? ""}
                       type="text"
@@ -321,6 +325,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       onChange={(e) => {
                         setEmail(e.target.value);
                         setEmailerror(false);
+                        setSuccessMessage(false);
+                        setAlreadyregisteruser(false);
                       }}
                       value={email ?? ""}
                       type="email"
@@ -354,6 +360,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                         onChange={(e) => {
                           setYear(e.target.value);
                           setYearerror(false);
+                          setSuccessMessage(false);
+                          setAlreadyregisteruser(false);
                         }}
                         value={"2025"}
                         type="radio"
@@ -374,6 +382,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                         onChange={(e) => {
                           setYear(e.target.value);
                           setYearerror(false);
+                          setSuccessMessage(false);
+                          setAlreadyregisteruser(false);
                         }}
                         value={"2026"}
                         type="radio"
@@ -394,6 +404,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                         onChange={(e) => {
                           setYear(e.target.value);
                           setYearerror(false);
+                          setSuccessMessage(false);
+                          setAlreadyregisteruser(false);
                         }}
                         value={"2027"}
                         type="radio"
@@ -414,6 +426,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                         onChange={(e) => {
                           setYear(e.target.value);
                           setYearerror(false);
+                          setSuccessMessage(false);
+                          setAlreadyregisteruser(false);
                         }}
                         value={"2028"}
                         type="radio"
@@ -445,6 +459,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
                           onChange={(e) => {
                             setAgreement(e.target.checked);
                             setAgreementerror(false);
+                            setSuccessMessage(false);
+                            setAlreadyregisteruser(false);
                           }}
                           type="checkbox"
                           className="form-checkbox hidden"
@@ -514,7 +530,6 @@ const Dontmissout = ({ key, data, preview }: any) => {
                 </div>
                 <div className="flex justify-end">
                   <div className="flex flex-col">
-                    {alreadyregisteruser && <span>Already Subscribed</span>}
                     <button
                       id="artilce-page-news-ctaLabel"
                       className="btn btn-primary h-[41px] px-[20px] py-[10px] flex justify-end gap-[10px] items-center"
