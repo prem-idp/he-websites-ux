@@ -44,7 +44,7 @@ const Ctabanner = ({ key, propsdata, preview }: any) => {
       )}
       <div
         id="article-backgroundColor"
-        className={`${propsdata?.backgroundColor} p-[16px] md:py-[0] gap-[20px] md:gap-[0]  md:px-[20px] rounded-[8px] flex md:flex-row flex-col-reverse  items-end`}
+        className={`${propsdata?.backgroundColor} p-[16px] md:py-[0] gap-[20px] md:gap-[0]  md:px-[20px] rounded-[8px] flex md:flex-row flex-col-reverse justify-between items-end`}
       >
         <div className="flex flex-col gap-[16px] py-[0] md:py-[24px]">
           <div className="text-grey300 flex flex-col gap-[4px]">
@@ -71,7 +71,7 @@ const Ctabanner = ({ key, propsdata, preview }: any) => {
                   ? "_blank"
                   : "_self"
               }
-              className="btn btn-primary px-[20px] py-[10px] w-fit"
+              className="btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-fit"
               rel={
                 propsdata.cta.primaryCtaTarget === "Open in new tab"
                   ? "noopener noreferrer"
@@ -86,6 +86,7 @@ const Ctabanner = ({ key, propsdata, preview }: any) => {
           {propsdata?.image?.imgUpload?.url && (
             <Image
               id="article-details-imgUpload"
+              className="object-contain"
               src={propsdata?.image?.imgUpload?.url}
               width={219}
               height={187}

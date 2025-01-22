@@ -498,7 +498,12 @@ h6 {
 .rtf-innerstyle a {
   @apply text-blue-400 hover:underline;
 }
-
+.rtf-innerstyle a.rtfcustom-link {
+  color: #fff;
+}
+.rtf-innerstyle a.rtfcustom-link:hover {
+  text-decoration: none;
+}
 .rtf-innerstyle figure {
   border: 1px solid #d6d9da;
   padding: 10px;

@@ -101,18 +101,20 @@ const Dontmissout = ({ key, data, preview }: any) => {
             "x-correlation-id": uuidv4(),
           },
           body: JSON.stringify({
-            userDetails: {
-              personalDetails: {
-                email: email,
-                firstName: firstname,
-                secondName: lastname,
-                yearOfEntry: year,
-                marketingSolusFlag: "Y",
+            "body-json": {
+              userDetails: {
+                personalDetails: {
+                  email: email,
+                  firstName: firstname,
+                  secondName: lastname,
+                  yearOfEntry: year,
+                  marketingSolusFlag: "Y",
+                },
+                userSourceType: "SPAMBOXREGISTERED",
               },
-              userSourceType: "SPAMBOXREGISTERED",
+              affiliateId: 220703,
+              cognitoFlag: "N",
             },
-            affiliateId: 220703,
-            cognitoFlag: "N",
           }),
         }
       );
@@ -135,7 +137,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         .then((response) => {
           if (response.ok) {
             setSuccessMessage(true);
-            return response.json(); // Parse the JSON data
+            const resdata = response.json();
           } else {
             throw new Error("Response not OK"); // Handle non-OK responses
           }
@@ -511,18 +513,21 @@ const Dontmissout = ({ key, data, preview }: any) => {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <button
-                    id="artilce-page-news-ctaLabel"
-                    className="btn btn-primary h-[41px] px-[20px] py-[10px] flex justify-end gap-[10px] items-center"
-                  >
-                    {`${propsdata?.ctaLabel ?? "Get free newsletters"} `}
-                    <Image
-                      src="/static/assets/icons/arrow-right-white.svg"
-                      width="13"
-                      height="10"
-                      alt="arrow"
-                    />
-                  </button>
+                  <div className="flex flex-col">
+                    {alreadyregisteruser && <span>Already Subscribed</span>}
+                    <button
+                      id="artilce-page-news-ctaLabel"
+                      className="btn btn-primary h-[41px] px-[20px] py-[10px] flex justify-end gap-[10px] items-center"
+                    >
+                      {`${propsdata?.ctaLabel ?? "Get free newsletters"} `}
+                      <Image
+                        src="/static/assets/icons/arrow-right-white.svg"
+                        width="13"
+                        height="10"
+                        alt="arrow"
+                      />
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
