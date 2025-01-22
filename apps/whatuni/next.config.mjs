@@ -15,6 +15,7 @@ const nextConfig = {
       },
     ];
   },
+  trailingSlash: true,
   async redirects() {
     return [
       {
