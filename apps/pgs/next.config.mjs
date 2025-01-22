@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     PROJECT: "PGS",
-    AFFILATE_ID: "607022",
+    AFFILATE_ID: 607022,
     DOMAIN: "postgraduatesearch.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
     NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT:

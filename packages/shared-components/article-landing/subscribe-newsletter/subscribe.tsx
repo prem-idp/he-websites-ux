@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 import Subscribebtn from "@packages/shared-components/common-utilities/cards/interaction-button/subscribebtn";
+import { v4 as uuidv4 } from "uuid";
+import { getCookie } from "@packages/lib/utlils/helper-function";
+//import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 import Link from "next/link";
 import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
 const Subscribe = ({ data, isPreviewTrue }: any) => {
@@ -28,13 +31,17 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
   };
   const submitNewsletter = async () => {
     if (!errorstate.emailError && isChecked && email) {
+      const cookieid = getCookie("trackSessionId");
+      const correlation_id = uuidv4();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/users/registration`,
         {
           method: "POST",
           headers: {
-            "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             ContentType: "application/json",
+            "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+            "x-correlation-id": cookieid ? cookieid : correlation_id,
+            sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
           },
           body: JSON.stringify({
             userDetails: {
@@ -44,7 +51,7 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
               },
               userSourceType: "SPAMBOXREGISTERED",
             },
-            affiliateId: 220703,
+            affiliateId: `${process.env.AFFILATE_ID}`,
             cognitoFlag: "N",
           }),
         }
