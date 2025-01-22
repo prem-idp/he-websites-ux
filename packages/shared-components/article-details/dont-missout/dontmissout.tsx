@@ -274,7 +274,10 @@ const Dontmissout = ({ key, data, preview }: any) => {
                   </span>
                   Thanks, we’ll be in touch soon
                 </span>
-                <span className="cursor-pointer">
+                <span
+                  onClick={() => setSuccessMessage(false)}
+                  className="cursor-pointer"
+                >
                   <Image
                     alt="close icon"
                     width="20"
