@@ -43,24 +43,22 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
             sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
           },
           body: JSON.stringify({
-            "body-json": {
-              userDetails: {
-                personalDetails: {
-                  email: email,
-                  marketingSolusFlag: "Y",
-                },
-                userSourceType: "SPAMBOXREGISTERED",
+            userDetails: {
+              personalDetails: {
+                email: email,
+                marketingSolusFlag: "Y",
               },
-              affiliateId: `${process.env.AFFILATE_ID}`,
-              cognitoFlag: "N",
+              userSourceType: "SPAMBOXREGISTERED",
             },
+            affiliateId: `${process.env.AFFILATE_ID}`,
+            cognitoFlag: "N",
           }),
         }
       );
       const isSuccess = await res.json();
-      if (isSuccess === "Successfully Subscribed") {
+      if (isSuccess?.message === "User Added") {
         setSuccess(true);
-      } else if (isSuccess === "Already Subscribed") {
+      } else if (isSuccess?.message === "User Updated") {
         setSuccess(true);
       } else {
         console.log("error");
