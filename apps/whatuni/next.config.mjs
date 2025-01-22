@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // skipTrailingSlashRedirect: true,
+  skipTrailingSlashRedirect: true,
   productionBrowserSourceMaps: true,
   async headers() {
     return [
@@ -36,7 +36,7 @@ const nextConfig = {
     PROJECT: "Whatuni",
     DOMAIN: "whatuni.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
-    AFFILATE_ID: 220703,
+    AFFILATE_ID: "220703",
   },
   eslint: {
     ignoreDuringBuilds: true,

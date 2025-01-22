@@ -31,7 +31,6 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
   };
   const submitNewsletter = async () => {
     if (!errorstate.emailError && isChecked && email) {
-      const cookieid = getCookie("trackSessionId");
       const correlation_id = uuidv4();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/users/registration`,
@@ -39,7 +38,8 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
           method: "POST",
           headers: {
             "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            "x-correlation-id": cookieid ? cookieid : correlation_id,
+            "x-correlation-id": correlation_id,
+            "Content-Type": "application/json",
             sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
           },
           body: JSON.stringify({
