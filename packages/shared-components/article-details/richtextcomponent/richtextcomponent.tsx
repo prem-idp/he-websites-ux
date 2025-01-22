@@ -89,7 +89,7 @@ export default function Richtextcomponent({ propsdata, key, preview }: any) {
             src={data?.media?.url}
             width={700}
             height={700}
-            className="mb-4"
+            className="mb-4 w-full"
           />
         )}
         <div>
