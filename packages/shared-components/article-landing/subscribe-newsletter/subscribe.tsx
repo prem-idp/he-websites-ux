@@ -38,21 +38,22 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
         {
           method: "POST",
           headers: {
-            ContentType: "application/json",
             "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
             "x-correlation-id": cookieid ? cookieid : correlation_id,
             sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
           },
           body: JSON.stringify({
-            userDetails: {
-              personalDetails: {
-                email: email,
-                marketingSolusFlag: "Y",
+            "body-json": {
+              userDetails: {
+                personalDetails: {
+                  email: email,
+                  marketingSolusFlag: "Y",
+                },
+                userSourceType: "SPAMBOXREGISTERED",
               },
-              userSourceType: "SPAMBOXREGISTERED",
+              affiliateId: `${process.env.AFFILATE_ID}`,
+              cognitoFlag: "N",
             },
-            affiliateId: `${process.env.AFFILATE_ID}`,
-            cognitoFlag: "N",
           }),
         }
       );
