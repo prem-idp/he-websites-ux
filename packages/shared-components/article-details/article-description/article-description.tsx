@@ -72,8 +72,8 @@ const Articledescription = ({ propsdata, preview }: any) => {
       )}
 
       <div className="flex flex-col gap-[8px]">
-        <span className="x-small font-inter tracking-[1px] text-blue-400">
-          <Link id="article_title" className="hover:underline" href="#">
+        <span className="x-small font-inter uppercase font-semibold tracking-[1px] text-blue-400">
+          <Link id="article_title" className="uppercase hover:underline" href="#">
             {data?.articleType?.title}
           </Link>
         </span>
