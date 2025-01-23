@@ -39,11 +39,12 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     query,
     iscontentPreview
   );
+  console.log(query);
+  console.log("resultData", resultData);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item?.__typename === "PageStatPodContainer"
     );
-  console.log("sub-heading", subheading);
   return (
     <>
       {iscontentPreview && (
