@@ -19,9 +19,7 @@ const Articledescription = ({ propsdata, preview }: any) => {
     const link = window.location.href; // Get the current page's URL
     navigator.clipboard
       .writeText(link)
-      .then(() => {
-        alert("Link copied to clipboard!");
-      })
+
       .catch((err) => {
         console.error("Failed to copy: ", err);
       });
