@@ -148,13 +148,15 @@ const Header = ({ topnav_data }: props) => {
         console.error("Error fetching user:", error);
       }
     };
-    const favouriteCountEmitter = () => {
-      const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
-      setBasketCount(basket);
-      fetchUser();
-      return emitter.removeAllListeners("colcEvents");
-    };
-    emitter.on("colcEvents", favouriteCountEmitter);
+
+    if (ref.current) {
+      const onCustomEvent = (event: Event) => {
+        console.log("Calling");
+        const customEventDetail = (event as CustomEvent).detail as any;
+      };
+      ref.current.addEventListener("colcEvents", onCustomEvent);
+    }
+
     // --------------close all popups on clicking outside-----------------------------
     const handleClickOutside = (event: MouseEvent) => {
       if (
