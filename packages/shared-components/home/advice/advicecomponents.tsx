@@ -27,15 +27,13 @@ const Advicecomponents = async ({
   const newdt: any = [];
   articleKeyArray?.forEach((item: any) => {
     const obj = {
-      metaTagTopics: { title: item?.title },
+      metaTagTheme: { title: item?.title },
     };
     newdt.push(obj);
   });
   const stringifiedArray = customStringify(newdt);
   const query = ArtcileSliderQuery(iscontentPreview, stringifiedArray);
   const data = await graphQlFetchFunction(query, iscontentPreview);
-  console.log(query);
-  console.log("new landing pae data", data);
   return (
     <>
       {iscontentPreview && (

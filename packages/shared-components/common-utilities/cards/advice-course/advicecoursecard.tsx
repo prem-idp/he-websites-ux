@@ -40,7 +40,7 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
       {data && (
         <a
           href={data?.urlSlug || "/"}
-          className="card flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
+          className="card h-full flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
         >
           <div className="card-header">
             {data?.bannerImageCollection?.items[0]?.imgUpload?.url && (
@@ -57,13 +57,14 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
               />
             )}
           </div>
-          <div className="card-body flex flex-col gap-[10px] p-[16px]">
+          <div className="card-body flex flex-col justify-between h-full gap-[10px] p-[16px]">
             <h5
               className="card-title font-semibold text-para-lg text-grey300 line-clamp-2"
               id={`advice_carosoul_pod_title${index}${data?.sys?.id}`}
             >
               {data?.pageTitle}
             </h5>
+            <div className="flex flex-col gap-[10px]">
             <p
               className="card-description font-normal small text-grey-700 line-clamp-2"
               id={`advice_carosoul_pod_description${index}${data?.sys?.id}`}
@@ -76,6 +77,8 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
             >
               {formatDate(data?.modifiedDate)}
             </p>
+            </div>
+           
           </div>
         </a>
       )}
