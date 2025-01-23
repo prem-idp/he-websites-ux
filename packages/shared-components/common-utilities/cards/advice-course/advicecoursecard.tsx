@@ -1,14 +1,39 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { formatDate } from "@packages/lib/utlils/helper-function";
+import { currentAuthenticatedUser, formatDate, GA4DataLayerFn, getArticleDetailUrlParamValues } from "@packages/lib/utlils/helper-function";
 import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
+import { DataLayerGA4AttrType } from "@packages/lib/types/datalayerGA";
+import { usePathname } from "next/navigation";
 const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
   let data = useContentfulLiveUpdates(jsondata);
   if (!iscontentPreview) {
     data = jsondata;
   }
+
+  const pathName = usePathname();
+  const{herohub, category, subCategory, articleTitle} = getArticleDetailUrlParamValues();
+
+  function handleGACTABannerCTAclick(urlSlug: string){
+    const GAlog = async() => {
+      let datalog: DataLayerGA4AttrType = {
+        event: "ga_contentful_events",
+        eventName: "article_clicks",
+        data_label: subCategory,
+        data_label3: index + 1,
+        page_name: "",
+        user_id: await currentAuthenticatedUser(),
+        article_category: category,
+        cta_name: "",
+        cta_url: window.location.origin + "/" + herohub + "/" + category + "/" +subCategory + "/" + urlSlug,
+  
+      };
+      GA4DataLayerFn(datalog);
+    }
+    GAlog();
+  }
+
   return (
     <>
       {iscontentPreview && (
@@ -40,6 +65,7 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
       {data && (
         <a
           href={data?.urlSlug || "/"}
+          onClick={() => handleGACTABannerCTAclick(data?.urlSlug)}
           className="card h-full flex flex-col bg-white border border-grey-200 hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden"
         >
           <div className="card-header">

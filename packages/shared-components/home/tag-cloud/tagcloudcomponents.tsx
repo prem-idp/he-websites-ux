@@ -50,11 +50,11 @@ const Tagcloudcomponents: React.FC<headingProps> = async ({
                       <ClickTrackerWrapper
                         gaData={{
                           event: "ga_contentful_events",
-                          eventName: data?.eventName,
-                          ctaTitle: data?.tagName,
-                          ctaUrl: data?.tagUrl,
-                          website: `${process.env.PROJECT}`,
-                          pageName: pageName,
+                          eventName: data?.eventName || "",
+                          cta_name: data?.tagName,
+                          cta_url: data?.tagUrl,
+                          page_name: pageName,
+                          clearing: "in_year",
                         }}
                       >
                         <Link

@@ -1,4 +1,10 @@
 "use server";
+
+import { fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
+import { API_END_POINTS } from "../utlils/API_END_POINTS";
+import { v4 as uuidv4 } from "uuid";
+import { currentAuthenticatedUser } from "../utlils/helper-function";
+
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean
@@ -61,6 +67,39 @@ export async function getReviewDetailsFunction(reviewPayload: any) {
     throw error;
   }
 }
+
+export async function callClickstreamAPI(payload: any) {
+
+  try {
+      const session = await fetchAuthSession();
+      const tracksession_id = uuidv4().replace(/\D/g, "").slice(0, 8);
+      const headers: any = {
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+        tracksessionid: tracksession_id,
+      };
+      let apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}`;
+    
+      if (session.tokens?.idToken){
+        headers.Authorization = `${session.tokens.idToken}`;
+        apiUrl +=  API_END_POINTS.user.clickstream;
+      } else{
+        apiUrl +=  API_END_POINTS.guest.clickstream;
+      }
+          
+    
+      //console.log("before clickstream CS APT call for: ", payload);
+      const respone = await fetch(apiUrl, {
+          method: 'POST',
+          headers,
+          body: payload ? JSON.stringify(payload) : undefined
+      });   
+      //console.log("after clickstream CS APT call: ", respone);
+  } catch (error: any) {
+      console.log("Clickstram error: ", error);
+  }
+}
+
 
 // export async function guestUserUcas(ucasPayload: any, tracksessionid: string) {
 //   try {
