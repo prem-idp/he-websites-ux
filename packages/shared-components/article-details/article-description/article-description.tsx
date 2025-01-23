@@ -85,7 +85,7 @@ const Articledescription = ({ propsdata, preview }: any) => {
         </h1>
         <p
           id="artilce-page-description"
-          className="text-para-lg max-w-[907px] w-full text-grey300 text-inter"
+          className="text-para-lg max-w-[907px] font-medium w-full text-grey300 text-inter"
         >
           {data?.shortDescription}
         </p>
