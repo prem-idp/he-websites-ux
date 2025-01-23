@@ -481,6 +481,10 @@ p,
   }
 }
 /* Article details END  */
+/* Article landing START  */
+.checkbox_card .form-checkbox + label svg{@apply hidden}
+.checkbox_card .form-checkbox:checked + label svg{@apply block}
+/* Article landing END  */
 /* RTF  */
 /* .rtf-innerstyle { } */
 .rtf-innerstyle p {

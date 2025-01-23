@@ -207,7 +207,7 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
                       <Link
                         target="_blank"
                         href="https://www.whatuni.com/wu-cont/termsAndCondition.htm"
-                        className="text-primary-400 hover:text-primary-500 hover:underline"
+                        className="text-primary-400 hover:text-primary-500 underline"
                         title=""
                       >
                         terms and conditions
@@ -216,7 +216,7 @@ const Subscribe = ({ data, isPreviewTrue }: any) => {
                       <Link
                         target="_blank"
                         href="https://www.whatuni.com/wu-cont/privacy.htm"
-                        className="text-primary-400 hover:text-primary-500 hover:underline"
+                        className="text-primary-400 hover:text-primary-500 underline"
                         title=""
                       >
                         privacy notice

@@ -57,7 +57,7 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
               />
             )}
           </div>
-          <div className="card-body flex flex-col justify-between h-full gap-[10px] p-[16px]">
+          <div className="card-body flex flex-col justify-start h-full gap-[10px] p-[16px]">
             <h5
               className="card-title font-semibold text-para-lg text-grey300 line-clamp-2"
               id={`advice_carosoul_pod_title${index}${data?.sys?.id}`}
