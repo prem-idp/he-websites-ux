@@ -220,6 +220,16 @@ export function articleDetailQuery(
                 }
               }
             }
+              callToAction {
+              ... on CallToActionCta {
+                internalName
+                primaryCtaLabel
+                primaryCtaEventName
+                primaryCtaUrl
+                primaryCtaTarget
+                flagStyle
+              }
+            }
           }
             ... on PageDataTableStatic {
             lTname
