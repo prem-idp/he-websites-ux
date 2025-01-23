@@ -12,8 +12,8 @@ export function articleDetailQuery(
   ) {
     items {
      sys{
-    id
-    }
+      id
+      }
       pageTitle
       seoFields {
         metaTite
@@ -246,21 +246,28 @@ export function articleDetailQuery(
 }
 
 export const ArticleDetailSeoQuery = (slug: string) => {
-  return `{contentData:pageTemplateThemedLandingPageCollection(
+  return `{
+  contentData: articleCollection(
     limit: 1
-     where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {urlSlug: "${slug}", website: {websiteName: "${process.env.PROJECT}"}}
+    
   ) {
     items {
+     sys{
+      id
+      }
+      pageTitle
       seoFields {
         metaTite
         metaDescription
-         metaKeywords
         canonical
+        metaKeywords
       }
-        robots {
-        title
-      }
-    }
+      
+          
+      
+      
+}
   }
 }`;
 };
