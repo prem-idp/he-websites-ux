@@ -151,20 +151,16 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   </div>
                 )}
                 <div
-                  className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 md:row-start-1 md:row-end-2 col-start-1 col-end-2"
-                  id="image"
-                >
-                {/* <div
-                  className="grid justify-center px-[20px] md:px-[16px] md:py-[36px] xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1"
-                  id="image"
-                > */}
-                  <Image
-                    priority={true}
-                    src={`${statsData?.image.url || ""}`}
-                    width={402}
-                    height={401}
-                    alt={statsData?.image.title || ""}
-                  />
+                  className={`grid justify-center ${routename == "/" ? 'px-[16px] md:px-[20px] md:py-[36px]  xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1' : 'w-full md:w-[352px] lg:w-[598px] col-start-1 row-start-1'}`} id="image">
+                <div className={`${routename == "/" ? '': 'w-[295px] md:w-[270px] lg:w-[252px]'}`}>
+                    <Image
+                      priority={true}
+                      src={`${statsData?.image.url || ""}`}
+                      width={402}
+                      height={401}
+                      alt={statsData?.image.title || ""}
+                    />
+                  </div>
                 </div>
               </div>
               {/* container */}
