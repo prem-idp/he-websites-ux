@@ -65,20 +65,19 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
               {data?.pageTitle}
             </h5>
             <div className="flex flex-col gap-[10px]">
-            <p
-              className="card-description font-normal small text-grey-700 line-clamp-2"
-              id={`advice_carosoul_pod_description${index}${data?.sys?.id}`}
-            >
-              {data?.shortDescription}
-            </p>
-            <p
-              className="card-date font-normal x-small text-grey300"
-              id={`advice_carosoul_pod_date${index}${data?.sys?.id}`}
-            >
-              {formatDate(data?.modifiedDate)}
-            </p>
+              <p
+                className="card-description font-normal small text-grey-700 line-clamp-2"
+                id={`advice_carosoul_pod_description${index}${data?.sys?.id}`}
+              >
+                {data?.shortDescription}
+              </p>
+              <p
+                className="card-date font-normal x-small text-grey300"
+                id={`advice_carosoul_pod_date${index}${data?.sys?.id}`}
+              >
+                {formatDate(data?.modifiedDate)}
+              </p>
             </div>
-           
           </div>
         </a>
       )}

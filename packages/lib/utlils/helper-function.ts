@@ -18,7 +18,9 @@ function replaceSpaceWithUnderscore(value: any) {
 }
 
 function replaceWithNA(value: any) {
-  return value !=null && value != undefined && value != "" ? replaceSpaceWithUnderscore(value) : "NA";
+  return value != null && value != undefined && value != ""
+    ? replaceSpaceWithUnderscore(value)
+    : "NA";
 }
 
 async function currentAuthenticatedUser() {
@@ -32,7 +34,7 @@ async function currentAuthenticatedUser() {
   }
 }
 
-export function GA4DataLayerFn(dataLog: DataLayerGA4AttrType){
+export function GA4DataLayerFn(dataLog: DataLayerGA4AttrType) {
   const waitForDataLayer = () => {
     const cookiesval1: any = decodeURIComponent(getCookie("UCAS") || "{}");
     const point: any = JSON.parse(cookiesval1);
@@ -176,5 +178,3 @@ export function formatDate(dateString: string) {
   const year = date.getFullYear();
   return `${day} ${month} ${year}`;
 }
-
-console.log(formatDate("2025-01-20T14:00:00.000Z"));
