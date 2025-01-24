@@ -18,8 +18,7 @@ const Page = async () => {
     <>
       <PageViewLogging
         gaData={{
-          website: `${process.env.PROJECT}`,
-          pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+          page_name: jsonData?.data?.contentData?.items[0]?.gaPageName,
         }}
       />
       <Heroslidercomponent
