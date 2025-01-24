@@ -69,7 +69,7 @@ const Ctabanner = ({ key, propsdata, preview, urlParams}: any) => {
           {propsdata?.cta?.primaryCtaUrl && (
             <ClickTrackingWrapper gaData={{
               event: "ga_contentful_events",
-              eventName: propsdata.cta.primaryCtaLabel || "Find your perfect ",
+              eventName: propsdata.cta.primaryCtaEventName,
               data_label: urlParams?.budgeting,
               article_category: urlParams?.money,
               cta_name: propsdata.cta.primaryCtaLabel || "Find your perfect",

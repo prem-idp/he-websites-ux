@@ -137,7 +137,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         target_year: year,
         user_id: await currentAuthenticatedUser(),
         article_category: category,
-        contentful_1: subCategory,
+        data_label2: subCategory,
         clearing: "in_year",
   
       };
@@ -230,7 +230,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         .catch((error) => {
           console.error("Error:", error); // Handle any errors
           setSuccessMessage(false); // Optionally set success to false on error
-          handleSubscriptionCSlog(error);
+          handleSubscriptionCSlog(error.toString());
         });
     } else if (prevemail === email) {
       setSuccessMessage(true);

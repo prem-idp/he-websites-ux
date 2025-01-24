@@ -13,7 +13,7 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
   }
 
   const pathName = usePathname();
-  const{herohub, category, subCategory, articleTitle} = getArticleDetailUrlParamValues();
+  const{category, subCategory, articleTitle} = getArticleDetailUrlParamValues();
 
   function handleGACTABannerCTAclick(urlSlug: string){
     const GAlog = async() => {
@@ -25,8 +25,7 @@ const AdviceCourseCard = ({ jsondata, iscontentPreview, index }: any) => {
         clearing: "in_year",
         page_name: localStorage.getItem("gaPageName")?.toString(),
         article_category: category,
-        cta_name: "",
-        cta_url: window.location.origin + "/" + herohub + "/" + category + "/" +subCategory + "/" + urlSlug,
+        cta_url: window.location.origin + "/" + category + "/" +subCategory + "/" + urlSlug,
   
       };
       GA4DataLayerFn(datalog);

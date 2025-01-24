@@ -179,15 +179,14 @@ export function formatDate(dateString: string) {
 }
 
 export function getArticleDetailUrlParamValues(){
-  let herohub, category, subCategory, articleTitle = "";
+  let category, subCategory, articleTitle = "";
   if(typeof localStorage !== 'undefined' && localStorage.getItem("gaPageName")?.toString() == "articleDetail"){
     let pathArr = usePathname()?.split("/").filter((pathvar) => pathvar != "");
     if(pathArr.length <= 4){
-      herohub = pathArr[0]
-      category = pathArr[1];
-      subCategory = pathArr[2];
-      articleTitle = pathArr[3];
+      category = pathArr[0];
+      subCategory = pathArr[1];
+      articleTitle = pathArr[2];
     }
   }
-  return {herohub, category, subCategory, articleTitle};
+  return {category, subCategory, articleTitle};
 }

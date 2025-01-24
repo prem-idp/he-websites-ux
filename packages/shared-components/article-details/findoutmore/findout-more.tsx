@@ -18,7 +18,7 @@ const Findoutmore = ({ propsdata, key, preview, urlParams }: any) => {
     <ClickTrackerWrapper gaData={
       {
         event: "ga_contentful_events",
-        eventName: "",
+        eventName: "", //to be logged in future when data availabe in contentful
         data_label: subCategory,
         article_category: category,
         cta_name: linkText,
@@ -34,12 +34,12 @@ const Findoutmore = ({ propsdata, key, preview, urlParams }: any) => {
     <ClickTrackerWrapper gaData={
       {
         event: "ga_contentful_events",
-        eventName: "article_clicks",
+        eventName: "",
         data_label: subCategory,
-        page_name: "",
         article_category: category,
-        cta_name: "",
-        cta_url: "",
+        cta_name: linkText,
+        cta_url: linkURl,
+        clearing: "in_year",
   
       }
     } >
