@@ -32,6 +32,7 @@ const Page = async ({ searchParams }: any) => {
       >
         <PageViewLogging
           gaData={{
+            website_name: `${process.env.PROJECT}`,
             page_name: "homepage",
           }}
         />
