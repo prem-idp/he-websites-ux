@@ -22,7 +22,7 @@ const Page = async ({ params, searchParams }: any) => {
     preview
   );
 
-  const customDomain = "https://whatuni.com";
+  const customDomain = process.env.PROJECT === "Whatuni" ? "https://whatuni.com" : "https://www.postgraduatesearch.com";
   const url = new URL(customDomain + slugurl);
   if (searchParams) {
     Object.entries(searchParams).forEach(([key, value]) => {
