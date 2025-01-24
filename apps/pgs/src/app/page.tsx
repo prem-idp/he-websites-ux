@@ -19,6 +19,7 @@ const Page = async () => {
   return (
     <>
       <PageViewLogging
+        pageNameLocal="homepage"
         gaData={{
           page_name: "homepage",
         }}

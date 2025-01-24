@@ -31,6 +31,7 @@ const Page = async ({ searchParams }: any) => {
         debugMode={iscontentPreview}
       >
         <PageViewLogging
+          pageNameLocal="homepage"
           gaData={{
             page_name: "homepage",
           }}

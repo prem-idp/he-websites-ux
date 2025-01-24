@@ -75,9 +75,10 @@ const page = async ({ searchParams, params }: any) => {
         )}
       </div>
       <PageViewLogging
+          pageNameLocal={jsondata?.data?.contentData?.items[0]?.gaPageName}
           gaData={{
-            website: `${process.env.PROJECT}`,
-            pageName: jsondata?.data?.contentData?.items[0]?.gaPageName,
+            website_name: `${process.env.PROJECT}`,
+            page_name: jsondata?.data?.contentData?.items[0]?.gaPageName,
           }}
         />
       <Subscribecomponents iscontentPreview={iscontentPreview} category={splitParam?.[1]} subCategory={splitParam?.[2]}/>

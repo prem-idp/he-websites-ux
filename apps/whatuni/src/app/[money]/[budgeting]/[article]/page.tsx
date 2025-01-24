@@ -58,7 +58,7 @@ const Page = async ({ params, searchParams }: any) => {
   return (
     <Suspense fallback={<Loading />}>
       <>
-      <PageViewLogging gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
+      <PageViewLogging pageNameLocal={pageNameforArtcileDetail} gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
         <ContentfulPreviewProvider
           locale="en-GB"
           enableInspectorMode={preview}
