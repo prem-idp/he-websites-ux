@@ -135,6 +135,31 @@ console.log(articledetaildata,"as")
                               dt?.__typename === "MultipleCardContainer" &&
                               dt?.flagComponentStyle !== "ArticleCarousal"
                             ) {
+                              console.log("inside the if")
+                            } else {
+                              const Component: any = dynamicComponent(
+                                dt?.__typename
+                              );
+                              if (!Component) {
+                                return null;
+                              }
+                              return (
+                                <Component
+                                  key={index}
+                                  propsdata={dt}
+                                  preview={preview}
+                                />
+                              );
+                            }
+                          }
+                        )}
+                      </div>
+                      {data?.bodyContentCollection?.items?.map(
+                          (dt: any, index: any) => {
+                            if (
+                              dt?.__typename === "MultipleCardContainer" &&
+                              dt?.flagComponentStyle !== "ArticleCarousal"
+                            ) {
                               const Component: any = dynamicComponentImports(
                                 dt?.flagComponentStyle
                               );
@@ -157,24 +182,9 @@ console.log(articledetaildata,"as")
                                   iscontentPreview={preview}
                                 />
                               );
-                            } else {
-                              const Component: any = dynamicComponent(
-                                dt?.__typename
-                              );
-                              if (!Component) {
-                                return null;
-                              }
-                              return (
-                                <Component
-                                  key={index}
-                                  propsdata={dt}
-                                  preview={preview}
-                                />
-                              );
-                            }
+                            } 
                           }
                         )}
-                      </div>
                       {/* <section className="pt-[40px]">
                     <Ctabanner />
                   </section> */}
