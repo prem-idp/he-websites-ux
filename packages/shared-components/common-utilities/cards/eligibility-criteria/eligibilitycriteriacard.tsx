@@ -8,6 +8,8 @@ const Eligibilitycriteriacard = ({
   data,
   sysId,
   iscontentPreview,
+  category,
+  subCategory,
 }: any) => {
   return (
     <>
@@ -67,6 +69,9 @@ const Eligibilitycriteriacard = ({
             sysId={data?.sys?.id}
             iscontentPreview={iscontentPreview}
             index={index}
+            title={data?.title}
+            category={category}
+            subCategory={subCategory}
           />
         )}
       </div>
