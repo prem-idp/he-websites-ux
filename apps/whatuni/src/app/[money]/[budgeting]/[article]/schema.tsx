@@ -23,26 +23,7 @@ export default function SchemaTag({data,url}:any) {
         "@id":url},
         "keywords":[""]
       }
-    
-      // {
-      //   "@context":"http://schema.org",
-      //   "@type":"Article",
-      //   "headline":"The best resources for saving money at university",
-      //   "url":"https://www.whatuni.com/advice/money/the-best-resources-for-saving-money-at-university/75948/",	
-      //   "thumbnailUrl":"https://images-dom.prod.aws.idp-connect.com/commimg/myhotcourses/blog/post/myhc_69542_225px.jpg",
-      //   "image":"https://images-dom.prod.aws.idp-connect.com/commimg/myhotcourses/blog/post/myhc_69542.jpg",	
-      //   "dateCreated":"04 Feb 2019",
-      //   "datePublished":"04 Feb 2019",
-      //   "dateModified":"21 Oct 2024",
-      //   "creator":{"@type":"Person","name":"Eleanor Foulds"},
-      //   "author":{"@type":"Person","name":"Eleanor Foulds"},
-      //   "publisher":{"@type":"Organization","name":"Whatuni",
-      //   "logo":{"@type":"http://schema.org/ImageObject",
-      //   "url":"https://images-dom.prod.aws.idp-connect.com/wu-cont/images/logo_print.png"}},
-      //   "mainEntityOfPage":{"@type":"WebPage",
-      //   "@id":"https://www.whatuni.com/advice/money/the-best-resources-for-saving-money-at-university/75948/"},
-      //   "keywords":[""]
-      //   }
+   
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -58,10 +39,5 @@ export default function SchemaTag({data,url}:any) {
     };
   }, []);
 
-  return (
-    <div>
-      <h1>My Page</h1>
-      <p>This is the content of the page.</p>
-    </div>
-  );
+  return null;
 }
