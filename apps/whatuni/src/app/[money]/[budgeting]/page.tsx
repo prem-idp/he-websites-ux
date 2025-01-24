@@ -19,7 +19,7 @@ const page = async ({ searchParams, params }: any) => {
     ThemeLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
-  console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
+  // console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
 
@@ -70,6 +70,7 @@ const page = async ({ searchParams, params }: any) => {
                 category={splitParam?.[1]}
                 subCategory={splitParam?.[2]}
               />
+          
             );
           }
         )}

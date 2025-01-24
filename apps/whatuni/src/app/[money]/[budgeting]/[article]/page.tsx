@@ -16,27 +16,34 @@ import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
 const Page = async ({ params, searchParams }: any) => {
   const pageNameforArtcileDetail = "articleDetail";
   const searchparams = await searchParams;
-  const preview =
-    (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
+  const preview =  (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
   const Params = await params;
   const slugurl = `/${Params.money}/${Params.budgeting}/${Params.article}`;
-
-  console.log(articleDetailQuery(slugurl, preview));
   const articledetaildata = await graphQlFetchFunction(
     articleDetailQuery(slugurl, preview),
     preview
   );
+
+  
+  const customDomain = process.env.PROJECT === "Whatuni" ? "https://whatuni.com" : "https://www.postgraduatesearch.com";
+  const url = new URL(customDomain + slugurl);
+  if (searchParams) {
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value) {
+        url.searchParams.append(key, value as string);
+      }
+    });
+  }
+  console.log("Final URL:", url.toString());
+console.log(articledetaildata,"as")
   if (!articledetaildata) {
+    console.log("notfound")
     notFound();
   }
   console.dir(articledetaildata, "Asddddddddddddddddddddd");
   const data = articledetaildata?.data?.contentData?.items[0];
-
+  console.log(data,"datatataaa")
   const breadcrumbData = [
-    // {
-    //   url: "#",
-    //   Imgurl: "/assets/icons/breadcrumbs-home-icon.svg"
-    // },
     {
       url: "#",
       label: "Home",
@@ -54,8 +61,36 @@ const Page = async ({ params, searchParams }: any) => {
       label: "Overview",
     },
   ];
-  console.log("detail page", data?.bodyContentCollection?.items);
+  const jsonLd = {
+    "@context":"http://schema.org",
+    "@type":"Article",
+    "headline":data?.seoFields?.metaTite,
+    "url":url,	
+    "thumbnailUrl":data?.bannerImageCollection?.items[0]?.imgUpload?.url,
+    "image":data?.bannerImageCollection?.items[0]?.imgUpload?.url,	
+    "dateCreated":data?.modifiedDate,
+    "datePublished":data?.modifiedDate,
+    "dateModified":data?.modifiedDate,
+    "creator":{"@type":"Person","name":data?.author?.firstName ?? "" + data?.author?.middleName ?? "" +  data?.author?.lastName ?? ""},
+    "author":{"@type":"Person","name":data?.author?.firstName ?? "" + data?.author?.middleName ?? "" +  data?.author?.lastName ?? ""},
+    "publisher":{"@type":"Organization","name":"Whatuni",
+    "logo":{"@type":"http://schema.org/ImageObject",
+    "url":"https://images-dom.prod.aws.idp-connect.com/wu-cont/images/logo_print.png"}},
+    "mainEntityOfPage":{"@type":"WebPage",
+    "@id":url},
+    "keywords":[""]
+  }
   return (
+    <>
+      
+      <script
+        id="product-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd)
+        }}
+      />
+  
     <Suspense fallback={<Loading />}>
       <>
       <PageViewLogging gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
@@ -66,14 +101,16 @@ const Page = async ({ params, searchParams }: any) => {
           debugMode={preview}
         >
           <div className="bg-white">
-            {/* <section className="pt-[16px] pb-[40px]">
+             
+            <section className="pt-[16px] pb-[40px]">
             <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
               <Breadcrumblayoutcomponent
                 propsdata={breadcrumbData}
                 preview={preview}
               />
             </div>
-          </section> */}
+
+          </section>
 
             <section className="pb-[40px]">
               <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
@@ -95,6 +132,32 @@ const Page = async ({ params, searchParams }: any) => {
                     <section className="pb-[40px] px-[16px] md:px-[20px] xl:px-[0]">
                       <div className="rtf-innerstyle flex flex-col gap-[16px]">
                         {data?.bodyContentCollection?.items?.map(
+                          (dt: any, index: any) => {
+                            if (
+                              dt?.__typename === "MultipleCardContainer" &&
+                              dt?.flagComponentStyle !== "ArticleCarousal"
+                            ) {
+                              console.log("inside the if")
+                            } else {
+                              const Component: any = dynamicComponent(
+                                dt?.__typename
+                              );
+                              if (!Component) {
+                                return null;
+                              }
+                              return (
+                                <Component
+                                  key={index}
+                                  propsdata={dt}
+                                  urlParams={Params}
+                                  preview={preview}
+                                />
+                              );
+                            }
+                          }
+                        )}
+                      </div>
+                      {data?.bodyContentCollection?.items?.map(
                           (dt: any, index: any) => {
                             if (
                               dt?.__typename === "MultipleCardContainer" &&
@@ -122,25 +185,9 @@ const Page = async ({ params, searchParams }: any) => {
                                   iscontentPreview={preview}
                                 />
                               );
-                            } else {
-                              const Component: any = dynamicComponent(
-                                dt?.__typename
-                              );
-                              if (!Component) {
-                                return null;
-                              }
-                              return (
-                                <Component
-                                  key={index}
-                                  propsdata={dt}
-                                  urlParams={Params}
-                                  preview={preview}
-                                />
-                              );
-                            }
+                            } 
                           }
                         )}
-                      </div>
                       {/* <section className="pt-[40px]">
                     <Ctabanner />
                   </section> */}
@@ -155,10 +202,12 @@ const Page = async ({ params, searchParams }: any) => {
               <div className="max-w-container mx-auto">
                 {data?.bodyContentCollection?.items?.map(
                   (dt: any, index: any) => {
+                    console.log("inside ooooooooooo")
                     if (
                       dt?.__typename === "MultipleCardContainer" &&
                       dt?.flagComponentStyle === "ArticleCarousal"
                     ) {
+                      console.log("insid ethe",dt)
                       const Component: any = dynamicComponentImports(
                         dt?.flagComponentStyle
                       );
@@ -210,6 +259,8 @@ const Page = async ({ params, searchParams }: any) => {
         </ContentfulPreviewProvider>
       </>
     </Suspense>
+
+    </>
   );
 };
 
