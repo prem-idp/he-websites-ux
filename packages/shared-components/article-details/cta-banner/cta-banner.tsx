@@ -74,6 +74,7 @@ const Ctabanner = ({ key, propsdata, preview, urlParams}: any) => {
               article_category: urlParams?.money,
               cta_name: propsdata.cta.primaryCtaLabel || "Find your perfect",
               cta_url: propsdata.cta.primaryCtaUrl,
+              clearing: "in_year",
             }}>
             <a
               id="article-primaryCtaLabel-detai"

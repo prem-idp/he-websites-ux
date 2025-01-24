@@ -138,6 +138,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         user_id: await currentAuthenticatedUser(),
         article_category: category,
         contentful_1: subCategory,
+        clearing: "in_year",
   
       };
       GA4DataLayerFn(datalog);

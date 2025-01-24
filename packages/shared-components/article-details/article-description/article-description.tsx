@@ -55,6 +55,7 @@ const Articledescription = ({ propsdata, preview }: any) => {
       data_label3: interaction,
       page_name: localStorage.getItem("gaPageName")?.toString(),
       article_category: category,
+      clearing: "in_year",
     };
     GA4DataLayerFn(datalog);
 

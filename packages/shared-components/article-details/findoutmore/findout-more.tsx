@@ -20,10 +20,10 @@ const Findoutmore = ({ propsdata, key, preview, urlParams }: any) => {
         event: "ga_contentful_events",
         eventName: "",
         data_label: subCategory,
-        page_name: "",
         article_category: category,
         cta_name: linkText,
         cta_url: linkURl,
+        clearing: "in_year",
   
       }
     } >
