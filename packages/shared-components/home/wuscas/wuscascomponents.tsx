@@ -16,6 +16,8 @@ interface WuscascomponentsProps {
   contentModelName: string;
   iscontentPreview?: boolean;
   parentSysId?: string;
+  category?:any;
+  subCategory?:any;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
@@ -27,6 +29,8 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
   contentModelName,
   iscontentPreview,
   parentSysId,
+  category,
+  subCategory,
 }) => {
   const query = homePageComponentQueryFormation(
     internalName,
@@ -93,11 +97,13 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                     gaData={{
                       event: "ga_contentful_events",
                       eventName: statsData?.cta?.primaryCtaEventName || "",
-                      ctaTitle: statsData?.cta?.primaryCtaLabel || "",
-                      ctaUrl: statsData?.cta.primaryCtaUrl || "",
-                      website: `${process.env.PROJECT}`,
-                      pageName: pageName,
-                    }}
+                      cta_name: statsData?.cta?.primaryCtaLabel || "",
+                      cta_url: statsData?.cta.primaryCtaUrl || "",
+                      website_name: `${process.env.PROJECT}`,
+                      page_name: pageName,
+                      data_label: category,
+                      article_category: subCategory,
+                    }} 
                   >
                     <a
                       href={`${statsData?.cta.primaryCtaUrl}`}
