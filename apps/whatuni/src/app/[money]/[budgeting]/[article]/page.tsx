@@ -149,6 +149,7 @@ console.log(articledetaildata,"as")
                                 <Component
                                   key={index}
                                   propsdata={dt}
+                                  urlParams={Params}
                                   preview={preview}
                                 />
                               );
