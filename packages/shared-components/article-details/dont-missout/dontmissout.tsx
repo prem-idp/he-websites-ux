@@ -144,7 +144,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
       GA4DataLayerFn(datalog);
     }
 
-    const handleSubscriptionCSlog = async(signupFailureReason: any) => {
+    const handleSubscriptionCSlog = async(userId: any, signupFailureReason: any) => {
       logClickstreamEvent({
         pageName: "", 
         sectionName: propsdata?.newsTitle ?? "",  
@@ -153,6 +153,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         signupMethod: "Newsletter Subcription", 
         signupFailureReason: signupFailureReason ?? "",
         interestedIntakeYear: year,
+        userId: userId,
       })
     }
 
@@ -215,13 +216,14 @@ const Dontmissout = ({ key, data, preview }: any) => {
       // );
       console.log(!validemailerror);
       res()
-        .then((response) => {
+        .then(async(response) => {
           console.log();
           if (response.ok) {
             setSuccessMessage(true);
-            const resdata = response.json();
+            const resdata = await response.json();
+            //console.log("resdata: ", resdata);
             handleSubscriptionGAlog();
-            handleSubscriptionCSlog("");
+            handleSubscriptionCSlog(resdata?.user_uuid ?? "0", "");
           } else {
             throw new Error("Response not OK"); // Handle non-OK responses
           }
@@ -230,7 +232,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         .catch((error) => {
           console.error("Error:", error); // Handle any errors
           setSuccessMessage(false); // Optionally set success to false on error
-          handleSubscriptionCSlog(error.toString());
+          handleSubscriptionCSlog("0", error.toString());
         });
     } else if (prevemail === email) {
       setSuccessMessage(true);

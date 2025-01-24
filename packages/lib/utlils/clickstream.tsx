@@ -21,6 +21,7 @@ interface ClickstreamInterface{
   signupFailureReason?: any,
   networkId?: any,
   sessionTrackId?: any,
+  userId?: any,
 }
 
 export function logClickstreamEvent(data: ClickstreamInterface) {
@@ -28,7 +29,7 @@ export function logClickstreamEvent(data: ClickstreamInterface) {
 }
 async function log(data: ClickstreamInterface) {
   const userLoggedIn = await currentAuthenticatedUser();
-  const userId = userLoggedIn === "1" ? await getCurrentUser() : "0";
+  const userId = userLoggedIn === "1" ? (await getCurrentUser())?.userId : "0";
   let defaultAttributes = {
 
       affiliateId: "220703",
@@ -43,5 +44,7 @@ async function log(data: ClickstreamInterface) {
       systemname:"Domestic",
   }
   userId && (defaultAttributes = {...defaultAttributes, userId: userId});
+  console.log("defaultAttributes: ", defaultAttributes);
+  console.log("data: ", data);
   callClickstreamAPI({ ...defaultAttributes, ...data })
 }
