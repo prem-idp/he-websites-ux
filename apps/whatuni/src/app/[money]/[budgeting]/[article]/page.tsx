@@ -11,30 +11,36 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
-
+import SchemaTag from "./schema";
 const Page = async ({ params, searchParams }: any) => {
   const searchparams = await searchParams;
-  const preview =
-    (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
+  const preview =  (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
   const Params = await params;
   const slugurl = `/${Params.money}/${Params.budgeting}/${Params.article}`;
-
-  console.log(articleDetailQuery(slugurl, preview));
   const articledetaildata = await graphQlFetchFunction(
     articleDetailQuery(slugurl, preview),
     preview
   );
+
+  const customDomain = "https://whatuni.com";
+  const url = new URL(customDomain + slugurl);
+  if (searchParams) {
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value) {
+        url.searchParams.append(key, value as string);
+      }
+    });
+  }
+  console.log("Final URL:", url.toString());
+console.log(articledetaildata,"as")
   if (!articledetaildata) {
+    console.log("notfound")
     notFound();
   }
   console.dir(articledetaildata, "Asddddddddddddddddddddd");
   const data = articledetaildata?.data?.contentData?.items[0];
-
+  console.log(data,"datatataaa")
   const breadcrumbData = [
-    // {
-    //   url: "#",
-    //   Imgurl: "/assets/icons/breadcrumbs-home-icon.svg"
-    // },
     {
       url: "#",
       label: "Home",
@@ -52,10 +58,12 @@ const Page = async ({ params, searchParams }: any) => {
       label: "Overview",
     },
   ];
-  console.log("detail page", data?.bodyContentCollection?.items);
+  
   return (
+
     <Suspense fallback={<Loading />}>
       <>
+      <SchemaTag data={data} url={url.toString()}/>
         <ContentfulPreviewProvider
           locale="en-GB"
           enableInspectorMode={preview}
@@ -151,10 +159,12 @@ const Page = async ({ params, searchParams }: any) => {
               <div className="max-w-container mx-auto">
                 {data?.bodyContentCollection?.items?.map(
                   (dt: any, index: any) => {
+                    console.log("inside ooooooooooo")
                     if (
                       dt?.__typename === "MultipleCardContainer" &&
                       dt?.flagComponentStyle === "ArticleCarousal"
                     ) {
+                      console.log("insid ethe",dt)
                       const Component: any = dynamicComponentImports(
                         dt?.flagComponentStyle
                       );

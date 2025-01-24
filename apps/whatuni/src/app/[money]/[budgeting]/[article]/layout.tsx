@@ -4,10 +4,11 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const Params = await params;
   const slugurl = `/${Params?.money}/${Params?.budgeting}/${Params?.article}`;
+
   try {
     const query = ArticleDetailSeoQuery(slugurl);
     const metadata = await graphQlFetchFunction(query);
-    console.log(metadata, "metadataaaa");
+    // console.log(metadata, "metadataaaa");
     return {
       alternates: {
         canonical:
@@ -40,8 +41,13 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 }
 export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params:any
 }>) {
-  return <>{children}</>;
+  return <>
+  
+  
+  {children}</>;
 }

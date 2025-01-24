@@ -18,7 +18,7 @@ const page = async ({ searchParams, params }: any) => {
     ThemeLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
-  console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
+  // console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
 
@@ -26,8 +26,8 @@ const page = async ({ searchParams, params }: any) => {
     notFound();
   }
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
-  console.log("theme page", jsondata);
-  console.log("query", ThemeLandingPageQuery(iscontentPreview, slugurl));
+  // console.log("theme page", jsondata);
+  // console.log("query", ThemeLandingPageQuery(iscontentPreview, slugurl));
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -65,7 +65,9 @@ const page = async ({ searchParams, params }: any) => {
                 routename={slugurl}
                 contentModelName={"pageTemplateThemedLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
+
               />
+          
             );
           }
         )}

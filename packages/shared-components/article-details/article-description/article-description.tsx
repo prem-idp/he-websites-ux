@@ -11,7 +11,7 @@ const Articledescription = ({ propsdata, preview }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const modalPopToggle = () => {
-    console.log("ASssssssssssssssssssssssssssss");
+    // console.log("ASssssssssssssssssssssssssssss");
     setModalOpen(!modalOpen);
   };
 

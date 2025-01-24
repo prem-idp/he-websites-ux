@@ -32,7 +32,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
     // Simple email regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    console.log(emailRegex.test(email), "weewewewewewewewew");
+    // console.log(emailRegex.test(email), "weewewewewewewewew");
     return emailRegex.test(email);
   };
 
@@ -41,7 +41,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log("assssssdccccccccccccccccccccccccc");
+        // console.log("assssssdccccccccccccccccccccccccc");
         if (session?.tokens) {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
@@ -71,7 +71,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
         );
         const yeardata = await entrydata.json();
         setYearofentry(yeardata);
-        console.log(yeardata, "yeardata");
+        // console.log(yeardata, "yeardata");
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -103,10 +103,10 @@ const Dontmissout = ({ key, data, preview }: any) => {
     }
     if (email) {
       if (!validateEmail(email)) {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaainside the validate email");
+        // console.log("aaaaaaaaaaaaaaaaaaaaaaainside the validate email");
         setValidemailerror(true);
         isFormValid = false;
-        console.log(validemailerror);
+        // console.log(validemailerror);
       }
     }
     if (!year) {
@@ -120,7 +120,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
 
     // If all fields are valid, show success message
 
-    console.log(firstname, lastname, email, year, agreement);
+    // console.log(firstname, lastname, email, year, agreement);
 
     const res = async () =>
       await fetch(
@@ -179,10 +179,10 @@ const Dontmissout = ({ key, data, preview }: any) => {
       //   agreement,
       //   prevemail
       // );
-      console.log(!validemailerror);
+      // console.log(!validemailerror);
       res()
         .then((response) => {
-          console.log();
+          // console.log();
           if (response.ok) {
             setSuccessMessage(true);
             const resdata = response.json();

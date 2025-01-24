@@ -4,8 +4,8 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 
 const Ctabanner = ({ key, propsdata, preview }: any) => {
-  console.log(propsdata, "asas");
-  console.log(propsdata.longDescription.json, "asdfgasahjk");
+  // console.log(propsdata, "asas");
+  // console.log(propsdata.longDescription.json, "asdfgasahjk");
 
   return (
     <>
