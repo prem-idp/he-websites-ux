@@ -8,18 +8,15 @@ import {
   currentAuthenticatedUser,
 } from "@packages/lib/utlils/helper-function";
 import { DataLayerGA4AttrType } from "../types/datalayerGA";
-import { logClickstreamEvent } from "./clickstream";
+import { logClickstreamEvent, ClickstreamInterface } from "./clickstream";
 
 interface PageViewLoggingProps {
   gaData: DataLayerGA4AttrType,
-  csData?: any,
+  csData?: ClickstreamInterface,
 }
 const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData, csData }) => {
   useEffect(() => {
-    //Clickstream pageview
-    if(pageName != "home_page") {
-      logClickstreamEvent({pageName:pageName,eventType:"PageViewed"})
-    }
+
     if (typeof window !== "undefined") {
       localStorage.setItem("gaPageName", gaData.page_name?.toString() ?? "");
     }
@@ -29,6 +26,7 @@ const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData, csData }) => 
     GAData();
     if(csData){
       //console.log("CS for pageview");
+      csData.eventType = csData.eventType ?? "pageViewed";
       logClickstreamEvent(csData);
     }
   }, []);

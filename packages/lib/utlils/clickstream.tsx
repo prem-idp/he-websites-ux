@@ -4,7 +4,7 @@ import { getCurrentUser } from "@aws-amplify/auth";
 import { callClickstreamAPI } from "../server-actions/server-action";
 import { currentAuthenticatedUser } from "./helper-function";
 
-interface ClickstreamInterface{
+export interface ClickstreamInterface{
   eventType?: any,
   pageName?: any,
   sectionName?: any,
@@ -22,6 +22,7 @@ interface ClickstreamInterface{
   networkId?: any,
   sessionTrackId?: any,
   userId?: any,
+  articleTopic?: any,
 }
 
 export function logClickstreamEvent(data: ClickstreamInterface) {
