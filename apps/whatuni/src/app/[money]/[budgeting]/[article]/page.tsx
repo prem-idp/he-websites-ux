@@ -11,8 +11,10 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
+import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
 
 const Page = async ({ params, searchParams }: any) => {
+  const pageNameforArtcileDetail = "articleDetail";
   const searchparams = await searchParams;
   const preview =  (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
   const Params = await params;
@@ -91,7 +93,7 @@ console.log(articledetaildata,"as")
   
     <Suspense fallback={<Loading />}>
       <>
-
+      <PageViewLogging gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
         <ContentfulPreviewProvider
           locale="en-GB"
           enableInspectorMode={preview}
@@ -123,11 +125,11 @@ console.log(articledetaildata,"as")
             </section>
 
             <section>
-              <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+              <div className="max-w-container mx-auto">
                 <div className="flex flex-col lg:flex-row gap-[20px]">
                   <Skiplink propsdata={data} preview={preview} />
                   <div className="w-full article-details-aside">
-                    <section className="pb-[40px]">
+                    <section className="pb-[40px] px-[16px] md:px-[20px] xl:px-[0]">
                       <div className="rtf-innerstyle flex flex-col gap-[16px]">
                         {data?.bodyContentCollection?.items?.map(
                           (dt: any, index: any) => {

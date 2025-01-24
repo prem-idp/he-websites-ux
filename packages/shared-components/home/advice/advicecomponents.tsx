@@ -9,6 +9,7 @@ const Advicecomponents = async ({
   heading,
   subheading,
   parentSysId,
+  category,
 }: any) => {
 
   console.log(heading,subheading,articleKeyArray,"aaaaaaaaaaaaaaaaaaaaaaa")
@@ -85,6 +86,8 @@ const Advicecomponents = async ({
                   <Advicecourseslidercomponents
                     articledata={data?.data?.contentData?.items}
                     iscontentPreview={iscontentPreview}
+                    heading={heading}
+                    category={category}
                   />
                   {/* view more section commented */}
                   {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">
