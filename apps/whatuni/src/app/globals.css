@@ -550,4 +550,8 @@ h6 {
   list-style: inside disc;
   font-size: 14px;
 }
+.rtf-innerstyle > div:has([id]) > div:not([class]) :where(*),.rtf-innerstyle > div:has([id]) > * {
+  @apply m-[16px_0]
+}
+.rtf-innerstyle p:empty{@apply hidden} 
 /* RTF END */

@@ -25,8 +25,8 @@ const Ctabutton = ({ index, cta, sysId, iscontentPreview,title,category,subCateg
                       website_name: `${process.env.PROJECT}`,
                       page_name: (typeof window !== "undefined") ? localStorage?.getItem("gaPageName") || "" : "",
                       contentful_1:title,
-                      data_label:category || "",
-                      article_category:subCategory || "",
+                      data_label:subCategory || "",
+                      article_category:category || "",
                     }}
                   >
       <a

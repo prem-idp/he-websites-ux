@@ -76,9 +76,10 @@ const page = async ({ searchParams, params }: any) => {
       </div>
       <PageViewLogging
           gaData={{
-            website: `${process.env.PROJECT}`,
-            pageName: jsondata?.data?.contentData?.items[0]?.gaPageName,
+            website_name: `${process.env.PROJECT}`,
+            page_name: jsondata?.data?.contentData?.items[0]?.gaPageName,
           }}
+          csData={{pageName:jsondata?.data?.contentData?.items[0]?.gaPageName,eventType:"PageViewed"}}
         />
       <Subscribecomponents iscontentPreview={iscontentPreview} category={splitParam?.[1]} subCategory={splitParam?.[2]}/>
     </ContentfulPreviewProvider>
