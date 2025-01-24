@@ -11,7 +11,7 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
-import SchemaTag from "./schema";
+
 const Page = async ({ params, searchParams }: any) => {
   const searchparams = await searchParams;
   const preview =  (await searchparams?.preview) === "MY_SECRET_TOKEN" ? true : false;
@@ -22,6 +22,7 @@ const Page = async ({ params, searchParams }: any) => {
     preview
   );
 
+  
   const customDomain = process.env.PROJECT === "Whatuni" ? "https://whatuni.com" : "https://www.postgraduatesearch.com";
   const url = new URL(customDomain + slugurl);
   if (searchParams) {
@@ -58,12 +59,39 @@ console.log(articledetaildata,"as")
       label: "Overview",
     },
   ];
-  
+  const jsonLd = {
+    "@context":"http://schema.org",
+    "@type":"Article",
+    "headline":data?.seoFields?.metaTite,
+    "url":url,	
+    "thumbnailUrl":data?.bannerImageCollection?.items[0]?.imgUpload?.url,
+    "image":data?.bannerImageCollection?.items[0]?.imgUpload?.url,	
+    "dateCreated":data?.modifiedDate,
+    "datePublished":data?.modifiedDate,
+    "dateModified":data?.modifiedDate,
+    "creator":{"@type":"Person","name":data?.author?.firstName ?? "" + data?.author?.middleName ?? "" +  data?.author?.lastName ?? ""},
+    "author":{"@type":"Person","name":data?.author?.firstName ?? "" + data?.author?.middleName ?? "" +  data?.author?.lastName ?? ""},
+    "publisher":{"@type":"Organization","name":"Whatuni",
+    "logo":{"@type":"http://schema.org/ImageObject",
+    "url":"https://images-dom.prod.aws.idp-connect.com/wu-cont/images/logo_print.png"}},
+    "mainEntityOfPage":{"@type":"WebPage",
+    "@id":url},
+    "keywords":[""]
+  }
   return (
-
+    <>
+      
+      <script
+        id="product-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd)
+        }}
+      />
+  
     <Suspense fallback={<Loading />}>
       <>
-      <SchemaTag data={data} url={url.toString()}/>
+
         <ContentfulPreviewProvider
           locale="en-GB"
           enableInspectorMode={preview}
@@ -71,14 +99,16 @@ console.log(articledetaildata,"as")
           debugMode={preview}
         >
           <div className="bg-white">
-            {/* <section className="pt-[16px] pb-[40px]">
+             
+            <section className="pt-[16px] pb-[40px]">
             <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
               <Breadcrumblayoutcomponent
                 propsdata={breadcrumbData}
                 preview={preview}
               />
             </div>
-          </section> */}
+
+          </section>
 
             <section className="pb-[40px]">
               <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
@@ -216,6 +246,8 @@ console.log(articledetaildata,"as")
         </ContentfulPreviewProvider>
       </>
     </Suspense>
+
+    </>
   );
 };
 
