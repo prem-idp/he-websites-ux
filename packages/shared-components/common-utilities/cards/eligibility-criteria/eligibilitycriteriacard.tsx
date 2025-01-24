@@ -33,7 +33,7 @@ const Eligibilitycriteriacard = ({
         />
       )}
       <div
-        className="card group flex flex-col bg-white border border-grey-200 rounded-[8px] shadow-custom-2 overflow-hidden p-[16px] gap-[16px]"
+        className="card flex flex-col bg-white border border-grey-200 rounded-[8px] shadow-custom-2 overflow-hidden p-[16px] gap-[16px]"
       >
         <div className="card-body flex flex-col gap-[8px]">
           <div className="card-header w-[48px]">

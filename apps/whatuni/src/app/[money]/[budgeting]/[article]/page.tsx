@@ -85,11 +85,11 @@ const Page = async ({ params, searchParams }: any) => {
             </section>
 
             <section>
-              <div className="max-w-container mx-auto px-[16px] xl:px-[0]">
+              <div className="max-w-container mx-auto">
                 <div className="flex flex-col lg:flex-row gap-[20px]">
                   <Skiplink propsdata={data} preview={preview} />
                   <div className="w-full article-details-aside">
-                    <section className="pb-[40px]">
+                    <section className="pb-[40px] px-[16px] md:px-[20px] xl:px-[0]">
                       <div className="rtf-innerstyle flex flex-col gap-[16px]">
                         {data?.bodyContentCollection?.items?.map(
                           (dt: any, index: any) => {
