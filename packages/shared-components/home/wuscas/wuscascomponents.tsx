@@ -101,8 +101,8 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       cta_url: statsData?.cta.primaryCtaUrl || "",
                       website_name: `${process.env.PROJECT}`,
                       page_name: pageName,
-                      data_label: category,
-                      article_category: subCategory,
+                      data_label: subCategory,
+                      article_category: category,
                     }} 
                   >
                     <a
