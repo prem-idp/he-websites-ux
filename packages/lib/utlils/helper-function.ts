@@ -182,7 +182,7 @@ export function getArticleDetailUrlParamValues(){
   let category, subCategory, articleTitle = "";
   if(typeof localStorage !== 'undefined' && localStorage.getItem("gaPageName")?.toString() == "articleDetail"){
     let pathArr = usePathname()?.split("/").filter((pathvar) => pathvar != "");
-    if(pathArr.length <= 4){
+    if(pathArr.length <= 3){
       category = pathArr[0];
       subCategory = pathArr[1];
       articleTitle = pathArr[2];
