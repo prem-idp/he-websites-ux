@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
-  const firstPart = text.slice(0, 362);
-  const secondPart = text.slice(362);
+  const firstPart = text?.slice(0, 362);
+  const secondPart = text?.slice(362);
   const [screenrender, setScreenrender] = useState(firstPart);
   const toggleReadMore = () => {
     if (screenrender != text) {
