@@ -218,14 +218,15 @@ export function articleDetailQuery(
                 flagStyle
               }
             }
-            mediaCardsCollection {
+             mediaCardsCollection {
+        
+          
               items {
-                ... on MetaTagTopic {
+                __typename
+                ... on MetaTagTheme {
                   title
                 }
-                ... on MetaTagSubTopic {
-                  title
-                }
+             
               }
             }
           }
