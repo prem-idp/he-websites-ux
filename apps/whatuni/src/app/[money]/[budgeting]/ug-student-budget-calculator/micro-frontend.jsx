@@ -11,11 +11,12 @@ export default function MicroFrontend() {
       : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg"
         ? "https://mtest.test.aws."
         : "https://www."
+       //:"https://mdev.dev.aws."
   }`;
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = `${domain}whatuni.com/colc/static/css/main.colc.0.1.3.css`;
+    link.href = `${domain}whatuni.com/colc/static/css/main.colc.0.1.4.css`;
     link.type = "text/css";
     document.head.appendChild(link);
     if (ref.current) {
@@ -37,9 +38,9 @@ export default function MicroFrontend() {
 
   return (
     <>
-      <div>
+      <div class="min-h-[1000px]">
         <Script
-          src={`${domain}whatuni.com/colc/static/js/main.colc.0.1.3.js`}
+          src={`${domain}whatuni.com/colc/static/js/main.colc.0.1.4.js`}
         ></Script>
         <colc-calculator ref={ref}></colc-calculator>
       </div>

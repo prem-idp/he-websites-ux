@@ -127,7 +127,7 @@ console.log(articledetaildata,"as")
   
     <Suspense fallback={<Loading />}>
       <>
-      <PageViewLogging gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
+      <PageViewLogging pageNameLocal={pageNameforArtcileDetail} gaData={{page_name: pageNameforArtcileDetail, article_category: Params.money}} csData={{eventType: "PageViewed", pageName: pageNameforArtcileDetail, articleTopic: Params.article}}/>
         <ContentfulPreviewProvider
           locale="en-GB"
           enableInspectorMode={preview}
@@ -159,7 +159,7 @@ console.log(articledetaildata,"as")
             </section>
 
             <section>
-              <div className="max-w-container mx-auto">
+              <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
                 <div className="flex flex-col lg:flex-row gap-[20px]">
                   <Skiplink propsdata={data} preview={preview} />
                   <div className="w-full article-details-aside">
