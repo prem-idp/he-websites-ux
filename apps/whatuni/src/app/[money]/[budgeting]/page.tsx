@@ -8,9 +8,10 @@ import HeroMiniBanner from "@packages/shared-components/common-utilities/mini-ba
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 import { ThemeLandingPageQuery } from "@packages/lib/graphQL/theme-landing";
 import { notFound } from "next/navigation";
+import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
-  const slugurl = `/${Params.herohub}/${Params.money}/${Params.budgeting}`;
+  const slugurl = `/${Params.money}/${Params.budgeting}`;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -18,6 +19,7 @@ const page = async ({ searchParams, params }: any) => {
     ThemeLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
+  // console.log(ThemeLandingPageQuery(iscontentPreview, slugurl));
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
 
@@ -25,6 +27,7 @@ const page = async ({ searchParams, params }: any) => {
     notFound();
   }
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
+  const splitParam = slugurl ? slugurl.split('/') : [];
   console.log("theme page", jsondata);
   console.log("query", ThemeLandingPageQuery(iscontentPreview, slugurl));
   return (
@@ -64,12 +67,24 @@ const page = async ({ searchParams, params }: any) => {
                 routename={slugurl}
                 contentModelName={"pageTemplateThemedLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
+                category={splitParam?.[1]}
+                subCategory={splitParam?.[2]}
               />
+          
             );
           }
         )}
       </div>
-      <Subscribecomponents iscontentPreview={iscontentPreview} />
+      <PageViewLogging
+          pageNameLocal={jsondata?.data?.contentData?.items[0]?.gaPageName}
+          gaData={{
+            website_name: `${process.env.PROJECT}`,
+            page_name: jsondata?.data?.contentData?.items[0]?.gaPageName,
+          }}
+          csData={{pageName:jsondata?.data?.contentData?.items[0]?.gaPageName,eventType:"PageViewed"}}
+        />
+      <Subscribecomponents iscontentPreview={iscontentPreview}  category={splitParam?.[1]}
+                subCategory={splitParam?.[2]}/>
     </ContentfulPreviewProvider>
   );
 };

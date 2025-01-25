@@ -31,9 +31,10 @@ const Page = async ({ searchParams }: any) => {
         debugMode={iscontentPreview}
       >
         <PageViewLogging
+          pageNameLocal={jsonData?.data?.contentData?.items[0]?.gaPageName}
           gaData={{
-            website: `${process.env.PROJECT}`,
-            pageName: jsonData?.data?.contentData?.items[0]?.gaPageName,
+            website_name: `${process.env.PROJECT}`,
+            page_name: jsonData?.data?.contentData?.items[0]?.gaPageName,
           }}
         />
         <Heroslidercomponent

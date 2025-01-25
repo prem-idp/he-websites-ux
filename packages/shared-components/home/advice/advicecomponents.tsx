@@ -9,7 +9,10 @@ const Advicecomponents = async ({
   heading,
   subheading,
   parentSysId,
+  category,
 }: any) => {
+
+  console.log(heading,subheading,articleKeyArray,"aaaaaaaaaaaaaaaaaaaaaaa")
   function customStringify(obj: any): string {
     if (Array.isArray(obj)) {
       return `[${obj?.map(customStringify).join(", ")}]`;
@@ -31,11 +34,13 @@ const Advicecomponents = async ({
     };
     newdt.push(obj);
   });
-  console.log(newdt);
+
+  // console.log(newdt);
   const stringifiedArray = customStringify(newdt);
   const query = ArtcileSliderQuery(iscontentPreview, stringifiedArray);
+  console.log(query," slider query")
   const data = await graphQlFetchFunction(query, iscontentPreview);
-
+   console.log(data,"frmo the articlel coursole")
   return (
     <>
       {iscontentPreview && (
@@ -81,6 +86,8 @@ const Advicecomponents = async ({
                   <Advicecourseslidercomponents
                     articledata={data?.data?.contentData?.items}
                     iscontentPreview={iscontentPreview}
+                    heading={heading}
+                    category={category}
                   />
                   {/* view more section commented */}
                   {/* <div className="flex justify-center mt-[16px] lg:mt-[28px]">

@@ -30,11 +30,11 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                       gaData={{
                         event: "ga_contentful_events",
                         eventName: "footer_clicks",
-                        ctaTitle: childItem.navTitle,
-                        ctaUrl: childItem?.navUrl || "",
-                        website: `${process.env.PROJECT}`,
-                        pageName: "",
-                        contentfulCategory1: navItems?.navTitle,
+                        cta_name: childItem.navTitle,
+                        cta_url: childItem?.navUrl || "",
+                        page_name: "",
+                        contentful_1: navItems?.navTitle,
+                        clearing: "in_year",
                       }}
                     >
                       <a
@@ -51,6 +51,7 @@ const FooterNavCollection = ({ data }: PropsInterface) => {
                       </a>
                     </ClickTrackerWrapper>
                   </li>
+                  
                 )
               )}
             </ul>

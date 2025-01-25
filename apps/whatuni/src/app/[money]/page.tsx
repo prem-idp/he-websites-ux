@@ -8,10 +8,11 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import HeroMiniBanner from "@packages/shared-components/common-utilities/mini-banner/mini-banner";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 import { notFound } from "next/navigation";
+import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
 const page = async ({ searchParams, params }: any) => {
   const Params = await params;
 
-  const slugurl = `/${Params.herohub}/${Params.money}`;
+  const slugurl = `/${Params.money}`;
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
@@ -19,14 +20,15 @@ const page = async ({ searchParams, params }: any) => {
     HeroLandingPageQuery(iscontentPreview, slugurl),
     iscontentPreview
   );
-
+  // console.log(HeroLandingPageQuery(iscontentPreview, slugurl));
   if (jsondata?.data?.contentData?.items.length < 1) {
     notFound();
   }
-  console.log(HeroLandingPageQuery(iscontentPreview, slugurl));
+  // console.log(HeroLandingPageQuery(iscontentPreview, slugurl));
   const componentList =
     jsondata?.data?.contentData?.items[0]?.bodyContentCollection?.items;
   const bannerData = jsondata?.data?.contentData?.items[0]?.bannerImage;
+  const splitParam = slugurl ? slugurl.split('/') : [];
   return (
     <ContentfulPreviewProvider
       locale="en-GB"
@@ -65,12 +67,22 @@ const page = async ({ searchParams, params }: any) => {
                 articleKeyArray={childItems?.mediaCardsCollection?.items}
                 contentModelName={"pageTemplateHeroLandingPageCollection"}
                 iscontentPreview={iscontentPreview}
+                pageName={jsondata?.data?.contentData?.items[0]?.gaPageName}
+                category={splitParam?.[1]}
               />
             );
           }
         )}
       </div>
-      <Subscribecomponents iscontentPreview={iscontentPreview} />
+      <PageViewLogging
+          pageNameLocal={jsondata?.data?.contentData?.items[0]?.gaPageName}
+          gaData={{
+            website_name: `${process.env.PROJECT}`,
+            page_name: jsondata?.data?.contentData?.items[0]?.gaPageName,
+          }}
+          csData={{pageName:jsondata?.data?.contentData?.items[0]?.gaPageName,eventType:"PageViewed"}}
+        />
+      <Subscribecomponents iscontentPreview={iscontentPreview} category={splitParam?.[1]} subCategory={splitParam?.[2]}/>
     </ContentfulPreviewProvider>
   );
 };
