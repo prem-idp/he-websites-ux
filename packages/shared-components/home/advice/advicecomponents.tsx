@@ -34,8 +34,6 @@ const Advicecomponents = async ({
     };
     newdt.push(obj);
   });
-
-  // console.log(newdt);
   const stringifiedArray = customStringify(newdt);
   const query = ArtcileSliderQuery(iscontentPreview, stringifiedArray);
   console.log(query," slider query")
