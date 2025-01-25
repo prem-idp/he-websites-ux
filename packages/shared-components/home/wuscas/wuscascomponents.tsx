@@ -16,8 +16,8 @@ interface WuscascomponentsProps {
   contentModelName: string;
   iscontentPreview?: boolean;
   parentSysId?: string;
-  category?:any;
-  subCategory?:any;
+  category?: any;
+  subCategory?: any;
 }
 
 const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
@@ -43,8 +43,6 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     query,
     iscontentPreview
   );
-  console.log(query);
-  console.log("resultData", resultData);
   const statsData =
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item?.__typename === "PageStatPodContainer"
@@ -82,9 +80,12 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
           <section className="wusca-container">
             <div className="max-w-container mx-auto">
               {/* container */}
-               <div className={`wusca-card-container grid  md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px]  md:px-[20px] gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px] ${routename == "/" ? 'grid-rows-[3_minmax(0_auto)] py-[40px] md:pt-[0] md:pb-[64px] xl:p-[0]':'py-[40px] md:py-[20px] xl:px-[0]'}`}>
-
-                <div className={`wusca-content flex flex-col justify-center xl:justify-end gap-[16px] md:gap-[24px] ${routename == "/" ? 'col-start-1 row-start-2 md:row-start-1 xl:col-span-1': 'self-center col-start-1 row-start-2 md:col-start-2 md:row-start-1' }`}>
+              <div
+                className={`wusca-card-container grid  md:grid-cols-[auto_minmax(352px,_1fr)] xl:grid-cols-[auto_minmax(598px,_1fr)] px-[16px]  md:px-[20px] gap-[24px] md:gap-[20px] xl:gap-x-[20px] xl:gap-y-[24px] ${routename == "/" ? "grid-rows-[3_minmax(0_auto)] py-[40px] md:pt-[0] md:pb-[64px] xl:p-[0]" : "py-[40px] md:py-[20px] xl:px-[0]"}`}
+              >
+                <div
+                  className={`wusca-content flex flex-col justify-center xl:justify-end gap-[16px] md:gap-[24px] ${routename == "/" ? "col-start-1 row-start-2 md:row-start-1 xl:col-span-1" : "self-center col-start-1 row-start-2 md:col-start-2 md:row-start-1"}`}
+                >
                   <div className="flex flex-col gap-[8px]">
                     <h2 className="font-bold" id="wusca_heading">
                       {heading}
@@ -103,7 +104,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       page_name: pageName,
                       data_label: subCategory,
                       article_category: category,
-                    }} 
+                    }}
                   >
                     <a
                       href={`${statsData?.cta.primaryCtaUrl}`}
@@ -157,8 +158,12 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   </div>
                 )}
                 <div
-                  className={`grid justify-center ${routename == "/" ? 'px-[16px] md:px-[20px] md:py-[36px]  xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1' : 'w-full md:w-[352px] lg:w-[598px] col-start-1 row-start-1'}`} id="image">
-                <div className={`${routename == "/" ? '': 'w-[295px] md:w-[270px] lg:w-[252px]'}`}>
+                  className={`grid justify-center ${routename == "/" ? "px-[16px] md:px-[20px] md:py-[36px]  xl:px-[0] row-start-1 row-end-2 xl:row-end-3 col-start-2 -col-end-1" : "w-full md:w-[352px] lg:w-[598px] col-start-1 row-start-1"}`}
+                  id="image"
+                >
+                  <div
+                    className={`${routename == "/" ? "" : "w-[295px] md:w-[270px] lg:w-[252px]"}`}
+                  >
                     <Image
                       priority={true}
                       src={`${statsData?.image.url || ""}`}
