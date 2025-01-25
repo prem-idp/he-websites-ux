@@ -34,6 +34,7 @@ const Page = async ({ params, searchParams }: any) => {
       }
     });
   }
+  
   console.log("Final URL:", url.toString());
 console.log(articledetaildata,"as")
   if (!articledetaildata) {
@@ -43,24 +44,57 @@ console.log(articledetaildata,"as")
   console.dir(articledetaildata, "Asddddddddddddddddddddd");
   const data = articledetaildata?.data?.contentData?.items[0];
   console.log(data,"datatataaa")
-  const breadcrumbData = [
-    {
-      url: "#",
+  const customLabels = [`${data?.articleType?.title}`,`${data?.metaTagThemeCollection?.items[0].title}`,`${data?.pageTitle}`]
+  function generateBreadcrumbData(currentPath:any) {
+
+    const sanitizedPath = currentPath.endsWith("/")
+      ? currentPath.slice(0, -1)
+      : currentPath;
+  
+    console.log(sanitizedPath,"sanitizedPath")
+    const pathSegments = sanitizedPath.split("/").filter((segment:any) => segment);
+   console.log(pathSegments,"pathSegments")
+    // Construct breadcrumb data
+    const breadcrumbData = pathSegments.map((segment:any, index:any) => {
+      const url =
+        index === pathSegments.length - 1
+          ? "" // No URL for the last breadcrumb
+          : "/" + pathSegments.slice(0, index + 1).join("/"); // Build URL for each segment
+  
+      return {
+        url,
+        label: customLabels[index] || segment.replace(/-/g, " ").replace(/\b\w/g, (char:any) => char.toUpperCase()),
+      };
+    });
+  console.log(breadcrumbData,"breadcrumbData");
+    // Add Home as the first breadcrumb
+    breadcrumbData.unshift({
+      url: "/",
       label: "Home",
-    },
-    {
-      url: "#",
-      label: "Payments",
-    },
-    {
-      url: "#",
-      label: "Online payments",
-    },
-    {
-      url: "",
-      label: "Overview",
-    },
-  ];
+    });
+  
+    return breadcrumbData;
+  }
+  
+  const breadcrumbData = generateBreadcrumbData(slugurl);
+  // const breadcrumbData = [
+  //   {
+  //     url: "/",
+  //     label: "Home",
+  //   },
+  //   {
+  //     url: "#",
+  //     label: "Payments",
+  //   },
+  //   {
+  //     url: "#",
+  //     label: "Online payments",
+  //   },
+  //   {
+  //     url: "",
+  //     label: "Overview",
+  //   },
+  // ];
   const jsonLd = {
     "@context":"http://schema.org",
     "@type":"Article",
