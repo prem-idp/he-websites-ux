@@ -4,7 +4,7 @@ import { getCurrentUser } from "@aws-amplify/auth";
 import { callClickstreamAPI } from "../server-actions/server-action";
 import { currentAuthenticatedUser } from "./helper-function";
 
- export interface ClickstreamInterface{
+export interface ClickstreamInterface{
   eventType?: any,
   pageName?: any,
   sectionName?: any,
@@ -21,6 +21,8 @@ import { currentAuthenticatedUser } from "./helper-function";
   signupFailureReason?: any,
   networkId?: any,
   sessionTrackId?: any,
+  userId?: any,
+  articleTopic?: any,
 }
 
 export function logClickstreamEvent(data: ClickstreamInterface) {
@@ -28,7 +30,7 @@ export function logClickstreamEvent(data: ClickstreamInterface) {
 }
 async function log(data: ClickstreamInterface) {
   const userLoggedIn = await currentAuthenticatedUser();
-  const userId = userLoggedIn === "1" ? await getCurrentUser() : "0";
+  const userId = userLoggedIn === "1" ? (await getCurrentUser())?.userId : "0";
   let defaultAttributes = {
 
       affiliateId: "220703",

@@ -7,6 +7,7 @@ import { homePageComponentQueryFormation } from "@packages/lib/graphQL/fetch-fun
 import Image from "next/image";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 import React, { Suspense } from "react";
+import { DataLayerGA4AttrType } from "@packages/lib/types/datalayerGA";
 interface WuscascomponentsProps {
   heading?: string | undefined;
   subheading?: string | undefined;
@@ -47,6 +48,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item?.__typename === "PageStatPodContainer"
     );
+
   return (
     <>
       {iscontentPreview && (
@@ -100,11 +102,11 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       eventName: statsData?.cta?.primaryCtaEventName || "",
                       cta_name: statsData?.cta?.primaryCtaLabel || "",
                       cta_url: statsData?.cta.primaryCtaUrl || "",
-                      website_name: `${process.env.PROJECT}`,
                       page_name: pageName,
                       data_label: subCategory,
                       article_category: category,
-                    }}
+                      clearing: "in_year"
+                    }}               
                   >
                     <a
                       href={`${statsData?.cta.primaryCtaUrl}`}

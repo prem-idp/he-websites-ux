@@ -70,6 +70,7 @@ const page = async ({ searchParams, params }: any) => {
                 category={splitParam?.[1]}
                 subCategory={splitParam?.[2]}
               />
+          
             );
           }
         )}
