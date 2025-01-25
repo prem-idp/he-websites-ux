@@ -70,12 +70,12 @@ const page = async ({ searchParams, params }: any) => {
                 category={splitParam?.[1]}
                 subCategory={splitParam?.[2]}
               />
-          
             );
           }
         )}
       </div>
       <PageViewLogging
+        pageNameLocal={jsondata?.data?.contentData?.items[0]?.gaPageName}
         gaData={{
           website_name: `${process.env.PROJECT}`,
           page_name: jsondata?.data?.contentData?.items[0]?.gaPageName,
