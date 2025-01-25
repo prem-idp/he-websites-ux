@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, Suspense } from "react";
 import { Hub } from "aws-amplify/utils";
-import { useSearchParams } from "next/navigation";
 import { signInWithRedirect } from "@aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -14,10 +13,6 @@ const Page = () => {
     });
   }
   useEffect(() => {
-    if (window) {
-      const t = window.location.pathname;
-      console.log(t);
-    }
     const unsubscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
         case "signInWithRedirect":
