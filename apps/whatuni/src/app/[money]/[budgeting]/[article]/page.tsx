@@ -148,7 +148,7 @@ console.log(articledetaildata,"as")
 
             <section className="pb-[40px]">
               <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-                <Articledescription propsdata={data} preview={preview} />
+                <Articledescription propsdata={data} preview={preview} url={Params.money} />
               </div>
             </section>
 
