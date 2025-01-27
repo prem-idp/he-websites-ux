@@ -205,7 +205,18 @@ const Dontmissout = ({ key, data, preview }: any) => {
           console.error("Error:", error); // Handle any errors
           handleSubscriptionCSlog("0", error.toString());
         });
-    } else if (prevemail && prevemail === email) {
+    } else if (prevemail && prevemail === email && isFormValid &&
+      !firstnameerror &&
+      !lastnameerror &&
+      !emailerror &&
+      !yearerror &&
+      !agreementerror &&
+      !validemailerror &&
+      firstname &&
+      lastname &&
+      email &&
+      year &&
+      agreement) {
       setSuccessMessage(true);
       setAlreadyregisteruser(true);
     }
@@ -316,7 +327,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       id="artilce-page-newsFirstName"
                       value={firstname ?? ""}
                       onChange={(e) => {
-                        setFristname(e.target.value);
+                        setFristname(e.target.value.trim());
                         setFristnameerror(false);
                         setSuccessMessage(false);
                         setAlreadyregisteruser(false);
@@ -336,7 +347,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                     <input
                       id="artilce-page-newsLastName"
                       onChange={(e) => {
-                        setLastname(e.target.value);
+                        setLastname(e.target.value.trim());
                         setLastnameerror(false);
                         setSuccessMessage(false);
                         setAlreadyregisteruser(false);
@@ -356,13 +367,13 @@ const Dontmissout = ({ key, data, preview }: any) => {
                     <input
                       id="artilce-details-newsEmail"
                       onChange={(e) => {
-                        setEmail(e.target.value);
+                        setEmail(e.target.value.trim());
                         setEmailerror(false);
                         setSuccessMessage(false);
                         setAlreadyregisteruser(false);
                         setValidemailerror(false);
                       }}
-                      value={email ?? ""}
+                      value={email.trim() ?? ""}
                       type="email"
                       placeholder={`${propsdata?.newsEmail ?? "Email address*"}`}
                       className="form-control w-full small font-normal text-grey300 px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
