@@ -297,7 +297,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       src="/static/assets/icons/green_tick.svg"
                     />
                   </span>
-                  Thanks, we’ll be in touch soon
+                  {propsdata?.submitSuccessMessage}
                 </span>
                 <span
                   onClick={() => setSuccessMessage(false)}
