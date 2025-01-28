@@ -48,7 +48,7 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
     resultData?.data?.contentData?.items?.[0]?.bodyContentCollection.items?.[0]?.mediaCardsCollection.items?.find(
       (item: any) => item?.__typename === "PageStatPodContainer"
     );
-
+  console.log(resultData);
   return (
     <>
       {iscontentPreview && (
@@ -105,8 +105,8 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                       page_name: pageName,
                       data_label: subCategory,
                       article_category: category,
-                      clearing: "in_year"
-                    }}               
+                      clearing: "in_year",
+                    }}
                   >
                     <a
                       href={`${statsData?.cta.primaryCtaUrl}`}
