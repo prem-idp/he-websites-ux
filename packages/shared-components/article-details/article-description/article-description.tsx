@@ -117,7 +117,7 @@ const Articledescription = ({ propsdata, preview ,url}: any) => {
         id="artilce-page-modified-date"
         className="x-small text-grey300 text-inter"
         >
-          {` Updated:${formatDate(data?.modifiedDate) ?? ""}`}
+          {` Updated: ${formatDate(data?.modifiedDate) ?? ""}`}
         </span>
         }
         <button
