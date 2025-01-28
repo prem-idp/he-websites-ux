@@ -112,12 +112,14 @@ const Articledescription = ({ propsdata, preview ,url}: any) => {
         >
           {data?.shortDescription}
         </p>
+        {data?.modifiedDate && 
         <span
-          id="artilce-page-modified-date"
-          className="x-small text-grey300 text-inter"
+        id="artilce-page-modified-date"
+        className="x-small text-grey300 text-inter"
         >
           {` Updated:${formatDate(data?.modifiedDate) ?? ""}`}
         </span>
+        }
         <button
           onClick={() => modalPopToggle()}
           className="btn btn-primary-outline px-[16px] py-[8px] flex gap-[6px] svg-hover-white w-fit"
