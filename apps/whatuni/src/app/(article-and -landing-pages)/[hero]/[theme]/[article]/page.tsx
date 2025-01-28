@@ -22,8 +22,8 @@ const Page = async ({ params, searchParams }: any) => {
   const articledetaildata = await graphQlFetchFunction(articleDetailQuery(slugurl, preview),preview);
   const customDomain = process.env.PROJECT === "Whatuni" ? "https://whatuni.com" : "https://www.postgraduatesearch.com";
   const url = new URL(customDomain + slugurl);
-  if (searchParams) {
-    Object.entries(searchParams).forEach(([key, value]) => {
+  if (searchparams) {
+    Object.entries(searchparams).forEach(([key, value]) => {
       if (value) {
         url.searchParams.append(key, value as string);
       }
@@ -108,7 +108,7 @@ console.log(articledetaildata,"as")
           debugMode={preview}
         >
           <div className="bg-white">
-            <section className="pt-[16px] pb-[40px]">
+            <section className="hidden lg:block pt-[16px] pb-[40px]">
             <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
               <Breadcrumblayoutcomponent
                 propsdata={breadcrumbData}
