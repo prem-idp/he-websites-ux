@@ -12,8 +12,8 @@ const AdviceCourseCardSkeleton = () => {
                 <div className='advice-course-container '>
                 <div className="advice-inner-wrap"> 
                     <div className='advice-course-container'>
-                        <div className='advicecourse-inner-wrap flex justify-between gap-[16px]'>
-                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-[33.3%]'>
+                        <div className='advicecourse-inner-wrap flex flex-col md:flex-row justify-start gap-[16px] px-[16px] md:px-[20px] lg:px-[0]'>
+                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-full md:w-[48%] lg:w-[33.3%]'>
                                 <div className='card-header'>
                                     <div className='skeleton skeleton-thumb-img skeleton-text-animated min-h-[221px]'></div>
                                 </div>            
@@ -31,7 +31,7 @@ const AdviceCourseCardSkeleton = () => {
                                     </div> 
                                 </div>
                             </div>
-                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-[33.3%]'>
+                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-full md:w-[48%] lg:w-[33.3%]'>
                                 <div className='card-header'>
                                     <div className='skeleton skeleton-thumb-img skeleton-text-animated min-h-[221px]'></div>
                                 </div>            
@@ -49,7 +49,7 @@ const AdviceCourseCardSkeleton = () => {
                                     </div> 
                                 </div>
                             </div>
-                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-[33.3%]'>
+                            <div className='card flex flex-col bg-white rounded-[8px] shadow-custom-2 w-full md:w-[48%] lg:w-[33.3%]'>
                                 <div className='card-header'>
                                     <div className='skeleton skeleton-thumb-img skeleton-text-animated min-h-[221px]'></div>
                                 </div>            
