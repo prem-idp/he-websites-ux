@@ -574,9 +574,9 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       </div>
                       <label
                         htmlFor="newsletters"
-                        className="select-none check-label small font-semibold w-[calc(100%_-_28px)]"
+                        className="select-none check-label !text-small font-semibold w-[calc(100%_-_28px)]"
                       >
-                        <p className="select-none small font-normal text-grey-600">
+                        <p className="select-none !text-small font-normal text-grey-600">
                           I confirm I’m over 13 and agree to the
                           <Link
                             className="!text-primary-500 underline pl-[4px]"
