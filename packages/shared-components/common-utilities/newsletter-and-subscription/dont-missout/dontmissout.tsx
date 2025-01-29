@@ -412,7 +412,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                     {yearofentry?.map((item: any, index: any) => (
                       <div
                         key={index}
-                        className="flex gap-[4px] md:gap-[8px] items-center"
+                        className="flex gap-[12px] items-center"
                       >
                         <input
                           checked={year === item?.optionId}
