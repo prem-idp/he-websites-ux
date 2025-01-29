@@ -67,29 +67,16 @@ const Ctabanner = ({ key, propsdata, preview, urlParams }: any) => {
             </div>
           </div>
           {propsdata?.cta?.primaryCtaUrl && (
-            <ClickTrackingWrapper gaData={{
-              event: "ga_contentful_events",
-              eventName: propsdata.cta.primaryCtaEventName,
-              data_label: urlParams?.theme,
-              article_category: urlParams?.hero,
-              cta_name: propsdata.cta.primaryCtaLabel || "Find your perfect",
-              cta_url: propsdata.cta.primaryCtaUrl,
-              clearing: "in_year",
-            }}>
-            <a
-              id="article-primaryCtaLabel-detai"
-              href={propsdata.cta.primaryCtaUrl}
-              target={
-                propsdata.cta.primaryCtaTarget === "Open in new tab"
-                  ? "_blank"
-                  : "_self"
-              }
-              className="btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-fit !no-underline"
-              rel={
-                propsdata.cta.primaryCtaTarget === "Open in new tab"
-                  ? "noopener noreferrer"
-                  : undefined
-              }
+            <ClickTrackingWrapper
+              gaData={{
+                event: "ga_contentful_events",
+                eventName: propsdata.cta.primaryCtaEventName,
+                data_label: urlParams?.theme,
+                article_category: urlParams?.hero,
+                cta_name: propsdata.cta.primaryCtaLabel || "Find your perfect",
+                cta_url: propsdata.cta.primaryCtaUrl,
+                clearing: "in_year",
+              }}
             >
               <a
                 id="article-primaryCtaLabel-detai"
