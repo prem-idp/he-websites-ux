@@ -144,7 +144,7 @@ export default function OneTrustCookieScript({
           {userConsentGiven ? (
             <Script
               src="https://accounts.google.com/gsi/client"
-              id="googleGsiId"npm 
+              id="googleGsiId"
               strategy="beforeInteractive"
             />
           ) : (
