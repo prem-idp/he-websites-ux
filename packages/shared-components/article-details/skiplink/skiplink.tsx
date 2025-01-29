@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const Skiplink = ({ propsdata, preview }: any) => {
+  let fields:any=[];
   const data = useContentfulLiveUpdates(propsdata);
   const [modelOpen, setModalOpen] = useState(false);
   const toggleFunc = () => {
@@ -11,50 +12,40 @@ const Skiplink = ({ propsdata, preview }: any) => {
   };
   const [currskiplink, setCurrskiplink] = useState("");
 
-  // const skiplinkLabel = [
-  //   "Heading skip link",
-  //   "Heading skip link",
-  //   "Heading skip link",
-  //   "Heading skip link",
-  // ];
-
+  if (preview) {
+    // Create an array for fields
+     fields = [
+      {
+        entryId: data?.skipLinks?.sys?.id,
+        fieldId: "skipLinkTitle",
+        targetSelector: "#article-skip-link-title",
+      },
+      ...(data?.skiplinks?.anchorLinksCollection?.items?.flatMap((item: any, index: number) => [
+        {
+          entryId: item?.sys?.id,
+          fieldId: "urlLabel",
+          targetSelector: `#article-skip-link-urlLabel${index}`,
+        },
+        {
+          entryId: item?.sys?.id,
+          fieldId: "moreLinkUrl",
+          targetSelector: `#article-skip-link-moreLinkUrl${index}`,
+        },
+      ]) || []),
+    ];
+  
+   
+  }
+  
   return (
     <>
       {preview && (
         <ContentfulInspectorManager
-          fields={[
-            {
-              entryId: data?.skipLinks?.sys?.id,
-              fieldId: "skipLinkTitle",
-              targetSelector: "#article-skip-link-title",
-            },
-          ]}
+          fields={fields}
         />
       )}
-      {preview &&
-        data?.skiplinks?.anchorLinksCollection?.items?.map(
-          (item: any, index: any) => {
-            return (
-              <div key={index}>
-                <ContentfulInspectorManager
-                  fields={[
-                    {
-                      entryId: item?.sys?.id,
-                      fieldId: "urlLabel",
-                      targetSelector: `#article-skip-link-urlLabel${index}`,
-                    },
-                    {
-                      entryId: item?.sys?.id,
-                      fieldId: "moreLinkUrl",
-                      targetSelector: `#article-skip-link-moreLinkUrl${index}`,
-                    },
-                  ]}
-                />
-              </div>
-            );
-          }
-        )}
-      <div className=" mobile-skip sticky top-0 z-[10] py-[16px] px-[16px] md:px-[20px] border-b border-grey-200 lg:hidden mb-[40px] ">
+   
+      <div className="mobile-skip bg-white sticky top-0 z-[10] py-[16px] px-[16px] md:px-[20px] border-b border-grey-200 lg:hidden mb-[40px] ">
         <div
           className={` bg-blue-400 rounded-[4px] overflow-hidden border-b relative border-grey-200 skiplinkoption ${modelOpen ? "active" : ""}`}
         >
@@ -67,7 +58,7 @@ const Skiplink = ({ propsdata, preview }: any) => {
                 id="article-skip-link-title"
                 className="text-white small font-inter font-semibold"
               >
-                {data?.skipLinks?.skiplinkkTitle}
+                {data?.skipLinks?.skipLinkTitle}
               </span>
               <div className="burger-menu flex flex-col justify-center gap-[4px]">
                 <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
@@ -111,7 +102,7 @@ const Skiplink = ({ propsdata, preview }: any) => {
             id="article-skip-link-title"
             className="text-black para font-semibold font-inter"
           >
-            {data?.skipLinks?.skiplinkkTitle}
+            {data?.skipLinks?.skipLinkTitle }
           </h2>
           <ul>
             {data?.skipLinks?.anchorLinksCollection?.items?.map(
