@@ -78,7 +78,9 @@ const Dontmissout = ({ key, data, preview }: any) => {
           }
         );
         const yeardata = await entrydata.json();
+        setYear(yeardata[0]?.optionValue)
         setYearofentry(yeardata);
+        
         // console.log(yeardata, "yeardata");
       } catch (error) {
         console.error("Error fetching user:", error);
