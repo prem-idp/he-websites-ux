@@ -144,8 +144,8 @@ export default function OneTrustCookieScript({
           {userConsentGiven ? (
             <Script
               src="https://accounts.google.com/gsi/client"
-              id="googleGsiId"
-              strategy="lazyOnload"
+              id="googleGsiId"npm 
+              strategy="beforeInteractive"
             />
           ) : (
             <>
@@ -153,7 +153,7 @@ export default function OneTrustCookieScript({
                 src={`${process.env.NEXT_PUBLIC_ONE_TRUST_SRC}`}
                 id="oneTrustCookieeId"
                 data-domain-script={domianValue}
-                strategy="lazyOnload"
+                strategy="beforeInteractive"
               />
             </>
           )}
