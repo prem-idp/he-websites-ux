@@ -150,7 +150,6 @@ const Header = ({ topnav_data }: props) => {
     };
     const courseCountFunc = (customEventDetail: any) => {
       fetchUser();
-      // console.log(customEventDetail);
     };
     emitter.addListener("courseCount", courseCountFunc);
     // --------------close all popups on clicking outside-----------------------------
