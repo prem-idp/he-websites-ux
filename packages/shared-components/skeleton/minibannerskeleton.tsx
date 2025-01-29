@@ -1,4 +1,4 @@
-const ColcBannerSkeleton = () => {
+const MiniBannerSkeleton = () => {
   return (
     <>
       <section className="bg-white">
@@ -22,4 +22,4 @@ const ColcBannerSkeleton = () => {
   );
 };
 
-export default ColcBannerSkeleton;
+export default MiniBannerSkeleton;
