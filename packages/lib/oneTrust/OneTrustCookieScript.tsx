@@ -128,17 +128,12 @@ export default function OneTrustCookieScript({
       setUserinteraction(true);
       window.OptanonWrapper = handleConsentChange;
       // Remove event listeners after loading the script
-
-     
     };
-    handleUserInteraction()
-   
-
-   
+    handleUserInteraction();
   }, []);
 
   return (
-    <Suspense fallback={<p>loading</p>}>
+    <Suspense fallback={<p></p>}>
       {useinteraction && !ispreviewtrue && (
         <>
           {userConsentGiven ? (
