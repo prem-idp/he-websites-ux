@@ -1,7 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
-const TextToggleComponent = ({ text, iscontentPreview, sysId }: any) => {
+const TextToggleComponent = ({
+  text,
+  iscontentPreview,
+  sysId,
+  longtext,
+}: any) => {
   const firstPart = text?.slice(0, 362);
   const secondPart = text?.slice(362);
   const [screenrender, setScreenrender] = useState(firstPart);

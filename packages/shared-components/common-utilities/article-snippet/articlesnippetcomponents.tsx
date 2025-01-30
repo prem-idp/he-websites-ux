@@ -23,6 +23,7 @@ const Articlesnippetcomponents = async ({
   const data = (await graphQlFetchFunction(query, iscontentPreview))?.data
     ?.contentData?.items[0]?.bodyContentCollection?.items[0]
     ?.mediaCardsCollection?.items[0];
+  console.log(data);
   return (
     <>
       {iscontentPreview && (
@@ -49,6 +50,7 @@ const Articlesnippetcomponents = async ({
                 iscontentPreview={iscontentPreview}
                 sysId={data?.sys?.id}
                 text={data?.description}
+                longtext={data?.longDescription?.json}
               />
             </div>
           </div>
