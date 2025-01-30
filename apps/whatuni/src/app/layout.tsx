@@ -96,11 +96,11 @@ export default async function RootLayout({
       <body
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        <Suspense>
+       
           <OneTrustCookieScript
             domianValue={process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN || ""}
           />
-        </Suspense>
+
         <GoogleOneTap />
         <SetCookiewuIdToken />
         <TrackSessionId />
