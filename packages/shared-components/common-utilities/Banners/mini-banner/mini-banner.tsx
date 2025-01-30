@@ -8,9 +8,6 @@ const MiniHeroBanner = async ({
   iscontentPreview,
   contentModelName,
 }: any) => {
-  // if (contentModelName === "pageTemplateThemedLandingPageCollection") {
-  //   hideTheImage();
-  // }
   return (
     <>
       {iscontentPreview && (
@@ -79,7 +76,9 @@ const MiniHeroBanner = async ({
                     </div>
                   </div> */}
                 </div>
-                <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
+                <div
+                  className={` ${contentModelName === "pageTemplateThemedLandingPageCollection" ? "hidden md:flex" : "flex"} self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]`}
+                >
                   {data?.image?.imgUpload?.url && (
                     <Image
                       id="mini_banner_image"
