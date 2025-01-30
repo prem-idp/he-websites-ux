@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+
 import Script from "next/script";
 import {  useEffect, useState } from "react";
 import { getCookieValue, setNewCookie } from "../utlils/commonFunction";
@@ -70,8 +70,6 @@ export default function OneTrustCookieScript({
 
     return isUserAcctpedCookie;
   };
-
-  
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window?.location?.search);

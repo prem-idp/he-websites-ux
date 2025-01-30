@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
       alternates: {
         canonical:
           metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
-          "https://www.Whatuni.com/",
+          process.env.PROJECT==="Whatuni" ? "https://www.Whatuni.com/" :"https://www.postgraduatesearch.com",
       },
       title:
         metadata?.data?.contentData?.items[0]?.seoFields?.metaTite ||
@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
           "og:image":`${process.env.PROJECT ==="Whatuni" ? "https://images.ctfassets.net/szez98lehkfm/UEsONfx1Q29FkoafrRlPT/e89b566373b65e6a6cfa1f575986566c/whatuni_logo.svg": "https://images.ctfassets.net/szez98lehkfm/6Z2XBvZNThCE23P5umA60L/b24e7dbf371dadfedc8a124ade7d77e9/POSTGRADUATE_SEARCH_RGB.svg"}`,
           "og:url":
             metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||
-            `https://www.whatuni.com/`,
+            process.env.PROJECT==="Whatuni" ? "https://www.Whatuni.com/" :"https://www.postgraduatesearch.com",
 
             "meta:description":metadata?.data?.contentData?.items[0]?.seoFields?.metaDescription,
           "fb:app_id": "617249984971742",
