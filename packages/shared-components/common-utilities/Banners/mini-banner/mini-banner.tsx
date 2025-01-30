@@ -3,7 +3,14 @@ import MiniBannerSkeleton from "@packages/shared-components/skeleton/minibanners
 import React, { Suspense } from "react";
 import Image from "next/image";
 import { ContentfulInspectorManager } from "../../../../lib/contentful-preview/ContentfulInspector";
-const MiniHeroBanner = async ({ data, iscontentPreview }: any) => {
+const MiniHeroBanner = async ({
+  data,
+  iscontentPreview,
+  contentModelName,
+}: any) => {
+  // if (contentModelName === "pageTemplateThemedLandingPageCollection") {
+  //   hideTheImage();
+  // }
   return (
     <>
       {iscontentPreview && (

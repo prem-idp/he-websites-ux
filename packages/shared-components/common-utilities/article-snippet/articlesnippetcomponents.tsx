@@ -37,7 +37,7 @@ const Articlesnippetcomponents = async ({
         />
       )}
       <Suspense fallback={<Articlesnippetskeleton />}>
-        <div className="articlesnippet-container bg-white">
+        <div className="articlesnippet-container">
           <div className="max-w-container mx-auto">
             <div className="articlesnippet-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px] md:py-[64px]">
               {data?.title && (
