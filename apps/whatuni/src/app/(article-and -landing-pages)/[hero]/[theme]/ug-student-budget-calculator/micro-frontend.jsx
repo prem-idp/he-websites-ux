@@ -15,7 +15,7 @@ export default function MicroFrontend() {
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = `${domain}whatuni.com/colc/static/css/main.colc.0.1.5.css`;
+    link.href = `${domain}whatuni.com/colc/static/css/main.colc.0.1.7.css`;
     link.type = "text/css";
     document.head.appendChild(link);
     if (ref.current) {
@@ -29,7 +29,6 @@ export default function MicroFrontend() {
       document.head.removeChild(link);
     };
   }, []);
-  console.log(count);
   useEffect(() => {
     emitter.emit("courseCount", count);
     document.cookie = `USER_FAV_BASKET_COUNT=${count?.userData?.favouriteCount || 0}; Path=/`;
@@ -39,7 +38,7 @@ export default function MicroFrontend() {
     <>
       <div className="min-h-[1000px]">
         <Script
-          src={`${domain}whatuni.com/colc/static/js/main.colc.0.1.5.js`}
+          src={`${domain}whatuni.com/colc/static/js/main.colc.0.1.7.js`}
         ></Script>
         <colc-calculator ref={ref}></colc-calculator>
       </div>
