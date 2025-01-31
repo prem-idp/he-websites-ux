@@ -27,7 +27,6 @@ export default function Search({ course_data, uni_data }: any) {
   const ucaspoint = Number.isInteger(Number(getCookieValue("ucaspoint")))
     ? getCookieValue("ucaspoint")
     : null;
-  console.log(ucaspoint);
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
