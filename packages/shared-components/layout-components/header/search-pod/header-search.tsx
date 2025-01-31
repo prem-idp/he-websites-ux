@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { CourseData, UniData } from "@packages/lib/types/interfaces";
-import { useRouter, usePathname } from "next/navigation";
 import UcasComponent from "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent";
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 interface props {
