@@ -132,14 +132,16 @@ const Header = ({ topnav_data }: props) => {
         
         const session = await fetchAuthSession();
         const sessiontimecookie=getCookieValue("LoginSession") || false;
-        if(!sessiontimecookie){
+        const loginviaonetap=getCookieValue("LogedinviaOnetap") || false;
+
+        if(!sessiontimecookie && loginviaonetap){
           setIsAuthenticated("false");
             sessionStorage.clear();
             document.cookie =
             "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            await signOut({ global: true }); // Wait for the signOut process to complete
-            router.refresh();
+            await signOut({ global: true });
+            router.push("/degrees/userLogin.html?e=logout");
         }
         else{
 
