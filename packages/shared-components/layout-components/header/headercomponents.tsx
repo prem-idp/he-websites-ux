@@ -9,6 +9,8 @@ import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 import Search from "@packages/shared-components/layout-components/header/search-pod/header-search";
+import makeApiCall from "@packages/REST-API/rest-api";
+import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 
 interface props {
@@ -72,36 +74,25 @@ const Header = ({ topnav_data }: props) => {
       const queryParamsBody = new URLSearchParams(body).toString();
       const queryParamsUnibody = new URLSearchParams(unibody).toString();
 
-      // URLs for both requests
-      const urlBody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsBody}`;
-      const urlUnibody = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/homepage/sub-inst-ajax?${queryParamsUnibody}`;
-
       try {
         // Fetch data in parallel
-        const [bodyResponse, unibodyResponse] = await Promise.all([
-          fetch(urlBody, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            },
-            cache: "force-cache",
-          }),
-          fetch(urlUnibody, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            },
-            cache: "force-cache",
-          }),
+        const [bodyData, unibodyData] = await Promise.all([
+          makeApiCall(
+            getApiUrl?.subjectAjax,
+            "GET",
+            null,
+            queryParamsBody,
+            null
+          ),
+          makeApiCall(
+            getApiUrl?.subjectAjax,
+            "GET",
+            null,
+            queryParamsUnibody,
+            null
+          ),
         ]);
-
-        // Parse JSON responses
-        const bodyData = await bodyResponse.json();
-        const unibodyData = await unibodyResponse.json();
         setCourseData(bodyData);
-
         setUniData(unibodyData);
 
         // Log results
@@ -370,7 +361,6 @@ const Header = ({ topnav_data }: props) => {
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              
               {pathname !== "/" && process.env.PROJECT === "Whatuni" && (
                 <li>
                   <span
