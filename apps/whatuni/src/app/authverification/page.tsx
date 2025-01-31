@@ -4,6 +4,7 @@ import { Hub } from "aws-amplify/utils";
 import { signInWithRedirect } from "@aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { getCookie } from "@packages/lib/utlils/helper-function";
 const Page = () => {
   const router = useRouter();
   async function watchForCognitoCookie() {
@@ -21,7 +22,9 @@ const Page = () => {
           break;
         case "customOAuthState":
           if (payload?.data) {
+            document.cookie = `LoginSession=true; path=/; SameSite=Lax`;
             router.push(payload?.data);
+            
           }
 
           break;
