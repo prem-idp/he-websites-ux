@@ -130,11 +130,12 @@ const Header = ({ topnav_data }: props) => {
     const fetchUser = async () => {
       try {
         
-        const session = await fetchAuthSession();
+       
         const sessiontimecookie=getCookieValue("LoginSession") || false;
         const loginviaonetap=getCookieValue("LogedinviaOnetap") || false;
 
         if(!sessiontimecookie && loginviaonetap){
+          console.log(sessiontimecookie,loginviaonetap,"!@!@!@!@!")
           setIsAuthenticated("false");
             sessionStorage.clear();
             document.cookie =
@@ -144,8 +145,9 @@ const Header = ({ topnav_data }: props) => {
             router.push("/degrees/userLogin.html?e=logout");
         }
         else{
-
-          if (session?.tokens && sessiontimecookie) {
+          const session = await fetchAuthSession();
+          if (session?.tokens ) {
+            
             const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
           if (hasAccessToken && hasIdToken) {
@@ -163,9 +165,7 @@ const Header = ({ topnav_data }: props) => {
             const basket = getCookieValue("USER_FAV_BASKET_COUNT") || 0;
             setBasketCount(basket);
           }
-          else{
-            setIsAuthenticated("false");
-          }
+          
         }
       }
       } catch (error) {
