@@ -235,6 +235,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
       setAlreadyregisteruser(true);
     } else {
       setSuccessMessage(false);
+      setEmailprev("")
     }
   }
 

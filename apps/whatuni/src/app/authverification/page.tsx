@@ -7,7 +7,7 @@ import Image from "next/image";
 import { getCookie } from "@packages/lib/utlils/helper-function";
 const Page = () => {
 
-  document.cookie = `LogedinviaOnetap=true; path=/; SameSite=Lax`;
+ 
   const router = useRouter();
   async function watchForCognitoCookie() {
     signInWithRedirect({
@@ -16,7 +16,7 @@ const Page = () => {
     });
   }
   useEffect(() => {
-    
+    document.cookie = `LogedinviaOnetap=true; path=/; SameSite=Lax`;
     const unsubscribe = Hub.listen("auth", ({ payload }) => {
       switch (payload.event) {
         case "signInWithRedirect":
