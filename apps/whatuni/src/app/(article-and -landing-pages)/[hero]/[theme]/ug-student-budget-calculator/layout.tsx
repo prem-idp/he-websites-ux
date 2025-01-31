@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
          "fb:app_id": "374120612681083",
           "twitter:card": "summary",
           "twitter:creator": "@whatuni",
-          "twitter:url": `${metadata?.data?.contentData?.items[0]?.seoFields?.canonical}` ||   "https://www.whatuni.com/money/money/budgeting/ug-student-budget-calculator/",
+          "twitter:url": metadata?.data?.contentData?.items[0]?.seoFields?.canonical ||   "https://www.whatuni.com/money/money/budgeting/ug-student-budget-calculator/",
           "twitter:title": metadata?.data?.contentData?.items[0]?.seoFields?.metaTite, 
           "twitter:description":metadata?.data?.contentData?.items[0]?.seoFields?.metaDescription,
           "twitter:image":
