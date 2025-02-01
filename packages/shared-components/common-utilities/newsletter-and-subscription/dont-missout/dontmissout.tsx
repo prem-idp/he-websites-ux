@@ -17,6 +17,8 @@ import {
 } from "@packages/lib/utlils/helper-function";
 import { logClickstreamEvent } from "@packages/lib/utlils/clickstream";
 import { usePathname } from "next/navigation";
+import makeApiCall from "@packages/REST-API/rest-api";
+import getApiUrl from "@packages/REST-API/api-urls";
 
 const Dontmissout = ({ key, data, preview }: any) => {
   const propsdata = useContentfulLiveUpdates(data);
@@ -45,11 +47,9 @@ const Dontmissout = ({ key, data, preview }: any) => {
     getArticleDetailUrlParamValues();
 
   useEffect(() => {
-    // -------check the user authentication----------------------------
     const fetchUser = async () => {
       try {
         const session = await fetchAuthSession();
-        // console.log("assssssdccccccccccccccccccccccccc");
         if (session?.tokens) {
           const hasAccessToken = session?.tokens?.accessToken !== undefined;
           const hasIdToken = session?.tokens?.idToken !== undefined;
@@ -67,21 +67,15 @@ const Dontmissout = ({ key, data, preview }: any) => {
 
     const fetchYearofentry = async () => {
       try {
-        const entrydata = await fetch(
-          `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/users/options?affiliateId=220703&actionType=YOE`,
-          {
-            method: "GET",
-            headers: {
-              "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-              "Content-Type": "application/json",
-            },
-          }
+        const yeardata = await makeApiCall(
+          getApiUrl?.newsletterYearOfEntry,
+          "GET",
+          null,
+          "affiliateId=220703&actionType=YOE",
+          null
         );
-        const yeardata = await entrydata.json();
-        setYear(yeardata[0]?.optionValue)
+        setYear(yeardata[0]?.optionValue);
         setYearofentry(yeardata);
-        
-        // console.log(yeardata, "yeardata");
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -147,11 +141,11 @@ const Dontmissout = ({ key, data, preview }: any) => {
       signupFailureReason: any
     ) => {
       logClickstreamEvent({
-        pageName: "",
-        sectionName: propsdata?.newsTitle ?? "",
-        eventType: "SignedUp",
-        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`,
-        signupMethod: "Newsletter Subcription",
+        pageName: localStorage?.getItem('gaPageName')?.toString(), 
+        sectionName: propsdata?.newsTitle ?? "",  
+        eventType: "SignedUp", 
+        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`, 
+        signupMethod: "Newsletter Subcription", 
         signupFailureReason: signupFailureReason ?? "",
         interestedIntakeYear: year,
         userId: userId,
@@ -413,10 +407,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                   </label>
                   <div className="flex gap-[16px] md:gap-[24px]">
                     {yearofentry?.map((item: any, index: any) => (
-                      <div
-                        key={index}
-                        className="flex gap-[12px] items-center"
-                      >
+                      <div key={index} className="flex gap-[12px] items-center">
                         <input
                           checked={year === item?.optionId}
                           onChange={(e) => {
