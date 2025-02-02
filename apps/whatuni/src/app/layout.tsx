@@ -26,6 +26,7 @@ const interBold = localFont({
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const metadata = await graphQlFetchFunction(Seoquery);
+
     return {
       alternates: {
         canonical:

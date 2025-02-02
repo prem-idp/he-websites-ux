@@ -40,7 +40,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
   const [successMessage, setSuccessMessage] = useState(false);
   const validateEmail = (email: any) => {
     const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.uk|ac\.uk)$/;
+      /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
   const { category, subCategory, articleTitle } =
@@ -141,11 +141,11 @@ const Dontmissout = ({ key, data, preview }: any) => {
       signupFailureReason: any
     ) => {
       logClickstreamEvent({
-        pageName: "",
-        sectionName: propsdata?.newsTitle ?? "",
-        eventType: "SignedUp",
-        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`,
-        signupMethod: "Newsletter Subcription",
+        pageName: localStorage?.getItem('gaPageName')?.toString(), 
+        sectionName: propsdata?.newsTitle ?? "",  
+        eventType: "SignedUp", 
+        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`, 
+        signupMethod: "Newsletter Subcription", 
         signupFailureReason: signupFailureReason ?? "",
         interestedIntakeYear: year,
         userId: userId,
@@ -229,6 +229,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
       setAlreadyregisteruser(true);
     } else {
       setSuccessMessage(false);
+      setEmailprev("")
     }
   }
 
@@ -341,7 +342,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
                       }}
                       type="text"
                       placeholder={`${propsdata?.newsFirstName ?? "First name*"}`}
-                      className="form-control w-full small font-normal text-grey300 px-[12px] py-[10px] border border-negative-default rounded-[4px] outline-none shadow-custom-2"
+                      className="form-control w-full small font-normal text-grey300 px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
                     />
                     {firstnameerror && (
                       <span className="x-small font-normal text-negative-default">
