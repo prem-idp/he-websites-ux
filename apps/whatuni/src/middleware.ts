@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest,response: NextResponse) {
   const { pathname, search,searchParams } = request.nextUrl;
-
+  
   const customDomain=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000" }`;
    
   if (pathname === "/home"   || pathname === "/" || pathname ==="/home/") {
+
+    console.log(request,"request headers logging from the middleware")
     const response = NextResponse.next(); // Initialize response properly
     const ip =request.headers.get("x-forwarded-for") || "unknown";
     response.cookies.set("pathname", pathname, { path: "/" });
