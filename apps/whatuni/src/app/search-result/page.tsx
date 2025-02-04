@@ -168,7 +168,7 @@ const SearchResult = ({ title, content }: any) => {
       {/* end breadcrumb and subject*/}
 
       {/* start search filter button */}
-      <SearchFilterButtons/>
+      <SearchFilterButtons />
       {/* start search filter button */}
 
       {/* start serach lables */}
@@ -454,14 +454,11 @@ const SearchResult = ({ title, content }: any) => {
           {/* start sponsored section */}
           {unicard.map((item, index) => (
             <div
-              className="flex flex-col justify-between mt-[8px] md:mt-[24px] md:flex-row"
+              className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
               key={index}
             >
-              <Link
-                href="#"
-                className="w-full h-[292px] relative bg-blue-400 bg-gradient11 rounded-t-[16px] overflow-hidden shrink-0 md:w-[280px] md:h-[316px] md:rounded-l-[16px] md:rounded-tr-none lg:w-[500px] lg:h-[376px]"
-              >
-                <div className="absolute top-0 left-0 p-[16px] w-full h-[292px] md:h-[316px] lg:h-[376px] lg:p-[24px] flex flex-col justify-between">
+              <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 rounded-t-[16px] overflow-hidden shrink-0 md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px]">
+                <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between">
                   <div className="flex justify-between">
                     <div className="flex items-start gap-[8px]">
                       <Link
@@ -579,10 +576,10 @@ const SearchResult = ({ title, content }: any) => {
                     alt="University"
                     width={500}
                     height={376}
-                    className="w-full h-[292px] rounded-t-[16px] object-cover md:w-[280px] md:h-[316px]  md:rounded-l-[16px] md:rounded-tr-none lg:w-[500px] lg:h-[376px]"
+                    className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
                   />
                 ) : null}
-              </Link>
+              </div>
               <div className="flex flex-col">
                 <div className="bg-white p-[16px] border border-grey-200 rounded-b-[16px] shadow-custom-3 lg:rounded-tr-[16px] lg:rounded-b-[16px] lg:p-[20px]">
                   <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
@@ -615,9 +612,9 @@ const SearchResult = ({ title, content }: any) => {
                     </div>
                   </div>
                   {item.course.map((chitem, index) => (
-                    <>
+                    <div key={index}>
                       <div className="border-b-[1px] border-grey-200 -mx-[20px] pt-[20px] mb-[20px]"></div>
-                      <div className="flex flex-col gap-[16px]" key={index}>
+                      <div className="flex flex-col gap-[16px]">
                         <div className="flex items-start justify-between">
                           <div className="flex flex-col gap-[8px]">
                             <div className="text-primary-400 font-semibold">
@@ -665,6 +662,7 @@ const SearchResult = ({ title, content }: any) => {
                           </div>
                         </div>
                         <ClickAndShow>
+                          {" "}
                           <div className="text-black x-small">
                             <div className="font-semibold">Year 1</div>
                             <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
@@ -695,7 +693,7 @@ const SearchResult = ({ title, content }: any) => {
                           ) : null}
                         </div>
                       </div>
-                    </>
+                    </div>
                   ))}
                 </div>
                 <Link
@@ -724,7 +722,7 @@ const SearchResult = ({ title, content }: any) => {
           {/* end sponsored section */}
           {/* start pagination */}
           <div className="pt-[24px] pb-[40px] md:pb-[64px]">
-            <Paginations/>
+            <Paginations />
           </div>
           {/* end pagination */}
         </div>
@@ -771,9 +769,9 @@ const SearchResult = ({ title, content }: any) => {
                     <path
                       d="M7 5.61377L12 10.6138L7 15.6138"
                       stroke="#4664DC"
-                      stroke-width="1.67"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </Link>
@@ -816,9 +814,9 @@ const SearchResult = ({ title, content }: any) => {
                     <path
                       d="M7 5.61377L12 10.6138L7 15.6138"
                       stroke="#4664DC"
-                      stroke-width="1.67"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </Link>
@@ -828,7 +826,7 @@ const SearchResult = ({ title, content }: any) => {
         </div>
       </section>
       {/* end about subject section */}
-      <Faqcomponents/>
+      <Faqcomponents />
       <Subscribecomponents />
     </>
   );

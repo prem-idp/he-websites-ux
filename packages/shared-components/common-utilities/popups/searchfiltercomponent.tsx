@@ -276,7 +276,6 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   {studyLevel.map((item, index) => (
                     <div className="form-black flex relative" key={index}>
                       <input
-                        defaultValue={"Undergraduate"}
                         type="radio"
                         name="studylevel"
                         id={item}
@@ -536,7 +535,6 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                 {intakeYear.map((item, index) => (
                   <div className="form-black flex relative" key={index}>
                     <input
-                      defaultValue={"2024"}
                       type="radio"
                       name="2024"
                       className="rounded-[4px] outline-none absolute opacity-0"
@@ -552,7 +550,6 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                 {intakeMonth.map((item, index) => (
                   <div className="form-black flex relative" key={index}>
                     <input
-                      defaultValue={"All Months"}
                       type="radio"
                       name="All Months"
                       className="rounded-[4px] outline-none absolute opacity-0"
@@ -841,7 +838,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                     <ul>
                       <li>
                         {region1.map((item, index) => (
-                          <>
+                          <div key={index}>
                             <div className="form_check relative m-[0_0_12px_24px]">
                               <div className="flex items-start gap-[8px]">
                                 <div className="checkbox_card">
@@ -934,7 +931,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                                 </li>
                               )}
                             </ul>
-                          </>
+                          </div>
                         ))}
                       </li>
                     </ul>
