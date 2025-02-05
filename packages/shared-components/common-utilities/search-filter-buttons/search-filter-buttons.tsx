@@ -1,8 +1,8 @@
+"use client";
 import React, { useState } from "react";
 import SearchFilterComponent from "../popups/searchfiltercomponent";
 
 const SearchFilterButtons = () => {
-  // search filter
   const [isSearchFilterOpen, setIsSearchFilterOpen] = useState(false);
   const searchClick = () => {
     setIsSearchFilterOpen(true);

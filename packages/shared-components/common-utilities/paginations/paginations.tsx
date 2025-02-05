@@ -1,6 +1,6 @@
+"use client";
 import Link from "next/link";
 import React from "react";
-
 const Paginations = () => {
   return (
     <div className="pt-[24px] pb-[40px] md:pb-[64px]">

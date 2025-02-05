@@ -1,5 +1,5 @@
+"use client";
 import React, { useState } from "react";
-
 const Accordion = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 

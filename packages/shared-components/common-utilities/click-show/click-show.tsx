@@ -1,7 +1,6 @@
+"use client";
 import React, { useState } from "react";
-
 const ClickAndShow = ({ children }: any) => {
-  // module
   const [isModuleOpen, setIsModuleOpen] = useState(false);
 
   const moduleToggle = () => {

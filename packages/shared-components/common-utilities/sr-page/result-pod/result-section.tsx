@@ -1,3 +1,4 @@
+"use server";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -298,7 +299,6 @@ const SrPageResultPod = () => {
                       </div>
                     </div>
                     <ClickAndShow>
-                      {" "}
                       <div className="text-black x-small">
                         <div className="font-semibold">Year 1</div>
                         <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
