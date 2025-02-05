@@ -352,7 +352,7 @@ p, .para {
 }
 
 .MultiSwiper {
-  @apply !px-[16px] md: !px-[20px] xl2: !px-[0] !pb-[30px]
+  @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px]
 }
 
 .MultiSwiper .swiper-button-prev:after, .MultiSwiper .swiper-button-next:after {
@@ -360,11 +360,11 @@ p, .para {
 }
 
 .MultiSwiper .swiper-button-prev {
-  @apply !bg-[url(/static/assets/icons/arrow-left-dgrey.svg)] hover: !bg-[url(/static/assets/icons/arrow-left-white.svg)] !left-0;
+  @apply !bg-[url(/static/assets/icons/arrow-left-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-left-white.svg)] !left-0;
 }
 
 .MultiSwiper .swiper-button-next {
-  @apply !bg-[url(/static/assets/icons/arrow-right-dgrey.svg)] hover: !bg-[url(/static/assets/icons/arrow-right-white.svg)] !right-0;
+  @apply !bg-[url(/static/assets/icons/arrow-right-dgrey.svg)] hover:!bg-[url(/static/assets/icons/arrow-right-white.svg)] !right-0;
 }
 
 .MultiSwiper .swiper-button-disabled {
@@ -373,7 +373,7 @@ p, .para {
 
 .MultiSwiper .swiper-button-prev,
 .MultiSwiper .swiper-button-next {
-  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover: !bg-primary-500 hover: !border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg: !block
+  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!block
 }
 
 .MultiSwiper .swiper-pagination {
@@ -471,13 +471,9 @@ p, .para {
   }
 }
 
-/* For testing purposee */
-/* .wusca-container, .reviews-container, .advice-container {@apply bg-black}
-.discover-container, .testimonials-container{@apply bg-neutral-300} */
-
 /* hero slider styles */
 .hero .swiper-pagination {
-  @apply lg: !top-[64px] !left-0 text-left !bottom-auto xs: !top-[40px]
+  @apply lg:!top-[64px] !left-0 text-left !bottom-auto xs:!top-[40px]
 }
 
 .hero .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
@@ -507,7 +503,7 @@ p, .para {
 }
 
 .partner .swiper-pagination {
-  @apply lg: !hidden
+  @apply lg:!hidden
 }
 /* partner slider styles */
 
