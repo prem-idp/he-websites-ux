@@ -199,7 +199,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                 <div className="flex flex-wrap gap-[8px]">
                   <div className="form-black flex relative">
                     <input
-                      defaultValue={"online"}
+                      // defaultValue={"online"}
                       type="checkbox"
                       id="online"
                       name="online"
@@ -997,7 +997,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   {locationType.map((item, index) => (
                     <div className="form-black flex relative" key={index}>
                       <input
-                        defaultValue={"Countryside"}
+                        // defaultValue={"Countryside"}
                         type="checkbox"
                         name="Countryside"
                         className="rounded-[4px] outline-none absolute opacity-0"
