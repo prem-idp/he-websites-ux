@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/ContentfulInspector";
 const Authorprofile = ({ propsdata, preview }: any) => {
-  console.dir(propsdata?.author, "form the author profile");
+  //console.dir(propsdata?.author, "form the author profile");
   return (
     <>
       {preview && (

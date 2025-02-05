@@ -43,7 +43,7 @@ const Dontmissout = () => {
 
     // If all fields are valid, show success message
 
-    console.log(firstname, lastname, email, year, agreement);
+    //console.log(firstname, lastname, email, year, agreement);
 
     // setFristname("");
     // setLastname("");
