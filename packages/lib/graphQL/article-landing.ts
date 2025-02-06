@@ -143,10 +143,10 @@ export const FaqsQuery = `
 }
 `;
 
-export const NewsletterQuery = (preview: boolean) => {
+export const NewsletterQuery = (preview: boolean, newsInternal: string) => {
   return `{
   newsLetterData: pageNewsletterSubscriptionCollection(limit: 1  
-    where: {internalName: "Newsletter subscription - Whatuni"}
+    where: {newsInternal: "${newsInternal}"}
     ${preview ? `preview : ${preview}` : ""}) {
     items {
     sys{

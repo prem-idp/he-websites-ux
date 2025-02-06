@@ -9,10 +9,12 @@ const Subscribecomponents = async ({
   category,
   subCategory,
 }: any) => {
-  const query = NewsletterQuery(iscontentPreview);
+  const query = NewsletterQuery(
+    iscontentPreview,
+    "Newsletter subscription - Whatuni"
+  );
   const jsondata = (await graphQlFetchFunction(query, iscontentPreview))?.data
     ?.newsLetterData?.items[0];
-
   return (
     <>
       {jsondata && (
