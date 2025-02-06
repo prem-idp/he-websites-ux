@@ -163,13 +163,13 @@ const Wuscascomponents: React.FC<WuscascomponentsProps> = async ({
                   id="image"
                 >
                   <div
-                    className={`${routename == "/" ? "" : "w-[295px] md:w-[270px] lg:w-[252px]"}`}
+                    className={`${routename == "/" ? "" : "w-full md:w-[350px] lg:w-[490px]"}`}
                   >
                     <Image
                       priority={true}
                       src={statsData?.image.url || ""}
-                      width={402}
-                      height={401}
+                      width={490}
+                      height={489}
                       alt={statsData?.image.title || ""}
                     />
                   </div>
