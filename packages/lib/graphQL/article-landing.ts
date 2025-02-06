@@ -145,7 +145,8 @@ export const FaqsQuery = `
 
 export const NewsletterQuery = (preview: boolean) => {
   return `{
-  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1    
+  newsLetterData: pageNewsletterSubscriptionCollection(limit: 1  
+    where: {internalName: "Newsletter subscription - Whatuni"}
     ${preview ? `preview : ${preview}` : ""}) {
     items {
     sys{
