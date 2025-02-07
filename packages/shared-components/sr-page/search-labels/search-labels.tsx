@@ -1,93 +1,50 @@
-import Link from "next/link";
+"use client";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 const SearchLabels = () => {
+  const List = [
+    "2023",
+    "Undergraduate",
+    "Sn3 TR7",
+    "Full time",
+    "Full time",
+    "england",
+  ];
+  const openFilterFunction = () => {
+    emitter.emit("isfilterOpen", null);
+  };
   return (
     <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[10px] md:px-[20px] xl:px-0 lg:py-[8px]">
       <div className="max-w-container mx-auto">
         <ul className="flex items-start gap-[8px] uppercase">
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-            2023
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-            Undergraduate
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-            Sn3 TR7
-            <svg
-              className="cursor-pointer"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          {List?.map((items, index) => (
+            <li
+              className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+              key={index + 1}
             >
-              <path
-                d="M4 12L12 4M4 4L12 12"
-                stroke="#3460DC"
-                strokeWidth="1.13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-            Full time
-            <svg
-              className="cursor-pointer"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 12L12 4M4 4L12 12"
-                stroke="#3460DC"
-                strokeWidth="1.13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-            Full time
-            <svg
-              className="cursor-pointer"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 12L12 4M4 4L12 12"
-                stroke="#3460DC"
-                strokeWidth="1.13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-            South East England
-            <svg
-              className="cursor-pointer"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 12L12 4M4 4L12 12"
-                stroke="#3460DC"
-                strokeWidth="1.13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </li>
-          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-            <Link href="" aria-label="Plus Icon">
+              {items}
+              <svg
+                className="cursor-pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 12L12 4M4 4L12 12"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+          ))}
+          <li
+            className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+            onClick={openFilterFunction}
+          >
+            <div aria-label="Plus Icon">
               <svg
                 className="cursor-pointer"
                 width="7"
@@ -101,7 +58,7 @@ const SearchLabels = () => {
                   fill="#3460DC"
                 />
               </svg>
-            </Link>
+            </div>
           </li>
         </ul>
       </div>

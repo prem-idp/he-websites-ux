@@ -12,7 +12,9 @@ import SearchLabels from "@packages/shared-components/sr-page/search-labels/sear
 import SrPageResultPod from "@packages/shared-components/sr-page/result-pod/result-section";
 import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
-const SearchResult = () => {
+
+const SearchResult = async ({ searchParams }: any) => {
+  const searchparams = await searchParams;
   return (
     <>
       <TopSection />

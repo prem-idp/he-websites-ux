@@ -234,9 +234,10 @@ const SrPageResultPod = () => {
                       I never thought I’f find myself in a position where I
                       would feel empowered to be a lawyer, I wanted to go into
                       teaching but then realised after visiting Kent’s
-                      facilities this would be the right plac
+                      facilities this would be the right plac after visiting
+                      Kent’s facilities this would be the right plac
                     </div>
-                    <div className="absolute bottom-0 right-[60px]">
+                    <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
                       <span>... </span>
                       <Link
                         href=""

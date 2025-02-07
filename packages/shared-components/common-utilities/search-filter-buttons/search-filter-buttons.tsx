@@ -1,25 +1,45 @@
 "use client";
 import React, { useState } from "react";
-import SearchFilterComponent from "../popups/searchfiltercomponent";
-import Link from "next/link";
+import dynamic from "next/dynamic";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
 const SearchFilterButtons = () => {
-  const [isSearchFilterOpen, setIsSearchFilterOpen] = useState(false);
-  const searchClick = () => {
-    setIsSearchFilterOpen(true);
+  const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
+  const filterEvents = (eventName: string | null | undefined) => {
+    emitter.emit("isfilterOpen", eventName);
+    // const body = document.body;
+    // body.classList.add("overflow-y-hidden");
+  };
+
+  // const filterClose = () => {
+  //   const body = document.body;
+  //   setIsSearchFilterOpen(false);
+  //   body.classList.remove("overflow-y-hidden");
+  // };
+  const ucasClick = () => {
+    setUcasPopupOpen(true);
     const body = document.body;
     body.classList.add("overflow-y-hidden");
   };
-
-  const filterClose = () => {
+  const ucasClose = () => {
     const body = document.body;
-    setIsSearchFilterOpen(false);
+    setUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
   return (
     <>
       <section className="bg-grey-600 px-[12px] py-[16px]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
-          <div className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0">
+          <div
+            className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
+            onClick={ucasClick}
+          >
             <svg
               width="20"
               height="20"
@@ -36,8 +56,11 @@ const SearchFilterButtons = () => {
             </svg>
             Add my grades
           </div>
+          {isUcasPopupOpen && (
+            <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
+          )}
           <div
-            onClick={searchClick}
+            onClick={() => filterEvents("subject")}
             className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-white hover:bg-blue-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
             <svg
@@ -57,12 +80,11 @@ const SearchFilterButtons = () => {
             </svg>
             Filter (2)
           </div>
-          <SearchFilterComponent
-            onClose={filterClose}
-            isFilterOpen={isSearchFilterOpen}
-          />
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div
+              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              onClick={() => filterEvents("subject")}
+            >
               Study level
               <svg
                 width="20"
@@ -80,7 +102,10 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div
+              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              onClick={() => filterEvents("subject")}
+            >
               Subject (1)
               <svg
                 width="20"
@@ -98,7 +123,10 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div
+              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              onClick={() => filterEvents("year")}
+            >
               Year
               <svg
                 width="20"
@@ -116,7 +144,10 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div
+              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              onClick={() => filterEvents("university")}
+            >
               University
               <svg
                 width="20"
@@ -134,7 +165,10 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div
+              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              onClick={() => filterEvents("location")}
+            >
               Location (1)
               <svg
                 width="20"
