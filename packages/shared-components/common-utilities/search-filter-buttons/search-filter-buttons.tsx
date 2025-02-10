@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import { useRouter } from "next/navigation";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -10,6 +11,7 @@ const UcasComponent = dynamic(
   { ssr: false }
 );
 const SearchFilterButtons = () => {
+  const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
   const filterEvents = (eventName: string | null | undefined) => {
     emitter.emit("isfilterOpen", eventName);
@@ -187,7 +189,12 @@ const SearchFilterButtons = () => {
               </svg>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 xl:px-[16px] lg:shrink-0">
+          <div
+            className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 xl:px-[16px] lg:shrink-0"
+            onClick={() => {
+              router.push(`/degree-courses/search`);
+            }}
+          >
             <svg
               width="16"
               height="16"
