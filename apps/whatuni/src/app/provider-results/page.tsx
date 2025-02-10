@@ -108,12 +108,12 @@ const page = () => {
           <div className="flex justify-between w-full py-[16px]">
             <div className="flex gap-[17px]">
               <span className="p-[4px] bg-white rounded-[8px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px]">
-                <Image
-                  src="/static/assets/icons/search-result/kent.png"
+                {/* <Image
+                  src="./static/assets/icons/search-result/kent.png"
                   alt="University logo"
                   width={56}
                   height={56}
-                />
+                /> */}
               </span>
               <div className="flex flex-col gap-[4px]">
                 <div className="h5 heading5 font-farro text-black">
@@ -140,12 +140,12 @@ const page = () => {
                     REGION
                   </li>
                   <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
-                    {/* <Image
+                    <Image
                       src="./static/assets/icons/search-result/location-green.svg"
                       width="16"
                       height="16"
                       alt="location icon"
-                    /> */}
+                    />
                     18.1 Miles from you
                   </li>
                   <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
