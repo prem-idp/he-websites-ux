@@ -38,7 +38,7 @@ const SearchFilterButtons = () => {
           </div>
           <div
             onClick={searchClick}
-            className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-white hover:bg-blue-200 text-grey300 lg:grow-0 lg:shrink-0"
+            className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
             <svg
               width="20"
@@ -62,7 +62,7 @@ const SearchFilterButtons = () => {
             isFilterOpen={isSearchFilterOpen}
           />
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300">
               Study level
               <svg
                 width="20"
@@ -80,7 +80,7 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300">
               Subject (1)
               <svg
                 width="20"
@@ -98,7 +98,7 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300">
               Year
               <svg
                 width="20"
@@ -116,7 +116,7 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300">
               University
               <svg
                 width="20"
@@ -134,7 +134,7 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </div>
-            <div className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300">
+            <div className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300">
               Location (1)
               <svg
                 width="20"

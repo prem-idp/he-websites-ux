@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-// import Paginations from "../paginations/paginations";
+
+import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
@@ -121,7 +122,7 @@ const ProviderResultsCard = () => {
                     alt="calender icon"
                     width="16"
                     height="16"
-                    src="/assets/icons/search-result/calender-grey.svg"
+                    src="../static/assets/icons/search-result/calender-grey.svg"
                   />
     
                   {items.points}
@@ -131,7 +132,7 @@ const ProviderResultsCard = () => {
                     alt="timer icon"
                     width="16"
                     height="16"
-                    src="/assets/icons/search-result/time-grey.svg"
+                    src="../static/assets/icons/search-result/time-grey.svg"
                   />
     
                   {items.tagLocation}
@@ -196,8 +197,7 @@ const ProviderResultsCard = () => {
             {providerCard}
           </div>
           <div className="py-[40px]">
-            {/* <Paginations /> */}
-            <h2> use pagination in exiting component</h2>
+            <Paginations />            
           </div>
         </div>
       </section>

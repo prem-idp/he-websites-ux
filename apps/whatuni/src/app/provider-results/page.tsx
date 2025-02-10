@@ -1,12 +1,29 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Subscribecomponents from "@packages/shared-components/common-utilities/subscribe-newsletter/subscribecomponents";
+import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import ProviderResultsCard from "@packages/shared-components/PR/provider-results-card/provider-results-card";
+import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
+import Tagcloudcomponents from "@packages/shared-components/common-utilities/tag-cloud/tagcloudcomponents";
 
 const page = () => {
-
+  const breadcrumbData = [
+    {
+      url: "#",
+      label: "Home",
+    },
+    {
+      url: "#",
+      label: "Scholarships",
+    },
+    {
+      url: "",
+      label: "Search results",
+    },
+  ];
   return (
     <>
       {/* Skeleton loader  */}
@@ -101,7 +118,13 @@ const page = () => {
       {/* listing card  END */}
       </section>
       {/* skeleton loader END */}
-<h2>use exiting Breadcrumb component </h2>
+ {/* breadcrumb  */}
+ <section className="bg-white hidden lg:block">
+        <div className="max-w-container mx-auto pt-[24px] pb-[8px]">
+          <Breadcrumblayoutcomponent data={breadcrumbData} />
+        </div>
+      </section>
+      {/* breadcrumb  */}
       {/* University details  */}
       <section className="bg-white">
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
@@ -109,7 +132,7 @@ const page = () => {
             <div className="flex gap-[17px]">
               <span className="p-[4px] bg-white rounded-[8px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px]">
                 {/* <Image
-                  src="./static/assets/icons/search-result/kent.png"
+                  src="../static/assets/icons/search-result/kent.png"
                   alt="University logo"
                   width={56}
                   height={56}
@@ -127,7 +150,7 @@ const page = () => {
                       className="relative top-[-1px]"
                       width="24"
                       height="24"
-                      src="./static/assets/icons/blue-star-icon.svg"
+                      src="../static/assets/icons/blue-star-icon.svg"
                     />
                     4.6
                   </span>
@@ -141,7 +164,7 @@ const page = () => {
                   </li>
                   <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
                     <Image
-                      src="./static/assets/icons/search-result/location-green.svg"
+                      src="../static/assets/icons/search-result/location-green.svg"
                       width="16"
                       height="16"
                       alt="location icon"
@@ -198,11 +221,121 @@ const page = () => {
         </div>
       </section>
       {/* University details END */}
-      <h2>use exiting Fitler and tag component </h2>
+    {/* start search filter button */}
+    <SearchFilterButtons />
+      {/* start search filter button */}
+        {/* start serach lables */}
+      <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[10px] md:px-[20px] xl:px-0 lg:py-[8px]">
+        <div className="max-w-container mx-auto">
+          <ul className="flex items-start gap-[8px] uppercase">
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
+              2023
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
+              Undergraduate
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
+              Sn3 TR7
+              <svg
+                className="cursor-pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 12L12 4M4 4L12 12"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
+              Full time
+              <svg
+                className="cursor-pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 12L12 4M4 4L12 12"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
+              Full time
+              <svg
+                className="cursor-pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 12L12 4M4 4L12 12"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
+              South East England
+              <svg
+                className="cursor-pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 12L12 4M4 4L12 12"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
+              <Link href="" aria-label="Plus Icon">
+                <svg
+                  className="cursor-pointer"
+                  width="7"
+                  height="20"
+                  viewBox="0 0 7 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.55756 10.508H4.31356V12.788H2.68156V10.508H0.437563V8.96H2.68156V6.668H4.31356V8.96H6.55756V10.508Z"
+                    fill="#3460DC"
+                  />
+                </svg>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </section>
+      {/* end serach lables */}
           {/* Provider Result card list  */}
         <ProviderResultsCard/>
       {/* Provider Result card list END */}
-
+      {/* <Tagcloudcomponents  /> */}
+<Subscribecomponents/>
     </>
   )
 }
