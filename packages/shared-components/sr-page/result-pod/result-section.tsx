@@ -1,5 +1,5 @@
-"use server";
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickAndShow from "@packages/shared-components/common-utilities/click-show/click-show";
@@ -7,88 +7,23 @@ import Getprospectus from "@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
-const SrPageResultPod = () => {
-  const unicard = [
-    {
-      showprospect: true,
-      showvisit: true,
-      showBooking: true,
-      showRequest: true,
-      showImage: true,
-      sponsored: true,
-      course: [
-        {
-          buttonCount: 4,
-        },
-        {
-          buttonCount: 4,
-        },
-      ],
-    },
-    {
-      showprospect: false,
-      showvisit: false,
-      showBooking: false,
-      showRequest: false,
-      showImage: false,
-      course: [
-        {
-          buttonCount: 0,
-        },
-        {
-          buttonCount: 0,
-        },
-      ],
-    },
-    {
-      showprospect: true,
-      showvisit: true,
-      showBooking: false,
-      showRequest: true,
-      showImage: false,
-      course: [
-        {
-          buttonCount: 3,
-        },
-        {
-          buttonCount: 3,
-        },
-      ],
-    },
-    {
-      showprospect: false,
-      showvisit: true,
-      showBooking: false,
-      showRequest: true,
-      showImage: false,
-      course: [
-        {
-          buttonCount: 2,
-        },
-        {
-          buttonCount: 2,
-        },
-      ],
-    },
-    {
-      showprospect: false,
-      showvisit: false,
-      showBooking: false,
-      showRequest: true,
-      showImage: false,
-      course: [
-        {
-          buttonCount: 1,
-        },
-        {
-          buttonCount: 1,
-        },
-      ],
-    },
-  ];
+import { getCurrentUser } from "@aws-amplify/auth";
+
+interface SrPageResultPodProps {
+  searchResultsData: any[];
+}
+
+
+const SrPageResultPod : React.FC<SrPageResultPodProps> = ({searchResultsData}) => {
+  // useEffect(() => {
+  //   async function checkUser() {
+  //     const userData = await getCurrentUser();
+  //   }
+  //   checkUser();
+  // },[]);
   return (
     <>
-      {unicard.map((item, index) => (
+      {searchResultsData?.map((data, index) => (
         <div
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
@@ -109,11 +44,11 @@ const SrPageResultPod = () => {
                       id="uni_img"
                     />
                   </Link>
-                  {item.sponsored ? (
+                  {/* {item.sponsored ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
-                  ) : null}
+                  ) : null} */}
                 </div>
                 <div className="heart w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                   <svg
@@ -134,9 +69,9 @@ const SrPageResultPod = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
-                <div className="h5">University of Kent</div>
+                <div className="h5">{data?.collegeDisplayName}</div>
                 <div className="x-small font-semibold">
-                  12 engineering courses
+                  {data?.courseCount} engineering courses
                 </div>
                 <div className="flex items-center gap-[8px] text-grey-50 small">
                   <div className="flex items-center gap-[4px]">
@@ -152,15 +87,15 @@ const SrPageResultPod = () => {
                         fill="#0FBEFD"
                       />
                     </svg>
-                    4.6
+                    {data?.exactRating}
                   </div>
                   <Link href="" className="underline">
-                    400 reviews
+                    {data?.reviewCount} reviews
                   </Link>
                 </div>
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                   <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
-                    REGION
+                    {data?.adminVenue}
                   </div>
                   <div className="flex items-center justify-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                     <svg
@@ -185,11 +120,11 @@ const SrPageResultPod = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    18.1 Miles from you
+                    {data?.distanceInMiles} Miles from you
                   </div>
                 </div>
                 <Link href="" className="x-small underline">
-                  WUSCA rank: 18th
+                  WUSCA rank: {data?.wuscaRanking}
                 </Link>
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                   <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
@@ -207,7 +142,7 @@ const SrPageResultPod = () => {
                 </div>
               </div>
             </div>
-            {item.showImage ? (
+            {/* {item.showImage ? (
               <Image
                 src="/static/assets/images/search-results/university.jpg"
                 alt="University"
@@ -215,12 +150,14 @@ const SrPageResultPod = () => {
                 height={376}
                 className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
               />
-            ) : null}
+            ) : null} */}
           </div>
           <div className="flex flex-col">
             <div className="bg-white p-[16px] border border-grey-200 rounded-b-[16px] shadow-custom-3 lg:rounded-tr-[16px] lg:rounded-b-[16px] lg:p-[20px]">
-              <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
+            {data?.review1Text ? 
+            <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
                 <div className="text-heading1 relative top-[12px]">“</div>
+               
                 <div className="flex flex-col gap-[4px]">
                   <Link
                     href=""
@@ -228,14 +165,10 @@ const SrPageResultPod = () => {
                   >
                     What students think
                   </Link>
-
+                  
                   <div className="relative x-small">
                     <div className="text-grey300 line-clamp-2">
-                      I never thought I’f find myself in a position where I
-                      would feel empowered to be a lawyer, I wanted to go into
-                      teaching but then realised after visiting Kent’s
-                      facilities this would be the right plac after visiting
-                      Kent’s facilities this would be the right plac
+                      {data?.review1Text}
                     </div>
                     <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
                       <span>... </span>
@@ -246,17 +179,17 @@ const SrPageResultPod = () => {
                         Read full review
                       </Link>
                     </div>
-                  </div>
+                  </div> 
                 </div>
-              </div>
-              {item.course.map((chitem, index) => (
+              </div>: <></>}
+              {data?.bestMatchCoursesList?.map((courseData:any, index:any) => (
                 <div key={index}>
                   <div className="border-b-[1px] border-grey-200 -mx-[20px] pt-[20px] mb-[20px]"></div>
                   <div className="flex flex-col gap-[16px]">
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
                         <div className="text-primary-400 font-semibold">
-                          Course name
+                          {courseData?.courseTitle}
                         </div>
                         <div className="flex gap-[4px] text-grey-500">
                           <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
@@ -267,7 +200,7 @@ const SrPageResultPod = () => {
                               width={16}
                               height={16}
                             />
-                            164-112 ucas points
+                            {courseData?.minUcasPoints}-{courseData?.maxUcasPoints} ucas points
                           </div>
                           <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                             <Image
@@ -277,7 +210,7 @@ const SrPageResultPod = () => {
                               width={16}
                               height={16}
                             />
-                            3 years full time
+                            {courseData?.availabilityDetails?.duration} {courseData?.availabilityDetails?.studyMode}
                           </div>
                         </div>
                       </div>
@@ -312,7 +245,7 @@ const SrPageResultPod = () => {
                       </div>
                     </ClickAndShow>
 
-                    <div
+                    {/* <div
                       className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col ${
                         chitem.buttonCount == 4
                           ? "md:grid-rows-2 md:grid-flow-col"
@@ -322,17 +255,18 @@ const SrPageResultPod = () => {
                       <Getprospectus />
                       <Visitwebsite />
                       <BookOpenDay />
-                      <RequestInfo showCount={chitem.buttonCount} />
-                    </div>
+                      <RequestInfo/>
+                    </div> */}
                   </div>
                 </div>
               ))}
             </div>
+            {data?.courseCount > 2 ? 
             <Link
-              href=""
+              href={`/degree-courses/csearch?subject=&university=${data?.collegeTextKey}`}
               className="flex items-center justify-center gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
             >
-              View 99 related courses
+              View {data?.courseCount-2} related courses
               <svg
                 width="16"
                 height="16"
@@ -348,6 +282,7 @@ const SrPageResultPod = () => {
                 />
               </svg>
             </Link>
+            : <></>}
           </div>
         </div>
       ))}
