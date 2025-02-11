@@ -128,13 +128,12 @@ const Header = ({ topnav_data }: props) => {
           sessionStorage.clear();
           document.cookie =
             "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            document.cookie = `LoginSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            document.cookie = `LogedinviaOnetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            await signOut({ global: true });
-            router.push("/degrees/userLogin.html?e=logout");
-        }
-        else{
+          document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          document.cookie = `LoginSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          document.cookie = `LogedinviaOnetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          await signOut({ global: true });
+          router.push("/degrees/userLogin.html?e=logout");
+        } else {
           const session = await fetchAuthSession();
           if (session?.tokens) {
             const hasAccessToken = session?.tokens?.accessToken !== undefined;
