@@ -5,7 +5,29 @@ import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import { useSearchParams } from "next/navigation";
 const SearchFilterComponent = () => {
+  const searchParams = useSearchParams();
+  console.log(searchParams);
+  const body = {
+    score: searchParams.get("score"),
+    subject: searchParams.get("subject"),
+    location: searchParams.get("location"),
+    university: searchParams.get("university"),
+    "campus-type": searchParams.get("campus-type"),
+    "study-mode": searchParams.get("study-mode"),
+    "russell-group": searchParams.get("russell-group"),
+    "employment-rate-min": searchParams.get("employment-rate-min"),
+    "employment-rate-max": searchParams.get("employment-rate-max"),
+  };
+  const pgs = {
+    course: searchParams.get("course"),
+    location: searchParams.get("location"),
+    university: searchParams.get("university"),
+    study_mode: searchParams.get("study_mode"),
+    qualification: searchParams.get("qualification"),
+  };
+  console.log(body);
   const router = useRouter();
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
@@ -15,6 +37,10 @@ const SearchFilterComponent = () => {
   >(null);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
+      const element = document.getElementById(`#${eventName}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
       SetselectedFilter(eventName);
       setIsFilterOpen(true);
       const body = document.body;
@@ -25,14 +51,6 @@ const SearchFilterComponent = () => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
   }, []);
-
-  const studyLevel = [
-    "Undergraduate",
-    "HND / HNC",
-    "Foundation degree",
-    "Access & Foundation",
-    "Postgraduate",
-  ];
 
   const subjectClicked = () => {
     setIsSubjectOpen(!isSubjectOpen);
@@ -58,23 +76,6 @@ const SearchFilterComponent = () => {
     "Biomedical Sciences",
     "Biosciences",
     "Ecology and environmental biology",
-  ];
-
-  const intakeYear = ["2024", "2025", "2026", "2027"];
-  const intakeMonth = [
-    "All months",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
   ];
 
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
@@ -103,45 +104,7 @@ const SearchFilterComponent = () => {
     "Anglia Ruskin University Aru",
     "Architectural Association School Of Architecture",
   ];
-  const locationType = ["Countryside", "Town", "Big city", "Seaside"];
-  const region = [
-    "London",
-    "Yorkshire and Humberside",
-    "North East England",
-    "North West England",
-    "East Midlands",
-    "West Midlands",
-    "South East England",
-    "South West England",
-    "Scotland",
-    "Wales",
-    "Northern Ireland",
-  ];
-  const region1 = ["England", "Scotland", "Wales", "Northern Ireland"];
-  const city = [
-    "Birmingham",
-    "Cambridge",
-    "London1",
-    "City",
-    "City1",
-    "City2",
-    "City3",
-    "City4",
-    "City5",
-    "City6",
-    "City7",
-    "Brighton",
-    "Edinburgh",
-    "Manchester",
-    "City8",
-    "City9",
-    "City10",
-    "City11",
-    "City12",
-    "City13",
-    "City14",
-    "City15",
-  ];
+
   const universityGroup = [
     "Russel Group",
     "Medicine",
@@ -338,6 +301,7 @@ const SearchFilterComponent = () => {
           <div className="h-[calc(100%-265px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-230px)]">
             <Accordion
               title="Subject"
+              id="#subject"
               defaultOpenStatus={
                 selectedFilter === "subject" && isFilterOpen ? true : false
               }
@@ -347,12 +311,11 @@ const SearchFilterComponent = () => {
                 <div className="flex flex-col gap-[4px]">
                   <div className="text-para-lg font-semibold">Study Method</div>
                   <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
+                    Choose one
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
-                    <div className="form-black flex relative">
+                    {/* <div className="form-black flex relative">
                       <input
-                        // defaultValue={"online"}
                         type="checkbox"
                         id="online"
                         name="online"
@@ -375,55 +338,46 @@ const SearchFilterComponent = () => {
                       >
                         In-person
                       </label>
-                    </div>
+                    </div> */}
+                    {jsondata?.studyMethodList?.map((items, index) => (
+                      <div className="form-black flex relative" key={index + 1}>
+                        <input
+                          type="checkbox"
+                          id="inperson"
+                          name="inperson"
+                          className="rounded-[4px] outline-none absolute opacity-0"
+                        />
+                        <label
+                          htmlFor="inperson"
+                          className="btn btn-black-outline"
+                        >
+                          {items?.studyMethodTextKey}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="flex flex-col gap-[4px]">
                   <div className="text-para-lg font-semibold">Study mode</div>
                   <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
+                    Choose one
                   </div>
                   <div className="flex flex-row flex-wrap gap-[8px]">
-                    <div className="form-black flex relative">
-                      <input
-                        defaultValue={"Full time"}
-                        type="checkbox"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                        id="Full time"
-                      />
-                      <label
-                        htmlFor="Full time"
-                        className="btn btn-black-outline"
-                      >
-                        Full time
-                      </label>
-                    </div>
-                    <div className="form-black flex relative">
-                      <input
-                        type="checkbox"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                        id="Sandwich"
-                      />
-                      <label
-                        htmlFor="Sandwich"
-                        className="btn btn-black-outline"
-                      >
-                        Sandwich
-                      </label>
-                    </div>
-                    <div className="form-black flex relative">
-                      <input
-                        type="checkbox"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                        id="Part time"
-                      />
-                      <label
-                        htmlFor="Part time"
-                        className="btn btn-black-outline"
-                      >
-                        Part time
-                      </label>
-                    </div>
+                    {jsondata?.studyModeList?.map((items, index) => (
+                      <div className="form-black flex relative" key={index + 1}>
+                        <input
+                          type="checkbox"
+                          className="rounded-[4px] outline-none absolute opacity-0"
+                          id="Part time"
+                        />
+                        <label
+                          htmlFor="Part time"
+                          className="btn btn-black-outline"
+                        >
+                          {items?.studyModeDesc}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="flex flex-col gap-[4px]">
@@ -432,17 +386,20 @@ const SearchFilterComponent = () => {
                     Choose one
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
-                    {studyLevel.map((item, index) => (
+                    {jsondata?.qualificationList?.map((item, index) => (
                       <div className="form-black flex relative" key={index}>
                         <input
                           type="radio"
                           name="studylevel"
-                          id={item}
-                          value={item}
+                          id={item?.qualDisplayDesc}
+                          value={item?.qualDisplayDesc}
                           className="rounded-[4px] outline-none absolute opacity-0"
                         />
-                        <label htmlFor={item} className="btn btn-black-outline">
-                          {item}
+                        <label
+                          htmlFor={item?.qualDisplayDesc}
+                          className="btn btn-black-outline"
+                        >
+                          {item?.qualDisplayDesc}
                         </label>
                       </div>
                     ))}
@@ -687,6 +644,7 @@ const SearchFilterComponent = () => {
             </Accordion>
 
             <Accordion
+              id="#year"
               title="Intake year"
               defaultOpenStatus={
                 selectedFilter === "year" && isFilterOpen ? true : false
@@ -698,43 +656,51 @@ const SearchFilterComponent = () => {
                   Choose YEAR & MONTH
                 </div>
                 <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {intakeYear.map((item, index) => (
-                    <div className="form-black flex relative" key={index}>
-                      <input
-                        type="radio"
-                        name="2024"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                        id={item}
-                      />
-                      <label htmlFor={item} className="btn btn-black-outline">
-                        {item}
-                      </label>
-                    </div>
-                  ))}
+                  {jsondata?.intakeYearDetails?.intakeYearList?.map(
+                    (item, index) => (
+                      <div className="form-black flex relative" key={index}>
+                        <input
+                          type="radio"
+                          name="2024"
+                          className="rounded-[4px] outline-none absolute opacity-0"
+                          id={`${item?.year}`}
+                        />
+                        <label
+                          htmlFor={`${item?.year}`}
+                          className="btn btn-black-outline"
+                        >
+                          {item?.year}
+                        </label>
+                      </div>
+                    )
+                  )}
                 </div>
                 <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {intakeMonth.map((item, index) => (
-                    <div className="form-black flex relative" key={index}>
-                      <input
-                        type="radio"
-                        name="All Months"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                        id={item}
-                      />
-                      <label
-                        htmlFor={item}
-                        className="btn btn-black-outline min-w-[53px] py-[5px]"
-                      >
-                        {item}
-                      </label>
-                    </div>
-                  ))}
+                  {jsondata?.intakeYearDetails?.intakeMonthList?.map(
+                    (item, index) => (
+                      <div className="form-black flex relative" key={index}>
+                        <input
+                          type="radio"
+                          name="All Months"
+                          className="rounded-[4px] outline-none absolute opacity-0"
+                          id={item?.month}
+                        />
+                        <label
+                          htmlFor={item?.month}
+                          className="btn btn-black-outline min-w-[53px] py-[5px]"
+                        >
+                          {item?.month}
+                        </label>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </Accordion>
 
             <Accordion
               title="University"
+              id="#university"
               defaultOpenStatus={
                 selectedFilter === "university" && isFilterOpen ? true : false
               }
@@ -887,6 +853,7 @@ const SearchFilterComponent = () => {
 
             <Accordion
               title="Location"
+              id="#location"
               defaultOpenStatus={
                 selectedFilter === "location" && isFilterOpen ? true : false
               }
@@ -1019,7 +986,7 @@ const SearchFilterComponent = () => {
                       </div>
                       <ul>
                         <li>
-                          {region1.map((item, index) => (
+                          {jsondata?.regionList?.map((item, index) => (
                             <div key={index}>
                               <div className="form_check relative m-[0_0_12px_24px]">
                                 <div className="flex items-start gap-[8px]">
@@ -1027,11 +994,11 @@ const SearchFilterComponent = () => {
                                     <input
                                       type="checkbox"
                                       className="form-checkbox hidden"
-                                      id={item}
-                                      name={item}
+                                      id={item?.regionName}
+                                      name={item?.regionName}
                                     />
                                     <label
-                                      htmlFor={item}
+                                      htmlFor={item?.regionName}
                                       className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                     >
                                       <svg
@@ -1055,14 +1022,14 @@ const SearchFilterComponent = () => {
                                     </label>
                                   </div>
                                   <label
-                                    htmlFor={item}
+                                    htmlFor={item?.regionName}
                                     className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                   >
-                                    {item}
+                                    {item?.regionName}
                                   </label>
                                 </div>
                               </div>
-                              <ul>
+                              {/* <ul>
                                 {index == 0 && (
                                   <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
                                     {region.map((item, index) => (
@@ -1112,7 +1079,7 @@ const SearchFilterComponent = () => {
                                     ))}
                                   </li>
                                 )}
-                              </ul>
+                              </ul> */}
                             </div>
                           ))}
                         </li>
@@ -1126,17 +1093,17 @@ const SearchFilterComponent = () => {
                     Choose one or more
                   </div>
                   <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
-                    {city.map((item, index) => (
+                    {jsondata?.cityList?.map((item, index) => (
                       <div className="form_check relative" key={index}>
                         <div className="flex items-start gap-[8px]">
                           <div className="checkbox_card">
                             <input
                               type="checkbox"
                               className="form-checkbox hidden"
-                              id={item}
+                              id={item?.cityName}
                             />
                             <label
-                              htmlFor={item}
+                              htmlFor={item?.cityName}
                               className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                             >
                               <svg
@@ -1160,10 +1127,10 @@ const SearchFilterComponent = () => {
                             </label>
                           </div>
                           <label
-                            htmlFor={item}
+                            htmlFor={item?.cityName}
                             className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                           >
-                            {item}
+                            {item?.cityName}
                           </label>
                         </div>
                       </div>
@@ -1178,18 +1145,21 @@ const SearchFilterComponent = () => {
                     Choose one or more
                   </div>
                   <div className="flex items-center gap-[8px]">
-                    {locationType.map((item, index) => (
+                    {jsondata?.uniLocationTypeList?.map((item, index) => (
                       <div className="form-black flex relative" key={index}>
                         <input
                           // defaultValue={"Countryside"}
                           type="checkbox"
                           name="Countryside"
                           className="rounded-[4px] outline-none absolute opacity-0"
-                          id={item}
-                          value={item}
+                          id={item?.locTypeDesc}
+                          value={item?.locTypeDesc}
                         />
-                        <label htmlFor={item} className="btn btn-black-outline">
-                          {item}
+                        <label
+                          htmlFor={item?.locTypeDesc}
+                          className="btn btn-black-outline"
+                        >
+                          {item?.locTypeDesc}
                         </label>
                       </div>
                     ))}
@@ -1204,17 +1174,17 @@ const SearchFilterComponent = () => {
                   Choose one or more
                 </div>
                 <div className="flex flex-col gap-[12px]">
-                  {universityGroup.map((item, index) => (
+                  {jsondata?.universityGroupList?.map((item, index) => (
                     <div className="form_check relative" key={index}>
                       <div className="flex items-start gap-[8px]">
                         <div className="checkbox_card">
                           <input
                             type="checkbox"
                             className="form-checkbox hidden"
-                            id={item}
+                            id={item?.universityGroupDesc}
                           />
                           <label
-                            htmlFor={item}
+                            htmlFor={item?.universityGroupDesc}
                             className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                           >
                             <svg
@@ -1238,10 +1208,10 @@ const SearchFilterComponent = () => {
                           </label>
                         </div>
                         <label
-                          htmlFor={item}
+                          htmlFor={item?.universityGroupDesc}
                           className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                         >
-                          {item}
+                          {item?.universityGroupDesc}
                         </label>
                       </div>
                     </div>
@@ -1253,7 +1223,7 @@ const SearchFilterComponent = () => {
 
           <div className="flex justify-between gap-[8px] p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
             <Link
-              href="#"
+              href={`/degree-courses/search`}
               aria-label="reset filters"
               className="text-primary-400 font-semibold py-[10px] px-[16px] text-center hover:underline"
             >
