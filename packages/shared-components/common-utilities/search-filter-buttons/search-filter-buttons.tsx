@@ -62,7 +62,7 @@ const SearchFilterButtons = () => {
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
           )}
           <div
-            onClick={() => filterEvents("subject")}
+            onClick={() => filterEvents("all")}
             className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
             <svg

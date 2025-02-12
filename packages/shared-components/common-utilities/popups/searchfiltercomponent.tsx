@@ -8,7 +8,6 @@ import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams } from "next/navigation";
 const SearchFilterComponent = () => {
   const searchParams = useSearchParams();
-  console.log(searchParams);
   const body = {
     score: searchParams.get("score"),
     subject: searchParams.get("subject"),
@@ -27,7 +26,6 @@ const SearchFilterComponent = () => {
     study_mode: searchParams.get("study_mode"),
     qualification: searchParams.get("qualification"),
   };
-  console.log(body);
   const router = useRouter();
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
@@ -50,7 +48,7 @@ const SearchFilterComponent = () => {
     return () => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
-  }, []);
+  }, [isFilterOpen]);
 
   const subjectClicked = () => {
     setIsSubjectOpen(!isSubjectOpen);
@@ -105,12 +103,6 @@ const SearchFilterComponent = () => {
     "Architectural Association School Of Architecture",
   ];
 
-  const universityGroup = [
-    "Russel Group",
-    "Medicine",
-    "Small and specialist",
-    "Distance or online learning",
-  ];
   const jsondata = {
     qualificationList: [
       {
@@ -230,6 +222,7 @@ const SearchFilterComponent = () => {
         !filterRef.current.contains(event.target as Node)
       ) {
         setIsFilterOpen(false);
+        SetselectedFilter(null);
         const body = document.body;
         body.classList.remove("overflow-y-hidden");
       }
@@ -241,6 +234,7 @@ const SearchFilterComponent = () => {
   }, []);
   const closeFilter = () => {
     setIsFilterOpen(false);
+    SetselectedFilter(null);
     const body = document.body;
     body.classList.remove("overflow-y-hidden");
   };
@@ -303,7 +297,7 @@ const SearchFilterComponent = () => {
               title="Subject"
               id="#subject"
               defaultOpenStatus={
-                selectedFilter === "subject" && isFilterOpen ? true : false
+                selectedFilter === "all" || selectedFilter === "subject"
               }
             >
               {/* subject */}
@@ -314,31 +308,6 @@ const SearchFilterComponent = () => {
                     Choose one
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
-                    {/* <div className="form-black flex relative">
-                      <input
-                        type="checkbox"
-                        id="online"
-                        name="online"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                      />
-                      <label htmlFor="online" className="btn btn-black-outline">
-                        Online
-                      </label>
-                    </div>
-                    <div className="form-black flex relative">
-                      <input
-                        type="checkbox"
-                        id="inperson"
-                        name="inperson"
-                        className="rounded-[4px] outline-none absolute opacity-0"
-                      />
-                      <label
-                        htmlFor="inperson"
-                        className="btn btn-black-outline"
-                      >
-                        In-person
-                      </label>
-                    </div> */}
                     {jsondata?.studyMethodList?.map((items, index) => (
                       <div className="form-black flex relative" key={index + 1}>
                         <input
@@ -642,13 +611,10 @@ const SearchFilterComponent = () => {
                 </div>
               </div>
             </Accordion>
-
             <Accordion
               id="#year"
               title="Intake year"
-              defaultOpenStatus={
-                selectedFilter === "year" && isFilterOpen ? true : false
-              }
+              defaultOpenStatus={selectedFilter === "year" ? true : false}
             >
               {/* intake */}
               <div className="flex flex-col gap-[8px] p-[8px_0_0]">
@@ -697,13 +663,10 @@ const SearchFilterComponent = () => {
                 </div>
               </div>
             </Accordion>
-
             <Accordion
               title="University"
               id="#university"
-              defaultOpenStatus={
-                selectedFilter === "university" && isFilterOpen ? true : false
-              }
+              defaultOpenStatus={selectedFilter === "university" ? true : false}
             >
               <div className="flex flex-col gap-[16px] pt-[24px]">
                 <div className="flex flex-col gap-[4px]">
@@ -854,9 +817,7 @@ const SearchFilterComponent = () => {
             <Accordion
               title="Location"
               id="#location"
-              defaultOpenStatus={
-                selectedFilter === "location" && isFilterOpen ? true : false
-              }
+              defaultOpenStatus={selectedFilter === "location" ? true : false}
             >
               {/* location */}
               <div className="flex flex-col gap-[24px]">
@@ -1167,7 +1128,6 @@ const SearchFilterComponent = () => {
                 </div>
               </div>
             </Accordion>
-
             <Accordion title="University group" defaultOpenStatus={false}>
               <div className="flex flex-col gap-[8px] pt-[24px]">
                 <div className="x-small font-semibold text-black uppercase">
