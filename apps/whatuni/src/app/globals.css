@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   /* Font farro starts*/
   @font-face {
     font-family: "Farro";
@@ -71,8 +72,7 @@
 
 /* svg hover white color icon  */
 .svg-hover-white:hover img {
-  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%)
-    hue-rotate(283deg) brightness(104%) contrast(94%);
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(283deg) brightness(104%) contrast(94%);
 }
 
 /* svg hover white color icon END */
@@ -107,7 +107,7 @@
   }
 
   .btn-negative-default {
-    @apply bg-negative-default hover:bg-negative-dark;
+    @apply bg-negative-default hover:bg-negative-dark
   }
 
   .btn-neutral-outline {
@@ -119,16 +119,16 @@
   }
 
   .btn-primary-outline {
-    @apply bg-transparent border-primary-400 text-primary-400 border rounded-[20px] px-[20px] py-[10px] hover:border-primary-500 hover:bg-primary-500 hover:text-white font-semibold cursor-pointer;
+    @apply bg-transparent border-primary-400 text-primary-400 border rounded-[20px] px-[20px] py-[10px] hover:border-primary-500 hover:bg-primary-500 hover:text-white font-semibold cursor-pointer
   }
 
   .btn-secondary-outline {
-    @apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold;
+    @apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold
   }
 
   /* scrollbar styles */
   .scrollbar-hidden {
-    scrollbar-width: none;
+    scrollbar-width: none
   }
 
   .scrollbar-hidden::-webkit-scrollbar {
@@ -136,19 +136,19 @@
     width: 0 !important;
     height: 0 !important;
     -webkit-appearance: none;
-    background: transparent;
+    background: transparent
   }
 
   .custom-horizontal-scrollbar::-webkit-scrollbar {
-    @apply w-[5px];
+    @apply w-[5px]
   }
 
   .custom-horizontal-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent my-[8px];
+    @apply bg-transparent my-[8px]
   }
 
   .custom-horizontal-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-neutral-200 hover:bg-neutral-200 rounded-[10px] border-primary-400;
+    @apply bg-neutral-200 hover:bg-neutral-200 rounded-[10px] border-primary-400
   }
 
   .custom-scrollbar-2::-webkit-scrollbar {
@@ -156,20 +156,20 @@
   }
 
   .custom-scrollbar-2::-webkit-scrollbar-track {
-    @apply bg-grey-200 rounded-[4px];
+    @apply bg-grey-200 rounded-[4px]
   }
 
   .custom-scrollbar-2::-webkit-scrollbar-thumb {
-    @apply bg-grey-300 rounded-[4px];
+    @apply bg-grey-300 rounded-[4px]
   }
 
   .custom-scrollbar-2::-webkit-scrollbar-thumb:hover {
-    @apply bg-grey-400;
+    @apply bg-grey-400
   }
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5%
 }
 
 body {
@@ -194,72 +194,64 @@ h6,
 }
 
 .h1-xl {
-  @apply text-heading-xl;
+  @apply text-heading-xl
 }
 
 .h1-lg {
-  @apply text-heading-lg;
+  @apply text-heading-lg
 }
 
-h1,
-.h1 {
-  @apply text-heading2 lg:text-heading1;
+h1, .h1 {
+  @apply text-heading2 lg:text-heading1
 }
 
-h2,
-.h2 {
-  @apply text-heading3 lg:text-heading2;
+h2, .h2 {
+  @apply text-heading3 lg:text-heading2
 }
 
-h3,
-.h3 {
-  @apply text-heading4 lg:text-heading3;
+h3, .h3 {
+  @apply text-heading4 lg:text-heading3
 }
 
-h4,
-.h4 {
-  @apply text-heading5 lg:text-heading4;
+h4, .h4 {
+  @apply text-heading5 lg:text-heading4
 }
 
-h5,
-.h5 {
-  @apply text-heading6 lg:text-heading5;
+h5, .h5 {
+  @apply text-heading6 lg:text-heading5
 }
 
-h6,
-.h6 {
-  @apply text-para-lg lg:text-heading6;
+h6, .h6 {
+  @apply text-para-lg lg:text-heading6
 }
 
 .para-lg {
-  @apply text-para-lg;
+  @apply text-para-lg
 }
 
-p,
-.para {
-  @apply text-para;
+p, .para {
+  @apply text-para
 }
 
 .small {
-  @apply text-small;
+  @apply text-small
 }
 
 .x-small {
-  @apply text-x-small;
+  @apply text-x-small
 }
 
 .xs-small {
-  @apply text-xs-small;
+  @apply text-xs-small
 }
 
 /* typograpy */
 
-@layer utilities {
-}
+@layer utilities {}
 
 @media screen and (max-width: 767px) {
   .adviceCourseSlider {
-    @apply !px-[0] !py-[16px];
+    @apply !px-[0] !py-[16px]
   }
 }
 
@@ -284,58 +276,53 @@ p,
 
 /* Skeleton styles */
 .skeleton {
-  @apply w-full h-[10px] leading-[10px] rounded-[24px] my-[6px] bg-neutral-300;
+  @apply w-full h-[10px] leading-[10px] rounded-[24px] my-[6px] bg-neutral-300
 }
 
 .skeleton-thumb-img {
-  @apply w-full h-[150px] rounded-t-[8px] rounded-b-[0] m-0;
+  @apply w-full h-[150px] rounded-t-[8px] rounded-b-[0] m-0
 }
 
 .skeleton-square-img {
-  @apply w-[64px] h-[64px] rounded-[8px];
+  @apply w-[64px] h-[64px] rounded-[8px]
 }
 
 .skeleton-circle-img {
-  @apply w-[64px] h-[64px] rounded-[64px];
+  @apply w-[64px] h-[64px] rounded-[64px]
 }
 
 .large_heading {
-  @apply h-[24px];
+  @apply h-[24px]
 }
 
 .small_heading {
-  @apply h-[20px];
+  @apply h-[20px]
 }
 
 .page_heading {
-  @apply h-[18px];
+  @apply h-[18px]
 }
 
 .heading {
-  @apply h-[14px];
+  @apply h-[14px]
 }
 
 .title {
-  @apply h-[12px];
+  @apply h-[12px]
 }
 
 .descrip {
-  @apply h-[10px];
+  @apply h-[10px]
 }
 
 .skeleton-text-animated {
-  background: linear-gradient(
-    to right,
-    rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 8%,
-    rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.135) 18%,
-    rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 33%
-  );
+  background: linear-gradient(to right, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 8%, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.135) 18%, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 33%);
   @apply relative bg-[length:800px_104px];
-  animation: skeletonLoader 1.5s linear infinite forwards;
+  animation: skeletonLoader 1.5s linear infinite forwards
 }
 
 .skeleton_btn {
-  @apply min-w-[148px] h-[40px];
+  @apply min-w-[148px] h-[40px]
 }
 
 @keyframes skeletonLoader {
@@ -351,26 +338,25 @@ p,
 /* Skeleton styles */
 /* Menu active classes */
 .menu-active {
-  @apply lg:shadow-custom-7;
+  @apply lg:shadow-custom-7
 }
 
 /* Menu active classes */
 /* Swiper Styles */
 .swiper {
-  @apply !z-[0];
+  @apply !z-[0]
 }
 
 .discover-card-container .swiper {
-  @apply !pt-[2px];
+  @apply !pt-[2px]
 }
 
 .MultiSwiper {
-  @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px];
+  @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px]
 }
 
-.MultiSwiper .swiper-button-prev:after,
-.MultiSwiper .swiper-button-next:after {
-  @apply !hidden;
+.MultiSwiper .swiper-button-prev:after, .MultiSwiper .swiper-button-next:after {
+  @apply !hidden
 }
 
 .MultiSwiper .swiper-button-prev {
@@ -382,24 +368,24 @@ p,
 }
 
 .MultiSwiper .swiper-button-disabled {
-  visibility: hidden;
+  visibility: hidden
 }
 
 .MultiSwiper .swiper-button-prev,
 .MultiSwiper .swiper-button-next {
-  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!block;
+  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!block
 }
 
 .MultiSwiper .swiper-pagination {
-  @apply !bottom-[0];
+  @apply !bottom-[0]
 }
 
 .MultiSwiper .swiper-pagination-bullet {
-  @apply !bg-grey-200 !opacity-[1] !mx-[2px];
+  @apply !bg-grey-200 !opacity-[1] !mx-[2px]
 }
 
 .MultiSwiper .swiper-pagination-bullet-active {
-  @apply !bg-blue-300;
+  @apply !bg-blue-300
 }
 
 /* Swiper Styles */
@@ -415,16 +401,16 @@ p,
 }
 
 .backdrop-shadow-white {
-  @apply backdrop-blur-sm bg-white/50;
+  @apply backdrop-blur-sm bg-white/50
 }
 
 .backdrop-shadow-black {
-  @apply backdrop-blur-sm bg-black/50;
+  @apply backdrop-blur-sm bg-black/50
 }
 
 /* Backgrop shadow */
 .animate-fadeIn {
-  animation: fadeIn 0.2s ease-in;
+  animation: fadeIn .2s ease-in;
 }
 
 @keyframes fadeIn {
@@ -438,7 +424,7 @@ p,
 }
 
 .animate-fadeOut {
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn .2s ease-out;
 }
 
 @keyframes fadeOut {
@@ -452,7 +438,7 @@ p,
 }
 
 .animate-fadeInLeft {
-  animation: fadeInLeft 0.5s;
+  animation: fadeInLeft .5s;
 }
 
 @keyframes fadeInLeft {
@@ -487,49 +473,46 @@ p,
 
 /* hero slider styles */
 .hero .swiper-pagination {
-  @apply lg:!top-[64px] !left-0 text-left !bottom-auto xs:!top-[40px];
+  @apply lg:!top-[64px] !left-0 text-left !bottom-auto xs:!top-[40px]
 }
 
-.hero .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-.hero
-  .swiper-pagination-horizontal.swiper-pagination-bullets
-  .swiper-pagination-bullet {
+.hero .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
+.hero .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
   @apply !ml-0;
 }
 
 .hero .swiper-pagination-bullet {
-  @apply bg-blue-100 w-[8px] h-[8px] rounded-[4px] !opacity-90;
+  @apply bg-blue-100 w-[8px] h-[8px] rounded-[4px] !opacity-90
 }
 
 .hero .swiper-pagination-bullet-active {
-  @apply !bg-primary-500 !w-[16px] !h-[8px] rounded-[4px] !opacity-90;
+  @apply !bg-primary-500 !w-[16px] !h-[8px] rounded-[4px] !opacity-90
 }
 
 .hero .swiper-slide-prev {
-  @apply !opacity-0;
+  @apply !opacity-0
 }
 
 /* partner slider styles */
 .partner {
-  @apply !pb-[30px];
+  @apply !pb-[30px]
 }
 
 .partner .swiper-pagination {
-  @apply !bottom-0;
+  @apply !bottom-0
 }
 
 .partner .swiper-pagination {
-  @apply lg:!hidden;
+  @apply lg:!hidden
 }
 /* partner slider styles */
 
-.rightmenu li:not(:last-child) span:hover > svg path,
-.continue_email:hover svg path {
-  stroke: white;
+.rightmenu li:not(:last-child) span:hover>svg path, .continue_email:hover svg path {
+  stroke: white
 }
 
 .decrease svg path {
-  stroke: #4664dc;
+  stroke: #4664DC
 }
 
 .increment svg path {
@@ -537,36 +520,36 @@ p,
 }
 
 /* Registeration */
-.form_radio .form-check-input:checked + label,
-.form_radio .form-check-input:hover + label {
-  @apply text-white bg-primary-500 border-primary-500 cursor-pointer;
+.form_radio .form-check-input:checked+label,
+.form_radio .form-check-input:hover+label {
+  @apply text-white bg-primary-500 border-primary-500 cursor-pointer
 }
 
-.form_check .form-checkbox:checked + label,
-.form_radio .form-radio:checked + label {
+.form_check .form-checkbox:checked+label,
+.form_radio .form-radio:checked+label {
   @apply text-white bg-primary-400 border-primary-400 cursor-pointer;
 }
 
 .error .form-control {
-  @apply border border-negative-default;
+  @apply border border-negative-default
 }
 
 .err_msg {
-  display: none;
+  display: none
 }
 
 .error .err_msg {
-  display: block;
+  display: block
 }
 /* Registeration */
 
 /* Article details  */
 .article-details-aside .reviews-container {
-  @apply bg-white;
+  @apply bg-white
 }
 
 .article-details-aside .reviews-card-container {
-  @apply lg:py-[40px];
+  @apply lg:py-[40px]
 }
 
 .pull-quotes {
@@ -582,6 +565,8 @@ p,
 .skiplinkoption.active ul {
   height: 100%;
 }
+
+
 
 .skiplinkoption .burger-menu span {
   transition: all 0.3s linear 0s;
@@ -614,12 +599,12 @@ p,
 
 /* Article details END  */
 /* Article landing START  */
-.checkbox_card .form-checkbox + label svg {
-  @apply hidden;
+.checkbox_card .form-checkbox+label svg {
+  @apply hidden
 }
 
-.checkbox_card .form-checkbox:checked + label svg {
-  @apply block;
+.checkbox_card .form-checkbox:checked+label svg {
+  @apply block
 }
 
 /* Article landing END  */
@@ -706,20 +691,18 @@ h6 {
   font-size: 14px;
 }
 
-.rtf-innerstyle > div:has([id]) > div:not([class]) > ul,
-.rtf-innerstyle > div:has([id]) > div:not([class]) > ol,
-.rtf-innerstyle > div:has([id]) > div:not([class]) > p,
-.rtf-innerstyle > div:has([id]) > div:not([class]) > table,
-.rtf-innerstyle
-  > div:has([id])
-  > div:not([class])
-  :where(h1, h2, h3, h4, h5, h6),
-.rtf-innerstyle > div:has([id]) > :where(h1, h2, h3, h4, h5, h6) {
-  @apply m-[16px_0];
+.rtf-innerstyle>div:has([id])>div:not([class])>ul,
+.rtf-innerstyle>div:has([id])>div:not([class])>ol,
+.rtf-innerstyle>div:has([id])>div:not([class])>p,
+.rtf-innerstyle>div:has([id])>div:not([class])>table,
+.rtf-innerstyle>div:has([id])>div:not([class]) :where(h1, h2, h3, h4, h5, h6),
+.rtf-innerstyle>div:has([id])> :where(h1, h2, h3, h4, h5, h6) {
+  @apply m-[16px_0]
 }
 
 .rtf-innerstyle p:empty {
-  @apply hidden;
+  @apply hidden
 }
 
 /* RTF END */
+

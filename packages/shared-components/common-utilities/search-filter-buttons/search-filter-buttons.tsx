@@ -63,7 +63,7 @@ const SearchFilterButtons = () => {
           )}
           <div
             onClick={() => filterEvents("subject")}
-            className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-white hover:bg-blue-200 text-grey300 lg:grow-0 lg:shrink-0"
+            className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
             <svg
               width="20"
@@ -84,7 +84,7 @@ const SearchFilterButtons = () => {
           </div>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
             <div
-              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
               Study level
@@ -105,7 +105,7 @@ const SearchFilterButtons = () => {
               </svg>
             </div>
             <div
-              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
               Subject (1)
@@ -126,7 +126,7 @@ const SearchFilterButtons = () => {
               </svg>
             </div>
             <div
-              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("year")}
             >
               Year
@@ -147,7 +147,7 @@ const SearchFilterButtons = () => {
               </svg>
             </div>
             <div
-              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("university")}
             >
               University
@@ -168,7 +168,7 @@ const SearchFilterButtons = () => {
               </svg>
             </div>
             <div
-              className="flex items-center gap-[8px] btn w-fit bg-white hover:bg-blue-200 text-grey300"
+              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("location")}
             >
               Location (1)
