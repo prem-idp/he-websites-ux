@@ -17,18 +17,13 @@ export function middleware(request: NextRequest, response: NextResponse) {
     return response;
     // return NextResponse.next();
   }
-  let cleanedUrl = pathname;
-  const trailingSlashes = pathname.match(/\/+$/)?.[0].length || 0;
-  if (trailingSlashes > 1) {
-    cleanedUrl = pathname.replace(/([^:]\/)\/+/g, "$1");
-    return NextResponse.redirect(new URL(`${cleanedUrl}`, customDomain));
-  }
-  if (search && cleanedUrl.endsWith("/")) {
-    const newUrl = cleanedUrl.slice(0, -1) + search;
+
+  if (search && pathname.endsWith("/")) {
+    const newUrl = pathname.slice(0, -1) + search;
     return NextResponse.redirect(new URL(newUrl, customDomain));
   }
-  if (!search && !cleanedUrl.endsWith("/")) {
-    return NextResponse.redirect(new URL(`${cleanedUrl}/`, customDomain));
+  if (!search && !pathname.endsWith("/")) {
+    return NextResponse.redirect(new URL(`${pathname}/`, customDomain));
   }
   return NextResponse.next();
 }
