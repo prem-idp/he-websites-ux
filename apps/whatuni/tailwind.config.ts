@@ -23,6 +23,7 @@ const config: Config = {
     "lg:col-span-7",
     "bg-success-400",
     "bg-success-700",
+
     // Blue colors
     "bg-blue-50",
     "bg-blue-100",
@@ -39,6 +40,7 @@ const config: Config = {
     "bg-orange-50",
     "bg-orange-100",
     "bg-orange-200",
+    "bg-positive-light",
   ],
   theme: {
     maxWidth: {

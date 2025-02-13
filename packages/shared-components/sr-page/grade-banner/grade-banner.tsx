@@ -3,7 +3,9 @@ import React from "react";
 import Image from "next/image";
 const GradeBanner = () => {
   return (
-    <div className="bg-blue-100 p-[16px] rounded-[8px] flex flex-col gap-[16px] lg:flex-row lg:justify-between">
+    <div
+      className={`${process.env.PROJECT === "Whatuni" ? "bg-blue-100" : "bg-positive-light"} p-[16px] rounded-[8px] flex flex-col gap-[16px] lg:flex-row lg:justify-between`}
+    >
       <div className="flex gap-[16px]">
         <div className="bg-blue-200 text-grey900 rounded-tl-[24px] rounded-br-[24px] p-[8px] w-[48px] h-[48px] flex items-center justify-center shrink-0">
           <Image
