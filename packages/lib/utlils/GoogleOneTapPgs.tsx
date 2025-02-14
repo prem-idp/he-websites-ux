@@ -237,7 +237,7 @@ const GoogleOneTapPgs = () => {
   src="https://accounts.google.com/gsi/client"
   id="googleGsiId"
   strategy="lazyOnload"
-  defer
+ 
 />);
 };
 export default GoogleOneTapPgs;
