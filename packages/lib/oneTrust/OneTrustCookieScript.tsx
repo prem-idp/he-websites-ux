@@ -90,7 +90,7 @@ export default function OneTrustCookieScript({
               src="https://accounts.google.com/gsi/client"
               id="googleGsiId"
               strategy="lazyOnload"
-              defer
+          
             />
           ) : (
             <>
@@ -99,7 +99,7 @@ export default function OneTrustCookieScript({
                 id="oneTrustCookieeId"
                 data-domain-script={domianValue}
                 strategy="lazyOnload"
-                defer
+              
               />
             </>
           )}
