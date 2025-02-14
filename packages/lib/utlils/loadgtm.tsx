@@ -7,7 +7,7 @@ const GTMScript = () => {
     const timeout = setTimeout(() => {
       const script = document.createElement('script');
       script.id = 'gtm-ga-script';
-      script.async = true;
+      script.defer =true;
       script.innerHTML = `
         (function(w,d,s,l,i){
           w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
