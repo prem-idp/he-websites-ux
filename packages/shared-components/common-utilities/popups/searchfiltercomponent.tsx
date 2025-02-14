@@ -299,22 +299,6 @@ const SearchFilterComponent = () => {
               preferred criteria 
             </p>
           </div>
-          <Link href="/degree-courses/csearch">Move to PR</Link>
-          <br />
-          <Link href="/degree-courses/search">Move to SR</Link>
-          <br />
-          <Link href="/degree-courses">Degree-courses</Link>
-          <br />
-          <Link href="/access-foundation-courses">access foundation</Link>
-          <br />
-          <Link href="/foundation-degree-courses">foundation degree</Link>
-          <br />
-          <Link href="/hnd-hnc-courses">Hnd and Hnc</Link>
-          <br />
-          <Link href="/postgraduate-courses">Postgraduate</Link>
-          <br />
-          <Link href="/money">money</Link>
-          <br />
           <div className="h-[calc(100%-265px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-230px)]">
             <Accordion
               title="Subject"
