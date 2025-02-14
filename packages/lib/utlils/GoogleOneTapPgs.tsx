@@ -1,9 +1,10 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { v4 as uuidv4 } from "uuid";
-
+import Script from "next/script";
 const GoogleOneTapPgs = () => {
+  const [loadagain,setLoadagain] =useState(1);
   const scriptId = "google-one-tap-script";
   const scriptSrc = "https://accounts.google.com/gsi/client";
   function getCookieValue(name: any) {
@@ -182,12 +183,13 @@ const GoogleOneTapPgs = () => {
       ).some((script) => script.src === scriptSrc || script.id === scriptId);
 
       if (!scriptExists) {
-        const script = document.createElement("script");
-        script.id = scriptId;
-        script.src = "https://accounts.google.com/gsi/client";
-        script.defer = true;
-        script.onload = () => initializeGoogleOneTap();
-        document.body.appendChild(script);
+        setLoadagain((prev)=>prev +1);
+        // const script = document.createElement("script");
+        // script.id = scriptId;
+        // script.src = "https://accounts.google.com/gsi/client";
+        // script.defer = true;
+        // script.onload = () => initializeGoogleOneTap();
+        // document.body.appendChild(script);
       } else {
         initializeGoogleOneTap();
       }
@@ -219,6 +221,7 @@ const GoogleOneTapPgs = () => {
           }
         }
       });
+      
       observer.observe(document, {
         subtree: true,
         childList: true,
@@ -230,6 +233,11 @@ const GoogleOneTapPgs = () => {
     }
   }, []);
 
-  return null;
+  return (loadagain && <Script
+  src="https://accounts.google.com/gsi/client"
+  id="googleGsiId"
+  strategy="lazyOnload"
+  defer
+/>);
 };
 export default GoogleOneTapPgs;
