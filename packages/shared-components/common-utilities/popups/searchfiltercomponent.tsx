@@ -7,26 +7,30 @@ import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams } from "next/navigation";
 const SearchFilterComponent = () => {
-  const searchParams = useSearchParams();
-  const body = {
-    score: searchParams.get("score"),
-    subject: searchParams.get("subject"),
-    location: searchParams.get("location"),
-    university: searchParams.get("university"),
-    "campus-type": searchParams.get("campus-type"),
-    "study-mode": searchParams.get("study-mode"),
-    "russell-group": searchParams.get("russell-group"),
-    "employment-rate-min": searchParams.get("employment-rate-min"),
-    "employment-rate-max": searchParams.get("employment-rate-max"),
-  };
-  const pgs = {
-    course: searchParams.get("course"),
-    location: searchParams.get("location"),
-    university: searchParams.get("university"),
-    study_mode: searchParams.get("study_mode"),
-    qualification: searchParams.get("qualification"),
-  };
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const appliedFilters = {
+    year: searchParams?.get("year")?.split(","),
+    month: searchParams?.get("month")?.split(","),
+    location: searchParams?.get("location")?.split(","),
+    ucasDcore: searchParams?.get("score")?.split(","),
+    university: searchParams?.get("university")?.split(","),
+    campusType: searchParams?.get("campus-type")?.split(","),
+    qualification: searchParams?.get("qualification")?.split(","),
+    studyMethod: searchParams?.get("study-method")?.split(","),
+    locationType: searchParams?.get("location-type")?.split(","),
+    russellGroup: searchParams?.get("russell-group")?.split(","),
+    employmentRateMin: searchParams?.get("employment-rate-min")?.split(","),
+    employmentRateMax: searchParams?.get("employment-rate-max")?.split(","),
+    studyMode:
+      searchParams?.get("study-mode")?.split(",") ||
+      searchParams?.get("study_mode")?.split(","),
+    pageNo:
+      searchParams?.get("pageno")?.split(",") || searchParams?.get("page_no"),
+    subject:
+      searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
+  };
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -246,6 +250,9 @@ const SearchFilterComponent = () => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
+  const appendSearchParams = (key: string, value: string | number) => {
+    router.push(`?${key}=${value}`);
+  };
   return (
     <>
       <div>
@@ -292,6 +299,22 @@ const SearchFilterComponent = () => {
               preferred criteria 
             </p>
           </div>
+          <Link href="/degree-courses/csearch">Move to PR</Link>
+          <br />
+          <Link href="/degree-courses/search">Move to SR</Link>
+          <br />
+          <Link href="/degree-courses">Degree-courses</Link>
+          <br />
+          <Link href="/access-foundation-courses">access foundation</Link>
+          <br />
+          <Link href="/foundation-degree-courses">foundation degree</Link>
+          <br />
+          <Link href="/hnd-hnc-courses">Hnd and Hnc</Link>
+          <br />
+          <Link href="/postgraduate-courses">Postgraduate</Link>
+          <br />
+          <Link href="/money">money</Link>
+          <br />
           <div className="h-[calc(100%-265px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-230px)]">
             <Accordion
               title="Subject"
@@ -309,7 +332,16 @@ const SearchFilterComponent = () => {
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
                     {jsondata?.studyMethodList?.map((items, index) => (
-                      <div className="form-black flex relative" key={index + 1}>
+                      <div
+                        className="form-black flex relative"
+                        key={index + 1}
+                        onClick={() => {
+                          appendSearchParams(
+                            "study-method",
+                            items?.studyMethodTextKey
+                          );
+                        }}
+                      >
                         <input
                           type="checkbox"
                           id="inperson"
@@ -320,7 +352,7 @@ const SearchFilterComponent = () => {
                           htmlFor="inperson"
                           className="btn btn-black-outline"
                         >
-                          {items?.studyMethodTextKey}
+                          {items?.studyMethodDesc}
                         </label>
                       </div>
                     ))}
@@ -333,7 +365,16 @@ const SearchFilterComponent = () => {
                   </div>
                   <div className="flex flex-row flex-wrap gap-[8px]">
                     {jsondata?.studyModeList?.map((items, index) => (
-                      <div className="form-black flex relative" key={index + 1}>
+                      <div
+                        className="form-black flex relative"
+                        key={index + 1}
+                        onClick={() => {
+                          appendSearchParams(
+                            "study-mode",
+                            items?.studyModeTextKey
+                          );
+                        }}
+                      >
                         <input
                           type="checkbox"
                           className="rounded-[4px] outline-none absolute opacity-0"
@@ -356,7 +397,13 @@ const SearchFilterComponent = () => {
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
                     {jsondata?.qualificationList?.map((item, index) => (
-                      <div className="form-black flex relative" key={index}>
+                      <div
+                        className="form-black flex relative"
+                        key={index}
+                        onClick={() => {
+                          appendSearchParams("study-level", item?.qualTextKey);
+                        }}
+                      >
                         <input
                           type="radio"
                           name="studylevel"

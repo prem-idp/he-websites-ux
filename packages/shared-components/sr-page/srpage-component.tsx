@@ -1,5 +1,5 @@
 "use server";
-import React from "react";
+import React, { Suspense } from "react";
 import GradeBanner from "@packages/shared-components/sr-page/grade-banner/grade-banner";
 import SrPageNoResults from "@packages/shared-components/sr-page/no-results/srpage-noresult";
 import TopSection from "@packages/shared-components/sr-page/top-section/top-section";
@@ -14,14 +14,12 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { headers } from "next/headers";
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 const SearchResultComponent = async ({ searchparams }: any) => {
-  const headerlist = await headers();
   //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
   // const filterCookie = getCookieValue("filter_param");
   // const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  console.log("query" + searchparams?.pageNo);
+  // console.log("query" + searchparams?.pageNo);
   const searchPayload = {
     ...searchparams,
     //...filterCookieParam,
@@ -40,8 +38,10 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   return (
     <>
       <TopSection />
-      <SearchFilterButtons />
-      <SearchLabels />
+      <Suspense>
+        <SearchFilterButtons />
+        <SearchLabels />
+      </Suspense>
       <section className="bg-white p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           <GradeBanner />
@@ -51,10 +51,10 @@ const SearchResultComponent = async ({ searchparams }: any) => {
           <SrPageResultPod
             searchResultsData={searchResultsData?.searchResultsList}
           />
-          <Paginations
+          {/* <Paginations
             totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
             currentPage={searchparams?.pageNo}
-          />
+          /> */}
         </div>
       </section>
       <section className="bg-white px-[16px] md:px-[20px] xl:px-0">

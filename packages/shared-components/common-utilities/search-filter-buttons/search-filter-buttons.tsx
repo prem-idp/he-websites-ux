@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -11,19 +12,41 @@ const UcasComponent = dynamic(
   { ssr: false }
 );
 const SearchFilterButtons = () => {
+  const searchParams = useSearchParams();
+  const locationFilterCount = searchParams?.get("location")?.split(",")?.length;
+  const subjectFilterCount = (
+    searchParams?.get("subject")?.split(",") ||
+    searchParams?.get("course")?.split(",")
+  )?.length;
+  const appliedFilters = {
+    year: searchParams?.get("year")?.split(","),
+    month: searchParams?.get("month")?.split(","),
+    location: searchParams?.get("location")?.split(","),
+    ucasDcore: searchParams?.get("score")?.split(","),
+    university: searchParams?.get("university")?.split(","),
+    campusType: searchParams?.get("campus-type")?.split(","),
+    qualification: searchParams?.get("qualification")?.split(","),
+    studyMethod: searchParams?.get("study-method")?.split(","),
+    locationType: searchParams?.get("location-type")?.split(","),
+    russellGroup: searchParams?.get("russell-group")?.split(","),
+    employmentRateMin: searchParams?.get("employment-rate-min")?.split(","),
+    employmentRateMax: searchParams?.get("employment-rate-max")?.split(","),
+    studyMode:
+      searchParams?.get("study-mode")?.split(",") ||
+      searchParams?.get("study_mode")?.split(","),
+    pageNo:
+      searchParams?.get("pageno")?.split(",") || searchParams?.get("page_no"),
+    subject:
+      searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
+  };
+  console.log(appliedFilters);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
+
   const filterEvents = (eventName: string | null | undefined) => {
     emitter.emit("isfilterOpen", eventName);
-    // const body = document.body;
-    // body.classList.add("overflow-y-hidden");
   };
 
-  // const filterClose = () => {
-  //   const body = document.body;
-  //   setIsSearchFilterOpen(false);
-  //   body.classList.remove("overflow-y-hidden");
-  // };
   const ucasClick = () => {
     setUcasPopupOpen(true);
     const body = document.body;
@@ -38,26 +61,28 @@ const SearchFilterButtons = () => {
     <>
       <section className="bg-grey-600 px-[12px] py-[16px]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
-          <div
-            className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
-            onClick={ucasClick}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          {process.env.PROJECT === "Whatuni" && (
+            <div
+              className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
+              onClick={ucasClick}
             >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M10 1.875C10.641 1.875 11.1607 2.39467 11.1607 3.03571V8.83929H16.9643C17.6053 8.83929 18.125 9.35895 18.125 10C18.125 10.641 17.6053 11.1607 16.9643 11.1607H11.1607V16.9643C11.1607 17.6053 10.641 18.125 10 18.125C9.35895 18.125 8.83929 17.6053 8.83929 16.9643V11.1607H3.03571C2.39467 11.1607 1.875 10.641 1.875 10C1.875 9.35895 2.39467 8.83928 3.03571 8.83928L8.83929 8.83929V3.03571C8.83929 2.39467 9.35895 1.875 10 1.875Z"
-                fill="#F9FAFB"
-              />
-            </svg>
-            Add my grades
-          </div>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10 1.875C10.641 1.875 11.1607 2.39467 11.1607 3.03571V8.83929H16.9643C17.6053 8.83929 18.125 9.35895 18.125 10C18.125 10.641 17.6053 11.1607 16.9643 11.1607H11.1607V16.9643C11.1607 17.6053 10.641 18.125 10 18.125C9.35895 18.125 8.83929 17.6053 8.83929 16.9643V11.1607H3.03571C2.39467 11.1607 1.875 10.641 1.875 10C1.875 9.35895 2.39467 8.83928 3.03571 8.83928L8.83929 8.83929V3.03571C8.83929 2.39467 9.35895 1.875 10 1.875Z"
+                  fill="#F9FAFB"
+                />
+              </svg>
+              Add my grades
+            </div>
+          )}
           {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
           )}
@@ -108,7 +133,7 @@ const SearchFilterButtons = () => {
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
-              Subject (1)
+              Subject {subjectFilterCount && `(${subjectFilterCount})`}
               <svg
                 width="20"
                 height="20"
@@ -171,7 +196,7 @@ const SearchFilterButtons = () => {
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("location")}
             >
-              Location (1)
+              Location {locationFilterCount && `(${locationFilterCount})`}
               <svg
                 width="20"
                 height="20"
