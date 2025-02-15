@@ -1,4 +1,5 @@
 "use client";
+type KeyValueObject = Record<string, string>;
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -6,8 +7,8 @@ import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams } from "next/navigation";
-import { getCookie } from "@packages/lib/utlils/helper-function";
-import { getCookieValue } from "@packages/lib/utlils/commonFunction";
+import { getFilterPriority } from "@packages/lib/utlils/result-filters";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/result-filters";
 const SearchFilterComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -252,70 +253,33 @@ const SearchFilterComponent = () => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-  const filterPriority = [
-    "subject",
-    "study-level",
-    "qualification",
-    "region",
-    "city",
-    "study-method",
-    "study-mode",
-    "year",
-    "university",
-    "month",
-    "distance-from-home",
-    "university-group",
-    "grades",
-    "location-type",
-    "pagination",
-  ];
-  const normalizeValue = (val: string) => val.replace(/%2C|%2c/g, ",");
-  const appendSearchParams = (key: string, value: string | string[]) => {
-    const params = new URLSearchParams(searchParams.toString());
-    const newValues = Array.isArray(value)
-      ? value.map(normalizeValue)
-      : normalizeValue(value).split(",");
-    console.log(newValues);
-    params.delete(key);
-    params.set(key, newValues.join(","));
-    const allFilters: Record<string, string[]> = {};
-    params.forEach((v, k) => {
-      allFilters[k] = v.split(",");
-    });
-    const sortedFilters = Object.entries(allFilters)
-      .flatMap(([k, v]) => v.map((val) => `${k}=${val}`))
-      .sort(
-        (a, b) =>
-          filterPriority.indexOf(a.split("=")[0]) -
-          filterPriority.indexOf(b.split("=")[0])
+
+  let isUpdating = false;
+  const appendSearchParams = async (key: string, value: string) => {
+    if (isUpdating) return;
+    isUpdating = true;
+    setTimeout(() => {
+      const filters = extractUrlAndCookieValues(searchParams, key, value);
+      console.log("Updated Filters:", filters);
+
+      const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
+        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+        return acc;
+      }, {} as KeyValueObject);
+
+      const urlParams = new URLSearchParams();
+      const cookieParams: KeyValueObject = {};
+
+      Object.entries(orderedFilters).forEach(([k, v], i) =>
+        i < 4 ? urlParams.set(k, v) : (cookieParams[k] = v)
       );
-    const urlFilters = sortedFilters.slice(0, 4);
-    const cookieFilters = sortedFilters.slice(4);
-    const newParams = new URLSearchParams();
-    urlFilters.forEach((filter) => {
-      const [k, v] = filter.split("=");
-      if (newParams.has(k)) newParams.set(k, `${newParams.get(k)},${v}`);
-      else newParams.set(k, v);
-    });
-    const existingCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("filter_param="))
-      ?.split("=")[1];
-    const existingData: Record<string, string> = existingCookie
-      ? JSON.parse(decodeURIComponent(existingCookie))
-      : {};
-    cookieFilters.forEach((filter) => {
-      const [k, v] = filter.split("=");
-      existingData[k] = existingData[k] ? `${existingData[k]},${v}` : v;
-    });
-    document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(existingData))}; path=/;`;
-    router.push(`?${newParams.toString()}`, { scroll: false });
+
+      window.history.replaceState(null, "", `?${urlParams.toString()}`);
+      document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(cookieParams))}; path=/;`;
+      isUpdating = false;
+    }, 0);
   };
 
-  console.log(
-    "lgda",
-    JSON.parse(decodeURIComponent(getCookieValue("filter_param")) || "{}")
-  );
   return (
     <>
       <div>

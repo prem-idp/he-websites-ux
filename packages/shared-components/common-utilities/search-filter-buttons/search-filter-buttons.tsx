@@ -39,7 +39,6 @@ const SearchFilterButtons = () => {
     subject:
       searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
   };
-  console.log(appliedFilters);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
 
