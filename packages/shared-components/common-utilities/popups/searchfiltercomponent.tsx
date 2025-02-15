@@ -6,6 +6,8 @@ import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams } from "next/navigation";
+import { getCookie } from "@packages/lib/utlils/helper-function";
+import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 const SearchFilterComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -250,9 +252,70 @@ const SearchFilterComponent = () => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-  const appendSearchParams = (key: string, value: string | number) => {
-    router.push(`?${key}=${value}`);
+  const filterPriority = [
+    "subject",
+    "study-level",
+    "qualification",
+    "region",
+    "city",
+    "study-method",
+    "study-mode",
+    "year",
+    "university",
+    "month",
+    "distance-from-home",
+    "university-group",
+    "grades",
+    "location-type",
+    "pagination",
+  ];
+  const normalizeValue = (val: string) => val.replace(/%2C|%2c/g, ",");
+  const appendSearchParams = (key: string, value: string | string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const newValues = Array.isArray(value)
+      ? value.map(normalizeValue)
+      : normalizeValue(value).split(",");
+    console.log(newValues);
+    params.delete(key);
+    params.set(key, newValues.join(","));
+    const allFilters: Record<string, string[]> = {};
+    params.forEach((v, k) => {
+      allFilters[k] = v.split(",");
+    });
+    const sortedFilters = Object.entries(allFilters)
+      .flatMap(([k, v]) => v.map((val) => `${k}=${val}`))
+      .sort(
+        (a, b) =>
+          filterPriority.indexOf(a.split("=")[0]) -
+          filterPriority.indexOf(b.split("=")[0])
+      );
+    const urlFilters = sortedFilters.slice(0, 4);
+    const cookieFilters = sortedFilters.slice(4);
+    const newParams = new URLSearchParams();
+    urlFilters.forEach((filter) => {
+      const [k, v] = filter.split("=");
+      if (newParams.has(k)) newParams.set(k, `${newParams.get(k)},${v}`);
+      else newParams.set(k, v);
+    });
+    const existingCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("filter_param="))
+      ?.split("=")[1];
+    const existingData: Record<string, string> = existingCookie
+      ? JSON.parse(decodeURIComponent(existingCookie))
+      : {};
+    cookieFilters.forEach((filter) => {
+      const [k, v] = filter.split("=");
+      existingData[k] = existingData[k] ? `${existingData[k]},${v}` : v;
+    });
+    document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(existingData))}; path=/;`;
+    router.push(`?${newParams.toString()}`, { scroll: false });
   };
+
+  console.log(
+    "lgda",
+    JSON.parse(decodeURIComponent(getCookieValue("filter_param")) || "{}")
+  );
   return (
     <>
       <div>
@@ -655,7 +718,13 @@ const SearchFilterComponent = () => {
                 <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                   {jsondata?.intakeYearDetails?.intakeYearList?.map(
                     (item, index) => (
-                      <div className="form-black flex relative" key={index}>
+                      <div
+                        className="form-black flex relative"
+                        key={index}
+                        onClick={() => {
+                          appendSearchParams("year", item?.year.toString());
+                        }}
+                      >
                         <input
                           type="radio"
                           name="2024"
@@ -675,7 +744,13 @@ const SearchFilterComponent = () => {
                 <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                   {jsondata?.intakeYearDetails?.intakeMonthList?.map(
                     (item, index) => (
-                      <div className="form-black flex relative" key={index}>
+                      <div
+                        className="form-black flex relative"
+                        key={index}
+                        onClick={() => {
+                          appendSearchParams("month", item?.month);
+                        }}
+                      >
                         <input
                           type="radio"
                           name="All Months"
