@@ -44,13 +44,15 @@ const extractUrlAndCookieValues = (
   value: string
 ): KeyValueObject => {
   const paramsObject = Object.fromEntries(searchParams.entries());
-  const cookieObject = JSON.parse(
+  const cookieObject: KeyValueObject = JSON.parse(
     getDecodedCookie("filter_param") || "{}"
-  ) as KeyValueObject;
+  );
   const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
   if (
-    mergedObject[key] &&
-    (key === "subject" || key === "course" || key === "location")
+    mergedObject[key] ||
+    key === "subject" ||
+    key === "course" ||
+    key === "location"
   ) {
     const valuesSet = new Set(mergedObject[key].split(","));
     if (valuesSet.has(value)) {

@@ -1,4 +1,5 @@
 import FilterWrapper from "@packages/shared-components/sr-page/filterWrapper/filterWrapper";
+import { Suspense } from "react";
 export default async function Layout({
   children,
 }: Readonly<{
@@ -7,7 +8,9 @@ export default async function Layout({
   return (
     <>
       {children}
-      <FilterWrapper />
+      <Suspense>
+        <FilterWrapper />
+      </Suspense>
     </>
   );
 }

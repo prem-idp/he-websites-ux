@@ -258,7 +258,10 @@ const SearchFilterComponent = () => {
   const appendSearchParams = async (key: string, value: string) => {
     if (isUpdating) return;
     isUpdating = true;
+
     setTimeout(() => {
+      console.log("Before Update - URLSearchParams:", searchParams.toString());
+
       const filters = extractUrlAndCookieValues(searchParams, key, value);
       console.log("Updated Filters:", filters);
 
@@ -267,12 +270,36 @@ const SearchFilterComponent = () => {
         return acc;
       }, {} as KeyValueObject);
 
+      console.log("Ordered Filters:", orderedFilters);
+
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
 
-      Object.entries(orderedFilters).forEach(([k, v], i) =>
-        i < 4 ? urlParams.set(k, v) : (cookieParams[k] = v)
-      );
+      let totalValues = 0; // Track the total count of values
+
+      Object.entries(orderedFilters).forEach(([k, v]) => {
+        const valuesArray = v.split(","); // Convert to individual values
+
+        if (totalValues + valuesArray.length <= 4) {
+          urlParams.set(k, valuesArray.join(",")); // Combine values into a single key
+          totalValues += valuesArray.length;
+        } else {
+          const allowedValues = valuesArray.slice(0, 4 - totalValues); // Values for the URL
+          const remainingValues = valuesArray.slice(4 - totalValues); // Overflow values
+
+          if (allowedValues.length > 0) {
+            urlParams.set(k, allowedValues.join(","));
+            totalValues += allowedValues.length;
+          }
+
+          if (remainingValues.length > 0) {
+            cookieParams[k] = remainingValues.join(",");
+          }
+        }
+      });
+
+      console.log("Final URL Params:", urlParams.toString());
+      console.log("Final Cookie Params:", cookieParams);
 
       window.history.replaceState(null, "", `?${urlParams.toString()}`);
       document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(cookieParams))}; path=/;`;
