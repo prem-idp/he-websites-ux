@@ -1,9 +1,37 @@
-"use server";
-import React from "react";
+"use client";
+import React, { useState } from "react";
 const SortingFilter = () => {
+  const [isSortClicked, setIsSortClicked] = useState(false);
+  const sortClicked = () => {
+    setIsSortClicked(!isSortClicked);
+  };
+  const sortBy = [
+    "Recommended",
+    "Distance from home",
+    "Employment rate",
+    "Entry reqs - Highest",
+    "Entry reqs - lowest",
+    "Student Ranking",
+  ];
+  const wuscaCategories = [
+    "University of the year",
+    "Career prospects",
+    "Employment rate",
+    "Facilities",
+    "International",
+    "Lecturers and teaching quality",
+    "Postgraduate",
+    "Student life",
+    "Student support",
+    "Students’s Union",
+    "University Halls",
+  ];
   return (
-    <div className="ml-auto w-fit">
-      <div className="flex items-center gap-[4px] px-[4px] py-[16px] small text-grey300 cursor-pointer">
+    <div className="ml-auto w-fit relative">
+      <div
+        onClick={sortClicked}
+        className="flex items-center gap-[4px] px-[4px] py-[16px] small text-grey300 cursor-pointer hover:underline"
+      >
         <svg
           width="16"
           height="17"
@@ -22,6 +50,46 @@ const SortingFilter = () => {
         <span className="font-semibold">Sort:</span>
         <span> Entry reqs - highest</span>
       </div>
+      {isSortClicked && (
+        <div className="absolute top-[53px] right-[-1px] w-[345px] bg-white p-[24px] rounded-[8px] shadow-custom-3 z-10 md:w-[700px] lg:w-[940px]">
+          <div className="flex flex-col gap-[16px]">
+            <div className="text-heading6 font-farro font-bold">Sort by</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
+              {sortBy.map((item, index) => (
+                <div className="custom-radio flex items-center" key={index}>
+                  <input
+                    className="rounded-md"
+                    type="radio"
+                    id={item}
+                    name="featured"
+                  />
+                  <label htmlFor={item} className="flex items-center">
+                    {item}
+                  </label>
+                </div>
+              ))}
+            </div>
+            <div className="font-semibold text-heading6 md:text-small">
+              Wusca categories{" "}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
+              {wuscaCategories.map((item, index) => (
+                <div className="custom-radio flex items-center" key={index}>
+                  <input
+                    className="rounded-md"
+                    type="radio"
+                    id={item}
+                    name="featured"
+                  />
+                  <label htmlFor={item} className="flex items-center">
+                    {item}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

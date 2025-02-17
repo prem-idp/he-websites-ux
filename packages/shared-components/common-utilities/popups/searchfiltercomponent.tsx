@@ -306,38 +306,40 @@ const SearchFilterComponent = () => {
           }`}
           ref={filterRef}
         >
-          <div className="p-[16px] md:p-[16px_32px_0]">
-            <svg
-              onClick={closeFilter}
-              className="ml-auto mr-[-10px] w-[44px] h-[44px] cursor-pointer"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18"
-                stroke="#333333"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 6L18 18"
-                stroke="#333333"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h6 className="h2 mt-[-8px]">Filter</h6>
+          <div className="p-[16px] md:p-[32px] !pb-0">
+            <div className="flex justify-between">
+          <h6 className="h2">Filter</h6>
+          <svg
+           onClick={closeFilter}
+            className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="#333333"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="#333333"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          </div>
             <p className="m-[8px_0_24px]">
               Use these filters to narrow down your search options based on your
               preferred criteria 
             </p>
           </div>
-          <div className="h-[calc(100%-265px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-230px)]">
+          <div className="h-[calc(100%-232px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
             <Accordion
               title="Subject"
               id="#subject"
@@ -909,7 +911,7 @@ const SearchFilterComponent = () => {
                       <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
                         <div className="relative shrink-0">
                           <button
-                            className="w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
+                            className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
                             type="button"
                           >
                             Range: 50 Miles
@@ -920,6 +922,13 @@ const SearchFilterComponent = () => {
                               alt="Search icon"
                             />
                           </button>
+                          <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                            <ul>
+                              <li className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer">
+                                sds
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                         <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
                           <input
@@ -1262,16 +1271,18 @@ const SearchFilterComponent = () => {
             </Accordion>
           </div>
 
-          <div className="flex justify-between gap-[8px] p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
+          <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
+          <div className="min-w-[128px] text-center hover:underline md:text-left">
             <Link
               href={`/degree-courses/search`}
               aria-label="reset filters"
-              className="text-primary-400 font-semibold py-[10px] px-[16px] text-center hover:underline"
+              className="text-primary-400 font-semibold"
             >
               Clear
             </Link>
+            </div>
             <button
-              className="bg-primary-400 w-fit text-white rounded-[24px] py-[10px] px-[16px] font-semibold hover:bg-primary-500 md:w-[344px]"
+              className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] font-semibold min-w-[200px] hover:bg-primary-500 md:w-[344px]"
               onClick={ShowResults}
             >
               Show all 0 results

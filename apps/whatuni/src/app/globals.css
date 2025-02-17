@@ -710,3 +710,45 @@ h6 {
 
 /* RTF END */
 
+/* sr */
+.heart:hover svg,.heart.active svg {
+  @apply fill-primary-200
+  }
+  .heart.active{
+  @apply bg-primary-100
+  }
+  
+  .form-black input[type="radio"]:checked+label,
+  .form-black input[type="checkbox"]:checked+label {
+    @apply text-white bg-grey300 border-grey300 cursor-pointer
+  }
+  
+  .decrease svg path {
+    @apply stroke-blue-400; 
+  }
+  
+  .increment svg path {
+    @apply stroke-gray-300; 
+  }
+  
+  .sort-active path {
+    @apply stroke-grey300; 
+  }
+  
+  .custom-radio input[type="radio"]{
+    @apply appearance-none
+  }
+  .custom-radio input[type="radio"] + label{
+    @apply relative inline-block pl-[28px] cursor-pointer 
+  }
+  
+  .custom-radio input[type="radio"] + label:before
+  {
+    @apply absolute top-[3px] left-0 w-[17px] h-[17px] text-center rounded-full content-[''] border-2 border-grey500 
+  }
+  
+  .custom-radio input[type="radio"]:checked + label:before {
+    @apply transition-all duration-300 ease-in-out shadow-[inset_0_0_0_0.2em_white,inset_0_0_0_1em_#4664dc] 
+    border-2 border-primary-400
+  } 
+  /* sr */

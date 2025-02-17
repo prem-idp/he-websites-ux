@@ -27,7 +27,7 @@ const ExploreArticles = () => {
         </div>
         <Link
           href=""
-          className="flex items-center gap-[4px] text-primary-400 small font-semibold hover:underline"
+          className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
         >
           View full guide
           <svg
