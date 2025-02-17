@@ -14,7 +14,6 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 const SearchResultComponent = async ({ searchparams }: any) => {
   //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
   // const filterCookie = getCookieValue("filter_param");
@@ -35,6 +34,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   } catch {
     console.log("error");
   }
+
   return (
     <>
       <TopSection />

@@ -100,6 +100,7 @@
     "react": "^19.0.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^19.0.0",
+    "react-error-boundary": "^5.0.0",
     "react-facebook-pixel": "^1.0.4",
     "source-map-support": "^0.5.21",
     "swiper": "^11.1.14",
