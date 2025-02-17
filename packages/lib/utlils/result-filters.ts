@@ -48,17 +48,14 @@ const extractUrlAndCookieValues = (
     getDecodedCookie("filter_param") || "{}"
   );
   const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
-  if (
-    mergedObject[key] ||
-    key === "subject" ||
-    key === "course" ||
-    key === "location"
-  ) {
-    const valuesSet = new Set(mergedObject[key].split(","));
+  if (mergedObject[key]) {
+    let valuesSet = new Set(mergedObject[key].split(","));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
-    } else {
+    } else if (key === "subject" || key === "location") {
       valuesSet.add(value);
+    } else {
+      valuesSet = new Set(`${value}`.split(","));
     }
     mergedObject[key] = Array.from(valuesSet).join(",");
     if (!mergedObject[key]) delete mergedObject[key];
@@ -72,9 +69,7 @@ const getDecodedCookie = (name: string) => {
   const cookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith(name + "="));
-  return cookie
-    ? decodeURIComponent(cookie.split("=")[1]).trim() || null
-    : null;
+  return cookie ? cookie.split("=")[1].trim() || null : null;
 };
 
 const mergeTwoObjects = (
