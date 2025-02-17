@@ -260,49 +260,33 @@ const SearchFilterComponent = () => {
     isUpdating = true;
 
     setTimeout(() => {
-      console.log("Before Update - URLSearchParams:", searchParams.toString());
-
       const filters = extractUrlAndCookieValues(searchParams, key, value);
-      console.log("Updated Filters:", filters);
-
       const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
       }, {} as KeyValueObject);
-
-      console.log("Ordered Filters:", orderedFilters);
-
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
-
-      let totalValues = 0; // Track the total count of values
-
+      let totalValues = 0;
       Object.entries(orderedFilters).forEach(([k, v]) => {
-        const valuesArray = v.split(","); // Convert to individual values
-
+        const valuesArray = v.split(",");
         if (totalValues + valuesArray.length <= 4) {
-          urlParams.set(k, valuesArray.join(",")); // Combine values into a single key
+          urlParams.set(k, valuesArray.join(","));
           totalValues += valuesArray.length;
         } else {
-          const allowedValues = valuesArray.slice(0, 4 - totalValues); // Values for the URL
-          const remainingValues = valuesArray.slice(4 - totalValues); // Overflow values
-
+          const allowedValues = valuesArray.slice(0, 4 - totalValues);
+          const remainingValues = valuesArray.slice(4 - totalValues);
           if (allowedValues.length > 0) {
             urlParams.set(k, allowedValues.join(","));
             totalValues += allowedValues.length;
           }
-
           if (remainingValues.length > 0) {
             cookieParams[k] = remainingValues.join(",");
           }
         }
       });
-
-      console.log("Final URL Params:", urlParams.toString());
-      console.log("Final Cookie Params:", cookieParams);
-
       window.history.replaceState(null, "", `?${urlParams.toString()}`);
-      document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(cookieParams))}; path=/;`;
+      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       isUpdating = false;
     }, 0);
   };
