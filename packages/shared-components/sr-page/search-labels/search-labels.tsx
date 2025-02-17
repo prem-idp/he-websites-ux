@@ -13,7 +13,7 @@ const SearchLabels = () => {
     emitter.emit("isfilterOpen", null);
   };
   return (
-    <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[10px] md:px-[20px] xl:px-0 lg:py-[8px]">
+    <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[4]">
       <div className="max-w-container mx-auto">
         <ul className="flex items-start gap-[8px] uppercase">
           {List?.map((items, index) => (
@@ -41,7 +41,7 @@ const SearchLabels = () => {
             </li>
           ))}
           <li
-            className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+            className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[2px] font-semibold x-small flex items-center gap-[2px]"
             onClick={openFilterFunction}
           >
             <div aria-label="Plus Icon">

@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 const FeaturedVideoSection = () => {
   return (
-    <div className="bg-grey-600 rounded-[8px] p-[24px] min-h-[268px] flex flex-col gap-[24px] md:flex-row md:p-[16px]">
-      <div className="flex flex-col gap-[8px] w-full order-2  lg:order-1">
-        <div className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white hidden lg:block">
+    <div className="bg-grey-600 rounded-[8px] p-[16px] flex flex-col gap-[24px] md:flex-row lg:p-[24px]">
+      <div className="flex flex-col gap-[8px] w-full order-2 lg:order-1">
+        <div className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4 hidden lg:block">
           <Image
             src="/static/assets/icons/search-result/kent.png"
             alt="University logo"
@@ -46,7 +46,7 @@ const FeaturedVideoSection = () => {
         </div>
         <Link
           href="#"
-          className="flex items-center gap-[4px] text-white font-semibold underline"
+          className="flex items-center gap-[4px] w-fit text-white font-semibold underline"
         >
           Find out more
           <svg
@@ -65,7 +65,7 @@ const FeaturedVideoSection = () => {
           </svg>
         </Link>
       </div>
-      <div className="w-full md:w-[392px] shrink-0 flex items-center justify-center rounded-[8px] overflow-hidden relative order-1 lg:order-2">
+      <div className="w-full shrink-0 flex self-center  rounded-[8px] overflow-hidden relative order-1 md:w-[310px] md:h-[158px] lg:w-[391px] lg:h-[200px] lg:order-2">
         <video className="w-full hidden" src="/" controls></video>
         <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center">
           <Image

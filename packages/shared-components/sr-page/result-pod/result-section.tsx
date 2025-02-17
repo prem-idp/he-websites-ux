@@ -13,8 +13,9 @@ interface SrPageResultPodProps {
   searchResultsData: any[];
 }
 
-
-const SrPageResultPod : React.FC<SrPageResultPodProps> = ({searchResultsData}) => {
+const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
+  searchResultsData,
+}) => {
   // useEffect(() => {
   //   async function checkUser() {
   //     const userData = await getCurrentUser();
@@ -154,98 +155,104 @@ const SrPageResultPod : React.FC<SrPageResultPodProps> = ({searchResultsData}) =
           </div>
           <div className="flex flex-col">
             <div className="bg-white p-[16px] border border-grey-200 rounded-b-[16px] shadow-custom-3 lg:rounded-tr-[16px] lg:rounded-b-[16px] lg:p-[20px]">
-            {data?.review1Text ? 
-            <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
-                <div className="text-heading1 relative top-[12px]">“</div>
-               
-                <div className="flex flex-col gap-[4px]">
-                  <Link
-                    href=""
-                    className="text-primary-400 underline x-small font-semibold"
-                  >
-                    What students think
-                  </Link>
-                  
-                  <div className="relative x-small">
-                    <div className="text-grey300 line-clamp-2">
-                      {data?.review1Text}
-                    </div>
-                    <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
-                      <span>... </span>
-                      <Link
-                        href=""
-                        className="text-blue-400 cursor-pointer hover:underline"
-                      >
-                        Read full review
-                      </Link>
-                    </div>
-                  </div> 
-                </div>
-              </div>: <></>}
-              {data?.bestMatchCoursesList?.map((courseData:any, index:any) => (
-                <div key={index}>
-                  <div className="border-b-[1px] border-grey-200 -mx-[20px] pt-[20px] mb-[20px]"></div>
-                  <div className="flex flex-col gap-[16px]">
-                    <div className="flex items-start justify-between">
-                      <div className="flex flex-col gap-[8px]">
-                        <div className="text-primary-400 font-semibold">
-                          {courseData?.courseTitle}
-                        </div>
-                        <div className="flex gap-[4px] text-grey-500">
-                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                            <Image
-                              className="hidden md:block"
-                              src="/static/assets/icons/search-result/calender-grey.svg"
-                              alt="Lecturers and Teaching"
-                              width={16}
-                              height={16}
-                            />
-                            {courseData?.minUcasPoints}-{courseData?.maxUcasPoints} ucas points
-                          </div>
-                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                            <Image
-                              className="hidden md:block"
-                              src="/static/assets/icons/search-result/time-grey.svg"
-                              alt="Lecturers and Teaching"
-                              width={16}
-                              height={16}
-                            />
-                            {courseData?.availabilityDetails?.duration} {courseData?.availabilityDetails?.studyMode}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="heart w-[40px] h-[40px] bg-white border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                            stroke="#4664DC"
-                            strokeWidth="1.67"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <ClickAndShow>
-                      <div className="text-black x-small">
-                        <div className="font-semibold">Year 1</div>
-                        <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                          <li>Becoming a Criminologist</li>
-                          <li>Introduction to Law and its Study</li>
-                          <li>Social Research in Practice</li>
-                          <li>Criminology in Late Modernity</li>
-                          <li>Criminal Law</li>
-                        </ul>
-                      </div>
-                    </ClickAndShow>
+              {data?.review1Text ? (
+                <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
+                  <div className="text-heading1 relative top-[12px]">“</div>
 
-                    {/* <div
+                  <div className="flex flex-col gap-[4px]">
+                    <Link
+                      href=""
+                      className="text-primary-400 underline x-small font-semibold"
+                    >
+                      What students think
+                    </Link>
+
+                    <div className="relative x-small">
+                      <div className="text-grey300 line-clamp-2">
+                        {data?.review1Text}
+                      </div>
+                      <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
+                        <span>... </span>
+                        <Link
+                          href=""
+                          className="text-blue-400 cursor-pointer hover:underline"
+                        >
+                          Read full review
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+              {data?.bestMatchCoursesList?.map(
+                (courseData: any, index: any) => (
+                  <div key={index}>
+                    <div className="border-b-[1px] border-grey-200 -mx-[20px] pt-[20px] mb-[20px]"></div>
+                    <div className="flex flex-col gap-[16px]">
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-col gap-[8px]">
+                          <div className="text-primary-400 font-semibold">
+                            {courseData?.courseTitle}
+                          </div>
+                          <div className="flex gap-[4px] text-grey-500">
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/calender-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {courseData?.minUcasPoints}-
+                              {courseData?.maxUcasPoints} ucas points
+                            </div>
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/time-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {courseData?.availabilityDetails?.duration}{" "}
+                              {courseData?.availabilityDetails?.studyMode}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="heart w-[40px] h-[40px] bg-white border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
+                              stroke="#4664DC"
+                              strokeWidth="1.67"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <ClickAndShow>
+                        <div className="text-black x-small">
+                          <div className="font-semibold">Year 1</div>
+                          <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
+                            <li>Becoming a Criminologist</li>
+                            <li>Introduction to Law and its Study</li>
+                            <li>Social Research in Practice</li>
+                            <li>Criminology in Late Modernity</li>
+                            <li>Criminal Law</li>
+                          </ul>
+                        </div>
+                      </ClickAndShow>
+
+                      {/* <div
                       className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col ${
                         chitem.buttonCount == 4
                           ? "md:grid-rows-2 md:grid-flow-col"
@@ -257,32 +264,35 @@ const SrPageResultPod : React.FC<SrPageResultPodProps> = ({searchResultsData}) =
                       <BookOpenDay />
                       <RequestInfo/>
                     </div> */}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
-            {data?.courseCount > 2 ? 
-            <Link
-              href={`/degree-courses/csearch?subject=&university=${data?.collegeTextKey}`}
-              className="flex items-center justify-center gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
-            >
-              View {data?.courseCount-2} related courses
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {data?.courseCount > 2 ? (
+              <Link
+                href={`/degree-courses/csearch?subject=&university=${data?.collegeTextKey}`}
+                className="flex items-center justify-center gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M8.23798 2.55048C8.55528 2.23317 9.06972 2.23317 9.38702 2.55048L14.262 7.42548C14.5793 7.74278 14.5793 8.25722 14.262 8.57452L9.38702 13.4495C9.06972 13.7668 8.55528 13.7668 8.23798 13.4495C7.92067 13.1322 7.92067 12.6178 8.23798 12.3005L11.726 8.8125L2.3125 8.8125C1.86377 8.8125 1.5 8.44873 1.5 8C1.5 7.55127 1.86377 7.1875 2.3125 7.1875H11.726L8.23798 3.69952C7.92067 3.38222 7.92067 2.86778 8.23798 2.55048Z"
-                  fill="#4664DC"
-                />
-              </svg>
-            </Link>
-            : <></>}
+                View {data?.courseCount - 2} related courses
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M8.23798 2.55048C8.55528 2.23317 9.06972 2.23317 9.38702 2.55048L14.262 7.42548C14.5793 7.74278 14.5793 8.25722 14.262 8.57452L9.38702 13.4495C9.06972 13.7668 8.55528 13.7668 8.23798 13.4495C7.92067 13.1322 7.92067 12.6178 8.23798 12.3005L11.726 8.8125L2.3125 8.8125C1.86377 8.8125 1.5 8.44873 1.5 8C1.5 7.55127 1.86377 7.1875 2.3125 7.1875H11.726L8.23798 3.69952C7.92067 3.38222 7.92067 2.86778 8.23798 2.55048Z"
+                    fill="#4664DC"
+                  />
+                </svg>
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       ))}

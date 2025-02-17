@@ -42,7 +42,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
         <SearchFilterButtons />
         <SearchLabels />
       </Suspense>
-      <section className="bg-white p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
+      <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           <GradeBanner />
           <SrPageNoResults />
