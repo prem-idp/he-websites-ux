@@ -97,8 +97,6 @@ const HeroSliderCard = ({
               width={365}
               height={445}
               alt={data?.image?.imgAltText}
-              placeholder="blur"
-              blurDataURL="/static/assests/images/homeblurimage.png"
             />
           )}
         </div>
