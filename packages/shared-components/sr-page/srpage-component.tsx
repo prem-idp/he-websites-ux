@@ -60,8 +60,8 @@ const SearchResultComponent = async ({ searchparams }: any) => {
       </section>
       <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
         <div className="max-w-container mx-auto">
-          <div className="h1 py-[40px]">Explore more about law</div>
-          <div className="flex flex-col gap-[40px] md:gap-[80px] lg:pb-[16px]">
+          <div className="h1 pt-[40px]">Explore more about law</div>
+          <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
             <ExploreArticles />
             <ExploreArticles />
           </div>

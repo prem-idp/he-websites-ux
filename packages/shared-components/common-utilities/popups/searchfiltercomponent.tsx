@@ -350,7 +350,7 @@ const SearchFilterComponent = () => {
               preferred criteria 
             </p>
           </div>
-          <div className="h-[calc(100%-232px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
+          <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
             <Accordion
               title="Subject"
               id="#subject"

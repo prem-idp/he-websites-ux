@@ -26,16 +26,16 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
     <>
       {searchResultsData?.map((data, index) => (
         <div
-          className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
+          className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row cursor-pointer"
           key={index}
         >
-          <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 rounded-t-[16px] overflow-hidden shrink-0 md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px]">
-            <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between">
+          <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px]">
+            <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
                   <Link
                     href=""
-                    className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white"
+                    className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                   >
                     <Image
                       src="/static/assets/icons/search-result/kent.png"
@@ -51,7 +51,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     </div>
                   ) : null} */}
                 </div>
-                <div className="heart w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
+                <div className="heart w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative group">
                   <svg
                     width="20"
                     height="20"
@@ -67,6 +67,56 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
+                  <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                    <div className="flex items-center justify-between">
+                      <span className="text-grey900 font-semibold">
+                        We have added this to your comparison
+                      </span>
+                      <svg
+                        className="cursor-pointer"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 6L6 18"
+                          stroke="#333333"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 6L18 18"
+                          stroke="#333333"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <Link
+                      href=""
+                      className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
+                    >
+                      View all modules
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
+                          fill="#3460DC"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
@@ -75,7 +125,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                   {data?.courseCount} engineering courses
                 </div>
                 <div className="flex items-center gap-[8px] text-grey-50 small">
-                  <div className="flex items-center gap-[4px]">
+                  <div className="flex items-center gap-[2px]">
                     <svg
                       width="24"
                       height="24"
@@ -124,8 +174,45 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     {data?.distanceInMiles} Miles from you
                   </div>
                 </div>
-                <Link href="" className="x-small underline">
+                <Link
+                  href=""
+                  className="x-small underline w-fit relative group"
+                >
                   WUSCA rank: {data?.wuscaRanking}
+                  <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                    <div className="flex items-center justify-between">
+                      <span className="text-grey900 font-semibold">
+                        WUSCA Student Ranking
+                      </span>
+                      <svg
+                        className="cursor-pointer"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 6L6 18"
+                          stroke="#333333"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 6L18 18"
+                          stroke="#333333"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <p className="x-small text-grey300 font-normal">
+                      These are the 2024 ranking, based on rating given by past
+                      and present students
+                    </p>
+                  </div>
                 </Link>
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                   <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
@@ -153,20 +240,53 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
               />
             ) : null} */}
           </div>
-          <div className="flex flex-col">
-            <div className="bg-white p-[16px] border border-grey-200 rounded-b-[16px] shadow-custom-3 lg:rounded-tr-[16px] lg:rounded-b-[16px] lg:p-[20px]">
-              {data?.review1Text ? (
-                <div className="bg-grey-100 p-[12px] rounded-[8px] flex items-center gap-[4px]">
-                  <div className="text-heading1 relative top-[12px]">“</div>
-
+          <div className="flex flex-col grow">
+            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
+              <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
+                <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
+                  <div className="text-heading1 relative top-[20px] font-farro font-normal">
+                    “
+                  </div>
                   <div className="flex flex-col gap-[4px]">
-                    <Link
-                      href=""
-                      className="text-primary-400 underline x-small font-semibold"
-                    >
-                      What students think
-                    </Link>
-
+                    <div className="relative group x-small">
+                      <span className="text-primary-400 underline font-semibold">
+                        What students think
+                      </span>
+                      <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                        <div className="flex items-center justify-between">
+                          <span className="text-grey900 font-semibold">
+                            Why should you trust our uni reviews?
+                          </span>
+                          <svg
+                            className="cursor-pointer"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M18 6L6 18"
+                              stroke="#333333"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6 6L18 18"
+                              stroke="#333333"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        <p className="x-small text-grey300 font-normal">
+                          All our reviews are from real students, submitted
+                          using their verified university email address.
+                        </p>
+                      </div>
+                    </div>
                     <div className="relative x-small">
                       <div className="text-grey300 line-clamp-2">
                         {data?.review1Text}
@@ -183,76 +303,146 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     </div>
                   </div>
                 </div>
-              ) : (
-                <></>
-              )}
+              </div>
+
               {data?.bestMatchCoursesList?.map(
                 (courseData: any, index: any) => (
-                  <div key={index}>
-                    <div className="border-b-[1px] border-grey-200 -mx-[20px] pt-[20px] mb-[20px]"></div>
-                    <div className="flex flex-col gap-[16px]">
-                      <div className="flex items-start justify-between">
-                        <div className="flex flex-col gap-[8px]">
-                          <div className="text-primary-400 font-semibold">
-                            {courseData?.courseTitle}
+                  <div
+                    className="flex flex-col gap-[16px] border-b-[1px] border-grey-200 p-[16px] lg:p-[20px] last:border-none"
+                    key={index}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex flex-col gap-[8px]">
+                        <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
+                          {courseData?.courseTitle}
+                        </div>
+                        <div className="flex gap-[4px] text-grey-500">
+                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                            <Image
+                              className="hidden md:block"
+                              src="/static/assets/icons/search-result/calender-grey.svg"
+                              alt="Lecturers and Teaching"
+                              width={16}
+                              height={16}
+                            />
+                            {courseData?.minUcasPoints}-
+                            {courseData?.maxUcasPoints} ucas points
                           </div>
-                          <div className="flex gap-[4px] text-grey-500">
-                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                              <Image
-                                className="hidden md:block"
-                                src="/static/assets/icons/search-result/calender-grey.svg"
-                                alt="Lecturers and Teaching"
-                                width={16}
-                                height={16}
-                              />
-                              {courseData?.minUcasPoints}-
-                              {courseData?.maxUcasPoints} ucas points
-                            </div>
-                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                              <Image
-                                className="hidden md:block"
-                                src="/static/assets/icons/search-result/time-grey.svg"
-                                alt="Lecturers and Teaching"
-                                width={16}
-                                height={16}
-                              />
-                              {courseData?.availabilityDetails?.duration}{" "}
-                              {courseData?.availabilityDetails?.studyMode}
-                            </div>
+                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                            <Image
+                              className="hidden md:block"
+                              src="/static/assets/icons/search-result/time-grey.svg"
+                              alt="Lecturers and Teaching"
+                              width={16}
+                              height={16}
+                            />
+                            {courseData?.availabilityDetails?.duration}
+                            {courseData?.availabilityDetails?.studyMode}
                           </div>
                         </div>
-                        <div className="heart w-[40px] h-[40px] bg-white border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer">
+                      </div>
+                      <div className="heart w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative group">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
+                            stroke="#4664DC"
+                            strokeWidth="1.67"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-grey900 font-semibold">
+                              We have added this to your comparison
+                            </span>
+                            <svg
+                              className="cursor-pointer"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18 6L6 18"
+                                stroke="#333333"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M6 6L18 18"
+                                stroke="#333333"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </div>
+                          <Link
+                            href=""
+                            className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
+                          >
+                            View all modules
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
+                                fill="#3460DC"
+                              />
+                            </svg>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    <ClickAndShow>
+                      <div className="text-black x-small">
+                        <div className="font-semibold">Year 1</div>
+                        <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
+                          <li>Becoming a Criminologist</li>
+                          <li>Introduction to Law and its Study</li>
+                          <li>Social Research in Practice</li>
+                          <li>Criminology in Late Modernity</li>
+                          <li>Criminal Law</li>
+                        </ul>
+                        <Link
+                          href=""
+                          className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
+                        >
+                          View all modules
                           <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                              stroke="#4664DC"
-                              strokeWidth="1.67"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
+                              fill="#3460DC"
                             />
                           </svg>
-                        </div>
+                        </Link>
                       </div>
-                      <ClickAndShow>
-                        <div className="text-black x-small">
-                          <div className="font-semibold">Year 1</div>
-                          <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            <li>Becoming a Criminologist</li>
-                            <li>Introduction to Law and its Study</li>
-                            <li>Social Research in Practice</li>
-                            <li>Criminology in Late Modernity</li>
-                            <li>Criminal Law</li>
-                          </ul>
-                        </div>
-                      </ClickAndShow>
+                    </ClickAndShow>
 
-                      {/* <div
+                    {/* <div
                       className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col ${
                         chitem.buttonCount == 4
                           ? "md:grid-rows-2 md:grid-flow-col"
@@ -264,7 +454,6 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       <BookOpenDay />
                       <RequestInfo/>
                     </div> */}
-                    </div>
                   </div>
                 )
               )}
@@ -272,7 +461,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             {data?.courseCount > 2 ? (
               <Link
                 href={`/degree-courses/csearch?subject=&university=${data?.collegeTextKey}`}
-                className="flex items-center justify-center gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
+                className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
                 <svg
