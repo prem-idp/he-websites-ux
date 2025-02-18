@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+// import "swiper/css";
+// import "swiper/css/pagination";
+// import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import HeroSliderCard from "@packages/shared-components/common-utilities/cards/hero-card/heroslidercard";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";

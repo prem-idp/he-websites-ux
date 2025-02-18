@@ -9,6 +9,9 @@ import HeaderWrapper from "@packages/shared-components/layout-components/header/
 import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
 import GoogleOneTapPgs from "@packages/lib/utlils/GoogleOneTapPgs";
 import { Suspense } from "react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff2",
   variable: "--font-geist-sans",
