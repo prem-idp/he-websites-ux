@@ -43,6 +43,7 @@ const nextConfig = {
     DOMAIN: "whatuni.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
     AFFILATE_ID: "220703",
+    SITE_CODE: "WU_WEB",
   },
   eslint: {
     ignoreDuringBuilds: true,

@@ -75,45 +75,42 @@ export async function callClickstreamAPI(payload: any) {
   }
 }
 
-
-export default async function searchResultsFetchFunction(searchPayload:any) {
-  console.log("Inside", JSON.stringify(searchPayload) )
+export default async function searchResultsFetchFunction(searchPayload: any) {
+  console.log("Inside", JSON.stringify(searchPayload));
   try {
-    
     //const queryParams = new URLSearchParams(payload).toString();
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "sitecode" : "WU_WEB",
+        sitecode: "WU_WEB",
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
       },
-      body:
-       JSON.stringify(searchPayload) 
-  //     JSON.stringify({
-  //   "parentQualification": "M",
-  //   "childQualification": "",
-  //   "searchCategoryCode": "",
-  //   "searchSubject": "",
-  //   "searchKeyword": "",
-  //   "jacsCode": "",
-  //   "location": "",
-  //   "studyMode": "",
-  //   "studyMethod": "",
-  //   "collegeId": "",
-  //   "pageNo": "1",
-  //   "locationType": "",
-  //   "intakeYear": "",
-  //   "intakeMonth": "",
-  //   "sortBy": "",
-  //   "userCoordinates": "51.5072,-0.1276",
-  //   "distance": "",
-  //   "ucasTariffRange": "",
-  //   "userRegionArray": "",
-  //   "dynamicRandomNumber": "",
-  //   "universityGroup": ""
-  // }),
+      body: JSON.stringify(searchPayload),
+      //     JSON.stringify({
+      //   "parentQualification": "M",
+      //   "childQualification": "",
+      //   "searchCategoryCode": "",
+      //   "searchSubject": "",
+      //   "searchKeyword": "",
+      //   "jacsCode": "",
+      //   "location": "",
+      //   "studyMode": "",
+      //   "studyMethod": "",
+      //   "collegeId": "",
+      //   "pageNo": "1",
+      //   "locationType": "",
+      //   "intakeYear": "",
+      //   "intakeMonth": "",
+      //   "sortBy": "",
+      //   "userCoordinates": "51.5072,-0.1276",
+      //   "distance": "",
+      //   "ucasTariffRange": "",
+      //   "userRegionArray": "",
+      //   "dynamicRandomNumber": "",
+      //   "universityGroup": ""
+      // }),
       //cache: "no-store",
     });
 
@@ -122,7 +119,7 @@ export default async function searchResultsFetchFunction(searchPayload:any) {
     return data;
   } catch (error) {
     // Handle the error
-    console.log("ERROR", error)
+    console.log("ERROR", error);
     throw error;
   }
 }

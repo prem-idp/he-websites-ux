@@ -258,7 +258,6 @@ const SearchFilterComponent = () => {
   const appendSearchParams = async (key: string, value: string) => {
     if (isUpdating) return;
     isUpdating = true;
-
     setTimeout(() => {
       const filters = extractUrlAndCookieValues(searchParams, key, value);
       const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
@@ -285,8 +284,19 @@ const SearchFilterComponent = () => {
           }
         }
       });
+      console.log(urlParams.toString());
+      console.log(searchParams.toString());
+      if (urlParams?.toString() === searchParams?.toString()) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        router.refresh();
+      } else {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        const linkTagId = document.getElementById("");
+        if (linkTagId) {
+          linkTagId.click();
+        }
+      }
       window.history.replaceState(null, "", `?${urlParams.toString()}`);
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       isUpdating = false;
     }, 0);
   };
@@ -317,9 +327,6 @@ const SearchFilterComponent = () => {
         >
           <div className="p-[16px] md:p-[32px] !pb-0">
             <div className="flex justify-between">
-              <button onClick={functionClick}>law</button>
-              <a href={"/admin"} id="navigate" className="bg-blue-200"></a>
-              <h6 className="h2">Filter</h6>
               <svg
                 onClick={closeFilter}
                 className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"

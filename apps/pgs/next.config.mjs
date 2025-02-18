@@ -7,10 +7,7 @@ const nextConfig = {
     AFFILATE_ID: "607022",
     DOMAIN: "postgraduatesearch.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
-    NEXT_PUBLIC_HOME_REVIEW_API_ENDPOINT:
-      "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage/reviews",
-    NEXT_PUBLIC_SEARCH_AJAX_API:
-      "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/homepage",
+    SITE_CODE: "WU_PGS",
   },
   eslint: {
     ignoreDuringBuilds: true,
