@@ -290,7 +290,16 @@ const SearchFilterComponent = () => {
       isUpdating = false;
     }, 0);
   };
-
+  const functionClick = () => {
+    const button = document.getElementById("navigate");
+    console.log("entered");
+    if (button) {
+      button.click();
+      console.log("clicked");
+    } else {
+      console.log("no button");
+    }
+  };
   return (
     <>
       <div>
@@ -308,32 +317,34 @@ const SearchFilterComponent = () => {
         >
           <div className="p-[16px] md:p-[32px] !pb-0">
             <div className="flex justify-between">
-          <h6 className="h2">Filter</h6>
-          <svg
-           onClick={closeFilter}
-            className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="#333333"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="#333333"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          </div>
+              <button onClick={functionClick}>law</button>
+              <a href={"/admin"} id="navigate" className="bg-blue-200"></a>
+              <h6 className="h2">Filter</h6>
+              <svg
+                onClick={closeFilter}
+                className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 6L6 18"
+                  stroke="#333333"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 6L18 18"
+                  stroke="#333333"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
             <p className="m-[8px_0_24px]">
               Use these filters to narrow down your search options based on your
               preferred criteria 
@@ -1272,14 +1283,14 @@ const SearchFilterComponent = () => {
           </div>
 
           <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
-          <div className="min-w-[128px] text-center hover:underline md:text-left">
-            <Link
-              href={`/degree-courses/search`}
-              aria-label="reset filters"
-              className="text-primary-400 font-semibold"
-            >
-              Clear
-            </Link>
+            <div className="min-w-[128px] text-center hover:underline md:text-left">
+              <Link
+                href={`/degree-courses/search`}
+                aria-label="reset filters"
+                className="text-primary-400 font-semibold"
+              >
+                Clear
+              </Link>
             </div>
             <button
               className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] font-semibold min-w-[200px] hover:bg-primary-500 md:w-[344px]"
