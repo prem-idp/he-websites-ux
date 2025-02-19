@@ -14,50 +14,62 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import Link from "next/link";
-const SearchResultComponent = async ({ searchparams }: any) => {
+import { headers } from "next/headers";
+import { getQualCode, getSearchPayload } from "../services/utils";
+import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+
+
+
+const SearchResultComponent = async ({ searchparams, pathname}: any) => {
   //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
-  // const filterCookie = getCookieValue("filter_param");
-  // const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  // console.log("query" + searchparams?.pageNo);
-  const searchPayload = {
-    ...searchparams,
-    //...filterCookieParam,
-    //affiliateId:"220703",
-    //region: userRegion ? userRegion : "US",
-  };
+ // const filterCookie = getCookieValue("filter_param");
+  //const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
+  console.log("query" + pathname);
+  const headersList = await headers();
+  const referer = headersList.get("referer");
+  const pathnameArray = (referer?.split?.("/"));
   let searchResultsData;
+  let filterCookieParam;
+  if (typeof document !== 'undefined') {
+    const filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
+}
   try {
-    searchResultsData = await searchResultsFetchFunction(searchPayload);
+    searchResultsData = await searchResultsFetchFunction(getSearchPayload(searchparams,filterCookieParam,pathnameArray?.[3]?.split?.("-")?.[0]));
     console.log(
       "After fetching search results" + JSON.stringify(searchResultsData)
     );
-  } catch {
-    console.log("error");
+  } catch(error) {
+    console.log("error", error);
   }
 
   return (
     <>
       <TopSection />
+      {searchResultsData?.searchResultsList ? 
       <Suspense>
         <SearchFilterButtons />
         <SearchLabels />
-      </Suspense>
+      </Suspense> : <></>}
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <GradeBanner />
-          <SrPageNoResults />
-          <SortingFilter />
-          <FeaturedVideoSection />
+
+        <div className="max-w-container mx-auto">   
+          
+          {searchResultsData?.searchResultsList ? 
+          <>
+           <GradeBanner />
+           <SortingFilter sortParam={searchparams?.sort}/>   
+          {searchResultsData?.featuredProviderDetails && searchResultsData?.featuredProviderDetails?.collegeId !== 0 ?
+          <FeaturedVideoSection featuredData={searchResultsData?.featuredProviderDetails}/> : <></>}
           <SrPageResultPod
             searchResultsData={searchResultsData?.searchResultsList}
           />
-          {/* <Paginations
-            totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-            currentPage={searchparams?.pageNo}
-          /> */}
+           {searchResultsData?.collegeCount > 10? 
+           <Paginations
+            totalPages={Math.ceil(searchResultsData?.collegeCount / 10)} currentPage={searchparams?.pageNo || 1}
+          /> : <></>}</> : <><SrPageNoResults/></>}         
         </div>
       </section>
+      {searchResultsData?.searchResultsList ? <>
       <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
         <div className="max-w-container mx-auto">
           <div className="h1 pt-[40px]">Explore more about law</div>
@@ -75,7 +87,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
         debugMode={false}
       >
         <Subscribecomponents iscontentPreview={false} />
-      </ContentfulPreviewProvider>
+      </ContentfulPreviewProvider></> : <></>}
     </>
   );
 };

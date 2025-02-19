@@ -2,13 +2,30 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-const FeaturedVideoSection = () => {
+
+interface FeaturedProviderDetailsProps {
+  featuredData : any
+  url?:any;
+}
+
+
+const FeaturedVideoSection : React.FC<FeaturedProviderDetailsProps>= ({featuredData,url}) => {
+  const handleNavigation = (navigationUrl:any) => {
+    try {
+      if (navigationUrl.includes("whatuni.com")) 
+        window.open(navigationUrl, '_self');
+      else
+      window.open(navigationUrl, '_blank');  
+    } catch (error) {
+      console.error('Navigation failed:', error);   
+    }
+  };
   return (
-    <div className="bg-grey-600 rounded-[8px] p-[16px] flex flex-col gap-[24px] md:flex-row lg:p-[24px]">
+    <div className="bg-grey-600 rounded-[8px] p-[16px] flex flex-col gap-[24px] md:flex-row lg:p-[24px]"onClick={() => handleNavigation(featuredData?.navigationUrl)}>
       <div className="flex flex-col gap-[8px] w-full order-2 lg:order-1">
         <div className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4 hidden lg:block">
           <Image
-            src="/static/assets/icons/search-result/kent.png"
+            src= {featuredData?.collegeLogoPath ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.collegeLogoPath}` :"/static/assets/icons/search-result/kent.png"}
             alt="University logo"
             width={56}
             height={56}
@@ -17,12 +34,14 @@ const FeaturedVideoSection = () => {
         <div className="text-green200 font-bold x-small uppercase">
           Featured
         </div>
+        {featuredData?.profileHeadlineUrl ? 
+        <Link href={featuredData?.profileHeadlineUrl}>
         <div className="text-grey-50 h6">
-          For the designers and makers of tomorrow
+         {featuredData?.headline}
         </div>
+        </Link> : <></>}
         <div className="text-grey-50 small line-clamp-1">
-          Study your creative Degree at Arts University Plymouth... Study your
-          creative Degree at Arts University Plymouth Plymouth
+        {featuredData?.tagline}
         </div>
         <div className="flex items-center gap-[8px] text-grey-50 small">
           <div className="flex items-center gap-[4px]">
@@ -38,17 +57,18 @@ const FeaturedVideoSection = () => {
                 fill="#0FBEFD"
               />
             </svg>
-            4.6
+            {featuredData?.exactRating}
           </div>
-          <Link href="" className="hover:underline">
-            400 reviews
+          <Link href={`/university-course-reviews/${featuredData?.collegeName}/${featuredData?.collegeId}`} className="hover:underline">
+            {featuredData?.reviewCount} reviews
           </Link>
         </div>
         <Link
-          href="#"
+          href=""
           className="flex items-center gap-[4px] w-fit text-white font-semibold underline"
+          onClick={() => handleNavigation({ featuredData: featuredData})}
         >
-          Find out more
+          {featuredData?.navigationText}
           <svg
             width="16"
             height="16"
@@ -66,10 +86,11 @@ const FeaturedVideoSection = () => {
         </Link>
       </div>
       <div className="w-full shrink-0 flex self-center  rounded-[8px] overflow-hidden relative order-1 md:w-[310px] md:h-[158px] lg:w-[391px] lg:h-[200px] lg:order-2">
-        <video className="w-full hidden" src="/" controls></video>
+        {featuredData?.mediaType?.toLowerCase() === "video" ? <>
+        <video className="w-full hidden" src={featuredData?.mediaPath ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.mediaPath}` :"/"} controls></video>
         <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center">
           <Image
-            src="/static/assets/images/search-results/thumbnail.png"
+            src={featuredData?.thumbnailPath ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.thumbnailPath}` :"/static/assets/images/search-results/thumbnail.png"}
             alt="Thumbnail"
             width={391}
             height={200}
@@ -82,7 +103,14 @@ const FeaturedVideoSection = () => {
             height="52"
             src="/static/assets/icons/video_play_icon.svg"
           />
-        </div>
+        </div></> : <><div className="w-full relative rounded-[8px] overflow-hidden flex justify-center">
+          <Image
+            src={featuredData?.mediaPath ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.mediaPath}` :"/static/assets/images/search-results/thumbnail.png"}
+            alt="Image"
+            width={391}
+            height={200}
+          />
+        </div></>}
       </div>
     </div>
   );

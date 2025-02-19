@@ -22,23 +22,31 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   //   }
   //   checkUser();
   // },[]);
+  const universityPodClick = (navigationUrl:any)=> {
+    window.open(navigationUrl, '_self');   
+  }
+  const handleFavourite = (collegeId:any) => {
+    console.log("Favourite");
+  }
   return (
     <>
       {searchResultsData?.map((data, index) => (
         <div
-          className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row cursor-pointer"
+          className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
         >
-          <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px]">
+          <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer" onClick={() => universityPodClick(process.env.PROJECT === "Whatuni"
+            ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+            : `/universities/${data?.collegeTextKey}`)}>
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
                   <Link
-                    href=""
+                    href={process.env.PROJECT === "Whatuni" ?`/university-profile/${data?.collegeTextKey}/${data?.collegeId}` : `/universities/${data?.collegeTextKey}}`}
                     className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                   >
                     <Image
-                      src="/static/assets/icons/search-result/kent.png"
+                     src={data?.collegeMedia?.ipCollegeLogo ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}` : '/static/assets/icons/search-result/kent.png'}
                       alt="University logo"
                       width={56}
                       height={56}
@@ -100,7 +108,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       href=""
                       className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
                     >
-                      View all modules
+                      View all comparison
                       <svg
                         width="16"
                         height="16"
@@ -120,10 +128,12 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                 </div>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
-                <div className="h5">{data?.collegeDisplayName}</div>
+              <Link href={process.env.PROJECT === "Whatuni" ?`/university-profile/${data?.collegeTextKey}/${data?.collegeId}` : `/universities/${data?.collegeTextKey}}`}>
+              <div className="h5">{data?.collegeDisplayName}</div></Link>
                 <div className="x-small font-semibold">
-                  {data?.courseCount} engineering courses
+                {data?.courseCount} engineering {data?.courseCount === 1 ? "course" : "courses"}
                 </div>
+                {data?.reviewCount? 
                 <div className="flex items-center gap-[8px] text-grey-50 small">
                   <div className="flex items-center gap-[2px]">
                     <svg
@@ -140,14 +150,16 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     </svg>
                     {data?.exactRating}
                   </div>
-                  <Link href="" className="underline">
+                  <Link href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`} className="underline">
                     {data?.reviewCount} reviews
                   </Link>
-                </div>
+                </div> : <></>}
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                {data?.adminVenue ?
                   <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
                     {data?.adminVenue}
-                  </div>
+                  </div> : <></>}
+                  {data?.distanceInMiles ?
                   <div className="flex items-center justify-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                     <svg
                       width="16"
@@ -172,10 +184,11 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       />
                     </svg>
                     {data?.distanceInMiles} Miles from you
-                  </div>
+                  </div> : <></>}
                 </div>
-                <Link
-                  href=""
+                {data?.wuscaRanking ? 
+                <div
+                 
                   className="x-small underline w-fit relative group"
                 >
                   WUSCA rank: {data?.wuscaRanking}
@@ -213,7 +226,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       and present students
                     </p>
                   </div>
-                </Link>
+                </div> : <></>}
+                {data?.wuscaBadges ? 
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                   <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                     <Image
@@ -227,21 +241,20 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                   <div className="bg-primary-400 px-[8px] rounded-[4px]">
                     + 2 more
                   </div>
-                </div>
+                </div> : <></>}
               </div>
             </div>
-            {/* {item.showImage ? (
-              <Image
-                src="/static/assets/images/search-results/university.jpg"
+            <Image
+                src={data?.collegeMedia?.ipCollegeImage ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}` : '/static/assets/images/search-results/university.jpg'}
                 alt="University"
                 width={500}
                 height={376}
                 className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
               />
-            ) : null} */}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
+            {data?.review1Text ? 
               <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
                 <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
                   <div className="text-heading1 relative top-[20px] font-farro font-normal">
@@ -303,7 +316,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> :<></>}
 
               {data?.bestMatchCoursesList?.map(
                 (courseData: any, index: any) => (
@@ -313,10 +326,12 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
+                        <Link  href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}>
                         <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
                           {courseData?.courseTitle}
-                        </div>
+                        </div></Link>
                         <div className="flex gap-[4px] text-grey-500">
+                        {courseData?.minUcasPoints ? 
                           <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                             <Image
                               className="hidden md:block"
@@ -327,7 +342,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             />
                             {courseData?.minUcasPoints}-
                             {courseData?.maxUcasPoints} ucas points
-                          </div>
+                          </div> :<></>}
+                          {courseData?.availabilityDetails?.duration || courseData?.availabilityDetails?.studyMode ?
                           <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                             <Image
                               className="hidden md:block"
@@ -338,7 +354,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             />
                             {courseData?.availabilityDetails?.duration}
                             {courseData?.availabilityDetails?.studyMode}
-                          </div>
+                          </div> :<></>}
                         </div>
                       </div>
                       <div className="heart w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative group">
@@ -409,6 +425,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         </div>
                       </div>
                     </div>
+                    {courseData?.modulesInfo ?
                     <ClickAndShow>
                       <div className="text-black x-small">
                         <div className="font-semibold">Year 1</div>
@@ -440,20 +457,22 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           </svg>
                         </Link>
                       </div>
-                    </ClickAndShow>
+                    </ClickAndShow> : <></>}
 
-                    {/* <div
-                      className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col ${
-                        chitem.buttonCount == 4
-                          ? "md:grid-rows-2 md:grid-flow-col"
-                          : "md:grid-cols-1 md:grid-flow-row"
+                    <div
+                      className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col
+                        md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                      <Getprospectus />
-                      <Visitwebsite />
-                      <BookOpenDay />
-                      <RequestInfo/>
-                    </div> */}
+                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ?     
+                      <Getprospectus /> :<></>}
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" ?     
+                      <Visitwebsite /> :<></>}
+                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? 
+                      <BookOpenDay /> :<></>}
+                       {courseData?.enquiryDetails?.emailFlag === "Y" ? 
+                      <RequestInfo/> :<></>}
+                    </div>
                   </div>
                 )
               )}

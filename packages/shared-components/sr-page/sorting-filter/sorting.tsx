@@ -1,31 +1,23 @@
 "use client";
+
+import { getCookieValue } from "@packages/lib/utlils/commonFunction";
+import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import { pgsSortingFilter, wuscaCategories, wuSortingFilter } from "@packages/shared-components/services/constants";
 import React, { useState } from "react";
-const SortingFilter = () => {
+interface SortingProps {
+  sortParam : any;
+}
+const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
+  //  const filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
+  // sortParam = filterCookieParam?.sort ? filterCookieParam?.sort : sortParam ? sortParam : "R";
   const [isSortClicked, setIsSortClicked] = useState(false);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
   };
-  const sortBy = [
-    "Recommended",
-    "Distance from home",
-    "Employment rate",
-    "Entry reqs - Highest",
-    "Entry reqs - lowest",
-    "Student Ranking",
-  ];
-  const wuscaCategories = [
-    "University of the year",
-    "Career prospects",
-    "Employment rate",
-    "Facilities",
-    "International",
-    "Lecturers and teaching quality",
-    "Postgraduate",
-    "Student life",
-    "Student support",
-    "Students’s Union",
-    "University Halls",
-  ];
+  const sortingFilter = process.env.PROJECT === "Whatuni" 
+  ? wuSortingFilter // Assuming sortingFilterUni is the filter for "uni"
+  :  pgsSortingFilter // Assuming sortingFilterOther is the filter for "otherProject"
+  
   return (
     <div className="ml-auto w-fit relative">
       <div
@@ -48,23 +40,24 @@ const SortingFilter = () => {
           />
         </svg>
         <span className="font-semibold">Sort:</span>
-        <span> Entry reqs - highest</span>
+        <span> Recommended</span>
       </div>
       {isSortClicked && (
         <div className="absolute top-[53px] right-[-1px] w-[345px] bg-white p-[24px] rounded-[8px] shadow-custom-3 z-10 md:w-[700px] lg:w-[940px]">
           <div className="flex flex-col gap-[16px]">
             <div className="text-heading6 font-farro font-bold">Sort by</div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
-              {sortBy.map((item, index) => (
-                <div className="custom-radio flex items-center" key={index}>
+            {Object.entries(wuSortingFilter).map(([label, value]) => (
+                <div className="custom-radio flex items-center">
                   <input
                     className="rounded-md"
                     type="radio"
-                    id={item}
+                    id={value}
                     name="featured"
+                    checked = {value === sortParam ? true : false}
                   />
-                  <label htmlFor={item} className="flex items-center">
-                    {item}
+                  <label htmlFor={label} className="flex items-center">
+                    {label}
                   </label>
                 </div>
               ))}

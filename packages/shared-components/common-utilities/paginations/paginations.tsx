@@ -1,10 +1,14 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-const Paginations = ({ totalPages, currentPage }: any) => {
+const Paginations = ({ totalPages ,currentPage}: any) => {
+
+  
   const pageNumbers = [];
   const totalVisiblePages = 7;
-console.log("TOTAl:"+ totalPages,currentPage)
+  // const searchParams = new URLSearchParams(window?.location?.search);
+  // const currentPage = Number(searchParams?.get("pageno")) || 1;  
+  console.log("TOTAl:"+ totalPages,currentPage)
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);
@@ -38,7 +42,7 @@ console.log("TOTAl:"+ totalPages,currentPage)
       <div className="flex items-center justify-center gap-[20px] pt-[21px] mb-[30px]">
         <Link
           aria-label="move backward"
-          href={currentPage > 1 ? `?pageNo=${currentPage - 1}` : `#`}
+          href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
           type="button"
           className={`right-arrow flex items-center justify-center border border-primary-500 rounded-[25px] w-[34px] h-[34px] hover:bg-primary-600 ${
             currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
@@ -66,8 +70,8 @@ console.log("TOTAl:"+ totalPages,currentPage)
               <Link
                 href={
                   item !== "..."
-                    ? `?pageNo=${Number(item)}`
-                    : `?pageNo=${Number(currentPage)}`
+                    ? `?pageno=${Number(item)}`
+                    : `?pageno=${Number(currentPage)}`
                 }
                 className={
                   currentPage == item
@@ -84,8 +88,8 @@ console.log("TOTAl:"+ totalPages,currentPage)
           aria-label="move forward"
           href={
             currentPage < totalPages
-              ? `?pageNo=${+currentPage + 1}`
-              : `?pageNo=${+currentPage}`
+              ? `?pageno=${+currentPage + 1}`
+              : `?pageno=${+currentPage}`
           }
           className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
         >
