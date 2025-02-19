@@ -94,15 +94,11 @@ const mergeTwoObjects = (
 };
 
 const checkIfUrlIndex = (searchParams: any) => {
-  const obj = Object.fromEntries(searchParams.entries());
-  const length = Object.keys(obj).length;
   if (
     searchParams?.get("subject")?.includes("+") ||
     searchParams?.get("course")?.includes("+") ||
     searchParams?.get("location")?.includes("+")
   ) {
-    return false;
-  } else if (length >= 4) {
     return false;
   } else {
     return true;
