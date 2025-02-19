@@ -352,7 +352,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               width={16}
                               height={16}
                             />
-                            {courseData?.availabilityDetails?.duration}
+                            {courseData?.availabilityDetails?.duration} <> </>
                             {courseData?.availabilityDetails?.studyMode}
                           </div> :<></>}
                         </div>
