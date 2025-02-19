@@ -207,31 +207,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         ?.toLowerCase(); // Convert the entire string to lowercase
 
-      //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
-      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
-      // );
-
-      // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
-
-      // const unencodedUrl = urlformed.replace(/,/g, ",");
-      // router.push(unencodedUrl);
-      // const decodedUrl = urlformed.replace("%2C", ",");
-      // const params = new URLSearchParams({
-      //   // score: ucasval,
-      //   score: "0,128",
-      // });
-      // const params = new URLSearchParams({
-      //   subject: "law",
-      //   score: "0,128",
-      // })
-      //   .toString()
-      //   .replace(/%2C/g, ",");
-      // router.push(`/degree-courses/search?${params}`);
-      // window.location.href = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}&score=0,2`;
-      // router.push({
-      //   pathname: searchFormHandle.subject.url,
-      //   query: { location: sanitizedRegionName, score: score }
-      // }, locationUrl);
+      
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -265,18 +241,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      router.push(
+      window.location.href=(
         `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
-      // router.push(`/search?${params.toString()}`);
-      // router.push({
-      //   pathname: '/degree-courses/search',
-      //   query: {
-      //     subject: 'law',
-      //     location: 'central-england',
-      //     score: '0,128'
-      //   }
-      // })
+    
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
         "ga_events",
@@ -311,8 +279,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      router.push(searchFormHandle.subject.url);
-      router.push(
+     
+      window.location.href=(
         `${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     } else if (searchFormHandle?.subject?.description?.trim()) {
@@ -380,7 +348,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(
+      return window.location.href=(
         `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
@@ -416,7 +384,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(
+      return window.location.href=(
         `${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
@@ -453,7 +421,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(`${baseUrl}?q=${sanitizedDescription}`);
+      return window.location.href=(`${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
