@@ -26,10 +26,10 @@ const makeApiCall = async (
       console.error({
         error: errorResponse,
         endpoint: apiUrl,
-        status: response.status,
-        statusText: response.statusText,
+        status: response?.status,
+        statusText: response?.statusText,
       });
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      throw new Error(`API Error: ${response?.status} ${response?.statusText}`);
     }
 
     return await response.json();
@@ -44,4 +44,37 @@ const makeApiCall = async (
   }
 };
 
+const getSrFilter = async (bodyjson: any): Promise<any> => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults
+  }`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.SITE_CODE}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+      },
+      body: JSON.stringify(bodyjson),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json().catch(() => ({}));
+      console.error({
+        error: errorResponse,
+        endpoint: apiUrl,
+        status: response?.status,
+        statusText: response?.statusText,
+      });
+      throw new Error(`API Error: ${response?.status} ${response?.statusText}`);
+    }
+    return await response.json();
+  } catch (error: unknown) {
+    console.error(`API call failed: ${error}`, { endpoint: apiUrl });
+    console.error("Unknown error occurred", { endpoint: apiUrl, error });
+    throw new Error("An unknown error occurred during the API call.");
+  }
+};
+
 export default makeApiCall;
+export { getSrFilter };

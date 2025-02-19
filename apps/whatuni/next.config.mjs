@@ -1,4 +1,19 @@
 /** @type {import('next').NextConfig} */
+
+const getImageDomain = () => {
+  const env = process.env.NODE_ENV || 'development';
+  
+  switch (env) {
+    case 'development':
+      return 'images-dom.aws.dev.idp-connect.com';
+    case 'staging':
+      return 'images-dom.aws.test.idp-connect.com';
+    case 'production':
+      return 'images-dom.prod.aws.idp-connect.com';
+    default:
+      return 'images-dom.aws.dev.idp-connect.com';
+  }
+};
 const nextConfig = {
   // compiler: {
   //   removeConsole: {
@@ -53,6 +68,7 @@ const nextConfig = {
     DOMAIN: "whatuni.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
     AFFILATE_ID: "220703",
+    SITE_CODE: "WU_WEB",
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -66,6 +82,7 @@ const nextConfig = {
       },
       { protocol: "https", hostname: "videos.ctfassets.net" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      { protocol: "https", hostname: getImageDomain() },
     ],
   },
 };
