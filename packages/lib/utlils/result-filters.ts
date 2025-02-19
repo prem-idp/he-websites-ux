@@ -1,10 +1,10 @@
 type KeyValueObject = Record<string, string>;
-
 const getFilterPriority = () => {
   const whatuniFilters = [
     "subject",
     "study-level",
     "qualification",
+    "location",
     "region",
     "city",
     "study-method",
@@ -21,6 +21,7 @@ const getFilterPriority = () => {
     "course",
     "study_level",
     "qualification",
+    "location",
     "region",
     "city",
     "study_method",
@@ -66,6 +67,7 @@ const extractUrlAndCookieValues = (
 };
 
 const getDecodedCookie = (name: string) => {
+  if (typeof document === "undefined") return null;
   const cookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith(name + "="));
@@ -91,14 +93,21 @@ const mergeTwoObjects = (
   };
 };
 
-const qualCode: any = {
-  "degree-courses": "M",
-  "postgraduate-courses": "L",
-  "foundation-degree-courses": "A",
-  "access-foundation-courses": "T",
-  "hnd-hnc-courses": "N",
+const checkIfUrlIndex = (searchParams: any) => {
+  const obj = Object.fromEntries(searchParams.entries());
+  const length = Object.keys(obj).length;
+  if (
+    searchParams?.get("subject")?.includes("+") ||
+    searchParams?.get("course")?.includes("+") ||
+    searchParams?.get("location")?.includes("+")
+  ) {
+    return false;
+  } else if (length >= 4) {
+    return false;
+  } else {
+    return true;
+  }
 };
-
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
     parentQualification: qualCode?.[parentQual],
@@ -126,12 +135,20 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     postCode: "",
   };
 };
+const qualCode: any = {
+  "degree-courses": "M",
+  "postgraduate-courses": "L",
+  "foundation-degree-courses": "A",
+  "access-foundation-courses": "T",
+  "hnd-hnc-courses": "N",
+};
 
 export {
-  extractUrlAndCookieValues,
-  mergeTwoObjects,
-  getDecodedCookie,
-  getFilterPriority,
   qualCode,
   filterbodyJson,
+  mergeTwoObjects,
+  checkIfUrlIndex,
+  getDecodedCookie,
+  getFilterPriority,
+  extractUrlAndCookieValues,
 };
