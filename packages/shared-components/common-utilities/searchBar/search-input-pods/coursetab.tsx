@@ -3,8 +3,8 @@ import React from "react";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+
 import {
   GADataLayerFn,
   currentAuthenticatedUser,
@@ -12,7 +12,6 @@ import {
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -41,7 +40,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const router = useRouter();
+
 
   useEffect(() => {
     setSubjectlist(data?.courseDetails);
@@ -241,8 +240,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
+      
       window.location.href=(
-        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     
     } else if (searchFormHandle.subject?.url) {
@@ -281,12 +281,14 @@ const CourseTab: React.FC<CourseTabProps> = ({
       );
      
       window.location.href=(
-        `${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
     }
   };
+
+
   const keywordSearch = async (canmatch: any) => {
     const sanitizedDescription = searchFormHandle?.subject?.description
       .trim()
@@ -349,7 +351,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       return window.location.href=(
-        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     if (matchedSubject && canmatch) {
@@ -385,7 +387,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
       return window.location.href=(
-        `${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
@@ -421,7 +423,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return window.location.href=(`${baseUrl}?q=${sanitizedDescription}`);
+      return window.location.href=(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
