@@ -224,7 +224,6 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   //   return `?${urlParams.toString()}`;
   // };
   const formUrl = (key: string, value: string) => {
-    console.log(key, "++++++++++++", value);
     const filters = extractUrlAndCookieValues(searchParams, key, value);
     console.log(filters);
     const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
@@ -258,7 +257,6 @@ const SearchFilterComponent = ({ jsondata }: any) => {
       console.log(key, ":else:", value, `?${urlParams.toString()}`);
       return `?${urlParams.toString()}`;
     }
-    console.log(key, "++++++++++++", value);
   };
   console.log("forming as hardcoded", formUrl("location", "england"));
   return (
@@ -347,13 +345,15 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             className="btn btn-black-outline"
                           >
                             {items?.studyMethodDesc}
-                            <Link
-                              id={"study-method" + items?.studyMethodTextKey}
-                              href={formUrl(
-                                "study-method",
-                                items?.studyMethodTextKey
-                              )}
-                            ></Link>
+                            {isIndexed && (
+                              <Link
+                                id={"study-method" + items?.studyMethodTextKey}
+                                href={formUrl(
+                                  "study-method",
+                                  items?.studyMethodTextKey
+                                )}
+                              ></Link>
+                            )}
                           </label>
                         </div>
                       )
@@ -387,13 +387,15 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                           className="btn btn-black-outline"
                         >
                           {items?.studyModeDesc}
-                          <Link
-                            id={"study-mode" + items?.studyModeTextKey}
-                            href={formUrl(
-                              "study-mode",
-                              items?.studyModeTextKey
-                            )}
-                          ></Link>
+                          {isIndexed && (
+                            <Link
+                              id={"study-mode" + items?.studyModeTextKey}
+                              href={formUrl(
+                                "study-mode",
+                                items?.studyModeTextKey
+                              )}
+                            ></Link>
+                          )}
                         </label>
                       </div>
                     ))}
@@ -429,10 +431,12 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             className="btn btn-black-outline"
                           >
                             {item?.qualDisplayDesc}
-                            <Link
-                              id={"study-level" + item?.qualTextKey}
-                              href={formUrl("study-level", item?.qualTextKey)}
-                            ></Link>
+                            {isIndexed && (
+                              <Link
+                                id={"study-level" + item?.qualTextKey}
+                                href={formUrl("study-level", item?.qualTextKey)}
+                              ></Link>
+                            )}
                           </label>
                         </div>
                       )
@@ -707,10 +711,12 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                           className="btn btn-black-outline"
                         >
                           {item?.year}
-                          <Link
-                            id={"year" + item?.year}
-                            href={formUrl("year", `${item?.year}`)}
-                          ></Link>
+                          {isIndexed && (
+                            <Link
+                              id={"year" + item?.year}
+                              href={formUrl("year", `${item?.year}`)}
+                            ></Link>
+                          )}
                         </label>
                       </div>
                     )
@@ -737,10 +743,12 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                           className="btn btn-black-outline min-w-[53px] py-[5px]"
                         >
                           {item?.month}
-                          <Link
-                            id={"month" + item?.month}
-                            href={formUrl("month", item?.month)}
-                          ></Link>
+                          {isIndexed && (
+                            <Link
+                              id={"month" + item?.month}
+                              href={formUrl("month", item?.month)}
+                            ></Link>
+                          )}
                         </label>
                       </div>
                     )
@@ -1057,13 +1065,15 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                                         id={item?.regionName}
                                         name={item?.regionName}
                                       />
-                                      <Link
-                                        id={"location" + item?.regionTextKey}
-                                        href={formUrl(
-                                          "location",
-                                          item?.regionTextKey
-                                        )}
-                                      ></Link>
+                                      {isIndexed && (
+                                        <Link
+                                          id={"location" + item?.regionTextKey}
+                                          href={formUrl(
+                                            "location",
+                                            item?.regionTextKey
+                                          )}
+                                        ></Link>
+                                      )}
                                       <label
                                         htmlFor={item?.regionName}
                                         className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
