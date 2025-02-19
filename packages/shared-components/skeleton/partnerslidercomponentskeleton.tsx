@@ -1,5 +1,5 @@
 "use client";
-// import "swiper/css";
+import "swiper/css";
 import "swiper/css/pagination";
 const PartnerSliderComponentSkeleton = () => {
   return (
