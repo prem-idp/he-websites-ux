@@ -45,14 +45,14 @@ const makeApiCall = async (
 };
 
 const getSrFilter = async (bodyjson: any): Promise<any> => {
-  const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults
-  }`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getSearchFilters`;
+  console.log(`${process.env.SITE_CODE}`);
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-correlation-id": uuidv4(),
+        // "x-correlation-id": uuidv4(),
         sitecode: `${process.env.SITE_CODE}`,
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
       },

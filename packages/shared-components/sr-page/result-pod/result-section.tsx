@@ -22,12 +22,12 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   //   }
   //   checkUser();
   // },[]);
-  const universityPodClick = (navigationUrl:any)=> {
-    window.open(navigationUrl, '_self');   
-  }
-  const handleFavourite = (collegeId:any) => {
+  const universityPodClick = (navigationUrl: any) => {
+    window.open(navigationUrl, "_self");
+  };
+  const handleFavourite = (collegeId: any) => {
     console.log("Favourite");
-  }
+  };
   return (
     <>
       {searchResultsData?.map((data, index) => (
@@ -35,18 +35,33 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
         >
-          <div className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer" onClick={() => universityPodClick(process.env.PROJECT === "Whatuni"
-            ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
-            : `/universities/${data?.collegeTextKey}`)}>
+          <div
+            className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer"
+            onClick={() =>
+              universityPodClick(
+                process.env.PROJECT === "Whatuni"
+                  ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                  : `/universities/${data?.collegeTextKey}`
+              )
+            }
+          >
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
                   <Link
-                    href={process.env.PROJECT === "Whatuni" ?`/university-profile/${data?.collegeTextKey}/${data?.collegeId}` : `/universities/${data?.collegeTextKey}}`}
+                    href={
+                      process.env.PROJECT === "Whatuni"
+                        ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                        : `/universities/${data?.collegeTextKey}}`
+                    }
                     className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                   >
                     <Image
-                     src={data?.collegeMedia?.ipCollegeLogo ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}` : '/static/assets/icons/search-result/kent.png'}
+                      src={
+                        data?.collegeMedia?.ipCollegeLogo
+                          ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
+                          : "/static/assets/icons/search-result/kent.png"
+                      }
                       alt="University logo"
                       width={56}
                       height={56}
@@ -117,8 +132,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
                           fill="#3460DC"
                         />
@@ -128,195 +143,225 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                 </div>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
-              <Link href={process.env.PROJECT === "Whatuni" ?`/university-profile/${data?.collegeTextKey}/${data?.collegeId}` : `/universities/${data?.collegeTextKey}}`}>
-              <div className="h5">{data?.collegeDisplayName}</div></Link>
-                <div className="x-small font-semibold">
-                {data?.courseCount} engineering {data?.courseCount === 1 ? "course" : "courses"}
-                </div>
-                {data?.reviewCount? 
-                <div className="flex items-center gap-[8px] text-grey-50 small">
-                  <div className="flex items-center gap-[2px]">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.8586 4.71248C11.2178 3.60691 12.7819 3.60691 13.1412 4.71248L14.4246 8.66264C14.5853 9.15706 15.046 9.49182 15.5659 9.49182H19.7193C20.8818 9.49182 21.3651 10.9794 20.4247 11.6626L17.0645 14.104C16.6439 14.4095 16.4679 14.9512 16.6286 15.4456L17.912 19.3958C18.2713 20.5013 17.0059 21.4207 16.0654 20.7374L12.7052 18.2961C12.2846 17.9905 11.7151 17.9905 11.2945 18.2961L7.93434 20.7374C6.99388 21.4207 5.72851 20.5013 6.08773 19.3958L7.37121 15.4456C7.53186 14.9512 7.35587 14.4095 6.93529 14.104L3.57508 11.6626C2.63463 10.9794 3.11796 9.49182 4.28043 9.49182H8.43387C8.95374 9.49182 9.41448 9.15706 9.57513 8.66264L10.8586 4.71248Z"
-                        fill="#0FBEFD"
-                      />
-                    </svg>
-                    {data?.exactRating}
-                  </div>
-                  <Link href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`} className="underline">
-                    {data?.reviewCount} reviews
-                  </Link>
-                </div> : <></>}
-                <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
-                {data?.adminVenue ?
-                  <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
-                    {data?.adminVenue}
-                  </div> : <></>}
-                  {data?.distanceInMiles ?
-                  <div className="flex items-center justify-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.929 10.0711C10.5878 10.4122 9.98482 11.0152 9.41426 11.5858C8.63321 12.3668 7.36696 12.3669 6.58591 11.5859C6.02667 11.0266 5.43232 10.4323 5.07111 10.0711C3.45351 8.45346 3.45351 5.83081 5.07111 4.2132C6.68872 2.5956 9.31137 2.5956 10.929 4.2132C12.5466 5.83081 12.5466 8.45346 10.929 10.0711Z"
-                        stroke="#168721"
-                        strokeWidth="1.13"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M9.55335 7.14214C9.55335 8 8.85791 8.69544 8.00005 8.69544C7.14218 8.69544 6.44675 8 6.44675 7.14214C6.44675 6.28427 7.14218 5.58884 8.00005 5.58884C8.85791 5.58884 9.55335 6.28427 9.55335 7.14214Z"
-                        stroke="#168721"
-                        strokeWidth="1.13"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    {data?.distanceInMiles} Miles from you
-                  </div> : <></>}
-                </div>
-                {data?.wuscaRanking ? 
-                <div
-                 
-                  className="x-small underline w-fit relative group"
+                <Link
+                  href={
+                    process.env.PROJECT === "Whatuni"
+                      ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                      : `/universities/${data?.collegeTextKey}}`
+                  }
                 >
-                  WUSCA rank: {data?.wuscaRanking}
-                  <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-grey900 font-semibold">
-                        WUSCA Student Ranking
-                      </span>
+                  <div className="h5">{data?.collegeDisplayName}</div>
+                </Link>
+                <div className="x-small font-semibold">
+                  {data?.courseCount} engineering{" "}
+                  {data?.courseCount === 1 ? "course" : "courses"}
+                </div>
+                {data?.reviewCount ? (
+                  <div className="flex items-center gap-[8px] text-grey-50 small">
+                    <div className="flex items-center gap-[2px]">
                       <svg
-                        className="cursor-pointer"
-                        width="16"
-                        height="16"
+                        width="24"
+                        height="24"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M18 6L6 18"
-                          stroke="#333333"
-                          strokeWidth="2"
+                          d="M10.8586 4.71248C11.2178 3.60691 12.7819 3.60691 13.1412 4.71248L14.4246 8.66264C14.5853 9.15706 15.046 9.49182 15.5659 9.49182H19.7193C20.8818 9.49182 21.3651 10.9794 20.4247 11.6626L17.0645 14.104C16.6439 14.4095 16.4679 14.9512 16.6286 15.4456L17.912 19.3958C18.2713 20.5013 17.0059 21.4207 16.0654 20.7374L12.7052 18.2961C12.2846 17.9905 11.7151 17.9905 11.2945 18.2961L7.93434 20.7374C6.99388 21.4207 5.72851 20.5013 6.08773 19.3958L7.37121 15.4456C7.53186 14.9512 7.35587 14.4095 6.93529 14.104L3.57508 11.6626C2.63463 10.9794 3.11796 9.49182 4.28043 9.49182H8.43387C8.95374 9.49182 9.41448 9.15706 9.57513 8.66264L10.8586 4.71248Z"
+                          fill="#0FBEFD"
+                        />
+                      </svg>
+                      {data?.exactRating}
+                    </div>
+                    <Link
+                      href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
+                      className="underline"
+                    >
+                      {data?.reviewCount} reviews
+                    </Link>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                  {data?.adminVenue ? (
+                    <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
+                      {data?.adminVenue}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  {data?.distanceInMiles ? (
+                    <div className="flex items-center justify-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.929 10.0711C10.5878 10.4122 9.98482 11.0152 9.41426 11.5858C8.63321 12.3668 7.36696 12.3669 6.58591 11.5859C6.02667 11.0266 5.43232 10.4323 5.07111 10.0711C3.45351 8.45346 3.45351 5.83081 5.07111 4.2132C6.68872 2.5956 9.31137 2.5956 10.929 4.2132C12.5466 5.83081 12.5466 8.45346 10.929 10.0711Z"
+                          stroke="#168721"
+                          strokeWidth="1.13"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
-                          d="M6 6L18 18"
-                          stroke="#333333"
-                          strokeWidth="2"
+                          d="M9.55335 7.14214C9.55335 8 8.85791 8.69544 8.00005 8.69544C7.14218 8.69544 6.44675 8 6.44675 7.14214C6.44675 6.28427 7.14218 5.58884 8.00005 5.58884C8.85791 5.58884 9.55335 6.28427 9.55335 7.14214Z"
+                          stroke="#168721"
+                          strokeWidth="1.13"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
+                      {data?.distanceInMiles} Miles from you
                     </div>
-                    <p className="x-small text-grey300 font-normal">
-                      These are the 2024 ranking, based on rating given by past
-                      and present students
-                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                {data?.wuscaRanking ? (
+                  <div className="x-small underline w-fit relative group">
+                    WUSCA rank: {data?.wuscaRanking}
+                    <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-grey900 font-semibold">
+                          WUSCA Student Ranking
+                        </span>
+                        <svg
+                          className="cursor-pointer"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 6L6 18"
+                            stroke="#333333"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6 6L18 18"
+                            stroke="#333333"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <p className="x-small text-grey300 font-normal">
+                        These are the 2024 ranking, based on rating given by
+                        past and present students
+                      </p>
+                    </div>
                   </div>
-                </div> : <></>}
-                {data?.wuscaBadges ? 
-                <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
-                  <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
-                    <Image
-                      src="/static/assets/icons/search-result/lectures-green.svg"
-                      alt="Lecturers and Teaching"
-                      width={12}
-                      height={12}
-                    />
-                    Lecturers and Teaching
+                ) : (
+                  <></>
+                )}
+                {data?.wuscaBadges ? (
+                  <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                    <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
+                      <Image
+                        src="/static/assets/icons/search-result/lectures-green.svg"
+                        alt="Lecturers and Teaching"
+                        width={12}
+                        height={12}
+                      />
+                      Lecturers and Teaching
+                    </div>
+                    <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                      + 2 more
+                    </div>
                   </div>
-                  <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                    + 2 more
-                  </div>
-                </div> : <></>}
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
             <Image
-                src={data?.collegeMedia?.ipCollegeImage ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}` : '/static/assets/images/search-results/university.jpg'}
-                alt="University"
-                width={500}
-                height={376}
-                className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-              />
+              src={
+                data?.collegeMedia?.ipCollegeImage
+                  ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                  : "/static/assets/images/search-results/university.jpg"
+              }
+              alt="University"
+              width={500}
+              height={376}
+              className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
+            />
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
-            {data?.review1Text ? 
-              <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
-                <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
-                  <div className="text-heading1 relative top-[20px] font-farro font-normal">
-                    “
-                  </div>
-                  <div className="flex flex-col gap-[4px]">
-                    <div className="relative group x-small">
-                      <span className="text-primary-400 underline font-semibold">
-                        What students think
-                      </span>
-                      <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
-                        <div className="flex items-center justify-between">
-                          <span className="text-grey900 font-semibold">
-                            Why should you trust our uni reviews?
-                          </span>
-                          <svg
-                            className="cursor-pointer"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18 6L6 18"
-                              stroke="#333333"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M6 6L18 18"
-                              stroke="#333333"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </div>
-                        <p className="x-small text-grey300 font-normal">
-                          All our reviews are from real students, submitted
-                          using their verified university email address.
-                        </p>
-                      </div>
+              {data?.review1Text ? (
+                <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
+                  <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
+                    <div className="text-heading1 relative top-[20px] font-farro font-normal">
+                      “
                     </div>
-                    <div className="relative x-small">
-                      <div className="text-grey300 line-clamp-2">
-                        {data?.review1Text}
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="relative group x-small">
+                        <span className="text-primary-400 underline font-semibold">
+                          What students think
+                        </span>
+                        <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-grey900 font-semibold">
+                              Why should you trust our uni reviews?
+                            </span>
+                            <svg
+                              className="cursor-pointer"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18 6L6 18"
+                                stroke="#333333"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M6 6L18 18"
+                                stroke="#333333"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </div>
+                          <p className="x-small text-grey300 font-normal">
+                            All our reviews are from real students, submitted
+                            using their verified university email address.
+                          </p>
+                        </div>
                       </div>
-                      <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
-                        <span>... </span>
-                        <Link
-                          href=""
-                          className="text-blue-400 cursor-pointer hover:underline"
-                        >
-                          Read full review
-                        </Link>
+                      <div className="relative x-small">
+                        <div className="text-grey300 line-clamp-2">
+                          {data?.review1Text}
+                        </div>
+                        <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
+                          <span>... </span>
+                          <Link
+                            href=""
+                            className="text-blue-400 cursor-pointer hover:underline"
+                          >
+                            Read full review
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div> :<></>}
+              ) : (
+                <></>
+              )}
 
               {data?.bestMatchCoursesList?.map(
                 (courseData: any, index: any) => (
@@ -326,35 +371,45 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
-                        <Link  href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}>
-                        <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
-                          {courseData?.courseTitle}
-                        </div></Link>
+                        <Link
+                          href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
+                        >
+                          <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
+                            {courseData?.courseTitle}
+                          </div>
+                        </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                        {courseData?.minUcasPoints ? 
-                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                            <Image
-                              className="hidden md:block"
-                              src="/static/assets/icons/search-result/calender-grey.svg"
-                              alt="Lecturers and Teaching"
-                              width={16}
-                              height={16}
-                            />
-                            {courseData?.minUcasPoints}-
-                            {courseData?.maxUcasPoints} ucas points
-                          </div> :<></>}
-                          {courseData?.availabilityDetails?.duration || courseData?.availabilityDetails?.studyMode ?
-                          <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
-                            <Image
-                              className="hidden md:block"
-                              src="/static/assets/icons/search-result/time-grey.svg"
-                              alt="Lecturers and Teaching"
-                              width={16}
-                              height={16}
-                            />
-                            {courseData?.availabilityDetails?.duration} <> </>
-                            {courseData?.availabilityDetails?.studyMode}
-                          </div> :<></>}
+                          {courseData?.minUcasPoints ? (
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/calender-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {courseData?.minUcasPoints}-
+                              {courseData?.maxUcasPoints} ucas points
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                          {courseData?.availabilityDetails?.duration ||
+                          courseData?.availabilityDetails?.studyMode ? (
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/time-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {courseData?.availabilityDetails?.duration} <> </>
+                              {courseData?.availabilityDetails?.studyMode}
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
                       </div>
                       <div className="heart w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative group">
@@ -415,8 +470,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
+                                fillRule="evenodd"
+                                clipRule="evenodd"
                                 d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
                                 fill="#3460DC"
                               />
@@ -425,53 +480,68 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         </div>
                       </div>
                     </div>
-                    {courseData?.modulesInfo ?
-                    <ClickAndShow>
-                      <div className="text-black x-small">
-                        <div className="font-semibold">Year 1</div>
-                        <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                          <li>Becoming a Criminologist</li>
-                          <li>Introduction to Law and its Study</li>
-                          <li>Social Research in Practice</li>
-                          <li>Criminology in Late Modernity</li>
-                          <li>Criminal Law</li>
-                        </ul>
-                        <Link
-                          href=""
-                          className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
-                        >
-                          View all modules
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                    {courseData?.modulesInfo ? (
+                      <ClickAndShow>
+                        <div className="text-black x-small">
+                          <div className="font-semibold">Year 1</div>
+                          <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
+                            <li>Becoming a Criminologist</li>
+                            <li>Introduction to Law and its Study</li>
+                            <li>Social Research in Practice</li>
+                            <li>Criminology in Late Modernity</li>
+                            <li>Criminal Law</li>
+                          </ul>
+                          <Link
+                            href=""
+                            className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
                           >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
-                              fill="#3460DC"
-                            />
-                          </svg>
-                        </Link>
-                      </div>
-                    </ClickAndShow> : <></>}
+                            View all modules
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
+                                fill="#3460DC"
+                              />
+                            </svg>
+                          </Link>
+                        </div>
+                      </ClickAndShow>
+                    ) : (
+                      <></>
+                    )}
 
                     <div
                       className={`grid grid-cols-1 justify-items-stretch gap-[8px] grid-flow-row auto-cols-fr lg:grid-rows-1 lg:grid-flow-col
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ?     
-                      <Getprospectus /> :<></>}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" ?     
-                      <Visitwebsite /> :<></>}
-                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? 
-                      <BookOpenDay /> :<></>}
-                       {courseData?.enquiryDetails?.emailFlag === "Y" ? 
-                      <RequestInfo/> :<></>}
+                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
+                        <Getprospectus />
+                      ) : (
+                        <></>
+                      )}
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
+                        <Visitwebsite />
+                      ) : (
+                        <></>
+                      )}
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
+                        <BookOpenDay />
+                      ) : (
+                        <></>
+                      )}
+                      {courseData?.enquiryDetails?.emailFlag === "Y" ? (
+                        <RequestInfo />
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 )

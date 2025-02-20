@@ -12,12 +12,9 @@ export function middleware(request: NextRequest, response: NextResponse) {
   ) {
     console.log(request, "request headers logging from the middleware");
     const response = NextResponse.next(); // Initialize response properly
-    // if (searchParams && pathname === "/degree-courses/search") {
-    response.cookies.set("pathnamecookies", pathname, {
-      path: "/degree-courses/search",
-    });
-    // }
-    response.cookies.set("dummmy", "dummy");
+    //if (searchParams && pathname === "/degree-courses/search") {
+    //}
+    response.cookies.set("pathnamecookies", pathname);
     response.cookies.set("searchParamscookies", searchParams.toString());
 
     return response;

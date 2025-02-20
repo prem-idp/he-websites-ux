@@ -9,18 +9,19 @@ import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams } from "next/navigation";
 import {
   getFilterPriority,
-  checkIfUrlIndex,
+  isSingleSelection,
 } from "@packages/lib/utlils/result-filters";
 import { extractUrlAndCookieValues } from "@packages/lib/utlils/result-filters";
-const SearchFilterComponent = ({ jsondata }: any) => {
+import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjectcheckBox";
+const SearchFilterComponent = ({ jsondata, jsondata2 }: any) => {
+  console.log(jsondata2);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isIndexed, setIsIndexed] = useState(true);
   useEffect(() => {
-    const value = checkIfUrlIndex(searchParams);
+    const value = isSingleSelection(searchParams);
     setIsIndexed(value);
   }, [searchParams]);
-
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),
@@ -83,12 +84,13 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   ];
 
   const law = [
-    "ALL Biological and Life Sciences",
-    "Life sciences",
-    "Biology",
-    "Biomedical Sciences",
-    "Biosciences",
-    "Ecology and environmental biology",
+    { name: "ALL Biological", key: "aLL-biological" },
+    { name: "Life sciences", key: "life-sciences" },
+    { name: "Biological", key: "biological" },
+    {
+      name: "Ecology and environmental biology",
+      key: "ecology-and-environmental-biology",
+    },
   ];
 
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
@@ -182,10 +184,8 @@ const SearchFilterComponent = ({ jsondata }: any) => {
       });
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        console.log("same url");
         router.refresh();
       } else {
-        console.log("diff url");
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
@@ -195,70 +195,37 @@ const SearchFilterComponent = ({ jsondata }: any) => {
       isUpdating = false;
     }, 0);
   };
-  // const formUrl = (key: string, value: string) => {
-  //   const filters = extractUrlAndCookieValues(searchParams, key, value);
-  //   const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
-  //     if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-  //     return acc;
-  //   }, {} as KeyValueObject);
-  //   const urlParams = new URLSearchParams();
-  //   const cookieParams: KeyValueObject = {};
-  //   let totalValues = 0;
-  //   Object.entries(orderedFilters).forEach(([k, v]) => {
-  //     const valuesArray = v.split(",");
-  //     if (totalValues + valuesArray.length <= 4) {
-  //       urlParams.set(k, valuesArray.join(","));
-  //       totalValues += valuesArray.length;
-  //     } else {
-  //       const allowedValues = valuesArray.slice(0, 4 - totalValues);
-  //       const remainingValues = valuesArray.slice(4 - totalValues);
-  //       if (allowedValues.length > 0) {
-  //         urlParams.set(k, allowedValues.join(","));
-  //         totalValues += allowedValues.length;
-  //       }
-  //       if (remainingValues.length > 0) {
-  //         cookieParams[k] = remainingValues.join(",");
-  //       }
-  //     }
-  //   });
-  //   return `?${urlParams.toString()}`;
-  // };
+
   const formUrl = (key: string, value: string) => {
     const filters = extractUrlAndCookieValues(searchParams, key, value);
-    console.log(filters);
     const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
       return acc;
     }, {} as KeyValueObject);
-    console.log(orderedFilters);
     const urlParams = new URLSearchParams();
     let totalValues = 0;
-    let subjectParam = "";
+    //let subjectParam = "";
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a).length;
-    console.log(count);
-    // Store the subject parameter separately
-    //const count: any = Object?.fromEntries(searchParams?.entries())?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
       if (totalValues + valuesArray.length <= 4) {
         urlParams.set(k, valuesArray.join(","));
         totalValues += valuesArray.length;
-      } else if (k === "subject") {
-        subjectParam = `${k}=${valuesArray.join(",")}`;
       }
     });
     if (count >= 4) {
-      console.log("count is equal to greater than 4");
-      console.log(key, "::", value, `?${subjectParam}&${key}=${value}`);
-      return `?${subjectParam}&${key}=${value}`;
+      return `?subject=${searchParams?.get("subject")}&${key}=${value}`;
     } else {
-      console.log("count value", count);
-      console.log(key, ":else:", value, `?${urlParams.toString()}`);
       return `?${urlParams.toString()}`;
     }
   };
-  console.log("forming as hardcoded", formUrl("location", "england"));
+  const containsSearchParam = (key: string, value: string): boolean => {
+    const paramValue = searchParams.get(key);
+    if (!paramValue) return false;
+    const decodedValue = decodeURIComponent(paramValue).replace(/\+/g, " ");
+    return decodedValue.split(/[\s,]+/).includes(value);
+  };
   return (
     <>
       <div>
@@ -360,89 +327,100 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Study mode</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one
-                  </div>
-                  <div className="flex flex-row flex-wrap gap-[8px]">
-                    {jsondata?.studyModeList?.map((items: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index + 1}
-                        onClick={() => {
-                          appendSearchParams(
-                            "study-mode",
-                            items?.studyModeTextKey
-                          );
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id="Part time"
-                        />
-                        <label
-                          htmlFor="Part time"
-                          className="btn btn-black-outline"
-                        >
-                          {items?.studyModeDesc}
-                          {isIndexed && (
-                            <Link
-                              id={"study-mode" + items?.studyModeTextKey}
-                              href={formUrl(
+                {jsondata2?.studyModeList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">Study mode</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one
+                    </div>
+                    <div className="flex flex-row flex-wrap gap-[8px]">
+                      {jsondata2?.studyModeList?.map(
+                        (items: any, index: any) => (
+                          <div
+                            className="form-black flex relative"
+                            key={index + 1}
+                            onClick={() => {
+                              appendSearchParams(
                                 "study-mode",
                                 items?.studyModeTextKey
-                              )}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Study level</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one
-                  </div>
-                  <div className="flex flex-wrap gap-[8px]">
-                    {jsondata?.qualificationList?.map(
-                      (item: any, index: any) => (
-                        <div
-                          className="form-black flex relative"
-                          key={index}
-                          onClick={() => {
-                            appendSearchParams(
-                              "study-level",
-                              item?.qualTextKey
-                            );
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="studylevel"
-                            id={item?.qualDisplayDesc}
-                            value={item?.qualDisplayDesc}
-                            className="rounded-[4px] outline-none absolute opacity-0"
-                          />
-                          <label
-                            htmlFor={item?.qualDisplayDesc}
-                            className="btn btn-black-outline"
+                              );
+                            }}
                           >
-                            {item?.qualDisplayDesc}
-                            {isIndexed && (
-                              <Link
-                                id={"study-level" + item?.qualTextKey}
-                                href={formUrl("study-level", item?.qualTextKey)}
-                              ></Link>
-                            )}
-                          </label>
-                        </div>
-                      )
-                    )}
+                            <input
+                              type="checkbox"
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id="Part time"
+                            />
+                            <label
+                              htmlFor="Part time"
+                              className="btn btn-black-outline"
+                            >
+                              {items?.studyModeDesc}
+                              {isIndexed && (
+                                <Link
+                                  id={"study-mode" + items?.studyModeTextKey}
+                                  href={formUrl(
+                                    "study-mode",
+                                    items?.studyModeTextKey
+                                  )}
+                                ></Link>
+                              )}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
+                {jsondata2?.qualificationList.length > 0 && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">
+                      Study level
+                    </div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one
+                    </div>
+                    <div className="flex flex-wrap gap-[8px]">
+                      {jsondata2?.qualificationList?.map(
+                        (item: any, index: any) => (
+                          <div
+                            className="form-black flex relative"
+                            key={index}
+                            onClick={() => {
+                              appendSearchParams(
+                                "study-level",
+                                item?.qualTextKey
+                              );
+                            }}
+                          >
+                            <input
+                              type="radio"
+                              name="studylevel"
+                              id={item?.qualDisplayDesc}
+                              value={item?.qualDisplayDesc}
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                            />
+                            <label
+                              htmlFor={item?.qualDisplayDesc}
+                              className="btn btn-black-outline"
+                            >
+                              {item?.qualDisplayDesc}
+                              {isIndexed && (
+                                <Link
+                                  id={"study-level" + item?.qualTextKey}
+                                  href={formUrl(
+                                    "study-level",
+                                    item?.qualTextKey
+                                  )}
+                                ></Link>
+                              )}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
                 <div className="flex flex-col gap-[16px]">
                   <div className="flex flex-col gap-[4px]">
                     <div className="text-para-lg font-semibold">
@@ -526,60 +504,6 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                                 />
                               </svg>
                             </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              Full time
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              Full time
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              South East England
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
                             <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
                               <Link href="" aria-label="Back Arrow">
                                 <svg
@@ -625,49 +549,21 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             <div className="flex flex-col gap-[12px]">
                               <div className="small font-bold">Law</div>
                               <div className="flex flex-col gap-[12px]">
-                                {law.map((item, index) => (
+                                {law?.map((item, index) => (
                                   <div
                                     className="form_check relative"
                                     key={index}
                                   >
-                                    <div className="flex items-start gap-[8px]">
-                                      <div className="checkbox_card">
-                                        <input
-                                          type="checkbox"
-                                          className="form-checkbox hidden"
-                                          id={item}
-                                        />
-                                        <label
-                                          htmlFor={item}
-                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                        >
-                                          <svg
-                                            width="10"
-                                            height="8"
-                                            viewBox="0 0 10 8"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                              fill="white"
-                                              stroke="white"
-                                              strokeWidth="0.666667"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            />
-                                          </svg>
-                                        </label>
-                                      </div>
-                                      <label
-                                        htmlFor={item}
-                                        className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                      >
-                                        {item}
-                                      </label>
-                                    </div>
+                                    <SubjectCheckBox
+                                      item={item}
+                                      formUrl={formUrl}
+                                      isIndexed={isIndexed}
+                                      appendSearchParams={appendSearchParams}
+                                      state={containsSearchParam(
+                                        "subject",
+                                        item.key
+                                      )}
+                                    />
                                   </div>
                                 ))}
                               </div>
@@ -680,82 +576,85 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                 </div>
               </div>
             </Accordion>
-            <Accordion
-              id="#year"
-              title="Intake year"
-              defaultOpenStatus={selectedFilter === "year" ? true : false}
-            >
-              {/* intake */}
-              <div className="flex flex-col gap-[8px] p-[8px_0_0]">
-                <div className="x-small font-semibold text-black uppercase">
-                  Choose YEAR & MONTH
-                </div>
-                <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {jsondata?.intakeYearDetails?.intakeYearList?.map(
-                    (item: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index}
-                        onClick={() => {
-                          appendSearchParams("year", item?.year.toString());
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="2024"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id={`${item?.year}`}
-                        />
-                        <label
-                          htmlFor={`${item?.year}`}
-                          className="btn btn-black-outline"
+            {(jsondata2?.intakeYearDetails?.intakeYearList.length > 0 ||
+              jsondata2?.intakeYearDetails?.intakeMonthList.length > 0) && (
+              <Accordion
+                id="#year"
+                title="Intake year"
+                defaultOpenStatus={selectedFilter === "year" ? true : false}
+              >
+                {/* intake */}
+                <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+                  <div className="x-small font-semibold text-black uppercase">
+                    Choose YEAR & MONTH
+                  </div>
+                  <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                    {jsondata2?.intakeYearDetails?.intakeYearList?.map(
+                      (item: any, index: any) => (
+                        <div
+                          className="form-black flex relative"
+                          key={index}
+                          onClick={() => {
+                            appendSearchParams("year", item?.year.toString());
+                          }}
                         >
-                          {item?.year}
-                          {isIndexed && (
-                            <Link
-                              id={"year" + item?.year}
-                              href={formUrl("year", `${item?.year}`)}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    )
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {jsondata?.intakeYearDetails?.intakeMonthList?.map(
-                    (item: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index}
-                        onClick={() => {
-                          appendSearchParams("month", item?.month);
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="All Months"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id={item?.month}
-                        />
-                        <label
-                          htmlFor={item?.month}
-                          className="btn btn-black-outline min-w-[53px] py-[5px]"
+                          <input
+                            type="radio"
+                            name="2024"
+                            className="rounded-[4px] outline-none absolute opacity-0"
+                            id={`${item?.year}`}
+                          />
+                          <label
+                            htmlFor={`${item?.year}`}
+                            className="btn btn-black-outline"
+                          >
+                            {item?.year}
+                            {isIndexed && (
+                              <Link
+                                id={"year" + item?.year}
+                                href={formUrl("year", `${item?.year}`)}
+                              ></Link>
+                            )}
+                          </label>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                    {jsondata2?.intakeYearDetails?.intakeMonthList?.map(
+                      (item: any, index: any) => (
+                        <div
+                          className="form-black flex relative"
+                          key={index}
+                          onClick={() => {
+                            appendSearchParams("month", item?.month);
+                          }}
                         >
-                          {item?.month}
-                          {isIndexed && (
-                            <Link
-                              id={"month" + item?.month}
-                              href={formUrl("month", item?.month)}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    )
-                  )}
+                          <input
+                            type="radio"
+                            name="All Months"
+                            className="rounded-[4px] outline-none absolute opacity-0"
+                            id={item?.month}
+                          />
+                          <label
+                            htmlFor={item?.month}
+                            className="btn btn-black-outline min-w-[53px] py-[5px]"
+                          >
+                            {item?.month}
+                            {isIndexed && (
+                              <Link
+                                id={"month" + item?.month}
+                                href={formUrl("month", item?.month)}
+                              ></Link>
+                            )}
+                          </label>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Accordion>
+              </Accordion>
+            )}
             <Accordion
               title="University"
               id="#university"
@@ -997,309 +896,322 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     </Link>
                   </div>
                 </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Region</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
-                  </div>
-                  <ul className="pt-[12px]">
-                    <li>
-                      <div className="form_check relative m-[0_0_12px]">
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id="All Uk"
-                              name="All Uk"
-                            />
+                {(jsondata2?.regionList?.length > 0 ||
+                  jsondata2?.cityList?.length > 0) && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">Region</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <ul className="pt-[12px]">
+                      <li>
+                        <div className="form_check relative m-[0_0_12px]">
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              <input
+                                type="checkbox"
+                                className="form-checkbox hidden"
+                                id="All Uk"
+                                name="All Uk"
+                              />
+                              <label
+                                htmlFor="All Uk"
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
                             <label
                               htmlFor="All Uk"
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              All Uk
                             </label>
                           </div>
-                          <label
-                            htmlFor="All Uk"
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            All Uk
-                          </label>
                         </div>
-                      </div>
-                      <ul>
-                        <li>
-                          {jsondata?.regionList?.map(
-                            (item: any, index: any) => (
-                              <div key={index}>
-                                <div className="form_check relative m-[0_0_12px_24px]">
-                                  <div className="flex items-start gap-[8px]">
-                                    <div className="checkbox_card">
-                                      <input
-                                        onClick={() => {
-                                          appendSearchParams(
-                                            "location",
-                                            item?.regionTextKey
-                                          );
-                                        }}
-                                        type="checkbox"
-                                        className="form-checkbox hidden"
-                                        id={item?.regionName}
-                                        name={item?.regionName}
-                                      />
-                                      {isIndexed && (
-                                        <Link
-                                          id={"location" + item?.regionTextKey}
-                                          href={formUrl(
-                                            "location",
-                                            item?.regionTextKey
-                                          )}
-                                        ></Link>
-                                      )}
+                        <ul>
+                          <li>
+                            {jsondata2?.regionList?.map(
+                              (item: any, index: any) => (
+                                <div key={index}>
+                                  <div className="form_check relative m-[0_0_12px_24px]">
+                                    <div className="flex items-start gap-[8px]">
+                                      <div className="checkbox_card">
+                                        <input
+                                          onClick={() => {
+                                            appendSearchParams(
+                                              "location",
+                                              item?.regionTextKey
+                                            );
+                                          }}
+                                          type="checkbox"
+                                          className="form-checkbox hidden"
+                                          id={item?.regionName}
+                                          name={item?.regionName}
+                                        />
+                                        {isIndexed && (
+                                          <Link
+                                            id={
+                                              "location" + item?.regionTextKey
+                                            }
+                                            href={formUrl(
+                                              "location",
+                                              item?.regionTextKey
+                                            )}
+                                          ></Link>
+                                        )}
+                                        <label
+                                          htmlFor={item?.regionName}
+                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                        >
+                                          <svg
+                                            width="10"
+                                            height="8"
+                                            viewBox="0 0 10 8"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                              fill="white"
+                                              stroke="white"
+                                              strokeWidth="0.666667"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            />
+                                          </svg>
+                                        </label>
+                                      </div>
                                       <label
                                         htmlFor={item?.regionName}
-                                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                        className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                       >
-                                        <svg
-                                          width="10"
-                                          height="8"
-                                          viewBox="0 0 10 8"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                            fill="white"
-                                            stroke="white"
-                                            strokeWidth="0.666667"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
+                                        {item?.regionName}
                                       </label>
                                     </div>
-                                    <label
-                                      htmlFor={item?.regionName}
-                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                    >
-                                      {item?.regionName}
-                                    </label>
                                   </div>
-                                </div>
-                                {/* <ul>
-                                {index == 0 && (
-                                  <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
-                                    {region.map((item, index) => (
-                                      <div
-                                        className="form_check relative m-[0_0_12px_40px]"
-                                        key={index}
-                                      >
-                                        <div className="flex items-start gap-[8px]">
-                                          <div className="checkbox_card">
-                                            <input
-                                              type="checkbox"
-                                              className="form-checkbox hidden"
-                                              id={item}
-                                            />
-                                            <label
-                                              htmlFor={item}
-                                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                            >
-                                              <svg
-                                                width="10"
-                                                height="8"
-                                                viewBox="0 0 10 8"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  fillRule="evenodd"
-                                                  clipRule="evenodd"
-                                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                                  fill="white"
-                                                  stroke="white"
-                                                  strokeWidth="0.666667"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                              </svg>
-                                            </label>
-                                          </div>
-                                          <label
-                                            htmlFor={item}
-                                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                  {/* <ul>
+                                  {index == 0 && (
+                                    <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
+                                      {jsondata2?.regionList.map(
+                                        (item: any, index: any) => (
+                                          <div
+                                            className="form_check relative m-[0_0_12px_40px]"
+                                            key={index}
                                           >
-                                            {item}
-                                          </label>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </li>
-                                )}
-                              </ul> */}
-                              </div>
-                            )
-                          )}
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">City</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
+                                            <div className="flex items-start gap-[8px]">
+                                              <div className="checkbox_card">
+                                                <input
+                                                  type="checkbox"
+                                                  className="form-checkbox hidden"
+                                                  id={item?.regionName}
+                                                />
+                                                <label
+                                                  htmlFor={item?.regionName}
+                                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                                >
+                                                  <svg
+                                                    width="10"
+                                                    height="8"
+                                                    viewBox="0 0 10 8"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  >
+                                                    <path
+                                                      fillRule="evenodd"
+                                                      clipRule="evenodd"
+                                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                                      fill="white"
+                                                      stroke="white"
+                                                      strokeWidth="0.666667"
+                                                      strokeLinecap="round"
+                                                      strokeLinejoin="round"
+                                                    />
+                                                  </svg>
+                                                </label>
+                                              </div>
+                                              <label
+                                                htmlFor={item?.regionName}
+                                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                              >
+                                                {item?.regionName}hello
+                                              </label>
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </li>
+                                  )}
+                                </ul> */}
+                                </div>
+                              )
+                            )}
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
                   </div>
-                  <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
-                    {jsondata?.cityList?.map((item: any, index: any) => (
-                      <div className="form_check relative" key={index}>
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id={item?.cityName}
-                            />
+                )}
+                {jsondata2?.cityList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">City</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
+                      {jsondata2?.cityList?.map((item: any, index: any) => (
+                        <div className="form_check relative" key={index}>
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              <input
+                                type="checkbox"
+                                className="form-checkbox hidden"
+                                id={item?.cityName}
+                              />
+                              <label
+                                htmlFor={item?.cityName}
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
                             <label
                               htmlFor={item?.cityName}
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              {item?.cityName}
                             </label>
                           </div>
-                          <label
-                            htmlFor={item?.cityName}
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            {item?.cityName}
-                          </label>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">
-                    Location type
+                )}
+                {jsondata2?.uniLocationTypeList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">
+                      Location type
+                    </div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <div className="flex items-center gap-[8px]">
+                      {jsondata2?.uniLocationTypeList?.map(
+                        (item: any, index: any) => (
+                          <div className="form-black flex relative" key={index}>
+                            <input
+                              // defaultValue={"Countryside"}
+                              type="checkbox"
+                              name="Countryside"
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id={item?.locTypeDesc}
+                              value={item?.locTypeDesc}
+                            />
+                            <label
+                              htmlFor={item?.locTypeDesc}
+                              className="btn btn-black-outline"
+                            >
+                              {item?.locTypeDesc}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
+                )}
+              </div>
+            </Accordion>
+            {jsondata2?.universityGroupList?.length > 0 && (
+              <Accordion title="University group" defaultOpenStatus={false}>
+                <div className="flex flex-col gap-[8px] pt-[24px]">
                   <div className="x-small font-semibold text-black uppercase">
                     Choose one or more
                   </div>
-                  <div className="flex items-center gap-[8px]">
-                    {jsondata?.uniLocationTypeList?.map(
+                  <div className="flex flex-col gap-[12px]">
+                    {jsondata2?.universityGroupList?.map(
                       (item: any, index: any) => (
-                        <div className="form-black flex relative" key={index}>
-                          <input
-                            // defaultValue={"Countryside"}
-                            type="checkbox"
-                            name="Countryside"
-                            className="rounded-[4px] outline-none absolute opacity-0"
-                            id={item?.locTypeDesc}
-                            value={item?.locTypeDesc}
-                          />
-                          <label
-                            htmlFor={item?.locTypeDesc}
-                            className="btn btn-black-outline"
-                          >
-                            {item?.locTypeDesc}
-                          </label>
+                        <div className="form_check relative" key={index}>
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              <input
+                                type="checkbox"
+                                className="form-checkbox hidden"
+                                id={item?.universityGroupDesc}
+                              />
+                              <label
+                                htmlFor={item?.universityGroupDesc}
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
+                            <label
+                              htmlFor={item?.universityGroupDesc}
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                            >
+                              {item?.universityGroupDesc}
+                            </label>
+                          </div>
                         </div>
                       )
                     )}
                   </div>
                 </div>
-              </div>
-            </Accordion>
-            <Accordion title="University group" defaultOpenStatus={false}>
-              <div className="flex flex-col gap-[8px] pt-[24px]">
-                <div className="x-small font-semibold text-black uppercase">
-                  Choose one or more
-                </div>
-                <div className="flex flex-col gap-[12px]">
-                  {jsondata?.universityGroupList?.map(
-                    (item: any, index: any) => (
-                      <div className="form_check relative" key={index}>
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id={item?.universityGroupDesc}
-                            />
-                            <label
-                              htmlFor={item?.universityGroupDesc}
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                            >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </label>
-                          </div>
-                          <label
-                            htmlFor={item?.universityGroupDesc}
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            {item?.universityGroupDesc}
-                          </label>
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            </Accordion>
+              </Accordion>
+            )}
           </div>
 
           <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
