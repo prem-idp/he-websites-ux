@@ -13,6 +13,7 @@ interface SrPageResultPodProps {
   searchResultsData: any[];
 }
 
+
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
 }) => {
@@ -259,27 +260,22 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       </p>
                     </div>
                   </div>
-                ) : (
-                  <></>
-                )}
-                {data?.wuscaBadges ? (
-                  <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
-                    <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
-                      <Image
-                        src="/static/assets/icons/search-result/lectures-green.svg"
-                        alt="Lecturers and Teaching"
-                        width={12}
-                        height={12}
-                      />
-                      Lecturers and Teaching
-                    </div>
-                    <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + 2 more
-                    </div>
+                </div> : <></>}
+                {data?.wuscaBadges ? 
+                <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                  <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
+                    <Image
+                      src="/static/assets/icons/search-result/lectures-green.svg"
+                      alt="Lecturers and Teaching"
+                      width={12}
+                      height={12}
+                    />
+                    {data?.wuscaBadges}
                   </div>
-                ) : (
-                  <></>
-                )}
+                  <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                    + 2 more
+                  </div>
+                </div> : <></>}
               </div>
             </div>
             <Image
@@ -296,72 +292,69 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
-              {data?.review1Text ? (
-                <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
-                  <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
-                    <div className="text-heading1 relative top-[20px] font-farro font-normal">
-                      “
-                    </div>
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="relative group x-small">
-                        <span className="text-primary-400 underline font-semibold">
-                          What students think
-                        </span>
-                        <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
-                          <div className="flex items-center justify-between">
-                            <span className="text-grey900 font-semibold">
-                              Why should you trust our uni reviews?
-                            </span>
-                            <svg
-                              className="cursor-pointer"
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M18 6L6 18"
-                                stroke="#333333"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M6 6L18 18"
-                                stroke="#333333"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </div>
-                          <p className="x-small text-grey300 font-normal">
-                            All our reviews are from real students, submitted
-                            using their verified university email address.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="relative x-small">
-                        <div className="text-grey300 line-clamp-2">
-                          {data?.review1Text}
-                        </div>
-                        <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
-                          <span>... </span>
-                          <Link
-                            href=""
-                            className="text-blue-400 cursor-pointer hover:underline"
+            {data?.review1Text ? 
+              <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
+                <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
+                  <div className="text-heading1 relative top-[20px] font-farro font-normal">
+                    “
+                  </div>
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="relative group x-small">
+                      <span className="text-primary-400 underline font-semibold">
+                        What students think
+                      </span>
+                      <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                        <div className="flex items-center justify-between">
+                          <span className="text-grey900 font-semibold">
+                            Why should you trust our uni reviews?
+                          </span>
+                          <svg
+                            className="cursor-pointer"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            Read full review
-                          </Link>
+                            <path
+                              d="M18 6L6 18"
+                              stroke="#333333"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M6 6L18 18"
+                              stroke="#333333"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </div>
+                        <p className="x-small text-grey300 font-normal">
+                          All our reviews are from real students, submitted
+                          using their verified university email address.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="relative x-small">
+                      <div className="text-grey300 line-clamp-2">
+                        {data?.review1Text}
+                      </div>
+                      <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
+                        <span>... </span>
+                        <Link
+                          href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
+                          className="text-blue-400 cursor-pointer hover:underline"
+                        >
+                          Read full review
+                        </Link>
                       </div>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <></>
-              )}
+              </div> :<></>}
 
               {data?.bestMatchCoursesList?.map(
                 (courseData: any, index: any) => (
@@ -522,26 +515,14 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
-                        <Getprospectus />
-                      ) : (
-                        <></>
-                      )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
-                        <Visitwebsite />
-                      ) : (
-                        <></>
-                      )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
-                        <BookOpenDay />
-                      ) : (
-                        <></>
-                      )}
-                      {courseData?.enquiryDetails?.emailFlag === "Y" ? (
-                        <RequestInfo />
-                      ) : (
-                        <></>
-                      )}
+                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ?     
+                      <Getprospectus enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" ?     
+                      <Visitwebsite enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
+                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? 
+                      <BookOpenDay enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
+                       {courseData?.enquiryDetails?.emailFlag === "Y" ? 
+                      <RequestInfo enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
                     </div>
                   </div>
                 )

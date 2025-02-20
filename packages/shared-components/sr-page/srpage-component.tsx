@@ -29,7 +29,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   let searchResultsData;
   let filterCookieParam;
   if (typeof document !== "undefined") {
-    const filterCookieParam = JSON.parse(
+      filterCookieParam = JSON.parse(
       getDecodedCookie("filter_param") || "{}"
     );
   }
