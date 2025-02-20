@@ -13,6 +13,7 @@ interface SrPageResultPodProps {
   searchResultsData: any[];
 }
 
+
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
 }) => {
@@ -236,7 +237,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       width={12}
                       height={12}
                     />
-                    Lecturers and Teaching
+                    {data?.wuscaBadges}
                   </div>
                   <div className="bg-primary-400 px-[8px] rounded-[4px]">
                     + 2 more
@@ -307,7 +308,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
                         <span>... </span>
                         <Link
-                          href=""
+                          href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
                           className="text-blue-400 cursor-pointer hover:underline"
                         >
                           Read full review
@@ -465,13 +466,13 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       }`}
                     >
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ?     
-                      <Getprospectus /> :<></>}
+                      <Getprospectus enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ?     
-                      <Visitwebsite /> :<></>}
+                      <Visitwebsite enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
                        {courseData?.enquiryDetails?.websiteFlag === "Y" ? 
-                      <BookOpenDay /> :<></>}
+                      <BookOpenDay enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
                        {courseData?.enquiryDetails?.emailFlag === "Y" ? 
-                      <RequestInfo/> :<></>}
+                      <RequestInfo enquiryProps={{courseId : courseData?.courseId,collegeId:data?.collegeId,subOrderItemid:courseData?.enquiryDetails?.subOrderItemId,sponsoredListingFlag:data?.sponsoredListingFlag,manualBoostingFlag:data?.manualBoostingFlag,orderItemId:courseData?.enquiryDetails?.orderItemId}}/> :<></>}
                     </div>
                   </div>
                 )
