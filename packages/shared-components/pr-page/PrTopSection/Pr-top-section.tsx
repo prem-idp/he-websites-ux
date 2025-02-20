@@ -1,7 +1,21 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-const PrPageTopSection = () => {
+
+interface ProviderTopCardProps {
+  searchResultlist: any; // Adjust type as needed
+}
+
+const PrPageTopSection:React.FC<ProviderTopCardProps> = ({searchResultlist}) => {
+  
+  const college = searchResultlist?.searchResultsList[0];
+  const logoSrc = college?.collegeMedia?.wuCollegeLogo; // Extract the logo URL
+  const distanceInMiles = college?.distanceInMiles?? 0;
+  const collegeName = college?.collegeDisplayName;
+  const totalCourseCount = searchResultlist?.totalCourseCount;
+  const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
+  const rating = college?.rating ?? 0; // Default to 0 if null
+
   return (
     <section className="bg-white">
       <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
@@ -9,7 +23,7 @@ const PrPageTopSection = () => {
           <div className="flex gap-[17px]">
             <span className="p-[4px] bg-white rounded-[8px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px]">
               <img
-                src="/static/assets/icons/search-result/kent.png"
+                src={logoSrc}
                 alt="University logo"
                 width={56}
                 height={56}
@@ -17,9 +31,9 @@ const PrPageTopSection = () => {
             </span>
             <div className="flex flex-col gap-[4px]">
               <div className="h5 heading5 font-farro text-black">
-                University of kent
+                {collegeName}
               </div>
-              <span className="para">1563 courses available </span>
+              <span className="para">{totalCourseCount} courses available </span>
               <div className="flex items-center gap-[8px] text-blue-400 small">
                 <span className="flex items-center">
                   <Image
@@ -29,10 +43,10 @@ const PrPageTopSection = () => {
                     height="24"
                     src="/static/assets/icons/blue-star-icon.svg"
                   />
-                  4.6
+                  {rating}
                 </span>
                 <Link href="#" className="underline ">
-                  400 reviews
+                  {reviewCount} reviews
                 </Link>
               </div>
               <ul className="flex mt-[4px] flex-wrap gap-[8px]">
@@ -46,7 +60,7 @@ const PrPageTopSection = () => {
                     height="16"
                     alt="location icon"
                   />
-                  18.1 Miles from you
+                  {distanceInMiles} Miles from you
                 </li>
                 <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
                   <span>
