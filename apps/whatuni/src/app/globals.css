@@ -247,8 +247,6 @@ p, .para {
 
 /* typograpy */
 
-@layer utilities {}
-
 @media screen and (max-width: 767px) {
   .adviceCourseSlider {
     @apply !px-[0] !py-[16px]
@@ -503,12 +501,9 @@ p, .para {
 }
 
 .partner .swiper-pagination {
-  @apply !bottom-0
+  @apply !bottom-0 lg:!hidden
 }
 
-.partner .swiper-pagination {
-  @apply lg:!hidden
-}
 /* partner slider styles */
 
 .rightmenu li:not(:last-child) span:hover>svg path, .continue_email:hover svg path {
