@@ -204,7 +204,6 @@ const SearchFilterComponent = ({ jsondata, jsondata2 }: any) => {
     }, {} as KeyValueObject);
     const urlParams = new URLSearchParams();
     let totalValues = 0;
-    //let subjectParam = "";
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a).length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
