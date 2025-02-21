@@ -244,7 +244,7 @@ const SearchFilterComponent = ({ jsondata, jsondata2 }: any) => {
             <div className="flex justify-between">
               <svg
                 onClick={closeFilter}
-                className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
+                className="mt-[-6px] ml-auto mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -371,7 +371,7 @@ const SearchFilterComponent = ({ jsondata, jsondata2 }: any) => {
                     </div>
                   </div>
                 )}
-                {jsondata2?.qualificationList.length > 0 && (
+                {jsondata2?.qualificationList?.length> 0 && (
                   <div className="flex flex-col gap-[4px]">
                     <div className="text-para-lg font-semibold">
                       Study level
@@ -575,8 +575,8 @@ const SearchFilterComponent = ({ jsondata, jsondata2 }: any) => {
                 </div>
               </div>
             </Accordion>
-            {(jsondata2?.intakeYearDetails?.intakeYearList.length > 0 ||
-              jsondata2?.intakeYearDetails?.intakeMonthList.length > 0) && (
+            {(jsondata2?.intakeYearDetails?.intakeYearList?.length > 0 ||
+              jsondata2?.intakeYearDetails?.intakeMonthList?.length > 0) && (
               <Accordion
                 id="#year"
                 title="Intake year"
