@@ -126,6 +126,7 @@ const Header = ({ topnav_data }: props) => {
           console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
+          localStorage?.removeItem("resultSubmit");
           document.cookie =
             "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
           document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
