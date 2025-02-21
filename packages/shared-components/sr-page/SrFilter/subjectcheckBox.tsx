@@ -12,28 +12,27 @@ const SubjectCheckBox = ({
   useEffect(() => {
     setIsChecked(state);
   }, [state]);
-  console.log(item.key, isChecked);
   return (
     <div className="flex items-start gap-[8px] form_check">
       <div className="checkbox_card">
         {isIndexed && (
           <Link
-            id={"subject" + item.key}
-            href={formUrl("subject", item.key)}
+            id={"subject" + item?.subjectTextKey}
+            href={formUrl("subject", item?.subjectTextKey)}
           ></Link>
         )}
         <input
           type="checkbox"
-          id={item.name}
+          id={item?.categoryDesc}
           checked={isChecked}
           onChange={() => {
             setIsChecked(!isChecked);
-            appendSearchParams("subject", item.key);
+            appendSearchParams("subject", item?.subjectTextKey);
           }}
           className="form-checkbox hidden"
         />
         <label
-          htmlFor={item.name}
+          htmlFor={item?.categoryDesc}
           className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
         >
           <svg
@@ -57,10 +56,10 @@ const SubjectCheckBox = ({
         </label>
       </div>
       <label
-        htmlFor={item.name}
+        htmlFor={item?.categoryDesc}
         className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
       >
-        {item.name}
+        {item?.categoryDesc}
       </label>
     </div>
   );

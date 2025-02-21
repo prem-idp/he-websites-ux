@@ -29,9 +29,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   let searchResultsData;
   let filterCookieParam;
   if (typeof document !== "undefined") {
-      filterCookieParam = JSON.parse(
-      getDecodedCookie("filter_param") || "{}"
-    );
+    filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
   }
   try {
     searchResultsData = await searchResultsFetchFunction(
@@ -48,10 +46,10 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   return (
     <>
       <TopSection />
-      <Suspense>
+      {/* <Suspense>
         <SearchFilterButtons />
         <SearchLabels />
-      </Suspense>
+      </Suspense> */}
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />

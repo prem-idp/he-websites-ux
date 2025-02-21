@@ -142,9 +142,15 @@ const qualCode: any = {
   "access-foundation-courses": "T",
   "hnd-hnc-courses": "N",
 };
-
+const locationMilesArray = [
+  { miles: "5 miles" },
+  { miles: "10 miles" },
+  { miles: "25 miles" },
+  { miles: "50 miles" },
+];
 export {
   qualCode,
+  locationMilesArray,
   filterbodyJson,
   mergeTwoObjects,
   isSingleSelection,
