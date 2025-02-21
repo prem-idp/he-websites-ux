@@ -41,6 +41,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
         pathnameArray?.[3]?.split?.("-")?.[0]
       )
     );
+    console.log("searchResultsData", searchResultsData);
   } catch (error) {
     console.log("error", error);
   }
@@ -48,10 +49,10 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   return (
     <>
       <TopSection />
-      <Suspense>
+      {/* <Suspense>
         <SearchFilterButtons />
         <SearchLabels />
-      </Suspense>
+      </Suspense> */}
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
