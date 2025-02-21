@@ -39,6 +39,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
         pathnameArray?.[3]?.split?.("-")?.[0]
       )
     );
+    console.log("searchResultsData", searchResultsData);
   } catch (error) {
     console.log("error", error);
   }

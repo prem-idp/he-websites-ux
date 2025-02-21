@@ -19,11 +19,12 @@ export function getQualCode(qualText:any) {
 }
 
 export function getSearchPayload(searchParams:any,filterCookieParam:any,qualification:any) {   
+    let subjectArray = [searchParams?.subject || searchParams?.course || ""]
     const searchPayload: any = {
         parentQualification: getQualCode(qualification),
         childQualification:  searchParams?.qualification || filterCookieParam?.["qualification"] || "",
         searchCategoryCode:"",
-        searchSubject: searchParams?.subject || searchParams?.course || "",
+        searchSubject: subjectArray,
         searchKeyword: searchParams?.q || searchParams?.keyword || "",
         jacsCode: "",
         location: searchParams?.location || filterCookieParam?.["location"] || "",

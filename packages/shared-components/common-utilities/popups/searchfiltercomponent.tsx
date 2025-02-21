@@ -249,7 +249,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
               <h6 className="h2">Filter</h6>
               <svg
                 onClick={closeFilter}
-                className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
+                className="mt-[-6px] ml-auto mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
