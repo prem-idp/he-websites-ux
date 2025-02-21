@@ -17,6 +17,7 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import { headers } from "next/headers";
 import { getQualCode, getSearchPayload } from "../services/utils";
 import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
 
 const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
@@ -101,6 +102,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
               <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
                 <ExploreArticles />
                 <ExploreArticles />
+                {/* <Explorearticelskeleton/> */}
               </div>
             </div>
           </section>

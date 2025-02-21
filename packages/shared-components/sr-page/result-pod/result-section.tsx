@@ -9,6 +9,7 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import { getCurrentUser } from "@aws-amplify/auth";
 import SearchResultReviewLightBox from "@packages/shared-components/common-utilities/popups/sr-reviewlightbox";
+import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
 
 interface SrPageResultPodProps {
   searchResultsData: any[];
@@ -557,8 +558,9 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
         </div>
       )}
+      {/* <ResultSectionSkeleton/> */}
 
-      {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />}
+      {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}
     </>
   );
 };
