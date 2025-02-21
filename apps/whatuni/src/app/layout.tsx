@@ -5,7 +5,7 @@ import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import HeaderWrapper from "../../../../packages/shared-components/layout-components/header/headerWrapper";
 import Footer from "@packages/shared-components/layout-components/footer/footercomponents";
-import ClientWrapper from "./clientwrapper";
+import ClientWrapper from "./clientscriptwrapper"
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",

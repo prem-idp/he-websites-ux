@@ -82,8 +82,7 @@ const Authorprofile = ({ propsdata, preview }: any) => {
                 propsdata?.bannerImageCollection?.items[0]?.imgAltText ??
                 "Article_image"
               }
-               placeholder="blur"
-              blurDataURL="/static/assests/images/detailpageimage.png"
+          
             />
           )}
         </div>
