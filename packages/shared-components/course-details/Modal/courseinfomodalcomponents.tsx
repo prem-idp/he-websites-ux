@@ -3,7 +3,11 @@ import React from 'react'
 import Image from 'next/image'
 import { log } from 'node:console';
 
-const Courseinfomodalcomponents = ({isOpen, onClose }:any) => {   
+
+const Courseinfomodalcomponents = ({isOpen,onClose}:any) => {   
+ 
+
+
   return (
     <>
         <div onClick={onClose} className={`${isOpen ? "animate-fadeIn block" : "hidden"} backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white z-[7]`}>
@@ -38,7 +42,7 @@ const Courseinfomodalcomponents = ({isOpen, onClose }:any) => {
                                    </span>
                                </div>
                                <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Start date</span>
+                                   <span className='small font-semibold text-grey300'>Start date testing</span>
                                    <span className='small text-grey300'>SEP-24
                                    </span>
                                </div>

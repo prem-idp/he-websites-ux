@@ -1,5 +1,7 @@
 // import Othercoursesslidercomponents from '@/app/components/slider/othercoursesslidercomponents'
 
+'use client'
+
 import React from 'react'
 
 const Othercoursesmaylikecomponents = () => {

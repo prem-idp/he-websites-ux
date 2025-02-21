@@ -1,10 +1,12 @@
+'use client'
+
 import React from 'react'
 import Keystatscomponents from '../keystats/keystatscomponents'
 // import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
 import Reviewslidercomponents from '@packages/shared-components/common-utilities/slider/reviewslidercomponents'
 
 
-const Courseinfocomponents = ({ onOpenModal, onOpenReviewModal }:any) => {
+const Courseinfocomponents = () => {
   return (
     <>
       <div className='courseinfo-container'> 
@@ -20,7 +22,7 @@ const Courseinfocomponents = ({ onOpenModal, onOpenReviewModal }:any) => {
                     </div>
                     {/* Keystats */}
                     <div className='px-[16px] md:px-[20px] xl:px-[0]'>
-                      <Keystatscomponents  onOpenModal={onOpenModal} />
+                      <Keystatscomponents />
                     </div>
                     {/* -- */}
                     <div className='latest-reviews flex flex-col gap-[16px] mt-[8px] '>
@@ -29,7 +31,7 @@ const Courseinfocomponents = ({ onOpenModal, onOpenReviewModal }:any) => {
                           <div className='h5 text-black'>What students say</div>
                         </div>
                       </div>
-                      <Reviewslidercomponents onOpenReviewModal={onOpenReviewModal} />
+                      {/* <Reviewslidercomponents onOpenReviewModal={onOpenReviewModal} /> */}
                       <div className='flex justify-center mt-[4px]'>
                       <a href='#' className='flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]'>
                         View more

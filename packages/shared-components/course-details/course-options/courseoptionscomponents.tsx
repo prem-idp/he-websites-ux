@@ -1,16 +1,27 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import Courseinfomodalcomponents from "@packages/shared-components/course-details/Modal/courseinfomodalcomponents"
+import { useState } from 'react'
+const Courseoptionscomponents = () => {
+  
+  const [isOpen,setIsOpen]=useState(false)
+  function togglemodal(){
+    setIsOpen((prev)=>!prev)
+  }
 
-const Courseoptionscomponents = ({ onOpenModal }:any) => {
   return (
+    <>
+    {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal}/>}
     <section className='bg-primary-50 border-b border-primary-100'>
     <div className="max-w-container mx-auto">
       <div className='card-container flex flex-col gap-[24px] py-[24px] px-[16px] md:px-[20px] lg:px-[0]'>
         <div className='card-header flex flex-col lg:flex-row gap-[24px] md:gap-[16px] items-start justify-between'>
           <div className='flex flex-col md:flex-row items-start md:items-center  gap-[16px] md:gap-[8px]'>
             <div className='h5 text-black'>Different course options</div>
-            <button type='button' onClick={onOpenModal} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>2 options available 
+            <button type='button' onClick={()=>togglemodal()} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>2 options available 
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -63,6 +74,7 @@ const Courseoptionscomponents = ({ onOpenModal }:any) => {
       </div>
     </div>
   </section>
+    </>
   )
 }
 

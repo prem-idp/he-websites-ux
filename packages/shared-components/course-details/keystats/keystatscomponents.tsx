@@ -1,15 +1,26 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
+import { subjectItems } from './../../services/carouselContents';
+import Subjectmodalcomponents from '@packages/shared-components/course-details/Modal/subjectmodalcomponents';
+const Keystatscomponents = () => {
+ 
 
-const Keystatscomponents = ({onOpenModal}:any) => {
+  const [isOpen,setIsOpen]=useState(false)
+  function togglemodal(){
+    setIsOpen((prev)=>!prev)
+  }
   return (
     <>
+    <Subjectmodalcomponents  isOpen={isOpen} onClose={togglemodal}/>
     <div className='keystats-container bg-grey-600 p-[24px] md:p-[32px] flex flex-col gap-[32px] rounded-[8px]'>
       <div className='keystats-inner-row flex flex-col gap-[8px]'>
           <div className='keystats-inner-header flex flex-col md:flex-row items-start md:items-center justify-between  gap-[16px] md:gap-[8px]'>
             <div className='h4 text-white'>Key stats</div>
-            <div onClick={onOpenModal} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>Art & design 
+            <div onClick={()=>togglemodal()} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>Art & design 
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>

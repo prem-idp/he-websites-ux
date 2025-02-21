@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -5,9 +7,16 @@ import Image from 'next/image'
 // import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
 import Reviewscomponents from '@packages/shared-components/common-utilities/slider/reviews/reviewscomponents'
 import Reviewslidercomponents from '@packages/shared-components/common-utilities/slider/reviewslidercomponents'
-const Latestreviewscomponents = ({ onOpenModal}:any) => {
+
+import { useState } from 'react'
+import Subjectmodalcomponents from '@packages/shared-components/course-details/Modal/subjectmodalcomponents';
+const Latestreviewscomponents = () => {
+
+  const [subjectmodal,setSubjectmodal]=useState(false);
+
   return (
     <>
+    {subjectmodal && <Subjectmodalcomponents/>}
       <div className='latest-reviews-container'> 
         <div className="max-w-container mx-auto">
             <div className='latest-reviews-card-container flex flex-col lg:flex-row justify-between gap-[20px] py-[40px]'>
@@ -124,7 +133,7 @@ const Latestreviewscomponents = ({ onOpenModal}:any) => {
                     <div className='card-header flex flex-col gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
                       <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-[8px]'>
                         <div className='h5 text-grey300'>Latest animation reviews</div>
-                        <div onClick={onOpenModal} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Art & Design 
+                        <div onClick={()=>setSubjectmodal((prev)=>!prev)} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Art & Design 
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>

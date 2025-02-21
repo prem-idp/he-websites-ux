@@ -1,29 +1,31 @@
+'use client'
 import Getprospectus from '@packages/shared-components/common-utilities/cards/interaction-button/getprospectus'
 import React, {useState,useEffect,useRef} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
-// import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 
 import RequestInfo from '@packages/shared-components/common-utilities/cards/interaction-button/requestinfo'
 import BookEvent from '@packages/shared-components/common-utilities/cards/interaction-button/bookevent'
-// import Callnowbutton from '@packages/shared-components/common-utilities/cards/interaction-button/callnow'
-// import Clearingvisitewebsite from '@packages/shared-components/common-utilities/cards/interaction-button/clearingvisitewebsite'
+import Callnowbutton from '@packages/shared-components/common-utilities/cards/interaction-button/callnow'
+import Clearingvisitewebsite from '@packages/shared-components/common-utilities/cards/interaction-button/clearingvisitewebsite'
 import { log } from 'console'
 
 const Courseheaderinfocomponents = () => {
   const [isSticky, setIsSticky] = useState(false);
   const containerRef = useRef(null);
+
   useEffect(() => {
       const handleScroll = () => {
       const scrollTop = window.scrollY;     
       const stickyThreshold = 330;
       setIsSticky(scrollTop > stickyThreshold);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
   return (
     <>
       <div className='cd-uni-info-container'>
@@ -110,7 +112,7 @@ const Courseheaderinfocomponents = () => {
                                       </div>
                                   </div>  
                               </div>  
-                              <p className='small text-grey300'>Want to know what it's like to study this course at uni? We've got all the key info, from entry requirements to the modules on offer. If that all sounds good, why not check out reviews from real students or even book onto an upcoming open day?</p>                        
+                              <p className='small text-grey300'>Want to know what it like to study this course at uni? We have got all the key info, from entry requirements to the modules on offer. If that all sounds good, why not check out reviews from real students or even book onto an upcoming open day?</p>                        
                             </div>
                             </div>
                             {/* Sticky Section */}
@@ -118,8 +120,8 @@ const Courseheaderinfocomponents = () => {
       }`}
     >
                               <div className='flex flex-col md:flex-row gap-[8px] w-full lg:w-fit lg:ml-[auto]'>
-                                {/* <Clearingvisitewebsite />
-                                <Callnowbutton /> */}
+                                <Clearingvisitewebsite />
+                                <Callnowbutton />
                               </div>
                           </div> 
                         </div>    

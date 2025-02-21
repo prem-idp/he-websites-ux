@@ -1,3 +1,5 @@
+'use client'
+
 import Moduleschildaccordioncomponents from '@packages/shared-components/course-details/modules/moduleschildaccordioncomponents'
 import React from 'react'
 

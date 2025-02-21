@@ -4,6 +4,8 @@ import Image from 'next/image'
 
 
 const Examtypemodalcomponents = ({isOpen, onClose }:any) => {
+
+   
   return (
     <>
         <div onClick={onClose} className={`${isOpen ? "animate-fadeIn block" : "hidden"} backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white z-[7]`}>

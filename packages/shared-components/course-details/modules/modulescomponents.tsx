@@ -1,3 +1,5 @@
+'use client'
+
 import Modulesaccordioncomponents from '@packages/shared-components/course-details/modules/modulesaccordioncomponents'
 import Link from 'next/link';
 import React, { useState } from "react";

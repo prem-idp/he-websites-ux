@@ -1,5 +1,7 @@
 // import Similarcoursecard from '@/app/components/cards/similar-course-card/similarcoursecard'
 
+'use client'
+import Similarcoursecard from "@packages/shared-components/common-utilities/cards/similar-course-card/similarcoursecard"
 import React from 'react'
 
 const Similarcoursecomponents = () => {
@@ -13,7 +15,7 @@ const Similarcoursecomponents = () => {
                     </div>
                     <div className='similar-course-container '>
                         <div className="similar-inner-wrap"> 
-                            {/* <Similarcoursecard></Similarcoursecard> */}
+                            <Similarcoursecard></Similarcoursecard>
                         </div>
                     </div>
                 </div>

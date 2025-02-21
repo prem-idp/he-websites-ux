@@ -1,10 +1,19 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { useState } from 'react'
+import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/locationmodalcomponents'
 const Tuitionfeescomponents = ({ onOpenModal }:any) => {
+  
+  const [isOpen,setIsOpen]=useState(false)
+  function togglemodal(){
+    setIsOpen((prev)=>!prev)
+  }
   return (
     <>
+    <Locationmodalcomponents  isOpen={isOpen} onClose={togglemodal}/>
       <div className='tuition-fees-container'> 
         <div className="max-w-container mx-auto">
             <div className='tuition-fees-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
@@ -14,7 +23,7 @@ const Tuitionfeescomponents = ({ onOpenModal }:any) => {
                     <div className='card-header'>
                       <div className='flex items-start md:items-center  gap-[16px] md:gap-[8px]'>
                         <div className='para font-semibold text-black'>Student living</div>
-                        <div onClick={onOpenModal} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>England 
+                        <div onClick={()=>togglemodal()} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>England 
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>

@@ -1,5 +1,4 @@
-"use client"
-import React, { useState } from 'react'
+
 import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/courseinfocomponents';
 import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
@@ -18,28 +17,10 @@ import Locationmodalcomponents from '@packages/shared-components/course-details/
 import Courseinfomodalcomponents from '@packages/shared-components/course-details/Modal/courseinfomodalcomponents';
 import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-// import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
-// import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
-
+import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
+import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
+import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 const Page = () => {
-  const [openModal, setOpenModal] = useState(null);
-  const [isOpen, setIsOpen] = useState<any>(null);
-
-  const handleOpenModal = (modalName: any) => {
-    setOpenModal(modalName);
-    setIsOpen(true);
-    document.body.classList.add("overflow-y-hidden");
-  };
-  const handleCloseModal = (modalName: any) => {
-    setIsOpen(null);
-    document.body.classList.remove("overflow-y-hidden");
-    const validModals = ["subject", "examType", "location", "courseoption", "reviewfilter", "reviewgallery"];   
-    
-    if (validModals.includes(modalName)) {
-      setOpenModal(null);
-    }
-  };
-
   const breadcrumbData = [
     {
       url: "#",
@@ -54,37 +35,36 @@ const Page = () => {
       label: "Insert level",
     },
   ];
-
   return (
     <>
-    {/* <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden md:block">
+    <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden md:block">
         <div className="max-w-container mx-auto">
           <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
-    </section> */}
+    </section>
     {/* <Courseheaderinfoskeleton /> */}
     <Courseheaderinfocomponents />
     {/* <Yearofentryskeleton /> */}
     <Yearofentrycomponents />
     {/* <Courseoptionsskeleton />  */}
-    <Courseoptionscomponents  onOpenModal={() => handleOpenModal("courseoption")} /> 
+    <Courseoptionscomponents/> 
     {/* <Jumptoskeleton /> */}
     <Jumptocomponents />
-    <Courseinfocomponents  onOpenModal={() => handleOpenModal("subject")} onOpenReviewModal={()=> handleOpenModal("reviewfilter")} />
+    <Courseinfocomponents  />
     <Modulescomponents />
-    <Entryrequirements onOpenModal={() => handleOpenModal("examType")} />
+    <Entryrequirements/>
     <Popularalevelsubjectcomponents />
-    <Tuitionfeescomponents onOpenModal={() => handleOpenModal("location")} />
-    <Latestreviewscomponents onOpenModal={() => handleOpenModal("subject") } />
+    <Tuitionfeescomponents />
+    <Latestreviewscomponents />
     <Uniinfocomponents />
     <Othercoursesmaylikecomponents />
     <Similarcoursecomponents />
     <Findacoursecomponents />
     {/* <Subscribecomponents /> */}
-    {openModal === "courseoption" && <Courseinfomodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
-    {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen}  onClose={handleCloseModal} />}
-    {openModal === "examType" && <Examtypemodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
-    {openModal === "location" && <Locationmodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
+    {/* {openModal === "courseoption" && <Courseinfomodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
+    {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen}  onClose={handleCloseModal} />} */}
+    {/* {openModal === "examType" && <Examtypemodalcomponents isOpen={isOpen} onClose={handleCloseModal} />} */}
+    {/* {openModal === "location" && <Locationmodalcomponents isOpen={isOpen} onClose={handleCloseModal} />} */}
     {/* {(openModal === "reviewfilter" || openModal === "reviewgallery") && <Reviewfiltermodalcomponents isOpen={isOpen} onOpenReviewGalleryModal={()=> handleOpenModal("reviewgallery")} onClose={handleCloseModal} />} */}
     {/* {openModal === "reviewgallery" && <Reviewgallerymodalcomponents isOpen={isOpen} onClose={()=> handleCloseModal("reviewgallery")} />} */}
     </>     
