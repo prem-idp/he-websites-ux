@@ -5,15 +5,21 @@ export function middleware(request: NextRequest, response: NextResponse) {
 
   const customDomain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
 
-  if (pathname === "/home" || pathname === "/" || pathname === "/home/") {
+  if (
+    pathname === "/home" ||
+    pathname === "/home/" ||
+    pathname === "/degree-courses/search"
+  ) {
     console.log(request, "request headers logging from the middleware");
     const response = NextResponse.next(); // Initialize response properly
-    const ip = request.headers.get("x-forwarded-for") || "unknown";
-    response.cookies.set("pathname", pathname, { path: "/" });
-    response.cookies.set("searchParams", searchParams.toString(), {
-      path: "/",
+    // if (searchParams && pathname === "/degree-courses/search") {
+    response.cookies.set("pathnamecookies", pathname, {
+      path: "/degree-courses/search",
     });
-    response.cookies.set("user-ip", ip, { path: "/" });
+    // }
+    response.cookies.set("dummmy", "dummy");
+    response.cookies.set("searchParamscookies", searchParams.toString());
+
     return response;
     // return NextResponse.next();
   }
