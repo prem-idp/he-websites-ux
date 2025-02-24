@@ -75,6 +75,10 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images-dom.aws.test.idp-connect.com",
+      },
       { protocol: "https", hostname: "images.ctfassets.net" },
       {
         protocol: "https",

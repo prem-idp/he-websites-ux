@@ -17,8 +17,8 @@ import Reviewgallerymodalcomponents from '@packages/shared-components/common-uti
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import cdjson from './cdpagejson.json'
 export default async function Cdpage({params}:any){
-  console.log(await params,"parmas")
-  const pathslug =await params;
+  // console.log(await params,"parmas")
+  // const pathslug =await params;
   const slug= `/degrees/${params.course_name}/${params.uni_name}/cd/${params.id1}/${params.id2}/`
   let propsdata;
   const searcchparams = new URLSearchParams({
@@ -35,16 +35,17 @@ export default async function Cdpage({params}:any){
       "x-api-key":"YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
     },
   });
+
   const data = await cdpagedata.json();
-  console.log(data);
+  console.log(data,"qw2w2");
   
-  console.log(cdpagedata,"cdpage")
-  if(cdpagedata){
-    propsdata=cdpagedata
-  }
-  else{
-    propsdata=cdjson;
-  }
+  // console.log(cdpagedata,"cdpage")
+  // if(cdpagedata){
+  //   propsdata=cdpagedata
+  // }
+  // else{
+  //   propsdata=cdjson;
+  // }
   const customLabels = [
     "degrees",
     "",
@@ -97,7 +98,7 @@ export default async function Cdpage({params}:any){
         </div>
     </section>
     {/* <Courseheaderinfoskeleton /> */}
-    <Courseheaderinfocomponents />
+    <Courseheaderinfocomponents data={data}/>
     {/* <Yearofentryskeleton /> */}
     <Yearofentrycomponents />
     {/* <Courseoptionsskeleton />  */}

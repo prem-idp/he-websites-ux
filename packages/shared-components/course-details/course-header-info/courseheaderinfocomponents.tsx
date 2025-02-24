@@ -1,3 +1,4 @@
+'use client'
 import Getprospectus from '@packages/shared-components/common-utilities/cards/interaction-button/getprospectus'
 import React from 'react'
 import Image from 'next/image'
@@ -5,9 +6,10 @@ import Link from 'next/link'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import RequestInfo from '@packages/shared-components/common-utilities/cards/interaction-button/requestinfo'
 import BookEvent from '@packages/shared-components/common-utilities/cards/interaction-button/bookevent'
-
-
-const Courseheaderinfocomponents = () => {
+import { useState } from 'react'
+  const Courseheaderinfocomponents = ({data}:any) => {
+    const [favorities,setFavorities]=useState(true)
+    console.log(data,"dataaaaa")
   return (
         <>
         <div className='cd-uni-info-container'>
@@ -17,15 +19,15 @@ const Courseheaderinfocomponents = () => {
                       <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
                           <div className='uniresults-left'>
                             <div className="univ__logo bg-white p-[4px] w-[120px] rounded-[8px] shadow-custom-4 overflow-hidden hidden md:block">
-                              <Image className='w-full' src="/assets/images/myhc_252670.jpg" alt="uni logo" width={112} height={112}  />
+                              <Image className='w-full' src={data?.courseInfo?.institutionLogoUrl} alt="uni logoo" width={112} height={112}  />
                             </div>
                           </div>
                           <div className='uniresults-right flex flex-col flex-1 gap-[16px]'>
                               <div className='uni-info-card flex flex-col gap-[8px] md:gap-0'>
                                 <div className='flex flex-col-reverse md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
-                                  <span>Animation BA (Hons)</span>
-                                    <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-                                    <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
+                                  <span>{data?.courseInfo?.courseTitle}</span>
+                                    <span onClick={()=>setFavorities((prev)=>!prev)} className={`favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer${favorities ? "bg-blue-100":"bg-white" }`}>
+                                    <div className={`heart min-w-[40px] w-[40px] h-[40px] border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 bg-blue-100 ${favorities ? "bg-blue-100":"bg-white" }`}>
                                       <svg
                                         width="20"
                                         height="20"
@@ -45,7 +47,7 @@ const Courseheaderinfocomponents = () => {
                                   </span>
                                 </div>
                               <div className='flex flex-col gap-[8px]'>
-                                 <a href="#" className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>Norwich University of the Arts</a>
+                                 <a href={data?.courseInfo?.institutionNameUrl} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{data?.courseInfo?.institutionName}</a>
                                 <div className='flex'>
                                   <div className='rating-pod flex items-center gap-[8px]'>
                                     <div className='rating-card flex items-center gap-[8px]'>
@@ -58,7 +60,7 @@ const Courseheaderinfocomponents = () => {
                                           </svg>
                                         </div>
                                       </div>
-                                      <span className='small text-grey300'>(4.6)</span>
+                                      <span className='small text-grey300'>({data?.courseInfo?.overallRatingExact})</span>
                                     </div>
                                     </div>
                                     <a href="#" className='reviewLink block small text-primary-400 hover:text-primary-500 hover:underline'>View reviews</a>
