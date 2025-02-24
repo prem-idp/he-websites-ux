@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,usePathname } from "next/navigation";
 import {
   getFilterPriority,
   isSingleSelection,
@@ -16,11 +16,14 @@ import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjec
 import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
-import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
-const SearchFilterComponent = ({ jsondata }: any) => {
-  console.log(jsondata);
+const SearchFilterComponent = ({ jsondata,path }: any) => {
+  console.log(jsondata,path,'search123');
+  const slugs= path?.split('/');
+  console.log(slugs,'slugs');
+  const [slug, setslug] = useState(path || 'degree-courses/search');
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
@@ -39,7 +42,11 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   useEffect(() => {
     const value = isSingleSelection(searchParams);
     setIsIndexed(value);
-  }, [searchParams]);
+    console.log(pathname,'searchparam123');
+    if(pathname){
+         setslug(pathname);
+    }
+  }, [searchParams,router]);
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),
@@ -174,7 +181,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
     }, 0);
   };
 
-  const formUrl = (key: string, value: string) => {
+  const formUrl = (key: string, value: string, isQualification?:boolean) => {
     const filters = extractUrlAndCookieValues(searchParams, key, value);
     const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
@@ -186,17 +193,23 @@ const SearchFilterComponent = ({ jsondata }: any) => {
     const count = Object.keys(a).length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
+     // console.log(valuesArray,k,'valuesArray');
       if (totalValues + valuesArray.length <= 4) {
-        urlParams.set(k, valuesArray.join(","));
-        totalValues += valuesArray.length;
+        if(k != 'study-level'){
+          urlParams.set(k, valuesArray.join(","));
+          totalValues += valuesArray.length;
+        }
+       
       }
     });
     if (count >= 4) {
-      return `?subject=${searchParams?.get("subject")}&${key}=${value}`;
+      return `subject=${searchParams?.get("subject")}&${key}=${value}`;
     } else {
-      return `?${urlParams.toString()}`;
+      return `${urlParams.toString()}`;
     }
   };
+
+
   const containsSearchParam = (key: string, value: string): boolean => {
     const paramValue = searchParams.get(key);
     if (!paramValue) return false;
@@ -320,10 +333,17 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"study-method" + items?.studyMethodTextKey}
-                                href={formUrl(
-                                  "study-method",
-                                  items?.studyMethodTextKey
-                                )}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query:  formUrl(
+                                    "study-method",
+                                    items?.studyMethodTextKey
+                                  ) ,
+                                }}
+                                // href={formUrl(
+                                //   "study-method",
+                                //   items?.studyMethodTextKey
+                                // )}
                               ></Link>
                             )}
                           </label>
@@ -364,10 +384,17 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                               {isIndexed && (
                                 <Link
                                   id={"study-mode" + items?.studyModeTextKey}
-                                  href={formUrl(
-                                    "study-mode",
-                                    items?.studyModeTextKey
-                                  )}
+                                  // href={formUrl(
+                                  //   "study-mode",
+                                  //   items?.studyModeTextKey
+                                  // )}
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query:  formUrl(
+                                      "study-mode",
+                                      items?.studyModeTextKey
+                                    ) ,
+                                  }}
                                 ></Link>
                               )}
                             </label>
@@ -413,10 +440,17 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                               {isIndexed && (
                                 <Link
                                   id={"study-level" + item?.qualTextKey}
-                                  href={formUrl(
-                                    "study-level",
-                                    item?.qualTextKey
-                                  )}
+                                  href={{
+                                    pathname: `/${(item?.qualTextKey)}-courses/search`,
+                                    query:  formUrl(
+                                      "study-level",
+                                      item?.qualTextKey
+                                    ) ,
+                                  }}
+                                  // href={item?.qualDisplayDesc-+'courses'+formUrl(
+                                  //   "study-level",
+                                  //   item?.qualTextKey
+                                  // )}
                                 ></Link>
                               )}
                             </label>
@@ -556,7 +590,14 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"year" + item?.year}
-                                href={formUrl("year", `${item?.year}`)}
+                                // href={formUrl("year", `${item?.year}`)}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query:  formUrl(
+                                    "year",
+                                    `${item?.year}`
+                                  ) ,
+                                }}
                               ></Link>
                             )}
                           </label>
@@ -588,7 +629,14 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"month" + item?.month}
-                                href={formUrl("month", item?.month)}
+                              //  href={formUrl("month", item?.month)}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query:  formUrl(
+                                    "month",
+                                    `${item?.month}`
+                                  ) ,
+                                }}
                               ></Link>
                             )}
                           </label>
@@ -867,10 +915,17 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                                             id={
                                               "location" + item?.regionTextKey
                                             }
-                                            href={formUrl(
-                                              "location",
-                                              item?.regionTextKey
-                                            )}
+                                            // href={formUrl(
+                                            //   "location",
+                                            //   item?.regionTextKey
+                                            // )}
+                                            href={{
+                                              pathname: `${slug}`,
+                                              query:  formUrl(
+                                                "location",
+                                                item?.regionTextKey
+                                              ) ,
+                                            }}
                                           ></Link>
                                         )}
                                         <label

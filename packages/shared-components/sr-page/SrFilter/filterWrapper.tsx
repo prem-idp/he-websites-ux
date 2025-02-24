@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import SearchFilterComponent from "@packages/shared-components/common-utilities/popups/searchfiltercomponent";
 const FilterWrapper = async () => {
   const cookieStore = await cookies();
+  const fullPath = cookieStore?.get("pathnamecookies")?.value || "{}";
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const params = cookieStore?.get("searchParamscookies")?.value || "{}";
@@ -15,7 +16,7 @@ const FilterWrapper = async () => {
   const data = await getSrFilter(body);
   return (
     <>
-      <SearchFilterComponent jsondata={data} />
+      <SearchFilterComponent jsondata={data} path={fullPath} />
     </>
   );
 };

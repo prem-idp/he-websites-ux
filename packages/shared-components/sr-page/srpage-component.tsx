@@ -48,6 +48,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   return (
     <>
       <TopSection />
+     
       {/* <Suspense>
         <SearchFilterButtons />
         <SearchLabels />
