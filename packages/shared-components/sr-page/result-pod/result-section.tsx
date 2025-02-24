@@ -56,7 +56,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           key={index}
         >
           <div
-            className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[280px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer"
+            className="w-full h-[292px] relative bg-blue-400 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[310px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer"
             onClick={() =>
               universityPodClick(
                 process.env.PROJECT === "Whatuni"
@@ -113,7 +113,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                     <div className="flex items-center justify-between">
                       <span className="text-grey900 font-semibold">
                         We have added this to your comparison
@@ -369,7 +369,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         <div className="text-grey300 line-clamp-2">
                           {data?.review1Text}
                         </div>
-                        <div className="absolute bottom-0 bg-grey-100 right-0 lg:right-[56px]">
+                        <div className="absolute bottom-0 right-0 text-right w-[126px] bg-gradient12">
                           <span>... </span>
                           <Link
                             href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
@@ -404,6 +404,11 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         <div className="flex gap-[4px] text-grey-500">
                           {courseData?.minUcasPoints ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              {/* pgs euro icon */}
+                              {/* <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z" stroke="#5C656E" stroke-width="1.13" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> */}
+                              {/* pgs euro icon */}
                               <Image
                                 className="hidden md:block"
                                 src="/static/assets/icons/search-result/calender-grey.svg"
@@ -451,7 +456,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             strokeLinejoin="round"
                           />
                         </svg>
-                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                           <div className="flex items-center justify-between">
                             <span className="text-grey900 font-semibold">
                               We have added this to your comparison
@@ -503,6 +508,26 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         </div>
                       </div>
                     </div>
+                    {/* pgs descrption */}
+                    {/* <div className="relative small text-grey500">
+                      <div className="line-clamp-2">
+                        Are you seeking to enter the criminal justice or
+                        community justice sectors Want to work with drug action
+                        teams or in the voluntary Are you seeking to enter the
+                        criminal justice or community justice sectors Want to
+                        work with drug action teams or in the voluntary
+                      </div>
+                      <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
+                        <span>... </span>
+                        <Link
+                          href=""
+                          className="text-blue-400 cursor-pointer hover:underline"
+                        >
+                          Read More
+                        </Link>
+                      </div>
+                    </div> */}
+                    {/* pgs descrption */}
                     {courseData?.modulesInfo ? (
                       <ClickAndShow>
                         <div className="text-black x-small">

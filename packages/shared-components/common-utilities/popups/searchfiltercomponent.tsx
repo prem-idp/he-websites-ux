@@ -24,7 +24,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState({
     ParentSubject: "",
     SubjectList: "",
