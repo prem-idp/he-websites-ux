@@ -96,7 +96,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                 </div>
                 <div
                   onClick={favouritesClicked}
-                  className="heart w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative group"
+                  className="heart w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative"
                 >
                   <svg
                     width="20"
@@ -113,7 +113,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                     <div className="flex items-center justify-between">
                       <span className="text-grey900 font-semibold">
                         We have added this to your comparison
@@ -435,7 +435,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <div className="heart w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative group">
+                      <div className="heart shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative">
                         <svg
                           width="20"
                           height="20"
@@ -451,7 +451,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             strokeLinejoin="round"
                           />
                         </svg>
-                        <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-[24px] md:right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                           <div className="flex items-center justify-between">
                             <span className="text-grey900 font-semibold">
                               We have added this to your comparison

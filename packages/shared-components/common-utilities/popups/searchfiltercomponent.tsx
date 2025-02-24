@@ -16,6 +16,7 @@ import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjec
 import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
+import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 const SearchFilterComponent = ({ jsondata }: any) => {
   console.log(jsondata);
   const router = useRouter();
@@ -23,7 +24,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [selectedSubject, setSelectedSubject] = useState({
     ParentSubject: "",
     SubjectList: "",
@@ -435,7 +436,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     </div>
                   </div>
                   <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
-                    <div className="flex item-center gap-[12px]">
+                    <div className="flex item-center gap-[12px] relative">
                       <Image
                         src="/static/assets/icons/search-result/search-black.svg"
                         width="20"
@@ -448,9 +449,29 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                         aria-label="enter keyword"
                         placeholder="Search subjects"
                       />
+                      <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                        <ul>
+                          <li>
+                            <a
+                              href=""
+                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                            >
+                              sds
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href=""
+                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                            >
+                              sds
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                  <div className="relative">
+                  <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
                     <div className="flex flex-col gap-[12px]">
                       {ParentSubject?.map((item: any, index: any) => (
                         <div
@@ -497,6 +518,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                   </div>
                 </div>
               </div>
+              {/* <SubjectSkeleton/> */}
             </Accordion>
             {(jsondata?.intakeYearDetails?.intakeYearList.length > 0 ||
               jsondata?.intakeYearDetails?.intakeMonthList.length > 0) && (
@@ -592,7 +614,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                   </div>
                 </div>
                 <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
-                  <div className="flex item-center gap-[12px]">
+                  <div className="flex item-center gap-[12px] relative">
                     <Image
                       src="/static/assets/icons/search-result/search-black.svg"
                       width="20"
@@ -605,9 +627,29 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                       aria-label="enter keyword"
                       placeholder="Search universities"
                     />
+                    <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                      <ul>
+                        <li>
+                          <a
+                            href=""
+                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                          >
+                            sds
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href=""
+                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                          >
+                            sds
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-                <div className="relative">
+                <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
                   <div className="flex flex-col gap-[12px]">
                     {universitiesSortingList?.map((item, index) => (
                       <div
