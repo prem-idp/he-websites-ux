@@ -15,6 +15,7 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
+
 const Page = () => {
   const breadcrumbData = [
     {

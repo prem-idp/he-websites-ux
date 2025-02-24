@@ -1,0 +1,453 @@
+{
+	"courseInfo": {
+		"institutionId": 3742,
+		"institutionName": "University of Huddersfield",
+		"institutionNameUrl": "university-of-huddersfield",
+		"institutionLogoUrl": "https://images-dom.aws.test.idp-connect.com/commimg/myhotcourses/institution/myhc_305490.jpg",
+		"collegeId": 3742,
+		"courseTitle": "Business Management BA (Hons)",
+		"courseUpdatedDate": "2024-10-16T02:24:54.932307+00:00",
+		"courseSummary": "Make your first step in this fast paced, challenging and, most importantly, exciting sector by studying the Business Management BA(Hons) degree.  This flexible course aims to equip you with the industry knowledge and leadership ability to face challenges and devise creative solutions to problems faced by businesses across multiple industries. By the end of the course, you'll be prepared to step with confidence into the workforce as a business leader. **Why Study Business Management BA(Hons) at University of Huddersfield?** This course has been developed in collaboration with industry partners and input from our advisory board, with the aim being to ensure our students gain the skills employers are looking for.  You can look forward to a high-quality education here we were ranked as best in Yorkshire in the subject Management Studies (National Student Survey 2022). Our ASPIRE modules, which you'll take throughout the year, will give you the opportunity to gain real-world experience, by working on a real business challenge. For instance, in Aspire 1, you'll take part in a digital internship, while Aspire 2 sees you work on a live business project and Aspire 3 helps you become career ready. On campus, you'll have the opportunity to take part in live business projects and teamwork projects. Away from campus and in your second year, you'll put your knowledge and skills to the test in an optional 48-week work placement in your area of interest, in the UK or abroad. You'll utilise our links with local, national, and international companies throughout many industries, with support from our award-winning placement team. In your final year, you'll have the chance to specialise in certain areas, with the flexibility to design your year in addition to the core modules of Strategic Management and Responsible Business. This course will prepare you for a variety of exciting careers. For example, you could go on to work as a human resources director, or management consultant.  A good proportion of our students might enter a family business or start their own. The course allows you to develop entrepreneurial and innovation skills, with plenty of support to achieve your best via our dedicated team. **Professional Bodies** You'll be studying at an Association to Advance Collegiate Schools of Business (AACSB) International-accredited Business School. Globally, fewer than six per cent of institutions offering business degrees achieve this accreditation. The course is also accredited by The Chartered Management Institute (CMI). **Why Huddersfield?** Huddersfield's vibrant and friendly campus is a great place from which to study, while the town itself offers lots to see and do, with good transport links in and around the area.",
+		"ucasCode": "N223",
+		"searchQualTypeId": "17",
+		"courseType": "UCAS UG",
+		"subOrderItemId": 106689,
+		"availability": [
+			{
+				"qualification": "Bachelor of Law",
+				"availabilityId": 30983986,
+				"venueId": 4036192,
+				"studyModeId": 1,
+				"startDateMonth": "",
+				"startDate": "22-SEP-25",
+				"startDateDescription": "Teaching Period",
+				"location": "",
+				"studyModeDesc": "Full Time",
+				"durationDesc": "3 Years",
+				"venue": "Main Site",
+				"townCountyState": null,
+				"courseStartDetails": "Full Time  |  3 Years  |  Starts: 22 SEP 25"
+			},
+			{
+				"qualification": "Bachelor of Law",
+				"availabilityId": 30983985,
+				"venueId": 4036192,
+				"studyModeId": 10,
+				"startDateMonth": "",
+				"startDate": "22-SEP-25",
+				"startDateDescription": "Teaching Period",
+				"location": "",
+				"studyModeDesc": "Sandwich",
+				"durationDesc": "4 Years",
+				"venue": "Main Site",
+				"townCountyState": null,
+				"courseStartDetails": "Sandwich  |  4 Years  |  Starts: 22 SEP 25"
+			}
+		],
+		"selectedAvailabilityId": 30983986,
+		"selectedVenueId": 4036192,
+		"isInLondonFlag": "N",
+		"courseTextUrl": "https://mtest.test.aws.whatuni.com/degrees/business-management-ba-hons/university-of-huddersfield/cd/54940434/3742",
+		"uniTextUrl": "university-of-huddersfield",
+		"regionName": "YORKSHIRE AND HUMBERSIDE",
+		"reviewUrl": "https://mtest.test.aws.whatuni.com/university-course-reviews/university-of-huddersfield/3742/",
+		"uniUrl": "https://mtest.test.aws.whatuni.com/university-profile/university-of-huddersfield/3742/",
+		"heroImage": "https://images-dom.aws.test.idp-connect.com/commimg/myhotcourses/institution/CH/myhc_318985_375px.jpg",
+		"favoriteFlag": false,
+		"reviewCount": 211,
+		"overallRating": 4,
+		"overallRatingExact": 3.8,
+		"courseId": "54940434"
+	},
+	"modules": [
+		{
+			"moduleName": "Year 1",
+			"subModules": [
+				{
+					"title": "Introduction to law",
+					"dataDescFlag": "Y",
+					"desc": "Introduction to law is ..."
+				}
+			]
+		}
+	],
+	"popularALevelSubjects": {
+		"subjectName": "Design Studies",
+		"subjectList": [
+			{
+				"kissubject": "CAH21-01-03",
+				"derivedHeldPercentage": "68",
+				"heldQualificationType": "GCE A LEVEL",
+				"heldQualificationSubject": "Art & Design",
+				"opportunityId": 30994178,
+				"below10Percent": "N"
+			},
+			{
+				"kissubject": "CAH21-01-03",
+				"derivedHeldPercentage": "44",
+				"heldQualificationType": "GCE A LEVEL",
+				"heldQualificationSubject": "Mathematics",
+				"opportunityId": 30994178,
+				"below10Percent": "N"
+			},
+			{
+				"kissubject": "CAH21-01-03",
+				"derivedHeldPercentage": "21",
+				"heldQualificationType": "GCE A LEVEL",
+				"heldQualificationSubject": "Physics",
+				"opportunityId": 30994178,
+				"below10Percent": "N"
+			},
+			{
+				"kissubject": "CAH21-01-03",
+				"derivedHeldPercentage": "15",
+				"heldQualificationType": "GCE A LEVEL",
+				"heldQualificationSubject": "3D Design",
+				"opportunityId": 30994178,
+				"below10Percent": "N"
+			},
+			{
+				"kissubject": "CAH21-01-03",
+				"derivedHeldPercentage": "14",
+				"heldQualificationType": "GCE A LEVEL",
+				"heldQualificationSubject": "Geography",
+				"opportunityId": 30994178,
+				"below10Percent": "N"
+			}
+		]
+	},
+	"similarCourses": {
+		"title": "Similar courses at this uni",
+		"courses": [
+			{
+				"name": "Law and Legislative Studies (Incl year in Westminster)",
+				"url": "/law-and-legislative-studies"
+			},
+			{
+				"name": "Criminology with Law BA (Hons)",
+				"url": "/criminology-with-law-ba-hons"
+			},
+			{
+				"name": "British Politics and Legislative Studies BA (Hons)",
+				"url": "/british-politics-and-legislative-studies-ba-hons"
+			}
+		]
+	},
+	"popularSubjects": {
+		"title": "Popular A-level subjects",
+		"data_source": "HESA",
+		"subjects": [
+			{
+				"name": "Business Studies",
+				"description": "Top 5 A-levels taken by students who study this subject at uni",
+				"a_level_subjects": [
+					{
+						"name": "History",
+						"percentage": 100
+					},
+					{
+						"name": "English Literature",
+						"percentage": 20
+					},
+					{
+						"name": "Mathematics",
+						"percentage": 70
+					},
+					{
+						"name": "Government & Politics",
+						"percentage": 2
+					},
+					{
+						"name": "Music",
+						"percentage": 1
+					}
+				]
+			},
+			{
+				"name": "Business Studies",
+				"description": "Top 5 A-levels taken by students who study this subject at uni",
+				"a_level_subjects": [
+					{
+						"name": "History",
+						"percentage": 100
+					},
+					{
+						"name": "English Literature",
+						"percentage": 20
+					},
+					{
+						"name": "Mathematics",
+						"percentage": 70
+					},
+					{
+						"name": "Government & Politics",
+						"percentage": 2
+					},
+					{
+						"name": "Music",
+						"percentage": 1
+					}
+				]
+			}
+		]
+	},
+	"tutionFees": [
+		{
+			"feeType": "England",
+			"fee": "9250.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 3
+		},
+		{
+			"feeType": "Scotland",
+			"fee": "9250.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 4
+		},
+		{
+			"feeType": "Wales",
+			"fee": "9250.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 5
+		},
+		{
+			"feeType": "Northern Ireland",
+			"fee": "9250.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 6
+		},
+		{
+			"feeType": "Channel Islands",
+			"fee": "9250.0",
+			"duration": "year",
+			"currency": null,
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 7
+		},
+		{
+			"feeType": "EU",
+			"fee": "16500.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "",
+			"state": "set",
+			"seq_no": 8
+		},
+		{
+			"feeType": "Rest of world",
+			"fee": "16500.0",
+			"duration": "year",
+			"currency": "£",
+			"feeDesc": "£16500 Per year",
+			"state": "set",
+			"seq_no": 9
+		}
+	],
+	"uniInfo": {
+		"awards": [
+			{
+				"image": "",
+				"awardName": "",
+				"winningstatus": ""
+			}
+		],
+		"location": {
+			"latitude": 53.643008,
+			"longitude": -1.779121,
+			"trainStationName": "Tackley",
+			"trainStationMiles": 7.7,
+			"venueId": 4036192,
+			"addLine1": "Queensgate",
+			"addLine2": "",
+			"town": "Huddersfield",
+			"postcode": "HD1 3DH",
+			"venueCountry": "England",
+			"institutionName": "University of Huddersfield",
+			"countryState": "Kirklees",
+			"mapBoxKey": "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA"
+		},
+		"institutionName": "University of Huddersfield",
+		"reviewCount": 211,
+		"overallRating": 4,
+		"overallRatingExact": 3.8,
+		"cugRanking": 65,
+		"gallery": [
+			{
+				"galleryImage": "https://images-dom.aws.test.idp-connect.com/commimg/myhotcourses/institution/CH/myhc_318985_375px.jpg"
+			}
+		],
+		"regionName": "YORKSHIRE AND HUMBERSIDE",
+		"reviewUrl": "https://mtest.test.aws.whatuni.com/university-course-reviews/university-of-huddersfield/3742/",
+		"favoriteFlag": false,
+		"institutionLogoUrl": "https://images-dom.aws.test.idp-connect.com/commimg/myhotcourses/institution/myhc_305490.jpg"
+	},
+	"keyStats": {
+		"subjectArea": [
+			{
+				"subjectName": "Cinematics and Photography",
+				"ratio": null,
+				"dropOutRate": 14,
+				"graduatesPercent": "89",
+				"salary6Months": "18000",
+				"salary40Months": null,
+				"salary6MonthsAtUni": "16000",
+				"salary6MonthsPer": 36,
+				"salary40MonthsPer": null,
+				"salary6MonthsAtUniPer": 32,
+				"continuingCourse": "85",
+				"completedCourse": "1",
+				"courseContinuation": "86"
+			},
+			{
+				"subjectName": "Computer Games and Animation",
+				"ratio": null,
+				"dropOutRate": 30,
+				"graduatesPercent": "90",
+				"salary6Months": null,
+				"salary40Months": null,
+				"salary6MonthsAtUni": null,
+				"salary6MonthsPer": null,
+				"salary40MonthsPer": null,
+				"salary6MonthsAtUniPer": null,
+				"continuingCourse": "70",
+				"completedCourse": "0",
+				"courseContinuation": "70"
+			}
+		],
+		"uniRankings": [
+			{
+				"rank": 55,
+				"source": "These are the 2024 rankings, based on ratings given by past and current students.",
+				"ranking": "WUSCA Student ranking",
+				"awardYear": 2024,
+				"totalRank": 101,
+				"toolTipHeading": "WUSCA student ranking",
+				"winningCategories": null
+			},
+			{
+				"rank": 65,
+				"source": "Complete University Guide 2025",
+				"ranking": "Complete University Guide ranking",
+				"toolTipHeading": "Complete University Guide ranking"
+			},
+			{
+				"rank": 68,
+				"source": "Complete University Guide 2025",
+				"ranking": "Complete University Guide Accounting & Finance ranking",
+				"subject": "Accounting & Finance",
+				"toolTipHeading": "Complete University Guide Ranking"
+			},
+			{
+				"rank": 79,
+				"source": "Complete University Guide 2025",
+				"ranking": "Complete University Guide Business & Management Studies ranking",
+				"subject": "Business & Management Studies",
+				"toolTipHeading": "Complete University Guide Ranking"
+			}
+		]
+	},
+	"entryRequirements": [
+		{
+			"examType": "A level",
+			"grades": "CCC"
+		},
+		{
+			"examType": "Scottish Higher",
+			"grades": "CDDDDD",
+			"Details": "96-112 UCAS Tariff points"
+		},
+		{
+			"examType": "Scottish Advanced Higher",
+			"grades": "DDD",
+			"Details": "96-112 UCAS Tariff points"
+		},
+		{
+			"examType": "UCAS Tariff",
+			"grades": "96"
+		},
+		{
+			"examType": "Access to HE Diploma",
+			"grades": "D:0,M:45,P:0",
+			"Details": "96-112 UCAS Tariff points"
+		},
+		{
+			"examType": "AS",
+			"Details": "Accepted alongside A-Levels as part of overall 96-112 UCAS Tariff requirement."
+		},
+		{
+			"examType": "Cambridge International Pre-U Certificate - Principal",
+			"Details": "96-112 UCAS Tariff points"
+		},
+		{
+			"examType": "Extended Project",
+			"Details": "Accepted as part of overall 96-112 UCAS Tariff requirement."
+		},
+		{
+			"examType": "International Baccalaureate Diploma Programme",
+			"Details": "96-112 UCAS Tariff points from International Baccalaureate Certificates"
+		},
+		{
+			"examType": "Leaving Certificate - Higher Level (Ireland) (first awarded in 2017)",
+			"Details": "96-112 UCAS Tariff points"
+		},
+		{
+			"examType": "Leaving Certificate - Ordinary Level (Ireland) (first awarded in 2017)",
+			"Details": "Accepted alongside Irish Leaving Certificate Higher Level as part of overall 96-112 UCAS Tariff requirement. Where GCSE Maths, English and/or Science are required these must be at O4 or above."
+		},
+		{
+			"examType": "Pearson BTEC Level 3 National Extended Diploma (first teaching from September 2016)",
+			"grades": "MMM"
+		},
+		{
+			"examType": "Welsh Baccalaureate - Advanced Skills Challenge Certificate (first teaching September 2015)",
+			"Details": "Accepted as part of overall 96-112 UCAS Tariff point requirement."
+		}
+	],
+	"sectionsList": [
+		{
+			"sectionName": "Course info",
+			"sectionId": "courseInfo"
+		},
+		{
+			"sectionName": "Key stats",
+			"sectionId": "keyStats"
+		},
+		{
+			"sectionName": "Open days",
+			"sectionId": "opendays"
+		},
+		{
+			"sectionName": "Reviews",
+			"sectionId": "reviews"
+		},
+		{
+			"sectionName": "Tuition fees",
+			"sectionId": "tutionFees"
+		},
+		{
+			"sectionName": "Uni info",
+			"sectionId": "uniInfo"
+		},
+		{
+			"sectionName": "Request info",
+			"sectionId": "getProspectus"
+		},
+		{
+			"sectionName": "Location",
+			"sectionId": "location"
+		}
+	]
+}
