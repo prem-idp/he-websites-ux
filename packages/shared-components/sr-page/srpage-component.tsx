@@ -12,26 +12,21 @@ import SrPageResultPod from "@packages/shared-components/sr-page/result-pod/resu
 import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
-import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { headers } from "next/headers";
 import { getQualCode, getSearchPayload } from "../services/utils";
 import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
+import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
 
 const SearchResultComponent = async ({ searchparams, pathname }: any) => {
-  //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
-  // const filterCookie = getCookieValue("filter_param");
-  //const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  console.log("query" + pathname);
   const headersList = await headers();
   const referer = headersList.get("referer");
   const pathnameArray = referer?.split?.("/");
   let searchResultsData;
   let filterCookieParam;
   if (typeof document !== "undefined") {
-    const filterCookieParam = JSON.parse(
-      getDecodedCookie("filter_param") || "{}"
-    );
+    filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
   }
   try {
     searchResultsData = await searchResultsFetchFunction(
@@ -41,9 +36,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
         pathnameArray?.[3]?.split?.("-")?.[0]
       )
     );
-    console.log(
-      "After fetching search results" + JSON.stringify(searchResultsData)
-    );
+    console.log("searchResultsData", searchResultsData);
   } catch (error) {
     console.log("error", error);
   }
@@ -51,10 +44,6 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   return (
     <>
       <TopSection />
-      <Suspense>
-        <SearchFilterButtons />
-        <SearchLabels />
-      </Suspense>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
@@ -63,12 +52,13 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
       ) : (
         <></>
       )}
+       <SortingFilter sortParam={{param:searchparams,currentPage:referer}} />
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           {searchResultsData?.searchResultsList ? (
             <>
               <GradeBanner />
-              <SortingFilter sortParam={searchparams?.sort} />
+             
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -78,12 +68,12 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}
+                searchResultsData={searchResultsData?.searchResultsList} subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <Paginations
                   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
+                  currentPage={searchparams?.pageNo || 1} searchParams={{param:searchparams,currentPage:referer}} 
                 />
               ) : (
                 <></>
@@ -104,6 +94,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
               <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
                 <ExploreArticles />
                 <ExploreArticles />
+                {/* <Explorearticelskeleton/> */}
               </div>
             </div>
           </section>

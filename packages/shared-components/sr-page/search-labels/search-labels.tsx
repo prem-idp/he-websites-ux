@@ -1,5 +1,6 @@
 "use client";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
 const SearchLabels = () => {
   const List = [
     "2023",
@@ -13,6 +14,7 @@ const SearchLabels = () => {
     emitter.emit("isfilterOpen", null);
   };
   return (
+    <>
     <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[4]">
       <div className="max-w-container mx-auto">
         <ul className="flex items-start gap-[8px] uppercase">
@@ -63,6 +65,8 @@ const SearchLabels = () => {
         </ul>
       </div>
     </section>
+    {/* <SearchLabelsSkeleton/> */}
+    </>
   );
 };
 

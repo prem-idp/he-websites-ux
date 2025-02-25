@@ -93,23 +93,27 @@ const mergeTwoObjects = (
   };
 };
 
-const checkIfUrlIndex = (searchParams: any) => {
-  if (
-    searchParams?.get("subject")?.includes("+") ||
-    searchParams?.get("course")?.includes("+") ||
-    searchParams?.get("location")?.includes("+")
-  ) {
-    return false;
-  } else {
-    return true;
+const isSingleSelection = (searchParams: URLSearchParams): boolean => {
+  const entriesArray = Array.from(searchParams.entries());
+  for (const [key, value] of entriesArray) {
+    const decodedValue = decodeURIComponent(value);
+    if (
+      decodedValue.includes(",") ||
+      decodedValue.includes("+") ||
+      decodedValue.includes(" ")
+    ) {
+      return false;
+    }
   }
+  return true;
 };
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
     parentQualification: qualCode?.[parentQual],
     childQualification: "",
     searchCategoryCode: ["AA.3"],
-    searchSubject: inputObject?.subject || inputObject?.course || "",
+    searchSubject:
+      inputObject?.subject?.split(" ") || inputObject?.course?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
     location: inputObject?.location || "",
@@ -138,12 +142,18 @@ const qualCode: any = {
   "access-foundation-courses": "T",
   "hnd-hnc-courses": "N",
 };
-
+const locationMilesArray = [
+  { miles: "5 miles" },
+  { miles: "10 miles" },
+  { miles: "25 miles" },
+  { miles: "50 miles" },
+];
 export {
   qualCode,
+  locationMilesArray,
   filterbodyJson,
   mergeTwoObjects,
-  checkIfUrlIndex,
+  isSingleSelection,
   getDecodedCookie,
   getFilterPriority,
   extractUrlAndCookieValues,

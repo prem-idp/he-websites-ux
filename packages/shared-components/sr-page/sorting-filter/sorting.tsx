@@ -5,18 +5,27 @@ import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
 import { pgsSortingFilter, wuscaCategories, wuSortingFilter } from "@packages/shared-components/services/constants";
 import React, { useState } from "react";
 interface SortingProps {
-  sortParam : any;
+  sortParam?:any
 }
 const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
-  //  const filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
+  const filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
   // sortParam = filterCookieParam?.sort ? filterCookieParam?.sort : sortParam ? sortParam : "R";
   const [isSortClicked, setIsSortClicked] = useState(false);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
   };
+
+  const handleSort = (value: any) => {
+    console.log("currenturl", sortParam?.currentPage)
+    const sortUrl = sortParam?.currentPage && sortParam?.currentPage.includes("?")
+      ? sortParam?.currentPage + "&sort=" + value 
+      : "?sort=" + value;  
+    
+    window.location.href = sortUrl;
+  };
   const sortingFilter = process.env.PROJECT === "Whatuni" 
-  ? wuSortingFilter // Assuming sortingFilterUni is the filter for "uni"
-  :  pgsSortingFilter // Assuming sortingFilterOther is the filter for "otherProject"
+  ? wuSortingFilter
+  :  pgsSortingFilter
   
   return (
     <div className="ml-auto w-fit relative">
@@ -47,14 +56,14 @@ const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
           <div className="flex flex-col gap-[16px]">
             <div className="text-heading6 font-farro font-bold">Sort by</div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
-            {Object.entries(wuSortingFilter).map(([label, value]) => (
-                <div className="custom-radio flex items-center">
+            {Object.entries(sortingFilter).map(([label, value]) => (
+                <div className="custom-radio flex items-center" onClick={()=> handleSort(value)}>
                   <input
                     className="rounded-md"
                     type="radio"
                     id={value}
                     name="featured"
-                    checked = {value === sortParam ? true : false}
+                    checked = {value === sortParam?.sort ? true : value === "R" ? true : false}
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -66,16 +75,16 @@ const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
               Wusca categories{" "}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
-              {wuscaCategories.map((item, index) => (
-                <div className="custom-radio flex items-center" key={index}>
+              {Object.entries(wuscaCategories).map(([label, value]) => (
+                <div className="custom-radio flex items-center">
                   <input
                     className="rounded-md"
                     type="radio"
-                    id={item}
+                    id={value}
                     name="featured"
                   />
-                  <label htmlFor={item} className="flex items-center">
-                    {item}
+                  <label htmlFor={label} className="flex items-center">
+                    {label}
                   </label>
                 </div>
               ))}

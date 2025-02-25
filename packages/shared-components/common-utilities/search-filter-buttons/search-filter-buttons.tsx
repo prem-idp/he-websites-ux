@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/search-result/search-filter-buttons-skeleton";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -237,6 +238,7 @@ const SearchFilterButtons = () => {
           </div>
         </div>
       </section>
+      {/* <SearchFilterButtonsSkeleton/> */}
     </>
   );
 };

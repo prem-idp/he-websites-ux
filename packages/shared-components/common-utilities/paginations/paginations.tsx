@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-const Paginations = ({ totalPages ,currentPage}: any) => {
+const Paginations = ({ totalPages ,currentPage,searchParams}: any) => {
 
   
   const pageNumbers = [];
-  const totalVisiblePages = 7;
-  // const searchParams = new URLSearchParams(window?.location?.search);
-  // const currentPage = Number(searchParams?.get("pageno")) || 1;  
+  const totalVisiblePages = 7; 
   console.log("TOTAl:"+ totalPages,currentPage)
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
@@ -39,14 +37,14 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
 
   return (
     <>
-      <div className="flex items-center justify-center gap-[20px] pt-[21px] mb-[30px]">
-        <Link
-          aria-label="move backward"
+      <div className="pt-[24px] pb-[40px] md:pb-[64px]">
+      <nav aria-label="navigation">
+       
+        <ul className="pagination flex justify-center items-center gap-[8px]">
+          <li>
+          <a        
           href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
-          type="button"
-          className={`right-arrow flex items-center justify-center border border-primary-500 rounded-[25px] w-[34px] h-[34px] hover:bg-primary-600 ${
-            currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
-          }`}
+          className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
         >
            <svg
                 width="7"
@@ -63,15 +61,15 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
                   strokeLinejoin="round"
                 />
               </svg>
-        </Link>
-        <ul className="flex items-center justify-center gap-[2px] text-x-small">
+        </a>
+            </li>
           {items.map((item, index) => (
             <li key={index}>
               <Link
                 href={
                   item !== "..."
-                    ? `?pageno=${Number(item)}`
-                    : `?pageno=${Number(currentPage)}`
+                    ? `${searchParams.currentPage}&pageno=${Number(item)}`
+                    : `${searchParams.currentPage}&pageno=${Number(currentPage)}`
                 }
                 className={
                   currentPage == item
@@ -83,13 +81,12 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
               </Link>
             </li>
           ))}
-        </ul>
-        <a
-          aria-label="move forward"
+          <li>     
+            <a
           href={
             currentPage < totalPages
-              ? `?pageno=${+currentPage + 1}`
-              : `?pageno=${+currentPage}`
+              ? `${searchParams.currentPage}&pageno=${+currentPage + 1}`
+              : `${searchParams.currentPage}&pageno=${+currentPage}`
           }
           className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
         >
@@ -108,7 +105,10 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
                   strokeLinejoin="round"
                 />
               </svg>
-        </a>
+        </a></li>
+        </ul>
+   
+        </nav>
       </div>
     </>
   );

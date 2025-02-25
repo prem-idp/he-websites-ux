@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import GradeBannerSkeleton from "@packages/shared-components/skeleton/search-result/grade-banner-skeleton";
 const GradeBanner = () => {
   const searchparams = useSearchParams();
   const location = searchparams?.get("location");
@@ -46,6 +47,7 @@ const GradeBanner = () => {
           Add my grades
         </div>
       </div>
+      {/* <GradeBannerSkeleton/> */}
     </>
   );
 };
