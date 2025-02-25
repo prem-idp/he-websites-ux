@@ -10,12 +10,16 @@ import RequestInfo from "@packages/shared-components/common-utilities/cards/inte
 import { getCurrentUser } from "@aws-amplify/auth";
 //import SearchResultReviewLightBox from "@packages/shared-components/common-utilities/popups/sr-reviewlightbox";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
+import { addRemoveFavourites } from "@packages/lib/server-actions/server-action";
+import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
+
 interface SrPageResultPodProps {
   searchResultsData: any[];
+  subject:any;
 }
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,
+  searchResultsData,subject
 }) => {
   // useEffect(() => {
   //   async function checkUser() {
@@ -113,7 +117,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0 hidden">
                     <div className="flex items-center justify-between">
                       <span className="text-grey900 font-semibold">
                         We have added this to your comparison
@@ -395,7 +399,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
                         <Link
-                          href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
+                          href={process.env.PROJECT === "Whatuni" ? `/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}` : `/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`}
                         >
                           <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
                             {courseData?.courseTitle}
@@ -456,7 +460,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             strokeLinejoin="round"
                           />
                         </svg>
-                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0 hidden">
                           <div className="flex items-center justify-between">
                             <span className="text-grey900 font-semibold">
                               We have added this to your comparison
@@ -489,7 +493,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             href=""
                             className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
                           >
-                            View all modules
+                            View all comparison
                             <svg
                               width="16"
                               height="16"
@@ -509,13 +513,10 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       </div>
                     </div>
                     {/* pgs descrption */}
-                    {/* <div className="relative small text-grey500">
+                    {process.env.PROJECT === "PGS" && courseData?.courseSummary? (
+                    <div className="relative small text-grey500">
                       <div className="line-clamp-2">
-                        Are you seeking to enter the criminal justice or
-                        community justice sectors Want to work with drug action
-                        teams or in the voluntary Are you seeking to enter the
-                        criminal justice or community justice sectors Want to
-                        work with drug action teams or in the voluntary
+                      courseData?.courseSummary
                       </div>
                       <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                         <span>... </span>
@@ -526,9 +527,10 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           Read More
                         </Link>
                       </div>
-                    </div> */}
+                    </div> ) : <></>}
                     {/* pgs descrption */}
-                    {courseData?.modulesInfo ? (
+                    
+                    { process.env.PROJECT === "Whatuni" && courseData?.modulesInfo ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
                           <div className="font-semibold">Year 1</div>
@@ -581,6 +583,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
+                            collegeName:data?.collegeTextKey,
+                            pageName:"browsemoneypageresults"
                           }}
                         />
                       ) : (
@@ -597,6 +601,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
+                            pageName:"browsemoneypageresults"
                           }}
                         />
                       ) : (
@@ -613,6 +618,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
+                            collegeName:data?.collegeTextKey,
+                            pageName:"browsemoneypageresults"
                           }}
                         />
                       ) : (
@@ -629,6 +636,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
+                            collegeName:data?.collegeTextKey,
+                            pageName:"browsemoneypageresults"
                           }}
                         />
                       ) : (
@@ -641,7 +650,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={`/degree-courses/csearch?subject=&university=${data?.collegeTextKey}`}
+                href={`/degree-courses/csearch?subject=${subject}&university=${data?.collegeTextKey}`}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses

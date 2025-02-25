@@ -1,7 +1,7 @@
 import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
 
 export function getQualCode(qualText:any) {
-  let qualCode = "";
+  let qualCode = "M";
         if ("degree" === qualText) {
             qualCode = "M";
         } else if ("postgraduate"=== qualText) {
@@ -18,8 +18,9 @@ export function getQualCode(qualText:any) {
     return qualCode;
 }
 
-export function getSearchPayload(searchParams:any,filterCookieParam:any,qualification:any) {   
-    let subjectArray = [searchParams?.subject || searchParams?.course || ""]
+ function getSearchPayload(searchParams:any,filterCookieParam:any,qualification:any) {  
+    let subjectArray = searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") : [searchParams?.subject || searchParams?.course || ""]
+    let locationArray = searchParams?.location?.includes(" ") ? searchParams?.location?.split(" ") : [searchParams?.location || ""]
     const searchPayload: any = {
         parentQualification: getQualCode(qualification),
         childQualification:  searchParams?.qualification || filterCookieParam?.["qualification"] || "",
@@ -27,7 +28,7 @@ export function getSearchPayload(searchParams:any,filterCookieParam:any,qualific
         searchSubject: subjectArray,
         searchKeyword: searchParams?.q || searchParams?.keyword || "",
         jacsCode: "",
-        location: searchParams?.location || filterCookieParam?.["location"] || "",
+        location: locationArray,
         studyMode: searchParams?.study_mode || searchParams?.['study-mode'] || "",
         studyMethod: searchParams?.['study-method'] || filterCookieParam?.["study-method"] || "",
         collegeId: "",
@@ -43,4 +44,5 @@ export function getSearchPayload(searchParams:any,filterCookieParam:any,qualific
       };
   return searchPayload;
 }
+export {getSearchPayload}
 

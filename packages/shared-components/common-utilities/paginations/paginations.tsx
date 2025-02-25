@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-const Paginations = ({ totalPages ,currentPage}: any) => {
+const Paginations = ({ totalPages ,currentPage,searchParams}: any) => {
 
   
   const pageNumbers = [];
-  const totalVisiblePages = 7;
-  // const searchParams = new URLSearchParams(window?.location?.search);
-  // const currentPage = Number(searchParams?.get("pageno")) || 1;  
+  const totalVisiblePages = 7; 
   console.log("TOTAl:"+ totalPages,currentPage)
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
@@ -70,8 +68,8 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
               <Link
                 href={
                   item !== "..."
-                    ? `?pageno=${Number(item)}`
-                    : `?pageno=${Number(currentPage)}`
+                    ? `${searchParams.currentPage}&pageno=${Number(item)}`
+                    : `${searchParams.currentPage}&pageno=${Number(currentPage)}`
                 }
                 className={
                   currentPage == item
@@ -87,8 +85,8 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
             <a
           href={
             currentPage < totalPages
-              ? `?pageno=${+currentPage + 1}`
-              : `?pageno=${+currentPage}`
+              ? `${searchParams.currentPage}&pageno=${+currentPage + 1}`
+              : `${searchParams.currentPage}&pageno=${+currentPage}`
           }
           className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
         >
