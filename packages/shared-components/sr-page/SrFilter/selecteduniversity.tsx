@@ -1,10 +1,13 @@
-"use client";
+import Link from "next/link";
 import React from "react";
 
 const SelectedUniversity = ({
   universityClicked,
   isUniversityOpen,
   universityList,
+  id,
+  selectedId,
+  pathname
 }: any) => {
   //   const universityList = [
   //     "Aberystwyth University ",
@@ -17,18 +20,20 @@ const SelectedUniversity = ({
   //     "Amersham And Wycombe College",
   //     "Amity Business School London",
   //     "Anglia Ruskin University Aru",
-  //     "Architectural Association School Of Architecture",
+  //     "Architectural Association School Of Architecture",hidden
   //   ];
-  console.log(universityList);
+  console.log(pathname,'pathname123');
+  const slug =  pathname?.split('/');
+  //console.log(universityList,id,selectedId,'universityList');
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isUniversityOpen ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isUniversityOpen && (id === selectedId) ? "" : "hidden"}`}
     >
-      <ul className="flex flex-wrap gap-[8px] uppercase">
+      {/* <ul className="flex flex-wrap gap-[8px] uppercase">
         <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
           University of Aberdeen
         </li>
-      </ul>
+      </ul> */}
       <div className="flex flex-col gap-[12px] h-[246px] overflow-y-auto custom-scrollbar-2">
         <div
           onClick={() => {
@@ -56,10 +61,22 @@ const SelectedUniversity = ({
         <div className="flex flex-col gap-[12px]">
           <div className="small font-bold">{universityList?.sortingCat}</div>
           <div className="flex flex-col gap-[12px]">
-            {universityList?.uniList?.map((item: any, index: any) => (
+            {universityList?.map((item: any, index: any) => (
               <div className="form_check relative" key={index}>
                 <div className="flex items-start gap-[8px]">
                   <div className="checkbox_card">
+                  <Link
+                    //  id={"study-method" + items?.studyMethodTextKey} university=university-of-reading
+                                href={{
+                                  pathname: `${slug[1]}/csearch`,
+                                  query:
+                                    `university=${item?.collegeTextKey}`
+                                }}
+                                // href={formUrl(
+                                //   "study-method",
+                                //   items?.studyMethodTextKey
+                                // )}
+                              ></Link>
                     <input
                       type="checkbox"
                       className="form-checkbox hidden"
