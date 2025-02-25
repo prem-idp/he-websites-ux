@@ -9,6 +9,7 @@ const L2subjectList = ({
   formUrl,
   appendSearchParams,
   containsSearchParam,
+  slug,
 }: any) => {
   return (
     <div
@@ -94,6 +95,7 @@ const L2subjectList = ({
                     isIndexed={isIndexed}
                     appendSearchParams={appendSearchParams}
                     state={containsSearchParam("subject", item?.subjectTextKey)}
+                    slug={slug}
                   />
                 </div>
               ))}

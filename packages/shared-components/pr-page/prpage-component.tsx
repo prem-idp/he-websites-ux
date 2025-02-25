@@ -35,8 +35,8 @@ const PrPageComponent = async ({ searchparams }: any) => {
       <SearchLabels />
       <ProviderResultsCard>
         <Paginations
-        // totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-        // currentPage={searchparams?.pageNo}
+          // totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+          currentPage={searchparams?.pageNo || "1"}
         />
       </ProviderResultsCard>
       <ContentfulPreviewProvider

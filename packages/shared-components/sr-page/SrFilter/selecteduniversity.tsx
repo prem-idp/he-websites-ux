@@ -18,6 +18,7 @@ const SelectedUniversity = ({
   //     "Anglia Ruskin University Aru",
   //     "Architectural Association School Of Architecture",
   //   ];
+  console.log(universityList);
   return (
     <div
       className={`flex flex-col gap-[16px] ${isUniversityOpen ? "" : "hidden"}`}
