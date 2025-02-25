@@ -8,36 +8,88 @@ import Visitwebsite from "@packages/shared-components/common-utilities/cards/int
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import { getCurrentUser } from "@aws-amplify/auth";
-//import SearchResultReviewLightBox from "@packages/shared-components/common-utilities/popups/sr-reviewlightbox";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
-import { addRemoveFavourites } from "@packages/lib/server-actions/server-action";
+import {getUserFavourites,addRemoveFavourites } from "@packages/lib/server-actions/server-action";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 
 interface SrPageResultPodProps {
   searchResultsData: any[];
   subject:any;
 }
+interface FavoriteState {
+  favoriteFlag: boolean;
+  isLoading: boolean;
+}
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,subject
 }) => {
-  // useEffect(() => {
-  //   async function checkUser() {
-  //     const userData = await getCurrentUser();
-  //   }
-  //   checkUser();
-  // },[]);
+  const [userData, setUserData] = useState({});
+ const [favouritesList, setFavouritesList] = useState([]);
+  useEffect(() => {
+    async function checkUser() {
+      try{
+      const user = await getCurrentUser();
+      console.log(user)
+      setUserData(user);  
+      if (user && typeof window !== 'undefined') {
+        console.log("fav call", await getUserFavourites())
+       const favList = await getUserFavourites();
+       //setFavouritesList(favList); 
+       console.log("FAV LIST", favList)
+      }
+    } catch(error) {
+       console.log(error)
+    }
+    }
+    checkUser();
+  }, [favouritesList]); 
+  const [favoriteState, setFavoriteState] = useState<FavoriteState>({
+    favoriteFlag: false,
+    isLoading: false
+  });
+  const [isfavouritesClicked, setIsfavouritesClicked] = useState(false);
   const universityPodClick = (navigationUrl: any) => {
     window.open(navigationUrl, "_self");
   };
-  const handleFavourite = (collegeId: any) => {
-    console.log("Favourite");
+  //
+  const handleFavourite = async(collegeId: any,collegeName:any,e: React.FormEvent) => {
+    e.stopPropagation();
+    if (userData === null ||  userData === "") {
+      console.log("not logged")
+      return;
+    }
+    setIsfavouritesClicked(!isfavouritesClicked);
+    setFavoriteState(prev => ({ ...prev, isLoading: true }));
+    try {
+      const payload = {
+        contentType: "INSTITUTION",
+        contentId: collegeId,
+        contentName: collegeName,
+        inputFlag: true
+      };
+      const data = await addRemoveFavourites([payload]);
+      console.log("FAV data", data)
+      setIsfavouritesClicked(!isfavouritesClicked);
+      if (data.success) {
+        setFavoriteState(prev => ({
+          ...prev,
+          favoriteFlag: !prev.favoriteFlag
+        }));
+        if (!favoriteState.favoriteFlag) {
+          //showSuccessMessage('Added to favorites');s
+        }
+      } else if (data.message === 'Limit exceeded') {
+        // Handle limit exceeded case
+       // showLimitExceededMessage();
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    } finally {
+      setFavoriteState(prev => ({ ...prev, isLoading: false }));
+    }
   };
 
-  const [isfavouritesClicked, setIsfavouritesClicked] = useState(false);
-  const favouritesClicked = () => {
-    setIsfavouritesClicked(!isfavouritesClicked);
-  };
 
   const onClose = () => {
     setIsfavouritesClicked(!isfavouritesClicked);
@@ -99,7 +151,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                   ) : null} */}
                 </div>
                 <div
-                  onClick={favouritesClicked}
+                  onClick={(event)=> handleFavourite(data?.collegeId,data?.collegeDisplayName,event)}
                   className="heart w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative"
                 >
                   <svg
