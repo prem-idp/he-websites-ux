@@ -29,10 +29,10 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     ParentSubject: "",
     SubjectList: "",
   });
-  const [universityList, setUniversityList] = useState({
-    sortingCat: "",
-    uniList: [],
-  });
+  // const [universityList, setUniversityList] = useState({
+  //   sortingCat: "",
+  //   uniList: [],
+  // });
   const [selectedFilter, SetselectedFilter] = useState<
     null | undefined | string
   >(null);
@@ -60,26 +60,50 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
   }, [isFilterOpen]);
-  const universitiesSortingList = [
-    { name: "Universities A - C", sortingValue: "A-C" },
-    { name: "Universities D - H", sortingValue: "D-H" },
-    { name: "Universities I - M", sortingValue: "I-M" },
-    { name: "Universities N - P", sortingValue: "N-P" },
-    { name: "Universities Q - U", sortingValue: "Q-U" },
-    { name: "Universities V - Z", sortingValue: "V-Z" },
-  ];
+
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
-  const universityClicked = (sortingValue: string) => {
-    setIsUniversityOpen(!isUniversityOpen);
-    if (sortingValue === "") {
-      return;
-    }
-    const regex = new RegExp(`^[${sortingValue}]`, "i");
-    const sortedUni = jsondata?.universityFilterList?.filter(
-      (collegeItem: any) => regex.test(collegeItem?.collegeName)
+  const [selectUniId, setSelectUniId] = useState("");
+  
+
+  const universitiesSortingList = () => {
+    let listvalue:any[]= [];
+     [
+    {id:"Uni1", name: "Universities A - C", sortingValue: "A-B-C", unilist: [] },
+    {id:"Uni2", name: "Universities D - H", sortingValue: "D-E-F-G-H",unilist: [] },
+    { id:"Uni3",name: "Universities I - M", sortingValue: "I-J-K-L-M",unilist: [] },
+    { id:"Uni4",name: "Universities N - P", sortingValue: "N-O-P-Q-P",unilist: [] },
+    { id:"Uni5",name: "Universities Q - U", sortingValue: "Q-R-S-T-U",unilist: [] },
+    { id:"Uni6",name: "Universities V - Z", sortingValue: "V-W-X-Y-Z",unilist: [] },
+  ].map((item: any) => {
+    item.unilist = jsondata?.universityFilterList?.filter(
+      (collegeItem: any) => {
+        const regex = new RegExp(`^[${item.sortingValue}]`, "i");
+        return regex.test(collegeItem?.collegeName);
+      }
     );
-    setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
+   // console.log(item,'item12');
+    listvalue.push(item);
+    //return item;
+  })
+  console.log(listvalue,'item123');
+  return listvalue;
+}
+  
+  const [universitiesList, setuniversitiesList] = useState(universitiesSortingList());
+  const universityClicked = (sortingValue: string,id:string) => {
+    setIsUniversityOpen(!isUniversityOpen);
+    setSelectUniId(id);
+    // if (sortingValue === "") {
+    //   return;
+    // }
+    // const regex = new RegExp(`^[${sortingValue}]`, "i");
+    // const sortedUni = jsondata?.universityFilterList?.filter(
+    //   (collegeItem: any) => regex.test(collegeItem?.collegeName)
+    // );
+    // console.log(jsondata);
+    // setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
   };
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -681,11 +705,11 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                 </div>
                 <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
                   <div className="flex flex-col gap-[12px]">
-                    {universitiesSortingList?.map((item, index) => (
+                    {universitiesList?.map((item, index) => (
                       <div
                         key={index}
                         onClick={() => {
-                          universityClicked(item?.sortingValue);
+                          universityClicked(item?.sortingValue,item?.id);
                         }}
                         className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                       >
@@ -713,11 +737,19 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       isUniversityOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                   >
-                    <SelectedUniversity
-                      isUniversityOpen={isUniversityOpen}
-                      universityClicked={universityClicked}
-                      universityList={universityList}
-                    />
+                    {universitiesList?.map((item, index) => ( 
+                          <SelectedUniversity
+                          isUniversityOpen={isUniversityOpen}
+                          universityClicked={universityClicked}
+                          id={item.id}
+                          selectedId={selectUniId}
+                        //  universityList={universityList}
+                        universityList={item?.unilist}
+                        pathname= {slug}
+
+                          />
+                    ))}
+                   
                   </div>
                   {isUniversityOpen && <div className="h-[100px]"></div>}
                 </div>
