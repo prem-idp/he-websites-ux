@@ -6,21 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { useSearchParams,usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import {
   getFilterPriority,
   isSingleSelection,
 } from "@packages/lib/utlils/result-filters";
 import { extractUrlAndCookieValues } from "@packages/lib/utlils/result-filters";
-import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjectcheckBox";
 import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
-const SearchFilterComponent = ({ jsondata,path }: any) => {
-  console.log(jsondata,path,'search123');
-  const slugs= path?.split('/');
-  console.log(slugs,'slugs');
-  const [slug, setslug] = useState(path || 'degree-courses/search');
+const SearchFilterComponent = ({ jsondata, path }: any) => {
+  const [slug, setslug] = useState(path || "degree-courses/search");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -42,32 +38,10 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
   useEffect(() => {
     const value = isSingleSelection(searchParams);
     setIsIndexed(value);
-    console.log(pathname,'searchparam123');
-    if(pathname){
-         setslug(pathname);
+    if (pathname) {
+      setslug(pathname);
     }
-  }, [searchParams,router]);
-  const appliedFilters = {
-    year: searchParams?.get("year")?.split(","),
-    month: searchParams?.get("month")?.split(","),
-    location: searchParams?.get("location")?.split(","),
-    ucasDcore: searchParams?.get("score")?.split(","),
-    university: searchParams?.get("university")?.split(","),
-    campusType: searchParams?.get("campus-type")?.split(","),
-    qualification: searchParams?.get("qualification")?.split(","),
-    studyMethod: searchParams?.get("study-method")?.split(","),
-    locationType: searchParams?.get("location-type")?.split(","),
-    russellGroup: searchParams?.get("russell-group")?.split(","),
-    employmentRateMin: searchParams?.get("employment-rate-min")?.split(","),
-    employmentRateMax: searchParams?.get("employment-rate-max")?.split(","),
-    studyMode:
-      searchParams?.get("study-mode")?.split(",") ||
-      searchParams?.get("study_mode")?.split(","),
-    pageNo:
-      searchParams?.get("pageno")?.split(",") || searchParams?.get("page_no"),
-    subject:
-      searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
-  };
+  }, [searchParams, router]);
 
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
@@ -94,17 +68,17 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
     { name: "Universities V - Z", sortingValue: "V-Z" },
   ];
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
-  // const universityClicked = (sortingValue: string) => {
-  //   setIsUniversityOpen(!isUniversityOpen);
-  //   if (sortingValue === "") {
-  //     return;
-  //   }
-  //   const regex = new RegExp(`^[${sortingValue}]`, "i");
-  //   const sortedUni = jsondata?.universityFilterList?.filter(
-  //     (collegeItem: any) => regex.test(collegeItem?.collegeName)
-  //   );
-  //   setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
-  // };
+  const universityClicked = (sortingValue: string) => {
+    setIsUniversityOpen(!isUniversityOpen);
+    if (sortingValue === "") {
+      return;
+    }
+    const regex = new RegExp(`^[${sortingValue}]`, "i");
+    const sortedUni = jsondata?.universityFilterList?.filter(
+      (collegeItem: any) => regex.test(collegeItem?.collegeName)
+    );
+    setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -167,9 +141,16 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
           }
         }
       });
+      const multiSelect =
+        urlParams?.toString()?.includes("+") ||
+        urlParams?.toString()?.includes("%2C");
+
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         router.refresh();
+      } else if (multiSelect) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        router.push(`?${urlParams.toString()}`);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
@@ -181,7 +162,7 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
     }, 0);
   };
 
-  const formUrl = (key: string, value: string, isQualification?:boolean) => {
+  const formUrl = (key: string, value: string, isQualification?: boolean) => {
     const filters = extractUrlAndCookieValues(searchParams, key, value);
     const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
@@ -193,22 +174,23 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
     const count = Object.keys(a).length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
-     // console.log(valuesArray,k,'valuesArray');
       if (totalValues + valuesArray.length <= 4) {
-        if(k != 'study-level'){
+        if (k != "study-level") {
           urlParams.set(k, valuesArray.join(","));
           totalValues += valuesArray.length;
         }
-       
       }
     });
     if (count >= 4) {
-      return `subject=${searchParams?.get("subject")}&${key}=${value}`;
+      return `${process.env.PROJECT === "Whatuni" ? "subject" : "course"}=${
+        process.env.PROJECT === "Whatuni"
+          ? searchParams?.get("subject")
+          : searchParams?.get("course")
+      }&${key}=${value}`;
     } else {
       return `${urlParams.toString()}`;
     }
   };
-
 
   const containsSearchParam = (key: string, value: string): boolean => {
     const paramValue = searchParams.get(key);
@@ -237,6 +219,10 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
     ],
   };
   const subjectClicked = (item: string) => {
+    if (item === "") {
+      setIsSubjectOpen(!isSubjectOpen);
+      return;
+    }
     setIsSubjectOpen(!isSubjectOpen);
     const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
       return items.parentSubject == item;
@@ -288,7 +274,7 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
             </div>
             <p className="m-[8px_0_24px]">
               Use these filters to narrow down your search options based on your
-              preferred criteria 
+              preferred criteria&nbsp;
             </p>
           </div>
           <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
@@ -335,15 +321,11 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                                 id={"study-method" + items?.studyMethodTextKey}
                                 href={{
                                   pathname: `${slug}`,
-                                  query:  formUrl(
+                                  query: formUrl(
                                     "study-method",
                                     items?.studyMethodTextKey
-                                  ) ,
+                                  ),
                                 }}
-                                // href={formUrl(
-                                //   "study-method",
-                                //   items?.studyMethodTextKey
-                                // )}
                               ></Link>
                             )}
                           </label>
@@ -384,16 +366,12 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                               {isIndexed && (
                                 <Link
                                   id={"study-mode" + items?.studyModeTextKey}
-                                  // href={formUrl(
-                                  //   "study-mode",
-                                  //   items?.studyModeTextKey
-                                  // )}
                                   href={{
                                     pathname: `${slug}`,
-                                    query:  formUrl(
+                                    query: formUrl(
                                       "study-mode",
                                       items?.studyModeTextKey
-                                    ) ,
+                                    ),
                                   }}
                                 ></Link>
                               )}
@@ -441,16 +419,12 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                                 <Link
                                   id={"study-level" + item?.qualTextKey}
                                   href={{
-                                    pathname: `/${(item?.qualTextKey)}-courses/search`,
-                                    query:  formUrl(
+                                    pathname: `/${item?.qualTextKey}-courses/search`,
+                                    query: formUrl(
                                       "study-level",
                                       item?.qualTextKey
-                                    ) ,
+                                    ),
                                   }}
-                                  // href={item?.qualDisplayDesc-+'courses'+formUrl(
-                                  //   "study-level",
-                                  //   item?.qualTextKey
-                                  // )}
                                 ></Link>
                               )}
                             </label>
@@ -483,7 +457,8 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                         aria-label="enter keyword"
                         placeholder="Search subjects"
                       />
-                      <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                      {/* Dropdown div */}
+                      {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                         <ul>
                           <li>
                             <a
@@ -502,11 +477,13 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                             </a>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
-                    <div className="flex flex-col gap-[12px]">
+                    <div
+                      className={`flex flex-col gap-[12px] ${isSubjectOpen ? "hidden" : ""}`}
+                    >
                       {ParentSubject?.map((item: any, index: any) => (
                         <div
                           key={index}
@@ -535,14 +512,16 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                     </div>
 
                     <div
-                      className={`bg-white absolute top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out ${
-                        isSubjectOpen ? "translate-x-0" : "-translate-x-full"
-                      }`}
+                    // className={`
+                    //   bg-white absolute top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out
+                    //   ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
+                    //   `}
                     >
                       <L2subjectList
                         selectedSubject={selectedSubject}
                         isIndexed={isIndexed}
                         isSubjectOpen={isSubjectOpen}
+                        slug={slug}
                         subjectClicked={subjectClicked}
                         formUrl={formUrl}
                         appendSearchParams={appendSearchParams}
@@ -561,7 +540,6 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                 title="Intake year"
                 defaultOpenStatus={selectedFilter === "year" ? true : false}
               >
-                {/* intake */}
                 <div className="flex flex-col gap-[8px] p-[8px_0_0]">
                   <div className="x-small font-semibold text-black uppercase">
                     Choose YEAR & MONTH
@@ -590,13 +568,9 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"year" + item?.year}
-                                // href={formUrl("year", `${item?.year}`)}
                                 href={{
                                   pathname: `${slug}`,
-                                  query:  formUrl(
-                                    "year",
-                                    `${item?.year}`
-                                  ) ,
+                                  query: formUrl("year", `${item?.year}`),
                                 }}
                               ></Link>
                             )}
@@ -629,13 +603,9 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"month" + item?.month}
-                              //  href={formUrl("month", item?.month)}
                                 href={{
                                   pathname: `${slug}`,
-                                  query:  formUrl(
-                                    "month",
-                                    `${item?.month}`
-                                  ) ,
+                                  query: formUrl("month", `${item?.month}`),
                                 }}
                               ></Link>
                             )}
@@ -675,7 +645,8 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                       aria-label="enter keyword"
                       placeholder="Search universities"
                     />
-                    <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                    {/* University dropdown */}
+                    {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                       <ul>
                         <li>
                           <a
@@ -694,7 +665,7 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                           </a>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
@@ -702,9 +673,9 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                     {universitiesSortingList?.map((item, index) => (
                       <div
                         key={index}
-                        // onClick={() => {
-                        //   universityClicked(item?.sortingValue);
-                        // }}
+                        onClick={() => {
+                          universityClicked(item?.sortingValue);
+                        }}
                         className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                       >
                         {item?.name}
@@ -731,15 +702,13 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                       isUniversityOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                   >
-                    {/* <SelectedUniversity
+                    <SelectedUniversity
                       isUniversityOpen={isUniversityOpen}
                       universityClicked={universityClicked}
                       universityList={universityList}
-                    /> */}
+                    />
                   </div>
-                  {isUniversityOpen && ( // Placeholder div
-                    <div className="h-[100px]"></div> // Height matches expected content height
-                  )}
+                  {isUniversityOpen && <div className="h-[100px]"></div>}
                 </div>
               </div>
             </Accordion>
@@ -921,10 +890,10 @@ const SearchFilterComponent = ({ jsondata,path }: any) => {
                                             // )}
                                             href={{
                                               pathname: `${slug}`,
-                                              query:  formUrl(
+                                              query: formUrl(
                                                 "location",
                                                 item?.regionTextKey
-                                              ) ,
+                                              ),
                                             }}
                                           ></Link>
                                         )}

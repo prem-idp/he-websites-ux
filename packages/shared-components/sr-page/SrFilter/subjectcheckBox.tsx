@@ -7,6 +7,7 @@ const SubjectCheckBox = ({
   state,
   isIndexed,
   formUrl,
+  slug,
 }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(state || false);
   useEffect(() => {
@@ -18,7 +19,10 @@ const SubjectCheckBox = ({
         {isIndexed && (
           <Link
             id={"subject" + item?.subjectTextKey}
-            href={formUrl("subject", item?.subjectTextKey)}
+            href={{
+              pathname: `${slug}`,
+              query: formUrl("subject", item?.subjectTextKey),
+            }}
           ></Link>
         )}
         <input

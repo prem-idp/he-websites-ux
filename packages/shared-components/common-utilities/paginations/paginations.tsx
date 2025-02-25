@@ -1,12 +1,9 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-const Paginations = ({ totalPages ,currentPage,searchParams}: any) => {
-
-  
+const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
   const pageNumbers = [];
-  const totalVisiblePages = 7; 
-  console.log("TOTAl:"+ totalPages,currentPage)
+  const totalVisiblePages = 7;
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);
@@ -38,76 +35,75 @@ const Paginations = ({ totalPages ,currentPage,searchParams}: any) => {
   return (
     <>
       <div className="pt-[24px] pb-[40px] md:pb-[64px]">
-      <nav aria-label="navigation">
-       
-        <ul className="pagination flex justify-center items-center gap-[8px]">
-          <li>
-          <a        
-          href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
-          className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
-        >
-           <svg
-                width="7"
-                height="12"
-                viewBox="0 0 7 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+        <nav aria-label="navigation">
+          <ul className="pagination flex justify-center items-center gap-[8px]">
+            <li>
+              <a
+                href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
+                className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
-                <path
-                  d="M6 11L1 6L6 1"
-                  stroke="#333F48"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-        </a>
+                <svg
+                  width="7"
+                  height="12"
+                  viewBox="0 0 7 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 11L1 6L6 1"
+                    stroke="#333F48"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
             </li>
-          {items.map((item, index) => (
-            <li key={index}>
-              <Link
+            {items.map((item, index) => (
+              <li key={index}>
+                <Link
+                  href={
+                    item !== "..."
+                      ? `${searchParams.currentPage}&pageno=${Number(item)}`
+                      : `${searchParams.currentPage}&pageno=${Number(currentPage)}`
+                  }
+                  className={
+                    currentPage == item
+                      ? " flex items-center justify-center text-white w-[32px] h-[32px] bg-secondary-500 hover:text-white"
+                      : `flex items-center justify-center text-primary-500 w-[32px] h-[32px] ${item !== "..." ? "hover:bg-secondary-500 hover:text-white" : ""}`
+                  }
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <a
                 href={
-                  item !== "..."
-                    ? `${searchParams.currentPage}&pageno=${Number(item)}`
-                    : `${searchParams.currentPage}&pageno=${Number(currentPage)}`
+                  currentPage < totalPages
+                    ? `${searchParams.currentPage}&pageno=${+currentPage + 1}`
+                    : `${searchParams.currentPage}&pageno=${+currentPage}`
                 }
-                className={
-                  currentPage == item
-                    ? " flex items-center justify-center text-white w-[32px] h-[32px] bg-secondary-500 hover:text-white"
-                    : `flex items-center justify-center text-primary-500 w-[32px] h-[32px] ${item !== "..." ? "hover:bg-secondary-500 hover:text-white" : ""}`
-                }
+                className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
-                {item}
-              </Link>
+                <svg
+                  width="7"
+                  height="12"
+                  viewBox="0 0 7 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 1L6 6L1 11"
+                    stroke="#333F48"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
             </li>
-          ))}
-          <li>     
-            <a
-          href={
-            currentPage < totalPages
-              ? `${searchParams.currentPage}&pageno=${+currentPage + 1}`
-              : `${searchParams.currentPage}&pageno=${+currentPage}`
-          }
-          className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
-        >
-          <svg
-                width="7"
-                height="12"
-                viewBox="0 0 7 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1 1L6 6L1 11"
-                  stroke="#333F48"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-        </a></li>
-        </ul>
-   
+          </ul>
         </nav>
       </div>
     </>

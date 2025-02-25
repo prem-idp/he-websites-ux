@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import SubjectCheckBox from "./subjectcheckBox";
@@ -9,6 +10,7 @@ const L2subjectList = ({
   formUrl,
   appendSearchParams,
   containsSearchParam,
+  slug,
 }: any) => {
   return (
     <div
@@ -94,6 +96,7 @@ const L2subjectList = ({
                     isIndexed={isIndexed}
                     appendSearchParams={appendSearchParams}
                     state={containsSearchParam("subject", item?.subjectTextKey)}
+                    slug={slug}
                   />
                 </div>
               ))}

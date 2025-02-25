@@ -22,6 +22,7 @@ const Page = async ({ searchParams }: any) => {
   const searchparams = await searchParams;
   const iscontentPreview =
     searchparams?.preview === "MY_SECRET_TOKEN" ? true : false;
+  console.log(jsonData);
   return (
     <>
       <ContentfulPreviewProvider

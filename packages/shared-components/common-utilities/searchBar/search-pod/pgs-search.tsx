@@ -9,8 +9,6 @@ import {
   GADataLayerFn,
 } from "@packages/lib/utlils/helper-function";
 export default function PgsSearch({ pgs_search_data }: any) {
-
-  console.log(pgs_search_data,"pgs_search_datapgs_search_datapgs_search_datapgs_search_data")
   const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
   const [qualification, setQualification] = useState({
     qualUrl: "",
@@ -57,7 +55,9 @@ export default function PgsSearch({ pgs_search_data }: any) {
     // Filter subjects first
     const filteredSubjects = pgs_search_data?.courseDetails?.filter(
       (subjects: any) =>
-        subjects?.description?.toLowerCase()?.includes(description.toLowerCase())
+        subjects?.description
+          ?.toLowerCase()
+          ?.includes(description.toLowerCase())
     );
     // Priority search function to sort filtered results based on search text position
     const prioritySearch = (list: any, searchText: any) => {
@@ -105,10 +105,12 @@ export default function PgsSearch({ pgs_search_data }: any) {
       return list
         ?.map((item: any) => ({
           ...item,
-          position: item?.collegeNameDisplay?.toLowerCase()?.indexOf(searchLower),
+          position: item?.collegeNameDisplay
+            ?.toLowerCase()
+            ?.indexOf(searchLower),
           startsWithSearch: item?.collegeNameDisplay
-          ?.toLowerCase()
-          ?.startsWith(searchLower),
+            ?.toLowerCase()
+            ?.startsWith(searchLower),
           exactMatch: item?.collegeNameDisplay?.toLowerCase() === searchLower,
         }))
         .filter((item: any) => item?.position !== -1) // Only include items with searchText
@@ -124,7 +126,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
           collegeNameDisplay: item?.collegeNameDisplay,
           collegeNameAlias: item?.collegeNameAlias,
           collegeName: item?.collegeName,
-          college_text_key:item?.college_text_key,
+          college_text_key: item?.college_text_key,
         }));
     };
     setFilteredUniversity(
@@ -152,12 +154,12 @@ export default function PgsSearch({ pgs_search_data }: any) {
   }, []);
   const keywordSearch = async () => {
     const sanitizedDescription = searchValue?.description
-    ?.trim() // Remove spaces from the front and back
-    ?.replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
-    ?.replace(/\s+/g, "-") // Replace spaces with hyphens
-    ?.replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-    ?.replace(/^-|-$/g, "") // Remove hyphens from the start and end
-    ?.toLowerCase(); // Convert the entire string to lowercase
+      ?.trim() // Remove spaces from the front and back
+      ?.replace(/[^a-zA-Z0-9\s]+/g, "-") // Replace one or more special characters with a hyphen
+      ?.replace(/\s+/g, "-") // Replace spaces with hyphens
+      ?.replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+      ?.replace(/^-|-$/g, "") // Remove hyphens from the start and end
+      ?.toLowerCase(); // Convert the entire string to lowercase
     if (!searchValue?.description?.trim() && !qualification?.qualDesc) {
       return setError(true);
     } else {
@@ -287,8 +289,8 @@ export default function PgsSearch({ pgs_search_data }: any) {
                   setSearchValue((prev: any) => ({
                     ...prev,
                     description: e.target.value
-                    ?.replace(/\s{2,}/g, " ")
-                    ?.trimStart(),
+                      ?.replace(/\s{2,}/g, " ")
+                      ?.trimStart(),
                     url: "",
                   }));
                   setError(false);
