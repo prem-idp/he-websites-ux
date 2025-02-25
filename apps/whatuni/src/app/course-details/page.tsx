@@ -3,12 +3,12 @@ import Courseinfocomponents from '@packages/shared-components/course-details/cou
 import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
 import Modulescomponents from '@packages/shared-components/course-details/modules/modulescomponents';
 import Entryrequirements from '@packages/shared-components/course-details/entery-requirements/entryrequirements';
-import Tuitionfeescomponents from '@packages/shared-components/course-details/tuition-fees/tuitionfeescomponents';
+import Tuitionfeescomponents from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
 import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
 import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/latestreviewscomponents';
-import Uniinfocomponents from '@packages/shared-components/course-details/uni-info/uniinfocomponents';
+import Uniinfocomponents from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
-import Similarcoursecomponents from '@packages/shared-components/course-details/similar-course/similarcoursecomponents';
+import Similarcoursecomponents from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
 import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
 import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
