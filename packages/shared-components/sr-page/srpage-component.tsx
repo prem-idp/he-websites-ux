@@ -52,13 +52,15 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
       ) : (
         <></>
       )}
-       <SortingFilter sortParam={{param:searchparams,currentPage:referer}} />
+      <SortingFilter
+        sortParam={{ param: searchparams, currentPage: referer }}
+      />
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           {searchResultsData?.searchResultsList ? (
             <>
               <GradeBanner />
-             
+
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -68,12 +70,14 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList} subject={searchparams?.subject || searchparams?.course}
+                searchResultsData={searchResultsData?.searchResultsList}
+                subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <Paginations
                   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1} searchParams={{param:searchparams,currentPage:referer}} 
+                  currentPage={searchparams?.pageNo || 1}
+                  searchParams={{ param: searchparams, currentPage: referer }}
                 />
               ) : (
                 <></>
