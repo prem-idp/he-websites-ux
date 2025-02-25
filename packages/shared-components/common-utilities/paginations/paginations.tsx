@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
   const pageNumbers = [];
   const totalVisiblePages = 7;
-  console.log("TOTAl:" + totalPages, currentPage);
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);
