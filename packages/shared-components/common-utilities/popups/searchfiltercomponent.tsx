@@ -16,6 +16,7 @@ import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
+  console.log(jsondata);
   const [slug, setslug] = useState(path || "degree-courses/search");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -126,17 +127,17 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       let totalValues = 0;
       Object.entries(orderedFilters).forEach(([k, v]) => {
         const valuesArray = v.split(",");
-        if (totalValues + valuesArray.length <= 4) {
+        if (totalValues + valuesArray?.length <= 4) {
           urlParams.set(k, valuesArray.join(","));
-          totalValues += valuesArray.length;
+          totalValues += valuesArray?.length;
         } else {
           const allowedValues = valuesArray.slice(0, 4 - totalValues);
           const remainingValues = valuesArray.slice(4 - totalValues);
-          if (allowedValues.length > 0) {
+          if (allowedValues?.length > 0) {
             urlParams.set(k, allowedValues.join(","));
-            totalValues += allowedValues.length;
+            totalValues += allowedValues?.length;
           }
-          if (remainingValues.length > 0) {
+          if (remainingValues?.length > 0) {
             cookieParams[k] = remainingValues.join(",");
           }
         }
@@ -171,13 +172,13 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     const urlParams = new URLSearchParams();
     let totalValues = 0;
     const a = Object.fromEntries(searchParams.entries());
-    const count = Object.keys(a).length;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
+    const count = Object.keys(a)?.length;
+    Object.entries(orderedFilters)?.forEach(([k, v]) => {
       const valuesArray = v.split(",");
-      if (totalValues + valuesArray.length <= 4) {
+      if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
           urlParams.set(k, valuesArray.join(","));
-          totalValues += valuesArray.length;
+          totalValues += valuesArray?.length;
         }
       }
     });
@@ -229,6 +230,16 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     });
     setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
   };
+  const parentRegion = jsondata?.regionList?.filter((item: any) => {
+    return !item?.parentRegionId;
+  });
+  const totalFilter = jsondata?.regionList
+    ?.map((item: any) => {
+      return item.parentRegionId;
+    })
+    ?.filter(Boolean);
+  const set: any = new Set(totalFilter);
+  const ar = [...set];
   return (
     <>
       <div>
@@ -382,7 +393,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                     </div>
                   </div>
                 )}
-                {jsondata?.qualificationList.length > 0 && (
+                {jsondata?.qualificationList?.length > 0 && (
                   <div className="flex flex-col gap-[4px]">
                     <div className="text-para-lg font-semibold">
                       Study level
@@ -533,8 +544,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
               </div>
               {/* <SubjectSkeleton/> */}
             </Accordion>
-            {(jsondata?.intakeYearDetails?.intakeYearList.length > 0 ||
-              jsondata?.intakeYearDetails?.intakeMonthList.length > 0) && (
+            {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
+              jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
               <Accordion
                 id="#year"
                 title="Intake year"
@@ -739,7 +750,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               alt="Search icon"
                             />
                           </button>
-                          <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                          {/* Miles dropdomn */}
+                          {/* <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                             <ul>
                               {locationMilesArray?.map((items, index) => (
                                 <li
@@ -750,7 +762,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                 </li>
                               ))}
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
                           <input
@@ -855,7 +867,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               htmlFor="All Uk"
                               className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              All Uk
+                              {parentRegion[0]?.regionName}
                             </label>
                           </div>
                         </div>
