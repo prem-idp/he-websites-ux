@@ -50,7 +50,12 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
           <SearchLabels />
         </Suspense>
       ) : (
-        <></>
+        <>
+          <Suspense>
+            <SearchFilterButtons />
+            <SearchLabels />
+          </Suspense>
+        </>
       )}
       <SortingFilter
         sortParam={{ param: searchparams, currentPage: referer }}

@@ -68,7 +68,10 @@ const SubjectSkeleton = () => {
           <div className="relative max-h-[255px] overflow-y-auto custom-scrollbar-2">
             <div className="flex flex-col gap-[12px]">
               {Array.from({ length: 8 }).map((_, index) => (
-                <div className="flex items-center gap-[4px] text-blue-400 small font-semibold">
+                <div
+                  key={index + 1}
+                  className="flex items-center gap-[4px] text-blue-400 small font-semibold"
+                >
                   <div className="skeleton skeleton-text-animated descrip !w-[30%]"></div>
                   <svg
                     width="16"
