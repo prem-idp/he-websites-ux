@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link';
 const Jumptocomponents = ({data}:any) => {
+  // let formedjumpptoarray=[];
   return (
     <div className='jumpto-container bg-grey-50'> 
         <div className="max-w-container mx-auto">

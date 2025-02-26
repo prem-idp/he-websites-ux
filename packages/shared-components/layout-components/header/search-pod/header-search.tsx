@@ -134,6 +134,7 @@ export default function Search({
                     data={course_data}
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
+                    showlocation={true}
                   />
                   {ucaspoint ? (
                     <div className="flex items-center justify-center small">

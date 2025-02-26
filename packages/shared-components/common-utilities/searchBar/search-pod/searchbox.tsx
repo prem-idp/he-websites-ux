@@ -297,6 +297,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                         searchFormHandle={searchFormHandle}
                         setsearchFormHandle={setsearchFormHandle}
                         data={course_data}
+                        showlocation={true}
                       />
                     </>
                   ) : (
@@ -306,6 +307,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                         searchFormHandle={searchFormHandle}
                         setsearchFormHandle={setsearchFormHandle}
                         data={course_data}
+                        showlocation={true}
                       />
                     )
                   )}
