@@ -16,10 +16,8 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState } from 'react';
-
 export default function Cdpageclient({ data }: any) {
     const [fetcheddata, setFetcheddata] = useState({ ...data })
-    // console.log(fetcheddata,"fetcheeddata state ")
     return (
         <>
             <Courseheaderinfocomponents data={fetcheddata} />
@@ -30,7 +28,6 @@ export default function Cdpageclient({ data }: any) {
             <Modulescomponents />
             <Entryrequirements />
             <Popularalevelsubjectcomponents />
-
             <TutionFeesComponent {...data} />
             <Latestreviewscomponents />
             <UniInfoComponent {...data} />
