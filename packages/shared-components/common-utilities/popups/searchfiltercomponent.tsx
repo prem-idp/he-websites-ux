@@ -62,18 +62,11 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
   }, [isFilterOpen]);
-  const universitiesSortingList = [
-    { name: "Universities A - C", sortingValue: "A-C" },
-    { name: "Universities D - H", sortingValue: "D-H" },
-    { name: "Universities I - M", sortingValue: "I-M" },
-    { name: "Universities N - P", sortingValue: "N-P" },
-    { name: "Universities Q - U", sortingValue: "Q-U" },
-    { name: "Universities V - Z", sortingValue: "V-Z" },
-  ];
+  
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
   const [selectUniId, setSelectUniId] = useState("");
 
-  const universitiesSortingList = () => {
+  const universitiesSortingList:any = () => {
     const listvalue: any[] = [];
     [
       {
@@ -771,7 +764,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         : "translate-x-0 h-auto"
                     }`}
 >
-                    {universitiesSortingList?.map((item, index) => (
+                    {universitiesList?.map((item:any, index:any) => (
                       <div
                         key={index}
                         onClick={() => {
@@ -803,7 +796,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       isUniversityOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                   >
-                    {universitiesList?.map((item, index) => (
+                    {universitiesList?.map((item:any, index:any) => (
                       <SelectedUniversity
                         key={index + 1}
                         isUniversityOpen={isUniversityOpen}
