@@ -19,7 +19,7 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
     const [anmate, setAnimate] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => { setAnimate(() => true) }, 50);
+        setTimeout(() => { setAnimate(() => true) }, 80);
     }, []);
 
     function select(item: any) {
