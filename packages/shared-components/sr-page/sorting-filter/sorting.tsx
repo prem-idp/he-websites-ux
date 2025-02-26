@@ -2,22 +2,26 @@
 
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
-import { pgsSortingFilter, wuscaCategories, wuSortingFilter } from "@packages/shared-components/services/constants";
+import {
+  pgsSortingFilter,
+  wuscaCategories,
+  wuSortingFilter,
+} from "@packages/shared-components/services/constants";
 import React, { useState } from "react";
 interface SortingProps {
-  sortParam?:any
+  sortParam?: any;
 }
-const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
+const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   const filterCookieParam = getDecodedCookie("filter_param") || {};
   const [isSortClicked, setIsSortClicked] = useState(false);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
   };
 
-  const handleSort = (value: any,label:any) => {
+  const handleSort = (value: any, label: any) => {
     const currentUrl = new URL(window.location.href);
-    const urlParams = new URLSearchParams(currentUrl.search); 
-    if(urlParams.size <= 4)  { 
+    const urlParams = new URLSearchParams(currentUrl.search);
+    if (urlParams.size <= 4) {
       urlParams.set("sort", value);
       const sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
       window.location.href = sortUrl;
@@ -28,14 +32,17 @@ const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
     }
   };
   const getKeyForValue = (value: string) => {
-    const entry = Object.entries(sortingFilter).find(([key, val]) => val === value);
-    const wuscaentry = Object.entries(wuscaCategories).find(([key, val]) => val === value);
+    const entry = Object.entries(sortingFilter).find(
+      ([key, val]) => val === value
+    );
+    const wuscaentry = Object.entries(wuscaCategories).find(
+      ([key, val]) => val === value
+    );
     return entry ? entry[0] : wuscaentry ? wuscaentry[0] : "Recommendded";
   };
-  const sortingFilter = process.env.PROJECT === "Whatuni" 
-  ? wuSortingFilter
-  :  pgsSortingFilter
-  
+  const sortingFilter =
+    process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
+
   return (
     <div className="ml-auto w-fit relative">
       <div
@@ -65,14 +72,23 @@ const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
           <div className="flex flex-col gap-[16px]">
             <div className="text-heading6 font-farro font-bold">Sort by</div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
-            {Object.entries(sortingFilter).map(([label, value]) => (
-                <div className="custom-radio flex items-center" onClick={()=> handleSort(value,label)}>
+              {Object.entries(sortingFilter).map(([label, value]) => (
+                <div
+                  className="custom-radio flex items-center"
+                  onClick={() => handleSort(value, label)}
+                >
                   <input
                     className="rounded-md"
                     type="radio"
                     id={value}
                     name="featured"
-                    checked = {value === sortParam?.param?.sort ? true : value === "R" ? true : false}
+                    checked={
+                      value === sortParam?.param?.sort
+                        ? true
+                        : value === "R"
+                          ? true
+                          : false
+                    }
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -85,13 +101,22 @@ const SortingFilter : React.FC<SortingProps> = ({sortParam}) => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
               {Object.entries(wuscaCategories).map(([label, value]) => (
-                <div className="custom-radio flex items-center"  onClick={()=> handleSort(value,label)}>
+                <div
+                  className="custom-radio flex items-center"
+                  onClick={() => handleSort(value, label)}
+                >
                   <input
                     className="rounded-md"
                     type="radio"
                     id={value}
                     name="featured"
-                    checked = {value === sortParam?.param?.sort ? true : value === "R" ? true : false}
+                    checked={
+                      value === sortParam?.param?.sort
+                        ? true
+                        : value === "R"
+                          ? true
+                          : false
+                    }
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
