@@ -7,7 +7,7 @@ const SelectedUniversity = ({
   universityList,
   id,
   selectedId,
-  pathname
+  pathname,
 }: any) => {
   //   const universityList = [
   //     "Aberystwyth University ",
@@ -22,12 +22,12 @@ const SelectedUniversity = ({
   //     "Anglia Ruskin University Aru",
   //     "Architectural Association School Of Architecture",hidden
   //   ];
-  console.log(pathname,'pathname123');
-  const slug =  pathname?.split('/');
+  console.log(pathname, "pathname123");
+  const slug = pathname?.split("/");
   //console.log(universityList,id,selectedId,'universityList');
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isUniversityOpen && (id === selectedId) ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isUniversityOpen && id === selectedId ? "" : "hidden"}`}
     >
       {/* <ul className="flex flex-wrap gap-[8px] uppercase">
         <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
@@ -65,18 +65,13 @@ const SelectedUniversity = ({
               <div className="form_check relative" key={index}>
                 <div className="flex items-start gap-[8px]">
                   <div className="checkbox_card">
-                  <Link
-                    //  id={"study-method" + items?.studyMethodTextKey} university=university-of-reading
-                                href={{
-                                  pathname: `${slug[1]}/csearch`,
-                                  query:
-                                    `university=${item?.collegeTextKey}`
-                                }}
-                                // href={formUrl(
-                                //   "study-method",
-                                //   items?.studyMethodTextKey
-                                // )}
-                              ></Link>
+                    <Link
+                      //  id={"study-method" + items?.studyMethodTextKey} university=university-of-reading
+                      href={{
+                        pathname: `${slug[1]}/csearch`,
+                        query: `university=${item?.collegeTextKey}`,
+                      }}
+                    ></Link>
                     <input
                       type="checkbox"
                       className="form-checkbox hidden"

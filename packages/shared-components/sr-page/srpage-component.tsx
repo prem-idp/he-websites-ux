@@ -57,9 +57,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
           </Suspense>
         </>
       )}
-      <SortingFilter
-        sortParam={{ param: searchparams, currentPage: referer }}
-      />
+       <SortingFilter sortParam={{param:searchparams}} />
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           {searchResultsData?.searchResultsList ? (

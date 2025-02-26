@@ -16,9 +16,10 @@ import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjec
 import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
+import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
-  console.log(jsondata);
   const [slug, setslug] = useState(path || "degree-courses/search");
+  const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -70,6 +71,79 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     { name: "Universities V - Z", sortingValue: "V-Z" },
   ];
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
+  const [selectUniId, setSelectUniId] = useState("");
+
+  const universitiesSortingList = () => {
+    const listvalue: any[] = [];
+    [
+      {
+        id: "Uni1",
+        name: "Universities A - C",
+        sortingValue: "A-B-C",
+        unilist: [],
+      },
+      {
+        id: "Uni2",
+        name: "Universities D - H",
+        sortingValue: "D-E-F-G-H",
+        unilist: [],
+      },
+      {
+        id: "Uni3",
+        name: "Universities I - M",
+        sortingValue: "I-J-K-L-M",
+        unilist: [],
+      },
+      {
+        id: "Uni4",
+        name: "Universities N - P",
+        sortingValue: "N-O-P-Q-P",
+        unilist: [],
+      },
+      {
+        id: "Uni5",
+        name: "Universities Q - U",
+        sortingValue: "Q-R-S-T-U",
+        unilist: [],
+      },
+      {
+        id: "Uni6",
+        name: "Universities V - Z",
+        sortingValue: "V-W-X-Y-Z",
+        unilist: [],
+      },
+    ].map((item: any) => {
+      item.unilist = jsondata?.universityFilterList?.filter(
+        (collegeItem: any) => {
+          const regex = new RegExp(`^[${item.sortingValue}]`, "i");
+          return regex.test(collegeItem?.collegeName);
+        }
+      );
+      // console.log(item,'item12');
+      listvalue.push(item);
+      //return item;
+    });
+    console.log(listvalue, "item123");
+    return listvalue;
+  };
+
+  const [universitiesList, setuniversitiesList] = useState(
+    universitiesSortingList()
+  );
+  const universityClicked = (sortingValue: string, id: string) => {
+    setIsUniversityOpen(!isUniversityOpen);
+    setSelectUniId(id);
+    // if (sortingValue === "") {
+    //   return;
+    // }
+    // const regex = new RegExp(`^[${sortingValue}]`, "i");
+    // const sortedUni = jsondata?.universityFilterList?.filter(
+    //   (collegeItem: any) => regex.test(collegeItem?.collegeName)
+    // );
+    // console.log(jsondata);
+    // setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
+  };
+
   // const universityClicked = (sortingValue: string) => {
   //   setIsUniversityOpen(!isUniversityOpen);
   //   if (sortingValue === "") {
@@ -216,6 +290,31 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     });
     setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
   };
+  const parentRegion = jsondata?.regionList?.filter((item: any) => {
+    return !item?.parentRegionId;
+  });
+  const totalFilter = jsondata?.regionList
+    ?.map((item: any) => {
+      return item.parentRegionId;
+    })
+    ?.filter(Boolean);
+  const set: any = new Set(totalFilter);
+  const ar = [...set];
+
+  const FirstLevelRegion = jsondata?.regionList
+    ?.map((region: any) => {
+      if (region.parentRegionId == 1) return region;
+    })
+    .filter(Boolean);
+
+  console.log(FirstLevelRegion);
+  // console.log(
+  //   jsondata?.regionList
+  //     ?.map((region: any) => {
+  //       if (region.parentRegionId == ) return region;
+  //     })
+  //     .filter(Boolean)
+  // );
   return (
     <>
       <div>
@@ -675,9 +774,9 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                     {universitiesSortingList?.map((item, index) => (
                       <div
                         key={index}
-                        // onClick={() => {
-                        //   universityClicked(item?.sortingValue);
-                        // }}
+                        onClick={() => {
+                          universityClicked(item?.sortingValue, item?.id);
+                        }}
                         className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                       >
                         {item?.name}
@@ -704,11 +803,18 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       isUniversityOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                   >
-                    {/* <SelectedUniversity
-                      isUniversityOpen={isUniversityOpen}
-                      universityClicked={universityClicked}
-                      universityList={universityList}
-                    /> */}
+                    {universitiesList?.map((item, index) => (
+                      <SelectedUniversity
+                        key={index + 1}
+                        isUniversityOpen={isUniversityOpen}
+                        universityClicked={universityClicked}
+                        id={item.id}
+                        selectedId={selectUniId}
+                        //  universityList={universityList}
+                        universityList={item?.unilist}
+                        pathname={slug}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -822,11 +928,33 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         <div className="form_check relative m-[0_0_12px]">
                           <div className="flex items-start gap-[8px]">
                             <div className="checkbox_card">
+                              {isIndexed && (
+                                <Link
+                                  id={
+                                    "location" + parentRegion[0]?.regionTextKey
+                                  }
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl(
+                                      "location",
+                                      parentRegion[0]?.regionTextKey
+                                    ),
+                                  }}
+                                ></Link>
+                              )}
                               <input
                                 type="checkbox"
+                                checked={isAllUkChecked}
                                 className="form-checkbox hidden"
                                 id="All Uk"
                                 name="All Uk"
+                                onChange={() => {
+                                  setIsAllUkChecked(!isAllUkChecked);
+                                  appendSearchParams(
+                                    "location",
+                                    parentRegion[0]?.regionTextKey
+                                  );
+                                }}
                               />
                               <label
                                 htmlFor="All Uk"
@@ -856,136 +984,24 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               htmlFor="All Uk"
                               className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              All Uk
+                              {parentRegion[0]?.regionName}
                             </label>
                           </div>
                         </div>
                         <ul>
                           <li>
-                            {jsondata?.regionList?.map(
-                              (item: any, index: any) => (
-                                <div key={index}>
-                                  <div className="form_check relative m-[0_0_12px_24px]">
-                                    <div className="flex items-start gap-[8px]">
-                                      <div className="checkbox_card">
-                                        <input
-                                          onClick={() => {
-                                            appendSearchParams(
-                                              "location",
-                                              item?.regionTextKey
-                                            );
-                                          }}
-                                          type="checkbox"
-                                          className="form-checkbox hidden"
-                                          id={item?.regionName}
-                                          name={item?.regionName}
-                                        />
-                                        {isIndexed && (
-                                          <Link
-                                            id={
-                                              "location" + item?.regionTextKey
-                                            }
-                                            // href={formUrl(
-                                            //   "location",
-                                            //   item?.regionTextKey
-                                            // )}
-                                            href={{
-                                              pathname: `${slug}`,
-                                              query: formUrl(
-                                                "location",
-                                                item?.regionTextKey
-                                              ),
-                                            }}
-                                          ></Link>
-                                        )}
-                                        <label
-                                          htmlFor={item?.regionName}
-                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                        >
-                                          <svg
-                                            width="10"
-                                            height="8"
-                                            viewBox="0 0 10 8"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                              fill="white"
-                                              stroke="white"
-                                              strokeWidth="0.666667"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            />
-                                          </svg>
-                                        </label>
-                                      </div>
-                                      <label
-                                        htmlFor={item?.regionName}
-                                        className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                      >
-                                        {item?.regionName}
-                                      </label>
-                                    </div>
-                                  </div>
-                                  {/* <ul>
-                                  {index == 0 && (
-                                    <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
-                                      {jsondata?.regionList.map(
-                                        (item: any, index: any) => (
-                                          <div
-                                            className="form_check relative m-[0_0_12px_40px]"
-                                            key={index}
-                                          >
-                                            <div className="flex items-start gap-[8px]">
-                                              <div className="checkbox_card">
-                                                <input
-                                                  type="checkbox"
-                                                  className="form-checkbox hidden"
-                                                  id={item?.regionName}
-                                                />
-                                                <label
-                                                  htmlFor={item?.regionName}
-                                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                                >
-                                                  <svg
-                                                    width="10"
-                                                    height="8"
-                                                    viewBox="0 0 10 8"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      fillRule="evenodd"
-                                                      clipRule="evenodd"
-                                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                                      fill="white"
-                                                      stroke="white"
-                                                      strokeWidth="0.666667"
-                                                      strokeLinecap="round"
-                                                      strokeLinejoin="round"
-                                                    />
-                                                  </svg>
-                                                </label>
-                                              </div>
-                                              <label
-                                                htmlFor={item?.regionName}
-                                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                              >
-                                                {item?.regionName}hello
-                                              </label>
-                                            </div>
-                                          </div>
-                                        )
-                                      )}
-                                    </li>
-                                  )}
-                                </ul> */}
-                                </div>
-                              )
-                            )}
+                            {FirstLevelRegion?.map((item: any, index: any) => (
+                              <LocationcheckBox
+                                isAllUkChecked={isAllUkChecked}
+                                key={index + 1}
+                                item={item}
+                                jsondata={jsondata}
+                                slug={slug}
+                                isIndexed={isIndexed}
+                                formUrl={formUrl}
+                                appendSearchParams={appendSearchParams}
+                              />
+                            ))}
                           </li>
                         </ul>
                       </li>

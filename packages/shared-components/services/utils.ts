@@ -32,7 +32,7 @@ export function getQualCode(qualText:any) {
         studyMode: searchParams?.study_mode || searchParams?.['study-mode'] || "",
         studyMethod: searchParams?.['study-method'] || filterCookieParam?.["study-method"] || "",
         collegeId: "",
-        pageNo: searchParams?.pageno || searchParams?.page_no || "1",
+        pageNo: searchParams?.pageno || searchParams?.page_no || filterCookieParam?.["pageno"] || filterCookieParam?.["page_no"] || "1",
         locationType: searchParams?.['location-type'] || filterCookieParam?.["location-type"] || "",
         intakeYear: searchParams?.year || filterCookieParam?.["year"] || "",
         intakeMonth: searchParams?.month || filterCookieParam?.["month"] || "",
