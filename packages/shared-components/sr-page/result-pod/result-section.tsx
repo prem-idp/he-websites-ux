@@ -7,9 +7,9 @@ import Getprospectus from "@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
-import { getCurrentUser } from "@aws-amplify/auth";
+import { fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
-import {getUserFavourites,addRemoveFavourites } from "@packages/lib/server-actions/server-action";
+import { addRemoveFavourites, getUserFavourites } from "@packages/lib/utlils/userfavourite";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 
 interface SrPageResultPodProps {
@@ -20,12 +20,20 @@ interface FavoriteState {
   favoriteFlag: boolean;
   isLoading: boolean;
 }
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
+};
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,subject
 }) => {
   const [userData, setUserData] = useState({});
- const [favouritesList, setFavouritesList] = useState([]);
+ const [favouritesList, setFavouritesList] = useState<Favourite[]>([]); 
+ const [favourite, setFavourite] = useState<{favouritedUni: number[] }>({favouritedUni: [] });
   useEffect(() => {
     async function checkUser() {
       try{
@@ -33,17 +41,17 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
       console.log(user)
       setUserData(user);  
       if (user && typeof window !== 'undefined') {
-        console.log("fav call", await getUserFavourites())
-       const favList = await getUserFavourites();
-       //setFavouritesList(favList); 
-       console.log("FAV LIST", favList)
+        console.log("fav call")
+        const favList = await getUserFavourites();      
+        setFavouritesList(favList)
+        console.log("favdata", favouritesList)
       }
     } catch(error) {
        console.log(error)
     }
     }
     checkUser();
-  }, [favouritesList]); 
+  }, []); 
   const [favoriteState, setFavoriteState] = useState<FavoriteState>({
     favoriteFlag: false,
     isLoading: false
@@ -53,41 +61,37 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
     window.open(navigationUrl, "_self");
   };
   //
-  const handleFavourite = async(collegeId: any,collegeName:any,e: React.FormEvent) => {
+  const handleFavourite = async(contentId: any,contentName:any,contentType:any,e: React.FormEvent) => {
     e.stopPropagation();
     if (userData === null ||  userData === "") {
       console.log("not logged")
       return;
     }
-    setIsfavouritesClicked(!isfavouritesClicked);
-    setFavoriteState(prev => ({ ...prev, isLoading: true }));
+    const isAdd = !favourite.favouritedUni?.includes(contentId);
+    if (isAdd) {
+        setFavourite((prevState) => ({ ...prevState, favouritedUni: [...prevState.favouritedUni, contentId] }));
+    } else {
+        setFavourite((prevState) => ({ ...prevState, favouritedUni: prevState.favouritedUni?.filter((id) => id !== contentId) }));
+    
+    }
     try {
       const payload = {
-        contentType: "INSTITUTION",
-        contentId: collegeId,
-        contentName: collegeName,
-        inputFlag: true
+        contentType: contentType,
+        contentId: contentId,
+        contentName: contentName,
+        inputFlag: isAdd
       };
-      const data = await addRemoveFavourites([payload]);
-      console.log("FAV data", data)
-      setIsfavouritesClicked(!isfavouritesClicked);
-      if (data.success) {
-        setFavoriteState(prev => ({
-          ...prev,
-          favoriteFlag: !prev.favoriteFlag
-        }));
-        if (!favoriteState.favoriteFlag) {
-          //showSuccessMessage('Added to favorites');s
-        }
-      } else if (data.message === 'Limit exceeded') {
-        // Handle limit exceeded case
-       // showLimitExceededMessage();
+     const data = await addRemoveFavourites([payload]);
+     console.log("FAV data", data)
+     
+      if (data?.message === 'Added course' || data?.message === 'Added Institution') {
+        setIsfavouritesClicked(true);
+      } else if (data.message !== 'Limit exceeded') {
+        setIsfavouritesClicked(false);
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-    } finally {
-      setFavoriteState(prev => ({ ...prev, isLoading: false }));
-    }
+    } 
   };
 
 
@@ -95,14 +99,14 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
     setIsfavouritesClicked(!isfavouritesClicked);
   };
 
-  const [openModal, setOpenModal] = useState(null);
+  // const [openModal, setOpenModal] = useState(null);
 
-  const handleOpenModal = (modalName: any) => {
-    setOpenModal(modalName);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
+  // const handleOpenModal = (modalName: any) => {
+  //   setOpenModal(modalName);
+  // };
+  // const handleCloseModal = () => {
+  //   setOpenModal(null);
+  // };
 
   return (
     <>
@@ -144,15 +148,15 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       id="uni_img"
                     />
                   </Link>
-                  {/* {item.sponsored ? (
+                  {data?.sponsoredListFlag === "Y" ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
-                  ) : null} */}
+                  ) : <></>}
                 </div>
                 <div
-                  onClick={(event)=> handleFavourite(data?.collegeId,data?.collegeDisplayName,event)}
-                  className="heart w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative"
+                  onClick={(event)=> handleFavourite(data?.collegeId,data?.collegeDisplayName,"INSTITUTION",event)}
+                  className={`${favouritesList?.some(fav => fav?.fav_id === data?.collegeId) || favourite.favouritedUni?.includes(data?.collegeId) ? 'heart active' : ''} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"
@@ -496,7 +500,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <div className="heart shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative">
+                      <div onClick={(event)=> handleFavourite(courseData?.courseId,data?.collegeDisplayName,"COURSE",event)} className={`${favourite.favouritedUni?.includes(courseData?.courseId) ? 'heart active' : ''} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}>
                         <svg
                           width="20"
                           height="20"
@@ -727,8 +731,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
         </div>
       ))}
-      {isfavouritesClicked && (
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
+      {/* {isfavouritesClicked && ( */}
+        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5] hidden">
           <div
             onClick={onClose}
             className="backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white"
@@ -772,7 +776,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             </div>
           </div>
         </div>
-      )}
+      {/* )} */}
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}
