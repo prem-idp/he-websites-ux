@@ -1,16 +1,60 @@
-'use client'
-import React, { useState } from 'react'
+'use client';
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
 import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
 import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
-import Viewprofile from '@/app/components/cards/interaction-button/viewprofile'
+import Viewprofile from '@/app/components/cards/interaction-button/viewprofile';
+
+import mapboxgl, { Map } from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const UniInfoComponent = ({ uniInfo }: any) => {
 
-  console.log(uniInfo, "uniInfo");
   const { awards, location } = uniInfo;
+
+  const mapRef = useRef<any>(null);
+  const mapContainerRef = useRef<HTMLDivElement | any>(null);
+
+  useEffect(() => {
+    function loadMabBox() {
+      mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
+      if (mapContainerRef.current) {
+        mapRef.current = new mapboxgl.Map({
+          container: mapContainerRef.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          zoom: 15,
+          center: [location.longitude, location.latitude]
+        });
+        // Add zoom and rotation controls to the map.
+        mapRef.current.addControl(new mapboxgl.NavigationControl());
+
+        // Add marker after map loads
+        mapRef.current.on('load', () => {
+          new mapboxgl.Marker({ color: '#00BBFD' }) // Blue color
+            .setLngLat([location.longitude, location.latitude]) // Marker position
+            .addTo(mapRef.current);
+        });
+      }
+      console.log('mapbox loaded');
+    }
+
+    // load Mapbox only if it's entered into the view
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (!mapRef.current && entry?.isIntersecting) {
+        observer.unobserve(mapContainerRef.current);
+        loadMabBox();
+      }
+    });
+    observer.observe(mapContainerRef.current);
+
+    return () => {
+      mapRef?.current?.remove();
+      observer.unobserve(mapContainerRef.current);
+    }
+  }, []);
 
   function ordinarySuffix(rank: any): string {
     const j = rank % 10; const k = rank % 100;
@@ -37,6 +81,7 @@ const UniInfoComponent = ({ uniInfo }: any) => {
                 <div className='uniresults-left'>
                   <div className="univ__logo hidden md:block bg-white p-[4px] w-[120px] rounded-[8px] shadow-custom-4 overflow-hidden">
                     <Image className='w-full' src={uniInfo?.institutionLogoUrl} alt="uni logo" width={112} height={112} />
+
                   </div>
                 </div>
                 <div className='uniresults-right flex flex-col gap-[16px]'>
@@ -113,7 +158,8 @@ const UniInfoComponent = ({ uniInfo }: any) => {
 
             <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
               <div className='card-map w-full md:w-[453px]'>
-                <Image className='block w-full object-cover' layout='fixed' src="/assets/images/course-details/map_img.jpg" width={453} height={316} alt="Map" />
+                {/* <Image className='block w-full object-cover' layout='fixed' src="/assets/images/course-details/map_img.jpg" width={453} height={316} alt="Map" /> */}
+                <div className='w-full' style={{ height: '100%' }} id='map-container' ref={mapContainerRef} />
               </div>
               <div className='course-card flex flex-col gap-[16px] bg-white p-[16px] md:p-[24px] w-full md:w-[calc(100%_-_452px)]'>
                 <div className='flex flex-col gap-[16px]'>
