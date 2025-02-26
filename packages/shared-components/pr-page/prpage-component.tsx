@@ -1,5 +1,6 @@
 "use server";
 import React from "react";
+import { cookies } from 'next/headers';
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import ProviderResultsCard from "./provider-results-card/provider-results-card";
@@ -8,42 +9,57 @@ import SearchLabels from "@packages/shared-components/sr-page/search-labels/sear
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
+import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 
-const API_URL = "https://api.dev.dom-services.idp-connect.com/dom-search/v1/search/providerResults"; 
+interface Payload {
+  parentQualification: string;
+  collegeId: string;
+  pageNo: string; // Changed 'any' to 'string' for consistency
+  userCoordinates: string;
+  [key: string]: string; // Index signature allows dynamic keys
+}
 
-const searchPRResults = async(searchparams:any)=> {
- 
-  const payloads = { 
-    "parentQualification": "M", 
-    "childQualification": "", 
-    "searchCategoryCode": "", 
-    "searchSubject": "", 
-    "searchKeyword": "", 
-    "jacsCode": "", 
-    "location": "", 
-    "studyMode": "", 
-    "studyMethod": "", 
-    "collegeId": "466742", 
-    "pageNo": "1", 
-    "locationType": "", 
-    "intakeYear": "", 
-    "intakeMonth": "", 
-    "sortBy": "", 
-    "userCoordinates": "51.5072,-0.1276", 
-    "distance": "", 
-    "ucasTariffRange": "", 
-    "userRegionArray": "", 
-    "dynamicRandomNumber": "", 
-    "universityGroup": "" 
-  } ;
+interface SearchParams {
+  [key: string]: string | undefined;
+}
 
+export async function constructPayload(searchparams: SearchParams = {}): Promise<Payload> {
+  //  const cookieStore = await cookies(); // Get cookies in App Router
+  //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
+  const basePayload: Payload = {
+    parentQualification: "M",
+    collegeId: "466742",
+    pageNo: searchparams.pageNo || "1", // Default to "1" if not in searchparams
+    userCoordinates: "51.5072,-0.1276",
+  };
+  // Start with the base payload
+  const payloads: Payload = { ...basePayload };
+
+  // Object.keys(cookieMap).forEach((key) => {
+  //   if (cookieMap[key] !== undefined && cookieMap[key] !== null) {
+  //     payloads[key] = cookieMap[key];
+  //   }
+  // });
+
+  // Dynamically add keys from searchparams if they exist and are not undefined
+  Object.keys(searchparams).forEach((key) => {
+    if (searchparams[key] !== undefined && searchparams[key] !== null) {
+      payloads[key] = searchparams[key];
+    }
+  });
+  console.log("Construct Payload " + JSON.stringify(payloads));
+  return payloads;
+}
+
+const searchPRResults = async (searchparams: any) => {
+  const payloads = await constructPayload(searchparams);
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
       headers: {
-        "sitecode":"WU_WEB",
+        "sitecode": "WU_WEB",
         "Content-Type": "application/json",
-        "x-api-key" : `YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc`, // If needed
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
       },
       body: JSON.stringify(payloads),
     });
@@ -53,7 +69,7 @@ const searchPRResults = async(searchparams:any)=> {
     }
 
     const data = await response.json();
-    console.log("Search Results:", data);
+    console.log("API Response , " + data);
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -69,15 +85,18 @@ const transformProviderListData = (data: any) => {
   return data.searchResultsList.flatMap((college: any) =>
     Array.isArray(college.bestMatchCoursesList)
       ? college.bestMatchCoursesList.map((course: any) => ({
-          title: course.courseTitle || "Unknown Title",
-          provideFav: false,
-          modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-          tagLocation: college.adminVenue || "Unknown Location",
-          points:
-            course.minUcasPoints && course.maxUcasPoints
-              ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-              : "UCAS points not available",
-        }))
+        collegeId: college.collegeId,
+        courseId: course.courseId,
+        pageName: 'PR',
+        title: course.courseTitle || "Unknown Title",
+        provideFav: false,
+        modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
+        tagLocation: college.adminVenue || "Unknown Location",
+        points:
+          course.minUcasPoints && course.maxUcasPoints
+            ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
+            : 0 - 0,
+      }))
       : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
@@ -103,7 +122,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
     },
   ];
 
-  
+
   return (
     <>
       <section className="bg-white hidden lg:block">
@@ -111,15 +130,20 @@ const PrPageComponent = async ({ searchparams }: any) => {
           <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
       </section>
-      <PrPageTopSection searchResultlist={data}/>
+      <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
       <SearchLabels />
-      <ProviderResultsCard searchResultlist={providerList}>
-        <Paginations
-           totalPages={Math.ceil(data?.totalCourseCount / 10)}
-           currentPage={searchparams?.pageNo?? 1}
-        />
-      </ProviderResultsCard>
+      {!providerList.length ? (
+        <SrPageNoResults />
+      ) : (
+        <ProviderResultsCard searchResultlist={providerList}>
+          <Paginations
+            totalPages={Math.ceil(data?.totalCourseCount / 10)}
+            currentPage={searchparams?.pageNo ?? 1}
+          />
+        </ProviderResultsCard>
+      )}
+
       <ContentfulPreviewProvider
         locale="en-GB"
         enableInspectorMode={false}

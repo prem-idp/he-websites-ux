@@ -6,11 +6,11 @@ interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
 }
 
-const PrPageTopSection:React.FC<ProviderTopCardProps> = ({searchResultlist}) => {
-  
+const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) => {
+
   const college = searchResultlist?.searchResultsList[0];
   const logoSrc = college?.collegeMedia?.wuCollegeLogo; // Extract the logo URL
-  const distanceInMiles = college?.distanceInMiles?? 0;
+  const distanceInMiles = college?.distanceInMiles ?? 0;
   const collegeName = college?.collegeDisplayName;
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
@@ -23,7 +23,7 @@ const PrPageTopSection:React.FC<ProviderTopCardProps> = ({searchResultlist}) => 
           <div className="flex gap-[17px]">
             <span className="p-[4px] bg-white rounded-[8px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px]">
               <img
-                src={logoSrc}
+                src={logoSrc || "/static/assets/icons/blue-star-icon.svg"}
                 alt="University logo"
                 width={56}
                 height={56}
@@ -66,8 +66,7 @@ const PrPageTopSection:React.FC<ProviderTopCardProps> = ({searchResultlist}) => 
                   <span>
                     WUSCA ranking: 18th
                     <div
-                      className="absolute select-none hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0
-                "
+                      className="absolute select-none hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"
                     >
                       <span className="x-small text-grey900 font-semibold">
                         Why should you trust our uni reviews?
