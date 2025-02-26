@@ -26,9 +26,9 @@ export default function Cdpageclient({ data }: any) {
             <Yearofentrycomponents />
             <Courseoptionscomponents data={fetcheddata} />
             <Jumptocomponents />
-            <Courseinfocomponents />
-            <Modulescomponents />
+            <Courseinfocomponents {...data}/>
 
+            <Modulescomponents {...data}/>
             <Entryrequirements {...data}/>
             <Popularalevelsubjectcomponents {...data}/>
             <TutionFeesComponent {...data} />

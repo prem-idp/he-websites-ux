@@ -19,7 +19,7 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
     const [anmate, setAnimate] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => { setAnimate(() => true) }, 50);
+        setTimeout(() => { setAnimate(() => true) }, 80);
     }, []);
 
     function select(item: any) {
@@ -68,7 +68,6 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
                                                     id={item?.seq_no} onChange={() => { }} />
                                                 <label onClick={() => { select(item) }} htmlFor={item?.[matchKey]} className="check-label flex justify-center items-center w-[90px] Group small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] hover:bg-primary-400 hover:text-white transition-all cursor-pointer px-[16px] py-[7px]">
                                                     {tempSelectedItems?.length && tempSelectedItems[0]?.[matchKey] === item?.[matchKey] ? <span className='selected'>Selected</span> : <span className='select'>Select</span>}
-
                                                 </label>
                                             </div>
                                         </div>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { useState } from 'react'
-import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/LeftPannelModal';
+import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
 
 interface FeesType {
   "feeType": string,
@@ -76,7 +76,7 @@ const TutionFeesComponent = ({ tutionFees }: { tutionFees: FeesType[] }) => {
 
   return (
     <>
-      {isOpen && <Locationmodalcomponents
+      {isOpen && <LeftPannelModal
         matchKey={'feeType'}
         heading={'Location'}
         subHeading='Select student location'
@@ -142,7 +142,7 @@ const TutionFeesComponent = ({ tutionFees }: { tutionFees: FeesType[] }) => {
                 </div>
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
-                  <span className='text-grey300'>UCAS /</span><Link href='#' className='text-primary-400 hover:underline'>IDP Connect</Link>
+                  <span className='text-grey300'>UCAS /</span><Link href='/degrees/jsp/search/kisdataStatic.jsp' className='text-primary-400 hover:underline'>IDP Connect</Link>
                 </div>
               </div>
             </div>
