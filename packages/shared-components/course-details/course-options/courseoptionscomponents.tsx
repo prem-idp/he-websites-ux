@@ -11,11 +11,13 @@ const Courseoptionscomponents = ({data}:any) => {
   function togglemodal(){
     setIsOpen((prev)=>!prev)
   }
+  
 const [selectedavilability,setSelectedavailability]=useState({...data?.courseInfo?.availability[0]})
 
   return (
+
     <>
-    {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data}/>}
+    {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability}/>}
     <section className='bg-primary-50 border-b border-primary-100'>
     <div className="max-w-container mx-auto">
       <div className='card-container flex flex-col gap-[24px] py-[24px] px-[16px] md:px-[20px] lg:px-[0]'>

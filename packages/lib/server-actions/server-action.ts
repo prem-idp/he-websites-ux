@@ -19,8 +19,11 @@ export async function graphQlFetchFunction(
       body: JSON.stringify({ query: payload }),
     });
     const data = await res.json();
+
+    console.log("fetch is passing", new Date().toISOString(),data)
     return data;
   } catch (error) {
+    console.log(error,"Assssssss")
     throw error;
   }
 }

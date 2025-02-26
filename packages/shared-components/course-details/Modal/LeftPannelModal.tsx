@@ -58,7 +58,7 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
                         </div>
                         <div className='select-subject-card pr-[16px] custom-scrollbar-2 overflow-y-auto h-[calc(100vh_-_156px)]'>
                             <ul>
-                                {itemList?.map((item) => <li className='flex justify-between items-center gap-[16px] border-b border-b-grey400 pb-[16px] mb-[16px]'>
+                                {itemList?.map((item:any,index:any) => <li key={index} className='flex justify-between items-center gap-[16px] border-b border-b-grey400 pb-[16px] mb-[16px]'>
                                     <span className='small font-semibold text-grey300 line-clamp-1'>{item?.[matchKey]}</span>
                                     <div className='modal-select'>
                                         <div className='form_check'>
@@ -68,7 +68,6 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
                                                     id={item?.seq_no} onChange={() => { }} />
                                                 <label onClick={() => { select(item) }} htmlFor={item?.[matchKey]} className="check-label flex justify-center items-center w-[90px] Group small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] hover:bg-primary-400 hover:text-white transition-all cursor-pointer px-[16px] py-[7px]">
                                                     {tempSelectedItems?.length && tempSelectedItems[0]?.[matchKey] === item?.[matchKey] ? <span className='selected'>Selected</span> : <span className='select'>Select</span>}
-
                                                 </label>
                                             </div>
                                         </div>

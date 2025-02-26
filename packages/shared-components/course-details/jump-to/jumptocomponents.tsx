@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-
-const Jumptocomponents = () => {
+import Link from 'next/link';
+const Jumptocomponents = ({data}:any) => {
   return (
     <div className='jumpto-container bg-grey-50'> 
         <div className="max-w-container mx-auto">
@@ -11,34 +11,13 @@ const Jumptocomponents = () => {
                 <div className='flex flex-col gap-[8px] w-full lg:w-[calc(100%_-_309px)]'>
                     <div className='flex flex-col gap-[24px]'>
                          <ul className='flex flex-col gap-[4px]'>
-                         <li className='flex items-center gap-[4px]'>
+                          {data?.sectionsList?.map((val:any,index:any)=>(  
+
+                          <li key={index} className='flex items-center gap-[4px]'>
                             <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Course info</span>
+                            <Link  href={`#${val?.sectionId}`} className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{val?.sectionName}</Link>
                           </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Modules</span>
-                          </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Entry requirements</span>
-                          </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Tuition fees</span>
-                          </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Latest reviews</span>
-                          </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Popular A-level subjects</span>
-                          </li>
-                          <li className='flex items-center gap-[4px]'>
-                            <span className='text-grey para'>-</span>
-                            <span className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Uni info</span>
-                          </li>
+                             ))}
                          </ul>
                     </div>
                 </div>

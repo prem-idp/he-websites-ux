@@ -25,7 +25,6 @@ const Popularalevelsubjectcomponents = ({ popularSubjects }: PopularALevelSubjec
                   <div className='h6 text-black'>{subjectGroup?.name}</div>
                   <p className='para text-black'>{subjectGroup?.description}</p>
                 </div>
-
                 {subjectGroup?.a_level_subjects?.map((subject: any) => <div className='w-full flex flex-col gap-[8px]'>
                   <div className='flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]'>
                     <div className='w-fit md:w-[205px] order-1 md:order-none small text-grey300'>{subject?.name}</div>

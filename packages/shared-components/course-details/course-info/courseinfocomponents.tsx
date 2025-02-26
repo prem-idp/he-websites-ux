@@ -4,8 +4,6 @@ import React from 'react'
 import Keystatscomponents from '../keystats/keystatscomponents'
 // import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
 import Reviewslidercomponents from '@packages/shared-components/common-utilities/slider/reviewslidercomponents'
-
-
 const Courseinfocomponents = () => {
   return (
     <>
