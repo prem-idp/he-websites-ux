@@ -2,78 +2,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
+//import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 
-const ProviderResultsCard = ({ children }: any) => {
-  const providerList = [
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      fullCourse: "Full course details available on [subject]",
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-    {
-      title: "Architecture & Design",
-      provideFav: false,
-      modulesList: ["Something", "Something", "Something", "Something"],
-      tagLocation: "Distance/online",
-      points: "164-112 ucas points",
-    },
-  ];
+
+interface ProviderResultsCardProps {
+  searchResultlist: any[]; // Adjust type as needed
+  children: any
+}
+
+const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
   // Provider card toggle function
   const [isUniModule, setIsUniModule] = useState(false);
   const visbleModule = () => {
@@ -81,15 +22,31 @@ const ProviderResultsCard = ({ children }: any) => {
   };
   // Provider card toggle function  END
 
-  const providerCard = providerList.map((items, index) => (
+  // State to track favorited status for each item
+  const [favoritedItems, setFavoritedItems] = useState<boolean[]>(
+    new Array(searchResultlist.length).fill(false)
+  );
+
+  // Handler to toggle the favorited state for a specific item
+  const favoriteHandleClick = (index: number) => {
+    setFavoritedItems((prev) =>
+      prev.map((item, i) => (i === index ? !item : item))
+    );
+  };
+
+  const providerCard = searchResultlist.map((items, index) => (
     <div
       key={index}
       // className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200 w-full md:max-w-[calc(50%_-_10px)] xl:max-w-[385px]"
       className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200"
     >
       <div className="flex justify-end p-[16px] bg-blue-100">
-        <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
+        <span onClick={() => favoriteHandleClick(index)} className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+          {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100"> */}
+          <div
+            className={`heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 ${favoritedItems[index] ? 'bg-blue-100' : 'bg-white'
+              }`}
+          >
             <svg
               width="20"
               height="20"
@@ -103,6 +60,7 @@ const ProviderResultsCard = ({ children }: any) => {
                 strokeWidth="1.67"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                fill={favoritedItems[index] ? "#4664DC" : "none"}
               />
             </svg>
           </div>
@@ -159,7 +117,7 @@ const ProviderResultsCard = ({ children }: any) => {
               <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
                 {isUniModule && (
                   <>
-                    {items.modulesList.map((list, index) => (
+                    {items.modulesList.map((list: any, index: any) => (
                       <li className="text-grey300 small break-all" key={index}>
                         {list}
                       </li>
