@@ -218,9 +218,15 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
           }
         }
       });
+      const multiSelect =
+        urlParams?.toString()?.includes("+") ||
+        urlParams?.toString()?.includes("%2C");
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         router.refresh();
+      } else if (multiSelect) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        router.push(`?${urlParams.toString()}`);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
