@@ -178,9 +178,6 @@ p,
 }
 /* typograpy */
 
-@layer utilities {
-}
-
 @media screen and (max-width: 767px) {
   .adviceCourseSlider {
     @apply !px-[0] !py-[16px];
@@ -396,10 +393,7 @@ p,
   @apply !pb-[30px];
 }
 .partner .swiper-pagination {
-  @apply !bottom-0;
-}
-.partner .swiper-pagination {
-  @apply lg:!hidden;
+  @apply !bottom-0 lg:!hidden;
 }
 
 .rightmenu li:not(:last-child) span:hover > svg path {
@@ -440,7 +434,7 @@ p,
   @apply lg:py-[40px];
 }
 .pull-quotes {
-  quotes: '"' "”";
+  quotes: '"' "ï¿½";
 }
 /* skiplink hamburger menu  */
 

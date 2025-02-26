@@ -75,46 +75,25 @@ export async function callClickstreamAPI(payload: any) {
   }
 }
 
-
-export default async function searchResultsFetchFunction(searchPayload:any) {
-  console.log("Inside", JSON.stringify(searchPayload) )
+const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
+  console.log("PAYLOAD SR", searchPayload);
   try {
-    
-    //const queryParams = new URLSearchParams(payload).toString();
+    searchPayload = {
+      dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
+      //userRegionArray : headersList?.get('cloudfront-viewer-country-region'),
+      ...searchPayload,
+    };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
+    console.log("sitecode" + `${process.env.PROJECT}`);
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "sitecode" : "WU_WEB",
+        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
       },
-      body:
-       JSON.stringify(searchPayload) 
-  //     JSON.stringify({
-  //   "parentQualification": "M",
-  //   "childQualification": "",
-  //   "searchCategoryCode": "",
-  //   "searchSubject": "",
-  //   "searchKeyword": "",
-  //   "jacsCode": "",
-  //   "location": "",
-  //   "studyMode": "",
-  //   "studyMethod": "",
-  //   "collegeId": "",
-  //   "pageNo": "1",
-  //   "locationType": "",
-  //   "intakeYear": "",
-  //   "intakeMonth": "",
-  //   "sortBy": "",
-  //   "userCoordinates": "51.5072,-0.1276",
-  //   "distance": "",
-  //   "ucasTariffRange": "",
-  //   "userRegionArray": "",
-  //   "dynamicRandomNumber": "",
-  //   "universityGroup": ""
-  // }),
-      //cache: "no-store",
+      body: JSON.stringify(searchPayload),
+      cache: "no-store",
     });
 
     // Parse the JSON response
@@ -122,7 +101,70 @@ export default async function searchResultsFetchFunction(searchPayload:any) {
     return data;
   } catch (error) {
     // Handle the error
-    console.log("ERROR", error)
+    console.log("ERROR", error);
     throw error;
   }
+}
+
+ async function addRemoveFavourites(payload:any){
+  try {
+    console.log("fav data", payload);
+    payload = {
+      affiliateId: "220703",
+      ...payload,    
+    };
+    const session = await fetchAuthSession();
+    const headers: any = {
+      "Content-Type": "application/json",
+      "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+    };
+    let apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/favourites/favorites-add-delete`;
+    if (session.tokens?.idToken) {
+      headers.Authorization = `${session.tokens.idToken}`;
+    }
+    const respone = await fetch(apiUrl, {
+      method: "POST",
+      headers,
+      body: payload ?  JSON.stringify(payload) : undefined,
+    });
+    const data = await respone.json();
+    console.log("fav data", data);
+    return data;
+  } catch (error) {
+    console.log("ERROR", error);
+    throw error;
+  }
+}
+
+// export async function getUserFavourites(){
+//   try {
+//     console.log("user favourites")
+//     const payload ={
+// "affiliateId ":220703,
+// "appFlag":'N'
+// }
+// const queryParams = new URLSearchParams(payload).toString();
+//     const session = await fetchAuthSession();
+//     const headers: any = {
+//       "Content-Type": "application/json",
+//       "x-api-key": `${process.env.NEXT_PUBLIC_FAV_X_API_KEY}`,
+//     };
+//     let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API + "?" + queryParams}`;
+//     if (session.tokens?.idToken) {
+//       headers.Authorization = `${session.tokens.idToken}`;
+//     }
+//     const respone = await fetch(apiUrl, {
+//       method: "GET",
+//       headers,
+//     });
+//     const data = await respone.json();
+//     return data;
+//   } catch (error) {
+//     console.log("ERROR", error);
+//     throw error;
+//   }
+// }
+export  {
+  searchResultsFetchFunction,
+  addRemoveFavourites,
 }

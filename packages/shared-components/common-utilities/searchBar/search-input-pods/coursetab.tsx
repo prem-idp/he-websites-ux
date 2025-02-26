@@ -3,8 +3,8 @@ import React from "react";
 import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+
 import {
   GADataLayerFn,
   currentAuthenticatedUser,
@@ -12,17 +12,18 @@ import {
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
   data: any;
+  placeholder: any;
 }
 
 const CourseTab: React.FC<CourseTabProps> = ({
   searchFormHandle,
   setsearchFormHandle,
   data,
+  placeholder,
 }) => {
   let ucasval: any = 0;
   let min: any = 0;
@@ -39,7 +40,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const router = useRouter();
+
 
   useEffect(() => {
     setSubjectlist(data?.courseDetails);
@@ -205,31 +206,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         ?.toLowerCase(); // Convert the entire string to lowercase
 
-      //   `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`,
-      //   "==+++++++++++++++++++++++++++++++++++++++++++++++++++"
-      // );
-
-      // const urlformed = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=0,${ucasval}` : ""}`;
-
-      // const unencodedUrl = urlformed.replace(/,/g, ",");
-      // router.push(unencodedUrl);
-      // const decodedUrl = urlformed.replace("%2C", ",");
-      // const params = new URLSearchParams({
-      //   // score: ucasval,
-      //   score: "0,128",
-      // });
-      // const params = new URLSearchParams({
-      //   subject: "law",
-      //   score: "0,128",
-      // })
-      //   .toString()
-      //   .replace(/%2C/g, ",");
-      // router.push(`/degree-courses/search?${params}`);
-      // window.location.href = `${searchFormHandle.subject.url}&location=${sanitizedRegionName}&score=0,2`;
-      // router.push({
-      //   pathname: searchFormHandle.subject.url,
-      //   query: { location: sanitizedRegionName, score: score }
-      // }, locationUrl);
+      
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -263,18 +240,11 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      router.push(
-        `${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      
+      window.location.href=(
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
-      // router.push(`/search?${params.toString()}`);
-      // router.push({
-      //   pathname: '/degree-courses/search',
-      //   query: {
-      //     subject: 'law',
-      //     location: 'central-england',
-      //     score: '0,128'
-      //   }
-      // })
+    
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
         "ga_events",
@@ -309,14 +279,16 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      router.push(searchFormHandle.subject.url);
-      router.push(
-        `${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+     
+      window.location.href=(
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
     }
   };
+
+
   const keywordSearch = async (canmatch: any) => {
     const sanitizedDescription = searchFormHandle?.subject?.description
       .trim()
@@ -378,8 +350,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(
-        `${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      return window.location.href=(
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     if (matchedSubject && canmatch) {
@@ -414,8 +386,8 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(
-        `${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      return window.location.href=(
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
     const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
@@ -451,7 +423,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(`${baseUrl}?q=${sanitizedDescription}`);
+      return window.location.href=(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
@@ -587,7 +559,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               type="text"
               className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
               aria-label="submenu"
-              placeholder="Enter subject"
+              placeholder={placeholder || "Enter Subject"}
               onChange={(event) => {
                 const trimmedValue = event.target.value.replace(/\s{2,}/g, " ");
                 setsearchFormHandle((prevData: any) => ({

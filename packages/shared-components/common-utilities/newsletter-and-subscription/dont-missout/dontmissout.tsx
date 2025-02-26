@@ -39,8 +39,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
   const [agreementerror, setAgreementerror] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const validateEmail = (email: any) => {
-    const emailRegex =
-      /\S+@\S+\.\S+/;
+    const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
   const { category, subCategory, articleTitle } =
@@ -119,8 +118,6 @@ const Dontmissout = ({ key, data, preview }: any) => {
       isFormValid = false;
     }
 
-    console.log(firstname, lastname, email, year, agreement);
-
     const handleSubscriptionGAlog = async () => {
       const datalog: DataLayerGA4AttrType = {
         event: "registration",
@@ -141,11 +138,11 @@ const Dontmissout = ({ key, data, preview }: any) => {
       signupFailureReason: any
     ) => {
       logClickstreamEvent({
-        pageName: localStorage?.getItem('gaPageName')?.toString(), 
-        sectionName: propsdata?.newsTitle ?? "",  
-        eventType: "SignedUp", 
-        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`, 
-        signupMethod: "Newsletter Subcription", 
+        pageName: localStorage?.getItem("gaPageName")?.toString(),
+        sectionName: propsdata?.newsTitle ?? "",
+        eventType: "SignedUp",
+        CTATitle: `${propsdata?.ctaLabel ?? "Get free newsletters"}`,
+        signupMethod: "Newsletter Subcription",
         signupFailureReason: signupFailureReason ?? "",
         interestedIntakeYear: year,
         userId: userId,
@@ -229,10 +226,16 @@ const Dontmissout = ({ key, data, preview }: any) => {
       setAlreadyregisteruser(true);
     } else {
       setSuccessMessage(false);
-      setEmailprev("")
+      setEmailprev("");
     }
   }
-
+  const domain = `${
+    process.env.NEXT_PUBLIC_ENVIRONMENT === "dev"
+      ? "https://mdev.dev.aws."
+      : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg"
+        ? "https://mtest.test.aws."
+        : "https://www."
+  }`;
   return (
     <>
       {authenticated && (
@@ -574,21 +577,24 @@ const Dontmissout = ({ key, data, preview }: any) => {
                           I confirm I’m over 13 and agree to the
                           <Link
                             className="!text-primary-500 underline pl-[4px]"
-                            href="#"
+                            target="_blank"
+                            href={`${domain}whatuni.com/wu-cont/termsAndCondition.htm`}
                           >
                             terms and conditions
                           </Link>
                           &nbsp;and
                           <Link
                             className="!text-primary-500 underline pl-[4px]"
-                            href="#"
+                            target="_blank"
+                            href={`${domain}whatuni.com/degrees/help/privacy.htm`}
                           >
                             privacy notice
                           </Link>
                           , and agree to become a member of the
                           <Link
                             className="!text-primary-500 underline pl-[4px]"
-                            href="#"
+                            target="_blank"
+                            href={`${domain}whatuni.com/wu-cont/termsAndCondition.htm`}
                           >
                             Whatuni community
                           </Link>

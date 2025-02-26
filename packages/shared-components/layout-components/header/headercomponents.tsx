@@ -126,15 +126,15 @@ const Header = ({ topnav_data }: props) => {
           console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
+          localStorage?.removeItem("resultSubmit");
           document.cookie =
             "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            document.cookie = `LoginSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            document.cookie = `LogedinviaOnetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
-            await signOut({ global: true });
-            router.push("/degrees/userLogin.html?e=logout");
-        }
-        else{
+          document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          document.cookie = `LoginSession=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          document.cookie = `LogedinviaOnetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
+          await signOut({ global: true });
+          router.push("/degrees/userLogin.html?e=logout");
+        } else {
           const session = await fetchAuthSession();
           if (session?.tokens) {
             const hasAccessToken = session?.tokens?.accessToken !== undefined;
@@ -411,7 +411,15 @@ const Header = ({ topnav_data }: props) => {
                         className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
                       ></div>
                       <div ref={containerRef}>
-                        <Search course_data={course_data} uni_data={uni_data} />
+                        <Search
+                          course_data={course_data}
+                          uni_data={uni_data}
+                          universalSearchPanel={
+                            topnav_data?.data?.contentData?.items[0]
+                              ?.universalSearchPanel
+                              ?.navigationElementsCollection?.items
+                          }
+                        />
                       </div>
                     </>
                   )}

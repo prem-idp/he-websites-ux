@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/search-result/search-filter-buttons-skeleton";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -39,7 +40,6 @@ const SearchFilterButtons = () => {
     subject:
       searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
   };
-  console.log(appliedFilters);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
 
@@ -59,7 +59,7 @@ const SearchFilterButtons = () => {
   };
   return (
     <>
-      <section className="bg-grey-600 px-[12px] py-[16px]">
+      <section className="bg-grey-600 px-[12px] py-[16px] sticky top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
             <div
@@ -215,7 +215,7 @@ const SearchFilterButtons = () => {
             </div>
           </div>
           <div
-            className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 xl:px-[16px] lg:shrink-0"
+            className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0"
             onClick={() => {
               router.push(`/degree-courses/search`);
             }}
@@ -238,6 +238,7 @@ const SearchFilterButtons = () => {
           </div>
         </div>
       </section>
+      {/* <SearchFilterButtonsSkeleton/> */}
     </>
   );
 };

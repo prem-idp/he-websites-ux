@@ -97,6 +97,7 @@ const HeroSliderCard = ({
               width={365}
               height={445}
               alt={data?.image?.imgAltText}
+            
             />
           )}
         </div>

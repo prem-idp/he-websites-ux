@@ -3,13 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Seoquery } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
-import TrackSessionId from "@packages/lib/utlils/tracksessionid";
-import GoogleOneTap from "@packages/lib/utlils/GoogleOneTap";
 import HeaderWrapper from "../../../../packages/shared-components/layout-components/header/headerWrapper";
 import Footer from "@packages/shared-components/layout-components/footer/footercomponents";
-import OneTrustCookieScript from "@packages/lib/oneTrust/OneTrustCookieScript";
-import SetCookiewuIdToken from "@packages/lib/utlils/setcookie";
-import GTMScript from "@packages/lib/utlils/loadgtm";
+import ClientWrapper from "./clientscriptwrapper"
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -94,21 +90,14 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GTMScript />
+    
       <body
         className={`bg-grey-50 ${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        <OneTrustCookieScript
-          domianValue={process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN || ""}
-        />
-
-        <GoogleOneTap />
-        <SetCookiewuIdToken />
-        <TrackSessionId />
-
         <HeaderWrapper />
         {children}
         <Footer />
+        <ClientWrapper/>
       </body>
     </html>
   );

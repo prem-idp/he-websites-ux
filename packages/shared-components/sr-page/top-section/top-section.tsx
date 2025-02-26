@@ -1,5 +1,6 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
+import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
 const TopSection = () => {
   const breadcrumbData = [
     {
@@ -20,19 +21,28 @@ const TopSection = () => {
     },
   ];
   return (
-    <section className="px-[16px] md:px-[20px] xl:px-0">
-      <div className="max-w-container mx-auto">
-        <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
-          <Breadcrumblayoutcomponent data={breadcrumbData} />
-        </div>
-        <div className="py-[16px]">
-          <div className="h5 mb-[4px]">
-            Top Law, Engineering & Architecture subjects for you
+    <>
+      {/* start breadcrumb and subject*/}
+      <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
+        <div className="max-w-container mx-auto">
+          {/* breadcrumb  */}
+          <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
+            <Breadcrumblayoutcomponent data={breadcrumbData} />
           </div>
-          <p>000 universities offer 1563 courses</p>
+          {/* breadcrumb  */}
+          {/* start subject */}
+          <div className="py-[16px]">
+            <div className="h5 mb-[4px]">
+              Top Law, Engineering & Architecture subjects for you
+            </div>
+            <p>000 universities offer 1563 courses</p>
+          </div>
+          {/* end subject */}
+          {/* <TopSectionSkeleton/> */}
         </div>
-      </div>
-    </section>
+      </section>
+      {/* end breadcrumb and subject*/}
+    </>
   );
 };
 

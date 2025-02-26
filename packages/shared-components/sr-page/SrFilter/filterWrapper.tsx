@@ -1,0 +1,24 @@
+"use server";
+import React from "react";
+import { filterbodyJson } from "@packages/lib/utlils/result-filters";
+import { getSrFilter } from "@packages/REST-API/rest-api";
+import { cookies } from "next/headers";
+import SearchFilterComponent from "@packages/shared-components/common-utilities/popups/searchfiltercomponent";
+const FilterWrapper = async () => {
+  const cookieStore = await cookies();
+  const fullPath = cookieStore?.get("pathnamecookies")?.value || "{}";
+  const pathname =
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const params = cookieStore?.get("searchParamscookies")?.value || "{}";
+  const urlparams = new URLSearchParams(params);
+  const cookieObject = Object.fromEntries(urlparams.entries());
+  const body = filterbodyJson(cookieObject, pathname);
+  const data = await getSrFilter(body);
+  return (
+    <>
+      <SearchFilterComponent jsondata={data} path={fullPath} />
+    </>
+  );
+};
+
+export default FilterWrapper;

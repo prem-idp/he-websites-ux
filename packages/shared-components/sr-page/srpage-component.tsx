@@ -12,69 +12,114 @@ import SrPageResultPod from "@packages/shared-components/sr-page/result-pod/resu
 import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
-import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { getCookieValue } from "@packages/lib/utlils/commonFunction";
-const SearchResultComponent = async ({ searchparams }: any) => {
-  //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
-  // const filterCookie = getCookieValue("filter_param");
-  // const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  // console.log("query" + searchparams?.pageNo);
-  const searchPayload = {
-    ...searchparams,
-    //...filterCookieParam,
-    //affiliateId:"220703",
-    //region: userRegion ? userRegion : "US",
-  };
+import { headers } from "next/headers";
+import { getQualCode, getSearchPayload } from "../services/utils";
+import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
+import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
+
+const SearchResultComponent = async ({ searchparams, pathname }: any) => {
+  const headersList = await headers();
+  const referer = headersList.get("referer");
+  const pathnameArray = referer?.split?.("/");
   let searchResultsData;
-  try {
-    searchResultsData = await searchResultsFetchFunction(searchPayload);
-    console.log(
-      "After fetching search results" + JSON.stringify(searchResultsData)
-    );
-  } catch {
-    console.log("error");
+  let filterCookieParam;
+  if (typeof document !== "undefined") {
+    filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
   }
+  try {
+    searchResultsData = await searchResultsFetchFunction(
+      getSearchPayload(
+        searchparams,
+        filterCookieParam,
+        pathnameArray?.[3]?.split?.("-")?.[0]
+      )
+    );
+    console.log("searchResultsData", searchResultsData);
+  } catch (error) {
+    console.log("error", error);
+  }
+
   return (
     <>
       <TopSection />
-      <Suspense>
-        <SearchFilterButtons />
-        <SearchLabels />
-      </Suspense>
-      <section className="bg-white p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
+      {searchResultsData?.searchResultsList ? (
+        <Suspense>
+          <SearchFilterButtons />
+          <SearchLabels />
+        </Suspense>
+      ) : (
+        <>
+          <Suspense>
+            <SearchFilterButtons />
+            <SearchLabels />
+          </Suspense>
+        </>
+      )}
+      <SortingFilter
+        sortParam={{ param: searchparams, currentPage: referer }}
+      />
+      <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
-          <GradeBanner />
-          <SrPageNoResults />
-          <SortingFilter />
-          <FeaturedVideoSection />
-          <SrPageResultPod
-            searchResultsData={searchResultsData?.searchResultsList}
-          />
-          {/* <Paginations
-            totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-            currentPage={searchparams?.pageNo}
-          /> */}
+          {searchResultsData?.searchResultsList ? (
+            <>
+              <GradeBanner />
+
+              {searchResultsData?.featuredProviderDetails &&
+              searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
+                <FeaturedVideoSection
+                  featuredData={searchResultsData?.featuredProviderDetails}
+                />
+              ) : (
+                <></>
+              )}
+              <SrPageResultPod
+                searchResultsData={searchResultsData?.searchResultsList}
+                subject={searchparams?.subject || searchparams?.course}
+              />
+              {searchResultsData?.collegeCount > 10 ? (
+                <Paginations
+                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                  currentPage={searchparams?.pageNo || 1}
+                  searchParams={{ param: searchparams, currentPage: referer }}
+                />
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <>
+              <SrPageNoResults />
+            </>
+          )}
         </div>
       </section>
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <div className="h1 py-[40px]">Explore more about law</div>
-          <div className="flex flex-col gap-[40px] md:gap-[80px] lg:pb-[16px]">
-            <ExploreArticles />
-            <ExploreArticles />
-          </div>
-        </div>
-      </section>
-      <Faqcomponents />
-      <ContentfulPreviewProvider
-        locale="en-GB"
-        enableInspectorMode={false}
-        enableLiveUpdates={false}
-        debugMode={false}
-      >
-        <Subscribecomponents iscontentPreview={false} />
-      </ContentfulPreviewProvider>
+      {searchResultsData?.searchResultsList ? (
+        <>
+          <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
+            <div className="max-w-container mx-auto">
+              <div className="h1 pt-[40px]">Explore more about law</div>
+              <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
+                <ExploreArticles />
+                <ExploreArticles />
+                {/* <Explorearticelskeleton/> */}
+              </div>
+            </div>
+          </section>
+          <Faqcomponents />
+          <ContentfulPreviewProvider
+            locale="en-GB"
+            enableInspectorMode={false}
+            enableLiveUpdates={false}
+            debugMode={false}
+          >
+            <Subscribecomponents iscontentPreview={false} />
+          </ContentfulPreviewProvider>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
