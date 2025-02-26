@@ -58,7 +58,7 @@ const L2subjectList = ({
           </Link>
         </li>
       </ul>
-      <div className="flex flex-col gap-[12px] max-h-[255px] overflow-y-auto custom-scrollbar-2">
+      <div className="flex flex-col gap-[12px]">
         <div
           onClick={() => {
             subjectClicked("");
