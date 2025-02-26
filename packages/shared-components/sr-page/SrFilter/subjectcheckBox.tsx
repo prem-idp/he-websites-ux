@@ -11,22 +11,24 @@ const SubjectCheckBox = ({
   slug,
 }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(state || false);
-  const [isMultiSelect, setIsmultiselect] = useState(false);
+  const [iscurrentParent, setIscurrentParent] = useState<any>("");
   useEffect(() => {
     setIsChecked(state);
   }, [state]);
   const searchparams = useSearchParams();
   useEffect(() => {
-    const subject =
-      searchparams?.get("subject") || searchparams?.get("course") || null;
-    if (subject) {
-      setIsmultiselect(true);
-    }
+    const subject = localStorage?.getItem("parentSub");
+    setIscurrentParent(subject);
   }, [searchparams]);
+  console.log(
+    iscurrentParent,
+    item?.parentSubject,
+    iscurrentParent !== item?.parentSubject
+  );
   return (
     <div className="flex items-start gap-[8px] form_check">
       <div className="checkbox_card">
-        {isIndexed && !isMultiSelect && (
+        {isIndexed && (
           <Link
             id={"subject" + item?.subjectTextKey}
             href={{

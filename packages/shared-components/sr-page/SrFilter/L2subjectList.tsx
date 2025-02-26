@@ -12,7 +12,6 @@ const L2subjectList = ({
   containsSearchParam,
   slug,
 }: any) => {
-  console.log("sliging", slug);
   return (
     <div
       className={`flex flex-col gap-[16px] ${isSubjectOpen ? "" : "hidden"}`}

@@ -18,12 +18,12 @@ import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjec
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
-  console.log(path);
-  const [slug, setslug] = useState(path || "degree-courses/search");
-  const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
+  console.log(jsondata);
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [slug, setslug] = useState(path || "degree-courses/search");
+  const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
@@ -32,10 +32,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     ParentSubject: "",
     SubjectList: "",
   });
-  const [universityList, setUniversityList] = useState({
-    sortingCat: "",
-    uniList: [],
-  });
+
   const [selectedFilter, SetselectedFilter] = useState<
     null | undefined | string
   >(null);
@@ -48,6 +45,20 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
   }, [searchParams, router]);
 
   useEffect(() => {
+    const selectedSubject = searchParams?.get("subject")?.split(",") || [];
+    const u: any =
+      selectedSubject
+        ?.map((items: any) =>
+          jsondata?.subjectFilterList
+            ?.map((item: any) =>
+              item?.subjectTextKey == items ? item?.parentSubject : null
+            )
+            ?.filter(Boolean)
+        )
+        ?.flat() || [];
+    if (u.length > 0) {
+      localStorage?.setItem("parentSub", u[0]);
+    }
     const handleTogglePopup = (eventName: string | null | undefined) => {
       const element = document.getElementById(`#${eventName}`);
       if (element) {
@@ -113,11 +124,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
           return regex.test(collegeItem?.collegeName);
         }
       );
-      // console.log(item,'item12');
       listvalue.push(item);
-      //return item;
     });
-    console.log(listvalue, "item123");
     return listvalue;
   };
 
@@ -127,28 +135,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
   const universityClicked = (sortingValue: string, id: string) => {
     setIsUniversityOpen(!isUniversityOpen);
     setSelectUniId(id);
-    // if (sortingValue === "") {
-    //   return;
-    // }
-    // const regex = new RegExp(`^[${sortingValue}]`, "i");
-    // const sortedUni = jsondata?.universityFilterList?.filter(
-    //   (collegeItem: any) => regex.test(collegeItem?.collegeName)
-    // );
-    // console.log(jsondata);
-    // setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
   };
 
-  // const universityClicked = (sortingValue: string) => {
-  //   setIsUniversityOpen(!isUniversityOpen);
-  //   if (sortingValue === "") {
-  //     return;
-  //   }
-  //   const regex = new RegExp(`^[${sortingValue}]`, "i");
-  //   const sortedUni = jsondata?.universityFilterList?.filter(
-  //     (collegeItem: any) => regex.test(collegeItem?.collegeName)
-  //   );
-  //   setUniversityList({ sortingCat: sortingValue, uniList: sortedUni });
-  // };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -190,14 +178,34 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(() => {
-      const filters = extractUrlAndCookieValues(searchParams, key, value);
-      const orderedFilters = getFilterPriority(isQualification || false).reduce(
-        (acc, priorityKey) => {
-          if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-          return acc;
-        },
-        {} as KeyValueObject
+      let crossL1Subject = false;
+      if (key === "subject" || key === "course") {
+        const selectedParent = jsondata?.subjectFilterList
+          ?.map((subjects: any) => {
+            if (subjects?.subjectTextKey === value) {
+              return subjects?.parentSubject;
+            }
+          })
+          ?.filter(Boolean);
+        const currentParent = localStorage?.getItem("parentSub");
+        if (selectedParent != currentParent) {
+          crossL1Subject = true;
+          localStorage?.setItem("parentSub", selectedParent);
+        }
+      }
+      const filters = extractUrlAndCookieValues(
+        searchParams,
+        key,
+        value,
+        crossL1Subject
       );
+      const orderedFilters = getFilterPriority(
+        isQualification || false
+      )?.reduce((acc, priorityKey) => {
+        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+        return acc;
+      }, {} as KeyValueObject);
+      console.log(orderedFilters);
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
@@ -221,17 +229,22 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       const multiSelect =
         urlParams?.toString()?.includes("+") ||
         urlParams?.toString()?.includes("%2C");
+      console.log(multiSelect);
       if (urlParams?.toString() === searchParams?.toString()) {
+        console.log("no change");
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         router.refresh();
       } else if (multiSelect) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        console.log("multi select", urlParams);
         router.push(`?${urlParams.toString()}`);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
+        console.log("Click anchor tage");
         if (linkTagId) {
           linkTagId.click();
+          console.log("anchor cliked", linkTagId);
         }
       }
       isUpdating = false;
@@ -239,7 +252,27 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
   };
 
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
-    const filters = extractUrlAndCookieValues(searchParams, key, value);
+    let crossL1Subject = false;
+    if (key === "subject" || key === "course") {
+      const selectedParent = jsondata?.subjectFilterList
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey === value) {
+            return subjects?.parentSubject;
+          }
+        })
+        ?.filter(Boolean);
+      const currentParent = localStorage?.getItem("parentSub");
+      if (selectedParent != currentParent) {
+        crossL1Subject = true;
+        localStorage?.setItem("parentSub", selectedParent);
+      }
+    }
+    const filters = extractUrlAndCookieValues(
+      searchParams,
+      key,
+      value,
+      crossL1Subject
+    );
     const orderedFilters = getFilterPriority(isQualification || false).reduce(
       (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];

@@ -82,13 +82,21 @@ const getFilterPriority = (isQualification?: boolean) => {
 const extractUrlAndCookieValues = (
   searchParams: URLSearchParams,
   key: string,
-  value: string
+  value: string,
+  crossSubject?: boolean
 ): KeyValueObject => {
   const paramsObject = Object.fromEntries(searchParams.entries());
   const cookieObject: KeyValueObject = JSON.parse(
     getDecodedCookie("filter_param") || "{}"
   );
   const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
+  if (crossSubject) {
+    if (process.env.PROJECT === "Whatuni") {
+      delete mergedObject?.subject;
+    } else {
+      delete mergedObject?.course;
+    }
+  }
   if (mergedObject[key]) {
     let valuesSet = new Set(mergedObject[key].split(","));
     if (valuesSet.has(value)) {

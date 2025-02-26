@@ -27,7 +27,6 @@ const LocationcheckBox = ({
       setIsRegionSelected(region);
     }
   }, [isAllUkChecked, searchparams]);
-  console.log({ isRegionSelected });
   return (
     <>
       <div className="form_check relative m-[0_0_12px_24px]">
