@@ -6,6 +6,7 @@ import { ContentfulInspectorManager } from "@packages/lib/contentful-preview/Con
 
 const Pullquote = ({ propsdata, key, preview }: any) => {
   const data = useContentfulLiveUpdates(propsdata);
+  if (!data) return null; // Skip rendering if data is null or undefined
   return (
     <>
       {preview && (
