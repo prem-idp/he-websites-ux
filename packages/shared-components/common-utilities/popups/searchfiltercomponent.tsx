@@ -17,8 +17,8 @@ import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
-import { FileAssetPackaging } from "aws-cdk-lib";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
+  console.log(path);
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const router = useRouter();
@@ -623,6 +623,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         isSubjectOpen={isSubjectOpen}
                         subjectClicked={subjectClicked}
                         formUrl={formUrl}
+                        slug={slug}
                         appendSearchParams={appendSearchParams}
                         containsSearchParam={containsSearchParam}
                       />

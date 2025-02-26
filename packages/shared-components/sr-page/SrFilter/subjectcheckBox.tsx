@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 const SubjectCheckBox = ({
   item,
   appendSearchParams,
@@ -10,13 +11,22 @@ const SubjectCheckBox = ({
   slug,
 }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(state || false);
+  const [isMultiSelect, setIsmultiselect] = useState(false);
   useEffect(() => {
     setIsChecked(state);
   }, [state]);
+  const searchparams = useSearchParams();
+  useEffect(() => {
+    const subject =
+      searchparams?.get("subject") || searchparams?.get("course") || null;
+    if (subject) {
+      setIsmultiselect(true);
+    }
+  }, [searchparams]);
   return (
     <div className="flex items-start gap-[8px] form_check">
       <div className="checkbox_card">
-        {isIndexed && (
+        {isIndexed && !isMultiSelect && (
           <Link
             id={"subject" + item?.subjectTextKey}
             href={{
