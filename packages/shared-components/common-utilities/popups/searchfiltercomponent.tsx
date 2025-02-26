@@ -17,6 +17,7 @@ import { locationMilesArray } from "@packages/lib/utlils/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
+import { FileAssetPackaging } from "aws-cdk-lib";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
@@ -62,18 +63,11 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
   }, [isFilterOpen]);
-  const universitiesSortingList = [
-    { name: "Universities A - C", sortingValue: "A-C" },
-    { name: "Universities D - H", sortingValue: "D-H" },
-    { name: "Universities I - M", sortingValue: "I-M" },
-    { name: "Universities N - P", sortingValue: "N-P" },
-    { name: "Universities Q - U", sortingValue: "Q-U" },
-    { name: "Universities V - Z", sortingValue: "V-Z" },
-  ];
+
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
   const [selectUniId, setSelectUniId] = useState("");
 
-  const universitiesSortingList = () => {
+  const universitiesSortingList: any = () => {
     const listvalue: any[] = [];
     [
       {
@@ -188,15 +182,22 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
   };
 
   let isUpdating = false;
-  const appendSearchParams = async (key: string, value: string) => {
+  const appendSearchParams = async (
+    key: string,
+    value: string,
+    isQualification?: boolean
+  ) => {
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(() => {
       const filters = extractUrlAndCookieValues(searchParams, key, value);
-      const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
-        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-        return acc;
-      }, {} as KeyValueObject);
+      const orderedFilters = getFilterPriority(isQualification || false).reduce(
+        (acc, priorityKey) => {
+          if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+          return acc;
+        },
+        {} as KeyValueObject
+      );
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
@@ -233,10 +234,13 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
 
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     const filters = extractUrlAndCookieValues(searchParams, key, value);
-    const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
-      if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-      return acc;
-    }, {} as KeyValueObject);
+    const orderedFilters = getFilterPriority(isQualification || false).reduce(
+      (acc, priorityKey) => {
+        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+        return acc;
+      },
+      {} as KeyValueObject
+    );
     const urlParams = new URLSearchParams();
     let totalValues = 0;
     const a = Object.fromEntries(searchParams.entries());
@@ -555,7 +559,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         aria-label="enter keyword"
                         placeholder="Search subjects"
                       />
-                      <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                      {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                         <ul>
                           <li>
                             <a
@@ -574,7 +578,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             </a>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
@@ -742,7 +746,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       aria-label="enter keyword"
                       placeholder="Search universities"
                     />
-                    <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                    {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
                       <ul>
                         <li>
                           <a
@@ -761,17 +765,18 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                           </a>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
-                  <div className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
+                  <div
+                    className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
                       isUniversityOpen
                         ? "-translate-x-full h-0 hidden"
                         : "translate-x-0 h-auto"
                     }`}
->
-                    {universitiesSortingList?.map((item, index) => (
+                  >
+                    {universitiesList?.map((item: any, index: any) => (
                       <div
                         key={index}
                         onClick={() => {
@@ -803,12 +808,14 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       isUniversityOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                   >
-                    {universitiesList?.map((item, index) => (
+                    {universitiesList?.map((item: any, index: any) => (
                       <SelectedUniversity
                         key={index + 1}
                         isUniversityOpen={isUniversityOpen}
                         universityClicked={universityClicked}
                         id={item.id}
+                        appendSearchParams={appendSearchParams}
+                        formUrl={formUrl}
                         selectedId={selectUniId}
                         //  universityList={universityList}
                         universityList={item?.unilist}
@@ -846,7 +853,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               alt="Search icon"
                             />
                           </button>
-                          <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                          {/* <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                             <ul>
                               {locationMilesArray?.map((items, index) => (
                                 <li
@@ -857,7 +864,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                 </li>
                               ))}
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
                           <input

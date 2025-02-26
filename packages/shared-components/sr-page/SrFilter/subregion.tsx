@@ -25,12 +25,12 @@ const SubRegions = ({
   }, [isRegionSelected, searchparams]);
   return (
     <>
-      {childItem && !isSubRegionSelected && (
+      {childItem && (
         <div>
           <div className="form_check relative m-[0_0_12px_40px]">
             <div className="flex items-start gap-[8px]">
               <div className="checkbox_card">
-                {isIndexed && (
+                {isIndexed && !isSubRegionSelected && (
                   <Link
                     id={"location" + childItem?.regionTextKey}
                     href={{
