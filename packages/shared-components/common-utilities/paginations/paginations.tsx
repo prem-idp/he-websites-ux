@@ -38,9 +38,9 @@ const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
         <nav aria-label="navigation">
           <ul className="pagination flex justify-center items-center gap-[8px]">
             <li>
-              <a
+              <Link
                 href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
-                className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
+                className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
                 <svg
                   width="7"
@@ -57,7 +57,7 @@ const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             </li>
             {items.map((item, index) => (
               <li key={index}>
@@ -69,8 +69,8 @@ const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
                   }
                   className={
                     currentPage == item
-                      ? " flex items-center justify-center text-white w-[32px] h-[32px] bg-secondary-500 hover:text-white"
-                      : `flex items-center justify-center text-primary-500 w-[32px] h-[32px] ${item !== "..." ? "hover:bg-secondary-500 hover:text-white" : ""}`
+                      ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
+                      : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${item !== "..." ? "hover:bg-blue-100 hover:text-primary-400" : ""}`
                   }
                 >
                   {item}
@@ -78,13 +78,13 @@ const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
               </li>
             ))}
             <li>
-              <a
+              <Link
                 href={
                   currentPage < totalPages
                     ? `${searchParams.currentPage}&pageno=${+currentPage + 1}`
                     : `${searchParams.currentPage}&pageno=${+currentPage}`
                 }
-                className="cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
+                className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
                 <svg
                   width="7"
@@ -101,7 +101,7 @@ const Paginations = ({ totalPages, currentPage, searchParams }: any) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

@@ -776,7 +776,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         : "translate-x-0 h-auto"
                     }`}
                   >
-                    {universitiesList?.map((item: any, index: any) => (
+                    {universitiesSortingList?.map((item, index) => (
                       <div
                         key={index}
                         onClick={() => {
