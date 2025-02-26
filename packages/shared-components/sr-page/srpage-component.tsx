@@ -47,21 +47,17 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
+         
         </Suspense>
       ) : (
         <>
-          <Suspense>
-            <SearchFilterButtons />
-            <SearchLabels />
-          </Suspense>
         </>
       )}
-      <SortingFilter
-        sortParam={{ param: searchparams, currentPage: referer }}
-      />
+     
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
+        <SortingFilter sortParam={{param:searchparams}} />
           {searchResultsData?.searchResultsList ? (
             <>
               <GradeBanner />
@@ -82,7 +78,6 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 <Paginations
                   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
                   currentPage={searchparams?.pageNo || 1}
-                  searchParams={{ param: searchparams, currentPage: referer }}
                 />
               ) : (
                 <></>

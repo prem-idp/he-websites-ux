@@ -106,65 +106,6 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   }
 }
 
- async function addRemoveFavourites(payload:any){
-  try {
-    console.log("fav data", payload);
-    payload = {
-      affiliateId: "220703",
-      ...payload,    
-    };
-    const session = await fetchAuthSession();
-    const headers: any = {
-      "Content-Type": "application/json",
-      "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-    };
-    let apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/favourites/favorites-add-delete`;
-    if (session.tokens?.idToken) {
-      headers.Authorization = `${session.tokens.idToken}`;
-    }
-    const respone = await fetch(apiUrl, {
-      method: "POST",
-      headers,
-      body: payload ?  JSON.stringify(payload) : undefined,
-    });
-    const data = await respone.json();
-    console.log("fav data", data);
-    return data;
-  } catch (error) {
-    console.log("ERROR", error);
-    throw error;
-  }
-}
-
-// export async function getUserFavourites(){
-//   try {
-//     console.log("user favourites")
-//     const payload ={
-// "affiliateId ":220703,
-// "appFlag":'N'
-// }
-// const queryParams = new URLSearchParams(payload).toString();
-//     const session = await fetchAuthSession();
-//     const headers: any = {
-//       "Content-Type": "application/json",
-//       "x-api-key": `${process.env.NEXT_PUBLIC_FAV_X_API_KEY}`,
-//     };
-//     let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API + "?" + queryParams}`;
-//     if (session.tokens?.idToken) {
-//       headers.Authorization = `${session.tokens.idToken}`;
-//     }
-//     const respone = await fetch(apiUrl, {
-//       method: "GET",
-//       headers,
-//     });
-//     const data = await respone.json();
-//     return data;
-//   } catch (error) {
-//     console.log("ERROR", error);
-//     throw error;
-//   }
-// }
 export  {
   searchResultsFetchFunction,
-  addRemoveFavourites,
 }

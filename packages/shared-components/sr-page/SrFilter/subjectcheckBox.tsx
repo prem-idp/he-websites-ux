@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 const SubjectCheckBox = ({
   item,
   appendSearchParams,
@@ -10,9 +11,20 @@ const SubjectCheckBox = ({
   slug,
 }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(state || false);
+  const [iscurrentParent, setIscurrentParent] = useState<any>("");
   useEffect(() => {
     setIsChecked(state);
   }, [state]);
+  const searchparams = useSearchParams();
+  useEffect(() => {
+    const subject = localStorage?.getItem("parentSub");
+    setIscurrentParent(subject);
+  }, [searchparams]);
+  console.log(
+    iscurrentParent,
+    item?.parentSubject,
+    iscurrentParent !== item?.parentSubject
+  );
   return (
     <div className="flex items-start gap-[8px] form_check">
       <div className="checkbox_card">

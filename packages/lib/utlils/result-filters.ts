@@ -1,5 +1,5 @@
 type KeyValueObject = Record<string, string>;
-const getFilterPriority = () => {
+const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
     "subject",
     "study-level",
@@ -34,21 +34,69 @@ const getFilterPriority = () => {
     "location_type",
     "page_no",
   ];
-  return process.env.PROJECT === "Whatuni"
-    ? [...whatuniFilters]
-    : [...pgsFilters];
+  const whatuniPrFilters = [
+    "subject",
+    "university",
+    "study-level",
+    "qualification",
+    "location",
+    "region",
+    "city",
+    "study-method",
+    "study-mode",
+    "year",
+    "month",
+    "distance-from-home",
+    "university-group",
+    "location-type",
+    "pageno",
+  ];
+  const pgsPrFilters = [
+    "course",
+    "university",
+    "study_level",
+    "qualification",
+    "location",
+    "region",
+    "city",
+    "study_method",
+    "study_mode",
+    "year",
+    "month",
+    "distance_from_home",
+    "university_group",
+    "location_type",
+    "page_no",
+  ];
+  if (process.env.PROJECT === "Whatuni" && isQualification) {
+    return [...whatuniPrFilters];
+  } else if (process.env.PROJECT === "Whatuni" && !isQualification) {
+    return [...whatuniFilters];
+  } else if (process.env.PROJECT === "Pgs" && isQualification) {
+    return [...pgsPrFilters];
+  } else {
+    return [...pgsFilters];
+  }
 };
 
 const extractUrlAndCookieValues = (
   searchParams: URLSearchParams,
   key: string,
-  value: string
+  value: string,
+  crossSubject?: boolean
 ): KeyValueObject => {
   const paramsObject = Object.fromEntries(searchParams.entries());
   const cookieObject: KeyValueObject = JSON.parse(
     getDecodedCookie("filter_param") || "{}"
   );
   const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
+  if (crossSubject) {
+    if (process.env.PROJECT === "Whatuni") {
+      delete mergedObject?.subject;
+    } else {
+      delete mergedObject?.course;
+    }
+  }
   if (mergedObject[key]) {
     let valuesSet = new Set(mergedObject[key].split(","));
     if (valuesSet.has(value)) {

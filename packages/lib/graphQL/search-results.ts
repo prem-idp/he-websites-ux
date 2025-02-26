@@ -1,0 +1,29 @@
+export function getMetaDetailsQueryForSRpage(seoFiledsName: string) {
+    const query = `{
+pageSeoFieldsCollection(
+    where: {seoFieldsName: "${seoFiledsName}", website: {websiteName: "${process.env.PROJECT}"}}
+)
+  {
+    items
+    {
+      seoFieldsName
+      h2Text
+      h1Title
+      metaTitle
+      metaDescription
+      metaDescription
+      canonical
+      websiteCollection
+      {
+        items
+        {
+          websiteName
+        }
+      }
+      breadrumbTitle
+      robots
+    }
+  }
+}`
+return query;
+}
