@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { useState } from 'react'
-import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/locationmodalcomponents';
+import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/LeftPannelModal';
 
 interface FeesType {
   "feeType": string,
@@ -18,7 +18,7 @@ interface FeesType {
 
 const TutionFeesComponent = ({ tutionFees }: { tutionFees: FeesType[] }) => {
 
-  tutionFees = tutionFees?.sort((a, b) => a.seq_no - b.seq_no);
+  tutionFees = tutionFees?.sort((a, b) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }));
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFeesType, setSelectedFeesType] = useState(tutionFees[0]);
   const [toolTips, setToolTips] = useState({ feesToolTip: '', regionTooltip: '' });
@@ -77,6 +77,7 @@ const TutionFeesComponent = ({ tutionFees }: { tutionFees: FeesType[] }) => {
   return (
     <>
       {isOpen && <Locationmodalcomponents
+        matchKey={'feeType'}
         heading={'Location'}
         subHeading='Select student location'
         itemList={tutionFees}
