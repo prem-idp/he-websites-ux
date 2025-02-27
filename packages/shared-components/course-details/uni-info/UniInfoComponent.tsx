@@ -2,14 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-// import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
-// import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
-// import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
-// import Viewprofile from '@/app/components/cards/interaction-button/viewprofile';
-
-import mapboxgl, { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
+import mapboxgl from 'mapbox-gl';
+
 
 const UniInfoComponent = ({ uniInfo }: any) => {
 
@@ -70,7 +66,6 @@ const UniInfoComponent = ({ uniInfo }: any) => {
                    {uniInfo?.institutionLogoUrl &&
                     <Image className='w-full' src={uniInfo?.institutionLogoUrl} alt="uni logo" width={112} height={112} />
                    }
-
                   </div>
                 </div>
                 <div className='uniresults-right flex flex-col gap-[16px]'>
@@ -149,7 +144,6 @@ const UniInfoComponent = ({ uniInfo }: any) => {
 
             <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
               <div className='card-map w-full md:w-[453px]'>
-                {/* <Image className='block w-full object-cover' layout='fixed' src="/assets/images/course-details/map_img.jpg" width={453} height={316} alt="Map" /> */}
                 <div className='w-full' style={{ height: '100%' }} id='map-container' ref={mapContainerRef} />
               </div>
               <div className='course-card flex flex-col gap-[16px] bg-white p-[16px] md:p-[24px] w-full md:w-[calc(100%_-_452px)]'>
