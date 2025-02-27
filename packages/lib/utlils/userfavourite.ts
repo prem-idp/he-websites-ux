@@ -1,12 +1,12 @@
 "use client"
 import { fetchAuthSession } from "aws-amplify/auth";
+import { setNewCookie } from "../utlils/commonFunction";
+import eventEmitter from "@packages/lib/eventEmitter/eventEmitter";
 
 const getUserFavourites = async (): Promise<any> => {
-    //  export async function getUserFavourites(){
-       console.log("user favourites")
       try {
         const payload :  any = {
-           "affiliateId":220703,
+           "affiliateId": process.env.PROJECT === "Whatuni" ? 220703 : 607022,
         }
         const session = await fetchAuthSession();
         const headers: any = {
@@ -23,8 +23,7 @@ const getUserFavourites = async (): Promise<any> => {
           headers,
           body: payload ?  JSON.stringify(payload) : undefined,
         });
-        const data = await respone.json();
-        //console.log("favdata", data?.favourites);
+        const data = await respone.json();       
         return data?.favourites;
       } catch (error) {
         console.log("ERROR", error);
@@ -34,9 +33,8 @@ const getUserFavourites = async (): Promise<any> => {
 
      async function addRemoveFavourites(payload:any[]){
         try {
-          console.log("fav data", payload);
           const favpayload = {
-            affiliateId: "220703",     
+            affiliateId: process.env.PROJECT === "Whatuni" ? "220703" : "607022",     
             AddFavoriteRequestList: payload,    
           };
           const session = await fetchAuthSession();
@@ -54,6 +52,14 @@ const getUserFavourites = async (): Promise<any> => {
             body: payload ?  JSON.stringify(favpayload) : undefined,
           });
           const data = await respone.json();
+          if(data?.status == 200) {
+            setNewCookie(`basketId=${data?.basketId}; path=/; secure`);
+            const newFavourite = data?.count || 0;
+            console.log("count",newFavourite, data?.count)
+            setNewCookie(`USER_FAV_BASKET_COUNT=${newFavourite}; Path=/;secure`);
+            eventEmitter.emit("favouriteCookieUpdated", newFavourite);
+           
+          }
           console.log("fav data", data);
           return data;
         } catch (error) {

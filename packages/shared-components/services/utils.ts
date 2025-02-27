@@ -2,18 +2,20 @@ import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 
 export function getQualCode(qualText: any) {
   let qualCode = "M";
-  if ("degree" === qualText) {
-    qualCode = "M";
-  } else if ("postgraduate" === qualText) {
-    qualCode = "L";
-  } else if ("foundation-degree" === qualText) {
-    qualCode = "A";
-  } else if ("access-foundation" === qualText) {
-    qualCode = "T";
-  } else if ("hnd-hnc" === qualText) {
-    qualCode = "N";
-  }
-  return qualCode;
+        if ("degree-courses" === qualText) {
+            qualCode = "M";
+        } else if ("postgraduate-courses"=== qualText) {
+            qualCode = "L";
+        } else if ("foundation-degree-courses"=== qualText) {
+            qualCode = "A";
+         
+        } else if ("access-foundation-courses"=== qualText) {
+            qualCode = "T";
+           
+        } else if ("hnd-hnc-courses"=== qualText) {
+            qualCode = "N";		   
+        }
+    return qualCode;
 }
 
 function getSearchPayload(

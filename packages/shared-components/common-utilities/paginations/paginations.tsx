@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
 const Paginations = ({ totalPages, currentPage }: any) => {
   const currentUrl = window?.location?.href
   const pageNumbers = [];
@@ -65,8 +65,8 @@ const Paginations = ({ totalPages, currentPage }: any) => {
                 <Link
                   href={
                     item !== "..."
-                      ? `${currentUrl}&pageno=${Number(item)}`
-                      : `${currentUrl}&pageno=${Number(currentPage)}`
+                      ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(item)}`
+                      : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(currentPage)}`
                   }
                   className={
                     currentPage == item
@@ -82,8 +82,8 @@ const Paginations = ({ totalPages, currentPage }: any) => {
               <Link
                 href={
                   currentPage < totalPages
-                    ? `${currentUrl}&pageno=${+currentPage + 1}`
-                    : `${currentUrl}&pageno=${+currentPage}`
+                    ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage + 1}`
+                    : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage}`
                 }
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
