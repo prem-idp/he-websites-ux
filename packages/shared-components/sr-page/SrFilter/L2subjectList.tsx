@@ -11,13 +11,11 @@ const L2subjectList = ({
   appendSearchParams,
   containsSearchParam,
   slug,
-  urlParentSubject,
-  jsondata,
+  subjectsArray,
 }: any) => {
-  console.log(selectedSubject);
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isSubjectOpen ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
     >
       <ul className="flex flex-wrap gap-[8px] uppercase">
         <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
@@ -90,7 +88,7 @@ const L2subjectList = ({
             {selectedSubject?.ParentSubject}
           </div>
           <div className="flex flex-col gap-[12px]">
-            {jsondata?.map((item: any, index: any) => (
+            {subjectsArray?.subjects?.map((item: any, index: any) => (
               <SubjectCheckBox
                 key={index + 1}
                 item={item}

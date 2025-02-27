@@ -142,7 +142,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     setIsUniversityOpen(!isUniversityOpen);
     setSelectUniId({ id, displayHeading });
   };
-
+  console.log(universitiesList);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -316,7 +316,13 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       ?.filter(Boolean)
   );
   const ParentSubject: any = [...parentSubjectSet];
-
+  const L2subjects = ParentSubject?.map((item: any) => {
+    const filteredSubjects = jsondata?.subjectFilterList?.filter(
+      (subject: any) => subject?.parentSubject === item
+    );
+    return { parent: item, subjects: filteredSubjects };
+  });
+  console.log(L2subjects);
   const studyMethodList = {
     studyMethodList: [
       {
@@ -652,22 +658,26 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       ))}
                     </div>
                     <div
-                      // ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
                       className={`
-                      bg-white transition-all duration-300 ease-in-out
+                        bg-white transition-all duration-300 ease-in-out
+                        ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
                       `}
                     >
-                      <L2subjectList
-                        selectedSubject={selectedSubject}
-                        isIndexed={isIndexed}
-                        isSubjectOpen={isSubjectOpen}
-                        subjectClicked={subjectClicked}
-                        formUrl={formUrl}
-                        slug={slug}
-                        appendSearchParams={appendSearchParams}
-                        containsSearchParam={containsSearchParam}
-                        jsondata={jsondata?.subjectFilterList}
-                      />
+                      {L2subjects?.map((subjects: any, index: number) => (
+                        <L2subjectList
+                          key={index}
+                          subjectsArray={subjects}
+                          selectedSubject={selectedSubject}
+                          isIndexed={isIndexed}
+                          isSubjectOpen={isSubjectOpen}
+                          subjectClicked={subjectClicked}
+                          formUrl={formUrl}
+                          slug={slug}
+                          appendSearchParams={appendSearchParams}
+                          containsSearchParam={containsSearchParam}
+                          jsondata={jsondata?.subjectFilterList}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
