@@ -21,3 +21,13 @@ export function ordinarySuffix(rank: any): string {
 
   return `${String(rank)}th`;
 }
+
+export function poundCostCommaSeparation(cost: number = 0) {
+  const formattedCost = cost?.toLocaleString("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+  }); // Output sample: "£1,234.56" 
+  return formattedCost;
+}

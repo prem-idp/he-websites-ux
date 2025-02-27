@@ -4,11 +4,13 @@ import Modulesaccordioncomponents from '@packages/shared-components/course-detai
 import Link from 'next/link';
 import React, { useState } from "react";
 
-interface ModulesComponentProps {
-    modules: { subModules: any[], moduleName: string }[]
-}
+interface Module { subModules: any[], moduleName: string };
 
-const Modulescomponents = ({ modules }: ModulesComponentProps) => {
+interface ModulesComponentProps {
+    modules: Module[]
+};
+
+const ModulesComponent = ({ modules }: ModulesComponentProps) => {
     return (
         <>
             <div className='modules-container'>
@@ -29,4 +31,4 @@ const Modulescomponents = ({ modules }: ModulesComponentProps) => {
     )
 }
 
-export default Modulescomponents
+export default ModulesComponent;

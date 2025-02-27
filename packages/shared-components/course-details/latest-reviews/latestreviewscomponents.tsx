@@ -83,7 +83,7 @@ const Latestreviewscomponents = () => {
                         <div className='rating-pod flex items-center gap-[8px]'>
                           <div className='rating-card flex items-center gap-[4px]'>
                                 <span className='reviewLink para text-grey300'>Overall rating</span>
-                                <Image src="/assets/icons/blue-star-icon.svg" width="24" height="24" alt="Rating icon" />
+                                <Image src="/static/assets/icons/blue-star-icon.svg" width="24" height="24" alt="Rating icon" />
                                 <span className='font-normal small text-grey300'>4.6</span>
                             </div>            
                         </div>

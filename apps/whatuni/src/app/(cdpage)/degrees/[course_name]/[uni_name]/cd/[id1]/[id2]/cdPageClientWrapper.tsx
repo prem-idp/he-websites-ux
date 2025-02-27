@@ -3,7 +3,7 @@ import Courseoptionscomponents from '@packages/shared-components/course-details/
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/courseinfocomponents';
 import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
 import Modulescomponents from '@packages/shared-components/course-details/modules/modulescomponents';
-import Entryrequirements from '@packages/shared-components/course-details/entery-requirements/entryrequirements';
+import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
 import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
 import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
 import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/latestreviewscomponents';
@@ -27,7 +27,7 @@ export default function Cdpageclient({ data }: any) {
             <Jumptocomponents data={data}/>
             <Courseinfocomponents {...data}/>
             <Modulescomponents {...data}/>
-            <Entryrequirements {...data}/>
+            <EntryrequirementsComponent {...data}/>
             <Popularalevelsubjectcomponents {...data}/>
             <TutionFeesComponent {...data} />
             <Latestreviewscomponents />

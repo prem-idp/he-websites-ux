@@ -2,7 +2,7 @@ import Courseoptionscomponents from '@packages/shared-components/course-details/
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/courseinfocomponents';
 import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
 import Modulescomponents from '@packages/shared-components/course-details/modules/modulescomponents';
-import Entryrequirements from '@packages/shared-components/course-details/entery-requirements/entryrequirements';
+import Entryrequirements from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
 import Tuitionfeescomponents from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
 import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
 import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/latestreviewscomponents';

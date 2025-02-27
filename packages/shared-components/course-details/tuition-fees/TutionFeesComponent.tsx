@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { useState } from 'react'
 import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
+import { poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction';
 
 interface FeesType {
   "feeType": string,
@@ -107,7 +108,7 @@ const TutionFeesComponent = ({ tutionFees }: { tutionFees: FeesType[] }) => {
                   <div className="course-highlight__option  flex flex-col items-start gap-[16px]">
                     <div className="flex flex-col gap-[4px] *:text-grey300">
                       <div className="para font-semibold text-black">
-                        <span className='tooltip w-fit group/item para underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedFeesType?.fee}
+                        <span className='tooltip w-fit group/item para underline relative cursor-pointer pb-[6px] mb-[-6px]'>{poundCostCommaSeparation(+selectedFeesType?.fee)}
                           {toolTips.feesToolTip && <div className="tooltip-wrap flex-col w-[320px] px-[12px] py-[12px] bg-white text-grey300 border border-grey-200 rounded-[8px] 
                                             shadow-custom-12 mt-[8px] absolute top-[17px] right-auto left-[-40px] lg:left-[-146px] z-[1] gap-[4px] after:w-[10px] after:h-[10px] after:absolute after:top-[-6px] after:left-[16%] lg:after:left-[50%] after:bg-white after:z-[0] after:border after:border-grey-200 after:border-b-0 after:border-r-0 after:translate-[-50%] after:rotate-45 hidden group-hover/item:flex after:content-['']"
                           >
