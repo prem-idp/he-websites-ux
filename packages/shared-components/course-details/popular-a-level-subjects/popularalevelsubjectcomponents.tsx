@@ -20,12 +20,12 @@ const Popularalevelsubjectcomponents = ({ popularSubjects }: PopularALevelSubjec
             <div className='h5 w-full md:w-[289px]'>Popular A-level subjects</div>
             <div className='flex flex-col gap-[16px] md:gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
 
-              {subjects?.map((subjectGroup: any) => <div className='card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
+              {subjects?.map((subjectGroup: any,index:any) => <div key={index} className='card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
                 <div className='card-header flex flex-col gap-[8px]'>
                   <div className='h6 text-black'>{subjectGroup?.name}</div>
                   <p className='para text-black'>{subjectGroup?.description}</p>
                 </div>
-                {subjectGroup?.a_level_subjects?.map((subject: any) => <div className='w-full flex flex-col gap-[8px]'>
+                {subjectGroup?.a_level_subjects?.map((subject: any,index:any) => <div key={index} className='w-full flex flex-col gap-[8px]'>
                   <div className='flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]'>
                     <div className='w-fit md:w-[205px] order-1 md:order-none small text-grey300'>{subject?.name}</div>
                     <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">

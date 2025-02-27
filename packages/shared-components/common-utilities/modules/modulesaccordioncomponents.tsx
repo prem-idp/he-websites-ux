@@ -45,13 +45,13 @@ const Modulesaccordioncomponents = () => {
                   <div className="relative flex items-center justify-center w-[12px] h-[12px]">
                         <span className="absolute">
                             <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 1.38477H1" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 1.38477H1" stroke="#4664DC" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </span>
                         
                         <span className={`absolute transition-all duration-300 ${openIndex === index ? 'rotate-180':'rotate-90' }`}>
                             <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 1.38477H1" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 1.38477H1" stroke="#4664DC" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </span>
                   </div>

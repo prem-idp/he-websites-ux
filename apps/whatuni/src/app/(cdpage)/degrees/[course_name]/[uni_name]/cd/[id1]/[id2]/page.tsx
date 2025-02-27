@@ -1,6 +1,5 @@
 import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
-import cdjson from './cdpagejson.json'
 import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 export default async function Cdpage({ params }: any) {
 
@@ -22,6 +21,7 @@ export default async function Cdpage({ params }: any) {
     },
   });
   const data = await cdpagedata.json();
+  console.log(data,"data from the cdpage")
   // --------------------------------------------------------------------------------------------------------------------------------------
   const customLabels = [
     "degrees",

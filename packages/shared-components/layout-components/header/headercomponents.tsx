@@ -12,6 +12,7 @@ import Search from "@packages/shared-components/layout-components/header/search-
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import optimizedSearch from "@packages/REST-API/optimizedsearch"
 import { signOut } from "aws-amplify/auth";
 
 interface props {
@@ -80,7 +81,7 @@ const Header = ({ topnav_data }: props) => {
       try {
         // Fetch data in parallel
         const [bodyData, unibodyData] = await Promise.all([
-          makeApiCall(
+          optimizedSearch(
             getApiUrl?.subjectAjax,
             "GET",
             null,

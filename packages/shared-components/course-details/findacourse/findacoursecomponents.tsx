@@ -7,6 +7,7 @@ import CourseTab from "@packages/shared-components/common-utilities/searchBar/se
 import React, { useState, useEffect } from "react";
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
+import optimizedSearch from "@packages/REST-API/optimizedsearch"
 const Findacoursecomponents = () => {
   const [searchFormHandle, setsearchFormHandle] = useState({
       activeTab: "tab1",
@@ -35,7 +36,7 @@ const Findacoursecomponents = () => {
 
       try {
         const queryParamsBody = new URLSearchParams(body as any).toString();
-        const bodyData = await makeApiCall(
+        const bodyData = await optimizedSearch(
           getApiUrl?.subjectAjax,
           "GET",
           null,

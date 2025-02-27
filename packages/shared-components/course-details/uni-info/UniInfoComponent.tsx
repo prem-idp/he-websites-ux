@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
-import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
-import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
-import Viewprofile from '@/app/components/cards/interaction-button/viewprofile';
+// import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
+// import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
+// import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
+// import Viewprofile from '@/app/components/cards/interaction-button/viewprofile';
 
 import mapboxgl, { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -67,7 +67,9 @@ const UniInfoComponent = ({ uniInfo }: any) => {
               <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
                 <div className='uniresults-left'>
                   <div className="univ__logo hidden md:block bg-white p-[4px] w-[120px] rounded-[8px] shadow-custom-4 overflow-hidden">
+                   {uniInfo?.institutionLogoUrl &&
                     <Image className='w-full' src={uniInfo?.institutionLogoUrl} alt="uni logo" width={112} height={112} />
+                   }
 
                   </div>
                 </div>
@@ -100,7 +102,7 @@ const UniInfoComponent = ({ uniInfo }: any) => {
                           <span className="reviewLink small text-grey300">Student rating</span>
                           <div className='tooltip'>
                             <div className='flex gap-[2px] pb-[2px] border-b border-dashed border-grey-300'>
-                              {[1, 2, 3, 4, 5].map((rating: number) => <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              {[1, 2, 3, 4, 5].map((rating: number,index:any) => <svg key={index} width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.3604 1.06101C4.56172 0.441415 5.43828 0.441415 5.6396 1.06101L6.3589 3.27479C6.44893 3.55188 6.70715 3.73948 6.9985 3.73948H9.3262C9.97768 3.73948 10.2485 4.57314 9.72149 4.95607L7.83834 6.32426C7.60263 6.49551 7.504 6.79906 7.59404 7.07615L8.31334 9.28993C8.51465 9.90952 7.8055 10.4247 7.27844 10.0418L5.39529 8.67363C5.15959 8.50238 4.84041 8.50238 4.60471 8.67363L2.72156 10.0418C2.1945 10.4247 1.48535 9.90952 1.68666 9.28993L2.40596 7.07615C2.496 6.79906 2.39737 6.49551 2.16166 6.32426L0.278509 4.95607C-0.248549 4.57314 0.0223231 3.73948 0.673802 3.73948H3.0015C3.29286 3.73948 3.55107 3.55188 3.6411 3.27479L4.3604 1.06101Z"
                                   fill={uniInfo?.overallRating >= rating ? "#BC0000" : "#ADB2B6"} />
                               </svg>)}
@@ -130,10 +132,12 @@ const UniInfoComponent = ({ uniInfo }: any) => {
             </div>
 
 
-            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: string }) => <div className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
+            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: string },index:any) => <div key={index} className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className="course-highlight__option flex flex-col md:flex-row items-center gap-[24px]">
                 <div className='w-[120px] p-[10px]'>
+                  {award?.image && 
                   <Image className='w-full' src={award?.image} alt="academic-cap" width="120" height="93" />
+                  }
                 </div>
                 <div className="flex flex-col gap-[4px] *:text-grey300">
                   <div className="h5 font-semibold">{award.awardName}</div>
@@ -162,7 +166,7 @@ const UniInfoComponent = ({ uniInfo }: any) => {
                     </div>
                     <div className="flex items-start gap-[8px]">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="#0F172A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5H5Z" stroke="#0F172A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                       </svg>
                       <span className="flex flex-col lg:flex-row items-start gap-[4px] small">Nearest train station:
                         <span>{location?.trainStationName}&nbsp;{location?.trainStationMiles} miles away</span>

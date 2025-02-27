@@ -12,6 +12,8 @@ import {
 } from "@packages/lib/utlils/helper-function";
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
+import optimizedSearch from "@packages/REST-API/optimizedsearch"
+
 const UcasComponent = dynamic(
   () =>
     import(
@@ -84,7 +86,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
       try {
         // Fetch data in parallel
         const [bodyData, unibodyData] = await Promise.all([
-          makeApiCall(
+          optimizedSearch(
             getApiUrl?.subjectAjax,
             "GET",
             null,
