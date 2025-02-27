@@ -9,7 +9,7 @@ interface ProviderTopCardProps {
 const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) => {
 
   const college = searchResultlist?.searchResultsList[0];
-  const logoSrc = college?.collegeMedia?.wuCollegeLogo; // Extract the logo URL
+  const logoSrc = `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}` + college?.collegeMedia?.ipCollegeLogo; // Extract the logo URL
   const distanceInMiles = college?.distanceInMiles ?? 0;
   const collegeName = college?.collegeDisplayName;
   const totalCourseCount = searchResultlist?.totalCourseCount;
