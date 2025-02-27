@@ -17,24 +17,28 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState } from 'react';
 export default function Cdpageclient({ data }: any) {
-    const [fetcheddata, setFetcheddata] = useState({ ...data })
+    const [fetcheddata, setFetcheddata] = useState({ ...data });
     return (
         <>
             <Courseheaderinfocomponents data={fetcheddata} />
             <Yearofentrycomponents />
             <Courseoptionscomponents data={fetcheddata} />
-            <Jumptocomponents data={data}/>
-            <Courseinfocomponents {...data}/>
-            <Modulescomponents {...data}/>
-            <EntryrequirementsComponent {...data}/>
-            <Popularalevelsubjectcomponents {...data}/>
-            <TutionFeesComponent {...data} />
-            <Latestreviewscomponents />
-            <UniInfoComponent {...data} />
+            <Jumptocomponents data={data} />
+            {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
+                switch (sectionId) {
+                    case 'courseInfo': return <Courseinfocomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'modules': return <Modulescomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'tutionFees': return <TutionFeesComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'uniInfo': return <UniInfoComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                }
+            })}
             <Othercoursesmaylikecomponents />
             <SimilarCourseComponent {...data} />
-            {process.env.PROJECT==="Whatuni" &&
-            <Findacoursecomponents />
+            {process.env.PROJECT === "Whatuni" &&
+                <Findacoursecomponents />
             }
         </>
     )

@@ -8,10 +8,10 @@ import OverallRating from './OverallRating';
 import LeftPannelModal from '../Modal/LeftPannelModal';
 
 interface LatestReviewsComponentProps {
-
+  section: any
 }
 
-const LatestReviewsComponent = ({ }: LatestReviewsComponentProps) => {
+const LatestReviewsComponent = ({ section }: LatestReviewsComponentProps) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
@@ -28,10 +28,10 @@ const LatestReviewsComponent = ({ }: LatestReviewsComponentProps) => {
 
   return (
     <>
-      {isOpen && <LeftPannelModal
-        matchKey={'feeType'}
-        heading={'Location'}
-        subHeading='Select student location'
+      {(isOpen) && <LeftPannelModal
+        matchKey='subjectName'
+        heading='Subjects'
+        subHeading='Select a subject'
         itemList={[]}
         selectedItems={[selectedSubject]}
         isOpen={isOpen}

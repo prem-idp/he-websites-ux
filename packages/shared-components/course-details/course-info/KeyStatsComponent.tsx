@@ -11,8 +11,9 @@ import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/c
 const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
 
   const [selectedSubject, setSelectedSubject] = useState(subjectArea[0]);
-  const [isOpen, setIsOpen] = useState(false)
-  function togglemodal() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleModal() {
     setIsOpen((prev) => !prev)
   }
 
@@ -31,7 +32,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
         itemList={subjectArea}
         selectedItems={[selectedSubject]}
         isOpen={isOpen}
-        onClose={togglemodal}
+        onClose={toggleModal}
         onApply={changeFeesRegion}
       />}
       <div className='px-[16px] md:px-[20px] xl:px-[0]'>
@@ -39,7 +40,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
           <div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col md:flex-row items-start md:items-center justify-between  gap-[16px] md:gap-[8px]'>
               <div className='h4 text-white'>Key stats</div>
-              <div onClick={() => togglemodal()} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>{selectedSubject?.subjectName}
+              <div onClick={() => toggleModal()} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>{selectedSubject?.subjectName}
                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
