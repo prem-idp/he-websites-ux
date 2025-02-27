@@ -33,7 +33,9 @@ export default function Cdpageclient({ data }: any) {
             <UniInfoComponent {...data} />
             <Othercoursesmaylikecomponents />
             <SimilarCourseComponent {...data} />
+            {process.env.PROJECT==="Whatuni" &&
             <Findacoursecomponents />
+            }
         </>
     )
 }

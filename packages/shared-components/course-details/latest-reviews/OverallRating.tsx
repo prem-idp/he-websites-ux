@@ -11,7 +11,7 @@ const OverallRating = () => {
                         <div className='h5 text-grey300'>How animation students rated:</div>
                         <div className='relative group flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer pb-[10px] mb-[-10px]'>University Rating
                             <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             <DropDown />
                         </div>
