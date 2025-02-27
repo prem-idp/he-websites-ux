@@ -10,10 +10,11 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
+import { headers } from "next/headers";
 
 interface Payload {
   parentQualification: string;
-  collegeId: string;
+  //collegeId: string;
   pageNo: string; // Changed 'any' to 'string' for consistency
   userCoordinates: string;
   [key: string]: string; // Index signature allows dynamic keys
@@ -28,8 +29,7 @@ export async function constructPayload(searchparams: SearchParams = {}): Promise
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
     parentQualification: "M",
-    collegeId: "466742",
-    pageNo: searchparams.pageNo || "1", // Default to "1" if not in searchparams
+    pageNo: searchparams?.pageNo || "1", // Default to "1" if not in searchparams
     userCoordinates: "51.5072,-0.1276",
   };
   // Start with the base payload
@@ -41,18 +41,24 @@ export async function constructPayload(searchparams: SearchParams = {}): Promise
   //   }
   // });
 
-  // Dynamically add keys from searchparams if they exist and are not undefined
   Object.keys(searchparams).forEach((key) => {
     if (searchparams[key] !== undefined && searchparams[key] !== null) {
-      payloads[key] = searchparams[key];
+      // If the key is 'university', map it to 'collegeName' in payloads
+      if (key === 'university') {
+        payloads['collegeName'] = searchparams[key];
+      } else {
+        payloads[key] = searchparams[key];
+      }
     }
   });
+
   console.log("Construct Payload " + JSON.stringify(payloads));
   return payloads;
 }
 
 const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
+  console.log("payloads " + JSON.stringify(payloads));
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
@@ -81,21 +87,28 @@ const transformProviderListData = (data: any) => {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
   }
-
   return data.searchResultsList.flatMap((college: any) =>
     Array.isArray(college.bestMatchCoursesList)
       ? college.bestMatchCoursesList.map((course: any) => ({
         collegeId: college.collegeId,
+        collegeName: college?.collegeTextKey,
         courseId: course.courseId,
         pageName: 'PR',
         title: course.courseTitle || "Unknown Title",
         provideFav: false,
+        subOrderItemid: course?.enquiryDetails?.subOrderItemId,
+        sponsoredListingFlag: college?.sponsoredListingFlag,
+        manualBoostingFlag: college?.manualBoostingFlag,
+        orderItemId: course?.enquiryDetails?.orderItemId,
         modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
         tagLocation: college.adminVenue || "Unknown Location",
         points:
           course.minUcasPoints && course.maxUcasPoints
             ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
             : 0 - 0,
+        hasProspectus: course.enquiryDetails?.prospectusFlag === "Y" || false,
+        hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
+        hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
       }))
       : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
@@ -103,10 +116,10 @@ const transformProviderListData = (data: any) => {
 
 
 const PrPageComponent = async ({ searchparams }: any) => {
-
+  const headersList = await headers();
+  const referer = headersList.get("referer");
   const data = await searchPRResults(searchparams); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
-
   const breadcrumbData = [
     {
       url: "#",
@@ -121,7 +134,6 @@ const PrPageComponent = async ({ searchparams }: any) => {
       label: "Search results",
     },
   ];
-
 
   return (
     <>
@@ -138,8 +150,9 @@ const PrPageComponent = async ({ searchparams }: any) => {
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.totalCourseCount / 10)}
-            currentPage={searchparams?.pageNo ?? 1}
+            totalPages={Math.ceil(data?.collegeCount / 10)}
+            currentPage={searchparams?.pageNo || 1}
+            searchParams={{ param: searchparams, currentPage: referer }}
           />
         </ProviderResultsCard>
       )}

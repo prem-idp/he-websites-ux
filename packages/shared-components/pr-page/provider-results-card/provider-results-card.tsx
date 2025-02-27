@@ -15,11 +15,19 @@ interface ProviderResultsCardProps {
 }
 
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
-  // Provider card toggle function
-  const [isUniModule, setIsUniModule] = useState(false);
-  const visbleModule = () => {
-    setIsUniModule((preState) => !preState);
+
+  // State to track which cards' modules are visible
+  const [visibleModules, setVisibleModules] = useState<boolean[]>(
+    new Array(searchResultlist.length).fill(false) // Initially, all are closed
+  );
+
+  // Toggle function for a specific card's modules
+  const toggleModuleVisibility = (index: number) => {
+    setVisibleModules((prev) =>
+      prev.map((state, i) => (i === index ? !state : state)) // Toggle only the clicked card
+    );
   };
+
   // Provider card toggle function  END
 
   // State to track favorited status for each item
@@ -109,13 +117,13 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           {items.modulesList && (
             <>
               <span
-                onClick={visbleModule}
+                onClick={() => toggleModuleVisibility(index)}
                 className="text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] after:rotate-[90deg] after:transition-all after:delay-0 after:duration-300 after:ease-linear"
               >
                 Modules
               </span>
               <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
-                {isUniModule && (
+                {visibleModules[index] && (
                   <>
                     {items.modulesList.map((list: any, index: any) => (
                       <li className="text-grey300 small break-all" key={index}>
@@ -127,7 +135,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               </ul>
             </>
           )}
-          {isUniModule && (
+          {visibleModules[index] && (
             <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
               See all modules
             </span>
@@ -135,10 +143,55 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
         </div>
 
         <div className="w-full flex flex-col gap-[8px]">
-          <Getprospectus />
-          <Visitwebsite />
-          <BookOpenDay />
-          <RequestInfo />
+          {items.hasProspectus &&
+            <Getprospectus
+              enquiryProps={{
+                courseId: items?.courseId,
+                collegeId: items?.collegeId,
+                subOrderItemid: items?.subOrderItemId,
+                sponsoredListingFlag: items?.sponsoredListingFlag,
+                manualBoostingFlag: items?.manualBoostingFlag,
+                orderItemId: items?.orderItemId,
+                collegeName: items?.collegeTextKey,
+                pageName: "browsemoneypageresults"
+              }} />}
+          {items.hasWebsite &&
+            <Visitwebsite
+              enquiryProps={{
+                courseId: items?.courseId,
+                collegeId: items?.collegeId,
+                subOrderItemid: items?.subOrderItemId,
+                sponsoredListingFlag: items?.sponsoredListingFlag,
+                manualBoostingFlag: items?.manualBoostingFlag,
+                orderItemId: items?.orderItemId,
+                pageName: items?.pageName,
+              }} />}
+          {items.hasWebsite &&
+            <BookOpenDay
+              enquiryProps={{
+                courseId: items?.courseId,
+                collegeId: items?.collegeId,
+                subOrderItemid:
+                  items?.subOrderItemId,
+                sponsoredListingFlag: items?.sponsoredListingFlag,
+                manualBoostingFlag: items?.manualBoostingFlag,
+                orderItemId:
+                  items?.orderItemId,
+                collegeName: items?.collegeTextKey,
+                pageName: items?.pageName,
+              }} />} {/* Assuming a flag for this */}
+          {items.hasEmail &&
+            <RequestInfo
+              enquiryProps={{
+                courseId: items?.courseId,
+                collegeId: items?.collegeId,
+                subOrderItemid: items?.subOrderItemId,
+                sponsoredListingFlag: items?.sponsoredListingFlag,
+                manualBoostingFlag: items?.manualBoostingFlag,
+                orderItemId: items?.orderItemId,
+                collegeName: items?.collegeTextKey,
+                pageName: items?.pageName,
+              }} />}
         </div>
       </div>
     </div>
