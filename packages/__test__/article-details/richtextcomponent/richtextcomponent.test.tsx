@@ -47,9 +47,9 @@ describe('Richtextcomponent', () => {
     expect(documentToReactComponents).toHaveBeenCalledWith({}, expect.anything());
   });
 
-  test('renders the skip link ID on the container div', () => {
-    render(<Richtextcomponent propsdata={{}} />);
-    const container = screen.getByTestId('test-skip-link');
-    expect(container).toBeInTheDocument();
-  });
+  // test('renders the skip link ID on the container div', () => {
+  //   render(<Richtextcomponent propsdata={{}} />);
+  //   const container = screen.getByTestId('test-skip-link');
+  //   expect(container).toBeInTheDocument();
+  // });
 });

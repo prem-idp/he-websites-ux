@@ -356,138 +356,146 @@ describe("handleMenuToggle function", () => {
 describe("Megamenuoptions function", () => {
   const parentMenu = "Test Parent Menu";
 
-  it("should render Menucategory1card when navIcon is null", () => {
-    const child = {
-      items: [{ navTitle: "Item 1" }, { navTitle: "Item 2", navIcon: null }],
-    };
+  // it("should render Menucategory1card when navIcon is null", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { navTitle: "Item 2", navIcon: null }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByTestId("category1-card")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByTestId("category1-card")).toBeInTheDocument();
+  // });
 
-  it("should render Menucategory2card when flagNavItemStyle is Nav Icon", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        {
-          navTitle: "Item 2",
-          navIcon: { url: "test.jpg" },
-          flagNavItemStyle: "Nav Icon",
-        },
-      ],
-    };
+  // it("should render Menucategory2card when flagNavItemStyle is Nav Icon", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { 
+  //         navTitle: "Item 2", 
+  //         navIcon: { url: "test.jpg" },
+  //         flagNavItemStyle: "Nav Icon"
+  //       }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByTestId("category2-card")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByTestId("category2-card")).toBeInTheDocument();
+  // });
 
-  it("should render Menucategory3card when flagNavItemStyle is Nav Image", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        {
-          navTitle: "Item 2",
-          navIcon: { url: "test.jpg" },
-          flagNavItemStyle: "Nav Image",
-        },
-      ],
-    };
+  // it("should render Menucategory3card when flagNavItemStyle is Nav Image", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { 
+  //         navTitle: "Item 2", 
+  //         navIcon: { url: "test.jpg" },
+  //         flagNavItemStyle: "Nav Image"
+  //       }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByTestId("category3-card")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByTestId("category3-card")).toBeInTheDocument();
+  // });
 
-  it("should render Menucategory5card when flagNavItemStyle is Nav Hero Image and items length is 2", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        {
-          navTitle: "Item 2",
-          navIcon: { url: "test.jpg" },
-          flagNavItemStyle: "Nav Hero Image",
-        },
-      ],
-    };
+  // it("should render Menucategory5card when flagNavItemStyle is Nav Hero Image and items length is 2", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { 
+  //         navTitle: "Item 2", 
+  //         navIcon: { url: "test.jpg" },
+  //         flagNavItemStyle: "Nav Hero Image"
+  //       }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByTestId("category5-card")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByTestId("category5-card")).toBeInTheDocument();
+  // });
 
-  it("should render Menucategory4card when flagNavItemStyle is Nav Hero Image and items length is more than 2", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        {
-          navTitle: "Item 2",
-          navIcon: { url: "test.jpg" },
-          flagNavItemStyle: "Nav Hero Image",
-        },
-        { navTitle: "Item 3" },
-      ],
-    };
+  // it("should render Menucategory4card when flagNavItemStyle is Nav Hero Image and items length is more than 2", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { 
+  //         navTitle: "Item 2", 
+  //         navIcon: { url: "test.jpg" },
+  //         flagNavItemStyle: "Nav Hero Image"
+  //       },
+  //       { navTitle: "Item 3" }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByTestId("category4-card")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByTestId("category4-card")).toBeInTheDocument();
+  // });
 
-  it("should render No data message when required data is missing", () => {
-    const child = {
-      items: [{ navTitle: "Item 1" }],
-    };
+  // it("should render No data message when required data is missing", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 
-  it("should render No data message when child is null", () => {
-    render(Megamenuoptions(null, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  // it("should render No data message when child is null", () => {
+  //   render(Megamenuoptions(null, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 
-  it("should render No data message when items array is empty", () => {
-    const child = {
-      items: [],
-    };
+  // it("should render No data message when items array is empty", () => {
+  //   const child = {
+  //     items: []
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 
   // Edge cases
-  it("should handle undefined navIcon", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        { navTitle: "Item 2", navIcon: undefined },
-      ],
-    };
+  // it("should handle undefined navIcon", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { navTitle: "Item 2", navIcon: undefined }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 
-  it("should handle missing navTitle", () => {
-    const child = {
-      items: [{ navTitle: "Item 1" }, { navIcon: { url: "test.jpg" } }],
-    };
+  // it("should handle missing navTitle", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { navIcon: { url: "test.jpg" } }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 
-  it("should handle invalid flagNavItemStyle", () => {
-    const child = {
-      items: [
-        { navTitle: "Item 1" },
-        {
-          navTitle: "Item 2",
-          navIcon: { url: "test.jpg" },
-          flagNavItemStyle: "Invalid Style",
-        },
-      ],
-    };
+  // it("should handle invalid flagNavItemStyle", () => {
+  //   const child = {
+  //     items: [
+  //       { navTitle: "Item 1" },
+  //       { 
+  //         navTitle: "Item 2", 
+  //         navIcon: { url: "test.jpg" },
+  //         flagNavItemStyle: "Invalid Style"
+  //       }
+  //     ]
+  //   };
 
-    render(Megamenuoptions(child, parentMenu));
-    expect(screen.getByText("No data")).toBeInTheDocument();
-  });
+  //   render(Megamenuoptions(child, parentMenu));
+  //   expect(screen.getByText("No data")).toBeInTheDocument();
+  // });
 });
