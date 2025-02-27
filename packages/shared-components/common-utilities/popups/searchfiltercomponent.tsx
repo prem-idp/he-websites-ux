@@ -10,14 +10,14 @@ import { useSearchParams, usePathname } from "next/navigation";
 import {
   getFilterPriority,
   isSingleSelection,
-} from "@packages/lib/utlils/result-filters";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/result-filters";
+} from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjectcheckBox";
-import { locationMilesArray } from "@packages/lib/utlils/result-filters";
+import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
-import { getUrlParentSubject } from "@packages/lib/utlils/result-filters";
+import { getUrlParentSubject } from "@packages/lib/utlils/filters/result-filters";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
   //console.log(jsondata);
   const router = useRouter();
@@ -534,7 +534,9 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         (item: any, index: any) => (
                           <div className="form-black flex relative" key={index}>
                             <input
-                              checked={slug?.includes(item?.qualTextKey)}
+                              checked={
+                                slug?.includes(item?.qualTextKey) ? true : false
+                              }
                               onChange={() => {
                                 appendSearchParams(
                                   "study-level",
@@ -1014,7 +1016,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               )}
                               <input
                                 type="checkbox"
-                                checked={isAllUkChecked}
+                                checked={isAllUkChecked || false}
                                 className="form-checkbox hidden"
                                 id="All Uk"
                                 name="All Uk"

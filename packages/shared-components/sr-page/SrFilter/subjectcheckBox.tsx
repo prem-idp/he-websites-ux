@@ -36,7 +36,7 @@ const SubjectCheckBox = ({
         <input
           type="checkbox"
           id={item?.categoryDesc}
-          checked={isChecked}
+          checked={isChecked || false}
           onChange={() => {
             setIsChecked(!isChecked);
             appendSearchParams("subject", item?.subjectTextKey);

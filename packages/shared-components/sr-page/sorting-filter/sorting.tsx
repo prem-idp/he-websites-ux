@@ -1,7 +1,7 @@
 "use client";
 
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 import {
   pgsSortingFilter,
   wuscaCategories,
@@ -74,6 +74,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
               {Object.entries(sortingFilter).map(([label, value]) => (
                 <div
+                  key={value}
                   className="custom-radio flex items-center"
                   onClick={() => handleSort(value, label)}
                 >
@@ -89,6 +90,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                           ? true
                           : false
                     }
+                    onChange={() => {}}
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -102,6 +104,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
               {Object.entries(wuscaCategories).map(([label, value]) => (
                 <div
+                  key={value}
                   className="custom-radio flex items-center"
                   onClick={() => handleSort(value, label)}
                 >
@@ -117,6 +120,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                           ? true
                           : false
                     }
+                    onChange={() => {}}
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}

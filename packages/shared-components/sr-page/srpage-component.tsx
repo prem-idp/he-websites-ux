@@ -15,7 +15,7 @@ import Subscribecomponents from "@packages/shared-components/common-utilities/ne
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { headers } from "next/headers";
 import { getQualCode, getSearchPayload } from "../services/utils";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
 
@@ -72,10 +72,11 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
-                <Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
-                />
+                // <Paginations
+                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                //   currentPage={searchparams?.pageNo || 1}
+                // />
+                <></>
               ) : (
                 <></>
               )}

@@ -41,7 +41,7 @@ const SubRegions = ({
                 )}
                 <input
                   type="checkbox"
-                  checked={isSubRegionSelected}
+                  checked={isSubRegionSelected || false}
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
