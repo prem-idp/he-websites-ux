@@ -12,8 +12,6 @@ interface CourseInfoComponentProps {
 
 const CourseInfoComponent = ({ courseInfo, keyStats }: CourseInfoComponentProps) => {
 
-
-
   return (
     <div className='courseinfo-container'>
       <div className="max-w-container mx-auto">
