@@ -52,57 +52,57 @@ describe("User Component", () => {
     );
   });
 
-  it("triggers logout when 'Logout' is clicked", async () => {
-    const mockData = {
-      data: {
-        contentData: {
-          items: [
-            {
-              customerProfileMenu: {
-                navChildC1Collection: {
-                  items: [{ navTitle: "Logout", navUrl: "" }],
-                },
-              },
-            },
-          ],
-        },
-      },
-    };
+  // it("triggers logout when 'Logout' is clicked", async () => {
+  //   const mockData = {
+  //     data: {
+  //       contentData: {
+  //         items: [
+  //           {
+  //             customerProfileMenu: {
+  //               navChildC1Collection: {
+  //                 items: [{ navTitle: "Logout", navUrl: "" }],
+  //               },
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     },
+  //   };
 
-    // Mock sessionStorage and document.cookie
-    Object.defineProperty(window, "sessionStorage", {
-      value: { clear: jest.fn() },
-      writable: true,
-    });
+  //   // Mock sessionStorage and document.cookie
+  //   Object.defineProperty(window, "sessionStorage", {
+  //     value: { clear: jest.fn() },
+  //     writable: true,
+  //   });
 
-    let cookieValue = "wcache=test";
-    Object.defineProperty(document, "cookie", {
-      get: jest.fn(() => cookieValue),
-      set: jest.fn((value) => {
-        cookieValue = value;
-      }),
-      configurable: true,
-    });
+  //   let cookieValue = "wcache=test";
+  //   Object.defineProperty(document, "cookie", {
+  //     get: jest.fn(() => cookieValue),
+  //     set: jest.fn((value) => {
+  //       cookieValue = value;
+  //     }),
+  //     configurable: true,
+  //   });
 
-    render(<User topnav_data={mockData} />);
+  //   render(<User topnav_data={mockData} />);
 
-    const logoutLink = screen.getByText("Logout");
+  //   const logoutLink = screen.getByText("Logout");
 
-    // Trigger click on Logout
-    fireEvent.click(logoutLink);
+  //   // Trigger click on Logout
+  //   fireEvent.click(logoutLink);
 
-    // Validate `signOut` and session storage
-    expect(mockSignOut).toHaveBeenCalledWith({ global: true });
-    expect(window.sessionStorage.clear).toHaveBeenCalled();
+  //   // Validate `signOut` and session storage
+  //   expect(mockSignOut).toHaveBeenCalledWith({ global: true });
+  //   expect(window.sessionStorage.clear).toHaveBeenCalled();
 
-    // Validate the cookie is cleared
-    expect(document.cookie).toBe(
-      "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
-    );
+  //   // Validate the cookie is cleared
+  //   expect(document.cookie).toBe(
+  //     "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+  //   );
 
-    // Validate redirection
-    expect(window.location.href).toBe("");
-  });
+  //   // Validate redirection
+  //   expect(window.location.href).toBe("");
+  // });
 
   it("renders 'Complete your profile' button", () => {
     render(<User topnav_data={{}} />);

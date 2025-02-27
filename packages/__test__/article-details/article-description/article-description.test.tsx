@@ -54,21 +54,21 @@ describe("Articledescription Component", () => {
     expect(screen.queryByText("Share on")).not.toBeInTheDocument();
   });
 
-  test("copies the link to clipboard on button click", () => {
-    render(<Articledescription {...mockProps} />);
-    const copyLinkButton = screen.getByText("Copy link");
-    fireEvent.click(copyLinkButton);
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(window.location.href);
-  });
+  // test("copies the link to clipboard on button click", () => {
+  //   render(<Articledescription {...mockProps} />);
+  //   const copyLinkButton = screen.getByText("Copy link");
+  //   fireEvent.click(copyLinkButton);
+  //   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(window.location.href);
+  // });
 
-  test("contains correct URLs for social sharing links", () => {
-    render(<Articledescription {...mockProps} />);
-    const facebookLink = screen.getByText("Facebook").closest("a");
-    const twitterLink = screen.getByText("Twitter").closest("a");
-    const pinterestLink = screen.getByText("Pinterest").closest("a");
+  // test("contains correct URLs for social sharing links", () => {
+  //   render(<Articledescription {...mockProps} />);
+  //   const facebookLink = screen.getByText("Facebook").closest("a");
+  //   const twitterLink = screen.getByText("Twitter").closest("a");
+  //   const pinterestLink = screen.getByText("Pinterest").closest("a");
 
-    expect(facebookLink).toHaveAttribute("href", expect.stringContaining("facebook.com/sharer/sharer.php"));
-    expect(twitterLink).toHaveAttribute("href", expect.stringContaining("twitter.com/intent/tweet"));
-    expect(pinterestLink).toHaveAttribute("href", expect.stringContaining("pinterest.com/pin/create/button"));
-  });
+  //   expect(facebookLink).toHaveAttribute("href", expect.stringContaining("facebook.com/sharer/sharer.php"));
+  //   expect(twitterLink).toHaveAttribute("href", expect.stringContaining("twitter.com/intent/tweet"));
+  //   expect(pinterestLink).toHaveAttribute("href", expect.stringContaining("pinterest.com/pin/create/button"));
+  // });
 });

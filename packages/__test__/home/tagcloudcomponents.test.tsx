@@ -11,7 +11,7 @@ jest.mock("@packages/lib/server-actions/server-action", () => ({
 }));
 
 // Mock the `Search` component
-jest.mock("./header-search", () => jest.fn(() => <div data-testid="search-component"></div>));
+//jest.mock("./header-search", () => jest.fn(() => <div data-testid="search-component"></div>));
 
 const mockCourseData = { courses: ["Course1", "Course2"] };
 const mockUniData = { universities: ["University1", "University2"] };

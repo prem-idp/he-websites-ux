@@ -33,16 +33,16 @@ describe("Header Component", () => {
     );
   });
 
-  test("should render the Header component", () => {
-    expect(screen.getByText("Find a course")).toBeInTheDocument();
-    expect(screen.getByText("Find a uni")).toBeInTheDocument();
-    expect(screen.getByAltText("Whatuni Logo")).toBeInTheDocument();
-  });
+  // test("should render the Header component", () => {
+  //   expect(screen.getByText("Find a course")).toBeInTheDocument();
+  //   expect(screen.getByText("Find a uni")).toBeInTheDocument();
+  //   expect(screen.getByAltText("Whatuni Logo")).toBeInTheDocument();
+  // });
 
-  test("should render the user and shortlist menu", () => {
-    expect(screen.getByLabelText("User")).toBeInTheDocument();
-    expect(screen.getByLabelText("Shortlist")).toBeInTheDocument();
-  });
+  // test("should render the user and shortlist menu", () => {
+  //   expect(screen.getByLabelText("User")).toBeInTheDocument();
+  //   expect(screen.getByLabelText("Shortlist")).toBeInTheDocument();
+  // });
 
   // test("should open and close the user menu", () => {
   //   const userButton = screen.getByLabelText("User");

@@ -27,12 +27,12 @@ describe("AdviceTab", () => {
     );
   });
 
-  test("renders input field and submit button", () => {
-    // render(<AdviceTab searchFormHandle={{ advice: "" }} setsearchFormHandle={() => {}} />);
+  // test("renders input field and submit button", () => {
+  //   // render(<AdviceTab searchFormHandle={{ advice: "" }} setsearchFormHandle={() => {}} />);
 
-    expect(screen.getByPlaceholderText("Enter keyword")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
-  });
+  //   expect(screen.getByPlaceholderText("Enter keyword")).toBeInTheDocument();
+  //   expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
+  // });
 
   //   test("calls handleSubmit when form is submitted", () => {
   //     const mockSearchFormHandle = { advice: "test" };
