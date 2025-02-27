@@ -1,10 +1,8 @@
-'use client';
 
-import React, { useState } from 'react';
 import Keystatscomponents from './KeyStatsComponent';
 import ReviewComponent from '../common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
-
+import Reviewscomponents from "@packages/shared-components/common-utilities/slider/reviews/reviewscomponents"
 interface CourseInfoComponentProps {
   courseInfo: any,
   keyStats: any
@@ -21,7 +19,7 @@ const CourseInfoComponent = ({ courseInfo, keyStats }: CourseInfoComponentProps)
             <ReadMoreLessDesc text={courseInfo?.courseSummary} />
             <Keystatscomponents {...keyStats} />
             <div className='mt-[8px]'>
-              <ReviewComponent heading='What students say' />
+              <Reviewscomponents heading="heading" />
             </div>
           </div>
         </div>

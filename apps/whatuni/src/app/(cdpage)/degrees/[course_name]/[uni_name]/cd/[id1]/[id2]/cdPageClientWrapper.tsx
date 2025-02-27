@@ -16,7 +16,7 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 // import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState } from 'react';
-export default function Cdpageclient({ data }: any) {
+export default function Cdpageclient({ children,data }: any) {
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     return (
         <>
@@ -24,9 +24,10 @@ export default function Cdpageclient({ data }: any) {
             <Yearofentrycomponents />
             <Courseoptionscomponents data={fetcheddata} />
             <Jumptocomponents data={data} />
+            
             {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 switch (sectionId) {
-                    case 'courseInfo': return <Courseinfocomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'courseInfo': return <div key={sectionId}>{children}</div>;
                     case 'modules': return <Modulescomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
                     case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
                     case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
@@ -36,6 +37,7 @@ export default function Cdpageclient({ data }: any) {
                 }
             })}
             <Othercoursesmaylikecomponents />
+          
             <SimilarCourseComponent {...data} />
             {process.env.PROJECT === "Whatuni" &&
                 <Findacoursecomponents />
