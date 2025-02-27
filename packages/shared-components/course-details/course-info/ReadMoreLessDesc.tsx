@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 
-const ReadMoreLessDesc = ({ text }: any) => {
+const ReadMoreLessDesc = ({ text }: { text: string }) => {
 
     const [isReadMore, setIsReadMore] = useState(false);
 

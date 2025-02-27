@@ -23,6 +23,18 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
     setSelectedSubject(() => item[0]);
   }
 
+  function getStatsImgPath(rank: string) {
+    const pathPrefix = '/static/assets/icons/course-details/'
+    switch (true) {
+      case rank.toLowerCase().includes('complete university guide ranking'):
+        return (pathPrefix + 'cug_ranking_stats_icon.svg');
+      case rank.toLowerCase().includes('wusca'):
+        return (pathPrefix + 'wusca_ranking_stats_icon.svg');
+      default:
+        return (pathPrefix + 'cug_subject_stats_icon.svg');
+    }
+  }
+
   return (
     <>
       {(isOpen && !!subjectArea) && <LeftPannelModal
@@ -48,7 +60,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
               {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
-                <Image src="/static/assets/icons/course-details/wusca_ranking_stats_icon.svg" alt="academic-cap" width="32" height="32" />
+                <Image src={getStatsImgPath(rank?.ranking)} alt="academic-cap" width="32" height="32" />
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{rank?.ranking}</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">

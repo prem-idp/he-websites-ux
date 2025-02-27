@@ -29,12 +29,12 @@ export default function Cdpageclient({ children,data }: any) {
             {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 switch (sectionId) {
                     case 'courseInfo': return <div key={sectionId}>{children[0]}</div>;
-                    case 'modules': return <Modulescomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'tutionFees': return <TutionFeesComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} >{children[1]}</Latestreviewscomponents>;
-                    case 'uniInfo': return <UniInfoComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'modules': return <Modulescomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'tutionFees': return <TutionFeesComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} >{children[1]}</Latestreviewscomponents>;
+                    case 'uniInfo': return <UniInfoComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                 }
             })}
             <Othercoursesmaylikecomponents />
