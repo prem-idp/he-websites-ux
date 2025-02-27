@@ -11,6 +11,7 @@ const L2subjectList = ({
   appendSearchParams,
   containsSearchParam,
   slug,
+  urlParentSubject,
 }: any) => {
   return (
     <div

@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import ProviderResultsCard from "./provider-results-card/provider-results-card";
@@ -23,7 +23,9 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export async function constructPayload(searchparams: SearchParams = {}): Promise<Payload> {
+export async function constructPayload(
+  searchparams: SearchParams = {}
+): Promise<Payload> {
   //  const cookieStore = await cookies(); // Get cookies in App Router
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
@@ -47,29 +49,30 @@ export async function constructPayload(searchparams: SearchParams = {}): Promise
       payloads[key] = searchparams[key];
     }
   });
-  console.log("Construct Payload " + JSON.stringify(payloads));
   return payloads;
 }
 
 const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
-      method: "POST",
-      headers: {
-        "sitecode": "WU_WEB",
-        "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
-      },
-      body: JSON.stringify(payloads),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,
+      {
+        method: "POST",
+        headers: {
+          sitecode: "WU_WEB",
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+        },
+        body: JSON.stringify(payloads),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("API Response , " + data);
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -82,28 +85,27 @@ const transformProviderListData = (data: any) => {
     return [];
   }
 
-  return data.searchResultsList.flatMap((college: any) =>
-    Array.isArray(college.bestMatchCoursesList)
-      ? college.bestMatchCoursesList.map((course: any) => ({
-        collegeId: college.collegeId,
-        courseId: course.courseId,
-        pageName: 'PR',
-        title: course.courseTitle || "Unknown Title",
-        provideFav: false,
-        modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-        tagLocation: college.adminVenue || "Unknown Location",
-        points:
-          course.minUcasPoints && course.maxUcasPoints
-            ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-            : 0 - 0,
-      }))
-      : [] // Ensure an empty array if bestMatchCoursesList is missing
+  return data.searchResultsList.flatMap(
+    (college: any) =>
+      Array.isArray(college.bestMatchCoursesList)
+        ? college.bestMatchCoursesList.map((course: any) => ({
+            collegeId: college.collegeId,
+            courseId: course.courseId,
+            pageName: "PR",
+            title: course.courseTitle || "Unknown Title",
+            provideFav: false,
+            modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
+            tagLocation: college.adminVenue || "Unknown Location",
+            points:
+              course.minUcasPoints && course.maxUcasPoints
+                ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
+                : 0 - 0,
+          }))
+        : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
 
-
 const PrPageComponent = async ({ searchparams }: any) => {
-
   const data = await searchPRResults(searchparams); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
 
@@ -121,7 +123,6 @@ const PrPageComponent = async ({ searchparams }: any) => {
       label: "Search results",
     },
   ];
-
 
   return (
     <>

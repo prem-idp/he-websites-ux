@@ -15,7 +15,7 @@ const SelectedUniversity = ({
   const slug = pathname?.split("/");
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isUniversityOpen && id === selectedId ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isUniversityOpen && id === selectedId?.id ? "" : "hidden"}`}
     >
       {/* <ul className="flex flex-wrap gap-[8px] uppercase">
         <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
@@ -48,16 +48,21 @@ const SelectedUniversity = ({
         </div>
         <div className="flex flex-col gap-[12px]">
           <div className="small font-bold">{universityList?.sortingCat}</div>
+          <div className="small font-bold">{selectedId?.displayHeading}</div>
           <div className="flex flex-col gap-[12px]">
-            {universityList?.map((item: any, index: any) => (
-              <UniversityCheckBox
-                key={index + 1}
-                slug={slug}
-                formUrl={formUrl}
-                appendSearchParams={appendSearchParams}
-                item={item}
-              />
-            ))}
+            {universityList.length > 0 ? (
+              universityList?.map((item: any, index: any) => (
+                <UniversityCheckBox
+                  key={index + 1}
+                  slug={slug}
+                  formUrl={formUrl}
+                  appendSearchParams={appendSearchParams}
+                  item={item}
+                />
+              ))
+            ) : (
+              <p>No match found</p>
+            )}
           </div>
         </div>
       </div>

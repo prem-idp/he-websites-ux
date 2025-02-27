@@ -20,11 +20,7 @@ const SubjectCheckBox = ({
     const subject = localStorage?.getItem("parentSub");
     setIscurrentParent(subject);
   }, [searchparams]);
-  console.log(
-    iscurrentParent,
-    item?.parentSubject,
-    iscurrentParent !== item?.parentSubject
-  );
+
   return (
     <div className="flex items-start gap-[8px] form_check">
       <div className="checkbox_card">

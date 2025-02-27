@@ -838,7 +838,6 @@ const dt = {
 
 const getSrFilter = async (bodyjson: any): Promise<any> => {
   const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getSearchFilters`;
-  console.log(`${process.env.SITE_CODE}`);
   try {
     const response = await fetch(apiUrl, {
       method: "POST",

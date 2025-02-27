@@ -9,12 +9,15 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import { fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
-import { addRemoveFavourites, getUserFavourites } from "@packages/lib/utlils/userfavourite";
+import {
+  addRemoveFavourites,
+  getUserFavourites,
+} from "@packages/lib/utlils/userfavourite";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 
 interface SrPageResultPodProps {
   searchResultsData: any[];
-  subject:any;
+  subject: any;
 }
 interface FavoriteState {
   favoriteFlag: boolean;
@@ -26,74 +29,88 @@ interface Favourite {
   fav_date?: string;
   final_choice_id?: string | null;
   choice_position?: number | null;
-};
+}
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,subject
+  searchResultsData,
+  subject,
 }) => {
   const [userData, setUserData] = useState({});
- const [favouritesList, setFavouritesList] = useState<Favourite[]>([]); 
- const [favourite, setFavourite] = useState<{favouritedUni: number[] }>({favouritedUni: [] });
+  const [favouritesList, setFavouritesList] = useState<Favourite[]>([]);
+  const [favourite, setFavourite] = useState<{ favouritedUni: number[] }>({
+    favouritedUni: [],
+  });
   useEffect(() => {
     async function checkUser() {
-      try{
-      const user = await getCurrentUser();
-      console.log(user)
-      setUserData(user);  
-      if (user && typeof window !== 'undefined') {
-        console.log("fav call")
-        const favList = await getUserFavourites();      
-        setFavouritesList(favList)
-        console.log("favdata", favouritesList)
+      try {
+        const user = await getCurrentUser();
+        setUserData(user);
+        if (user && typeof window !== "undefined") {
+          const favList = await getUserFavourites();
+          setFavouritesList(favList);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch(error) {
-       console.log(error)
-    }
     }
     checkUser();
-  }, []); 
+  }, []);
   const [favoriteState, setFavoriteState] = useState<FavoriteState>({
     favoriteFlag: false,
-    isLoading: false
+    isLoading: false,
   });
   const [isfavouritesClicked, setIsfavouritesClicked] = useState(false);
   const universityPodClick = (navigationUrl: any) => {
     window.open(navigationUrl, "_self");
   };
   //
-  const handleFavourite = async(contentId: any,contentName:any,contentType:any,e: React.FormEvent) => {
+  const handleFavourite = async (
+    contentId: any,
+    contentName: any,
+    contentType: any,
+    e: React.FormEvent
+  ) => {
     e.stopPropagation();
-    if (userData === null ||  userData === "") {
-      console.log("not logged")
+    if (userData === null || userData === "") {
+      console.log("not logged");
       return;
     }
     const isAdd = !favourite.favouritedUni?.includes(contentId);
     if (isAdd) {
-        setFavourite((prevState) => ({ ...prevState, favouritedUni: [...prevState.favouritedUni, contentId] }));
+      setFavourite((prevState) => ({
+        ...prevState,
+        favouritedUni: [...prevState.favouritedUni, contentId],
+      }));
     } else {
-        setFavourite((prevState) => ({ ...prevState, favouritedUni: prevState.favouritedUni?.filter((id) => id !== contentId) }));
-    
+      setFavourite((prevState) => ({
+        ...prevState,
+        favouritedUni: prevState.favouritedUni?.filter(
+          (id) => id !== contentId
+        ),
+      }));
     }
     try {
       const payload = {
         contentType: contentType,
         contentId: contentId,
         contentName: contentName,
-        inputFlag: isAdd
+        inputFlag: isAdd,
       };
-     const data = await addRemoveFavourites([payload]);
-     console.log("FAV data", data)
-     
-      if (data?.message === 'Added course' || data?.message === 'Added Institution') {
+      const data = await addRemoveFavourites([payload]);
+      console.log("FAV data", data);
+
+      if (
+        data?.message === "Added course" ||
+        data?.message === "Added Institution"
+      ) {
         setIsfavouritesClicked(true);
-      } else if (data.message !== 'Limit exceeded') {
+      } else if (data.message !== "Limit exceeded") {
         setIsfavouritesClicked(false);
       }
     } catch (error) {
-      console.error('Error toggling favorite:', error);
-    } 
+      console.error("Error toggling favorite:", error);
+    }
   };
-
 
   const onClose = () => {
     setIsfavouritesClicked(!isfavouritesClicked);
@@ -152,11 +169,20 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
-                  ) : <></>}
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <div
-                  onClick={(event)=> handleFavourite(data?.collegeId,data?.collegeDisplayName,"INSTITUTION",event)}
-                  className={`${favouritesList?.some(fav => fav?.fav_id === data?.collegeId) || favourite.favouritedUni?.includes(data?.collegeId) ? 'heart active' : ''} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+                  onClick={(event) =>
+                    handleFavourite(
+                      data?.collegeId,
+                      data?.collegeDisplayName,
+                      "INSTITUTION",
+                      event
+                    )
+                  }
+                  className={`${favouritesList?.some((fav) => fav?.fav_id === data?.collegeId) || favourite.favouritedUni?.includes(data?.collegeId) ? "heart active" : ""} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"
@@ -455,7 +481,11 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
                         <Link
-                          href={process.env.PROJECT === "Whatuni" ? `/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}` : `/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`}
+                          href={
+                            process.env.PROJECT === "Whatuni"
+                              ? `/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`
+                              : `/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`
+                          }
                         >
                           <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
                             {courseData?.courseTitle}
@@ -500,7 +530,17 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <div onClick={(event)=> handleFavourite(courseData?.courseId,data?.collegeDisplayName,"COURSE",event)} className={`${favourite.favouritedUni?.includes(courseData?.courseId) ? 'heart active' : ''} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}>
+                      <div
+                        onClick={(event) =>
+                          handleFavourite(
+                            courseData?.courseId,
+                            data?.collegeDisplayName,
+                            "COURSE",
+                            event
+                          )
+                        }
+                        className={`${favourite.favouritedUni?.includes(courseData?.courseId) ? "heart active" : ""} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}
+                      >
                         <svg
                           width="20"
                           height="20"
@@ -569,24 +609,29 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       </div>
                     </div>
                     {/* pgs descrption */}
-                    {process.env.PROJECT === "PGS" && courseData?.courseSummary? (
-                    <div className="relative small text-grey500">
-                      <div className="line-clamp-2">
-                      courseData?.courseSummary
+                    {process.env.PROJECT === "PGS" &&
+                    courseData?.courseSummary ? (
+                      <div className="relative small text-grey500">
+                        <div className="line-clamp-2">
+                          courseData?.courseSummary
+                        </div>
+                        <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
+                          <span>... </span>
+                          <Link
+                            href=""
+                            className="text-blue-400 cursor-pointer hover:underline"
+                          >
+                            Read More
+                          </Link>
+                        </div>
                       </div>
-                      <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
-                        <span>... </span>
-                        <Link
-                          href=""
-                          className="text-blue-400 cursor-pointer hover:underline"
-                        >
-                          Read More
-                        </Link>
-                      </div>
-                    </div> ) : <></>}
+                    ) : (
+                      <></>
+                    )}
                     {/* pgs descrption */}
-                    
-                    { process.env.PROJECT === "Whatuni" && courseData?.modulesInfo ? (
+
+                    {process.env.PROJECT === "Whatuni" &&
+                    courseData?.modulesInfo ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
                           <div className="font-semibold">Year 1</div>
@@ -639,8 +684,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -657,7 +702,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            pageName:"browsemoneypageresults"
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -674,8 +719,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -692,8 +737,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -732,50 +777,50 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
         </div>
       ))}
       {/* {isfavouritesClicked && ( */}
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5] hidden">
+      <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5] hidden">
+        <div
+          onClick={onClose}
+          className="backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white"
+        ></div>
+        <div className="modal-box shadow-custom-6 w-[343px] md:w-[512px] p-[24px] bg-white rounded-[8px] fixed top-[30%] translate-y-[30%] left-0 right-0 mx-auto">
           <div
             onClick={onClose}
-            className="backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white"
-          ></div>
-          <div className="modal-box shadow-custom-6 w-[343px] md:w-[512px] p-[24px] bg-white rounded-[8px] fixed top-[30%] translate-y-[30%] left-0 right-0 mx-auto">
-            <div
-              onClick={onClose}
-              className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
+            className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  className="stroke-grey-400"
-                  d="M1 13L13 1M1 1L13 13"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <path
+                className="stroke-grey-400"
+                d="M1 13L13 1M1 1L13 13"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="review-modal-container flex flex-col gap-[16px]]">
+            <div className="mb-[4px] para-lg font-semibold">
+              Maximum number of favourites
             </div>
-            <div className="review-modal-container flex flex-col gap-[16px]]">
-              <div className="mb-[4px] para-lg font-semibold">
-                Maximum number of favourites
-              </div>
-              <p className="small text-grey-500">
-                You can only favourite a max of 30 unis and courses. Remove a
-                selection to add another
-              </p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="btn btn-primary w-fit mt-[24px] ml-auto"
-              >
-                Ok, got it
-              </button>
-            </div>
+            <p className="small text-grey-500">
+              You can only favourite a max of 30 unis and courses. Remove a
+              selection to add another
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn btn-primary w-fit mt-[24px] ml-auto"
+            >
+              Ok, got it
+            </button>
           </div>
         </div>
+      </div>
       {/* )} */}
       {/* <ResultSectionSkeleton/> */}
 

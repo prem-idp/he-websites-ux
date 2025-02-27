@@ -35,8 +35,8 @@ const getFilterPriority = (isQualification?: boolean) => {
     "page_no",
   ];
   const whatuniPrFilters = [
-    "subject",
     "university",
+    "subject",
     "study-level",
     "qualification",
     "location",
@@ -52,8 +52,8 @@ const getFilterPriority = (isQualification?: boolean) => {
     "pageno",
   ];
   const pgsPrFilters = [
-    "course",
     "university",
+    "course",
     "study_level",
     "qualification",
     "location",
@@ -196,6 +196,19 @@ const locationMilesArray = [
   { miles: "25 miles" },
   { miles: "50 miles" },
 ];
+const getUrlParentSubject = (searchParams: any, jsondata: any) => {
+  const sub = searchParams?.get("subject") || searchParams?.get("course") || "";
+  const arr = sub?.split(",");
+  const parents: any = arr?.map((selectedSub: string) => {
+    const getParent = jsondata?.subjectFilterList?.map((items: any) => {
+      if (selectedSub == items?.subjectTextKey) {
+        return items?.parentSubject;
+      }
+    });
+    return getParent?.filter(Boolean);
+  });
+  return parents?.flat()[0];
+};
 export {
   qualCode,
   locationMilesArray,
@@ -204,5 +217,6 @@ export {
   isSingleSelection,
   getDecodedCookie,
   getFilterPriority,
+  getUrlParentSubject,
   extractUrlAndCookieValues,
 };

@@ -16,7 +16,6 @@ const UniversityCheckBox = ({
       setIsUniSelected(true);
     }
   }, [searchparams]);
-  console.log(slug[1]);
   return (
     <div className="form_check relative">
       <div className="flex items-start gap-[8px]">
