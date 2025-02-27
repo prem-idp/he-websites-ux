@@ -1,7 +1,7 @@
-export function getMetaDetailsQueryForSRpage(seoFiledsName: string) {
+export function getMetaDetailsQueryForSRpage(seoFieldsName: string) {
     const query = `{
 pageSeoFieldsCollection(
-    where: {seoFieldsName: "${seoFiledsName}", website: {websiteName: "${process.env.PROJECT}"}}
+    where: {seoFieldsName: "${seoFieldsName}", website: {websiteName: "${process.env.PROJECT}"}}
 )
   {
     items
