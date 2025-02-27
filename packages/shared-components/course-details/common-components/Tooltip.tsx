@@ -9,9 +9,9 @@ const Tooltip = ({ heading, desc }: any) => {
             {heading && <span className="font-semibold tooltip-head">
                 {heading}
             </span>}
-            <p className="x-small">
+            {desc && <p className="x-small">
                 {desc}
-            </p>
+            </p>}
         </div>
     )
 }

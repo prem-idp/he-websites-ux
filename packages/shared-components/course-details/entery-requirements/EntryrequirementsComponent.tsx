@@ -1,11 +1,7 @@
-'use client'
+'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import Entryrequirementcard from './entryrequirementcard';
-import Clearingentryrequirementcard from './clearingentryrequirementcard';
-import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal'
+import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
 
 interface EntryrequirementsComponentProps {
   entryRequirements: any[];
@@ -13,7 +9,6 @@ interface EntryrequirementsComponentProps {
 
 const EntryrequirementsComponent = ({ entryRequirements }: EntryrequirementsComponentProps) => {
 
-  // entryRequirements = entryRequirements?.map((item: any, id: number) => ({ ...item, id }));
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEntryReq, setSelectedEntryReq] = useState(entryRequirements[0]);
 
