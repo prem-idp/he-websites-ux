@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Keystatscomponents from '../keystats/keystatscomponents'
 // import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
 import Reviewslidercomponents from '@packages/shared-components/common-utilities/slider/reviewslidercomponents'
@@ -11,6 +11,9 @@ interface CourseInfoComponentProps {
 }
 
 const CourseInfoComponent = ({ courseInfo, keyStats }: CourseInfoComponentProps) => {
+
+  const [isReadMore, setIsReadMore] = useState(false);
+
   return (
     <>
       <div className='courseinfo-container'>
@@ -20,15 +23,17 @@ const CourseInfoComponent = ({ courseInfo, keyStats }: CourseInfoComponentProps)
             <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
               <div className='flex flex-col items-start gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
                 <div className='rtf-innerstyle flex flec-col gap-[16px]'>
-                  <p className='para font-normal line-clamp-3'>{courseInfo?.courseSummary}</p>
+                  <p className={`para font-normal ${isReadMore ? "" : "line-clamp-3"}`}>{courseInfo?.courseSummary}</p>
                 </div>
-                <div className='small font-semibold text-primary-400 hover:underline cursor-pointer'>+ Read more</div>
+                <div className='small font-semibold text-primary-400 hover:underline cursor-pointer'
+                  onClick={() => setIsReadMore((prev) => !prev)}>{isReadMore ? "- Read less" : "+ Read more"}
+                </div>
               </div>
               {/* Keystats */}
               <div className='px-[16px] md:px-[20px] xl:px-[0]'>
-                <Keystatscomponents {...keyStats}/>
+                <Keystatscomponents {...keyStats} />
               </div>
-              {/* -- */}
+              {/* Keystats */}
               <div className='latest-reviews flex flex-col gap-[16px] mt-[8px] '>
                 <div className='card-header flex flex-col gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
                   <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-[8px]'>

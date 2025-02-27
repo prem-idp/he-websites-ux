@@ -58,7 +58,7 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
                         </div>
                         <div className='select-subject-card pr-[16px] custom-scrollbar-2 overflow-y-auto h-[calc(100vh_-_156px)]'>
                             <ul>
-                                {itemList?.map((item:any,index:any) => <li key={index} className='flex justify-between items-center gap-[16px] border-b border-b-grey400 pb-[16px] mb-[16px]'>
+                                {itemList?.map((item, idx: number) => <li key={idx} className='flex justify-between items-center gap-[16px] border-b border-b-grey400 pb-[16px] mb-[16px]'>
                                     <span className='small font-semibold text-grey300 line-clamp-1'>{item?.[matchKey]}</span>
                                     <div className='modal-select'>
                                         <div className='form_check'>

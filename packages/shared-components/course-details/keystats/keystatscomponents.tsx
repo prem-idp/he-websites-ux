@@ -3,13 +3,12 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-import { subjectItems } from './../../services/carouselContents';
+import { useState } from 'react';
 import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
 import Tooltip from './Tooltip';
-import { ordinarySuffix } from '@packages/lib/utlils/commonFunction'
+import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction'
 
-const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
+const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
 
   const [selectedSubject, setSelectedSubject] = useState(subjectArea[0]);
   const [isOpen, setIsOpen] = useState(false)
@@ -47,12 +46,12 @@ const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
           </div>
           <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
             {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
-              <Image src="assets/icons/course-details/wusca_ranking_stats_icon.svg" alt="academic-cap" width="32" height="32" />
+              <Image src="/static/assets/icons/course-details/wusca_ranking_stats_icon.svg" alt="academic-cap" width="32" height="32" />
               <div className="flex flex-col gap-[4px] *:text-white">
                 <div className="para-lg font-semibold">{rank?.ranking}</div>
                 <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">
                   {rank?.totalRank ? (rank?.rank + "/" + rank?.totalRank) : ordinarySuffix(rank?.rank)}
-                  <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                  <Tooltip heading={rank?.toolTipHeading} desc={rank?.source} />
                 </div>
               </div>
             </div>)}
@@ -100,7 +99,7 @@ const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
             {!!selectedSubject?.salary6MonthsAtUni && <div className="course-highlight__option flex items-start">
               <div className="flex flex-col gap-[4px] *:text-white">
                 <div className="para-lg font-semibold">{selectedSubject?.subjectName} graduate salary at this uni</div>
-                <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{selectedSubject?.salary6MonthsAtUni}
+                <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6MonthsAtUni)}
                   <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
                 </div>
               </div>
@@ -108,7 +107,7 @@ const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
             {!!selectedSubject?.salary6Months && <div className="course-highlight__option flex items-start">
               <div className="flex flex-col gap-[4px] *:text-white">
                 <div className="para-lg font-semibold">UK {selectedSubject?.subjectName} graduate salary</div>
-                <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{selectedSubject?.salary6Months}
+                <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6Months)}
                   <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
                 </div>
               </div>
@@ -118,8 +117,8 @@ const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
         <div className='keystats-inner-row'>
           <div className='flex items-center gap-[4px] *:text-x-small *:font-semibold *:tracking-[1px]'>
             <div className='text-white'>SOURCE:</div>
-            <Link href='#' className='uppercase text-white underline'>UNISTATS,</Link>
-            <Link href='#' className='uppercase text-white underline'>UCAS / HESA</Link>
+            <Link href='/degrees/jsp/search/kisdataStatic.jsp' className='uppercase text-white underline'>UNISTATS,</Link>
+            <Link href='/degrees/jsp/search/kisdataStatic.jsp' className='uppercase text-white underline'>UCAS / HESA</Link>
           </div>
         </div>
       </div>
@@ -127,4 +126,4 @@ const KeyStatesComponent = ({ subjectArea, uniRankings }: any) => {
   )
 }
 
-export default KeyStatesComponent;
+export default KeyStatsComponent;
