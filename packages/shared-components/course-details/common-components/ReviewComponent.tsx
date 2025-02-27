@@ -2,10 +2,11 @@ import Reviewslidercomponents from "@packages/shared-components/common-utilities
 
 interface ReviewComponentProps {
     heading: string,
-    toggleModal?: () => void
+    toggleModal?: () => void,
+    children:any
 }
 
-const ReviewComponent = ({ heading, toggleModal }: ReviewComponentProps) => {
+const ReviewComponent = ({ heading, toggleModal,children }: ReviewComponentProps) => {
     return (
         <div className='latest-reviews flex flex-col gap-[16px]'>
             <div className='card-header flex flex-col gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
@@ -18,7 +19,8 @@ const ReviewComponent = ({ heading, toggleModal }: ReviewComponentProps) => {
                     </div>}
                 </div>
             </div>
-            <Reviewslidercomponents reviewData={[]} />
+            {/* <Reviewslidercomponents reviewData={[]} /> */}
+            {children}
             <div className='flex justify-center mt-[4px]'>
                 <a href='#' className='flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]'>
                     Read all reviews

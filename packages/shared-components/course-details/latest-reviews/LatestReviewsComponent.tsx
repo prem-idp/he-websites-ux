@@ -12,7 +12,7 @@ interface LatestReviewsComponentProps extends CourseSection {
   
 }
 
-const LatestReviewsComponent = ({  sectionId, sectionName }: LatestReviewsComponentProps) => {
+const LatestReviewsComponent = ({  sectionId, sectionName,children }: LatestReviewsComponentProps) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
@@ -45,7 +45,8 @@ const LatestReviewsComponent = ({  sectionId, sectionName }: LatestReviewsCompon
             <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>{sectionName}</div>
             <div className='flex flex-col gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
               <OverallRating />
-              <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} />
+              <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} >{children}</ReviewComponent>
+              
             </div>
           </div>
         </div>

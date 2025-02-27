@@ -2,7 +2,7 @@ import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-
+import Reviewscomponents from '@packages/shared-components/common-utilities/slider/reviews/reviewscomponents';
 export default async function Cdpage({ params }: any) {
 
   const prams_slug = await params;
@@ -43,6 +43,7 @@ export default async function Cdpage({ params }: any) {
       </section>
       <Cdpageclient data={data} >
       <Courseinfocomponents {...data} />
+      <Reviewscomponents/>
       </Cdpageclient>
       
     </>
