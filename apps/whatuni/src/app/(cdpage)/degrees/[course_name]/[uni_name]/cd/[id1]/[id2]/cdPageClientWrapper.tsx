@@ -17,7 +17,7 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 // import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState } from 'react';
-export default function Cdpageclient({ children,data }: any) {
+export default function Cdpageclient({ children,data,jsonResponse }: any) {
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     console.log(fetcheddata,"fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
     return (
@@ -28,12 +28,12 @@ export default function Cdpageclient({ children,data }: any) {
             <Jumptocomponents data={data} />
             {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 switch (sectionId) {
-                    case 'courseInfo': return <div key={sectionId}>{children[0]}</div>;
+                    case 'courseInfo': return <div key={sectionId}>{children}</div>;
                     case 'modules': return <Modulescomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                     case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                     case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                     case 'tutionFees': return <TutionFeesComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} >{children[1]}</Latestreviewscomponents>;
+                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} fetcheddata={fetcheddata} jsonResponse={jsonResponse}/>;
                     case 'uniInfo': return <UniInfoComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                 }
             })}

@@ -2,7 +2,11 @@ import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-import Reviewscomponents from '@packages/shared-components/common-utilities/slider/reviews/reviewscomponents';
+
+
+import { reviewPayload } from "@packages/lib/api-payloads/payloads";
+import getApiUrl from "@packages/REST-API/api-urls";
+import makeApiCall from "@packages/REST-API/rest-api";
 export default async function Cdpage({ params }: any) {
 
   const prams_slug = await params;
@@ -24,7 +28,18 @@ export default async function Cdpage({ params }: any) {
   });
   const data = await cdpagedata.json();
   console.log(data,"data from the cdpage")
+
   // --------------------------------------------------------------------------------------------------------------------------------------
+  // -----------------------------------------------initial course review fetch------------------------------------------------------------
+  const jsonResponse = await makeApiCall(
+    getApiUrl?.homePageReviews,
+    "POST",
+    null,
+    null,
+    reviewPayload
+  );
+  // --------------------------------------------------------------------------------------------------------------------------------------
+
   const customLabels = [
     "degrees",
     "",
@@ -41,11 +56,9 @@ export default async function Cdpage({ params }: any) {
           <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
         </div>
       </section>
-      <Cdpageclient data={data} >
+      <Cdpageclient data={data} jsonResponse={jsonResponse}>
       <Courseinfocomponents {...data} />
-      <Reviewscomponents/>
       </Cdpageclient>
-      
     </>
   )
 }

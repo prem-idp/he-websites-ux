@@ -8,12 +8,13 @@ import OverallRating from './OverallRating';
 import LeftPannelModal from '../Modal/LeftPannelModal';
 import { CourseSection } from '../models/course.model';
 
-interface LatestReviewsComponentProps extends CourseSection {
+// interface LatestReviewsComponentProps extends CourseSection {
   
-}
+// }
 
-const LatestReviewsComponent = ({  sectionId, sectionName,children }: LatestReviewsComponentProps) => {
+const LatestReviewsComponent = ({ key,fetcheddata ,jsonResponse}:any) => {
 
+  const {sectionId,sectionName}=fetcheddata;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
   
@@ -26,7 +27,6 @@ const LatestReviewsComponent = ({  sectionId, sectionName,children }: LatestRevi
       return
     setSelectedSubject(() => item[0]);
   }
-
   return (
     <>
       {(isOpen) && <LeftPannelModal
@@ -45,7 +45,7 @@ const LatestReviewsComponent = ({  sectionId, sectionName,children }: LatestRevi
             <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>{sectionName}</div>
             <div className='flex flex-col gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
               <OverallRating />
-              <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} >{children}</ReviewComponent>
+              <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} jsonResponse={jsonResponse}/>
               
             </div>
           </div>
