@@ -26,13 +26,13 @@ export default function Cdpageclient({ data }: any) {
             <Jumptocomponents data={data} />
             {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 switch (sectionId) {
-                    case 'courseInfo': return <Courseinfocomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'modules': return <Modulescomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'tutionFees': return <TutionFeesComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
-                    case 'uniInfo': return <UniInfoComponent key={sectionId} section={{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'courseInfo': return <Courseinfocomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'modules': return <Modulescomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'entryRequirements': return <EntryrequirementsComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'tutionFees': return <TutionFeesComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'latestReviews': return <Latestreviewscomponents key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                    case 'uniInfo': return <UniInfoComponent key={sectionId} {...{ sectionName, sectionId }} {...fetcheddata} />;
                 }
             })}
             <Othercoursesmaylikecomponents />

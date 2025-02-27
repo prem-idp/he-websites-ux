@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react';
 import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
+import { CourseSection } from '../models/course.model';
 
-interface EntryrequirementsComponentProps {
+interface EntryrequirementsComponentProps extends CourseSection {
   entryRequirements: any[];
 }
 
-const EntryrequirementsComponent = ({ entryRequirements }: EntryrequirementsComponentProps) => {
+const EntryrequirementsComponent = ({ sectionId, sectionName, entryRequirements }: EntryrequirementsComponentProps) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEntryReq, setSelectedEntryReq] = useState(entryRequirements[0]);
@@ -34,10 +35,10 @@ const EntryrequirementsComponent = ({ entryRequirements }: EntryrequirementsComp
         onClose={togglemodal}
         onApply={changeEntryReq}
       />}
-      <div className='entryreq-container'>
+      <div id={sectionId} className='entryreq-container'>
         <div className="max-w-container mx-auto">
           <div className='entryreq-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-            <div className='h5 w-full md:w-[289px]'>Entry requirements</div>
+            <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
             <div className='flex w-full lg:w-[calc(100%_-_309px)]'>
               <div className='card flex flex-col gap-[10px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
                 <div className='card-header'>

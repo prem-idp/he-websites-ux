@@ -5,9 +5,13 @@ import Image from 'next/image'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
+import { CourseSection } from '../models/course.model';
 
+interface UniInfoComponentProps extends CourseSection {
+  uniInfo: any
+}
 
-const UniInfoComponent = ({ uniInfo }: any) => {
+const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentProps) => {
 
   const { awards, location } = uniInfo;
 
@@ -29,7 +33,7 @@ const UniInfoComponent = ({ uniInfo }: any) => {
           center: [location.longitude, location.latitude]
         });
         // Add zoom and rotation controls to the map.
-        mapRef.current.addControl(new mapboxgl.NavigationControl());
+        mapRef.current.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
         // Add marker after map loads
         mapRef.current.on('load', () => {
@@ -58,10 +62,10 @@ const UniInfoComponent = ({ uniInfo }: any) => {
   }, []);
 
   return (
-    <div className='uni-info-container'>
+    <div id={sectionId} className='uni-info-container'>
       <div className="max-w-container mx-auto">
         <div className='uni-info-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-          <div className='h5 w-full md:w-[289px]'>Uni info</div>
+          <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
           <div className='flex flex-col gap-[16px] md:gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
             <div className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
