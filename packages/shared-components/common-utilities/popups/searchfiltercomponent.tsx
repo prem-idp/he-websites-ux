@@ -19,7 +19,7 @@ import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/sel
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
 import { getUrlParentSubject } from "@packages/lib/utlils/filters/result-filters";
 const SearchFilterComponent = ({ jsondata, path }: any) => {
-  //console.log(jsondata);
+  console.log(jsondata);
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -621,7 +621,9 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                   </div>
                   <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
                     <div
-                      className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}`}
+                      className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
+                      ${isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
+                      `}
                     >
                       {ParentSubject?.map((item: any, index: any) => (
                         <div
@@ -650,9 +652,9 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       ))}
                     </div>
                     <div
+                      // ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
                       className={`
                       bg-white transition-all duration-300 ease-in-out
-                      ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
                       `}
                     >
                       <L2subjectList
@@ -664,6 +666,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         slug={slug}
                         appendSearchParams={appendSearchParams}
                         containsSearchParam={containsSearchParam}
+                        jsondata={jsondata?.subjectFilterList}
                       />
                     </div>
                   </div>

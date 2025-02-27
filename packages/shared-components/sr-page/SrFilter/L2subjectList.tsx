@@ -12,7 +12,9 @@ const L2subjectList = ({
   containsSearchParam,
   slug,
   urlParentSubject,
+  jsondata,
 }: any) => {
+  console.log(selectedSubject);
   return (
     <div
       className={`flex flex-col gap-[16px] ${isSubjectOpen ? "" : "hidden"}`}
@@ -87,22 +89,20 @@ const L2subjectList = ({
           <div className="small font-bold">
             {selectedSubject?.ParentSubject}
           </div>
-          {selectedSubject?.SubjectList && (
-            <div className="flex flex-col gap-[12px]">
-              {selectedSubject?.SubjectList?.map((item: any, index: any) => (
-                <div className="form_check relative" key={index + 1}>
-                  <SubjectCheckBox
-                    item={item}
-                    formUrl={formUrl}
-                    isIndexed={isIndexed}
-                    appendSearchParams={appendSearchParams}
-                    state={containsSearchParam("subject", item?.subjectTextKey)}
-                    slug={slug}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-col gap-[12px]">
+            {jsondata?.map((item: any, index: any) => (
+              <SubjectCheckBox
+                key={index + 1}
+                item={item}
+                formUrl={formUrl}
+                isIndexed={isIndexed}
+                appendSearchParams={appendSearchParams}
+                state={containsSearchParam("subject", item?.subjectTextKey)}
+                slug={slug}
+                parent={selectedSubject?.ParentSubject}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
