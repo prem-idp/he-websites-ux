@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Keystatscomponents from '../keystats/KeyStatsComponent';
+import Keystatscomponents from './KeyStatsComponent';
 import ReviewComponent from '../common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
 
