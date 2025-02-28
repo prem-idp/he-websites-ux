@@ -2,8 +2,8 @@ import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-
-
+import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
+import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import getApiUrl from "@packages/REST-API/api-urls";
 import makeApiCall from "@packages/REST-API/rest-api";
@@ -56,7 +56,9 @@ export default async function Cdpage({ params }: any) {
           <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
         </div>
       </section>
-      <Cdpageclient data={data} jsonResponse={jsonResponse}>
+      <Courseheaderinfocomponents data={data} />
+      <Yearofentrycomponents />
+      <Cdpageclient data={data} jsonResponse={jsonResponse} prams_slug={prams_slug} >
       <Courseinfocomponents {...data} />
       </Cdpageclient>
     </>

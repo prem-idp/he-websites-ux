@@ -5,19 +5,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Courseinfomodalcomponents from "@packages/shared-components/course-details/Modal/courseinfomodalcomponents"
 import { useState } from 'react'
-const Courseoptionscomponents = ({data}:any) => {
+const Courseoptionscomponents = ({data,setFetcheddata,setSelectedavailability,selectedavilability}:any) => {
    console.log(data)
   const [isOpen,setIsOpen]=useState(false)
   function togglemodal(){
     setIsOpen((prev)=>!prev)
   }
-  
-const [selectedavilability,setSelectedavailability]=useState({...data?.courseInfo?.availability[0]})
+  console.log("rerendereing")
+// const [selectedavilability,setSelectedavailability]=useState({...data?.courseInfo?.availability[0]})
 
   return (
 
     <>
-    {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability}/>}
+    {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability} setFetcheddata={setFetcheddata}/>}
     <section className='bg-primary-50 border-b border-primary-100'>
     <div className="max-w-container mx-auto">
       <div className='card-container flex flex-col gap-[24px] py-[24px] px-[16px] md:px-[20px] lg:px-[0]'>
