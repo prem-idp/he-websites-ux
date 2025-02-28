@@ -50,7 +50,7 @@ const SelectedUniversity = ({
           <div className="small font-bold">{universityList?.sortingCat}</div>
           <div className="small font-bold">{selectedId?.displayHeading}</div>
           <div className="flex flex-col gap-[12px]">
-            {universityList.length > 0 ? (
+            {universityList?.length > 0 ? (
               universityList?.map((item: any, index: any) => (
                 <UniversityCheckBox
                   key={index + 1}

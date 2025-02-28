@@ -218,18 +218,18 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       let totalValues = 0;
       Object.entries(orderedFilters).forEach(([k, v]) => {
         const valuesArray = v.split(",");
-        if (totalValues + valuesArray.length <= 4) {
-          urlParams.set(k, valuesArray.join(","));
-          totalValues += valuesArray.length;
+        if (totalValues + valuesArray?.length <= 4) {
+          urlParams.set(k, valuesArray?.join(","));
+          totalValues += valuesArray?.length;
         } else {
           const allowedValues = valuesArray.slice(0, 4 - totalValues);
           const remainingValues = valuesArray.slice(4 - totalValues);
-          if (allowedValues.length > 0) {
-            urlParams.set(k, allowedValues.join(","));
-            totalValues += allowedValues.length;
+          if (allowedValues?.length > 0) {
+            urlParams.set(k, allowedValues?.join(","));
+            totalValues += allowedValues?.length;
           }
-          if (remainingValues.length > 0) {
-            cookieParams[k] = remainingValues.join(",");
+          if (remainingValues?.length > 0) {
+            cookieParams[k] = remainingValues?.join(",");
           }
         }
       });
@@ -287,13 +287,13 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     const urlParams = new URLSearchParams();
     let totalValues = 0;
     const a = Object.fromEntries(searchParams.entries());
-    const count = Object.keys(a).length;
+    const count = Object.keys(a)?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
       if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
           urlParams.set(k, valuesArray.join(","));
-          totalValues += valuesArray.length;
+          totalValues += valuesArray?.length;
         }
       }
     });
@@ -531,7 +531,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                     </div>
                   </div>
                 )}
-                {jsondata?.qualificationList.length > 0 && (
+                {jsondata?.qualificationList?.length > 0 && (
                   <div className="flex flex-col gap-[4px]">
                     <div className="text-para-lg font-semibold">
                       Study level
@@ -688,8 +688,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
               </div>
               {/* <SubjectSkeleton/> */}
             </Accordion>
-            {(jsondata?.intakeYearDetails?.intakeYearList.length > 0 ||
-              jsondata?.intakeYearDetails?.intakeMonthList.length > 0) && (
+            {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
+              jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
               <Accordion
                 id="#year"
                 title="Intake year"
