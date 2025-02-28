@@ -45,7 +45,7 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
                   />
                   {rating}
                 </span>
-                <Link href="#" className="underline ">
+                <Link href={`https://www.whatuni.com/university-course-reviews/${college.collegeTextKey.toLowerCase().replace(/\s+/g, "-")}/${college.collegeId}`} className="underline ">
                   {reviewCount} reviews
                 </Link>
               </div>
