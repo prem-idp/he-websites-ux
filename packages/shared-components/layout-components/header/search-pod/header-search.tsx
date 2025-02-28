@@ -18,7 +18,6 @@ export default function Search({
   uni_data,
   universalSearchPanel,
 }: any) {
-  //console.log(universalSearchPanel);
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
@@ -134,7 +133,6 @@ export default function Search({
                     data={course_data}
                     searchFormHandle={searchFormHandle}
                     setsearchFormHandle={setsearchFormHandle}
-                    showlocation={true}
                   />
                   {ucaspoint ? (
                     <div className="flex items-center justify-center small">

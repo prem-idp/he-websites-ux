@@ -1,5 +1,6 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
+import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
 const TopSection = () => {
   const breadcrumbData = [
     {
@@ -37,6 +38,7 @@ const TopSection = () => {
             <p>000 universities offer 1563 courses</p>
           </div>
           {/* end subject */}
+          {/* <TopSectionSkeleton/> */}
         </div>
       </section>
       {/* end breadcrumb and subject*/}

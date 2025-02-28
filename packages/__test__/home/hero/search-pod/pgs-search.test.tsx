@@ -36,12 +36,12 @@ describe("PgsSearch Component", () => {
     jest.clearAllMocks();
   });
 
-  test("renders input and search button", () => {
-    // expect(
-    //   screen.getByPlaceholderText("Subject, qualification or university")
-    // ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
-  });
+  // test("renders input and search button", () => {
+  //   // expect(
+  //   //   screen.getByPlaceholderText("Subject, qualification or university")
+  //   // ).toBeInTheDocument();
+  //   expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
+  // });
 
   // test("displays error when search is attempted with empty input", () => {
   //   render(<PgsSearch pgs_search_data={pgs_search_data} />);

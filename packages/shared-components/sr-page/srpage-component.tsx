@@ -12,36 +12,25 @@ import SrPageResultPod from "@packages/shared-components/sr-page/result-pod/resu
 import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
-import searchResultsFetchFunction from "@packages/lib/server-actions/server-action";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { headers } from "next/headers";
-import { getQualCode, getSearchPayload } from "../services/utils";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
-
-const SearchResultComponent = async ({ searchparams, pathname }: any) => {
-  //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
-  // const filterCookie = getCookieValue("filter_param");
-  //const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  //console.log("query" + pathname);
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const pathnameArray = referer?.split?.("/");
+import { cookies, headers } from "next/headers";
+import { getSearchPayload } from "../services/utils";
+import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
+import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+const SearchResultComponent = async ({ searchparams }: any) => {
+  const cookieStore = await cookies();
+  const pathname =
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  console.log("refe", pathname);
   let searchResultsData;
-  let filterCookieParam;
-  if (typeof document !== "undefined") {
-    const filterCookieParam = JSON.parse(
-      getDecodedCookie("filter_param") || "{}"
-    );
-  }
+  const filterCookieParam = cookieStore?.get("filter_param");
+
   try {
     searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathnameArray?.[3]?.split?.("-")?.[0]
-      )
+      getSearchPayload(searchparams, filterCookieParam, pathname)
     );
-
   } catch (error) {
     console.log("error", error);
   }
@@ -49,24 +38,26 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   return (
     <>
       <TopSection />
-      <Suspense>
-        <SearchFilterButtons />
-        <SearchLabels />
-      </Suspense>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
         </Suspense>
       ) : (
         <></>
       )}
+
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
+          <SortingFilter sortParam={{ param: searchparams }} />
           {searchResultsData?.searchResultsList ? (
             <>
-              <GradeBanner />
-              <SortingFilter sortParam={searchparams?.sort} />
+              {process.env.PROJECT === "Whatuni" &&
+              pathname !== "postgraduate-courses" ? (
+                <GradeBanner />
+              ) : (
+                <></>
+              )}
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -77,12 +68,14 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
               )}
               <SrPageResultPod
                 searchResultsData={searchResultsData?.searchResultsList}
+                subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
-                <Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
-                />
+                // <Paginations
+                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                //   currentPage={searchparams?.pageNo || 1}
+                // />
+                <></>
               ) : (
                 <></>
               )}
@@ -102,6 +95,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
               <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
                 <ExploreArticles />
                 <ExploreArticles />
+                {/* <Explorearticelskeleton/> */}
               </div>
             </div>
           </section>

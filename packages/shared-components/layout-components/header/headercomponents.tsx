@@ -14,6 +14,8 @@ import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
 import optimizedSearch from "@packages/REST-API/optimizedsearch"
 import { signOut } from "aws-amplify/auth";
+import { getCookieValue } from "@packages/lib/utlils/commonFunction";
+import eventEmitter from "@packages/lib/eventEmitter/eventEmitter";
 
 interface props {
   topnav_data: any;
@@ -53,7 +55,20 @@ const Header = ({ topnav_data }: props) => {
 
     return initials;
   };
+  const [favouriteCookie, setfavouriteCookie] = useState(getCookieValue("USER_FAV_BASKET_COUNT") || 0);
 
+  useEffect(() => {
+    const updateFavourite = (newValue:any) => {
+      console.log("from fav", newValue)
+      setfavouriteCookie(newValue);
+    };
+
+    eventEmitter.on("favouriteCookieUpdated", updateFavourite);
+    return () => {
+      eventEmitter.off("favouriteCookieUpdated", updateFavourite);
+    };
+   
+  }, []);
   // =============================================================initial fetch===============================================================================
   useEffect(() => {
     const fetchData = async () => {
@@ -115,6 +130,7 @@ const Header = ({ topnav_data }: props) => {
       fetchData();
     }
   }, [startfetch]);
+  
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
@@ -127,6 +143,7 @@ const Header = ({ topnav_data }: props) => {
           //console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
+          localStorage?.removeItem("resultSubmit");
           document.cookie =
             "wcache=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
           document.cookie = `Signinonetap=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict`;
@@ -505,7 +522,7 @@ const Header = ({ topnav_data }: props) => {
                   </span>
                   {isAuthenticated === "true" && (
                     <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
-                      {basketCount}
+                      {favouriteCookie || basketCount}
                     </div>
                   )}
                 </a>

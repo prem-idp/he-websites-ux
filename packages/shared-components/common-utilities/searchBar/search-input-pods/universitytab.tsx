@@ -23,7 +23,6 @@ const UniversityTab: React.FC<UniversityTabProps> = ({
   data,
   placeholder,
 }) => {
-  //console.log(data, "props of th euniversi");
   const router = useRouter();
   const [dropdownIndex, setdropdownIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement | null>(null);

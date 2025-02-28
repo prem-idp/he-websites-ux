@@ -6,51 +6,66 @@ import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import {
   getFilterPriority,
-  checkIfUrlIndex,
-} from "@packages/lib/utlils/result-filters";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/result-filters";
-const SearchFilterComponent = ({ jsondata }: any) => {
+  isSingleSelection,
+} from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
+import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjectcheckBox";
+import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters";
+import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
+import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
+import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
+import { getUrlParentSubject } from "@packages/lib/utlils/filters/result-filters";
+const SearchFilterComponent = ({ jsondata, path }: any) => {
+  console.log(jsondata);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [slug, setslug] = useState(path || "degree-courses/search");
+  const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const [isIndexed, setIsIndexed] = useState(true);
-  useEffect(() => {
-    const value = checkIfUrlIndex(searchParams);
-    setIsIndexed(value);
-  }, [searchParams]);
-
-  const appliedFilters = {
-    year: searchParams?.get("year")?.split(","),
-    month: searchParams?.get("month")?.split(","),
-    location: searchParams?.get("location")?.split(","),
-    ucasDcore: searchParams?.get("score")?.split(","),
-    university: searchParams?.get("university")?.split(","),
-    campusType: searchParams?.get("campus-type")?.split(","),
-    qualification: searchParams?.get("qualification")?.split(","),
-    studyMethod: searchParams?.get("study-method")?.split(","),
-    locationType: searchParams?.get("location-type")?.split(","),
-    russellGroup: searchParams?.get("russell-group")?.split(","),
-    employmentRateMin: searchParams?.get("employment-rate-min")?.split(","),
-    employmentRateMax: searchParams?.get("employment-rate-max")?.split(","),
-    studyMode:
-      searchParams?.get("study-mode")?.split(",") ||
-      searchParams?.get("study_mode")?.split(","),
-    pageNo:
-      searchParams?.get("pageno")?.split(",") || searchParams?.get("page_no"),
-    subject:
-      searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
-  };
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState({
+    ParentSubject: "",
+    SubjectList: "",
+  });
+
   const [selectedFilter, SetselectedFilter] = useState<
     null | undefined | string
   >(null);
+
+  const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
+  useEffect(() => {
+    setPrepopulateFilter({
+      studyMethod:
+        searchParams?.get("study-method") ||
+        searchParams?.get("study_method") ||
+        "",
+      studyMode:
+        searchParams?.get("study-mode") ||
+        searchParams?.get("study_mode") ||
+        "",
+      year: searchParams?.get("year") || "",
+      month: searchParams?.get("month") || "",
+    });
+    const value = isSingleSelection(searchParams);
+
+    setIsIndexed(value);
+    if (pathname) {
+      setslug(pathname);
+    }
+  }, [searchParams, router]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
-      const element = document.getElementById(`#${eventName}`);
+      if (typeof document === "undefined") {
+        return "";
+      }
+
+      const element = document?.getElementById(`#${eventName}`);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -65,59 +80,73 @@ const SearchFilterComponent = ({ jsondata }: any) => {
     };
   }, [isFilterOpen]);
 
-  const subjectClicked = () => {
-    setIsSubjectOpen(!isSubjectOpen);
-  };
-  const subjectArea = [
-    "Agriculture and Related subjects",
-    "Architecture, Building, and Planning",
-    "Biological and Life Sciences",
-    "Business, Commerce and Management",
-    "Creative Arts and Design",
-    "Education and Teaching",
-    "Engineering and Technology",
-    "Food and Hospitality",
-    "Forensic Sciences",
-    "Humanities and the Arts",
-    "Languages, Literature and Area Studies",
-  ];
-
-  const law = [
-    "ALL Biological and Life Sciences",
-    "Life sciences",
-    "Biology",
-    "Biomedical Sciences",
-    "Biosciences",
-    "Ecology and environmental biology",
-  ];
-
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
-  const universityClicked = () => {
-    setIsUniversityOpen(!isUniversityOpen);
+  const [selectUniId, setSelectUniId] = useState<any>("");
+
+  const universitiesSortingList: any = () => {
+    const listvalue: any[] = [];
+    [
+      {
+        id: "Uni1",
+        name: "Universities A - C",
+        sortingValue: "A-B-C",
+        displayHeading: "A - C",
+        unilist: [],
+      },
+      {
+        id: "Uni2",
+        name: "Universities D - H",
+        sortingValue: "D-E-F-G-H",
+        displayHeading: "D - H",
+        unilist: [],
+      },
+      {
+        id: "Uni3",
+        name: "Universities I - M",
+        sortingValue: "I-J-K-L-M",
+        displayHeading: "I - M",
+        unilist: [],
+      },
+      {
+        id: "Uni4",
+        name: "Universities N - P",
+        sortingValue: "N-O-P-Q-P",
+        displayHeading: "N - P",
+        unilist: [],
+      },
+      {
+        id: "Uni5",
+        name: "Universities Q - U",
+        sortingValue: "Q-R-S-T-U",
+        displayHeading: "Q - U",
+        unilist: [],
+      },
+      {
+        id: "Uni6",
+        name: "Universities V - Z",
+        sortingValue: "V-W-X-Y-Z",
+        displayHeading: "V - Z",
+        unilist: [],
+      },
+    ].map((item: any) => {
+      item.unilist = jsondata?.universityFilterList?.filter(
+        (collegeItem: any) => {
+          const regex = new RegExp(`^[${item.sortingValue}]`, "i");
+          return regex.test(collegeItem?.collegeName);
+        }
+      );
+      listvalue.push(item);
+    });
+    return listvalue;
   };
-  const universities = [
-    "Universities A - C",
-    "Universities D - H",
-    "Universities I - M",
-    "Universities N - P",
-    "Universities Q - U",
-    "Universities V - Z",
-  ];
 
-  const universityList = [
-    "Aberystwyth University ",
-    "Acacia Learning",
-    "Academy Of Contemporary Music",
-    "Accrington And Rossendale College",
-    "Activate Learning",
-    "Aecc University College",
-    "Al-Maktoum College Of Higher Education",
-    "Amersham And Wycombe College",
-    "Amity Business School London",
-    "Anglia Ruskin University Aru",
-    "Architectural Association School Of Architecture",
-  ];
+  const universitiesList = universitiesSortingList();
 
+  const universityClicked = (displayHeading: string, id: string) => {
+    setIsUniversityOpen(!isUniversityOpen);
+    setSelectUniId({ id, displayHeading });
+  };
+  console.log(universitiesList);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -149,14 +178,38 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-
   let isUpdating = false;
-  const appendSearchParams = async (key: string, value: string) => {
+  const appendSearchParams = async (
+    key: string,
+    value: string,
+    isQualification?: boolean
+  ) => {
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(() => {
-      const filters = extractUrlAndCookieValues(searchParams, key, value);
-      const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
+      let crossL1Subject = false;
+      if (key === "subject" || key === "course") {
+        const selectedParent = jsondata?.subjectFilterList
+          ?.map((subjects: any) => {
+            if (subjects?.subjectTextKey === value) {
+              return subjects?.parentSubject;
+            }
+          })
+          ?.filter(Boolean);
+        const currentParent = getUrlParentSubject(searchParams, jsondata);
+        if (selectedParent != currentParent) {
+          crossL1Subject = true;
+        }
+      }
+      const filters = extractUrlAndCookieValues(
+        searchParams,
+        key,
+        value,
+        crossL1Subject
+      );
+      const orderedFilters = getFilterPriority(
+        isQualification || false
+      )?.reduce((acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
       }, {} as KeyValueObject);
@@ -180,85 +233,125 @@ const SearchFilterComponent = ({ jsondata }: any) => {
           }
         }
       });
+      const multiSelect =
+        urlParams?.toString()?.includes("+") ||
+        urlParams?.toString()?.includes("%2C");
+
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        //console.log("same url");
         router.refresh();
+      } else if (multiSelect) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        router.push(`?${urlParams.toString()}`);
       } else {
-        //console.log("diff url");
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
           linkTagId.click();
+        } else {
+          router.push(`?${urlParams.toString()}`);
         }
       }
       isUpdating = false;
     }, 0);
   };
-  // const formUrl = (key: string, value: string) => {
-  //   const filters = extractUrlAndCookieValues(searchParams, key, value);
-  //   const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
-  //     if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-  //     return acc;
-  //   }, {} as KeyValueObject);
-  //   const urlParams = new URLSearchParams();
-  //   const cookieParams: KeyValueObject = {};
-  //   let totalValues = 0;
-  //   Object.entries(orderedFilters).forEach(([k, v]) => {
-  //     const valuesArray = v.split(",");
-  //     if (totalValues + valuesArray.length <= 4) {
-  //       urlParams.set(k, valuesArray.join(","));
-  //       totalValues += valuesArray.length;
-  //     } else {
-  //       const allowedValues = valuesArray.slice(0, 4 - totalValues);
-  //       const remainingValues = valuesArray.slice(4 - totalValues);
-  //       if (allowedValues.length > 0) {
-  //         urlParams.set(k, allowedValues.join(","));
-  //         totalValues += allowedValues.length;
-  //       }
-  //       if (remainingValues.length > 0) {
-  //         cookieParams[k] = remainingValues.join(",");
-  //       }
-  //     }
-  //   });
-  //   return `?${urlParams.toString()}`;
-  // };
-  const formUrl = (key: string, value: string) => {
-    const filters = extractUrlAndCookieValues(searchParams, key, value);
-    //console.log(filters);
-    const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
-      if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-      return acc;
-    }, {} as KeyValueObject);
-    //console.log(orderedFilters);
+
+  const formUrl = (key: string, value: string, isQualification?: boolean) => {
+    let crossL1Subject = false;
+    if (key === "subject" || key === "course") {
+      const selectedParent = jsondata?.subjectFilterList
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey === value) {
+            return subjects?.parentSubject;
+          }
+        })
+        ?.filter(Boolean);
+      const currentParent = getUrlParentSubject(searchParams, jsondata);
+      if (selectedParent != currentParent) {
+        crossL1Subject = true;
+      }
+    }
+    const filters = extractUrlAndCookieValues(
+      searchParams,
+      key,
+      value,
+      crossL1Subject
+    );
+    const orderedFilters = getFilterPriority(isQualification || false).reduce(
+      (acc, priorityKey) => {
+        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+        return acc;
+      },
+      {} as KeyValueObject
+    );
     const urlParams = new URLSearchParams();
     let totalValues = 0;
-    let subjectParam = "";
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a).length;
-    //console.log(count);
-    // Store the subject parameter separately
-    //const count: any = Object?.fromEntries(searchParams?.entries())?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
-      if (totalValues + valuesArray.length <= 4) {
-        urlParams.set(k, valuesArray.join(","));
-        totalValues += valuesArray.length;
-      } else if (k === "subject") {
-        subjectParam = `${k}=${valuesArray.join(",")}`;
+      if (totalValues + valuesArray?.length <= 4) {
+        if (k != "study-level") {
+          urlParams.set(k, valuesArray.join(","));
+          totalValues += valuesArray.length;
+        }
       }
     });
     if (count >= 4) {
-      //console.log("count is equal to greater than 4");
-      //console.log(key, "::", value, `?${subjectParam}&${key}=${value}`);
-      return `?${subjectParam}&${key}=${value}`;
+      return `subject=${searchParams?.get("subject")}&${key}=${value}`;
     } else {
-      //console.log("count value", count);
-      //console.log(key, ":else:", value, `?${urlParams.toString()}`);
-      return `?${urlParams.toString()}`;
+      return `${urlParams.toString()}`;
     }
   };
-  //console.log("forming as hardcoded", formUrl("location", "england"));
+
+  const containsSearchParam = (key: string, value: string): boolean => {
+    const paramValue = searchParams.get(key);
+    if (!paramValue) return false;
+    const decodedValue = decodeURIComponent(paramValue).replace(/\+/g, " ");
+    return decodedValue.split(/[\s,]+/).includes(value);
+  };
+  const parentSubjectSet: any = new Set(
+    jsondata?.subjectFilterList
+      ?.map((items: any) => {
+        if (items.parentSubject) {
+          return items.parentSubject;
+        }
+      })
+      ?.filter(Boolean)
+  );
+  const ParentSubject: any = [...parentSubjectSet];
+  const L2subjects = ParentSubject?.map((item: any) => {
+    const filteredSubjects = jsondata?.subjectFilterList?.filter(
+      (subject: any) => subject?.parentSubject === item
+    );
+    return { parent: item, subjects: filteredSubjects };
+  });
+  console.log(L2subjects);
+  const studyMethodList = {
+    studyMethodList: [
+      {
+        studyMethodDesc: "Online",
+        studyMethodTextKey: "online",
+        selectedFlag: "N",
+      },
+    ],
+  };
+  const subjectClicked = (item: string) => {
+    setIsSubjectOpen(!isSubjectOpen);
+    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
+      return items.parentSubject == item;
+    });
+    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
+  };
+  const parentRegion = jsondata?.regionList?.filter((item: any) => {
+    return !item?.parentRegionId;
+  });
+  const FirstLevelRegion = jsondata?.regionList
+    ?.map((region: any) => {
+      if (region.parentRegionId == 1) return region;
+    })
+    .filter(Boolean);
+
   return (
     <>
       <div>
@@ -276,9 +369,10 @@ const SearchFilterComponent = ({ jsondata }: any) => {
         >
           <div className="p-[16px] md:p-[32px] !pb-0">
             <div className="flex justify-between">
+              <h6 className="h2">Filter</h6>
               <svg
                 onClick={closeFilter}
-                className="mt-[-6px] mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
+                className="mt-[-6px] ml-auto mr-[-6px] md:mt-[-22px] md:mr-[-22px] cursor-pointer"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -322,19 +416,32 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     Choose one
                   </div>
                   <div className="flex flex-wrap gap-[8px]">
-                    {jsondata?.studyMethodList?.map(
+                    {studyMethodList?.studyMethodList?.map(
                       (items: any, index: any) => (
                         <div
                           className="form-black flex relative"
                           key={index + 1}
-                          onClick={() => {
-                            appendSearchParams(
-                              "study-method",
-                              items?.studyMethodTextKey
-                            );
-                          }}
                         >
                           <input
+                            checked={
+                              prepopulateFilter?.studyMethod ==
+                              items?.studyMethodTextKey
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              setPrepopulateFilter((prev: any) => ({
+                                ...prev,
+                                studyMethod:
+                                  prev.studyMethod == items?.studyMethodTextKey
+                                    ? ""
+                                    : items?.studyMethodTextKey,
+                              }));
+                              appendSearchParams(
+                                "study-method",
+                                items?.studyMethodTextKey
+                              );
+                            }}
                             type="checkbox"
                             id="inperson"
                             name="inperson"
@@ -348,10 +455,13 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                             {isIndexed && (
                               <Link
                                 id={"study-method" + items?.studyMethodTextKey}
-                                href={formUrl(
-                                  "study-method",
-                                  items?.studyMethodTextKey
-                                )}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl(
+                                    "study-method",
+                                    items?.studyMethodTextKey
+                                  ),
+                                }}
                               ></Link>
                             )}
                           </label>
@@ -360,89 +470,120 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Study mode</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one
-                  </div>
-                  <div className="flex flex-row flex-wrap gap-[8px]">
-                    {jsondata?.studyModeList?.map((items: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index + 1}
-                        onClick={() => {
-                          appendSearchParams(
-                            "study-mode",
-                            items?.studyModeTextKey
-                          );
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id="Part time"
-                        />
-                        <label
-                          htmlFor="Part time"
-                          className="btn btn-black-outline"
-                        >
-                          {items?.studyModeDesc}
-                          {isIndexed && (
-                            <Link
-                              id={"study-mode" + items?.studyModeTextKey}
-                              href={formUrl(
-                                "study-mode",
-                                items?.studyModeTextKey
-                              )}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Study level</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one
-                  </div>
-                  <div className="flex flex-wrap gap-[8px]">
-                    {jsondata?.qualificationList?.map(
-                      (item: any, index: any) => (
-                        <div
-                          className="form-black flex relative"
-                          key={index}
-                          onClick={() => {
-                            appendSearchParams(
-                              "study-level",
-                              item?.qualTextKey
-                            );
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="studylevel"
-                            id={item?.qualDisplayDesc}
-                            value={item?.qualDisplayDesc}
-                            className="rounded-[4px] outline-none absolute opacity-0"
-                          />
-                          <label
-                            htmlFor={item?.qualDisplayDesc}
-                            className="btn btn-black-outline"
+                {jsondata?.studyModeList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">Study mode</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one
+                    </div>
+                    <div className="flex flex-row flex-wrap gap-[8px]">
+                      {jsondata?.studyModeList?.map(
+                        (items: any, index: any) => (
+                          <div
+                            className="form-black flex relative"
+                            key={index + 1}
                           >
-                            {item?.qualDisplayDesc}
-                            {isIndexed && (
-                              <Link
-                                id={"study-level" + item?.qualTextKey}
-                                href={formUrl("study-level", item?.qualTextKey)}
-                              ></Link>
-                            )}
-                          </label>
-                        </div>
-                      )
-                    )}
+                            <input
+                              checked={
+                                prepopulateFilter?.studyMode ==
+                                items?.studyModeTextKey
+                                  ? true
+                                  : false
+                              }
+                              onChange={() => {
+                                setPrepopulateFilter((prev: any) => ({
+                                  ...prev,
+                                  studyMode:
+                                    prev?.studyMode == items?.studyModeTextKey
+                                      ? ""
+                                      : items?.studyModeTextKey,
+                                }));
+                                appendSearchParams(
+                                  "study-mode",
+                                  items?.studyModeTextKey
+                                );
+                              }}
+                              type="checkbox"
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id="Part time"
+                            />
+                            <label
+                              htmlFor="Part time"
+                              className="btn btn-black-outline"
+                            >
+                              {items?.studyModeDesc}
+                              {isIndexed && (
+                                <Link
+                                  id={"study-mode" + items?.studyModeTextKey}
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl(
+                                      "study-mode",
+                                      items?.studyModeTextKey
+                                    ),
+                                  }}
+                                ></Link>
+                              )}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
+                {jsondata?.qualificationList.length > 0 && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">
+                      Study level
+                    </div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one
+                    </div>
+                    <div className="flex flex-wrap gap-[8px]">
+                      {jsondata?.qualificationList?.map(
+                        (item: any, index: any) => (
+                          <div className="form-black flex relative" key={index}>
+                            <input
+                              checked={
+                                slug?.includes(item?.qualTextKey) ? true : false
+                              }
+                              onChange={() => {
+                                appendSearchParams(
+                                  "study-level",
+                                  item?.qualTextKey
+                                );
+                              }}
+                              type="radio"
+                              name="studylevel"
+                              id={item?.qualDisplayDesc}
+                              value={item?.qualDisplayDesc}
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                            />
+                            <label
+                              htmlFor={item?.qualDisplayDesc}
+                              className="btn btn-black-outline"
+                            >
+                              {item?.qualDisplayDesc}
+                              {isIndexed &&
+                                !slug.includes(item?.qualTextKey) && (
+                                  <Link
+                                    id={"study-level" + item?.qualTextKey}
+                                    href={{
+                                      pathname: `/${item?.qualTextKey}-courses/search`,
+                                      query: formUrl(
+                                        "study-level",
+                                        item?.qualTextKey
+                                      ),
+                                    }}
+                                  ></Link>
+                                )}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
                 <div className="flex flex-col gap-[16px]">
                   <div className="flex flex-col gap-[4px]">
                     <div className="text-para-lg font-semibold">
@@ -453,7 +594,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     </div>
                   </div>
                   <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
-                    <div className="flex item-center gap-[12px]">
+                    <div className="flex item-center gap-[12px] relative">
                       <Image
                         src="/static/assets/icons/search-result/search-black.svg"
                         width="20"
@@ -466,14 +607,40 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                         aria-label="enter keyword"
                         placeholder="Search subjects"
                       />
+                      {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                        <ul>
+                          <li>
+                            <a
+                              href=""
+                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                            >
+                              sds
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href=""
+                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                            >
+                              sds
+                            </a>
+                          </li>
+                        </ul>
+                      </div> */}
                     </div>
                   </div>
-                  <div className="relative">
-                    <div className="flex flex-col gap-[12px]">
-                      {subjectArea.map((item, index) => (
+                  <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
+                    <div
+                      className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
+                      ${isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
+                      `}
+                    >
+                      {ParentSubject?.map((item: any, index: any) => (
                         <div
                           key={index}
-                          onClick={subjectClicked}
+                          onClick={() => {
+                            subjectClicked(item);
+                          }}
                           className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                         >
                           {item}
@@ -494,268 +661,144 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                         </div>
                       ))}
                     </div>
-                    {isSubjectOpen && (
-                      <div
-                        className={`bg-white absolute top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out ${
-                          isSubjectOpen ? "translate-x-0" : "-translate-x-full"
-                        }`}
-                      >
-                        <div className="flex flex-col gap-[16px]">
-                          <ul className="flex flex-wrap gap-[8px] uppercase">
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-                              Business LAw
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-                              Child Law
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              Educational Law
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              Full time
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              Full time
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-                              South East England
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M4 12L12 4M4 4L12 12"
-                                  stroke="#3460DC"
-                                  strokeWidth="1.13"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </li>
-                            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
-                              <Link href="" aria-label="Back Arrow">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 16 16"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M9 11L6 8L9 5"
-                                    stroke="#3460DC"
-                                    strokeWidth="1.13"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </Link>
-                            </li>
-                          </ul>
-                          <div className="flex flex-col gap-[12px] max-h-[255px] overflow-y-auto custom-scrollbar-2">
-                            <div
-                              onClick={subjectClicked}
-                              className="flex items-center gap-[4px] text-blue-400 font-semibold cursor-pointer"
-                            >
-                              <svg
-                                className="rotate-180"
-                                width="16"
-                                height="17"
-                                viewBox="0 0 16 17"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                  fill="#4664DC"
-                                />
-                              </svg>
-                              Choose a different subject
-                            </div>
-                            <div className="flex flex-col gap-[12px]">
-                              <div className="small font-bold">Law</div>
-                              <div className="flex flex-col gap-[12px]">
-                                {law.map((item, index) => (
-                                  <div
-                                    className="form_check relative"
-                                    key={index}
-                                  >
-                                    <div className="flex items-start gap-[8px]">
-                                      <div className="checkbox_card">
-                                        <input
-                                          type="checkbox"
-                                          className="form-checkbox hidden"
-                                          id={item}
-                                        />
-                                        <label
-                                          htmlFor={item}
-                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                        >
-                                          <svg
-                                            width="10"
-                                            height="8"
-                                            viewBox="0 0 10 8"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                              fill="white"
-                                              stroke="white"
-                                              strokeWidth="0.666667"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            />
-                                          </svg>
-                                        </label>
-                                      </div>
-                                      <label
-                                        htmlFor={item}
-                                        className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                      >
-                                        {item}
-                                      </label>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <div
+                      className={`
+                        bg-white transition-all duration-300 ease-in-out
+                        ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
+                      `}
+                    >
+                      {L2subjects?.map((subjects: any, index: number) => (
+                        <L2subjectList
+                          key={index}
+                          subjectsArray={subjects}
+                          selectedSubject={selectedSubject}
+                          isIndexed={isIndexed}
+                          isSubjectOpen={isSubjectOpen}
+                          subjectClicked={subjectClicked}
+                          formUrl={formUrl}
+                          slug={slug}
+                          appendSearchParams={appendSearchParams}
+                          containsSearchParam={containsSearchParam}
+                          jsondata={jsondata?.subjectFilterList}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
+              {/* <SubjectSkeleton/> */}
             </Accordion>
-            <Accordion
-              id="#year"
-              title="Intake year"
-              defaultOpenStatus={selectedFilter === "year" ? true : false}
-            >
-              {/* intake */}
-              <div className="flex flex-col gap-[8px] p-[8px_0_0]">
-                <div className="x-small font-semibold text-black uppercase">
-                  Choose YEAR & MONTH
-                </div>
-                <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {jsondata?.intakeYearDetails?.intakeYearList?.map(
-                    (item: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index}
-                        onClick={() => {
-                          appendSearchParams("year", item?.year.toString());
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="2024"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id={`${item?.year}`}
-                        />
-                        <label
-                          htmlFor={`${item?.year}`}
-                          className="btn btn-black-outline"
+            {(jsondata?.intakeYearDetails?.intakeYearList.length > 0 ||
+              jsondata?.intakeYearDetails?.intakeMonthList.length > 0) && (
+              <Accordion
+                id="#year"
+                title="Intake year"
+                defaultOpenStatus={selectedFilter === "year" ? true : false}
+              >
+                {/* intake */}
+                <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+                  <div className="x-small font-semibold text-black uppercase">
+                    Choose YEAR & MONTH
+                  </div>
+                  <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                    {jsondata?.intakeYearDetails?.intakeYearList?.map(
+                      (item: any, index: any) => (
+                        <div
+                          className="form-black flex relative"
+                          key={index}
+                          onClick={() => {
+                            appendSearchParams("year", `${item?.year}`);
+                          }}
                         >
-                          {item?.year}
-                          {isIndexed && (
-                            <Link
-                              id={"year" + item?.year}
-                              href={formUrl("year", `${item?.year}`)}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    )
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                  {jsondata?.intakeYearDetails?.intakeMonthList?.map(
-                    (item: any, index: any) => (
-                      <div
-                        className="form-black flex relative"
-                        key={index}
-                        onClick={() => {
-                          appendSearchParams("month", item?.month);
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="All Months"
-                          className="rounded-[4px] outline-none absolute opacity-0"
-                          id={item?.month}
-                        />
-                        <label
-                          htmlFor={item?.month}
-                          className="btn btn-black-outline min-w-[53px] py-[5px]"
+                          <input
+                            checked={
+                              `${prepopulateFilter?.year}` == `${item?.year}`
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              setPrepopulateFilter((prev: any) => ({
+                                ...prev,
+                                year:
+                                  `${prev.year}` == `${item?.year}`
+                                    ? ""
+                                    : `${item?.year}`,
+                              }));
+                            }}
+                            type="radio"
+                            name={`${item?.year}`}
+                            className="rounded-[4px] outline-none absolute opacity-0"
+                            id={`${item?.year}`}
+                          />
+                          <label
+                            htmlFor={`${item?.year}`}
+                            className="btn btn-black-outline"
+                          >
+                            {item?.year}
+                            {isIndexed && (
+                              <Link
+                                id={"year" + item?.year}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl("year", `${item?.year}`),
+                                }}
+                              ></Link>
+                            )}
+                          </label>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                    {jsondata?.intakeYearDetails?.intakeMonthList?.map(
+                      (item: any, index: any) => (
+                        <div
+                          className="form-black flex relative"
+                          key={index}
+                          onClick={() => {
+                            appendSearchParams("month", item?.month);
+                          }}
                         >
-                          {item?.month}
-                          {isIndexed && (
-                            <Link
-                              id={"month" + item?.month}
-                              href={formUrl("month", item?.month)}
-                            ></Link>
-                          )}
-                        </label>
-                      </div>
-                    )
-                  )}
+                          <input
+                            checked={
+                              prepopulateFilter?.month == item?.month
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              setPrepopulateFilter((prev: any) => ({
+                                ...prev,
+                                month:
+                                  prev?.month == item?.month ? "" : item?.month,
+                              }));
+                            }}
+                            type="radio"
+                            name="All Months"
+                            className="rounded-[4px] outline-none absolute opacity-0"
+                            id={item?.month}
+                          />
+                          <label
+                            htmlFor={item?.month}
+                            className="btn btn-black-outline min-w-[53px] py-[5px]"
+                          >
+                            {item?.month}
+                            {isIndexed && (
+                              <Link
+                                id={"month" + item?.month}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl("month", `${item?.month}`),
+                                }}
+                              ></Link>
+                            )}
+                          </label>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Accordion>
+              </Accordion>
+            )}
             <Accordion
               title="University"
               id="#university"
@@ -771,7 +814,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                   </div>
                 </div>
                 <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
-                  <div className="flex item-center gap-[12px]">
+                  <div className="flex item-center gap-[12px] relative">
                     <Image
                       src="/static/assets/icons/search-result/search-black.svg"
                       width="20"
@@ -784,17 +827,45 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                       aria-label="enter keyword"
                       placeholder="Search universities"
                     />
+                    {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                      <ul>
+                        <li>
+                          <a
+                            href=""
+                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                          >
+                            sds
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href=""
+                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                          >
+                            sds
+                          </a>
+                        </li>
+                      </ul>
+                    </div> */}
                   </div>
                 </div>
-                <div className="relative">
-                  <div className="flex flex-col gap-[12px]">
-                    {universities.map((item, index) => (
+                <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
+                  <div
+                    className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
+                      isUniversityOpen
+                        ? "-translate-x-full h-0 hidden"
+                        : "translate-x-0 h-auto"
+                    }`}
+                  >
+                    {universitiesList?.map((item: any, index: any) => (
                       <div
                         key={index}
-                        onClick={universityClicked}
+                        onClick={() => {
+                          universityClicked(item?.displayHeading, item?.id);
+                        }}
                         className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                       >
-                        {item}
+                        {item?.name}
                         <svg
                           width="16"
                           height="17"
@@ -812,97 +883,28 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                       </div>
                     ))}
                   </div>
-                  {isUniversityOpen && (
-                    <div
-                      className={`bg-white absolute top-0 left-0 w-full  z-10 transition-all duration-300 ease-in-out ${
+
+                  <div
+                    className={`bg-white transition-all duration-300 ease-in-out 
+                      ${
                         isUniversityOpen ? "translate-x-0" : "-translate-x-full"
-                      }`}
-                    >
-                      <div className="flex flex-col gap-[16px]">
-                        <ul className="flex flex-wrap gap-[8px] uppercase">
-                          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-                            University of Aberdeen
-                          </li>
-                        </ul>
-                        <div className="flex flex-col gap-[12px] h-[246px] overflow-y-auto custom-scrollbar-2">
-                          <div
-                            onClick={universityClicked}
-                            className="flex items-center gap-[4px] text-blue-400 font-semibold cursor-pointer"
-                          >
-                            <svg
-                              className="rotate-180"
-                              width="16"
-                              height="17"
-                              viewBox="0 0 16 17"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                fill="#4664DC"
-                              />
-                            </svg>
-                            Choose a different uni
-                          </div>
-                          <div className="flex flex-col gap-[12px]">
-                            <div className="small font-bold">A - C</div>
-                            <div className="flex flex-col gap-[12px]">
-                              {universityList.map((item, index) => (
-                                <div
-                                  className="form_check relative"
-                                  key={index}
-                                >
-                                  <div className="flex items-start gap-[8px]">
-                                    <div className="checkbox_card">
-                                      <input
-                                        type="checkbox"
-                                        className="form-checkbox hidden"
-                                        id={item}
-                                      />
-                                      <label
-                                        htmlFor={item}
-                                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                      >
-                                        <svg
-                                          width="10"
-                                          height="8"
-                                          viewBox="0 0 10 8"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                            fill="white"
-                                            stroke="white"
-                                            strokeWidth="0.666667"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                      </label>
-                                    </div>
-                                    <label
-                                      htmlFor={item}
-                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                    >
-                                      {item}
-                                    </label>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {isUniversityOpen && ( // Placeholder div
-                    <div className="h-[100px]"></div> // Height matches expected content height
-                  )}
+                      }
+                    `}
+                  >
+                    {universitiesList?.map((item: any, index: any) => (
+                      <SelectedUniversity
+                        key={index + 1}
+                        isUniversityOpen={isUniversityOpen}
+                        universityClicked={universityClicked}
+                        id={item.id}
+                        appendSearchParams={appendSearchParams}
+                        formUrl={formUrl}
+                        selectedId={selectUniId}
+                        universityList={item?.unilist}
+                        pathname={slug}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </Accordion>
@@ -921,6 +923,7 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                       <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
                         <div className="relative shrink-0">
                           <button
+                            // onClick={}
                             className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
                             type="button"
                           >
@@ -932,13 +935,18 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                               alt="Search icon"
                             />
                           </button>
-                          <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                          {/* <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                             <ul>
-                              <li className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer">
-                                sds
-                              </li>
+                              {locationMilesArray?.map((items, index) => (
+                                <li
+                                  key={index + 1}
+                                  className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                                >
+                                  {items?.miles}
+                                </li>
+                              ))}
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
                           <input
@@ -997,309 +1005,239 @@ const SearchFilterComponent = ({ jsondata }: any) => {
                     </Link>
                   </div>
                 </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">Region</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
-                  </div>
-                  <ul className="pt-[12px]">
-                    <li>
-                      <div className="form_check relative m-[0_0_12px]">
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id="All Uk"
-                              name="All Uk"
-                            />
+                {(jsondata?.regionList?.length > 0 ||
+                  jsondata?.cityList?.length > 0) && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">Region</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <ul className="pt-[12px]">
+                      <li>
+                        <div className="form_check relative m-[0_0_12px]">
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              {isIndexed && (
+                                <Link
+                                  id={
+                                    "location" + parentRegion[0]?.regionTextKey
+                                  }
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl(
+                                      "location",
+                                      parentRegion[0]?.regionTextKey
+                                    ),
+                                  }}
+                                ></Link>
+                              )}
+                              <input
+                                type="checkbox"
+                                checked={isAllUkChecked || false}
+                                className="form-checkbox hidden"
+                                id="All Uk"
+                                name="All Uk"
+                                onChange={() => {
+                                  setIsAllUkChecked(!isAllUkChecked);
+                                  appendSearchParams(
+                                    "location",
+                                    parentRegion[0]?.regionTextKey
+                                  );
+                                }}
+                              />
+                              <label
+                                htmlFor="All Uk"
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
                             <label
                               htmlFor="All Uk"
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              {parentRegion[0]?.regionName}
                             </label>
                           </div>
-                          <label
-                            htmlFor="All Uk"
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            All Uk
-                          </label>
                         </div>
-                      </div>
-                      <ul>
-                        <li>
-                          {jsondata?.regionList?.map(
-                            (item: any, index: any) => (
-                              <div key={index}>
-                                <div className="form_check relative m-[0_0_12px_24px]">
-                                  <div className="flex items-start gap-[8px]">
-                                    <div className="checkbox_card">
-                                      <input
-                                        onClick={() => {
-                                          appendSearchParams(
-                                            "location",
-                                            item?.regionTextKey
-                                          );
-                                        }}
-                                        type="checkbox"
-                                        className="form-checkbox hidden"
-                                        id={item?.regionName}
-                                        name={item?.regionName}
-                                      />
-                                      {isIndexed && (
-                                        <Link
-                                          id={"location" + item?.regionTextKey}
-                                          href={formUrl(
-                                            "location",
-                                            item?.regionTextKey
-                                          )}
-                                        ></Link>
-                                      )}
-                                      <label
-                                        htmlFor={item?.regionName}
-                                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                      >
-                                        <svg
-                                          width="10"
-                                          height="8"
-                                          viewBox="0 0 10 8"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                            fill="white"
-                                            stroke="white"
-                                            strokeWidth="0.666667"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                      </label>
-                                    </div>
-                                    <label
-                                      htmlFor={item?.regionName}
-                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                    >
-                                      {item?.regionName}
-                                    </label>
-                                  </div>
-                                </div>
-                                {/* <ul>
-                                {index == 0 && (
-                                  <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
-                                    {region.map((item, index) => (
-                                      <div
-                                        className="form_check relative m-[0_0_12px_40px]"
-                                        key={index}
-                                      >
-                                        <div className="flex items-start gap-[8px]">
-                                          <div className="checkbox_card">
-                                            <input
-                                              type="checkbox"
-                                              className="form-checkbox hidden"
-                                              id={item}
-                                            />
-                                            <label
-                                              htmlFor={item}
-                                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                            >
-                                              <svg
-                                                width="10"
-                                                height="8"
-                                                viewBox="0 0 10 8"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  fillRule="evenodd"
-                                                  clipRule="evenodd"
-                                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                                  fill="white"
-                                                  stroke="white"
-                                                  strokeWidth="0.666667"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                              </svg>
-                                            </label>
-                                          </div>
-                                          <label
-                                            htmlFor={item}
-                                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                          >
-                                            {item}
-                                          </label>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </li>
-                                )}
-                              </ul> */}
-                              </div>
-                            )
-                          )}
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">City</div>
-                  <div className="x-small font-semibold text-black uppercase">
-                    Choose one or more
+                        <ul>
+                          <li>
+                            {FirstLevelRegion?.map((item: any, index: any) => (
+                              <LocationcheckBox
+                                isAllUkChecked={isAllUkChecked}
+                                key={index + 1}
+                                item={item}
+                                jsondata={jsondata}
+                                slug={slug}
+                                isIndexed={isIndexed}
+                                formUrl={formUrl}
+                                appendSearchParams={appendSearchParams}
+                              />
+                            ))}
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
                   </div>
-                  <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
-                    {jsondata?.cityList?.map((item: any, index: any) => (
-                      <div className="form_check relative" key={index}>
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id={item?.cityName}
-                            />
+                )}
+                {jsondata?.cityList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">City</div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
+                      {jsondata?.cityList?.map((item: any, index: any) => (
+                        <div className="form_check relative" key={index}>
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              <input
+                                type="checkbox"
+                                className="form-checkbox hidden"
+                                id={item?.cityName}
+                              />
+                              <label
+                                htmlFor={item?.cityName}
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
                             <label
                               htmlFor={item?.cityName}
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                             >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                              {item?.cityName}
                             </label>
                           </div>
-                          <label
-                            htmlFor={item?.cityName}
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            {item?.cityName}
-                          </label>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col gap-[4px]">
-                  <div className="text-para-lg font-semibold">
-                    Location type
+                )}
+                {jsondata?.uniLocationTypeList && (
+                  <div className="flex flex-col gap-[4px]">
+                    <div className="text-para-lg font-semibold">
+                      Location type
+                    </div>
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose one or more
+                    </div>
+                    <div className="flex items-center gap-[8px]">
+                      {jsondata?.uniLocationTypeList?.map(
+                        (item: any, index: any) => (
+                          <div className="form-black flex relative" key={index}>
+                            <input
+                              // defaultValue={"Countryside"}
+                              type="checkbox"
+                              name="Countryside"
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id={item?.locTypeDesc}
+                              value={item?.locTypeDesc}
+                            />
+                            <label
+                              htmlFor={item?.locTypeDesc}
+                              className="btn btn-black-outline"
+                            >
+                              {item?.locTypeDesc}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
+                )}
+              </div>
+            </Accordion>
+            {jsondata?.universityGroupList?.length > 0 && (
+              <Accordion title="University group" defaultOpenStatus={false}>
+                <div className="flex flex-col gap-[8px] pt-[24px]">
                   <div className="x-small font-semibold text-black uppercase">
                     Choose one or more
                   </div>
-                  <div className="flex items-center gap-[8px]">
-                    {jsondata?.uniLocationTypeList?.map(
+                  <div className="flex flex-col gap-[12px]">
+                    {jsondata?.universityGroupList?.map(
                       (item: any, index: any) => (
-                        <div className="form-black flex relative" key={index}>
-                          <input
-                            // defaultValue={"Countryside"}
-                            type="checkbox"
-                            name="Countryside"
-                            className="rounded-[4px] outline-none absolute opacity-0"
-                            id={item?.locTypeDesc}
-                            value={item?.locTypeDesc}
-                          />
-                          <label
-                            htmlFor={item?.locTypeDesc}
-                            className="btn btn-black-outline"
-                          >
-                            {item?.locTypeDesc}
-                          </label>
+                        <div className="form_check relative" key={index}>
+                          <div className="flex items-start gap-[8px]">
+                            <div className="checkbox_card">
+                              <input
+                                type="checkbox"
+                                className="form-checkbox hidden"
+                                id={item?.universityGroupDesc}
+                              />
+                              <label
+                                htmlFor={item?.universityGroupDesc}
+                                className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                              >
+                                <svg
+                                  width="10"
+                                  height="8"
+                                  viewBox="0 0 10 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                    fill="white"
+                                    stroke="white"
+                                    strokeWidth="0.666667"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </label>
+                            </div>
+                            <label
+                              htmlFor={item?.universityGroupDesc}
+                              className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                            >
+                              {item?.universityGroupDesc}
+                            </label>
+                          </div>
                         </div>
                       )
                     )}
                   </div>
                 </div>
-              </div>
-            </Accordion>
-            <Accordion title="University group" defaultOpenStatus={false}>
-              <div className="flex flex-col gap-[8px] pt-[24px]">
-                <div className="x-small font-semibold text-black uppercase">
-                  Choose one or more
-                </div>
-                <div className="flex flex-col gap-[12px]">
-                  {jsondata?.universityGroupList?.map(
-                    (item: any, index: any) => (
-                      <div className="form_check relative" key={index}>
-                        <div className="flex items-start gap-[8px]">
-                          <div className="checkbox_card">
-                            <input
-                              type="checkbox"
-                              className="form-checkbox hidden"
-                              id={item?.universityGroupDesc}
-                            />
-                            <label
-                              htmlFor={item?.universityGroupDesc}
-                              className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                            >
-                              <svg
-                                width="10"
-                                height="8"
-                                viewBox="0 0 10 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                  fill="white"
-                                  stroke="white"
-                                  strokeWidth="0.666667"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </label>
-                          </div>
-                          <label
-                            htmlFor={item?.universityGroupDesc}
-                            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                          >
-                            {item?.universityGroupDesc}
-                          </label>
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            </Accordion>
+              </Accordion>
+            )}
           </div>
 
           <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">

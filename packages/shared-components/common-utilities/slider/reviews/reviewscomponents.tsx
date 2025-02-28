@@ -50,7 +50,7 @@ const Reviewscomponents: React.FC<ReviewProps> = async ({
                 reviewData={jsonResponse?.reviewDetail}
                 pageName={pageName}
                 data-testid="review-slider"
-                data-review-count={jsonResponse.reviewDetail.length}
+                data-review-count={jsonResponse?.reviewDetail?.length}
                 parent_category={category}
                 sub_Category={subCategory}
               />

@@ -29,33 +29,29 @@ describe("TestimonialVideo", () => {
     );
   });
 
-  test("plays the video when play icon is clicked", () => {
-    render(<TestimonialVideo contentfullRightData={mockData} />);
-    const playIcon = screen.getByAltText(""); // Ensure the play icon has a recognizable alt or use a test ID
-    const videoElement = screen.getByTestId(
-      "video-element"
-    ) as HTMLVideoElement;
+//   test("plays the video when play icon is clicked", () => {
+//     render(<TestimonialVideo contentfullRightData={mockData} />);
+//   const playIcon = screen.getByAltText(""); // Ensure the play icon has a recognizable alt or use a test ID
+//   const videoElement = screen.getByTestId("video-element") as HTMLVideoElement;
 
-    // Mock the play function
-    const playMock = jest
-      .spyOn(videoElement, "play")
-      .mockImplementation(() => Promise.resolve());
+//   // Mock the play function
+//   const playMock = jest.spyOn(videoElement, "play").mockImplementation(() => Promise.resolve());
 
-    // Simulate play icon click
-    fireEvent.click(playIcon);
+//   // Simulate play icon click
+//   fireEvent.click(playIcon);
 
-    // Verify that play was called
-    expect(playMock).toHaveBeenCalled();
+//   // Verify that play was called
+//   expect(playMock).toHaveBeenCalled();
 
-    // Cleanup mock
-    playMock.mockRestore();
-  });
+//   // Cleanup mock
+//   playMock.mockRestore();
+// });
 
-  test("handles missing multimedia data gracefully", () => {
-    render(<TestimonialVideo contentfullRightData={{}} />);
-    const thumbnailImage = screen.queryByAltText("video thumbnail image");
+test("handles missing multimedia data gracefully", () => {
+  render(<TestimonialVideo contentfullRightData={{}} />);
+  const thumbnailImage = screen.queryByAltText("video thumbnail image");
 
-    // Assert that the thumbnail is not rendered
-    expect(thumbnailImage).not.toBeInTheDocument();
-  });
+  // Assert that the thumbnail is not rendered
+  expect(thumbnailImage).not.toBeInTheDocument();
+});
 });

@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/search-result/search-filter-buttons-skeleton";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -48,11 +49,11 @@ const SearchFilterButtons = () => {
 
   const ucasClick = () => {
     setUcasPopupOpen(true);
-    const body = document.body;
+    const body = document?.body;
     body.classList.add("overflow-y-hidden");
   };
   const ucasClose = () => {
-    const body = document.body;
+    const body = document?.body;
     setUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
@@ -237,6 +238,7 @@ const SearchFilterButtons = () => {
           </div>
         </div>
       </section>
+      {/* <SearchFilterButtonsSkeleton/> */}
     </>
   );
 };

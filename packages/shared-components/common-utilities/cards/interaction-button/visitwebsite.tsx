@@ -1,8 +1,12 @@
 import React from 'react'
 
-const Visitwebsite = () => {
+const Visitwebsite = ({ pageName, showCount }: any) => {
   return (
-    <button type='button' className='btn btn-grey w-full'>Visit website</button>
+    <button
+      type="button" className={`btn btn-grey w-full ${ showCount == 4 ? "md:col-start-2" : "" }`}
+    >
+      Visit website
+    </button> 
   )
 }
 
