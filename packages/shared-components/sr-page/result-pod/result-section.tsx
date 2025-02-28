@@ -30,7 +30,9 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
   subject,
 }) => {
-  const [user, setUserData] = useState<AuthUser | null>(null);
+  subject = subject?.includes(" ") ? subject?.replace(/ /g, '+') : subject
+  console.log("subject", subject)
+ const [user, setUserData] = useState<AuthUser | null>(null);
  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
  const [exceedMessage, setExceedMessage] = useState(false);
   useEffect(() => {
@@ -59,7 +61,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
     e.stopPropagation();
     console.log("userdata", user)
     if (!user) {
-      return;
+      window.location.href = "/register/";
     }
     const isAdd = !favourite.favouritedList?.includes(contentId?.toString());
     try {
@@ -198,7 +200,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       </svg>
                     </div>
                     <Link
-                      href=""
+                      href="/degrees/comparison"
                       className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
                     >
                       View all comparison
@@ -643,6 +645,24 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
+                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                        <ApplyNow
+                          enquiryProps={{
+                            courseId: courseData?.courseId,
+                            collegeId: data?.collegeId,
+                            subOrderItemid:
+                              courseData?.enquiryDetails?.subOrderItemId,
+                            sponsoredListingFlag: data?.sponsoredListingFlag,
+                            manualBoostingFlag: data?.manualBoostingFlag,
+                            orderItemId:
+                              courseData?.enquiryDetails?.orderItemId,
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
+                          }}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
                         <Getprospectus
                           enquiryProps={{
@@ -721,7 +741,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={`/degree-courses/csearch?subject=${subject}&university=${data?.collegeTextKey}`}
+                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?subject=${subject}&university=${data?.collegeTextKey}` : `/pgs/search?course=${subject}&university=${data?.collegeTextKey}`}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses

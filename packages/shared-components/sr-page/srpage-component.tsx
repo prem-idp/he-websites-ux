@@ -16,20 +16,22 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import { cookies, headers } from "next/headers";
 import { getSearchPayload } from "../services/utils";
 import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
-import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
 import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+import { v4 as uuidv4 } from "uuid";
+import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
+
+
 const SearchResultComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
-  const pathname =
-    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  console.log("refe", pathname);
+  const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   let searchResultsData;
-  const filterCookieParam = cookieStore?.get("filter_param");
-
   try {
     searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(searchparams, filterCookieParam, pathname)
+      getSearchPayload(
+        searchparams,
+        JSON.parse(cookieStore?.get("filter_param")?.value || "{}"),
+        pathname,
+      )
     );
   } catch (error) {
     console.log("error", error);
@@ -38,7 +40,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   return (
     <>
       <TopSection />
-      {searchResultsData?.searchResultsList ? (
+      {searchResultsData?.searchResultsList?.length > 0 ? (
         <Suspense>
           <SearchFilterButtons />
           {/* <SearchLabels /> */}
@@ -48,16 +50,13 @@ const SearchResultComponent = async ({ searchparams }: any) => {
       )}
 
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <SortingFilter sortParam={{ param: searchparams }} />
-          {searchResultsData?.searchResultsList ? (
+        <div className="max-w-container mx-auto">       
+          {searchResultsData?.searchResultsList?.length > 0 ? (           
             <>
-              {process.env.PROJECT === "Whatuni" &&
-              pathname !== "postgraduate-courses" ? (
-                <GradeBanner />
-              ) : (
-                <></>
-              )}
+               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:JSON.parse(cookieStore?.get("filter_param")?.value || "{}") }} />
+             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses"?
+              <GradeBanner /> : <></>
+             }
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -71,11 +70,9 @@ const SearchResultComponent = async ({ searchparams }: any) => {
                 subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
-                // <Paginations
-                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                //   currentPage={searchparams?.pageNo || 1}
-                // />
-                <></>
+                <><Paginations
+                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                  currentPage={searchparams?.pageNo || 1} /><></></>
               ) : (
                 <></>
               )}
@@ -87,7 +84,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
           )}
         </div>
       </section>
-      {searchResultsData?.searchResultsList ? (
+      {searchResultsData?.searchResultsList?.length > 0 ? (
         <>
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">
