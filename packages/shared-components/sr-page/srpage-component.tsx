@@ -21,20 +21,15 @@ import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 const SearchResultComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
-  const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  console.log("refe",pathname)
+  const pathname =
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  console.log("refe", pathname);
   let searchResultsData;
-  let filterCookieParam;
-  if (typeof document !== "undefined") {
-    filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
-  }
+  const filterCookieParam = cookieStore?.get("filter_param");
+
   try {
     searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathname,
-      )
+      getSearchPayload(searchparams, filterCookieParam, pathname)
     );
   } catch (error) {
     console.log("error", error);
@@ -57,9 +52,12 @@ const SearchResultComponent = async ({ searchparams }: any) => {
           <SortingFilter sortParam={{ param: searchparams }} />
           {searchResultsData?.searchResultsList ? (
             <>
-             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses"?
-              <GradeBanner /> : <></>
-             }
+              {process.env.PROJECT === "Whatuni" &&
+              pathname !== "postgraduate-courses" ? (
+                <GradeBanner />
+              ) : (
+                <></>
+              )}
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
