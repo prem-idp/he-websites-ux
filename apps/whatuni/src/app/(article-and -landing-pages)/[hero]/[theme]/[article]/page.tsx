@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
 import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
-
+import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 const Page = async ({ params, searchParams }: any) => {
   const pageNameforArtcileDetail = "articleDetail";
   const searchparams = await searchParams;
@@ -36,49 +36,16 @@ const Page = async ({ params, searchParams }: any) => {
       }
     });
   }
-
   if (articledetaildata?.data?.contentData?.items.length < 1) {
     notFound();
   }
-
   const data = articledetaildata?.data?.contentData?.items[0];
   const customLabels = [
     data?.articleType?.title,
     data?.metaTagThemeCollection?.items[0]?.title,
     data?.pageTitle,
   ];
-  function generateBreadcrumbData(currentPath: any) {
-    const sanitizedPath = currentPath.endsWith("/")
-      ? currentPath.slice(0, -1)
-      : currentPath;
-    const pathSegments = sanitizedPath
-      .split("/")
-      .filter((segment: any) => segment);
-    // Construct breadcrumb data
-    const breadcrumbData = pathSegments.map((segment: any, index: any) => {
-      const url =
-        index === pathSegments.length - 1
-          ? "" // No URL for the last breadcrumb
-          : "/" + pathSegments.slice(0, index + 1).join("/"); // Build URL for each segment
-
-      return {
-        url,
-        label:
-          customLabels[index] ||
-          segment
-            .replace(/-/g, " ")
-            .replace(/\b\w/g, (char: any) => char.toUpperCase()),
-      };
-    });
-    breadcrumbData.unshift({
-      url: "/",
-      label: "Home",
-    });
-
-    return breadcrumbData;
-  }
-
-  const breadcrumbData = generateBreadcrumbData(slugurl);
+  const breadcrumbData = generateBreadcrumbData(slugurl,customLabels);
   const jsonLd = {
     "@context": "http://schema.org",
     "@type": "Article",
@@ -97,6 +64,7 @@ const Page = async ({ params, searchParams }: any) => {
         "" + data?.author?.lastName ??
         "",
     },
+
     author: {
       "@type": "Person",
       name:
@@ -181,7 +149,7 @@ const Page = async ({ params, searchParams }: any) => {
                                 dt?.__typename === "MultipleCardContainer" &&
                                 dt?.flagComponentStyle !== "ArticleCarousal"
                               ) {
-                                console.log("inside the if");
+                                //console.log("inside the if");
                               } else {
                                 const Component: any = dynamicComponent(
                                   dt?.__typename

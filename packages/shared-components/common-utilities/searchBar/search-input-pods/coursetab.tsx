@@ -17,6 +17,7 @@ interface CourseTabProps {
   setsearchFormHandle: any;
   data: any;
   placeholder: any;
+  showlocation:any;
 }
 
 const CourseTab: React.FC<CourseTabProps> = ({
@@ -24,6 +25,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
   placeholder,
+  showlocation=true,
 }) => {
   let ucasval: any = 0;
   let min: any = 0;
@@ -133,13 +135,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
           category_code: item.category_code,
           browse_cat_id: item.browse_cat_id,
           parent_subject: item.parentSubject,
-          qual_Code: item.qualCode,
+          qual_Code: item?.qualCode,
         }));
     };
     setFilteredsubject(prioritySearch(filteredSubjects, description?.trim()));
   }, [
     searchFormHandle?.subject?.description,
-    searchFormHandle.courseType.qualCode,
+    searchFormHandle?.courseType?.qualCode,
   ]);
 
   // ====================================================use effect for the clear subject on qual change============================================================================================
@@ -155,7 +157,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         description: "",
       },
     }));
-  }, [searchFormHandle.courseType.qualCode]);
+  }, [searchFormHandle?.courseType?.qualCode]);
   const resetAllTabs = (currentTab: string) => ({
     isCourseType: currentTab === "UG" ? !searchFormHandle?.isCourseType : false,
     isSubjectClicked:
@@ -390,7 +392,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       );
     }
-    const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
+    const baseUrl = searchUrlMap[searchFormHandle?.courseType?.qualCode];
     if (baseUrl) {
       GADataLayerFn(
         "ga_events",
@@ -505,10 +507,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
                   case "Enter":
                     e.preventDefault();
-
-                    const selectedElement: any =
-                      document.querySelector(".bg-blue-50");
+                    const selectedElement: HTMLElement | undefined = Array.from(
+                      document.querySelectorAll<HTMLElement>(
+                        ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
+                      )
+                    ).find((el) =>
+                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    );
                     if (selectedElement) {
+                      //console.log(selectedElement,"selected element");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -521,7 +528,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 }
               }}
             >
-              {searchFormHandle?.courseType.qualDesc}
+              {searchFormHandle?.courseType?.qualDesc}
               <Image
                 src="/static/assets/icons/arrow_down_black.svg"
                 width="20"
@@ -632,8 +639,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
                   case "Enter":
                     e.preventDefault();
-                    const selectedElement: any =
-                      document.querySelector(".bg-blue-50");
+                    const selectedElement: HTMLElement | undefined = Array.from(
+                      document.querySelectorAll<HTMLElement>(
+                        ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
+                      )
+                    ).find((el) =>
+                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    );
                     if (selectedElement) {
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index");
@@ -699,12 +711,14 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
+          { showlocation &&
+        
           <div
-            className="w-full relative grow md:border-l border-grey-200"
-            onClick={() => {
-              courseActions("Location");
-              setDropdown(false);
-            }}
+          className="w-full relative grow md:border-l border-grey-200"
+          onClick={() => {
+            courseActions("Location");
+            setDropdown(false);
+          }}
           >
             <input
               autoComplete="off"
@@ -813,6 +827,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
+}
           <button
             type="submit"
             className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"

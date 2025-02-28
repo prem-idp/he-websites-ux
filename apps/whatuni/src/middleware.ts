@@ -16,7 +16,12 @@ export function middleware(request: NextRequest, response: NextResponse) {
   ];
   const customDomain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
 
-  if (slugs.length > 1 && searcharray.includes(slugs[1])) {
+  if (
+    pathname === "/home" ||
+    pathname === "/home/" ||
+    pathname === "/degree-courses/search"
+  ) {
+    console.log(request, "request headers logging from the middleware");
     const response = NextResponse.next(); // Initialize response properly
     response.cookies.set("pathnamecookies", pathname.toString());
     response.cookies.set("searchParamscookies", searchParams.toString());
@@ -55,7 +60,5 @@ export function middleware(request: NextRequest, response: NextResponse) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|fonts|images|icons|static).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|fonts|images|icons).*)"],
 };

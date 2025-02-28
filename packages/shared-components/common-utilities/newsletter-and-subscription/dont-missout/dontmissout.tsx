@@ -118,6 +118,8 @@ const Dontmissout = ({ key, data, preview }: any) => {
       isFormValid = false;
     }
 
+    console.log(firstname, lastname, email, year, agreement);
+
     const handleSubscriptionGAlog = async () => {
       const datalog: DataLayerGA4AttrType = {
         event: "registration",
@@ -156,7 +158,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
           method: "POST",
           headers: {
             "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            sitecode: "WU_WEB",
+            sitecode:String(process.env.SITE_CODE),
             "Content-Type": "application/json",
             "x-correlation-id": uuidv4(),
           },
