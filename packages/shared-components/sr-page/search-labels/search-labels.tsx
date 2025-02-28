@@ -15,7 +15,7 @@ const SearchLabels = () => {
   };
   return (
     <>
-    <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[4]">
+    <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[3]">
       <div className="max-w-container mx-auto">
         <ul className="flex items-start gap-[8px] uppercase">
           {List?.map((items, index) => (

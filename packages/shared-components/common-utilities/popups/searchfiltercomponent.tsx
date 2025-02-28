@@ -1103,7 +1103,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                     <div className="x-small font-semibold text-black uppercase">
                       Choose one or more
                     </div>
-                    <div className="grid grid-flow-row gap-[12px] md:grid-flow-col md:grid-rows-11 ">
+                    <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
                       {jsondata?.cityList?.map((item: any, index: any) => (
                         <div className="form_check relative" key={index}>
                           <div className="flex items-start gap-[8px]">
