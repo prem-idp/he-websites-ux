@@ -10,18 +10,17 @@ import makeApiCall from "@packages/REST-API/rest-api";
 export default async function Cdpage({ params }: any) {
 
   const prams_slug = await params;
-  const slug = `/degrees/${await prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.id1}/${prams_slug.id2}/`
-
+  const slug = `/degrees/${await prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id2}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
-  const searcchparams = new URLSearchParams({
-    courseId: "123",
-    affiliateId: "220703",
-  })
-  const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searcchparams.toString()}`;
+  const searchparams  = new URLSearchParams({
+    courseId: String(prams_slug?.course_id || ""),
+    affiliateId: String(process.env.AFFILATE_ID || ""),
+  });
+  const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
   const cdpagedata = await fetch(url, {
     method: "GET",
     headers: {
-      "siteCode": "WU",
+      "siteCode": String(process.env.SITE_CODE),
       "Content-Type": "application/json",
       "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
     },
@@ -38,6 +37,7 @@ export default async function Cdpage({ params }: any) {
     null,
     reviewPayload
   );
+  
   // --------------------------------------------------------------------------------------------------------------------------------------
 
   const customLabels = [

@@ -13,7 +13,6 @@ import SimilarCourseComponent from '@packages/shared-components/course-details/s
 import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
 import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-
 // import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState } from 'react';
