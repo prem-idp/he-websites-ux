@@ -17,8 +17,11 @@ import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters"
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
-import { getUrlParentSubject } from "@packages/lib/utlils/filters/result-filters";
-const SearchFilterComponent = ({ jsondata, path }: any) => {
+import { getParentSubject } from "@packages/lib/utlils/filters/result-filters";
+import { getSrFilter } from "@packages/REST-API/rest-api";
+import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
+const SearchFilterComponent = ({ data, path }: any) => {
+  const [jsondata, setJsondata] = useState(data);
   console.log(jsondata);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -53,6 +56,13 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       month: searchParams?.get("month") || "",
     });
     const value = isSingleSelection(searchParams);
+    // const fetchDynamicData = async () => {
+    //   const response = await getSrFilter(
+    //     filterbodyJson(orderedFilters, slug?.split("/")[1])
+    //   );
+    //   console.log(response);
+    //   setJsondata(response);
+    // };
 
     setIsIndexed(value);
     if (pathname) {
@@ -146,7 +156,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     setIsUniversityOpen(!isUniversityOpen);
     setSelectUniId({ id, displayHeading });
   };
-  console.log(universitiesList);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -184,9 +193,10 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     value: string,
     isQualification?: boolean
   ) => {
+    console.log({ key, value });
     if (isUpdating) return;
     isUpdating = true;
-    setTimeout(() => {
+    setTimeout(async () => {
       let crossL1Subject = false;
       if (key === "subject" || key === "course") {
         const selectedParent = jsondata?.subjectFilterList
@@ -196,7 +206,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
             }
           })
           ?.filter(Boolean);
-        const currentParent = getUrlParentSubject(searchParams, jsondata);
+        const currentParent = getParentSubject(searchParams, jsondata);
         if (selectedParent != currentParent) {
           crossL1Subject = true;
         }
@@ -213,6 +223,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
       }, {} as KeyValueObject);
+
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
@@ -239,9 +250,11 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
 
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+
         router.refresh();
       } else if (multiSelect) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        alert("router push");
         router.push(`?${urlParams.toString()}`);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
@@ -255,7 +268,16 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       isUpdating = false;
     }, 0);
   };
-
+  const modifySearchParams = (key: string, value: string, urlParams: any) => {
+    const urlParentSubject = getParentSubject(searchParams, jsondata);
+    const selectedParentSubject = getParentSubject(null, jsondata, value);
+    if (urlParentSubject == selectedParentSubject) {
+      const searchparamObject = Object?.fromEntries(urlParams.entries());
+      searchparamObject[key] = value;
+      const modifiedParam = new URLSearchParams(searchparamObject);
+      return `${modifiedParam}`;
+    }
+  };
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
     if (key === "subject" || key === "course") {
@@ -266,7 +288,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
           }
         })
         ?.filter(Boolean);
-      const currentParent = getUrlParentSubject(searchParams, jsondata);
+      const currentParent = getParentSubject(searchParams, jsondata);
       if (selectedParent != currentParent) {
         crossL1Subject = true;
       }
@@ -298,9 +320,19 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       }
     });
     if (count >= 4) {
-      return `subject=${searchParams?.get("subject")}&${key}=${value}`;
+      if (key == "subject") {
+        const param = modifySearchParams(key, value, urlParams);
+        return param;
+      } else {
+        return `subject=${searchParams?.get("subject")}&${key}=${value}`;
+      }
     } else {
-      return `${urlParams.toString()}`;
+      if (key == "subject") {
+        const param = modifySearchParams(key, value, urlParams);
+        return param;
+      } else {
+        return `${urlParams.toString()}`;
+      }
     }
   };
 
@@ -326,7 +358,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
     );
     return { parent: item, subjects: filteredSubjects };
   });
-  console.log(L2subjects);
   const studyMethodList = {
     studyMethodList: [
       {
@@ -351,6 +382,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
       if (region.parentRegionId == 1) return region;
     })
     .filter(Boolean);
+  console.log("==================", jsondata);
 
   return (
     <>
@@ -422,6 +454,18 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                           className="form-black flex relative"
                           key={index + 1}
                         >
+                          {isIndexed && (
+                            <Link
+                              id={"study-method" + items?.studyMethodTextKey}
+                              href={{
+                                pathname: `${slug}`,
+                                query: formUrl(
+                                  "study-method",
+                                  items?.studyMethodTextKey
+                                ),
+                              }}
+                            ></Link>
+                          )}
                           <input
                             checked={
                               prepopulateFilter?.studyMethod ==
@@ -443,8 +487,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               );
                             }}
                             type="checkbox"
-                            id="inperson"
-                            name="inperson"
+                            id={items?.studyMethodDesc}
+                            name={items?.studyMethodDesc}
                             className="rounded-[4px] outline-none absolute opacity-0"
                           />
                           <label
@@ -452,18 +496,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             className="btn btn-black-outline"
                           >
                             {items?.studyMethodDesc}
-                            {isIndexed && (
-                              <Link
-                                id={"study-method" + items?.studyMethodTextKey}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl(
-                                    "study-method",
-                                    items?.studyMethodTextKey
-                                  ),
-                                }}
-                              ></Link>
-                            )}
                           </label>
                         </div>
                       )
@@ -482,8 +514,22 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                           <div
                             className="form-black flex relative"
                             key={index + 1}
+                            id={items?.studyModeTextKey}
                           >
+                            {isIndexed && (
+                              <Link
+                                id={"study-mode" + items?.studyModeTextKey}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl(
+                                    "study-mode",
+                                    items?.studyModeTextKey
+                                  ),
+                                }}
+                              ></Link>
+                            )}
                             <input
+                              type="checkbox"
                               checked={
                                 prepopulateFilter?.studyMode ==
                                 items?.studyModeTextKey
@@ -503,27 +549,15 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                   items?.studyModeTextKey
                                 );
                               }}
-                              type="checkbox"
                               className="rounded-[4px] outline-none absolute opacity-0"
-                              id="Part time"
+                              id={items?.studyModeDesc}
+                              name={items?.studyModeDesc}
                             />
                             <label
-                              htmlFor="Part time"
+                              htmlFor={items?.studyModeDesc}
                               className="btn btn-black-outline"
                             >
                               {items?.studyModeDesc}
-                              {isIndexed && (
-                                <Link
-                                  id={"study-mode" + items?.studyModeTextKey}
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl(
-                                      "study-mode",
-                                      items?.studyModeTextKey
-                                    ),
-                                  }}
-                                ></Link>
-                              )}
                             </label>
                           </div>
                         )
@@ -543,6 +577,18 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                       {jsondata?.qualificationList?.map(
                         (item: any, index: any) => (
                           <div className="form-black flex relative" key={index}>
+                            {isIndexed && !slug.includes(item?.qualTextKey) && (
+                              <Link
+                                id={"study-level" + item?.qualTextKey}
+                                href={{
+                                  pathname: `/${item?.qualTextKey}-courses/search`,
+                                  query: formUrl(
+                                    "study-level",
+                                    item?.qualTextKey
+                                  ),
+                                }}
+                              ></Link>
+                            )}
                             <input
                               checked={
                                 slug?.includes(item?.qualTextKey) ? true : false
@@ -564,19 +610,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                               className="btn btn-black-outline"
                             >
                               {item?.qualDisplayDesc}
-                              {isIndexed &&
-                                !slug.includes(item?.qualTextKey) && (
-                                  <Link
-                                    id={"study-level" + item?.qualTextKey}
-                                    href={{
-                                      pathname: `/${item?.qualTextKey}-courses/search`,
-                                      query: formUrl(
-                                        "study-level",
-                                        item?.qualTextKey
-                                      ),
-                                    }}
-                                  ></Link>
-                                )}
                             </label>
                           </div>
                         )
@@ -710,6 +743,15 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             appendSearchParams("year", `${item?.year}`);
                           }}
                         >
+                          {isIndexed && (
+                            <Link
+                              id={"year" + item?.year}
+                              href={{
+                                pathname: `${slug}`,
+                                query: formUrl("year", `${item?.year}`),
+                              }}
+                            ></Link>
+                          )}
                           <input
                             checked={
                               `${prepopulateFilter?.year}` == `${item?.year}`
@@ -735,15 +777,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             className="btn btn-black-outline"
                           >
                             {item?.year}
-                            {isIndexed && (
-                              <Link
-                                id={"year" + item?.year}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl("year", `${item?.year}`),
-                                }}
-                              ></Link>
-                            )}
                           </label>
                         </div>
                       )
@@ -759,6 +792,15 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             appendSearchParams("month", item?.month);
                           }}
                         >
+                          {isIndexed && (
+                            <Link
+                              id={"month" + item?.month}
+                              href={{
+                                pathname: `${slug}`,
+                                query: formUrl("month", `${item?.month}`),
+                              }}
+                            ></Link>
+                          )}
                           <input
                             checked={
                               prepopulateFilter?.month == item?.month
@@ -782,15 +824,6 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                             className="btn btn-black-outline min-w-[53px] py-[5px]"
                           >
                             {item?.month}
-                            {isIndexed && (
-                              <Link
-                                id={"month" + item?.month}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl("month", `${item?.month}`),
-                                }}
-                              ></Link>
-                            )}
                           </label>
                         </div>
                       )
@@ -1035,8 +1068,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                 type="checkbox"
                                 checked={isAllUkChecked || false}
                                 className="form-checkbox hidden"
-                                id="All Uk"
-                                name="All Uk"
+                                id={parentRegion[0]?.regionName}
+                                name={parentRegion[0]?.regionName}
                                 onChange={() => {
                                   setIsAllUkChecked(!isAllUkChecked);
                                   appendSearchParams(
@@ -1046,7 +1079,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                 }}
                               />
                               <label
-                                htmlFor="All Uk"
+                                htmlFor={parentRegion[0]?.regionName}
                                 className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                               >
                                 <svg
@@ -1112,6 +1145,7 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                                 type="checkbox"
                                 className="form-checkbox hidden"
                                 id={item?.cityName}
+                                name={item?.cityName}
                               />
                               <label
                                 htmlFor={item?.cityName}
@@ -1162,9 +1196,8 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
                         (item: any, index: any) => (
                           <div className="form-black flex relative" key={index}>
                             <input
-                              // defaultValue={"Countryside"}
                               type="checkbox"
-                              name="Countryside"
+                              name={item?.locTypeDesc}
                               className="rounded-[4px] outline-none absolute opacity-0"
                               id={item?.locTypeDesc}
                               value={item?.locTypeDesc}
