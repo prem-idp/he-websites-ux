@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image';
+import React from 'react';
 import { PercentageBar } from '../common-components/PercentageBar';
 import { CourseSection } from '../models/course.model';
+import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
 interface PopularALevelSubjectsComponentProps extends CourseSection {
   popularSubjects: any;
@@ -30,7 +29,7 @@ const Popularalevelsubjectcomponents = ({ sectionId, sectionName, popularSubject
                 {subjectGroup?.a_level_subjects?.map((subject: any, idx: number) => <PercentageBar key={idx} {...subject} />)}
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
-                  <Link href='#' className='uppercase text-primary-400 hover:underline'>{popularSubjects?.data_source}</Link>
+                  <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-primary-400 hover:underline'>{popularSubjects?.data_source}</a>
                 </div>
               </div>)}
 

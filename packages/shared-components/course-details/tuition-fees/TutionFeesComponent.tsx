@@ -8,6 +8,7 @@ import LeftPannelModal from '@packages/shared-components/course-details/Modal/Le
 import { poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction';
 import Tooltip from '../common-components/Tooltip';
 import { CourseSection } from '../models/course.model';
+import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
 interface FeesType {
   "feeType": string,
@@ -113,15 +114,22 @@ const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesC
                 <div className="course-highlight__details w-full grid grid-cols-1 md:grid-cols-2 gap-[16px] bg-blue-50 rounded-[8px] p-[16px]">
                   <div className="course-highlight__option  flex flex-col items-start gap-[16px]">
                     <div className="flex flex-col gap-[4px] *:text-grey300">
-                      <div className="para font-semibold text-black">
+                      {selectedFeesType?.fee ? <div className="para font-semibold text-black">
                         <span className='tooltip w-fit group/item para underline relative cursor-pointer pb-[6px] mb-[-6px]'>{poundCostCommaSeparation(+selectedFeesType?.fee)}
                           <Tooltip desc={toolTips.feesToolTip} />
-                        </span> per year</div>
-                      <div className="small text-black">Students from&nbsp;
+                        </span> per year
+                      </div> :
+                        <div className="para font-semibold text-black">
+                          Not currently available
+                        </div>}
+                      {selectedFeesType?.fee ? <div className="small text-black">Students from&nbsp;
                         <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedFeesType.feeType?.toLowerCase() !== 'rest of world' ? selectedFeesType.feeType : 'International'}
                           <Tooltip desc={toolTips.regionTooltip} />
                         </span>
-                      </div>
+                      </div> :
+                        <div className="small text-black">
+                          The uni hasn't provided this, please contact them for the mpst up-to date information
+                        </div>}
                     </div>
                   </div>
                 </div>
@@ -131,7 +139,7 @@ const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesC
                 </div>
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
-                  <span className='text-grey300'>UCAS /</span><Link href='/degrees/jsp/search/kisdataStatic.jsp' className='text-primary-400 hover:underline'>IDP Connect</Link>
+                  <span className='text-grey300'>UCAS /</span><a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 hover:underline'>IDP Connect</a>
                 </div>
               </div>
             </div>

@@ -8,10 +8,10 @@ import Reviewscomponents from "@packages/shared-components/common-utilities/slid
 interface CourseInfoComponentProps extends CourseSection {
 
 }
-  interface CourseInfoComponentProps {
-    courseInfo: any,
-    keyStats: any
-  }
+interface CourseInfoComponentProps {
+  courseInfo: any,
+  keyStats: any
+}
 
 const CourseInfoComponent = ({ sectionId, sectionName, courseInfo, keyStats }: CourseInfoComponentProps) => {
 
@@ -23,9 +23,9 @@ const CourseInfoComponent = ({ sectionId, sectionName, courseInfo, keyStats }: C
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
             <ReadMoreLessDesc text={courseInfo?.courseSummary} />
             <Keystatscomponents {...keyStats} />
-            <div className='mt-[8px]'>
-              <Reviewscomponents heading="heading" />
-            </div>
+            {/* <div className='mt-[8px]'> */}
+            <Reviewscomponents heading="What student say" />
+            {/* </div> */}
           </div>
         </div>
       </div>

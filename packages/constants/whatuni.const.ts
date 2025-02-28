@@ -1,0 +1,1 @@
+export const DATA_SOURCE_PAGE_PATH = "/degrees/jsp/search/kisdataStatic.jsp";

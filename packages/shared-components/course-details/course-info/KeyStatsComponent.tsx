@@ -7,6 +7,7 @@ import { useState } from 'react';
 import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
 import Tooltip from '../common-components/Tooltip';
 import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction'
+import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
 const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
 
@@ -24,7 +25,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
   }
 
   function getStatsImgPath(rank: string) {
-    const pathPrefix = '/static/assets/icons/course-details/'
+    const pathPrefix = '/static/assets/icons/course-details/';
     switch (true) {
       case rank.toLowerCase().includes('complete university guide ranking'):
         return (pathPrefix + 'cug_ranking_stats_icon.svg');
@@ -131,8 +132,8 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
           <div className='keystats-inner-row'>
             <div className='flex items-center gap-[4px] *:text-x-small *:font-semibold *:tracking-[1px]'>
               <div className='text-white'>SOURCE:</div>
-              <Link href='/degrees/jsp/search/kisdataStatic.jsp' className='uppercase text-white underline'>UNISTATS,</Link>
-              <Link href='/degrees/jsp/search/kisdataStatic.jsp' className='uppercase text-white underline'>UCAS / HESA</Link>
+              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UNISTATS,</a>
+              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UCAS / HESA</a>
             </div>
           </div>
         </div>

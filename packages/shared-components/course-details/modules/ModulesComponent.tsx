@@ -4,6 +4,7 @@ import Modulesaccordioncomponents from '@packages/shared-components/course-detai
 import Link from 'next/link';
 import React, { useState } from "react";
 import { CourseSection } from '../models/course.model';
+import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
 interface Module { subModules: any[], moduleName: string };
 
@@ -21,7 +22,7 @@ const ModulesComponent = ({ sectionId, sectionName, modules }: ModulesComponentP
                         <Modulesaccordioncomponents />
                         <div className='flex items-center gap-[4px] *:text-x-small *:font-normal'>
                             <div className='text-grey300'>DATA SOURCE:</div>
-                            <Link href='#' className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>HESA</Link>
+                            <a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>HESA</a>
                         </div>
                     </div>
                 </div>
