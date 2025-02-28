@@ -163,18 +163,36 @@ const locationMilesArray = [
   { miles: "25 miles" },
   { miles: "50 miles" },
 ];
-const getUrlParentSubject = (searchParams: any, jsondata: any) => {
-  const sub = searchParams?.get("subject") || searchParams?.get("course") || "";
-  const arr = sub?.split(",");
-  const parents: any = arr?.map((selectedSub: string) => {
-    const getParent = jsondata?.subjectFilterList?.map((items: any) => {
-      if (selectedSub == items?.subjectTextKey) {
-        return items?.parentSubject;
-      }
+const getParentSubject = (
+  searchParams: any,
+  jsondata: any,
+  subjectTextKey?: any
+) => {
+  if (searchParams) {
+    const sub =
+      searchParams?.get("subject") || searchParams?.get("course") || "";
+    const arr = sub?.split(",");
+    const parents: any = arr?.map((selectedSub: string) => {
+      const getParent = jsondata?.subjectFilterList?.map((items: any) => {
+        if (selectedSub == items?.subjectTextKey) {
+          return items?.parentSubject;
+        }
+      });
+      return getParent?.filter(Boolean);
     });
-    return getParent?.filter(Boolean);
-  });
-  return parents?.flat()[0];
+    return parents?.flat()[0];
+  } else {
+    if (subjectTextKey) {
+      const parent = jsondata?.subjectFilterList
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey == subjectTextKey) {
+            return subjects?.parentSubject;
+          }
+        })
+        ?.filter(Boolean);
+      return `${parent}`;
+    }
+  }
 };
 export {
   locationMilesArray,
@@ -182,6 +200,6 @@ export {
   isSingleSelection,
   getDecodedCookie,
   getFilterPriority,
-  getUrlParentSubject,
+  getParentSubject,
   extractUrlAndCookieValues,
 };

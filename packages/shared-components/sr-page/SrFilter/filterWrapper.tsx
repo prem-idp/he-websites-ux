@@ -16,7 +16,7 @@ const FilterWrapper = async () => {
   const data = await getSrFilter(body);
   return (
     <>
-      <SearchFilterComponent jsondata={data} path={fullPath} />
+      <SearchFilterComponent data={data} path={fullPath} />
     </>
   );
 };
