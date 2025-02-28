@@ -15,12 +15,13 @@ export default async function Cdpage({ params }: any) {
   const searchparams  = new URLSearchParams({
     courseId: String(prams_slug?.course_id || ""),
     affiliateId: String(process.env.AFFILATE_ID || ""),
+    collegeId:String(prams_slug?.uni_id || ""),
   });
   const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
   const cdpagedata = await fetch(url, {
     method: "GET",
     headers: {
-      "siteCode": String(process.env.SITE_CODE),
+      
       "Content-Type": "application/json",
       "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
     },
