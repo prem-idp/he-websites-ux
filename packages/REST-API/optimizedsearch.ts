@@ -14,7 +14,7 @@ const optimizedSearch = async (
   const apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/${url}${queryParams ? `?${queryParams}` : ""}`;
 
   if (cache.has(apiUrl)) {
-    console.log("Returning cached response");
+    //console.log("Returning cached response");
     return cache.get(apiUrl);
   }
 

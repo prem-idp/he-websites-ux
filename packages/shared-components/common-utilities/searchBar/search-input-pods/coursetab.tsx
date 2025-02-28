@@ -515,7 +515,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       el.classList.contains("bg-blue-50") || el.classList.contains("underline")
                     );
                     if (selectedElement) {
-                      console.log(selectedElement,"selected element");
+                      //console.log(selectedElement,"selected element");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
                       setsearchFormHandle((prevData: SearchFormHandle) => ({

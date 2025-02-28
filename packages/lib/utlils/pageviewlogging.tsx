@@ -32,7 +32,7 @@ const PageViewLogging: React.FC<PageViewLoggingProps> = ({ gaData, csData, pageN
 
     //CS event
     if(csData){
-      //console.log("CS for pageview");
+      ////console.log("CS for pageview");
       csData.eventType = csData.eventType ?? "pageViewed";
       logClickstreamEvent(csData);
     }

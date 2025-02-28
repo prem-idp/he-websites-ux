@@ -10,7 +10,7 @@ export function middleware(request: NextRequest, response: NextResponse) {
     pathname === "/home/" ||
     pathname === "/degree-courses/search"
   ) {
-    console.log(request, "request headers logging from the middleware");
+    //console.log(request, "request headers logging from the middleware");
     const response = NextResponse.next(); // Initialize response properly
     // if (searchParams && pathname === "/degree-courses/search") {
     response.cookies.set("pathnamecookies", pathname, {

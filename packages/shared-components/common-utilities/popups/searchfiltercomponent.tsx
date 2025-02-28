@@ -182,10 +182,10 @@ const SearchFilterComponent = ({ jsondata }: any) => {
       });
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        console.log("same url");
+        //console.log("same url");
         router.refresh();
       } else {
-        console.log("diff url");
+        //console.log("diff url");
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
@@ -225,18 +225,18 @@ const SearchFilterComponent = ({ jsondata }: any) => {
   // };
   const formUrl = (key: string, value: string) => {
     const filters = extractUrlAndCookieValues(searchParams, key, value);
-    console.log(filters);
+    //console.log(filters);
     const orderedFilters = getFilterPriority().reduce((acc, priorityKey) => {
       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
       return acc;
     }, {} as KeyValueObject);
-    console.log(orderedFilters);
+    //console.log(orderedFilters);
     const urlParams = new URLSearchParams();
     let totalValues = 0;
     let subjectParam = "";
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a).length;
-    console.log(count);
+    //console.log(count);
     // Store the subject parameter separately
     //const count: any = Object?.fromEntries(searchParams?.entries())?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
@@ -249,16 +249,16 @@ const SearchFilterComponent = ({ jsondata }: any) => {
       }
     });
     if (count >= 4) {
-      console.log("count is equal to greater than 4");
-      console.log(key, "::", value, `?${subjectParam}&${key}=${value}`);
+      //console.log("count is equal to greater than 4");
+      //console.log(key, "::", value, `?${subjectParam}&${key}=${value}`);
       return `?${subjectParam}&${key}=${value}`;
     } else {
-      console.log("count value", count);
-      console.log(key, ":else:", value, `?${urlParams.toString()}`);
+      //console.log("count value", count);
+      //console.log(key, ":else:", value, `?${urlParams.toString()}`);
       return `?${urlParams.toString()}`;
     }
   };
-  console.log("forming as hardcoded", formUrl("location", "england"));
+  //console.log("forming as hardcoded", formUrl("location", "england"));
   return (
     <>
       <div>

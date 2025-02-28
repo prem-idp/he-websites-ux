@@ -7,7 +7,7 @@ import SearchFilterComponent from "@packages/shared-components/common-utilities/
 const FilterWrapper = async () => {
   const headersList = await headers();
   const referer: any = headersList?.get("referer");
-  // console.log(headersList);
+  // //console.log(headersList);
   if (referer) {
     let searchParams = new URLSearchParams();
     const url = new URL(referer, "http://localhost:3000");
@@ -15,11 +15,11 @@ const FilterWrapper = async () => {
     const quaification: string = url.pathname.split("/")[1] || "degree-courses";
     const paramsObject = Object.fromEntries(searchParams.entries());
     //const filterdata = await getSrFilter({});
-    console.log("param object", paramsObject);
+    //console.log("param object", paramsObject);
     const d = filterbodyJson(paramsObject, quaification);
-    console.log(d);
+    //console.log(d);
   } else {
-    console.log("no referer");
+    //console.log("no referer");
   }
   const jsondata = {
     qualificationList: [

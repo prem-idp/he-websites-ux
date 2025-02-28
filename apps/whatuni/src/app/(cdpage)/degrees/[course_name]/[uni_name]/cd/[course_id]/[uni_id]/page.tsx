@@ -26,7 +26,7 @@ export default async function Cdpage({ params }: any) {
     },
   });
   const data = await cdpagedata.json();
-  console.log(data,"data from the cdpage")
+  //console.log(data,"data from the cdpage")
 
   // --------------------------------------------------------------------------------------------------------------------------------------
   // -----------------------------------------------initial course review fetch------------------------------------------------------------

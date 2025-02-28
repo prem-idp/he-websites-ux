@@ -124,7 +124,7 @@ const Header = ({ topnav_data }: props) => {
         const loginviaonetap = getCookieValue("LogedinviaOnetap") || false;
 
         if (!sessiontimecookie && loginviaonetap) {
-          console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
+          //console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
           document.cookie =

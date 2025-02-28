@@ -20,10 +20,10 @@ export async function graphQlFetchFunction(
     });
     const data = await res.json();
 
-    console.log("fetch is passing", new Date().toISOString(),data)
+    //console.log("fetch is passing", new Date().toISOString(),data)
     return data;
   } catch (error) {
-    console.log(error,"Assssssss")
+    //console.log(error,"Assssssss")
     throw error;
   }
 }
@@ -74,21 +74,21 @@ export async function callClickstreamAPI(payload: any) {
       body: payload ? JSON.stringify(payload) : undefined,
     });
   } catch (error: any) {
-    console.log("Clickstram error: ", error);
+    //console.log("Clickstram error: ", error);
   }
 }
 
 export default async function searchResultsFetchFunction(searchPayload: any) {
-  console.log("Inside", JSON.stringify(searchPayload));
+  //console.log("Inside", JSON.stringify(searchPayload));
   try {
     searchPayload = {
       dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
       //userRegionArray : headersList?.get('cloudfront-viewer-country-region'),
       ...searchPayload,
     }
-    console.log("Inside", JSON.stringify(searchPayload) )
+    //console.log("Inside", JSON.stringify(searchPayload) )
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
-    console.log("sitecode" +`${process.env.PROJECT}`)
+    //console.log("sitecode" +`${process.env.PROJECT}`)
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -106,7 +106,7 @@ export default async function searchResultsFetchFunction(searchPayload: any) {
     return data;
   } catch (error) {
     // Handle the error
-    console.log("ERROR", error);
+    //console.log("ERROR", error);
     throw error;
   }
 }

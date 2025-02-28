@@ -11,7 +11,7 @@ export default async function Layout({
 }>) {
   const p = await params;
   // const sp = await searchParams;
-  console.log({ p });
+  //console.log({ p });
   return (
     <>
       {children}

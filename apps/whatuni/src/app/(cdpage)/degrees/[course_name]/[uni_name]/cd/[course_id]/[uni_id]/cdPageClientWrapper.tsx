@@ -18,14 +18,14 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 import { useState, useEffect } from 'react';
 export default function Cdpageclient({ children, data, jsonResponse, prams_slug }: any) {
 
-    console.log("this is the cdpageclientwrapper")
+    //console.log("this is the cdpageclientwrapper")
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
+    const [startfetch,setStartfetch]=useState(false);
     useEffect(() => {
         async function clientFetch() {
             try {
-                console.log("Fetching data from client side...");
-
+                //console.log("Fetching data from client side...");
                 const searchParams = new URLSearchParams({
                     courseId: String(prams_slug?.course_id || ""),
                     affiliateId: String(process.env.AFFILATE_ID || ""),
@@ -34,24 +34,30 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
-                        "siteCode": String(process.env.NEXT_PUBLIC_SITE_CODE || ""),
+                        siteCode: String(process.env.SITE_CODE || ""),
                         "Content-Type": "application/json",
                         "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
                     },
                 });
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const data = await response.json();
-                setFetcheddata(data);
-                console.log("Client-side fetched data:", data);
+                const clientfetcheddata = await response.json();
+                setFetcheddata((prevData:any) => ({ ...prevData, ...clientfetcheddata }));
+                //console.log("Client-side fetched data:", data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-
-        clientFetch();
+   if(startfetch)
+   {
+    clientFetch();
+   }
+   else{
+    setStartfetch(true)
+   }
+        
     }, [selectedavilability]);
 
-    console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
+    //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
     return (
         <>
 

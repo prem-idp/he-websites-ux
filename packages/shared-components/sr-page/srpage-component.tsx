@@ -22,7 +22,7 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
   //const userRegion = headerlist?.get('cloudfront-viewer-country-region');
   // const filterCookie = getCookieValue("filter_param");
   //const filterCookieParam = filterCookie ? JSON.parse(filterCookie) : null;
-  console.log("query" + pathname);
+  //console.log("query" + pathname);
   const headersList = await headers();
   const referer = headersList.get("referer");
   const pathnameArray = referer?.split?.("/");
@@ -41,11 +41,11 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
         pathnameArray?.[3]?.split?.("-")?.[0]
       )
     );
-    console.log(
+    //console.log(
       "After fetching search results" + JSON.stringify(searchResultsData)
     );
   } catch (error) {
-    console.log("error", error);
+    //console.log("error", error);
   }
 
   return (

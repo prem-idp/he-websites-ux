@@ -42,7 +42,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
             .addTo(mapRef.current);
         });
       }
-      console.log('mapbox loaded');
+      //console.log('mapbox loaded');
     }
 
     // load Mapbox only if it's entered into the view

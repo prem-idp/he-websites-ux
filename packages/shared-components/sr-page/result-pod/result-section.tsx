@@ -26,7 +26,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
     window.open(navigationUrl, '_self');   
   }
   const handleFavourite = (collegeId:any) => {
-    console.log("Favourite");
+    //console.log("Favourite");
   }
   return (
     <>

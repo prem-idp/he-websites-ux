@@ -8,7 +8,7 @@ const Paginations = ({ totalPages ,currentPage}: any) => {
   const totalVisiblePages = 7;
   // const searchParams = new URLSearchParams(window?.location?.search);
   // const currentPage = Number(searchParams?.get("pageno")) || 1;  
-  console.log("TOTAl:"+ totalPages,currentPage)
+  //console.log("TOTAl:"+ totalPages,currentPage)
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);

@@ -18,7 +18,7 @@ export default function Search({
   uni_data,
   universalSearchPanel,
 }: any) {
-  console.log(universalSearchPanel);
+  //console.log(universalSearchPanel);
   const searchTabClick = (tabName: string) => {
     setsearchFormHandle((preData) => ({ ...preData, activeTab: tabName }));
   };
