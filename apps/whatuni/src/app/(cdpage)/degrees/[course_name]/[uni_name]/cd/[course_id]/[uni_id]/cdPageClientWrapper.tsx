@@ -22,6 +22,11 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
     const [startfetch,setStartfetch]=useState(false);
+    const [renderKey, setRenderKey] = useState(0);
+
+    useEffect(() => {
+        setRenderKey(prev => prev + 1); // Force re-render
+    }, [fetcheddata]);
     useEffect(() => {
         async function clientFetch() {
             try {
@@ -43,6 +48,7 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const clientfetcheddata = await response.json();
                 setFetcheddata((prevData:any) => ({ ...prevData, ...clientfetcheddata }));
+                // setFetcheddata(clientfetcheddata);
                 //console.log("Client-side fetched data:", data);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -60,28 +66,33 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
 
     //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
     return (
-        <>
 
-            <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-            <Jumptocomponents data={data} />
+        <div>
+               <div >
+                <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
+                </div>
+             <Jumptocomponents data={data} />
+            
+            <>
             {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 return <div key={sectionId}>{(() => {
                     switch (sectionId) {
-                        case 'courseInfo': return <div >{children}</div>;
+                        case 'courseInfo': return <div key={renderKey}>{children}</div>;
                         case 'modules': return <Modulescomponents  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'entryRequirements': return <EntryrequirementsComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'popularALevelSubjects': return <Popularalevelsubjectcomponents  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'tutionFees': return <TutionFeesComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'entryRequirements': return <EntryrequirementsComponent  key={renderKey}{...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={renderKey}  {...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'tutionFees': return <TutionFeesComponent  key={renderKey} {...{ sectionName, sectionId }} {...fetcheddata} />;
                         case 'latestReviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
                         case 'uniInfo': return <UniInfoComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
                     }
                 })()}</div>
             })}
+            </>
             <Othercoursesmaylikecomponents />
             <SimilarCourseComponent {...data} />
             {process.env.PROJECT === "Whatuni" &&
                 <Findacoursecomponents />
             }
-        </>
+        </div>
     )
 }
