@@ -49,11 +49,11 @@ const SearchFilterButtons = () => {
 
   const ucasClick = () => {
     setUcasPopupOpen(true);
-    const body = document.body;
+    const body = document?.body;
     body.classList.add("overflow-y-hidden");
   };
   const ucasClose = () => {
-    const body = document.body;
+    const body = document?.body;
     setUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };

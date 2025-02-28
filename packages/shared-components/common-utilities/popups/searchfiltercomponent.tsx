@@ -61,7 +61,11 @@ const SearchFilterComponent = ({ jsondata, path }: any) => {
   }, [searchParams, router]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
-      const element = document.getElementById(`#${eventName}`);
+      if (typeof document === "undefined") {
+        return "";
+      }
+
+      const element = document?.getElementById(`#${eventName}`);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
