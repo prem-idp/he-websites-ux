@@ -76,7 +76,6 @@ export async function callClickstreamAPI(payload: any) {
 }
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
-  console.log("PAYLOAD SR", searchPayload);
   try {
     searchPayload = {
       dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
@@ -84,7 +83,6 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
       ...searchPayload,
     };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
-    console.log("sitecode" + `${process.env.PROJECT}`);
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -104,8 +102,6 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
     console.log("ERROR", error);
     throw error;
   }
-}
+};
 
-export  {
-  searchResultsFetchFunction,
-}
+export { searchResultsFetchFunction };

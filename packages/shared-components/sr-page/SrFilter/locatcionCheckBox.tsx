@@ -42,11 +42,11 @@ const LocationcheckBox = ({
               ></Link>
             )}
             <input
+              checked={isRegionSelected || false}
               onChange={() => {
                 appendSearchParams("location", item?.regionTextKey);
                 setIsRegionSelected(!isRegionSelected);
               }}
-              checked={isRegionSelected}
               type="checkbox"
               className="form-checkbox hidden"
               id={item?.regionName}

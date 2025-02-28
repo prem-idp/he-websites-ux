@@ -1,9 +1,8 @@
-// import { MetaDataProps } from "@whatuni/src/app/(sr-and-pg-pages)/[hero]/search/page";
-// import { getDecodedCookie } from "./result-filters";
-// import { getSearchPayload } from "@packages/shared-components/services/utils";
-// import { headers } from "next/headers";
-// import { graphQlFetchFunction } from "../server-actions/server-action";
-// import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
+import { getDecodedCookie } from "./filters/result-filters";
+import { getSearchPayload } from "@packages/shared-components/services/utils";
+import { headers } from "next/headers";
+import { graphQlFetchFunction } from "../server-actions/server-action";
+import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
 
 // interface MetaDataInterface {
 //   title: string;
@@ -250,12 +249,44 @@
 //     }
 //   }
 
-//   function getStudylevelSeoField(studylevel: string) {
-//     if (studylevel == "degree") {
-//     } else if (studylevel == "postgraduate") {
-//     } else if (studylevel == "access-foundation") {
-//     } else if (studylevel == "foundation") {
-//     } else if (studylevel == "hnd-hnc") {
+//   return actualMetaData;
+//}
+
+export async function replaceSEOPlaceHolder(inputText: any) {
+  if (inputText?.includes("[Course Count]")) {
+    inputText = inputText.replace("[Course Count]", "");
+  }
+  if (inputText?.includes("[Provider Count]")) {
+    inputText = inputText.replace("[Provider Count]", "");
+  }
+  if (inputText?.includes("[Region]")) {
+    inputText.replace("[Region]", "");
+  }
+  if (inputText?.includes("[LOCATION]")) {
+    inputText.replace("[LOCATION]", "");
+  }
+  if (inputText?.includes("[SUBJECT]")) {
+    inputText.replace("[SUBJECT]", "");
+  }
+  if (inputText?.includes("[STUDY LEVEL]")) {
+    inputText.replace("[STUDY LEVEL]", "");
+  }
+  if (inputText?.includes("[STUDY MODE]")) {
+    inputText.replace("[STUDY MODE]", "");
+  }
+  return inputText;
+}
+
+// function getStudylevelSeoField(studylevel: string){
+//     if(studylevel == "degree"){
+
+//     } else if(studylevel == "postgraduate"){
+
+//     } else if(studylevel == "access-foundation"){
+
+//     } else if(studylevel == "foundation"){
+
+//     } else if(studylevel == "hnd-hnc"){
+
 //     }
-//   }
 // }

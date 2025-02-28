@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { filterbodyJson } from "@packages/lib/utlils/result-filters";
+import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import { getSrFilter } from "@packages/REST-API/rest-api";
 import { cookies } from "next/headers";
 import SearchFilterComponent from "@packages/shared-components/common-utilities/popups/searchfiltercomponent";

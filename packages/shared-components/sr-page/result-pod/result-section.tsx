@@ -7,18 +7,16 @@ import Getprospectus from "@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
-import { fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
+import { AuthUser, fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
-import { addRemoveFavourites, getUserFavourites } from "@packages/lib/utlils/userfavourite";
+import {
+  addRemoveFavourites,
+  getUserFavourites,
+} from "@packages/lib/utlils/userfavourite";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
-
 interface SrPageResultPodProps {
   searchResultsData: any[];
-  subject:any;
-}
-interface FavoriteState {
-  favoriteFlag: boolean;
-  isLoading: boolean;
+  subject: any;
 }
 interface Favourite {
   fav_id: string;
@@ -26,88 +24,82 @@ interface Favourite {
   fav_date?: string;
   final_choice_id?: string | null;
   choice_position?: number | null;
-};
+}
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,subject
+  searchResultsData,
+  subject,
 }) => {
-  const [userData, setUserData] = useState({});
- const [favouritesList, setFavouritesList] = useState<Favourite[]>([]); 
- const [favourite, setFavourite] = useState<{favouritedUni: number[] }>({favouritedUni: [] });
+  const [user, setUserData] = useState<AuthUser | null>(null);
+ const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+ const [exceedMessage, setExceedMessage] = useState(false);
   useEffect(() => {
+    // Getting favourites list when user logged in
     async function checkUser() {
       try{
-      const user = await getCurrentUser();
-      console.log(user)
+      const user: AuthUser = await getCurrentUser();
       setUserData(user);  
       if (user && typeof window !== 'undefined') {
-        console.log("fav call")
-        const favList = await getUserFavourites();      
-        setFavouritesList(favList)
-        console.log("favdata", favouritesList)
+        const favList :Favourite[]= await getUserFavourites();      
+        setFavourite({favouritedList : favList?.map(fav => fav?.fav_id)})
+        console.log("srfavdata", favourite.favouritedList)
       }
     } catch(error) {
-       console.log(error)
+      setUserData(null);  
     }
     }
     checkUser();
   }, []); 
-  const [favoriteState, setFavoriteState] = useState<FavoriteState>({
-    favoriteFlag: false,
-    isLoading: false
-  });
-  const [isfavouritesClicked, setIsfavouritesClicked] = useState(false);
+  const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
   const universityPodClick = (navigationUrl: any) => {
     window.open(navigationUrl, "_self");
   };
-  //
+  //Handle Favourite
   const handleFavourite = async(contentId: any,contentName:any,contentType:any,e: React.FormEvent) => {
     e.stopPropagation();
-    if (userData === null ||  userData === "") {
-      console.log("not logged")
+    console.log("userdata", user)
+    if (!user) {
       return;
     }
-    const isAdd = !favourite.favouritedUni?.includes(contentId);
-    if (isAdd) {
-        setFavourite((prevState) => ({ ...prevState, favouritedUni: [...prevState.favouritedUni, contentId] }));
-    } else {
-        setFavourite((prevState) => ({ ...prevState, favouritedUni: prevState.favouritedUni?.filter((id) => id !== contentId) }));
-    
-    }
+    const isAdd = !favourite.favouritedList?.includes(contentId?.toString());
     try {
       const payload = {
         contentType: contentType,
         contentId: contentId,
         contentName: contentName,
-        inputFlag: isAdd
+        inputFlag: isAdd,
       };
-     const data = await addRemoveFavourites([payload]);
-     console.log("FAV data", data)
-     
+     const data = await addRemoveFavourites([payload]);   
       if (data?.message === 'Added course' || data?.message === 'Added Institution') {
-        setIsfavouritesClicked(true);
-      } else if (data.message !== 'Limit exceeded') {
-        setIsfavouritesClicked(false);
+        setFavourite((prevState) => ({ ...prevState, favouritedList: [...prevState?.favouritedList, contentId.toString()] }));
+        setfavourtiteTooltip(contentId)
+      } else if (data?.message === 'Removed Institution' || data?.message === 'Removed course') {
+        setfavourtiteTooltip("")       
+        setFavourite((prevState) => ({ ...prevState, favouritedList: prevState?.favouritedList?.filter((id) => id != contentId) }));    
+      }
+      else if (data?.message === 'Limit exceeded') {
+        setfavourtiteTooltip(""),
+        setExceedMessage(true);
       }
     } catch (error) {
+      setFavourite((prevState) => ({ ...prevState, favouritedList: prevState?.favouritedList?.filter((id) => id != contentId) }));    
       console.error('Error toggling favorite:', error);
     } 
   };
-
-
-  const onClose = () => {
-    setIsfavouritesClicked(!isfavouritesClicked);
+  const onClose = (event: React.FormEvent) => {
+    event.stopPropagation();
+    setfavourtiteTooltip(""),setExceedMessage(false);
   };
 
-  // const [openModal, setOpenModal] = useState(null);
+  const calculateDaysBetween = (targetDate:any) => {
+    const currentDate:any = new Date();
+    const specificDate :any = new Date(targetDate);
+    const differenceInTime = specificDate - currentDate;
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24)); 
+    return differenceInDays > 1 ? "Next Open day in " + differenceInDays + " days" : "Next Open day in " + differenceInDays + " day";
+  };
 
-  // const handleOpenModal = (modalName: any) => {
-  //   setOpenModal(modalName);
-  // };
-  // const handleCloseModal = () => {
-  //   setOpenModal(null);
-  // };
-
+  //
   return (
     <>
       {searchResultsData?.map((data, index) => (
@@ -148,15 +140,17 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       id="uni_img"
                     />
                   </Link>
-                  {data?.sponsoredListFlag === "Y" ? (
+                  {data?.sponsoredListingFlag === "Y" ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
-                  ) : <></>}
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <div
                   onClick={(event)=> handleFavourite(data?.collegeId,data?.collegeDisplayName,"INSTITUTION",event)}
-                  className={`${favouritesList?.some(fav => fav?.fav_id === data?.collegeId) || favourite.favouritedUni?.includes(data?.collegeId) ? 'heart active' : ''} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+                  className={`${(favourite.favouritedList?.includes(data?.collegeId?.toString())) ? 'heart active' : ''} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"
@@ -173,12 +167,13 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0 hidden">
+                  {favourtiteTooltip === data?.collegeId ? (
+                  <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                     <div className="flex items-center justify-between">
                       <span className="text-grey900 font-semibold">
                         We have added this to your comparison
                       </span>
-                      <svg
+                      <svg onClick={(event)=> onClose(event)}
                         className="cursor-pointer"
                         width="16"
                         height="16"
@@ -222,7 +217,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         />
                       </svg>
                     </Link>
-                  </div>
+                  </div> ) :<></>}
                 </div>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
@@ -345,7 +340,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                 ) : (
                   <></>
                 )}
-                {data?.wuscaBadges ? (
+                {data?.wuscaBadges && process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       <Image
@@ -358,6 +353,15 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     </div>
                     <div className="bg-primary-400 px-[8px] rounded-[4px]">
                       + 2 more
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {data?.openDayDetails?.openDate && process.env.PROJECT === "Whatuni" ? (
+                  <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                    <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
+                      {calculateDaysBetween(data?.openDayDetails?.openDate)}
                     </div>
                   </div>
                 ) : (
@@ -455,7 +459,11 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <div className="flex items-start justify-between">
                       <div className="flex flex-col gap-[8px]">
                         <Link
-                          href={process.env.PROJECT === "Whatuni" ? `/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}` : `/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`}
+                          href={
+                            process.env.PROJECT === "Whatuni"
+                              ? `/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`
+                              : `/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`
+                          }
                         >
                           <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
                             {courseData?.courseTitle}
@@ -465,17 +473,18 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           {courseData?.minUcasPoints ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {/* <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              {process.env.PROJECT === "PGS" ? (
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z" stroke="#5C656E" stroke-width="1.13" stroke-linecap="round" stroke-linejoin="round"/>
-</svg> */}
-                              {/* pgs euro icon */}
-                              <Image
+</svg> ) : <> <Image
                                 className="hidden md:block"
                                 src="/static/assets/icons/search-result/calender-grey.svg"
                                 alt="Lecturers and Teaching"
                                 width={16}
                                 height={16}
-                              />
+                              /></>}
+                              {/* pgs euro icon */}
+                             
                               {courseData?.minUcasPoints}-
                               {courseData?.maxUcasPoints} ucas points
                             </div>
@@ -500,7 +509,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <div onClick={(event)=> handleFavourite(courseData?.courseId,data?.collegeDisplayName,"COURSE",event)} className={`${favourite.favouritedUni?.includes(courseData?.courseId) ? 'heart active' : ''} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}>
+                      <div onClick={(event)=> handleFavourite(courseData?.courseId,courseData?.courseTitle,"COURSE",event)} className={`${favourite.favouritedList?.includes(courseData?.courseId?.toString()) ? 'heart active' : ''} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}>
                         <svg
                           width="20"
                           height="20"
@@ -516,12 +525,13 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             strokeLinejoin="round"
                           />
                         </svg>
-                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0 hidden">
+                        {favourtiteTooltip === courseData?.courseId ? (
+                        <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                           <div className="flex items-center justify-between">
                             <span className="text-grey900 font-semibold">
                               We have added this to your comparison
                             </span>
-                            <svg
+                            <svg onClick={(event) => onClose(event)}
                               className="cursor-pointer"
                               width="16"
                               height="16"
@@ -565,28 +575,33 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               />
                             </svg>
                           </Link>
-                        </div>
+                        </div> ) : <></>}
                       </div>
                     </div>
                     {/* pgs descrption */}
-                    {process.env.PROJECT === "PGS" && courseData?.courseSummary? (
-                    <div className="relative small text-grey500">
-                      <div className="line-clamp-2">
-                      courseData?.courseSummary
+                    {process.env.PROJECT === "PGS" &&
+                    courseData?.courseSummary ? (
+                      <div className="relative small text-grey500">
+                        <div className="line-clamp-2">
+                          courseData?.courseSummary
+                        </div>
+                        <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
+                          <span>... </span>
+                          <Link
+                            href=""
+                            className="text-blue-400 cursor-pointer hover:underline"
+                          >
+                            Read More
+                          </Link>
+                        </div>
                       </div>
-                      <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
-                        <span>... </span>
-                        <Link
-                          href=""
-                          className="text-blue-400 cursor-pointer hover:underline"
-                        >
-                          Read More
-                        </Link>
-                      </div>
-                    </div> ) : <></>}
+                    ) : (
+                      <></>
+                    )}
                     {/* pgs descrption */}
-                    
-                    { process.env.PROJECT === "Whatuni" && courseData?.modulesInfo ? (
+
+                    {process.env.PROJECT === "Whatuni" &&
+                    courseData?.modulesInfo ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
                           <div className="font-semibold">Year 1</div>
@@ -639,8 +654,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -657,7 +672,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            pageName:"browsemoneypageresults"
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -674,8 +689,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -692,8 +707,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             manualBoostingFlag: data?.manualBoostingFlag,
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
-                            collegeName:data?.collegeTextKey,
-                            pageName:"browsemoneypageresults"
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
                           }}
                         />
                       ) : (
@@ -731,52 +746,46 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
         </div>
       ))}
-      {/* {isfavouritesClicked && ( */}
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5] hidden">
+      {exceedMessage ? (
+        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
           <div
             onClick={onClose}
-            className="backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white"
-          ></div>
-          <div className="modal-box shadow-custom-6 w-[343px] md:w-[512px] p-[24px] bg-white rounded-[8px] fixed top-[30%] translate-y-[30%] left-0 right-0 mx-auto">
-            <div
-              onClick={onClose}
-              className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
+            className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  className="stroke-grey-400"
-                  d="M1 13L13 1M1 1L13 13"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <div className="review-modal-container flex flex-col gap-[16px]]">
-              <div className="mb-[4px] para-lg font-semibold">
-                Maximum number of favourites
-              </div>
-              <p className="small text-grey-500">
-                You can only favourite a max of 30 unis and courses. Remove a
-                selection to add another
-              </p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="btn btn-primary w-fit mt-[24px] ml-auto"
-              >
-                Ok, got it
-              </button>
-            </div>
+              <path
+                className="stroke-grey-400"
+                d="M1 13L13 1M1 1L13 13"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
-        </div>
-      {/* )} */}
+          <div className="review-modal-container flex flex-col gap-[16px]]">
+            <div className="mb-[4px] para-lg font-semibold">
+              Maximum number of favourites
+            </div>
+            <p className="small text-grey-500">
+              You can only favourite a max of 30 unis and courses. Remove a
+              selection to add another
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn btn-primary w-fit mt-[24px] ml-auto"
+            >
+              Ok, got it
+            </button>
+          </div>
+        </div> )
+      : <></> }
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}

@@ -13,16 +13,16 @@ import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/so
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { headers } from "next/headers";
-import { getQualCode, getSearchPayload } from "../services/utils";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import { cookies, headers } from "next/headers";
+import { getSearchPayload } from "../services/utils";
 import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
-
-const SearchResultComponent = async ({ searchparams, pathname }: any) => {
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const pathnameArray = referer?.split?.("/");
+import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+const SearchResultComponent = async ({ searchparams }: any) => {
+  const cookieStore = await cookies();
+  const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  console.log("refe",pathname)
   let searchResultsData;
   let filterCookieParam;
   if (typeof document !== "undefined") {
@@ -33,10 +33,9 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
       getSearchPayload(
         searchparams,
         filterCookieParam,
-        pathnameArray?.[3]?.split?.("-")?.[0]
+        pathname,
       )
     );
-    console.log("searchResultsData", searchResultsData);
   } catch (error) {
     console.log("error", error);
   }
@@ -48,20 +47,19 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
         <Suspense>
           <SearchFilterButtons />
           {/* <SearchLabels /> */}
-         
         </Suspense>
       ) : (
-        <>
-        </>
+        <></>
       )}
-     
+
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
-        <SortingFilter sortParam={{param:searchparams}} />
+          <SortingFilter sortParam={{ param: searchparams }} />
           {searchResultsData?.searchResultsList ? (
             <>
-              <GradeBanner />
-
+             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses"?
+              <GradeBanner /> : <></>
+             }
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -75,10 +73,11 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
-                <Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
-                />
+                // <Paginations
+                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                //   currentPage={searchparams?.pageNo || 1}
+                // />
+                <></>
               ) : (
                 <></>
               )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 import {
   pgsSortingFilter,
   wuscaCategories,
@@ -40,8 +40,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     );
     return entry ? entry[0] : wuscaentry ? wuscaentry[0] : "Recommendded";
   };
-  const sortingFilter =
-    process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
+  const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
 
   return (
     <div className="ml-auto w-fit relative">
@@ -74,6 +73,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
               {Object.entries(sortingFilter).map(([label, value]) => (
                 <div
+                  key={value}
                   className="custom-radio flex items-center"
                   onClick={() => handleSort(value, label)}
                 >
@@ -89,6 +89,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                           ? true
                           : false
                     }
+                    onChange={() => {}}
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -96,34 +97,31 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                 </div>
               ))}
             </div>
-            <div className="font-semibold text-heading6 md:text-small">
-              Wusca categories{" "}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
-              {Object.entries(wuscaCategories).map(([label, value]) => (
-                <div
-                  className="custom-radio flex items-center"
-                  onClick={() => handleSort(value, label)}
-                >
-                  <input
-                    className="rounded-md"
-                    type="radio"
-                    id={value}
-                    name="featured"
-                    checked={
-                      value === sortParam?.param?.sort
-                        ? true
-                        : value === "R"
+             {process.env.PROJECT === "Whatuni" ?
+            <><div className="font-semibold text-heading6 md:text-small">
+                Wusca categories{" "}
+              </div><div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
+                  {Object.entries(wuscaCategories).map(([label, value]) => (
+                    <div
+                      className="custom-radio flex items-center"
+                      onClick={() => handleSort(value, label)}
+                    >
+                      <input
+                        className="rounded-md"
+                        type="radio"
+                        id={value}
+                        name="featured"
+                        checked={value === sortParam?.param?.sort
                           ? true
-                          : false
-                    }
-                  />
-                  <label htmlFor={label} className="flex items-center">
-                    {label}
-                  </label>
-                </div>
-              ))}
-            </div>
+                          : value === "R"
+                            ? true
+                            : false} />
+                      <label htmlFor={label} className="flex items-center">
+                        {label}
+                      </label>
+                    </div>
+                  ))}
+                </div></> : <></>}
           </div>
         </div>
       )}
