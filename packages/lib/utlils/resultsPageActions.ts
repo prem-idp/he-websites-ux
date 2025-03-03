@@ -1,5 +1,5 @@
 import { getDecodedCookie } from "./filters/result-filters";
-import { MetaDataProps } from "@whatuni/src/app/(sr-and-pg-pages)/[hero]/search/page";
+// import { MetaDataProps } from "@whatuni/src/app/(sr-and-pg-pages)/[hero]/search/page";
 import { getSearchPayload } from "@packages/shared-components/services/utils";
 import { cookies, headers } from "next/headers";
 import { graphQlFetchFunction, httpBFFRequest } from "../server-actions/server-action";
