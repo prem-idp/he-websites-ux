@@ -15,9 +15,7 @@ import Subscribecomponents from "@packages/shared-components/common-utilities/ne
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
 import { getSearchPayload } from "../services/utils";
-import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
-import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 const SearchResultComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();

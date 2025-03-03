@@ -12,7 +12,6 @@ import {
   isSingleSelection,
 } from "@packages/lib/utlils/filters/result-filters";
 import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
-import SubjectCheckBox from "@packages/shared-components/sr-page/SrFilter/subjectcheckBox";
 import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
@@ -20,9 +19,20 @@ import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locat
 import { getParentSubject } from "@packages/lib/utlils/filters/result-filters";
 import { getSrFilter } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
+import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
+
 const SearchFilterComponent = ({ data, path }: any) => {
   const [jsondata, setJsondata] = useState(data);
-  console.log(jsondata);
+  const [searchedSubject, setSearchedSubject] = useState({
+    subjectkeyword: "",
+    sortedSubjects: [],
+    isSujectDropdownOpen: false,
+  });
+  const [searchedUniversity, setSearchedUniversity] = useState({
+    universityKeyword: "",
+    sortedUni: [],
+    isUniversityDropdownOpen: false,
+  });
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -92,7 +102,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
   const [selectUniId, setSelectUniId] = useState<any>("");
-
+  console.log(jsondata);
   const universitiesSortingList: any = () => {
     const listvalue: any[] = [];
     [
@@ -151,11 +161,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
   };
 
   const universitiesList = universitiesSortingList();
-
+  console.log(universitiesList);
   const universityClicked = (displayHeading: string, id: string) => {
     setIsUniversityOpen(!isUniversityOpen);
+
     setSelectUniId({ id, displayHeading });
+    setSearchedUniversity((prev: any) => ({
+      ...prev,
+      isUniversityDropdownOpen: false,
+    }));
   };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -193,7 +209,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     value: string,
     isQualification?: boolean
   ) => {
-    console.log({ key, value });
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(async () => {
@@ -373,6 +388,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
       return items.parentSubject == item;
     });
     setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
+    setSearchedSubject((prev: any) => ({
+      ...prev,
+      isSujectDropdownOpen: false,
+    }));
   };
   const parentRegion = jsondata?.regionList?.filter((item: any) => {
     return !item?.parentRegionId;
@@ -382,10 +401,54 @@ const SearchFilterComponent = ({ data, path }: any) => {
       if (region.parentRegionId == 1) return region;
     })
     .filter(Boolean);
-  console.log("==================", jsondata);
+  const subjectKeyWordSearch = (keyword: string) => {
+    if (keyword?.length >= 3) {
+      const filteredSubject = jsondata?.subjectFilterList?.filter(
+        (subject: any) =>
+          subject?.categoryDesc
+            ?.toLowerCase()
+            .startsWith(keyword?.toLowerCase())
+      );
+      setSearchedSubject((prev: any) => ({
+        ...prev,
+        subjectkeyword: keyword,
+        isSujectDropdownOpen: true,
+        sortedSubjects: filteredSubject,
+      }));
+    } else if (keyword?.length < 3) {
+      setSearchedSubject((prev: any) => ({
+        ...prev,
+        subjectkeyword: keyword,
+        isSujectDropdownOpen: false,
+      }));
+    }
+  };
+  console.log(searchedSubject);
+  const universityKeywordSearch = (keyword: string) => {
+    if (keyword?.length >= 3) {
+      const filteredUni = jsondata?.universityFilterList?.filter((uni: any) =>
+        uni?.collegeNameDisplay
+          ?.toLowerCase()
+          .startsWith(keyword?.toLowerCase())
+      );
+      setSearchedUniversity((prev: any) => ({
+        ...prev,
+        universityKeyword: keyword,
+        isUniversityDropdownOpen: true,
+        sortedUni: filteredUni,
+      }));
+    } else if (keyword?.length < 3) {
+      setSearchedUniversity((prev: any) => ({
+        ...prev,
+        universityKeyword: keyword,
+        isUniversityDropdownOpen: false,
+      }));
+    }
+  };
 
   return (
     <>
+      {/* <SubjectSkeleton /> */}
       <div>
         <div
           className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
@@ -639,27 +702,35 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         className="w-full focus:outline-none small text-black placeholder:text-gray-500"
                         aria-label="enter keyword"
                         placeholder="Search subjects"
+                        value={searchedSubject?.subjectkeyword}
+                        onChange={(event) => {
+                          subjectKeyWordSearch(event.target.value);
+                        }}
                       />
-                      {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                        <ul>
-                          <li>
-                            <a
-                              href=""
-                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                            >
-                              sds
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href=""
-                              className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                            >
-                              sds
-                            </a>
-                          </li>
-                        </ul>
-                      </div> */}
+                      {searchedSubject?.isSujectDropdownOpen && (
+                        <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                          {searchedSubject?.sortedSubjects?.length > 0 ? (
+                            <ul>
+                              {searchedSubject?.sortedSubjects?.map(
+                                (subjects: any, index: number) => (
+                                  <li key={index + 1}>
+                                    <div
+                                      onClick={() => {
+                                        subjectClicked(subjects?.parentSubject);
+                                      }}
+                                      className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                                    >
+                                      {subjects?.categoryDesc}
+                                    </div>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <p>No match found</p>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
@@ -719,7 +790,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   </div>
                 </div>
               </div>
-              {/* <SubjectSkeleton/> */}
             </Accordion>
             {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
               jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
@@ -859,27 +929,50 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       className="w-full focus:outline-none small text-black placeholder:text-gray-500"
                       aria-label="enter keyword"
                       placeholder="Search universities"
+                      onChange={(event) => {
+                        universityKeywordSearch(event?.target?.value);
+                      }}
+                      value={searchedUniversity?.universityKeyword}
                     />
-                    {/* <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                      <ul>
-                        <li>
-                          <a
-                            href=""
-                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                          >
-                            sds
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href=""
-                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                          >
-                            sds
-                          </a>
-                        </li>
-                      </ul>
-                    </div> */}
+                    {searchedUniversity?.isUniversityDropdownOpen && (
+                      <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                        {searchedUniversity?.sortedUni?.length > 0 ? (
+                          <ul>
+                            {searchedUniversity?.sortedUni?.map(
+                              (uni: any, index: number) => (
+                                <li key={index + 1}>
+                                  <div
+                                    onClick={() => {
+                                      const selectedItem = universitiesList
+                                        ?.flatMap(
+                                          (universityArray: any) =>
+                                            universityArray?.unilist
+                                              ?.filter(
+                                                (university: any) =>
+                                                  university?.collegeNameDisplay ===
+                                                  uni?.collegeNameDisplay
+                                              )
+                                              ?.map(() => universityArray) || []
+                                        )
+                                        ?.filter(Boolean)[0];
+                                      universityClicked(
+                                        selectedItem?.displayHeading,
+                                        selectedItem?.id
+                                      );
+                                    }}
+                                    className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                                  >
+                                    {uni?.collegeNameDisplay}
+                                  </div>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        ) : (
+                          <p>No match found</p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
