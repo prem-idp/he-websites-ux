@@ -32,7 +32,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   } catch (error) {
     console.log("error", error);
   }
-
+  console.log(getSearchPayload(searchparams, filterCookieParam, pathname));
   return (
     <>
       <TopSection />
