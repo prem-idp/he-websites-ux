@@ -2,20 +2,18 @@ import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 
 export function getQualCode(qualText: any) {
   let qualCode = "M";
-        if ("degree-courses" === qualText) {
-            qualCode = "M";
-        } else if ("postgraduate-courses"=== qualText) {
-            qualCode = "L";
-        } else if ("foundation-degree-courses"=== qualText) {
-            qualCode = "A";
-         
-        } else if ("access-foundation-courses"=== qualText) {
-            qualCode = "T";
-           
-        } else if ("hnd-hnc-courses"=== qualText) {
-            qualCode = "N";		   
-        }
-    return qualCode;
+  if ("degree-courses" === qualText) {
+    qualCode = "M";
+  } else if ("postgraduate-courses" === qualText) {
+    qualCode = "L";
+  } else if ("foundation-degree-courses" === qualText) {
+    qualCode = "A";
+  } else if ("access-foundation-courses" === qualText) {
+    qualCode = "T";
+  } else if ("hnd-hnc-courses" === qualText) {
+    qualCode = "N";
+  }
+  return qualCode;
 }
 
 function getSearchPayload(
@@ -23,12 +21,10 @@ function getSearchPayload(
   filterCookieParam: any,
   qualification: any
 ) {
-  let subjectArray = searchParams?.subject?.includes(" ")
-    ? searchParams?.subject?.split(" ")
-    : [searchParams?.subject || searchParams?.course || ""];
-  let locationArray = searchParams?.location?.includes(" ")
-    ? searchParams?.location?.split(" ")
-    : [searchParams?.location || ""];
+  const subjectArray =
+    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
+  const locationArray =
+    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification:

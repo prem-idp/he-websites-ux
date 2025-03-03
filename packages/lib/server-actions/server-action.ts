@@ -77,9 +77,14 @@ export async function callClickstreamAPI(payload: any) {
   }
 }
 
-export async function httpBFFRequest(endpoint: string, bodyPayload: any, reqtype: RequestType, xAPIKey: string, cacheType: RequestCache): Promise<any> {
+export async function httpBFFRequest(
+  endpoint: string,
+  bodyPayload: any,
+  reqtype: RequestType,
+  xAPIKey: string,
+  cacheType: RequestCache
+): Promise<any> {
   try {
-
     const url = endpoint;
     const res = await fetch(url, {
       method: reqtype,
@@ -95,13 +100,11 @@ export async function httpBFFRequest(endpoint: string, bodyPayload: any, reqtype
 
     const data = await res.json();
     return data;
-    
   } catch (error) {
     console.log("ERROR:", error, " endpoint: ", endpoint);
     //throw error;
   }
-
-};
+}
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   try {
@@ -132,4 +135,19 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   }
 };
 
-export { searchResultsFetchFunction };
+const getUserLocationInfo = async (latitude: any, longitude: any) => {
+  const mapboxKey =
+    "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
+
+  try {
+    const response = await fetch(
+      `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${longitude}&latitude=${latitude}&access_token=${mapboxKey}`
+    );
+    const jsondata = await response?.json();
+    return jsondata;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export { searchResultsFetchFunction, getUserLocationInfo };

@@ -1,4 +1,5 @@
 "use client";
+import { getUserLocationInfo } from "@packages/lib/server-actions/server-action";
 type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
@@ -194,8 +195,29 @@ const getParentSubject = (
     }
   }
 };
+
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log({ latitude, longitude });
+        const data = getUserLocationInfo(latitude, longitude);
+        return data;
+      },
+      (error) => {
+        console.warn("Location access denied or unavailable", error);
+      }
+    );
+  } else {
+    console.warn("Geolocation is not supported by your browser.");
+  }
+}
+
 export {
   locationMilesArray,
+  getUserLocation,
   mergeTwoObjects,
   isSingleSelection,
   getDecodedCookie,
