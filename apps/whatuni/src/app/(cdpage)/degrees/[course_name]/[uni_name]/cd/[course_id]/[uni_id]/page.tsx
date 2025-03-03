@@ -18,28 +18,17 @@ export default async function Cdpage({ params }: any) {
     collegeId:String(prams_slug?.uni_id || ""),
   });
   const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
-  const cdpagedata = await fetch(url, {
-    method: "GET",
-    headers: {
-      
-      "Content-Type": "application/json",
-      "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
-    },
-  });
-  const data = await cdpagedata.json();
-  //console.log(data,"data from the cdpage")
-
-  // --------------------------------------------------------------------------------------------------------------------------------------
-  // -----------------------------------------------initial course review fetch------------------------------------------------------------
-  const jsonResponse = await makeApiCall(
-    getApiUrl?.homePageReviews,
-    "POST",
-    null,
-    null,
-    reviewPayload
-  );
+  const [data, jsonResponse] = await Promise.all([
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key":"YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc" ,
+      },
+    }).then((res) => res.json()),
   
-  // --------------------------------------------------------------------------------------------------------------------------------------
+    makeApiCall(getApiUrl?.homePageReviews, "POST", null, null, reviewPayload),
+  ]);
 
   const customLabels = [
     "degrees",
@@ -49,7 +38,9 @@ export default async function Cdpage({ params }: any) {
     "",
     ""
   ];
+
   const breadcrumbData = generateBreadcrumbData(slug,customLabels);
+
   return (
     <>
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
@@ -60,6 +51,7 @@ export default async function Cdpage({ params }: any) {
       <Courseheaderinfocomponents data={data} />
       <Yearofentrycomponents />
       <Cdpageclient data={data} jsonResponse={jsonResponse} prams_slug={prams_slug} >
+
       <Courseinfocomponents {...data} />
       </Cdpageclient>
     </>

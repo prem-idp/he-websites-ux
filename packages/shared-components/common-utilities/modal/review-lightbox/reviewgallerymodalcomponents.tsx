@@ -1,8 +1,7 @@
 "use client";
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link';
-import { AnimatePresence, motion } from "motion/react"
+
 import Paginations from '../../paginations/paginations';
 import Reviewthumbgalleryslidercomponents from '../../slider/reviewthumbgalleryslidercomponents';
 import Reviewdetailcommentscomponents from '../../reviewdetail-comments/reviewdetailcommentscomponents';

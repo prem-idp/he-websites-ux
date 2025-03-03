@@ -53,11 +53,17 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
         loadMabBox();
       }
     });
+
+  if (mapContainerRef.current) {
     observer.observe(mapContainerRef.current);
+  }
+    // observer.observe(mapContainerRef.current);
 
     return () => {
       mapRef?.current?.remove();
-      observer.unobserve(mapContainerRef.current);
+      if (mapContainerRef.current) {
+        observer.unobserve(mapContainerRef.current);
+      }
     }
   }, []);
 

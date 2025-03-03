@@ -1,6 +1,6 @@
-// import Othercoursesslidercomponents from '@/app/components/slider/othercoursesslidercomponents'
-
 'use client'
+import Othercoursesslidercomponents from '@packages/shared-components/common-utilities/slider/othercoursesslidercomponents'
+
 
 import React from 'react'
 
@@ -14,7 +14,7 @@ const Othercoursesmaylikecomponents = () => {
             </div>
             <div className='other-courses-course-container '>
               <div className="other-courses-inner-wrap"> 
-                {/* <Othercoursesslidercomponents /> */}
+                <Othercoursesslidercomponents />
               </div>
             </div>
           </div>
