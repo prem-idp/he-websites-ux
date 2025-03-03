@@ -17,7 +17,9 @@ const makeApiCall = async (
         "x-correlation-id": uuidv4(),
         "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         ...headers,
+
       },
+      cache: "force-cache",
       body: method === "GET" ? undefined : JSON.stringify(bodyjson),
     });
 

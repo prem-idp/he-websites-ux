@@ -68,15 +68,15 @@ async function log(data: ClickstreamInterface) {
       } else {
         apiUrl += API_END_POINTS.guest.clickstream;
       }
-      //console.log("before clickstream CS APT call for: ", payload);
+      ////console.log("before clickstream CS APT call for: ", payload);
       const respone = await fetch(apiUrl, {
         method: "POST",
         headers,
         body: payload ? JSON.stringify(payload) : undefined,
       });
-      //console.log("after clickstream CS APT call: ", respone);
+      ////console.log("after clickstream CS APT call: ", respone);
     } catch (error: any) {
-      console.log("Clickstram error: ", error);
+      //console.log("Clickstram error: ", error);
     }
   }
   callClickstreamAPI({ ...defaultAttributes, ...data });

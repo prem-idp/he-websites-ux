@@ -12,6 +12,7 @@ import Search from "@packages/shared-components/layout-components/header/search-
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import optimizedSearch from "@packages/REST-API/optimizedsearch"
 import { signOut } from "aws-amplify/auth";
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 import eventEmitter from "@packages/lib/eventEmitter/eventEmitter";
@@ -95,7 +96,7 @@ const Header = ({ topnav_data }: props) => {
       try {
         // Fetch data in parallel
         const [bodyData, unibodyData] = await Promise.all([
-          makeApiCall(
+          optimizedSearch(
             getApiUrl?.subjectAjax,
             "GET",
             null,
@@ -139,7 +140,7 @@ const Header = ({ topnav_data }: props) => {
         const loginviaonetap = getCookieValue("LogedinviaOnetap") || false;
 
         if (!sessiontimecookie && loginviaonetap) {
-          console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
+          //console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
           localStorage?.removeItem("resultSubmit");

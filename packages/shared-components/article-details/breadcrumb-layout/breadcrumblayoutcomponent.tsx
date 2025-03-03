@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
+
   return (
     <nav aria-label="breadcrumb">
       <ul className="flex flex-wrap gap-[20px]">
@@ -19,7 +20,7 @@ const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
               <Link
                 className='text-primary-400 hover:underline after:absolute after:content-["/"] after:w-[20px] after:h-[20px] after:text-center after:text-grey-300'
                 href={breadcrumbData.url}
-              >
+                >
                 <Image
                   src={breadcrumbData.Imgurl}
                   width="17"
@@ -34,7 +35,7 @@ const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
           </li>
         ))}
       </ul>
-    </nav>
+    </nav>  
   );
 };
 
