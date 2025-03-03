@@ -1,26 +1,22 @@
 import React from "react";
-
+import Explorearticelskeleton from "@packages/shared-components/skeleton/search-result/explore-articel-skeleton";
+import FeaturedSkeleton from "@packages/shared-components/skeleton/search-result/featured-skeleton";
+import GradeBannerSkeleton from "@packages/shared-components/skeleton/search-result/grade-banner-skeleton";
+import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
+import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
+import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
+import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/search-result/search-filter-buttons-skeleton";
 const Loading = () => {
   return (
-    <div className="max-w-container mx-auto w-full h-[500px] flex items-center justify-center">
-      <svg
-        className="animate-spin"
-        width="65"
-        height="64"
-        viewBox="0 0 65 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M64.5 32C64.5 49.6731 50.1731 64 32.5 64C14.8269 64 0.5 49.6731 0.5 32C0.5 14.3269 14.8269 0 32.5 0C50.1731 0 64.5 14.3269 64.5 32ZM8.5 32C8.5 45.2548 19.2452 56 32.5 56C45.7548 56 56.5 45.2548 56.5 32C56.5 18.7452 45.7548 8 32.5 8C19.2452 8 8.5 18.7452 8.5 32Z"
-          fill="#C8F0F5"
-        />
-        <path
-          d="M14.1456 5.78713C18.2822 2.89061 23.0457 1.01424 28.0465 0.311421C33.0473 -0.391393 38.1434 0.0993091 42.9182 1.74341C47.693 3.38751 52.0109 6.13832 55.5189 9.77094C59.0269 13.4036 61.6253 17.8148 63.1018 22.6441C64.5782 27.4734 64.8908 32.5835 64.0138 37.5567C63.1369 42.53 61.0955 47.225 58.0563 51.2581C55.0172 55.2911 51.0667 58.5477 46.5279 60.7614C41.989 62.9752 36.9907 64.0833 31.9415 63.9951L32.0811 55.9963C35.868 56.0624 39.6168 55.2314 43.0209 53.5711C46.425 51.9108 49.3879 49.4684 51.6672 46.4436C53.9466 43.4188 55.4777 39.8975 56.1354 36.1676C56.7931 32.4377 56.5587 28.605 55.4513 24.9831C54.344 21.3611 52.3951 18.0527 49.7642 15.3282C47.1332 12.6037 43.8947 10.5406 40.3136 9.30756C36.7325 8.07448 32.9104 7.70646 29.1598 8.23357C25.4093 8.76068 21.8367 10.168 18.7342 12.3403L14.1456 5.78713Z"
-          fill="#0086F8"
-        />
-      </svg>
-    </div>
+    <>
+      <Explorearticelskeleton />
+      <FeaturedSkeleton />
+      <GradeBannerSkeleton />
+      <ResultSectionSkeleton />
+      <TopSectionSkeleton />
+      <SearchFilterButtonsSkeleton />
+      <SearchLabelsSkeleton />
+    </>
   );
 };
 

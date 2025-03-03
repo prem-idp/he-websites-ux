@@ -9,7 +9,7 @@ pageSeoFieldsCollection(
       seoFieldsName
       h2Text
       h1Title
-      metaTitle
+      metaTile
       metaDescription
       metaDescription
       canonical
