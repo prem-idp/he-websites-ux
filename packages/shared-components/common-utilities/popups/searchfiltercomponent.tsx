@@ -273,18 +273,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
         setFilterLoading(false);
       } else if (multiSelect) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        router.push(`?${urlParams.toString()}`);
+        router.push(
+          `?${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`
+        );
         setFilterLoading(false);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
           linkTagId.click();
-
           setFilterLoading(false);
         } else {
           console.log("not found");
-          router.push(`?${urlParams.toString()}`);
+          router.push(
+            `?${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`
+          );
           setFilterLoading(false);
         }
       }
@@ -347,14 +350,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const param = modifySearchParams(key, value, urlParams);
         return param;
       } else {
-        return `subject=${searchParams?.get("subject")}&${key}=${value}`;
+        return `${encodeURIComponent(`subject=${searchParams?.get("subject")}&${key}=${value}`).replace(/%20/g, "+")}`;
       }
     } else {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
         return param;
       } else {
-        return `${urlParams.toString()}`;
+        return `${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`;
       }
     }
   };
