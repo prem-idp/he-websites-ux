@@ -10,12 +10,11 @@ import Latestreviewscomponents from '@packages/shared-components/course-details/
 import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
-
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
 // import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
-
 import { useState, useEffect } from 'react';
+import Othercoursesslidercomponents from "@packages/shared-components/common-utilities/slider/othercoursesslidercomponents"
 export default function Cdpageclient({ children, data, jsonResponse, prams_slug }: any) {
 
     //console.log("this is the cdpageclientwrapper")
@@ -56,6 +55,7 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
         }
    if(startfetch)
    {
+
     clientFetch();
    }
    else{
