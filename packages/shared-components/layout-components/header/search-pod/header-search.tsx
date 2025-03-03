@@ -129,7 +129,7 @@ export default function Search({
               {searchFormHandle?.activeTab === "tab1" && (
                 <div className="flex flex-col gap-[24px] min-h-[60px]">
                   <CourseTab
-                     showlocation={false}
+                     showlocation={true}
                     placeholder={universalSearchPanel[0]?.navCtAlabel}
                     data={course_data}
                     searchFormHandle={searchFormHandle}

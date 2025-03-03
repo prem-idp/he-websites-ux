@@ -712,7 +712,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
             )}
           </div>
           { showlocation &&
-        
           <div
           className="w-full relative grow md:border-l border-grey-200"
           onClick={() => {
