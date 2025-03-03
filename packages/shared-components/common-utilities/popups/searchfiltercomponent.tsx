@@ -269,18 +269,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
       if (urlParams?.toString() === searchParams?.toString()) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        console.log(urlParams?.toString());
         router.refresh();
         setFilterLoading(false);
       } else if (multiSelect) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        alert("router push");
         router.push(`?${urlParams.toString()}`);
         setFilterLoading(false);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
-        console.log("entered in link");
         if (linkTagId) {
           linkTagId.click();
 

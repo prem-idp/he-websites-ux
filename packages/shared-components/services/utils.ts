@@ -23,9 +23,8 @@ function getSearchPayload(
 ) {
   const subjectArray =
     searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
-  const locationArray = searchParams?.location?.includes(" ")
-    ? searchParams?.location?.split(" ")
-    : [searchParams?.location || ""];
+  const locationArray =
+    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification:
