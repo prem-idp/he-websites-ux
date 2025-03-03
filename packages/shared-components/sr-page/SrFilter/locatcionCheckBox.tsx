@@ -85,7 +85,7 @@ const LocationcheckBox = ({
           </label>
         </div>
       </div>
-      <ul>
+      <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
         <SubRegions
           item={item}
           jsondata={jsondata}
@@ -95,7 +95,7 @@ const LocationcheckBox = ({
           appendSearchParams={appendSearchParams}
           isRegionSelected={isRegionSelected}
         />
-        <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
+        <li>
           {jsondata?.regionList
             ?.map((regionlist: any) => {
               if (regionlist?.parentRegionId == item?.regionId) {

@@ -106,7 +106,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
                   {Object.entries(wuscaCategories).map(([label, value]) => (
                     <div
-                      className="custom-radio flex items-center"
+                      className="custom-radio"
                       onClick={() => handleSort(value, label)}
                     >
                       <input

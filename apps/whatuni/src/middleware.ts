@@ -3,25 +3,9 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest, response: NextResponse) {
   const { pathname, search, searchParams } = request.nextUrl;
   const slugs = pathname?.split("/");
-  console.log(slugs, "slugs");
-  const searcharray = [
-    "degrees",
-    "search",
-    "csearch",
-    "acess-foundation-courses",
-    "foundation-degree-courses",
-    "postgraduate-courses",
-    "hnd-hnc-courses",
-    "degree-courses",
-  ];
   const customDomain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
 
-  if (
-    pathname === "/home" ||
-    pathname === "/home/" ||
-    pathname === "/degree-courses/search"
-  ) {
-    console.log(request, "request headers logging from the middleware");
+  if (slugs.length > 1) {
     const response = NextResponse.next(); // Initialize response properly
     response.cookies.set("pathnamecookies", pathname.toString());
     response.cookies.set("searchParamscookies", searchParams.toString());
@@ -60,5 +44,7 @@ export function middleware(request: NextRequest, response: NextResponse) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|fonts|images|icons).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|fonts|images|icons|static|assets).*)",
+  ],
 };
