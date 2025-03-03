@@ -9,7 +9,7 @@ import {
   GADataLayerFn,
   currentAuthenticatedUser,
 } from "@packages/lib/utlils/helper-function";
-
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
 interface CourseTabProps {
@@ -49,6 +49,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
     setLocationlist(data?.locationList);
     setStudymodelist(data?.studyLevelList);
   }, [data]);
+
+  function navigateTo(newUrl: string) {
+    router.prefetch(newUrl);
+    window.history.pushState(null, "", newUrl); 
+    setTimeout(() => router.push(newUrl), 0);  
+    setTimeout(() =>  emitter.emit("rightMenuActionclose", 'closesearch'), 100);  
+  }
   // ==============================use effect to check the use authentication======================================================================
 
   useEffect(() => {
@@ -242,10 +249,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
+      const newUrl =`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
       
-      router.push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+      navigateTo(newUrl);
     
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
@@ -282,9 +288,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
      
-      router.push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+   
+      const newUrl= `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      navigateTo(newUrl);
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
     }
@@ -352,9 +358,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return  router.push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+ 
+        const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        navigateTo(newUrl);
     }
     if (matchedSubject && canmatch) {
       GADataLayerFn(
@@ -388,12 +394,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return router.push(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+     
+     const newUrl =  `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+     navigateTo(newUrl);
     }
     const baseUrl = searchUrlMap[searchFormHandle?.courseType?.qualCode];
     if (baseUrl) {
+      console.log("testing inside the base url")
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -425,7 +432,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return  router.push(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
+      return  navigateTo(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
