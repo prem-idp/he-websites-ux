@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 import Moduleinnercomponents from "@/app/course-details/modules/moduleinnercomponents";
 
-
 const Modulesaccordioncomponents = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [isOpen, setIsOpen] = useState(false);

@@ -1,4 +1,6 @@
 'use client'
+import dynamic from 'next/dynamic'
+const UniInfoComponent =dynamic(()=>import("@packages/shared-components/course-details/uni-info/UniInfoComponent"),{ssr:false});
 import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
 import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
@@ -7,14 +9,14 @@ import EntryrequirementsComponent from '@packages/shared-components/course-detai
 import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
 import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
 import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent';
-import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
+// import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
 // import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState, useEffect } from 'react';
-import Othercoursesslidercomponents from "@packages/shared-components/common-utilities/slider/othercoursesslidercomponents"
+// import Othercoursesmaylikecomponents from "@packages/shared-components/course-details/other-courses-you-may-like"
 export default function Cdpageclient({ children, data, jsonResponse, prams_slug }: any) {
 
     //console.log("this is the cdpageclientwrapper")

@@ -40,7 +40,7 @@ const Othercoursesslidercomponents = () => {
             <SwiperSlide>
                 <Othercoursesmaylikecard />
             </SwiperSlide>
-            <SwiperSlide>
+            {/* <SwiperSlide>
                 <Othercoursesmaylikecard />
             </SwiperSlide>
             <SwiperSlide>
@@ -48,7 +48,7 @@ const Othercoursesslidercomponents = () => {
             </SwiperSlide>
             <SwiperSlide>
                 <Othercoursesmaylikecard />
-            </SwiperSlide>            
+            </SwiperSlide>             */}
           </Swiper>
         </div>
     </>
