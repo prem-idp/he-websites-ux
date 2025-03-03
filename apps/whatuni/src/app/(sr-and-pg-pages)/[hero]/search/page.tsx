@@ -12,6 +12,7 @@ export type MetaDataProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+
 export async function generateMetadata({
   params,
   searchParams,
