@@ -70,7 +70,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     //   const response = await getSrFilter(
     //     filterbodyJson(orderedFilters, slug?.split("/")[1])
     //   );
-    //   console.log(response);
     //   setJsondata(response);
     // };
 
@@ -102,7 +101,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const [isUniversityOpen, setIsUniversityOpen] = useState(false);
   const [selectUniId, setSelectUniId] = useState<any>("");
-  console.log(jsondata);
   const universitiesSortingList: any = () => {
     const listvalue: any[] = [];
     [
@@ -161,7 +159,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
   };
 
   const universitiesList = universitiesSortingList();
-  console.log(universitiesList);
   const universityClicked = (displayHeading: string, id: string) => {
     setIsUniversityOpen(!isUniversityOpen);
 
@@ -423,7 +420,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }));
     }
   };
-  console.log(searchedSubject);
   const universityKeywordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
       const filteredUni = jsondata?.universityFilterList?.filter((uni: any) =>
