@@ -5,6 +5,8 @@ import { API_END_POINTS } from "../utlils/API_END_POINTS";
 import { v4 as uuidv4 } from "uuid";
 import { currentAuthenticatedUser } from "../utlils/helper-function";
 
+type RequestType = "GET" | "POST";
+
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean
@@ -74,6 +76,32 @@ export async function callClickstreamAPI(payload: any) {
     console.log("Clickstram error: ", error);
   }
 }
+
+export async function httpBFFRequest(endpoint: string, bodyPayload: any, reqtype: RequestType, xAPIKey: string, cacheType: RequestCache): Promise<any> {
+  try {
+
+    const url = endpoint;
+    const res = await fetch(url, {
+      method: reqtype,
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-api-key": xAPIKey,
+      },
+      body: JSON.stringify(bodyPayload),
+      cache: cacheType ? cacheType : "default",
+    });
+
+    const data = await res.json();
+    return data;
+    
+  } catch (error) {
+    console.log("ERROR:", error, " endpoint: ", endpoint);
+    //throw error;
+  }
+
+};
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   try {
