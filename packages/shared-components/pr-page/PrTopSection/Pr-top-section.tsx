@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { headers } from "next/headers";
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
 }
 
-const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) => {
+export default async function PrPageTopSection({ searchResultlist }: ProviderTopCardProps) {
 
   const college = searchResultlist?.searchResultsList[0];
   const logoSrc = `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}` + college?.collegeMedia?.ipCollegeLogo; // Extract the logo URL
@@ -15,6 +16,9 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
   const rating = college?.rating ?? 0; // Default to 0 if null
+
+  const headersList = await headers();
+  const domain = headersList.get("host"); // "example.com"
 
   return (
     <section className="bg-white">
@@ -45,7 +49,7 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
                   />
                   {rating}
                 </span>
-                <Link href={`https://www.whatuni.com/university-course-reviews/${college.collegeTextKey.toLowerCase().replace(/\s+/g, "-")}/${college.collegeId}`} className="underline ">
+                <Link href={`https://${domain}/university-course-reviews/${college.collegeTextKey.toLowerCase().replace(/\s+/g, "-")}/${college.collegeId}`} className="underline ">
                   {reviewCount} reviews
                 </Link>
               </div>
@@ -111,5 +115,3 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
     </section>
   );
 };
-
-export default PrPageTopSection;
