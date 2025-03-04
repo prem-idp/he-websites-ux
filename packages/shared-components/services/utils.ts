@@ -80,7 +80,7 @@ export function getSEOSearchPayload(
       studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
       studyMethod: searchParams?.["study-method"] || undefined,
       collegeId: undefined,
-      pageNo:  searchParams?.pageno || searchParams?.page_no || "1",
+      pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
       locationType: searchParams?.["location-type"] || undefined,
       intakeYear: searchParams?.year || undefined,
       intakeMonth: searchParams?.month  || undefined,

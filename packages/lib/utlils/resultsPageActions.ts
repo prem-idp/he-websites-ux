@@ -9,7 +9,7 @@ import { getSrFilter } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "./filters/filterJson";
 import { SRDisplayNameEndPt, SRGetCourseCountEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { MetaDataInterface } from "../types/interfaces";
-import { getCustomDomain } from "./helper-function";
+import { getCustomDomain } from "./common-function-server";
 
 interface MetaFilterTypesReplace{
     searchSubject?: string[],
@@ -27,7 +27,7 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
   const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad);
-   //console.log("seoMetaFeildId: ", seoMetaFeildId);
+  console.log("seoMetaFeildId: ", seoMetaFeildId);
 
   //1) bff API hit
   const courseCountReqBody = filterbodyJson(searchParams, qualInUrl)
@@ -192,7 +192,8 @@ function formSRPageURL(searchParams: any, pathName: string){
   if(filterCount < 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
   if(filterCount < 4 && searchParams?.['location-type']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location-type=" + searchParams?.['location-type']); filterCount++;}
-  if(filterCount < 5 && searchParams?.pageNo) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageno=" + searchParams?.pageNo); filterCount++;} //if pageno applied then atmost 5 query params can contain
+  if(filterCount < 4 && searchParams?.sort) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("sort=" + searchParams?.sort); filterCount++;}
+  if(filterCount < 5 && searchParams?.pageno) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageno=" + searchParams?.pageno); filterCount++;} //if pageno applied then atmost 5 query params can contain
 
   return formURL;
 }

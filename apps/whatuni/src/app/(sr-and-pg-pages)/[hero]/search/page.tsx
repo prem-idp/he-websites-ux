@@ -6,7 +6,7 @@ import SearchResultComponent from "@packages/shared-components/sr-page/srpage-co
 import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getMetaDetailsObject } from "@packages/lib/utlils/helper-function";
+import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
 
 export type MetaDataProps = {
   params?: any;
