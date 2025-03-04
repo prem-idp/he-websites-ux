@@ -1,7 +1,7 @@
 "use client";
 import React from 'react'
 import Image from 'next/image'
-import { AnimatePresence, motion } from "motion/react"
+
 
 const Subjectmodalcomponents = ({isOpen, onClose }:any) => {
   return (

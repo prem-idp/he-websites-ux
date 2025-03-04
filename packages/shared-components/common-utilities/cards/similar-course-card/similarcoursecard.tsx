@@ -10,7 +10,7 @@ const Similarcoursecard = ({ similarCourses }: { similarCourses: Courses[] }) =>
             <div className='flex flex-col gap-[8px]'>
                 {/* <div className='para-lg font-semibold'>Subheading</div> */}
                 <ul className='grid grid-cols-1 lg:grid-cols-3 gap-[8px] w-full'>
-                    {similarCourses.map((course:any,index:any) => <li key={index}>
+                    {similarCourses?.map((course:any,index:any) => <li key={index}>
                         <Link href={course?.url} title='' className='w-full flex item-center justify-between gap-[4px] p-[12px_16px] border border-grey-200 hover:border-primary-400 rounded-[4px] bg-white hover:bg-primary-50 transition-all'>
                             <span className='font-semibold small gap-[4px] md:line-clamp-1'>
                                 {course?.name}
