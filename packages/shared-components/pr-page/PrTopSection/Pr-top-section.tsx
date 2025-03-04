@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { headers } from "next/headers";
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
@@ -21,10 +20,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
   const rating = college?.rating ?? 0; // Default to 0 if null
 
-  const headersList = await headers();
-  const domain = headersList.get("host"); // "example.com"
-
-  const reviewsLinksrc = `https://${domain}/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
+  const reviewsLinksrc = `/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
   return (
     <section className="bg-white">

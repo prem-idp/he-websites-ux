@@ -77,6 +77,7 @@ const searchPRResults = async (searchparams: any) => {
     }
 
     const data = await response.json();
+    console.log("Data Response " + JSON.stringify(data));
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
