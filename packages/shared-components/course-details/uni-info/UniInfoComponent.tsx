@@ -18,10 +18,6 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
 
-  function googleMap() {
-    ("https://maps.google.com/?q=" + location.latitude + ',' + location.longitude);
-  }
-
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";

@@ -7,6 +7,8 @@ import Yearofentrycomponents from '@packages/shared-components/course-details/ye
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import getApiUrl from "@packages/REST-API/api-urls";
 import makeApiCall from "@packages/REST-API/rest-api";
+import { graphQlFetchFunction } from '@packages/lib/server-actions/server-action';
+import { COURSE_DETAILS_QUERY } from "@packages/lib/graphQL/course-details.graphql";
 export default async function Cdpage({ params }: any) {
 
   const prams_slug = await params;
@@ -18,7 +20,7 @@ export default async function Cdpage({ params }: any) {
     collegeId:String(prams_slug?.uni_id || ""),
   });
   const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
-  const [data, jsonResponse] = await Promise.all([
+  const [data, jsonResponse, contents] = await Promise.all([
     fetch(url, {
       method: "GET",
       headers: {
@@ -28,6 +30,7 @@ export default async function Cdpage({ params }: any) {
     }).then((res) => res.json()),
   
     makeApiCall(getApiUrl?.homePageReviews, "POST", null, null, reviewPayload),
+    graphQlFetchFunction(COURSE_DETAILS_QUERY) 
   ]);
 
   const customLabels = [
@@ -40,7 +43,7 @@ export default async function Cdpage({ params }: any) {
   ];
 
   const breadcrumbData = generateBreadcrumbData(slug,customLabels);
-
+  console.log(contents, "contents");
   return (
     <>
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
