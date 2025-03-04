@@ -16,7 +16,7 @@ export function getQualCode(qualText: any) {
   return qualCode;
 }
 
-function getSearchPayload(
+export function getSearchPayload(
   searchParams: any,
   filterCookieParam: any,
   qualification: any
@@ -62,4 +62,33 @@ function getSearchPayload(
   };
   return searchPayload;
 }
-export { getSearchPayload };
+
+export function getSEOSearchPayload(
+    searchParams: any,
+    qualification: string
+  ) {
+    const subjectArray = searchParams?.subject?.split(",") || searchParams?.course?.split(",") || [];
+    const locationArray = searchParams?.location?.split(",") || searchParams?.location?.split(",") || [];
+    const searchPayload: any = {
+      parentQualification: getQualCode(qualification),
+      childQualification: searchParams?.qualification || undefined,
+      searchCategoryCode: undefined,
+      searchSubject: subjectArray,
+      searchKeyword: searchParams?.q || searchParams?.keyword || undefined,
+      jacsCode: undefined,
+      location: locationArray,
+      studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
+      studyMethod: searchParams?.["study-method"] || undefined,
+      collegeId: undefined,
+      pageNo:  searchParams?.pageno || searchParams?.page_no || "1",
+      locationType: searchParams?.["location-type"] || undefined,
+      intakeYear: searchParams?.year || undefined,
+      intakeMonth: searchParams?.month  || undefined,
+      sortBy: searchParams?.sort || undefined,
+      userCoordinates: undefined,
+      distance: searchParams?.distance || undefined,
+      ucasTariffRange: searchParams?.score || undefined,
+      universityGroup: searchParams?.["russell-group"] || undefined,
+    };
+    return searchPayload;
+  }
