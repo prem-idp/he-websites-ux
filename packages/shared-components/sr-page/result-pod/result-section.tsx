@@ -161,6 +161,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           : "/static/assets/icons/search-result/kent.png"
                       }
                       alt="University logo"
+                      priority={true}
                       width={56}
                       height={56}
                       id="uni_img"
@@ -408,6 +409,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
               </div>
             </div>
             <Image
+            priority={true}
               src={
                 data?.collegeMedia?.ipCollegeImage
                   ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`

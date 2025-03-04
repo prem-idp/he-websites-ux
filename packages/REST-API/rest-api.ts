@@ -75,6 +75,28 @@ const getSrFilter = async (bodyjson: any): Promise<any> => {
     console.error("Unknown error occurred", { endpoint: apiUrl, error });
   }
 };
+ async function fetchenquirydata(enquiryPayload: any) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_GET_ENQUIRY_DETAILS_API}`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+      },
+      body: JSON.stringify(enquiryPayload),
+      cache: "no-store",
+    });
 
+    // Parse the JSON response
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    // Handle the error
+    console.log("ERROR", error);
+    throw error;
+  }
+}
 export default makeApiCall;
-export { getSrFilter };
+export { getSrFilter,fetchenquirydata };
