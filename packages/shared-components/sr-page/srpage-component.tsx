@@ -33,7 +33,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   }
   return (
     <>
-      <TopSection searchParam = {getSEOSearchPayload(searchparams, params?.hero)} searchResultsData={searchResultsData?.searchResultsList}/>
+      <TopSection searchParam = {getSEOSearchPayload(searchparams, params?.hero)} searchResultsData={searchResultsData}/>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />

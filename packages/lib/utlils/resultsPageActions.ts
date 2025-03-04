@@ -113,7 +113,7 @@ export function replaceSEOPlaceHolder(inputText: any, metaFiltersOpted: MetaFilt
       inputText = replaceMultiplePlaceholder("[SUBJECT]", inputText, metaFiltersOpted?.searchSubject);
     } 
     if (inputText?.includes("[STUDY LEVEL]")) {
-      inputText.replace("[STUDY LEVEL]", metaFiltersOpted?.studylevel ?? "")
+      inputText = inputText.replace("[STUDY LEVEL]", metaFiltersOpted?.studylevel ?? "")
     }
     if (inputText?.includes("[STUDY MODE]")) {
       inputText = inputText.replace("[STUDY MODE]", metaFiltersOpted?.studymode ?? "");

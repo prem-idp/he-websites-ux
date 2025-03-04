@@ -6,7 +6,7 @@ import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-resul
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 interface searchProps {
   searchParam?: any;
-  searchResultsData: any[];
+  searchResultsData: any;
 }
 interface MetaFilterTypesReplace {
   searchSubject?: string[];
@@ -48,11 +48,12 @@ const TopSection: React.FC<searchProps> = async ({
     },
   ];
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    courseCount: searchResultsData?.length ?? undefined,
-    location: displayNameResponse?.locationName ?? undefined,
+    courseCount: searchResultsData?.totalCourseCount ?? undefined,
+    location:  displayNameResponse?.locationName ?? undefined,
     searchSubject: displayNameResponse?.subjectName ?? undefined,
     studylevel: displayNameResponse?.studyLevel ?? undefined,
     studymode: displayNameResponse?.studyMode ?? undefined,
+    providerCount: searchResultsData?.collegeCount ?? undefined,
   };
   return (
     <>
@@ -73,11 +74,7 @@ const TopSection: React.FC<searchProps> = async ({
               )}
             </div>
             <p>
-              {" "}
-              {replaceSEOPlaceHolder(
-                contentfulMetadata?.h2Text,
-                metaFiltersOpted
-              )}
+            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}
