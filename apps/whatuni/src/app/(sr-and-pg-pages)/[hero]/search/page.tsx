@@ -1,23 +1,21 @@
 "use server";
 import React from "react";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { qualCode } from "@packages/lib/utlils/filters/filterJson";
 import SearchResultComponent from "@packages/shared-components/sr-page/srpage-component";
 import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
-import Head from "next/head";
+import { notFound } from "next/navigation";
 
 export type MetaDataProps = {
-  params?: Promise<{ id: string }>;
+  params?: any;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+export async function generateMetadata({params, searchParams}: MetaDataProps): Promise<Metadata> {
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: MetaDataProps): Promise<Metadata> {
-  const metaData = await getSRMetaDetailsFromContentful(await searchParams);
+  const pathname = `/${params?.hero}/search`;
+  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname);
 
   return {
     alternates: {
@@ -30,7 +28,6 @@ export async function generateMetadata({
   };
 }
 
-import { notFound } from "next/navigation";
 const Page = async ({ searchParams }: any) => {
   const cookieStore = await cookies();
   const pathname =
