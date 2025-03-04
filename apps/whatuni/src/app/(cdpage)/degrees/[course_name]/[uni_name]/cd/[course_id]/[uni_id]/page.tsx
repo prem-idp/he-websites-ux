@@ -8,7 +8,7 @@ import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import getApiUrl from "@packages/REST-API/api-urls";
 import makeApiCall from "@packages/REST-API/rest-api";
 import { graphQlFetchFunction } from '@packages/lib/server-actions/server-action';
-import { COURSE_DETAILS_QUERY } from "@packages/lib/graphQL/course-details.graphql";
+import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/graphQL/course-details.graphql";
 export default async function Cdpage({ params }: any) {
 
   const prams_slug = await params;
@@ -41,9 +41,9 @@ export default async function Cdpage({ params }: any) {
     "",
     ""
   ];
-
+  let courseContent = courseContentExtractor(contents);
   const breadcrumbData = generateBreadcrumbData(slug,customLabels);
-  console.log(contents, "contents");
+  console.log(courseContent, "contents");
   return (
     <>
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
@@ -53,7 +53,7 @@ export default async function Cdpage({ params }: any) {
       </section>
       <Courseheaderinfocomponents data={data} />
       <Yearofentrycomponents />
-      <Cdpageclient data={data} jsonResponse={jsonResponse} prams_slug={prams_slug} >
+      <Cdpageclient data={data} courseContent={courseContent} jsonResponse={jsonResponse} prams_slug={prams_slug} >
 
       <Courseinfocomponents {...data} />
       </Cdpageclient>

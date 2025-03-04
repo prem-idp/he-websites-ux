@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 const UniInfoComponent =dynamic(()=>import("@packages/shared-components/course-details/uni-info/UniInfoComponent"),{ssr:false});
 import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
+import JumpToComponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
 import Modulescomponents from '@packages/shared-components/course-details/modules/ModulesComponent';
 import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
 import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
@@ -17,7 +17,7 @@ import Othercoursesmaylikecomponents from '@packages/shared-components/course-de
 // import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
 import { useState, useEffect } from 'react';
 // import Othercoursesmaylikecomponents from "@packages/shared-components/course-details/other-courses-you-may-like"
-export default function Cdpageclient({ children, data, jsonResponse, prams_slug }: any) {
+export default function Cdpageclient({ children, courseContent, data, jsonResponse, prams_slug }: any) {
 
     //console.log("this is the cdpageclientwrapper")
     const [fetcheddata, setFetcheddata] = useState({ ...data });
@@ -73,19 +73,19 @@ export default function Cdpageclient({ children, data, jsonResponse, prams_slug 
                <div >
                 <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
                 </div>
-             <Jumptocomponents data={data} />
+             <JumpToComponents sectionsList={courseContent?.sectionsList} />
             
             <>
-            {fetcheddata?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
+            {courseContent?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
                 return <div key={sectionId}>{(() => {
                     switch (sectionId) {
-                        case 'courseInfo': return <div key={renderKey}>{children}</div>;
+                        case 'course-info': return <div key={renderKey}>{children}</div>;
                         case 'modules': return <Modulescomponents  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'entryRequirements': return <EntryrequirementsComponent  key={renderKey}{...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'popularALevelSubjects': return <Popularalevelsubjectcomponents key={renderKey}  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'tutionFees': return <TutionFeesComponent  key={renderKey} {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'latestReviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
-                        case 'uniInfo': return <UniInfoComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'entry-requirements': return <EntryrequirementsComponent  key={renderKey}{...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey}  {...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'tuition-fees': return <TutionFeesComponent  key={renderKey} {...{ sectionName, sectionId }} {...fetcheddata} />;
+                        case 'latest-reviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
+                        case 'uni-info': return <UniInfoComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
                     }
                 })()}</div>
             })}

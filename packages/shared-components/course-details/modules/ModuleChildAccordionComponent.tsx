@@ -21,7 +21,7 @@ const ModuleChildAccordionComponent = ({ subModules }: ModuleChildAccordionCompo
         {subModules.map((item, index: number) => (
           <div className="accordion-item flex flex-col gap-[8px] py-[8px]" key={index}>
             <div className={`accordion-header w-fit flex flex-row-reverse items-center justify-end gap-[8px] para font-semibold ${item?.description ? 'text-primary-400 hover:underline' : ''} cursor-pointer`} onClick={() => toggleAccordion(index)}>
-              {item.title}  {item?.credits ?? ''}  -  {item?.moduleTypeName ?? ''}
+              {item.title}  {item?.credits ? ('(' + item?.credits + ' credits)') : ''}  -  {item?.moduleTypeName ?? ''}
               {!!item?.description && <div className="relative flex items-center justify-center w-[12px] h-[12px]">
                 <span className="absolute">
                   <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
