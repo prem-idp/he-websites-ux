@@ -1,8 +1,9 @@
+'use client'
 import React from "react";
-import { fetchenquirydata } from '@packages/lib/server-actions/server-action';
-import router from "next/router";
-
+import { fetchenquirydata } from '@packages/REST-API/rest-api';
+import { useRouter } from "next/navigation";
 const Getprospectus  = ({ enquiryProps }: any) => {
+  const router = useRouter()
   const handleVisitWebsite = async () => {
       console.log("Enter", enquiryProps);
        try {

@@ -1,5 +1,6 @@
+'use client'
 import React from 'react'
-import { fetchenquirydata } from '@packages/lib/server-actions/server-action';
+import { fetchenquirydata } from '@packages/REST-API/rest-api';
 
 const Visitwebsite = ({ enquiryProps }: any) => {
   const handleVisitWebsite = async () => {
