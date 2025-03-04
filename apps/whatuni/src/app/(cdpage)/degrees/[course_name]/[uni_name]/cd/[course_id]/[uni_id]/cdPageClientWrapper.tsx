@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic'
-const UniInfoComponent =dynamic(()=>import("@packages/shared-components/course-details/uni-info/UniInfoComponent"),{ssr:false});
+const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"), { ssr: false });
 import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
 import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
 import JumpToComponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
@@ -22,7 +22,7 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
     //console.log("this is the cdpageclientwrapper")
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
-    const [startfetch,setStartfetch]=useState(false);
+    const [startfetch, setStartfetch] = useState(false);
     const [renderKey, setRenderKey] = useState(0);
 
     useEffect(() => {
@@ -35,60 +35,59 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
                 const searchParams = new URLSearchParams({
                     courseId: String(prams_slug?.course_id || ""),
                     affiliateId: String(process.env.AFFILATE_ID || ""),
-                    collegeId:String(prams_slug?.uni_id || ""),
+                    collegeId: String(prams_slug?.uni_id || ""),
                 });
                 const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
-                      
+
                         "Content-Type": "application/json",
                         "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
                     },
                 });
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const clientfetcheddata = await response.json();
-                setFetcheddata((prevData:any) => ({ ...prevData, ...clientfetcheddata }));
+                setFetcheddata((prevData: any) => ({ ...prevData, ...clientfetcheddata }));
                 // setFetcheddata(clientfetcheddata);
                 //console.log("Client-side fetched data:", data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-   if(startfetch)
-   {
+        if (startfetch) {
 
-    clientFetch();
-   }
-   else{
-    setStartfetch(true)
-   }
-        
+            clientFetch();
+        }
+        else {
+            setStartfetch(true)
+        }
+
     }, [selectedavilability]);
 
     //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
     return (
 
         <div>
-               <div >
+            <div >
                 <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-                </div>
-             <JumpToComponents sectionsList={courseContent?.sectionsList} />
-            
+            </div>
+            <JumpToComponents sectionsList={courseContent?.sectionsList} />
+
             <>
-            {courseContent?.sectionsList?.map(({ sectionName, sectionId }: { sectionName: string, sectionId: string }) => {
-                return <div key={sectionId}>{(() => {
-                    switch (sectionId) {
-                        case 'course-info': return <div key={renderKey}>{children}</div>;
-                        case 'modules': return <Modulescomponents  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'entry-requirements': return <EntryrequirementsComponent  key={renderKey}{...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey}  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'tuition-fees': return <TutionFeesComponent  key={renderKey} {...{ sectionName, sectionId }} {...fetcheddata} />;
-                        case 'latest-reviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
-                        case 'uni-info': return <UniInfoComponent  {...{ sectionName, sectionId }} {...fetcheddata} />;
-                    }
-                })()}</div>
-            })}
+                {courseContent?.sectionsList?.map((sectionContent: { sectionName: string, sectionId: string, [key: string]: any }) => {
+                    return <div key={sectionContent?.sectionId}>{(() => {
+                        switch (sectionContent?.sectionId) {
+                            case 'course-info': return <div key={renderKey}>{children}</div>;
+                            case 'modules': return <Modulescomponents  {...sectionContent} {...fetcheddata} />;
+                            case 'entry-requirements': return <EntryrequirementsComponent key={renderKey} {...sectionContent} {...fetcheddata} />;
+                            case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey}  {...sectionContent} {...fetcheddata} />;
+                            case 'tuition-fees': return <TutionFeesComponent key={renderKey} {...sectionContent} {...fetcheddata} />;
+                            case 'latest-reviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
+                            case 'uni-info': return <UniInfoComponent  {...sectionContent} {...fetcheddata} />;
+                        }
+                    })()}</div>
+                })}
             </>
             <Othercoursesmaylikecomponents />
             <SimilarCourseComponent {...data} />

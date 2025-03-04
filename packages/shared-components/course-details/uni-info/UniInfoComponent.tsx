@@ -8,16 +8,17 @@ import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
 
 interface UniInfoComponentProps extends CourseSection {
-  uniInfo: any
+  uniInfo: any,
+  courseInfo: any
 }
 
-const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentProps) => {
+const UniInfoComponent = ({ sectionId, sectionName, uniInfo, courseInfo }: UniInfoComponentProps) => {
 
   const { awards, location } = uniInfo;
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
-
+  console.log(courseInfo, "uniInfo")
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
@@ -50,9 +51,9 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
       }
     });
 
-  if (mapContainerRef.current) {
-    observer.observe(mapContainerRef.current);
-  }
+    if (mapContainerRef.current) {
+      observer.observe(mapContainerRef.current);
+    }
     // observer.observe(mapContainerRef.current);
 
     return () => {
@@ -81,7 +82,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
                 <div className='uniresults-right flex flex-col gap-[16px]'>
                   <div className='uni-info-card flex flex-col gap-[8px]'>
                     <div className='flex flex-row md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
-                      <a href="#" className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
+                      <a href={`/university-profile/'+ ${courseInfo?.institutionNameUrl} +'/${courseInfo?.institutionId}/`} className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
                       <div className={`heart ${uniInfo?.favoriteFlag ? 'active' : ''} min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
                         <svg
                           width="20"

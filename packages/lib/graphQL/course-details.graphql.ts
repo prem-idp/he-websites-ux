@@ -86,5 +86,5 @@ export function courseContentExtractor(data: CousrseContent) {
     result.sections = [...result?.dynamicZoneComponentsCollection?.items];
     result = result?.sections?.map((item: any) => ({ ...item, mediaCardsCollection: item?.mediaCardsCollection?.items }))
     delete result['dynamicZoneComponentsCollection'];
-    return { sectionsData: result, sectionsList: result?.map((item: any) => ({ sectionName: item?.cardSectionTitle, sectionId: item?.internalName?.toLowerCase()?.replaceAll(' ', '-') })) };
+    return { sectionsList: result?.map((item: any) => ({ ...item, sectionName: item?.cardSectionTitle, sectionId: item?.internalName?.toLowerCase()?.replaceAll(' ', '-') })) };
 }   

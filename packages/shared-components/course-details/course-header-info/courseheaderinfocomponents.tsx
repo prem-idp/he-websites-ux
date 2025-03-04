@@ -48,7 +48,7 @@ import { useState } from 'react'
 
                                 </div>
                               <div className='flex flex-col gap-[8px]'>
-                                 <a href={data?.courseInfo?.institutionNameUrl} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{data?.courseInfo?.institutionName}</a>
+                                 <a href={'/university-profile/' + data?.courseInfo?.institutionNameUrl + '/' + data?.courseInfo?.institutionId + '/'} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{data?.courseInfo?.institutionName}</a>
                                 <div className='flex'>
                                   <div className='rating-pod flex items-center gap-[8px]'>
                                     <div className='rating-card flex items-center gap-[8px]'>
