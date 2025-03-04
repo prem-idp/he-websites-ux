@@ -61,18 +61,15 @@ export async function constructPayload(
 const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,
-      {
-        method: "POST",
-        headers: {
-          sitecode: "WU_WEB",
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
-        },
-        body: JSON.stringify(payloads),
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
+      method: "POST",
+      headers: {
+        "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
+      },
+      body: JSON.stringify(payloads),
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
