@@ -5,6 +5,8 @@ import { API_END_POINTS } from "../utlils/API_END_POINTS";
 import { v4 as uuidv4 } from "uuid";
 import { currentAuthenticatedUser } from "../utlils/helper-function";
 
+type RequestType = "GET" | "POST";
+
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean
@@ -75,6 +77,35 @@ export async function callClickstreamAPI(payload: any) {
   }
 }
 
+export async function httpBFFRequest(
+  endpoint: string,
+  bodyPayload: any,
+  reqtype: RequestType,
+  xAPIKey: string,
+  cacheType: RequestCache
+): Promise<any> {
+  try {
+    const url = endpoint;
+    const res = await fetch(url, {
+      method: reqtype,
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-api-key": xAPIKey,
+      },
+      body: JSON.stringify(bodyPayload),
+      cache: cacheType ? cacheType : "default",
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("ERROR:", error, " endpoint: ", endpoint);
+    //throw error;
+  }
+}
+
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   try {
     searchPayload = {
@@ -104,4 +135,19 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   }
 };
 
-export { searchResultsFetchFunction };
+const getUserLocationInfo = async (latitude: any, longitude: any) => {
+  const mapboxKey =
+    "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
+
+  try {
+    const response = await fetch(
+      `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${longitude}&latitude=${latitude}&access_token=${mapboxKey}`
+    );
+    const jsondata = await response?.json();
+    return jsondata;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export { searchResultsFetchFunction, getUserLocationInfo };

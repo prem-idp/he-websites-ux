@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react"
-import Moduleinnercomponents from "@/app/course-details/modules/moduleinnercomponents";
 
+import Moduleinnercomponents from "@/app/course-details/modules/moduleinnercomponents";
 
 const Modulesaccordioncomponents = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(null);

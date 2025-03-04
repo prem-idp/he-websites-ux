@@ -15,9 +15,7 @@ import Subscribecomponents from "@packages/shared-components/common-utilities/ne
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
 import { getSearchPayload } from "../services/utils";
-import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
-import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
 import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 const SearchResultComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
@@ -34,10 +32,10 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   } catch (error) {
     console.log("error", error);
   }
-
+  console.log(getSearchPayload(searchparams, filterCookieParam, pathname));
   return (
     <>
-      <TopSection />
+      <TopSection searchParam = {getSearchPayload(searchparams, filterCookieParam, pathname)} searchResultsData={searchResultsData?.searchResultsList}/>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
@@ -46,7 +44,10 @@ const SearchResultComponent = async ({ searchparams }: any) => {
       ) : (
         <></>
       )}
-
+      <Suspense>
+        <SearchFilterButtons />
+        <SearchLabels />
+      </Suspense>
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           <SortingFilter sortParam={{ param: searchparams }} />
