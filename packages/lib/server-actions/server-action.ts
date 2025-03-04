@@ -82,15 +82,16 @@ export async function httpBFFRequest(
   bodyPayload: any,
   reqtype: RequestType,
   xAPIKey: string,
-  cacheType: RequestCache
+  cacheType: RequestCache,
+  customHeaders: any
 ): Promise<any> {
   try {
     const url = endpoint;
     const res = await fetch(url, {
       method: reqtype,
       headers: {
+        ...customHeaders,
         "Content-Type": "application/json",
-        "x-correlation-id": uuidv4(),
         sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "x-api-key": xAPIKey,
       },

@@ -14,8 +14,9 @@ export type MetaDataProps = {
 
 export async function generateMetadata({params, searchParams}: MetaDataProps): Promise<Metadata> {
 
-  const pathname = `/${params?.hero}/search`;
-  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname);
+  const paramsAwaited = await params;
+  const pathname = `/${paramsAwaited?.hero}/search`;
+  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited);
 
   return {
     alternates: {
@@ -28,7 +29,7 @@ export async function generateMetadata({params, searchParams}: MetaDataProps): P
   };
 }
 
-const Page = async ({ searchParams }: any) => {
+const Page = async ({ params, searchParams }: any) => {
   const cookieStore = await cookies();
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
@@ -37,7 +38,8 @@ const Page = async ({ searchParams }: any) => {
     notFound();
   }
   const searchparams = await searchParams;
-  return <SearchResultComponent searchparams={searchparams} />;
+  const paramsAwaited = await params;
+  return <SearchResultComponent searchparams={searchparams} params={paramsAwaited} />;
 };
 
 export default Page;
