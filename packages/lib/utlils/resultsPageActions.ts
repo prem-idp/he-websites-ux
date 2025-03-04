@@ -23,7 +23,7 @@ interface MetaFilterTypesReplace{
     courseCount?: string,
 }
 
-export async function getSRMetaDetailsFromContentful(searchParams: any) {
+export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string) {
   //Initializing and Assigning values
   let filterCookieParam;
   const headersList = await headers();
@@ -39,7 +39,7 @@ export async function getSRMetaDetailsFromContentful(searchParams: any) {
   const searchPayLoad = getSearchPayload( searchParams, filterCookieParam, pathnameArray?.[3]?.split?.("-")?.[0]);
   const studylevel = `${process.env.PROJECT}` == "Whatuni" ? searchPayLoad?.parentQualification : searchPayLoad?.childQualification;
   const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad);
-
+  // console.log("seoMetaFeildId: ", seoMetaFeildId);
 
   //1) bff API hit
   const courseCountReqBody = await getFiltersInparamReqBody(cookieStore);
@@ -55,6 +55,9 @@ export async function getSRMetaDetailsFromContentful(searchParams: any) {
   let contentfulMetadata = await graphQlFetchFunction(query);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
 
+
+  // console.log("contentfulMetadata: ", contentfulMetadata)
+
   //
   const metaFiltersOpted: MetaFilterTypesReplace = {
     courseCount: courseCountResponse ?? undefined,
@@ -65,21 +68,19 @@ export async function getSRMetaDetailsFromContentful(searchParams: any) {
   }
   
   let actualMetaData: MetaDataInterface = {
-    canonical: `${process.env.PROJECT === "Whatuni" ? "https://www.whatuni.com" : "https://www.postgraduatesearch.com/"}`,
-    description: contentfulMetadata?.metaDescription ?? "Default description",
-    indexation: "noindex, nofollow",
+    canonical: getSRCanonical(searchParams, searchPayLoad, pathName), //`${process.env.PROJECT === "Whatuni" ? "https://www.whatuni.com" : "https://www.postgraduatesearch.com/"}`,
+    description: replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted) ?? "Default description",
+    indexation: getSRIndexation(searchParams, searchPayLoad),
     keyword: "",
-    title: contentfulMetadata?.metaTile ?? "Default title",
+    title: replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted)?? "Default title",
   } 
 
-  
-  //
-  setIndexation(actualMetaData, searchParams, searchPayLoad);
+  // console.log("actualMetaData: ", actualMetaData);
 
   return actualMetaData;
 }
 
-function getDisplayNameReqBody(searchPayLoad: any){
+export function getDisplayNameReqBody(searchPayLoad: any){
   const displayNameReqBody = { 
 
     "parentQualification": searchPayLoad?.parentQualification ?? "", 
@@ -101,14 +102,14 @@ function getDisplayNameReqBody(searchPayLoad: any){
 }
 
 export function replaceSEOPlaceHolder(inputText: any, metaFiltersOpted: MetaFilterTypesReplace) {
-  if (inputText?.includes("[Course Count]")) {
-    inputText = inputText.replace("[Course Count]", metaFiltersOpted?.courseCount ?? "0")
+  if (inputText?.includes("[COURSE COUNT]")) {
+    inputText = inputText.replace("[COURSE COUNT]", metaFiltersOpted?.courseCount ?? "0")
     } 
-    if (inputText?.includes("[Provider Count]")) {
-      inputText = inputText.replace("[Provider Count]",metaFiltersOpted?.providerCount ?? "0")
+    if (inputText?.includes("[PROVIDER COUNT]")) {
+      inputText = inputText.replace("[PROVIDER COUNT]",metaFiltersOpted?.providerCount ?? "0")
     } 
-    if (inputText?.includes("[Region]")) {
-      inputText = replaceMultiplePlaceholder("[Region]", inputText, metaFiltersOpted?.location);
+    if (inputText?.includes("[REGION]")) {
+      inputText = replaceMultiplePlaceholder("[REGION]", inputText, metaFiltersOpted?.location);
     } 
     if (inputText?.includes("[LOCATION]")) {
       inputText = replaceMultiplePlaceholder("[LOCATION]", inputText, metaFiltersOpted?.location);
@@ -130,27 +131,77 @@ function replaceMultiplePlaceholder(pattern: string, inputText: string, selected
 
   while(inputText?.includes(pattern)){
     const displayText = selectedOptionList?.length && selectedOptionList?.length > 0  ? selectedOptionList[index] : "";
-    inputText.replace(pattern, displayText);
+    inputText = inputText.replace(pattern, displayText);
     index++;
   } 
   return inputText;
 }
 
 
-function setIndexation(metaData: MetaDataInterface, searchParams: any, searchPayLoad: any){
+function getSRIndexation(searchParams: any, searchPayLoad: any){
     if(searchPayLoad?.searchKeyword || searchParams?.length >= 3){
-        metaData.indexation = "noindex";
-    } else{
-        metaData.indexation = "index";
+        return "noindex, nofollow";
     }
+
+    return "index, follow";
 } 
 
-function setCanonical(metaData: any, searchParams: any, searchPayLoad: any){
+function getSRCanonical(searchParams: any, searchPayLoad: any, pathName: string){
+  
+  // const reqUrlArr = requestURL?.split("?");
+  // let srBaseURL = reqUrlArr && reqUrlArr?.length >= 1 ? reqUrlArr[0] : "";
+  // let queryParamString = reqUrlArr && reqUrlArr?.length >= 2 ? reqUrlArr[1] : "";
+  // let finalURL = srBaseURL;
 
+  // //sortBy scenario
+  // if(queryParamString?.includes("sort=")){
+  //     let sortbyAmpersandIndex: number = queryParamString.indexOf("&sort");
+  //     sortbyAmpersandIndex = sortbyAmpersandIndex == -1 ? queryParamString.indexOf("sort") : sortbyAmpersandIndex;
+  //     let queryAfterSortby = queryParamString.substring(sortbyAmpersandIndex);
+  //     let sortbyLastIndex = queryAfterSortby.indexOf("&", 1);
+  //     const sortByParam = sortbyLastIndex == -1 ? queryAfterSortby : queryAfterSortby.substring(0, sortbyLastIndex);
+  //     queryParamString = queryParamString.replace(sortByParam, "");
+  // }
+
+  // if(queryParamString) finalURL = srBaseURL + "?" + queryParamString;
+  // else finalURL = srBaseURL;
+  
+  // return finalURL;
+
+  const canonicalSearchParams = {...searchParams};
+  const { sort, ...newObj } = canonicalSearchParams;
+
+  return formSRPageURL(newObj, pathName)
 } 
 
-function getSeoMetaFeildId(searchPayLoad: any) {
+function formSRPageURL(searchParams: any, pathName: string){
+  let filterCount: number = 0;
+  let formURL = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
+  formURL = formURL + pathName;
 
+  if(filterCount <= 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.subject); filterCount++;}
+  if(filterCount <= 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
+  if(filterCount <= 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount++;}
+  if(filterCount <= 4 && searchParams?.['study-method']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-method=" + searchParams?.['study-method']); filterCount++;}
+  if(filterCount <= 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
+  if(filterCount <= 4 && searchParams?.intakeYear) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intakeYear=" + searchParams?.intakeYear); filterCount++;}
+  if(filterCount <= 4 && searchParams?.intakeMonth) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intakeMonth=" + searchParams?.intakeMonth); filterCount++;}
+  if(filterCount <= 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("distance=" + searchParams?.distance); filterCount++;}
+  if(filterCount <= 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
+  if(filterCount <= 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
+  if(filterCount <= 4 && searchParams?.locationType) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("locationType=" + searchParams?.locationType); filterCount++;}
+  if(filterCount <= 4 && searchParams?.pageNo) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageNo=" + searchParams?.pageNo); filterCount++;}
+  if(filterCount <= 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
+
+  return formURL;
+}
+
+
+export function getSeoMetaFeildId(searchPayLoad: any) {
+
+  const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] == "" ? false : true); 
+  const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] == "" ? false : true);
+  const keywordSelected = searchPayLoad?.searchKeyword?.length <= 0 ? false : (searchPayLoad?.searchKeyword?.length >= 1 && searchPayLoad?.searchKeyword?.[0] == "" ? false : true); 
    let seoMetaFeildId = "Default";
    const getStudylevelSeoField = (studylevel: string) => {
       if(`${process.env.PROJECT}` == "PGS"){
@@ -163,157 +214,154 @@ function getSeoMetaFeildId(searchPayLoad: any) {
   }
 
   if (  //no filter
-    !searchPayLoad?.searchSubject &&
-    !searchPayLoad?.location &&
+    !(subjectSelected || keywordSelected) &&
+    !locationSelected &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "No filters"
   } else if ( // region only
-    !searchPayLoad?.searchSubject &&
-    searchPayLoad?.location &&
+    !(subjectSelected || keywordSelected) &&
+    locationSelected &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Region only";
   } else if ( // multiple subjects
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length > 1 &&
-    !searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length > 1)) &&
+    !locationSelected &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Multiple Subjects Only";
   } else if ( // multiple subjects + studymode
-    !searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length > 1 &&
-    !searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length > 1)) &&
+    !locationSelected &&
     !searchPayLoad?.parentQualification &&
     searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Multiple Subjects and Study Mode"
   } else if ( // subject + region
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length > 1)) &&
+    locationSelected &&
     searchPayLoad?.location?.length == 1 &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Subject & Region with No Course Type"
   } else if ( // subject + studyLevel + region (doubt contradiction)
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length > 1)) &&
+    locationSelected &&
     searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Subject plus Region with Study Level"
   } else if ( // subject + more regions
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length > 1 &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    (locationSelected && searchPayLoad?.location?.length > 1) &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "subject + region(2+)"
   } else if ( // more region only
-    !searchPayLoad?.searchSubject &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length > 1 &&
+    !(subjectSelected || keywordSelected) &&
+    (locationSelected && searchPayLoad?.location?.length > 1) &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "Multiple Regions";
   } else if ( // only subject atmost atleast one
-    !searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    !searchPayLoad?.location &&
-    !searchPayLoad?.parentQualification &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    !locationSelected &&
+     searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+        seoMetaFeildId = "subject"
   } else if ( // subject + location
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length == 1 &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    (locationSelected && searchPayLoad?.location?.length == 1) &&
     !searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
-    
+        seoMetaFeildId = "subject + location"
   } else if ( // only studyLevel(for each study levels diff text possible)
-    !searchPayLoad?.searchSubject &&
-    !searchPayLoad?.location &&
+    !(subjectSelected || keywordSelected) &&
+    !locationSelected &&
     searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
     const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
     seoMetaFeildId = `studyLevel(${studyLevelCotentfulCode})`;
   } else if ( //subject + location + studyMode
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length == 1 &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    (locationSelected && searchPayLoad?.location?.length == 1) &&
     !searchPayLoad?.parentQualification &&
     searchPayLoad?.studyMode
   ) {
-    
+    seoMetaFeildId = "subject + studyMode + location"
+
   } else if (  // subject + subject (UG)
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 2 &&
-    !searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 2) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 2)) &&
+    !locationSelected &&
     searchPayLoad?.parentQualification &&
-    searchPayLoad?.parentQualification == "degree" &&
+    searchPayLoad?.parentQualification == "M" &&
     !searchPayLoad?.studyMode
   ) {
-   
+    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
+    seoMetaFeildId = "subject(2)" + `studyLevel(${studyLevelCotentfulCode})`;
   } else if ( // subject + studyLevel(for each study levels diff text possible)
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    !searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    !locationSelected &&
     searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
     
     const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject" + `studylevel(${studyLevelCotentfulCode})`;
+    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode})`;
 
   } else if ( // subject + studyLevel + studymode (doubt)
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    !searchPayLoad?.location &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    !locationSelected &&
     searchPayLoad?.parentQualification &&
     searchPayLoad?.studyMode
   ) {
       const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-      seoMetaFeildId = "subject" + `studyLevel(${studyLevelCotentfulCode})` + "studyMode";
+      seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "studyMode";
 
   } else if ( // subject + studyLevel + studymode + location
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length == 1 &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    (locationSelected && searchPayLoad?.location?.length == 1) &&
     searchPayLoad?.parentQualification &&
     searchPayLoad?.studyMode
   ) {
     
     const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject" + `studyLevel(${studyLevelCotentfulCode})` + "studyMode" + "location";
+    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "studyMode + " + "location";
 
   } else if ( // subject + studyLevel + location
-    searchPayLoad?.searchSubject &&
-    searchPayLoad?.searchSubject?.length == 1 &&
-    searchPayLoad?.location &&
-    searchPayLoad?.location?.length == 1 &&
+    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) ||
+     (keywordSelected && searchPayLoad?.searchKeyword?.length == 1)) &&
+    (locationSelected && searchPayLoad?.location?.length == 1) &&
     searchPayLoad?.parentQualification &&
     !searchPayLoad?.studyMode
   ) {
     
     const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject" + `studyLevel(${studyLevelCotentfulCode})` + "location";
+    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "location";
   } 
 
-  return "SEO - " + seoMetaFeildId + " - Whatuni";
+  return "SEO - " + seoMetaFeildId + ` - ${process.env.PROJECT}`;
 
 }

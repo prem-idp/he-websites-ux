@@ -1,7 +1,32 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
-const TopSection = () => {
+import { Seosrdetails } from "@packages/lib/graphQL/graphql-query";
+import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
+import { SEOparams } from "@packages/lib/types/interfaces";
+import { getDisplayNameReqBody, getSeoMetaFeildId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
+import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
+interface searchProps {
+  searchParam?: any;
+  searchResultsData: any[];
+}
+interface MetaFilterTypesReplace{
+  searchSubject?: string[],
+  studylevel?: string,
+  studymode?: string,
+  location?: string[],
+  providerCount?: string,
+  courseCount?: any,
+}
+const TopSection: React.FC<searchProps> = async({ searchParam, searchResultsData }) => {
+  const displayNameReqBody = getDisplayNameReqBody(searchParam);
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/seo/search-display-names`;
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "default");
+  const seoMetaFeildId: string = getSeoMetaFeildId(searchParam);
+   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
+    let contentfulMetadata = await graphQlFetchFunction(query);
+    contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
+
   const breadcrumbData = [
     {
       url: "#",
@@ -20,6 +45,13 @@ const TopSection = () => {
       label: "Search results",
     },
   ];
+  const metaFiltersOpted: MetaFilterTypesReplace = {
+    courseCount: searchResultsData.length ?? undefined,
+    location:  displayNameResponse?.locationName ?? undefined,
+    searchSubject: displayNameResponse?.subjectName ?? undefined,
+    studylevel: displayNameResponse?.studyLevel ?? undefined,
+    studymode: displayNameResponse?.studyMode ?? undefined,
+  }
   return (
     <>
       {/* start breadcrumb and subject*/}
@@ -33,9 +65,11 @@ const TopSection = () => {
           {/* start subject */}
           <div className="py-[16px]">
             <div className="h5 mb-[4px]">
-              Top Law, Engineering & Architecture subjects for you
+            {
+            replaceSEOPlaceHolder(contentfulMetadata?.h1Title, metaFiltersOpted) }
             </div>
-            <p>000 universities offer 1563 courses</p>
+            <p> {
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted)}</p>
           </div>
           {/* end subject */}
           {/* <TopSectionSkeleton/> */}

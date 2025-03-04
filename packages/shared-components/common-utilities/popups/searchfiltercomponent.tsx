@@ -280,7 +280,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
           linkTagId.click();
-
           setFilterLoading(false);
         } else {
           console.log("not found");
@@ -347,7 +346,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const param = modifySearchParams(key, value, urlParams);
         return param;
       } else {
-        return `subject=${searchParams?.get("subject")}&${key}=${value}`;
+        return `${`subject=${searchParams?.get("subject")}&${key}=${value}`}`;
       }
     } else {
       if (key == "subject") {
