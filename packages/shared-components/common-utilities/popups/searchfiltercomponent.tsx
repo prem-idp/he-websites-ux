@@ -256,7 +256,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       );
       console.log("body", filterbodyJson(orderedFilters, slug.split("/")[1]));
       console.log(data);
-      setJsondata(data);
+      // setJsondata(data);
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
