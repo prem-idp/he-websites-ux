@@ -9,6 +9,10 @@ interface ProviderTopCardProps {
 
 export default async function PrPageTopSection({ searchResultlist }: ProviderTopCardProps) {
 
+  if (!searchResultlist || !searchResultlist.searchResultsList?.length) {
+    return <></>
+  }
+
   const college = searchResultlist?.searchResultsList[0];
   const logoSrc = `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}` + college?.collegeMedia?.ipCollegeLogo; // Extract the logo URL
   const distanceInMiles = college?.distanceInMiles ?? 0;
@@ -19,6 +23,8 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
 
   const headersList = await headers();
   const domain = headersList.get("host"); // "example.com"
+
+  const reviewsLinksrc = `https://${domain}/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
   return (
     <section className="bg-white">
@@ -49,7 +55,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                   />
                   {rating}
                 </span>
-                <Link href={`https://${domain}/university-course-reviews/${college.collegeTextKey.toLowerCase().replace(/\s+/g, "-")}/${college.collegeId}`} className="underline ">
+                <Link href={reviewsLinksrc} className="underline ">
                   {reviewCount} reviews
                 </Link>
               </div>
