@@ -44,7 +44,10 @@ const SearchResultComponent = async ({ searchparams }: any) => {
       ) : (
         <></>
       )}
-
+      <Suspense>
+        <SearchFilterButtons />
+        <SearchLabels />
+      </Suspense>
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
           <SortingFilter sortParam={{ param: searchparams }} />

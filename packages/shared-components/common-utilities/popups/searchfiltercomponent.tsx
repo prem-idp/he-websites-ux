@@ -273,9 +273,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         setFilterLoading(false);
       } else if (multiSelect) {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        router.push(
-          `?${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`
-        );
+        router.push(`?${urlParams.toString()}`);
         setFilterLoading(false);
       } else {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
@@ -285,9 +283,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
           setFilterLoading(false);
         } else {
           console.log("not found");
-          router.push(
-            `?${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`
-          );
+          router.push(`?${urlParams.toString()}`);
           setFilterLoading(false);
         }
       }
@@ -350,14 +346,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const param = modifySearchParams(key, value, urlParams);
         return param;
       } else {
-        return `${encodeURIComponent(`subject=${searchParams?.get("subject")}&${key}=${value}`).replace(/%20/g, "+")}`;
+        return `${`subject=${searchParams?.get("subject")}&${key}=${value}`}`;
       }
     } else {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
         return param;
       } else {
-        return `${encodeURIComponent(urlParams.toString()).replace(/%20/g, "+")}`;
+        return `${urlParams.toString()}`;
       }
     }
   };
