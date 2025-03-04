@@ -6,6 +6,7 @@ import SearchResultComponent from "@packages/shared-components/sr-page/srpage-co
 import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getMetaDetailsObject } from "@packages/lib/utlils/helper-function";
 
 export type MetaDataProps = {
   params?: any;
@@ -18,15 +19,7 @@ export async function generateMetadata({params, searchParams}: MetaDataProps): P
   const pathname = `/${paramsAwaited?.hero}/search`;
   const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited);
 
-  return {
-    alternates: {
-      canonical: metaData?.canonical || "https://www.Whatuni.com",
-    },
-    title: metaData?.title || "Default Title",
-    description: metaData?.description || "Default Description",
-    robots: metaData?.indexation || "noindex, nofollow",
-    keywords: metaData?.keyword || [],
-  };
+  return getMetaDetailsObject(metaData);
 }
 
 const Page = async ({ params, searchParams }: any) => {

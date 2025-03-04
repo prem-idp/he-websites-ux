@@ -3,6 +3,8 @@
 import { getCurrentUser } from "@aws-amplify/auth";
 import { DataLayerGA4AttrType } from "../types/datalayerGA";
 import { usePathname } from "next/navigation";
+import { MetaDataInterface } from "../types/interfaces";
+import { Metadata } from "next";
 
 function getCookie(name: string): string | null {
   const value = `; ${document.cookie}`;
@@ -189,4 +191,38 @@ export function getArticleDetailUrlParamValues(){
     }
   }
   return {category, subCategory, articleTitle};
+}
+
+export function getMetaDetailsObject(metaData: MetaDataInterface): Metadata{
+  const customDomain = getCustomDomain();
+  return {
+    alternates: {
+      canonical: metaData?.canonical || customDomain,
+    },
+    title: metaData?.title || "Default Title",
+    description: metaData?.description || "Default Description",
+    robots: metaData?.indexation || "noindex, nofollow",
+    keywords: metaData?.keyword || [],
+    other: {
+      "og:title": metaData?.og_title || "Default Title",
+      "og:type": "website",
+      "og:description": metaData?.og_description || "Default Description",
+      "og:image": "https://images.ctfassets.net/szez98lehkfm/UEsONfx1Q29FkoafrRlPT/e89b566373b65e6a6cfa1f575986566c/whatuni_logo.svg",
+      "og:url": metaData?.og_canonical || customDomain,
+      "meta:description": metaData?.og_description || "Default Description",
+      "fb:app_id": "374120612681083",
+      "twitter:card": "summary",
+      "twitter:creator": "@whatuni",
+      "twitter:url": metaData?.twitter_url || customDomain,
+      "twitter:title": metaData?.twitter_titile || "Default Title",
+      "twitter:description": metaData?.twitter_description || "Default Description",
+      "twitter:image": "https://images.ctfassets.net/szez98lehkfm/UEsONfx1Q29FkoafrRlPT/e89b566373b65e6a6cfa1f575986566c/whatuni_logo.svg",
+      "apple-itunes-app": "app-id=1267341390",
+      "google-play-app": "app-id=com.hotcourses.group.wuapp",
+    }
+  };
+}
+
+export function getCustomDomain(){
+  return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
 }

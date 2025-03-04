@@ -8,14 +8,9 @@ import { getFiltersInparamReqBody } from "@packages/shared-components/sr-page/Sr
 import { getSrFilter } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "./filters/filterJson";
 import { SRDisplayNameEndPt, SRGetCourseCountEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import { MetaDataInterface } from "../types/interfaces";
+import { getCustomDomain } from "./helper-function";
 
-interface MetaDataInterface {
-  title: string;
-  description: string;
-  keyword: string;
-  canonical: string;
-  indexation: string;
-}
 interface MetaFilterTypesReplace{
     searchSubject?: string[],
     studylevel?: string,
@@ -29,6 +24,7 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   //Initializing and Assigning values
 
   const qualInUrl = params?.hero;
+  
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
   const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad);
    //console.log("seoMetaFeildId: ", seoMetaFeildId);
@@ -40,8 +36,21 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   const courseCountEndPt = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}${SRGetCourseCountEndPt}`;
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
 
-  const courseCountResponse = await httpBFFRequest(courseCountEndPt, courseCountReqBody, "POST", `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`, "no-cache", {});
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "default", {});
+  const courseCountResponse = await httpBFFRequest(
+    courseCountEndPt, 
+    courseCountReqBody, 
+    "POST", 
+    `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`, 
+    "no-cache", 
+    10000, 
+    {});
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
+    displayNameReqBody, 
+    "POST", 
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
+    "force-cache", 
+    10000, 
+    {});
 
   // console.log("courseCountResponse: ", courseCountResponse);  
   // console.log("displayNameResponse: ", displayNameResponse);  
@@ -62,12 +71,23 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
     studymode: displayNameResponse?.studyMode ?? undefined,
   }
   
+  const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted);
+  const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
+  const index = getSRIndexation(searchParams, searchPayLoad);
+  const canonical = getSRCanonical(searchParams, pathName) ?? (getCustomDomain() + pathName);
+  
   let actualMetaData: MetaDataInterface = {
-    canonical: getSRCanonical(searchParams, searchPayLoad, pathName), //`${process.env.PROJECT === "Whatuni" ? "https://www.whatuni.com" : "https://www.postgraduatesearch.com/"}`,
-    description: replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted) ?? "Default description",
-    indexation: getSRIndexation(searchParams, searchPayLoad),
-    keyword: "",
-    title: replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted)?? "Default title",
+    canonical: canonical,
+    description: metaDesc ?? "Default description",
+    indexation: index,
+    keyword: [],
+    title: metaTitle ?? "Default title",
+    og_title: metaTitle,
+    og_canonical: canonical,
+    og_description: metaDesc,
+    twitter_url: canonical,
+    twitter_titile: metaTitle,
+    twitter_description: metaDesc,
   } 
 
   // console.log("actualMetaData: ", actualMetaData);
@@ -142,28 +162,8 @@ function getSRIndexation(searchParams: any, searchPayLoad: any){
     return "index, follow";
 } 
 
-function getSRCanonical(searchParams: any, searchPayLoad: any, pathName: string){
+function getSRCanonical(searchParams: any, pathName: string){
   
-  // const reqUrlArr = requestURL?.split("?");
-  // let srBaseURL = reqUrlArr && reqUrlArr?.length >= 1 ? reqUrlArr[0] : "";
-  // let queryParamString = reqUrlArr && reqUrlArr?.length >= 2 ? reqUrlArr[1] : "";
-  // let finalURL = srBaseURL;
-
-  // //sortBy scenario
-  // if(queryParamString?.includes("sort=")){
-  //     let sortbyAmpersandIndex: number = queryParamString.indexOf("&sort");
-  //     sortbyAmpersandIndex = sortbyAmpersandIndex == -1 ? queryParamString.indexOf("sort") : sortbyAmpersandIndex;
-  //     let queryAfterSortby = queryParamString.substring(sortbyAmpersandIndex);
-  //     let sortbyLastIndex = queryAfterSortby.indexOf("&", 1);
-  //     const sortByParam = sortbyLastIndex == -1 ? queryAfterSortby : queryAfterSortby.substring(0, sortbyLastIndex);
-  //     queryParamString = queryParamString.replace(sortByParam, "");
-  // }
-
-  // if(queryParamString) finalURL = srBaseURL + "?" + queryParamString;
-  // else finalURL = srBaseURL;
-  
-  // return finalURL;
-
   const canonicalSearchParams = {...searchParams};
   const { sort, ...newObj } = canonicalSearchParams;
 
@@ -176,8 +176,6 @@ function formSRPageURL(searchParams: any, pathName: string){
   formURL = formURL + pathName;
 
   function getselectedCount(filterValueString: string|undefined) : number{
-
-    console.log("searchParams?.subject: ", searchParams?.subject);
     if(!filterValueString) return 0;
     const filterValueArr = filterValueString?.trim()?.split(" ");
     return filterValueArr ? filterValueArr?.length : 0 ;
@@ -188,13 +186,13 @@ function formSRPageURL(searchParams: any, pathName: string){
   if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
   if(filterCount < 4 && searchParams?.['study-method']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-method=" + searchParams?.['study-method']); filterCount++;}
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
-  if(filterCount < 4 && searchParams?.intakeYear) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intakeYear=" + searchParams?.intakeYear); filterCount++;}
-  if(filterCount < 4 && searchParams?.intakeMonth) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intakeMonth=" + searchParams?.intakeMonth); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
+  if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
+  if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
   if(filterCount < 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("distance=" + searchParams?.distance); filterCount++;}
   if(filterCount < 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
-  if(filterCount < 4 && searchParams?.locationType) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("locationType=" + searchParams?.locationType); filterCount++;}
-  if(filterCount < 5 && searchParams?.pageNo) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageNo=" + searchParams?.pageNo); filterCount++;} //if pageno applied then atmost 5 query params can contain
+  if(filterCount < 4 && searchParams?.['location-type']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location-type=" + searchParams?.['location-type']); filterCount++;}
+  if(filterCount < 5 && searchParams?.pageNo) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageno=" + searchParams?.pageNo); filterCount++;} //if pageno applied then atmost 5 query params can contain
 
   return formURL;
 }
