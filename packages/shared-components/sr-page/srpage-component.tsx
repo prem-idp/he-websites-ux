@@ -35,12 +35,14 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   console.log(getSearchPayload(searchparams, filterCookieParam, pathname));
   return (
     <>
-      <TopSection />
-      {searchResultsData?.searchResultsList && (
+      <TopSection searchParam = {getSearchPayload(searchparams, filterCookieParam, pathname)} searchResultsData={searchResultsData?.searchResultsList}/>
+      {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
         </Suspense>
+      ) : (
+        <></>
       )}
 
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
@@ -49,22 +51,31 @@ const SearchResultComponent = async ({ searchparams }: any) => {
           {searchResultsData?.searchResultsList ? (
             <>
               {process.env.PROJECT === "Whatuni" &&
-                pathname !== "postgraduate-courses" && <GradeBanner />}
+              pathname !== "postgraduate-courses" ? (
+                <GradeBanner />
+              ) : (
+                <></>
+              )}
               {searchResultsData?.featuredProviderDetails &&
-                searchResultsData?.featuredProviderDetails?.collegeId !== 0 && (
-                  <FeaturedVideoSection
-                    featuredData={searchResultsData?.featuredProviderDetails}
-                  />
-                )}
+              searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
+                <FeaturedVideoSection
+                  featuredData={searchResultsData?.featuredProviderDetails}
+                />
+              ) : (
+                <></>
+              )}
               <SrPageResultPod
                 searchResultsData={searchResultsData?.searchResultsList}
                 subject={searchparams?.subject || searchparams?.course}
               />
-              {searchResultsData?.collegeCount > 10 && (
-                <Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
-                />
+              {searchResultsData?.collegeCount > 10 ? (
+                // <Paginations
+                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                //   currentPage={searchparams?.pageNo || 1}
+                // />
+                <></>
+              ) : (
+                <></>
               )}
             </>
           ) : (
