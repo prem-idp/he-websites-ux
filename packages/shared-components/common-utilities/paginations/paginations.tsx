@@ -2,7 +2,12 @@
 import Link from "next/link";
 import React from "react";
 const Paginations = ({ totalPages, currentPage }: any) => {
-  const currentUrl = window?.location?.href
+
+  const isValidUrl = (url:any) => {
+    const regex = /^(http|https|mailto):/;
+    return regex.test(url);
+  };
+  const currentUrl = typeof window !== undefined  && isValidUrl(window?.location?.href) ? window?.location?.href :"#"
   const pageNumbers = [];
   const totalVisiblePages = 7;
   if (totalPages <= totalVisiblePages) {
@@ -65,8 +70,8 @@ const Paginations = ({ totalPages, currentPage }: any) => {
                 <Link
                   href={
                     item !== "..."
-                      ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(item)}`
-                      : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(currentPage)}`
+                      ? `${currentUrl?.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(item)}`
+                      : `${currentUrl?.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(currentPage)}`
                   }
                   className={
                     currentPage == item
@@ -82,8 +87,8 @@ const Paginations = ({ totalPages, currentPage }: any) => {
               <Link
                 href={
                   currentPage < totalPages
-                    ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage + 1}`
-                    : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage}`
+                    ? `${currentUrl?.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage + 1}`
+                    : `${currentUrl?.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage}`
                 }
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >

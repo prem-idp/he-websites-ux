@@ -1,5 +1,3 @@
-import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
-
 export function getQualCode(qualText: any) {
   let qualCode = "M";
   if ("degree-courses" === qualText) {
@@ -17,14 +15,13 @@ export function getQualCode(qualText: any) {
 }
 
 function getSearchPayload(
-  searchParams: any,
-  filterCookieParam: any,
-  qualification: any
+    searchParams: any,
+    filterCookieParam: any,
+    qualification: any,
 ) {
   const subjectArray =
     searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
-  const locationArray =
-    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
+  const locationArray = searchParams?.location?.split(",") || "";
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification:
@@ -63,4 +60,4 @@ function getSearchPayload(
   };
   return searchPayload;
 }
-export { getSearchPayload };
+export { getSearchPayload }

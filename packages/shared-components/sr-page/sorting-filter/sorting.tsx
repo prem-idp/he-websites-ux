@@ -1,7 +1,6 @@
 "use client";
 
-import { getCookieValue } from "@packages/lib/utlils/commonFunction";
-import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+import { setNewCookie } from "@packages/lib/utlils/commonFunction";
 import {
   pgsSortingFilter,
   wuscaCategories,
@@ -12,7 +11,7 @@ interface SortingProps {
   sortParam?: any;
 }
 const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
-  //const filterCookieParam = getDecodedCookie("filter_param") || {};
+  const filterCookieParam = sortParam?.filterCookieParam || {}
   const [isSortClicked, setIsSortClicked] = useState(false);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
@@ -21,16 +20,25 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   const handleSort = (value: any, label: any) => {
     const currentUrl = new URL(window.location.href);
     const urlParams = new URLSearchParams(currentUrl.search);
-    if (urlParams.size <= 4) {
-      urlParams.set("sort", value);
-      const sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
-      window.location.href = sortUrl;
+    let sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
+    if (urlParams.size >= 4) { // If Query params > 4
+      const updatedFilterParams = {
+        ...filterCookieParam,
+        sort:  value && value === "R" ? "" : value
+      };  
+      setNewCookie(`filter_param=${JSON.stringify(updatedFilterParams)}; path=/; secure`);    
     } else {
-      //filterCookieParam?.sort = value;
-      //Cookies.set("filter_param", JSON.stringify(filterCookieParam), { expires: 7, path: "/" });
-      //window.location.href = currentUrl;
+      if(value && value !== "R") {
+      urlParams.set("sort", value && value === "R" ? "" : value);
+      } else {
+        urlParams.delete("sort")
+      }
+      sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
     }
+    window.history.replaceState({}, '', sortUrl);
+    window.location.reload();
   };
+
   const getKeyForValue = (value: string) => {
     const entry = Object.entries(sortingFilter).find(
       ([key, val]) => val === value
@@ -40,8 +48,8 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     );
     return entry ? entry[0] : wuscaentry ? wuscaentry[0] : "Recommendded";
   };
-  const sortingFilter =
-    process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
+
+  const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
 
   return (
     <div className="ml-auto w-fit relative">
@@ -65,7 +73,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
           />
         </svg>
         <span className="font-semibold">Sort:</span>
-        <span>{getKeyForValue(sortParam?.param?.sort)}</span>
+        <span>{getKeyForValue(sortParam?.param?.sort || filterCookieParam?.sort)}</span>
       </div>
       {isSortClicked && (
         <div className="absolute top-[53px] right-[-1px] w-[345px] bg-white p-[24px] rounded-[8px] shadow-custom-3 z-10 md:w-[700px] lg:w-[940px]">
@@ -106,6 +114,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
                   {Object.entries(wuscaCategories).map(([label, value]) => (
                     <div
+                      key={value}
                       className="custom-radio"
                       onClick={() => handleSort(value, label)}
                     >

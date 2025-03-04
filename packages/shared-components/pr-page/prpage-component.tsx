@@ -46,8 +46,8 @@ export async function constructPayload(
   Object.keys(searchparams).forEach((key) => {
     if (searchparams[key] !== undefined && searchparams[key] !== null) {
       // If the key is 'university', map it to 'collegeName' in payloads
-      if (key === 'university') {
-        payloads['collegeName'] = searchparams[key];
+      if (key === "university") {
+        payloads["collegeName"] = searchparams[key];
       } else {
         payloads[key] = searchparams[key];
       }
@@ -60,20 +60,16 @@ export async function constructPayload(
 
 const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
-  console.log("payloads " + JSON.stringify(payloads));
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,
-      {
-        method: "POST",
-        headers: {
-          sitecode: "WU_WEB",
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
-        },
-        body: JSON.stringify(payloads),
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
+      method: "POST",
+      headers: {
+        "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
+      },
+      body: JSON.stringify(payloads),
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -91,30 +87,32 @@ const transformProviderListData = (data: any) => {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
   }
-  return data.searchResultsList.flatMap((college: any) =>
-    Array.isArray(college.bestMatchCoursesList)
-      ? college.bestMatchCoursesList.map((course: any) => ({
-        collegeId: college.collegeId,
-        collegeName: college?.collegeTextKey,
-        courseId: course.courseId,
-        pageName: 'PR',
-        title: course.courseTitle || "Unknown Title",
-        provideFav: false,
-        subOrderItemid: course?.enquiryDetails?.subOrderItemId,
-        sponsoredListingFlag: college?.sponsoredListingFlag,
-        manualBoostingFlag: college?.manualBoostingFlag,
-        orderItemId: course?.enquiryDetails?.orderItemId,
-        modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-        tagLocation: college.adminVenue || "Unknown Location",
-        points:
-          course.minUcasPoints && course.maxUcasPoints
-            ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-            : 0 - 0,
-        hasProspectus: course.enquiryDetails?.prospectusFlag === "Y" || false,
-        hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
-        hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
-      }))
-      : [] // Ensure an empty array if bestMatchCoursesList is missing
+  return data.searchResultsList.flatMap(
+    (college: any) =>
+      Array.isArray(college.bestMatchCoursesList)
+        ? college.bestMatchCoursesList.map((course: any) => ({
+            collegeId: college.collegeId,
+            collegeName: college?.collegeTextKey,
+            courseId: course.courseId,
+            pageName: "PR",
+            title: course.courseTitle || "Unknown Title",
+            provideFav: false,
+            subOrderItemid: course?.enquiryDetails?.subOrderItemId,
+            sponsoredListingFlag: college?.sponsoredListingFlag,
+            manualBoostingFlag: college?.manualBoostingFlag,
+            orderItemId: course?.enquiryDetails?.orderItemId,
+            modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
+            tagLocation: college.adminVenue || "Unknown Location",
+            points:
+              course.minUcasPoints && course.maxUcasPoints
+                ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
+                : 0 - 0,
+            hasProspectus:
+              course.enquiryDetails?.prospectusFlag === "Y" || false,
+            hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
+            hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
+          }))
+        : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
 
