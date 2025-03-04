@@ -14,7 +14,7 @@ const GoogleOneTapPgs = () => {
   }
 
   async function extractdetailsforregister(text: any) {
-    // console.log("inside the extractdetailsforregister");
+    // //console.log("inside the extractdetailsforregister");
     const parts = text.toString().split("##SPLIT##");
     if (parts) {
       const initial =
@@ -31,9 +31,9 @@ const GoogleOneTapPgs = () => {
         setCookie("pgs_x", sessionId, 7);
       }
       const sessionIdtolog = sessionId ? sessionId : getCookieValue("pgs_x");
-      // console.log(sessionIdtolog, "session id for logging");
+      // //console.log(sessionIdtolog, "session id for logging");
       if (sessionIdtolog) {
-        // console.log(sessionIdtolog, "inside the if ");
+        // //console.log(sessionIdtolog, "inside the if ");
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/guest/logs/clickstream`,
@@ -69,7 +69,7 @@ const GoogleOneTapPgs = () => {
           if (!response.ok) {
             throw new Error("Clickstream logging failed");
           }
-          console.log("Clickstream logged successfully");
+          //console.log("Clickstream logged successfully");
         } catch (error) {
           console.error("Error during clickstream logging:", error);
         }

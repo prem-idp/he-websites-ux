@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -12,7 +13,10 @@ import Search from "@packages/shared-components/layout-components/header/search-
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
+import optimizedSearch from "@packages/REST-API/optimizedsearch"
 import { signOut } from "aws-amplify/auth";
+import { getCookieValue } from "@packages/lib/utlils/commonFunction";
+import eventEmitter from "@packages/lib/eventEmitter/eventEmitter";
 
 interface props {
   topnav_data: any;
@@ -52,7 +56,20 @@ const Header = ({ topnav_data }: props) => {
 
     return initials;
   };
+  const [favouriteCookie, setfavouriteCookie] = useState(getCookieValue("USER_FAV_BASKET_COUNT") || 0);
 
+  useEffect(() => {
+    const updateFavourite = (newValue:any) => {
+      console.log("from fav", newValue)
+      setfavouriteCookie(newValue);
+    };
+
+    eventEmitter.on("favouriteCookieUpdated", updateFavourite);
+    return () => {
+      eventEmitter.off("favouriteCookieUpdated", updateFavourite);
+    };
+   
+  }, []);
   // =============================================================initial fetch===============================================================================
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +97,7 @@ const Header = ({ topnav_data }: props) => {
       try {
         // Fetch data in parallel
         const [bodyData, unibodyData] = await Promise.all([
-          makeApiCall(
+          optimizedSearch(
             getApiUrl?.subjectAjax,
             "GET",
             null,
@@ -114,6 +131,7 @@ const Header = ({ topnav_data }: props) => {
       fetchData();
     }
   }, [startfetch]);
+  
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
@@ -123,7 +141,7 @@ const Header = ({ topnav_data }: props) => {
         const loginviaonetap = getCookieValue("LogedinviaOnetap") || false;
 
         if (!sessiontimecookie && loginviaonetap) {
-          console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
+          //console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
           localStorage?.removeItem("resultSubmit");
@@ -281,7 +299,8 @@ const Header = ({ topnav_data }: props) => {
           <div
             className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
           >
-            <a
+            <Link
+            
               href="/"
               className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
             >
@@ -297,7 +316,7 @@ const Header = ({ topnav_data }: props) => {
                   height={78}
                 />
               )}
-            </a>
+            </Link>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
             <button
@@ -505,7 +524,7 @@ const Header = ({ topnav_data }: props) => {
                   </span>
                   {isAuthenticated === "true" && (
                     <div className="absolute flex items-center justify-center min-w-[16px] h-[16px] rounded-[8px] top-[22px] left-[13px] bg-success-400 text-black font-inter font-semibold xs-small px-[5px] py-[2px]">
-                      {basketCount}
+                      {favouriteCookie || basketCount}
                     </div>
                   )}
                 </a>

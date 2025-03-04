@@ -6,7 +6,9 @@ import { FreeMode, Navigation, Pagination } from "swiper/modules";
 import Reviewscard from "../cards/reviews-card/reviewscard";
 import { ReviewDetailsList } from "@packages/lib/types/interfaces";
 import { getArticleDetailUrlParamValues } from "@packages/lib/utlils/helper-function";
-
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 interface ReviewSliderProps {
   reviewData: ReviewDetailsList["reviewDetail"];
   pageName?: any;

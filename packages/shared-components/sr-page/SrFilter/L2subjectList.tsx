@@ -11,10 +11,11 @@ const L2subjectList = ({
   appendSearchParams,
   containsSearchParam,
   slug,
+  subjectsArray,
 }: any) => {
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isSubjectOpen ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
     >
       <ul className="flex flex-wrap gap-[8px] uppercase">
         <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
@@ -58,7 +59,7 @@ const L2subjectList = ({
           </Link>
         </li>
       </ul>
-      <div className="flex flex-col gap-[12px] max-h-[255px] overflow-y-auto custom-scrollbar-2">
+      <div className="flex flex-col gap-[12px]">
         <div
           onClick={() => {
             subjectClicked("");
@@ -86,22 +87,20 @@ const L2subjectList = ({
           <div className="small font-bold">
             {selectedSubject?.ParentSubject}
           </div>
-          {selectedSubject?.SubjectList && (
-            <div className="flex flex-col gap-[12px]">
-              {selectedSubject?.SubjectList?.map((item: any, index: any) => (
-                <div className="form_check relative" key={index + 1}>
-                  <SubjectCheckBox
-                    item={item}
-                    formUrl={formUrl}
-                    isIndexed={isIndexed}
-                    appendSearchParams={appendSearchParams}
-                    state={containsSearchParam("subject", item?.subjectTextKey)}
-                    slug={slug}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-col gap-[12px]">
+            {subjectsArray?.subjects?.map((item: any, index: any) => (
+              <SubjectCheckBox
+                key={index + 1}
+                item={item}
+                formUrl={formUrl}
+                isIndexed={isIndexed}
+                appendSearchParams={appendSearchParams}
+                state={containsSearchParam("subject", item?.subjectTextKey)}
+                slug={slug}
+                parent={selectedSubject?.ParentSubject}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

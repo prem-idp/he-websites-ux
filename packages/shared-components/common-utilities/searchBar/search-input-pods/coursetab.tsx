@@ -4,12 +4,12 @@ import Image from "next/image";
 import { SearchFormHandle } from "@packages/lib/types/interfaces";
 import Form from "next/form";
 import { useState, useEffect, useRef } from "react";
-
+import { useRouter } from "next/navigation";
 import {
   GADataLayerFn,
   currentAuthenticatedUser,
 } from "@packages/lib/utlils/helper-function";
-
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
 interface CourseTabProps {
@@ -17,6 +17,7 @@ interface CourseTabProps {
   setsearchFormHandle: any;
   data: any;
   placeholder: any;
+  showlocation:any;
 }
 
 const CourseTab: React.FC<CourseTabProps> = ({
@@ -24,6 +25,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   setsearchFormHandle,
   data,
   placeholder,
+  showlocation,
 }) => {
   let ucasval: any = 0;
   let min: any = 0;
@@ -40,13 +42,20 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
   const [subjecterror, setSubjecterror] = useState(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
-
+  const router = useRouter();
 
   useEffect(() => {
     setSubjectlist(data?.courseDetails);
     setLocationlist(data?.locationList);
     setStudymodelist(data?.studyLevelList);
   }, [data]);
+
+  function navigateTo(newUrl: string) {
+    router.prefetch(newUrl);
+    window.history.pushState(null, "", newUrl); 
+    setTimeout(() => router.push(newUrl), 0);  
+    setTimeout(() =>  emitter.emit("rightMenuActionclose", 'closesearch'), 100);  
+  }
   // ==============================use effect to check the use authentication======================================================================
 
   useEffect(() => {
@@ -133,13 +142,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
           category_code: item.category_code,
           browse_cat_id: item.browse_cat_id,
           parent_subject: item.parentSubject,
-          qual_Code: item.qualCode,
+          qual_Code: item?.qualCode,
         }));
     };
     setFilteredsubject(prioritySearch(filteredSubjects, description?.trim()));
   }, [
     searchFormHandle?.subject?.description,
-    searchFormHandle.courseType.qualCode,
+    searchFormHandle?.courseType?.qualCode,
   ]);
 
   // ====================================================use effect for the clear subject on qual change============================================================================================
@@ -155,7 +164,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         description: "",
       },
     }));
-  }, [searchFormHandle.courseType.qualCode]);
+  }, [searchFormHandle?.courseType?.qualCode]);
   const resetAllTabs = (currentTab: string) => ({
     isCourseType: currentTab === "UG" ? !searchFormHandle?.isCourseType : false,
     isSubjectClicked:
@@ -240,10 +249,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
+      const newUrl =`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
       
-      window.location.href=(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+      navigateTo(newUrl);
     
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
@@ -280,9 +288,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
      
-      window.location.href=(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+   
+      const newUrl= `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      navigateTo(newUrl);
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
     }
@@ -350,9 +358,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return window.location.href=(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+ 
+        const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+        navigateTo(newUrl);
     }
     if (matchedSubject && canmatch) {
       GADataLayerFn(
@@ -386,12 +394,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return window.location.href=(
-        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-      );
+     
+     const newUrl =  `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+     navigateTo(newUrl);
     }
-    const baseUrl = searchUrlMap[searchFormHandle.courseType.qualCode];
+    const baseUrl = searchUrlMap[searchFormHandle?.courseType?.qualCode];
     if (baseUrl) {
+      console.log("testing inside the base url")
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -423,7 +432,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return window.location.href=(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
+      return  navigateTo(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
@@ -505,10 +514,15 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
                   case "Enter":
                     e.preventDefault();
-
-                    const selectedElement: any =
-                      document.querySelector(".bg-blue-50");
+                    const selectedElement: HTMLElement | undefined = Array.from(
+                      document.querySelectorAll<HTMLElement>(
+                        ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
+                      )
+                    ).find((el) =>
+                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    );
                     if (selectedElement) {
+                      //console.log(selectedElement,"selected element");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -521,7 +535,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 }
               }}
             >
-              {searchFormHandle?.courseType.qualDesc}
+              {searchFormHandle?.courseType?.qualDesc}
               <Image
                 src="/static/assets/icons/arrow_down_black.svg"
                 width="20"
@@ -632,8 +646,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
                   case "Enter":
                     e.preventDefault();
-                    const selectedElement: any =
-                      document.querySelector(".bg-blue-50");
+                    const selectedElement: HTMLElement | undefined = Array.from(
+                      document.querySelectorAll<HTMLElement>(
+                        ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
+                      )
+                    ).find((el) =>
+                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    );
                     if (selectedElement) {
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index");
@@ -699,12 +718,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
+          { showlocation &&
           <div
-            className="w-full relative grow md:border-l border-grey-200"
-            onClick={() => {
-              courseActions("Location");
-              setDropdown(false);
-            }}
+          className="w-full relative grow md:border-l border-grey-200"
+          onClick={() => {
+            courseActions("Location");
+            setDropdown(false);
+          }}
           >
             <input
               autoComplete="off"
@@ -813,6 +833,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
+}
           <button
             type="submit"
             className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"

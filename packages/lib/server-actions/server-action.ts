@@ -5,6 +5,8 @@ import { API_END_POINTS } from "../utlils/API_END_POINTS";
 import { v4 as uuidv4 } from "uuid";
 import { currentAuthenticatedUser } from "../utlils/helper-function";
 
+type RequestType = "GET" | "POST";
+
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean
@@ -75,8 +77,36 @@ export async function callClickstreamAPI(payload: any) {
   }
 }
 
+export async function httpBFFRequest(
+  endpoint: string,
+  bodyPayload: any,
+  reqtype: RequestType,
+  xAPIKey: string,
+  cacheType: RequestCache
+): Promise<any> {
+  try {
+    const url = endpoint;
+    const res = await fetch(url, {
+      method: reqtype,
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-api-key": xAPIKey,
+      },
+      body: JSON.stringify(bodyPayload),
+      cache: cacheType ? cacheType : "default",
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("ERROR:", error, " endpoint: ", endpoint);
+    //throw error;
+  }
+}
+
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
-  console.log("PAYLOAD SR", searchPayload);
   try {
     searchPayload = {
       dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
@@ -84,7 +114,6 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
       ...searchPayload,
     };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
-    console.log("sitecode" + `${process.env.PROJECT}`);
     const res = await fetch(url, {
       method: "POST",
       headers: {
@@ -104,67 +133,21 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
     console.log("ERROR", error);
     throw error;
   }
-}
+};
 
- async function addRemoveFavourites(payload:any){
+const getUserLocationInfo = async (latitude: any, longitude: any) => {
+  const mapboxKey =
+    "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
+
   try {
-    console.log("fav data", payload);
-    payload = {
-      affiliateId: "220703",
-      ...payload,    
-    };
-    const session = await fetchAuthSession();
-    const headers: any = {
-      "Content-Type": "application/json",
-      "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-    };
-    let apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/favourites/favorites-add-delete`;
-    if (session.tokens?.idToken) {
-      headers.Authorization = `${session.tokens.idToken}`;
-    }
-    const respone = await fetch(apiUrl, {
-      method: "POST",
-      headers,
-      body: payload ?  JSON.stringify(payload) : undefined,
-    });
-    const data = await respone.json();
-    console.log("fav data", data);
-    return data;
+    const response = await fetch(
+      `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${longitude}&latitude=${latitude}&access_token=${mapboxKey}`
+    );
+    const jsondata = await response?.json();
+    return jsondata;
   } catch (error) {
-    console.log("ERROR", error);
-    throw error;
+    console.log(error);
+    return null;
   }
-}
-
-// export async function getUserFavourites(){
-//   try {
-//     console.log("user favourites")
-//     const payload ={
-// "affiliateId ":220703,
-// "appFlag":'N'
-// }
-// const queryParams = new URLSearchParams(payload).toString();
-//     const session = await fetchAuthSession();
-//     const headers: any = {
-//       "Content-Type": "application/json",
-//       "x-api-key": `${process.env.NEXT_PUBLIC_FAV_X_API_KEY}`,
-//     };
-//     let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API + "?" + queryParams}`;
-//     if (session.tokens?.idToken) {
-//       headers.Authorization = `${session.tokens.idToken}`;
-//     }
-//     const respone = await fetch(apiUrl, {
-//       method: "GET",
-//       headers,
-//     });
-//     const data = await respone.json();
-//     return data;
-//   } catch (error) {
-//     console.log("ERROR", error);
-//     throw error;
-//   }
-// }
-export  {
-  searchResultsFetchFunction,
-  addRemoveFavourites,
-}
+};
+export { searchResultsFetchFunction, getUserLocationInfo };

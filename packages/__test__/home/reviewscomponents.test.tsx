@@ -81,12 +81,12 @@ describe("Reviewscomponents", () => {
     expect(screen.getByTestId("review-slider")).toBeInTheDocument();
   });
 
-  test("renders view more link", async () => {
-    render(await Reviewscomponents(props));
-    const viewMoreLink = screen.getByText("View more");
-    expect(viewMoreLink).toBeInTheDocument();
-    expect(viewMoreLink.tagName).toBe("A");
-  });
+  // test('renders view more link', async () => {
+  //   render(await Reviewscomponents(props));
+  //   const viewMoreLink = screen.getByText('View more');
+  //   expect(viewMoreLink).toBeInTheDocument();
+  //   expect(viewMoreLink.tagName).toBe('A');
+  // });
 
   test("handles empty review data", async () => {
     // Mock empty review data

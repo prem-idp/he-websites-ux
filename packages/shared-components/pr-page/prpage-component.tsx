@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import ProviderResultsCard from "./provider-results-card/provider-results-card";
@@ -24,7 +24,9 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export async function constructPayload(searchparams: SearchParams = {}): Promise<Payload> {
+export async function constructPayload(
+  searchparams: SearchParams = {}
+): Promise<Payload> {
   //  const cookieStore = await cookies(); // Get cookies in App Router
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
@@ -60,22 +62,24 @@ const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
   console.log("payloads " + JSON.stringify(payloads));
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
-      method: "POST",
-      headers: {
-        "sitecode": "WU_WEB",
-        "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
-      },
-      body: JSON.stringify(payloads),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,
+      {
+        method: "POST",
+        headers: {
+          sitecode: "WU_WEB",
+          "Content-Type": "application/json",
+          "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+        },
+        body: JSON.stringify(payloads),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("API Response , " + data);
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -113,7 +117,6 @@ const transformProviderListData = (data: any) => {
       : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
-
 
 const PrPageComponent = async ({ searchparams }: any) => {
   const headersList = await headers();

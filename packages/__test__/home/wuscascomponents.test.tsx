@@ -80,9 +80,51 @@ describe("Wuscascomponents", () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    (graphQlFetchFunction as jest.Mock).mockResolvedValue(mockGraphQLData);
-  });
+    jest.clearAllMocks()
+    ;(graphQlFetchFunction as jest.Mock).mockResolvedValue(mockGraphQLData)
+  })
+
+  test('renders heading and subheading correctly', async () => {
+    render(await Wuscascomponents(props))    
+    expect(screen.getByText('Test Heading')).toBeInTheDocument()
+    expect(screen.getByText('Test Subheading')).toBeInTheDocument()
+  })
+
+  test('handles missing heading and subheading', async () => {
+    const prop = {
+      heading: undefined,
+      subheading: undefined
+    }
+    render(await Wuscascomponents(prop))
+  })
+
+  // test('renders stats data correctly', async () => {
+  //   render(await Wuscascomponents(props))
+    
+  //   expect(screen.getByText('101')).toBeInTheDocument()
+  //   expect(screen.getByText('UK universities')).toBeInTheDocument()
+
+  //   expect(screen.getByText('38000')).toBeInTheDocument()
+  //   expect(screen.getByText('Student reviews')).toBeInTheDocument()
+
+  //   expect(screen.getByText('12')).toBeInTheDocument()
+  //   expect(screen.getByText('years of WUSCAs')).toBeInTheDocument()
+    
+  // })
+
+  // test('renders the stat pod container with correct data', async () => {
+  //   render(await Wuscascomponents(props));
+    
+  //   // Test CTA button
+  //   const ctaButton = screen.getByText('See the winning unis');
+  //   expect(ctaButton).toBeInTheDocument();
+  //   expect(ctaButton.closest('a')).toHaveAttribute('href', '/student-awards-winners/university-of-the-year/');
+
+  //   // Test main image
+  //   const mainImage = screen.getByRole('img', { name: /wusca/i });
+  //   expect(mainImage).toHaveAttribute('src', '/test-image-url.png');
+
+  // });
 
   test("renders heading and subheading correctly", async () => {
     render(await Wuscascomponents(props));

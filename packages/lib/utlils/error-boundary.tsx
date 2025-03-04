@@ -1,6 +1,6 @@
 import React from "react";
 function ErrorFallback({ error }: any) {
-  console.log({
+  //console.log({
     error,
     Date_Time: new Date().toLocaleString(),
   });

@@ -13,59 +13,52 @@ import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/so
 import ExploreArticles from "@packages/shared-components/sr-page/explore-article/explore-articel";
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import { headers } from "next/headers";
-import { getQualCode, getSearchPayload } from "../services/utils";
-import { getDecodedCookie } from "@packages/lib/utlils/result-filters";
-import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
+import { cookies, headers } from "next/headers";
+import { getSearchPayload } from "../services/utils";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
-
-const SearchResultComponent = async ({ searchparams, pathname }: any) => {
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const pathnameArray = referer?.split?.("/");
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+const SearchResultComponent = async ({ searchparams }: any) => {
+  const cookieStore = await cookies();
+  const pathname =
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  console.log("refe", pathname);
   let searchResultsData;
-  let filterCookieParam;
-  if (typeof document !== "undefined") {
-    filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
-  }
+  const filterCookieParam = cookieStore?.get("filter_param");
+
   try {
     searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathnameArray?.[3]?.split?.("-")?.[0]
-      )
+      getSearchPayload(searchparams, filterCookieParam, pathname)
     );
-    console.log("searchResultsData", searchResultsData);
   } catch (error) {
     console.log("error", error);
   }
-
+  console.log(getSearchPayload(searchparams, filterCookieParam, pathname));
   return (
     <>
-      <TopSection />
+      <TopSection searchParam = {getSearchPayload(searchparams, filterCookieParam, pathname)} searchResultsData={searchResultsData?.searchResultsList}/>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
         </Suspense>
       ) : (
-        <>
-          <Suspense>
-            <SearchFilterButtons />
-            <SearchLabels />
-          </Suspense>
-        </>
+        <></>
       )}
-      <SortingFilter
-        sortParam={{ param: searchparams, currentPage: referer }}
-      />
+      <Suspense>
+        <SearchFilterButtons />
+        <SearchLabels />
+      </Suspense>
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">
+          <SortingFilter sortParam={{ param: searchparams }} />
           {searchResultsData?.searchResultsList ? (
             <>
-              <GradeBanner />
-
+              {process.env.PROJECT === "Whatuni" &&
+              pathname !== "postgraduate-courses" ? (
+                <GradeBanner />
+              ) : (
+                <></>
+              )}
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -79,11 +72,11 @@ const SearchResultComponent = async ({ searchparams, pathname }: any) => {
                 subject={searchparams?.subject || searchparams?.course}
               />
               {searchResultsData?.collegeCount > 10 ? (
-                <Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1}
-                  searchParams={{ param: searchparams, currentPage: referer }}
-                />
+                // <Paginations
+                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                //   currentPage={searchparams?.pageNo || 1}
+                // />
+                <></>
               ) : (
                 <></>
               )}
