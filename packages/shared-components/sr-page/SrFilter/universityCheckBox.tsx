@@ -19,7 +19,12 @@ const UniversityCheckBox = ({
   return (
     <div className="form_check relative">
       <div className="flex items-start gap-[8px]">
-        <div className="checkbox_card">
+        <div
+          className="checkbox_card"
+          onClick={() => {
+            appendSearchParams("university", item?.collegeTextKey, true);
+          }}
+        >
           <Link
             id={"university" + item?.collegeTextKey}
             href={{
@@ -32,7 +37,6 @@ const UniversityCheckBox = ({
             className="form-checkbox hidden"
             id={item?.collegeName}
             onChange={() => {
-              appendSearchParams("university", item?.collegeTextKey, true);
               setIsUniSelected(!isUniSelected);
             }}
           />

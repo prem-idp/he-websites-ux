@@ -44,7 +44,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          {/* <SearchLabels /> */}
+          <SearchLabels />
         </Suspense>
       ) : (
         <></>
