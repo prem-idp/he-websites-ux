@@ -1,10 +1,30 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-const Paginations = ({ totalPages, currentPage }: any) => {
-  const currentUrl = window?.location?.href
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+const Paginations = ({ totalPages, initialPage }: any) => {
+  const searchParams = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(initialPage || 1);
+
+  // Sync currentPage with URL query parameter 'pageno'
+  useEffect(() => {
+    const pageFromQuery = Number(searchParams.get("pageno")) || 1;
+    setCurrentPage(pageFromQuery);
+  }, [searchParams]);
+
+  // Function to build URL with existing query params and updated pageno
+  const buildUrl = (page: number | string) => {
+    const params = new URLSearchParams(searchParams.toString()); // Clone existing params
+    if (typeof page === "number") {
+      params.set("pageno", page.toString()); // Set or update pageno
+    }
+    return `?${params.toString()}`; // Return query string with all params
+  };
+
   const pageNumbers = [];
   const totalVisiblePages = 7;
+
   if (totalPages <= totalVisiblePages) {
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i);
@@ -40,7 +60,7 @@ const Paginations = ({ totalPages, currentPage }: any) => {
           <ul className="pagination flex justify-center items-center gap-[8px]">
             <li>
               <Link
-                href={currentPage > 1 ? `?pageno=${currentPage - 1}` : `#`}
+                href={currentPage > 1 ? buildUrl(currentPage - 1) : `#`}
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
                 <svg
@@ -63,13 +83,9 @@ const Paginations = ({ totalPages, currentPage }: any) => {
             {items.map((item, index) => (
               <li key={index}>
                 <Link
-                  href={
-                    item !== "..."
-                      ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(item)}`
-                      : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${Number(currentPage)}`
-                  }
+                  href={item !== "..." ? buildUrl(item) : `#`}
                   className={
-                    currentPage == item
+                    currentPage === item
                       ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
                       : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${item !== "..." ? "hover:bg-blue-100 hover:text-primary-400" : ""}`
                   }
@@ -80,11 +96,7 @@ const Paginations = ({ totalPages, currentPage }: any) => {
             ))}
             <li>
               <Link
-                href={
-                  currentPage < totalPages
-                    ? `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage + 1}`
-                    : `${currentUrl.includes("?") ? currentUrl + "&" : currentUrl+ "?"}pageno=${+currentPage}`
-                }
+                href={currentPage < totalPages ? buildUrl(+currentPage + 1) : `#`}
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
                 <svg
