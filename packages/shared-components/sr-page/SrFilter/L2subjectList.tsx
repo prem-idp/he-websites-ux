@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import SubjectCheckBox from "./subjectcheckBox";
+import { useSearchParams } from "next/navigation";
 const L2subjectList = ({
   selectedSubject,
   isIndexed,
@@ -13,6 +14,13 @@ const L2subjectList = ({
   slug,
   subjectsArray,
 }: any) => {
+  const searchParams = useSearchParams();
+  const subjectArray = (
+    searchParams?.get("subject") ||
+    searchParams?.get("courses") ||
+    ""
+  )?.split(",");
+  //console.log(subjectArray);
   return (
     <div
       className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
