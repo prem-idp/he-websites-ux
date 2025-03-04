@@ -2,7 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import { AnimatePresence, motion } from "motion/react"
+
 import Paginations from '../../paginations/paginations';
 import Noreviewmatchcomponents from '@/app/course-details/no-reviews-match/noreviewmatchcomponents';
 
