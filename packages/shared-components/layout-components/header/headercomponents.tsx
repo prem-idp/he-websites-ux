@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -298,7 +299,8 @@ const Header = ({ topnav_data }: props) => {
           <div
             className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
           >
-            <a
+            <Link
+            
               href="/"
               className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
             >
@@ -314,7 +316,7 @@ const Header = ({ topnav_data }: props) => {
                   height={78}
                 />
               )}
-            </a>
+            </Link>
           </div>
           <div className="order-1 md:grow md:basis-[100%] lg:order-2 lg:grow-1 lg:basis-0">
             <button

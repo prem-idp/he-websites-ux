@@ -157,7 +157,8 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
 
 
             <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
-              <div className='card-map w-full md:w-[453px]'>
+              <div className='card-map w-full md:w-[453px] max-md:h-[350px] relative'>
+                <a href={"https://maps.google.com/?q=" + location.latitude + ',' + location.longitude} target="_blank" className='btn btn-primary absolute top-[16px] right-[16px] z-[1]'>VIEW GOOGLE MAPS</a>
                 <div className='w-full' style={{ height: '100%' }} id='map-container' ref={mapContainerRef} />
               </div>
               <div className='course-card flex flex-col gap-[16px] bg-white p-[16px] md:p-[24px] w-full md:w-[calc(100%_-_452px)]'>
