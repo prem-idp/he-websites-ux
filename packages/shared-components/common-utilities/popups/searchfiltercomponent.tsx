@@ -42,6 +42,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     locationMilesArray: locationMilesArray,
   });
   const [slug, setslug] = useState(path || "degree-courses/search");
+
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
@@ -69,6 +70,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
         "",
       year: searchParams?.get("year") || "",
       month: searchParams?.get("month") || "",
+      location: searchParams?.get("location") || "",
+      russellGroup:
+        searchParams?.get("russell-group") ||
+        searchParams?.get("russell_group") ||
+        "",
+      locationType:
+        searchParams?.get("location-type") ||
+        searchParams?.get("location_type") ||
+        "",
     });
     const value = isSingleSelection(searchParams);
     // const fetchDynamicData = async () => {
@@ -211,7 +221,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     value: string,
     isQualification?: boolean
   ) => {
-    console.log({ key, value });
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(async () => {
@@ -242,7 +251,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
       }, {} as KeyValueObject);
-
+      const data = await getSrFilter(
+        filterbodyJson(orderedFilters, slug.split("/")[1])
+      );
+      console.log("body", filterbodyJson(orderedFilters, slug.split("/")[1]));
+      console.log(data);
+      setJsondata(data);
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
@@ -282,7 +296,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
           linkTagId.click();
           setFilterLoading(false);
         } else {
-          console.log("not found");
           router.push(`?${urlParams.toString()}`);
           setFilterLoading(false);
         }
@@ -458,7 +471,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       selectedMile: milesValue,
     }));
   };
-  console.log(filterLoading);
   return (
     <>
       {filterLoading && <SubjectSkeleton />}
@@ -1068,349 +1080,439 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   </div>
                 </div>
               </Accordion>
-
-              <Accordion
-                title="Location"
-                id="#location"
-                defaultOpenStatus={selectedFilter === "location" ? true : false}
-              >
-                {/* location */}
-                <div className="flex flex-col gap-[24px]">
-                  <div className="flex flex-col gap-[8px] pt-[24px]">
-                    <div className="font-semibold">Distance from home</div>
-                    <div className="flex flex-col gap-[16px]">
-                      <div className="bg-white rounded-[24px] w-full p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[4px] md:w-[508px]">
-                        <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
-                          <div className="relative shrink-0">
+              {slug.split("/")[2] === "search" && (
+                <Accordion
+                  title="Location"
+                  id="#location"
+                  defaultOpenStatus={
+                    selectedFilter === "location" ? true : false
+                  }
+                >
+                  {/* location */}
+                  <div className="flex flex-col gap-[24px]">
+                    <div className="flex flex-col gap-[8px] pt-[24px]">
+                      <div className="font-semibold">Distance from home</div>
+                      <div className="flex flex-col gap-[16px]">
+                        <div className="bg-white rounded-[24px] w-full p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[4px] md:w-[508px]">
+                          <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
+                            <div className="relative shrink-0">
+                              <button
+                                onClick={() => {
+                                  toggleLocationMiles("50 miles");
+                                }}
+                                className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
+                                type="button"
+                              >
+                                Range: {location?.selectedMile}
+                                <Image
+                                  src="/static/assets/icons/arrow_down_black.svg"
+                                  width="20"
+                                  height="20"
+                                  alt="Search icon"
+                                />
+                              </button>
+                              {location?.isdropDownOpen && (
+                                <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                                  <ul>
+                                    {locationMilesArray?.map((items, index) => (
+                                      <li
+                                        key={index + 1}
+                                        onClick={() => {
+                                          toggleLocationMiles(items?.miles);
+                                        }}
+                                        className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                                      >
+                                        {items?.miles}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                            <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
+                              <input
+                                type="text"
+                                className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
+                                aria-label="submenu"
+                                placeholder="Enter Postcode"
+                              />
+                            </div>
                             <button
-                              onClick={() => {
-                                toggleLocationMiles("50 miles");
-                              }}
-                              className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
-                              type="button"
+                              type="submit"
+                              className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
                             >
-                              Range: {location?.selectedMile}
                               <Image
-                                src="/static/assets/icons/arrow_down_black.svg"
-                                width="20"
-                                height="20"
+                                src="/static/assets/icons/search_icon.svg"
+                                width="18"
+                                height="18"
                                 alt="Search icon"
                               />
+                              Search
                             </button>
-                            {location?.isdropDownOpen && (
-                              <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
-                                <ul>
-                                  {locationMilesArray?.map((items, index) => (
-                                    <li
-                                      key={index + 1}
-                                      onClick={() => {
-                                        toggleLocationMiles(items?.miles);
-                                      }}
-                                      className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
-                                    >
-                                      {items?.miles}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
                           </div>
-                          <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
-                            <input
-                              type="text"
-                              className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
-                              aria-label="submenu"
-                              placeholder="Enter Postcode"
-                            />
-                          </div>
-                          <button
-                            type="submit"
-                            className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
-                          >
-                            <Image
-                              src="/static/assets/icons/search_icon.svg"
-                              width="18"
-                              height="18"
-                              alt="Search icon"
-                            />
-                            Search
-                          </button>
                         </div>
-                      </div>
-                      {/* <p className="small text-negative-default">
+                        {/* <p className="small text-negative-default">
                     Please enter subject
                   </p> */}
-                    </div>
-                    <div className="flex items-center gap-[4px]">
-                      <svg
-                        width="16"
-                        height="18"
-                        viewBox="0 0 16 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12.3137 12.8137C11.5923 13.5351 10.1389 14.9886 9.04085 16.0866C8.2598 16.8676 6.99496 16.8675 6.21391 16.0865C5.13566 15.0082 3.70908 13.5817 2.94113 12.8137C0.352958 10.2255 0.352958 6.02929 2.94113 3.44113C5.52929 0.852958 9.72554 0.852958 12.3137 3.44113C14.9019 6.02929 14.9019 10.2255 12.3137 12.8137Z"
-                          stroke="#4664DC"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M10.1127 8.12742C10.1127 9.5 9 10.6127 7.62742 10.6127C6.25484 10.6127 5.14214 9.5 5.14214 8.12742C5.14214 6.75483 6.25484 5.64214 7.62742 5.64214C9 5.64214 10.1127 6.75483 10.1127 8.12742Z"
-                          stroke="#4664DC"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <div
-                        // href=""
-                        onClick={getUserLocation}
-                        className="small text-blue-400 hover:underline"
-                      >
-                        Use current location
+                      </div>
+                      <div className="flex items-center gap-[4px]">
+                        <svg
+                          width="16"
+                          height="18"
+                          viewBox="0 0 16 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12.3137 12.8137C11.5923 13.5351 10.1389 14.9886 9.04085 16.0866C8.2598 16.8676 6.99496 16.8675 6.21391 16.0865C5.13566 15.0082 3.70908 13.5817 2.94113 12.8137C0.352958 10.2255 0.352958 6.02929 2.94113 3.44113C5.52929 0.852958 9.72554 0.852958 12.3137 3.44113C14.9019 6.02929 14.9019 10.2255 12.3137 12.8137Z"
+                            stroke="#4664DC"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M10.1127 8.12742C10.1127 9.5 9 10.6127 7.62742 10.6127C6.25484 10.6127 5.14214 9.5 5.14214 8.12742C5.14214 6.75483 6.25484 5.64214 7.62742 5.64214C9 5.64214 10.1127 6.75483 10.1127 8.12742Z"
+                            stroke="#4664DC"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <div
+                          // href=""
+                          onClick={getUserLocation}
+                          className="small text-blue-400 hover:underline"
+                        >
+                          Use current location
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {(jsondata?.regionList?.length > 0 ||
-                    jsondata?.cityList?.length > 0) && (
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">Region</div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one or more
-                      </div>
-                      <ul className="pt-[12px]">
-                        <li>
-                          <div className="form_check relative m-[0_0_12px]">
-                            <div className="flex items-start gap-[8px]">
-                              <div className="checkbox_card">
-                                {isIndexed && (
-                                  <Link
-                                    id={
-                                      "location" +
-                                      parentRegion[0]?.regionTextKey
-                                    }
-                                    href={{
-                                      pathname: `${slug}`,
-                                      query: formUrl(
+                    {(jsondata?.regionList?.length > 0 ||
+                      jsondata?.cityList?.length > 0) && (
+                      <div className="flex flex-col gap-[4px]">
+                        <div className="text-para-lg font-semibold">Region</div>
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one or more
+                        </div>
+                        <ul className="pt-[12px]">
+                          <li>
+                            <div className="form_check relative m-[0_0_12px]">
+                              <div className="flex items-start gap-[8px]">
+                                <div className="checkbox_card">
+                                  {isIndexed && (
+                                    <Link
+                                      id={
+                                        "location" +
+                                        parentRegion[0]?.regionTextKey
+                                      }
+                                      href={{
+                                        pathname: `${slug}`,
+                                        query: formUrl(
+                                          "location",
+                                          parentRegion[0]?.regionTextKey
+                                        ),
+                                      }}
+                                    ></Link>
+                                  )}
+                                  <input
+                                    type="checkbox"
+                                    checked={isAllUkChecked || false}
+                                    className="form-checkbox hidden"
+                                    id={parentRegion[0]?.regionName}
+                                    name={parentRegion[0]?.regionName}
+                                    onChange={() => {
+                                      setIsAllUkChecked(!isAllUkChecked);
+                                      appendSearchParams(
                                         "location",
                                         parentRegion[0]?.regionTextKey
-                                      ),
+                                      );
                                     }}
-                                  ></Link>
+                                  />
+                                  <label
+                                    htmlFor={parentRegion[0]?.regionName}
+                                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                  >
+                                    <svg
+                                      width="10"
+                                      height="8"
+                                      viewBox="0 0 10 8"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                        fill="white"
+                                        stroke="white"
+                                        strokeWidth="0.666667"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </label>
+                                </div>
+                                <label
+                                  htmlFor="All Uk"
+                                  className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                >
+                                  {parentRegion[0]?.regionName}
+                                </label>
+                              </div>
+                            </div>
+                            <ul>
+                              <li>
+                                {FirstLevelRegion?.map(
+                                  (item: any, index: any) => (
+                                    <LocationcheckBox
+                                      isAllUkChecked={isAllUkChecked}
+                                      key={index + 1}
+                                      item={item}
+                                      jsondata={jsondata}
+                                      slug={slug}
+                                      isIndexed={isIndexed}
+                                      formUrl={formUrl}
+                                      appendSearchParams={appendSearchParams}
+                                    />
+                                  )
                                 )}
-                                <input
-                                  type="checkbox"
-                                  checked={isAllUkChecked || false}
-                                  className="form-checkbox hidden"
-                                  id={parentRegion[0]?.regionName}
-                                  name={parentRegion[0]?.regionName}
-                                  onChange={() => {
-                                    setIsAllUkChecked(!isAllUkChecked);
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                    {jsondata?.cityList && (
+                      <div className="flex flex-col gap-[4px]">
+                        <div className="text-para-lg font-semibold">City</div>
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one or more
+                        </div>
+                        <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
+                          {jsondata?.cityList?.map((item: any, index: any) => (
+                            <div className="form_check relative" key={index}>
+                              <div className="flex items-start gap-[8px]">
+                                <div
+                                  className="checkbox_card"
+                                  onClick={() => {
                                     appendSearchParams(
                                       "location",
-                                      parentRegion[0]?.regionTextKey
+                                      item?.cityTextKey
                                     );
                                   }}
-                                />
-                                <label
-                                  htmlFor={parentRegion[0]?.regionName}
-                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                 >
-                                  <svg
-                                    width="10"
-                                    height="8"
-                                    viewBox="0 0 10 8"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                      fill="white"
-                                      stroke="white"
-                                      strokeWidth="0.666667"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-                                </label>
-                              </div>
-                              <label
-                                htmlFor="All Uk"
-                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                              >
-                                {parentRegion[0]?.regionName}
-                              </label>
-                            </div>
-                          </div>
-                          <ul>
-                            <li>
-                              {FirstLevelRegion?.map(
-                                (item: any, index: any) => (
-                                  <LocationcheckBox
-                                    isAllUkChecked={isAllUkChecked}
-                                    key={index + 1}
-                                    item={item}
-                                    jsondata={jsondata}
-                                    slug={slug}
-                                    isIndexed={isIndexed}
-                                    formUrl={formUrl}
-                                    appendSearchParams={appendSearchParams}
+                                  {isIndexed && (
+                                    <Link
+                                      id={"location" + item?.cityTextKey}
+                                      href={{
+                                        pathname: `${slug}`,
+                                        query: formUrl(
+                                          "location",
+                                          item?.cityTextKey
+                                        ),
+                                      }}
+                                    ></Link>
+                                  )}
+                                  <input
+                                    type="checkbox"
+                                    checked={
+                                      prepopulateFilter?.location ==
+                                      item?.cityTextKey
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={() => {
+                                      setPrepopulateFilter((prev: any) => ({
+                                        ...prev,
+                                        location:
+                                          prev?.location == item?.cityTextKey
+                                            ? ""
+                                            : item?.cityTextKey,
+                                      }));
+                                    }}
+                                    className="form-checkbox hidden"
+                                    id={item?.cityName}
+                                    name={item?.cityName}
                                   />
-                                )
-                              )}
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                  {jsondata?.cityList && (
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">City</div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one or more
-                      </div>
-                      <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-                        {jsondata?.cityList?.map((item: any, index: any) => (
-                          <div className="form_check relative" key={index}>
-                            <div className="flex items-start gap-[8px]">
-                              <div className="checkbox_card">
-                                <input
-                                  type="checkbox"
-                                  className="form-checkbox hidden"
-                                  id={item?.cityName}
-                                  name={item?.cityName}
-                                />
+                                  <label
+                                    htmlFor={item?.cityName}
+                                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                  >
+                                    <svg
+                                      width="10"
+                                      height="8"
+                                      viewBox="0 0 10 8"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                        fill="white"
+                                        stroke="white"
+                                        strokeWidth="0.666667"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </label>
+                                </div>
                                 <label
                                   htmlFor={item?.cityName}
-                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                  className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                 >
-                                  <svg
-                                    width="10"
-                                    height="8"
-                                    viewBox="0 0 10 8"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                      fill="white"
-                                      stroke="white"
-                                      strokeWidth="0.666667"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
+                                  {item?.cityName}
                                 </label>
                               </div>
-                              <label
-                                htmlFor={item?.cityName}
-                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                              >
-                                {item?.cityName}
-                              </label>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  {jsondata?.uniLocationTypeList && (
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">
-                        Location type
-                      </div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one or more
-                      </div>
-                      <div className="flex items-center gap-[8px]">
-                        {jsondata?.uniLocationTypeList?.map(
-                          (item: any, index: any) => (
-                            <div
-                              className="form-black flex relative"
-                              key={index}
-                            >
-                              <input
-                                type="checkbox"
-                                name={item?.locTypeDesc}
-                                className="rounded-[4px] outline-none absolute opacity-0"
-                                id={item?.locTypeDesc}
-                                value={item?.locTypeDesc}
-                              />
-                              <label
-                                htmlFor={item?.locTypeDesc}
-                                className="btn btn-black-outline"
+                    )}
+                    {jsondata?.uniLocationTypeList && (
+                      <div className="flex flex-col gap-[4px]">
+                        <div className="text-para-lg font-semibold">
+                          Location type
+                        </div>
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one or more
+                        </div>
+                        <div className="flex items-center gap-[8px]">
+                          {jsondata?.uniLocationTypeList?.map(
+                            (item: any, index: any) => (
+                              <div
+                                className="form-black flex relative"
+                                key={index}
+                                onClick={() => {
+                                  appendSearchParams(
+                                    "location-type",
+                                    item?.locTypeTextKey
+                                  );
+                                }}
                               >
-                                {item?.locTypeDesc}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </Accordion>
-              {jsondata?.universityGroupList?.length > 0 && (
-                <Accordion title="University group" defaultOpenStatus={false}>
-                  <div className="flex flex-col gap-[8px] pt-[24px]">
-                    <div className="x-small font-semibold text-black uppercase">
-                      Choose one or more
-                    </div>
-                    <div className="flex flex-col gap-[12px]">
-                      {jsondata?.universityGroupList?.map(
-                        (item: any, index: any) => (
-                          <div className="form_check relative" key={index}>
-                            <div className="flex items-start gap-[8px]">
-                              <div className="checkbox_card">
                                 <input
                                   type="checkbox"
-                                  className="form-checkbox hidden"
-                                  id={item?.universityGroupDesc}
+                                  checked={
+                                    prepopulateFilter?.locationType ==
+                                    item?.locTypeTextKey
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={() => {
+                                    setPrepopulateFilter((prev: any) => ({
+                                      ...prev,
+                                      locationType:
+                                        prev?.locationType ==
+                                        item?.locTypeTextKey
+                                          ? ""
+                                          : item?.locTypeTextKey,
+                                    }));
+                                  }}
+                                  name={item?.locTypeDesc}
+                                  className="rounded-[4px] outline-none absolute opacity-0"
+                                  id={item?.locTypeDesc}
+                                  value={item?.locTypeDesc}
                                 />
                                 <label
-                                  htmlFor={item?.universityGroupDesc}
-                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                  htmlFor={item?.locTypeDesc}
+                                  className="btn btn-black-outline"
                                 >
-                                  <svg
-                                    width="10"
-                                    height="8"
-                                    viewBox="0 0 10 8"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                      fill="white"
-                                      stroke="white"
-                                      strokeWidth="0.666667"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
+                                  {item?.locTypeDesc}
                                 </label>
                               </div>
-                              <label
-                                htmlFor={item?.universityGroupDesc}
-                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                              >
-                                {item?.universityGroupDesc}
-                              </label>
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Accordion>
+              )}
+              {slug.split("/")[2] === "search" && (
+                <>
+                  {jsondata?.universityGroupList?.length > 0 && (
+                    <Accordion
+                      title="University group"
+                      defaultOpenStatus={false}
+                    >
+                      <div className="flex flex-col gap-[8px] pt-[24px]">
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one or more
+                        </div>
+                        <div className="flex flex-col gap-[12px]">
+                          {jsondata?.universityGroupList?.map(
+                            (item: any, index: any) => (
+                              <div className="form_check relative" key={index}>
+                                <div className="flex items-start gap-[8px]">
+                                  <div
+                                    className="checkbox_card"
+                                    onClick={() => {
+                                      appendSearchParams(
+                                        "russell-group",
+                                        item?.universityGroupTextKey
+                                      );
+                                    }}
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      className="form-checkbox hidden"
+                                      id={item?.universityGroupDesc}
+                                      checked={
+                                        prepopulateFilter?.russellGroup !== ""
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={() => {
+                                        setPrepopulateFilter((prev: any) => ({
+                                          ...prev,
+                                          russellGroup:
+                                            prev?.russellGroup ==
+                                            item?.universityGroupTextKey
+                                              ? ""
+                                              : item?.universityGroupTextKey,
+                                        }));
+                                      }}
+                                    />
+                                    <label
+                                      htmlFor={item?.universityGroupDesc}
+                                      className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                    >
+                                      <svg
+                                        width="10"
+                                        height="8"
+                                        viewBox="0 0 10 8"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                          fill="white"
+                                          stroke="white"
+                                          strokeWidth="0.666667"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </label>
+                                  </div>
+                                  <label
+                                    htmlFor={item?.universityGroupDesc}
+                                    className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                  >
+                                    {item?.universityGroupDesc}
+                                  </label>
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    </Accordion>
+                  )}
+                </>
               )}
             </div>
 

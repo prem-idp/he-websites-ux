@@ -5,8 +5,7 @@ import { getSrFilter } from "@packages/REST-API/rest-api";
 import { cookies } from "next/headers";
 import SearchFilterComponent from "@packages/shared-components/common-utilities/popups/searchfiltercomponent";
 
-
-export async function getFiltersInparamReqBody(cookieStore: any){
+export async function getFiltersInparamReqBody(cookieStore: any) {
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const params = cookieStore?.get("searchParamscookies")?.value || "{}";
@@ -14,18 +13,13 @@ export async function getFiltersInparamReqBody(cookieStore: any){
   const cookieObject = Object.fromEntries(urlparams.entries());
   return filterbodyJson(cookieObject, pathname);
 }
- 
-const FilterWrapper = async () => {
 
+const FilterWrapper = async () => {
   const cookieStore = await cookies();
   const fullPath = cookieStore?.get("pathnamecookies")?.value || "{}";
   const body = await getFiltersInparamReqBody(cookieStore);
   const data = await getSrFilter(body);
-  return (
-    <>
-      <SearchFilterComponent data={data} path={fullPath} />
-    </>
-  );
+  return <>{data && <SearchFilterComponent data={data} path={fullPath} />}</>;
 };
 
 export default FilterWrapper;
