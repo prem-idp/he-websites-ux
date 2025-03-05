@@ -1454,8 +1454,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         id={item?.universityGroupDesc}
                                         checked={
                                           prepopulateFilter?.russellGroup !== ""
-                                            ? true
-                                            : false
                                         }
                                         onChange={() => {
                                           appendSearchParams(

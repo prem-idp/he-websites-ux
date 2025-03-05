@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import { mergeTwoObjects } from "@packages/lib/utlils/filters/result-filters";
 import SubjectCheckBox from "./subjectcheckBox";
 import { useSearchParams } from "next/navigation";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 const L2subjectList = ({
   selectedSubject,
@@ -16,27 +17,35 @@ const L2subjectList = ({
   subjectsArray,
 }: any) => {
   const searchParams = useSearchParams();
-  const subjectParams = (
-    searchParams?.get("subject") ||
-    searchParams?.get("courses") ||
-    ""
-  )?.split(",");
-  const cookieSubject =
-    JSON.parse(getDecodedCookie("filter_param") || "")?.subject ||
-    JSON.parse(getDecodedCookie("filter_param") || "")?.course;
+  const keyName = process.env.PROJECT === "Whatuni" ? "subject" : "course";
+  const subjectsSelected = extractUrlAndCookieValues(
+    searchParams,
+    "undefined",
+    "undefined"
+  )?.[keyName]?.split(",");
+  // const keyName = process.env.PROJECT === "Whatuni" ? "subject" : "course";
+  // const cookieSubject = {
+  //   [keyName]: JSON.parse(getDecodedCookie("filter_param") || "")?.[keyName],
+  // };
+  console.log(subjectsSelected);
+  // const subjectParams = (
+  //   searchParams?.get("subject") ||
+  //   searchParams?.get("courses") ||
+  //   ""
+  // )?.split(",");
 
-  console.log(cookieSubject, subjectParams);
   const showSubjectLabel =
     subjectsArray?.subjects
       ?.map((subjects: any) => {
-        if (subjects?.subjectTextKey == subjectParams[0]) {
+        if (subjects?.subjectTextKey == subjectsSelected[0]) {
           return subjects;
         }
       })
       ?.filter(Boolean)?.length > 0
       ? true
       : false;
-  const subjectLable = subjectParams
+
+  const subjectLable = subjectsSelected
     ?.map((subjectParam: any) => {
       const subjectUrl = subjectsArray?.subjects
         ?.map((subjects: any) => {

@@ -18,6 +18,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "location-type",
     "pageno",
+    "russell-group",
   ];
   const pgsFilters = [
     "course",
@@ -35,6 +36,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "location_type",
     "page_no",
+    "russell_group",
   ];
   const whatuniPrFilters = [
     "university",
@@ -135,7 +137,7 @@ const mergeTwoObjects = (
         k,
         paramsObject[k]
           ? Array.from(
-              new Set([...paramsObject[k].split(","), ...v.split(",")])
+              new Set([...paramsObject[k].split(","), ...v?.split(",")])
             ).join(",")
           : v,
       ])
