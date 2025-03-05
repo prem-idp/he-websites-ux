@@ -27,7 +27,6 @@ const L2subjectList = ({
   // const cookieSubject = {
   //   [keyName]: JSON.parse(getDecodedCookie("filter_param") || "")?.[keyName],
   // };
-  console.log(subjectsSelected);
   // const subjectParams = (
   //   searchParams?.get("subject") ||
   //   searchParams?.get("courses") ||

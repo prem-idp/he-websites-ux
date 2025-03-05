@@ -12,6 +12,7 @@ const UniversityCheckBox = ({
   const [isUniSelected, setIsUniSelected] = useState(false);
   useEffect(() => {
     const uni = searchparams?.get("university")?.includes(item?.collegeTextKey);
+    console.log(uni);
     if (uni) {
       setIsUniSelected(true);
     }
@@ -23,12 +24,13 @@ const UniversityCheckBox = ({
           <Link
             id={"university" + item?.collegeTextKey}
             href={{
-              pathname: `/${slug[1]}/csearch`,
+              pathname: `/${slug[1]}/${slug[2] == "search" ? "csearch" : "search"}`,
               query: formUrl("university", item?.collegeTextKey, true),
             }}
           ></Link>
           <input
             type="checkbox"
+            checked={searchparams?.get("university") === item?.collegeTextKey}
             className="form-checkbox hidden"
             id={item?.collegeName}
             onChange={() => {
