@@ -1,21 +1,12 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
-import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
-//import { Seosrdetails } from "@packages/lib/graphQL/graphql-query";
-import {
-  graphQlFetchFunction,
-  httpBFFRequest,
-} from "@packages/lib/server-actions/server-action";
-//import { SEOparams } from "@packages/lib/types/interfaces";
-import {
-  getDisplayNameReqBody,
-  getSeoMetaFeildId,
-  replaceSEOPlaceHolder,
-} from "@packages/lib/utlils/resultsPageActions";
+import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
+import { getDisplayNameReqBody, getSeoMetaFeildId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 interface searchProps {
   searchParam?: any;
-  searchResultsData: any[];
+  searchResultsData: any;
 }
 interface MetaFilterTypesReplace {
   searchSubject?: string[];
@@ -30,14 +21,8 @@ const TopSection: React.FC<searchProps> = async ({
   searchResultsData,
 }) => {
   const displayNameReqBody = getDisplayNameReqBody(searchParam);
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/seo/search-display-names`;
-  const displayNameResponse = await httpBFFRequest(
-    displayNameBFFEndPt,
-    displayNameReqBody,
-    "POST",
-    `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-    "default"
-  );
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
   const seoMetaFeildId: string = getSeoMetaFeildId(searchParam);
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   let contentfulMetadata = await graphQlFetchFunction(query);
@@ -63,16 +48,17 @@ const TopSection: React.FC<searchProps> = async ({
     },
   ];
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    courseCount: searchResultsData.length ?? undefined,
-    location: displayNameResponse?.locationName ?? undefined,
+    courseCount: searchResultsData?.totalCourseCount ?? undefined,
+    location:  displayNameResponse?.locationName ?? undefined,
     searchSubject: displayNameResponse?.subjectName ?? undefined,
     studylevel: displayNameResponse?.studyLevel ?? undefined,
     studymode: displayNameResponse?.studyMode ?? undefined,
+    providerCount: searchResultsData?.collegeCount ?? undefined,
   };
   return (
     <>
       {/* start breadcrumb and subject*/}
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
+      <section className="bg-white px-[16px] md:px-[20px] xl:px-0 ">
         <div className="max-w-container mx-auto">
           {/* breadcrumb  */}
           <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
@@ -88,11 +74,7 @@ const TopSection: React.FC<searchProps> = async ({
               )}
             </div>
             <p>
-              {" "}
-              {replaceSEOPlaceHolder(
-                contentfulMetadata?.h2Text,
-                metaFiltersOpted
-              )}
+            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}

@@ -82,20 +82,24 @@ export async function httpBFFRequest(
   bodyPayload: any,
   reqtype: RequestType,
   xAPIKey: string,
-  cacheType: RequestCache
+  cacheType: RequestCache,
+  cacheTime: number,
+  customHeaders: any,
 ): Promise<any> {
   try {
     const url = endpoint;
+    const cacheparam = cacheType?.toString() != "no-cache" && cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
     const res = await fetch(url, {
       method: reqtype,
       headers: {
+        ...customHeaders,
         "Content-Type": "application/json",
-        "x-correlation-id": uuidv4(),
         sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "x-api-key": xAPIKey,
       },
       body: JSON.stringify(bodyPayload),
       cache: cacheType ? cacheType : "default",
+      ...cacheparam
     });
 
     const data = await res.json();
@@ -151,3 +155,4 @@ const getUserLocationInfo = async (latitude: any, longitude: any) => {
   }
 };
 export { searchResultsFetchFunction, getUserLocationInfo };
+

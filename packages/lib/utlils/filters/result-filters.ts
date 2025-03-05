@@ -202,8 +202,8 @@ function getUserLocation() {
       (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        console.log({ latitude, longitude });
         const data = getUserLocationInfo(latitude, longitude);
+        console.log({ data });
         return data;
       },
       (error) => {

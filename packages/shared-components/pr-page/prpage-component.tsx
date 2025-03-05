@@ -62,7 +62,6 @@ export async function constructPayload(
 
 const searchPRResults = async (searchparams: any) => {
   const payloads = await constructPayload(searchparams);
-  console.log("payloads " + JSON.stringify(payloads));
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,

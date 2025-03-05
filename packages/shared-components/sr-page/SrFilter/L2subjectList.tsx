@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import SubjectCheckBox from "./subjectcheckBox";
+import { useSearchParams } from "next/navigation";
 const L2subjectList = ({
   selectedSubject,
   isIndexed,
@@ -13,52 +14,102 @@ const L2subjectList = ({
   slug,
   subjectsArray,
 }: any) => {
+  const searchParams = useSearchParams();
+  const subjectParams = (
+    searchParams?.get("subject") ||
+    searchParams?.get("courses") ||
+    ""
+  )?.split(",");
+  const showSubjectLabel =
+    subjectsArray?.subjects
+      ?.map((subjects: any) => {
+        if (subjects?.subjectTextKey == subjectParams[0]) {
+          return subjects;
+        }
+      })
+      ?.filter(Boolean)?.length > 0
+      ? true
+      : false;
+  const subjectLable = subjectParams
+    ?.map((subjectParam: any) => {
+      const subjectUrl = subjectsArray?.subjects
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey == subjectParam) {
+            return subjects;
+          }
+          return null;
+        })
+        ?.filter(Boolean);
+
+      return subjectUrl;
+    })
+    ?.flat();
   return (
     <div
       className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
     >
-      <ul className="flex flex-wrap gap-[8px] uppercase">
-        <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-          Business Law
-        </li>
-        <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
-          Educational Law
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 12L12 4M4 4L12 12"
-              stroke="#3460DC"
-              strokeWidth="1.13"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </li>
-        <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
-          <Link href="/" aria-label="Back Arrow">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 11L6 8L9 5"
-                stroke="#3460DC"
-                strokeWidth="1.13"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
-        </li>
-      </ul>
+      {showSubjectLabel && subjectLable.length > 0 && (
+        <ul className="flex flex-wrap gap-[8px] uppercase">
+          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
+            {subjectLable[0]?.categoryDesc}
+          </li>
+          {subjectLable.length > 1 && (
+            <>
+              {subjectLable
+                .splice(1)
+                ?.map((subjectNames: any, index: number) => (
+                  <li
+                    key={index + 1}
+                    className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+                  >
+                    {subjectNames?.categoryDesc}
+                    <svg
+                      onClick={() => {
+                        appendSearchParams(
+                          "subject",
+                          subjectNames?.subjectTextKey
+                        );
+                      }}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 12L12 4M4 4L12 12"
+                        stroke="#3460DC"
+                        strokeWidth="1.13"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </li>
+                ))}
+            </>
+          )}
+
+          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
+            <Link href="/" aria-label="Back Arrow">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 11L6 8L9 5"
+                  stroke="#3460DC"
+                  strokeWidth="1.13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </li>
+        </ul>
+      )}
       <div className="flex flex-col gap-[12px]">
         <div
           onClick={() => {

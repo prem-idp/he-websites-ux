@@ -7,6 +7,7 @@ pageSeoFieldsCollection(
     items
     {
       seoFieldsName
+      h2WithgradeText
       h2Text
       h1Title
       metaTile
