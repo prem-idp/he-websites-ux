@@ -88,12 +88,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
     //   );
     //   setJsondata(response);
     // };
-
+    setslug(path);
     setIsIndexed(value);
     if (pathname) {
       setslug(pathname);
     }
-  }, []);
+  }, [searchParams]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
@@ -292,11 +292,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
         document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         const linkTagId = document.getElementById(key + value);
         if (linkTagId) {
-          console.log(linkTagId);
           linkTagId.click();
           setFilterLoading(false);
         } else {
-          console.log("no log present");
           router.push(`?${urlParams.toString()}`);
           setFilterLoading(false);
         }
@@ -543,12 +541,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         <div
                           className="form-black flex relative"
                           key={index + 1}
-                          onClick={() => {
-                            appendSearchParams(
-                              "study-method",
-                              items?.studyMethodTextKey
-                            );
-                          }}
+                          // onClick={() => {
+                          //   appendSearchParams(
+                          //     "study-method",
+                          //     items?.studyMethodTextKey
+                          //   );
+                          // }}
                         >
                           {isIndexed && (
                             <Link
@@ -568,13 +566,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               items?.studyMethodTextKey
                             }
                             onChange={() => {
-                              // setPrepopulateFilter((prev: any) => ({
-                              //   ...prev,
-                              //   studyMethod:
-                              //     prev.studyMethod == items?.studyMethodTextKey
-                              //       ? ""
-                              //       : items?.studyMethodTextKey,
-                              // }));
+                              setPrepopulateFilter((prev: any) => ({
+                                ...prev,
+                                studyMethod:
+                                  prev.studyMethod == items?.studyMethodTextKey
+                                    ? ""
+                                    : items?.studyMethodTextKey,
+                              }));
+                              appendSearchParams(
+                                "study-method",
+                                items?.studyMethodTextKey
+                              );
                             }}
                             type="checkbox"
                             id={items?.studyMethodDesc}
@@ -635,13 +637,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   "study-mode",
                                   items?.studyModeTextKey
                                 );
-                                // setPrepopulateFilter((prev: any) => ({
-                                //   ...prev,
-                                //   studyMode:
-                                //     prev?.studyMode == items?.studyModeTextKey
-                                //       ? ""
-                                //       : items?.studyModeTextKey,
-                                // }));
+                                setPrepopulateFilter((prev: any) => ({
+                                  ...prev,
+                                  studyMode:
+                                    prev?.studyMode == items?.studyModeTextKey
+                                      ? ""
+                                      : items?.studyModeTextKey,
+                                }));
                               }}
                               className="rounded-[4px] outline-none absolute opacity-0"
                               id={items?.studyModeDesc}
@@ -673,12 +675,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           <div
                             className="form-black flex relative"
                             key={index}
-                            onClick={() => {
-                              appendSearchParams(
-                                "study-level",
-                                item?.qualTextKey
-                              );
-                            }}
+                            // onClick={() => {
+                            //   appendSearchParams(
+                            //     "study-level",
+                            //     item?.qualTextKey
+                            //   );
+                            // }}
                           >
                             {isIndexed && !slug.includes(item?.qualTextKey) && (
                               <Link
@@ -693,10 +695,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               ></Link>
                             )}
                             <input
-                              checked={
-                                slug?.includes(item?.qualTextKey) ? true : false
-                              }
-                              onChange={() => {}}
+                              checked={slug?.includes(item?.qualTextKey)}
+                              onChange={() => {
+                                appendSearchParams(
+                                  "study-level",
+                                  item?.qualTextKey
+                                );
+                              }}
                               type="radio"
                               name="studylevel"
                               id={item?.qualDisplayDesc}
@@ -841,13 +846,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                     {jsondata?.intakeYearDetails?.intakeYearList?.map(
                       (item: any, index: any) => (
-                        <div
-                          className="form-black flex relative"
-                          key={index}
-                          onClick={() => {
-                            appendSearchParams("year", `${item?.year}`);
-                          }}
-                        >
+                        <div className="form-black flex relative" key={index}>
                           {isIndexed && (
                             <Link
                               id={"year" + item?.year}
@@ -860,8 +859,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           <input
                             checked={
                               `${prepopulateFilter?.year}` == `${item?.year}`
-                                ? true
-                                : false
                             }
                             onChange={() => {
                               setPrepopulateFilter((prev: any) => ({
@@ -871,8 +868,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     ? ""
                                     : `${item?.year}`,
                               }));
+                              appendSearchParams("year", `${item?.year}`);
                             }}
-                            type="radio"
+                            type="checkbox"
                             name={`${item?.year}`}
                             className="rounded-[4px] outline-none absolute opacity-0"
                             id={`${item?.year}`}
@@ -890,13 +888,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                     {jsondata?.intakeYearDetails?.intakeMonthList?.map(
                       (item: any, index: any) => (
-                        <div
-                          className="form-black flex relative"
-                          key={index}
-                          onClick={() => {
-                            appendSearchParams("month", item?.month);
-                          }}
-                        >
+                        <div className="form-black flex relative" key={index}>
                           {isIndexed && (
                             <Link
                               id={"month" + item?.month}
@@ -907,20 +899,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             ></Link>
                           )}
                           <input
-                            checked={
-                              prepopulateFilter?.month == item?.month
-                                ? true
-                                : false
-                            }
+                            checked={prepopulateFilter?.month == item?.month}
                             onChange={() => {
+                              appendSearchParams("month", item?.month);
                               setPrepopulateFilter((prev: any) => ({
                                 ...prev,
                                 month:
                                   prev?.month == item?.month ? "" : item?.month,
                               }));
                             }}
-                            type="radio"
-                            name="All Months"
+                            type="checkbox"
+                            name={item?.month}
                             className="rounded-[4px] outline-none absolute opacity-0"
                             id={item?.month}
                           />
@@ -1187,12 +1176,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div className="flex items-start gap-[8px]">
                               <div
                                 className="checkbox_card"
-                                onClick={() => {
-                                  appendSearchParams(
-                                    "location",
-                                    parentRegion[0]?.regionTextKey
-                                  );
-                                }}
+                                // onClick={() => {
+                                //   appendSearchParams(
+                                //     "location",
+                                //     parentRegion[0]?.regionTextKey
+                                //   );
+                                // }}
                               >
                                 {isIndexed && (
                                   <Link
@@ -1217,6 +1206,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   name={parentRegion[0]?.regionName}
                                   onChange={() => {
                                     setIsAllUkChecked(!isAllUkChecked);
+                                    appendSearchParams(
+                                      "location",
+                                      parentRegion[0]?.regionTextKey
+                                    );
                                   }}
                                 />
                                 <label
@@ -1285,12 +1278,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div className="flex items-start gap-[8px]">
                               <div
                                 className="checkbox_card"
-                                onClick={() => {
-                                  appendSearchParams(
-                                    "location",
-                                    item?.cityTextKey
-                                  );
-                                }}
+                                // onClick={() => {
+                                //   appendSearchParams(
+                                //     "location",
+                                //     item?.cityTextKey
+                                //   );
+                                // }}
                               >
                                 {isIndexed && (
                                   <Link
@@ -1313,6 +1306,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       : false
                                   }
                                   onChange={() => {
+                                    appendSearchParams(
+                                      "location",
+                                      item?.cityTextKey
+                                    );
                                     setPrepopulateFilter((prev: any) => ({
                                       ...prev,
                                       location:
@@ -1375,12 +1372,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div
                               className="form-black flex relative"
                               key={index}
-                              onClick={() => {
-                                appendSearchParams(
-                                  "location-type",
-                                  item?.locTypeTextKey
-                                );
-                              }}
                             >
                               <input
                                 type="checkbox"
@@ -1391,6 +1382,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     : false
                                 }
                                 onChange={() => {
+                                  appendSearchParams(
+                                    "location-type",
+                                    item?.locTypeTextKey
+                                  );
                                   setPrepopulateFilter((prev: any) => ({
                                     ...prev,
                                     locationType:
@@ -1432,15 +1427,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           (item: any, index: any) => (
                             <div className="form_check relative" key={index}>
                               <div className="flex items-start gap-[8px]">
-                                <div
-                                  className="checkbox_card"
-                                  onClick={() => {
-                                    appendSearchParams(
-                                      "russell-group",
-                                      item?.universityGroupTextKey
-                                    );
-                                  }}
-                                >
+                                <div className="checkbox_card">
                                   <input
                                     type="checkbox"
                                     className="form-checkbox hidden"
@@ -1451,6 +1438,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         : false
                                     }
                                     onChange={() => {
+                                      appendSearchParams(
+                                        "russell-group",
+                                        item?.universityGroupTextKey
+                                      );
                                       setPrepopulateFilter((prev: any) => ({
                                         ...prev,
                                         russellGroup:
