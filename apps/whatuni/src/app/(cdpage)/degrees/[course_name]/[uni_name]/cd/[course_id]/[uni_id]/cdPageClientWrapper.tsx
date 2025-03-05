@@ -1,85 +1,106 @@
 'use client'
 import dynamic from 'next/dynamic'
-const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"), { ssr: false });
-import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
-import JumpToComponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
-import Modulescomponents from '@packages/shared-components/course-details/modules/ModulesComponent';
-import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
-import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
-import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
-import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent';
-
+const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"));
+const Courseoptionscomponents = dynamic(() => import('@packages/shared-components/course-details/course-options/courseoptionscomponents'));
+const JumpToComponents = dynamic(() => import('@packages/shared-components/course-details/jump-to/jumptocomponents'));
+const Modulescomponents = dynamic(() => import('@packages/shared-components/course-details/modules/ModulesComponent'));
+const EntryrequirementsComponent = dynamic(() => import('@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent'));
+const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent'));
+const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents'));
+const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'));
 import { useState, useEffect } from 'react';
-export default function Cdpageclient({ children, courseContent, data, jsonResponse, prams_slug }: any) {
-
-    const [fetcheddata, setFetcheddata] = useState({ ...data });
-    const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
-    const [startfetch, setStartfetch] = useState(false);
-    const [renderKey, setRenderKey] = useState(0);
-
-    useEffect(() => {
-        setRenderKey(prev => prev + 1); // Force re-render
-    }, [fetcheddata]);
-    useEffect(() => {
-        async function clientFetch() {
-            try {
-                //console.log("Fetching data from client side...");
-                const searchParams = new URLSearchParams({
-                    courseId: String(prams_slug?.course_id || ""),
-                    affiliateId: String(process.env.AFFILATE_ID || ""),
-                    collegeId: String(prams_slug?.uni_id || ""),
-                });
-                const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: {
-
-                        "Content-Type": "application/json",
-                        "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
-                    },
-                });
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const clientfetcheddata = await response.json();
-                setFetcheddata((prevData: any) => ({ ...prevData, ...clientfetcheddata }));
-                // setFetcheddata(clientfetcheddata);
-                //console.log("Client-side fetched data:", data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-        if (startfetch) {
-
-            clientFetch();
-        }
-        else {
-            setStartfetch(true)
-        }
-
-    }, [selectedavilability]);
+export default function Cdpageclient({ children, courseContent, data, prams_slug }: any) {
 
 
-    return (
+  const [fetcheddata, setFetcheddata] = useState({ ...data });
+  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
+  const [startfetch, setStartfetch] = useState(false);
+  const [renderKey, setRenderKey] = useState(0);
 
-        <div>
-            <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-            <JumpToComponents sectionsList={courseContent?.sectionsList} />
-            <>
-                {courseContent?.sectionsList?.map((sectionContent: { sectionName: string, sectionId: string, [key: string]: any }) => {
-                    return <div key={sectionContent?.sectionId}>{(() => {
-                        switch (sectionContent?.sectionId) {
-                            case 'course-info': return <div key={renderKey}>{children}</div>;
-                            case 'modules': return <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
-                            case 'entry-requirements': return <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
-                            case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
-                            case 'tuition-fees': return <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
-                            case 'latest-reviews': return <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
-                            case 'uni-info': return <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
-                        }
-                    })()}</div>
-                })}
-            </>
+  useEffect(() => {
+    setRenderKey(prev => prev + 1);
+  }, [fetcheddata]);
 
 
-        </div>
-    )
+  useEffect(() => {
+    async function clientFetch() {
+      try {
+        const searchParams = new URLSearchParams({
+          courseId: String(prams_slug?.course_id || ""),
+          affiliateId: String(process.env.AFFILATE_ID || ""),
+          collegeId: String(prams_slug?.uni_id || ""),
+        });
+        const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+
+            "Content-Type": "application/json",
+            "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
+          },
+        });
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const clientfetcheddata = await response.json();
+        setFetcheddata((prevData: any) => ({ ...prevData, ...clientfetcheddata }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    if (startfetch) {
+      clientFetch();
+    }
+    else {
+      setStartfetch(true)
+    }
+
+  }, [selectedavilability]);
+
+  return (
+
+    <div>
+      <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
+      <JumpToComponents sectionsList={courseContent?.sectionsList} />
+      <>
+        {courseContent?.sectionsList?.map((sectionContent: any) => {
+          const { sectionId } = sectionContent;
+          let componentToRender;
+          switch (sectionId) {
+            case 'course-info':
+              componentToRender = <div key={renderKey}>{children}</div>;
+              break;
+            case 'modules':
+              componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
+              break;
+            case 'entry-requirements':
+              componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              break;
+            case 'popular-a-level-subjects':
+              componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              break;
+            case 'tuition-fees':
+              componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              break;
+            case 'latest-reviews':
+              componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
+              break;
+            case 'uni-info':
+              componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
+              break;
+            default:
+              componentToRender = null;
+              return// Optional: Handle unknown cases
+          }
+          return (
+
+            <div id={sectionId} key={sectionId}>
+              {componentToRender}
+            </div>
+
+          );
+        })}
+      </>
+
+
+    </div>
+  )
 }

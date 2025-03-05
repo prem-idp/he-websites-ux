@@ -11,10 +11,9 @@ interface CourseInfoComponentProps {
   sectionInfo: any
 }
 
-const CourseInfoComponent = ({ courseInfo, keyStats, sectionInfo }: any) => {
-
-  // if (!sectionInfo)
-  //   return
+const CourseInfoComponent = ({ data, sectionInfo }: any) => {
+  const { courseInfo, keyStats }=data;
+  
   return (
     <div id={sectionInfo?.sectionId} className='courseinfo-container'>
       <div className="max-w-container mx-auto">

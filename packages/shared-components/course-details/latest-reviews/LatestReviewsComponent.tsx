@@ -2,19 +2,18 @@
 
 import React from 'react';
 import { useState } from 'react';
-import Subjectmodalcomponents from '@packages/shared-components/course-details/Modal/subjectmodalcomponents';
-import ReviewComponent from '../common-components/ReviewComponent';
+// import ReviewComponent from '../common-components/ReviewComponent';
 import OverallRating from './OverallRating';
 import LeftPannelModal from '../Modal/LeftPannelModal';
 import { CourseSection } from '../models/course.model';
 
 interface LatestReviewsComponentProps {
   fetcheddata: any,
-  jsonResponse: any,
+
   sectionInfo: CourseSection
 }
 
-const LatestReviewsComponent = ({ fetcheddata, jsonResponse, sectionInfo }: LatestReviewsComponentProps) => {
+const LatestReviewsComponent = ({ fetcheddata, sectionInfo }: LatestReviewsComponentProps) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
@@ -46,7 +45,7 @@ const LatestReviewsComponent = ({ fetcheddata, jsonResponse, sectionInfo }: Late
             <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>{sectionInfo?.sectionName}</div>
             <div className='flex flex-col gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
               <OverallRating />
-              <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} jsonResponse={jsonResponse} />
+              {/* <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} jsonResponse={jsonResponse} /> */}
 
             </div>
           </div>

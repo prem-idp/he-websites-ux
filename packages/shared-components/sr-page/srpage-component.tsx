@@ -21,7 +21,6 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  console.log("refe", pathname);
   let searchResultsData;
   const filterCookieParam = cookieStore?.get("filter_param");
 
@@ -32,10 +31,9 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   } catch (error) {
     console.log("error", error);
   }
-  console.log(getSearchPayload(searchparams, filterCookieParam, pathname));
   return (
     <>
-      <TopSection searchParam = {getSearchPayload(searchparams, filterCookieParam, pathname)} searchResultsData={searchResultsData?.searchResultsList}/>
+      <TopSection searchParam={getSearchPayload(searchparams, filterCookieParam, pathname)} searchResultsData={searchResultsData?.searchResultsList} />
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
@@ -54,13 +52,13 @@ const SearchResultComponent = async ({ searchparams }: any) => {
           {searchResultsData?.searchResultsList ? (
             <>
               {process.env.PROJECT === "Whatuni" &&
-              pathname !== "postgraduate-courses" ? (
+                pathname !== "postgraduate-courses" ? (
                 <GradeBanner />
               ) : (
                 <></>
               )}
               {searchResultsData?.featuredProviderDetails &&
-              searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
+                searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
                   featuredData={searchResultsData?.featuredProviderDetails}
                 />

@@ -17,7 +17,7 @@ interface CourseTabProps {
   setsearchFormHandle: any;
   data: any;
   placeholder: any;
-  showlocation:any;
+  showlocation: any;
 }
 
 const CourseTab: React.FC<CourseTabProps> = ({
@@ -52,9 +52,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
 
   function navigateTo(newUrl: string) {
     router.prefetch(newUrl);
-    window.history.pushState(null, "", newUrl); 
-    setTimeout(() => router.push(newUrl), 0);  
-    setTimeout(() =>  emitter.emit("rightMenuActionclose", 'closesearch'), 100);  
+    window.history.pushState(null, "", newUrl);
+    setTimeout(() => router.push(newUrl), 0);
+    setTimeout(() => emitter.emit("rightMenuActionclose", 'closesearch'), 100);
   }
   // ==============================use effect to check the use authentication======================================================================
 
@@ -113,9 +113,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         subjects?.qualCode === qualCode
     );
     const prioritySearch = (
-      list: { description: string; [key: string]: any }[],
+      list: { description: string;[key: string]: any }[],
       searchText: string
-    ): { description: string; [key: string]: any }[] => {
+    ): { description: string;[key: string]: any }[] => {
       if (!searchText) return list;
       const searchLower = searchText?.toLowerCase();
       return list
@@ -215,7 +215,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         ?.toLowerCase(); // Convert the entire string to lowercase
 
-      
+
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -249,10 +249,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      const newUrl =`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
-      
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
+
       navigateTo(newUrl);
-    
+
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
         "ga_events",
@@ -287,9 +287,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-     
-   
-      const newUrl= `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+
+
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
       navigateTo(newUrl);
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
@@ -358,9 +358,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
- 
-        const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-        navigateTo(newUrl);
+
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      navigateTo(newUrl);
     }
     if (matchedSubject && canmatch) {
       GADataLayerFn(
@@ -394,13 +394,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-     
-     const newUrl =  `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
-     navigateTo(newUrl);
+
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      navigateTo(newUrl);
     }
     const baseUrl = searchUrlMap[searchFormHandle?.courseType?.qualCode];
     if (baseUrl) {
-      console.log("testing inside the base url")
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -432,7 +431,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return  navigateTo(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" :""}${baseUrl}?q=${sanitizedDescription}`);
+      return navigateTo(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${baseUrl}?q=${sanitizedDescription}`);
     }
   };
 
@@ -522,7 +521,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       el.classList.contains("bg-blue-50") || el.classList.contains("underline")
                     );
                     if (selectedElement) {
-                      //console.log(selectedElement,"selected element");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -718,122 +716,121 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
-          { showlocation &&
-          <div
-          className="w-full relative grow md:border-l border-grey-200"
-          onClick={() => {
-            courseActions("Location");
-            setDropdown(false);
-          }}
-          >
-            <input
-              autoComplete="off"
-              type="text"
-              className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
-              aria-label="submenu"
-              placeholder="Location (optional)"
-              value={searchFormHandle?.location.regionName || ""}
-              onChange={(event) =>
-                setsearchFormHandle((prevData: SearchFormHandle) => ({
-                  ...prevData,
-                  location: event.target.value,
-                }))
-              }
-              readOnly
-              onKeyDown={(e) => {
-                if (!searchFormHandle?.isLocationClicked) return;
+          {showlocation &&
+            <div
+              className="w-full relative grow md:border-l border-grey-200"
+              onClick={() => {
+                courseActions("Location");
+                setDropdown(false);
+              }}
+            >
+              <input
+                autoComplete="off"
+                type="text"
+                className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[10px]"
+                aria-label="submenu"
+                placeholder="Location (optional)"
+                value={searchFormHandle?.location.regionName || ""}
+                onChange={(event) =>
+                  setsearchFormHandle((prevData: SearchFormHandle) => ({
+                    ...prevData,
+                    location: event.target.value,
+                  }))
+                }
+                readOnly
+                onKeyDown={(e) => {
+                  if (!searchFormHandle?.isLocationClicked) return;
 
-                const listItems = locationlist || [];
-                const currentIndex = listItems.findIndex(
-                  (item: any) =>
-                    item.regionName === searchFormHandle.location.regionName
-                );
-                switch (e.key) {
-                  case "ArrowDown":
-                    e.preventDefault();
-                    const nextIndex =
-                      currentIndex < listItems.length - 1
-                        ? currentIndex + 1
-                        : 0;
-                    setsearchFormHandle((prevData: any) => ({
-                      ...prevData,
-                      location: listItems[nextIndex],
-                    }));
-                    // Scroll the selected item into view
-                    const nextElement = document.querySelector(
-                      `li[data-index="${nextIndex}"]`
-                    );
-                    nextElement?.scrollIntoView({
-                      block: "nearest",
-                      behavior: "smooth",
-                    });
-
-                    break;
-
-                  case "ArrowUp":
-                    e.preventDefault();
-                    const prevIndex =
-                      currentIndex > 0
-                        ? currentIndex - 1
-                        : listItems.length - 1;
-                    setsearchFormHandle((prevData: any) => ({
-                      ...prevData,
-                      location: listItems[prevIndex],
-                    }));
-                    // Scroll the selected item into view
-                    const prevElement = document.querySelector(
-                      `li[data-index="${prevIndex}"]`
-                    );
-                    prevElement?.scrollIntoView({
-                      block: "nearest",
-                      behavior: "smooth",
-                    });
-
-                    break;
-
-                  case "Enter":
-                    e.preventDefault();
-
-                    if (searchFormHandle.location) {
-                      courseActions("Location");
+                  const listItems = locationlist || [];
+                  const currentIndex = listItems.findIndex(
+                    (item: any) =>
+                      item.regionName === searchFormHandle.location.regionName
+                  );
+                  switch (e.key) {
+                    case "ArrowDown":
+                      e.preventDefault();
+                      const nextIndex =
+                        currentIndex < listItems.length - 1
+                          ? currentIndex + 1
+                          : 0;
                       setsearchFormHandle((prevData: any) => ({
                         ...prevData,
-                        isLocationClicked: false,
+                        location: listItems[nextIndex],
                       }));
-                    }
-                    break;
-                }
-              }}
-            />
-            {searchFormHandle?.isLocationClicked && (
-              <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
-                <ul>
-                  {locationlist?.map((item: any, index: any) => (
-                    <li
-                      onClick={() => {
-                        setsearchFormHandle((prevData: SearchFormHandle) => ({
-                          ...prevData,
-                          location: item,
-                        }));
+                      // Scroll the selected item into view
+                      const nextElement = document.querySelector(
+                        `li[data-index="${nextIndex}"]`
+                      );
+                      nextElement?.scrollIntoView({
+                        block: "nearest",
+                        behavior: "smooth",
+                      });
+
+                      break;
+
+                    case "ArrowUp":
+                      e.preventDefault();
+                      const prevIndex =
+                        currentIndex > 0
+                          ? currentIndex - 1
+                          : listItems.length - 1;
+                      setsearchFormHandle((prevData: any) => ({
+                        ...prevData,
+                        location: listItems[prevIndex],
+                      }));
+                      // Scroll the selected item into view
+                      const prevElement = document.querySelector(
+                        `li[data-index="${prevIndex}"]`
+                      );
+                      prevElement?.scrollIntoView({
+                        block: "nearest",
+                        behavior: "smooth",
+                      });
+
+                      break;
+
+                    case "Enter":
+                      e.preventDefault();
+
+                      if (searchFormHandle.location) {
                         courseActions("Location");
-                      }}
-                      key={index}
-                      data-index={index}
-                      className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer ${
-                        item.regionName ===
-                        searchFormHandle?.location?.regionName
-                          ? "bg-blue-50 underline"
-                          : ""
-                      }`}
-                    >
-                      {item.regionName}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-}
+                        setsearchFormHandle((prevData: any) => ({
+                          ...prevData,
+                          isLocationClicked: false,
+                        }));
+                      }
+                      break;
+                  }
+                }}
+              />
+              {searchFormHandle?.isLocationClicked && (
+                <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-0 top-[54px] w-full max-h-[310px] overflow-y-auto custom-scrollbar-2">
+                  <ul>
+                    {locationlist?.map((item: any, index: any) => (
+                      <li
+                        onClick={() => {
+                          setsearchFormHandle((prevData: SearchFormHandle) => ({
+                            ...prevData,
+                            location: item,
+                          }));
+                          courseActions("Location");
+                        }}
+                        key={index}
+                        data-index={index}
+                        className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer ${item.regionName ===
+                            searchFormHandle?.location?.regionName
+                            ? "bg-blue-50 underline"
+                            : ""
+                          }`}
+                      >
+                        {item.regionName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          }
           <button
             type="submit"
             className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"

@@ -41,8 +41,8 @@ const tooltipsMapper = [
 ];
 
 interface KeyStatsComponentProps {
-  subjectArea: any, 
-  uniRankings: any, 
+  subjectArea: any,
+  uniRankings: any,
   tooltipList: any,
   dataSource: any
 }
@@ -54,7 +54,6 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
   const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
 
   useEffect(() => {
-    console.log(tooltipContent, "tempTooltipContent")
     let tempTooltipContent: any = {};
     tooltipList?.forEach((tooltipContent: any) => {
       for (let i of tooltipsMapper) {
@@ -64,7 +63,6 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
         }
       }
     });
-    console.log(tempTooltipContent, "tempTooltipContent")
     setTooltipContent(() => tempTooltipContent);
   }, [tooltipList]);
 
@@ -102,7 +100,6 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
     }
   }
 
-  console.log(dataSource, "------")
 
   return (
     <>
@@ -129,7 +126,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
               {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
-                <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width="32" height="32" />
+                <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width={32} height={32} />
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{rank?.ranking}</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">

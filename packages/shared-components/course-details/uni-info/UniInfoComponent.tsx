@@ -7,7 +7,7 @@ import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
 
-interface UniInfoComponentProps  {
+interface UniInfoComponentProps {
   uniInfo: any,
   courseInfo: any,
   sectionInfo: CourseSection
@@ -19,7 +19,6 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
-  console.log(uniInfo, "uniInfo")
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
@@ -40,7 +39,6 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
             .addTo(mapRef.current);
         });
       }
-      //console.log('mapbox loaded');
     }
 
     // load Mapbox only if it's entered into the view

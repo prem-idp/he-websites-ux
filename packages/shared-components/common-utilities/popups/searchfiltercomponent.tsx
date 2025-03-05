@@ -211,7 +211,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     value: string,
     isQualification?: boolean
   ) => {
-    console.log({ key, value });
     if (isUpdating) return;
     isUpdating = true;
     setTimeout(async () => {
@@ -282,7 +281,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
           linkTagId.click();
           setFilterLoading(false);
         } else {
-          console.log("not found");
           router.push(`?${urlParams.toString()}`);
           setFilterLoading(false);
         }
@@ -458,22 +456,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
       selectedMile: milesValue,
     }));
   };
-  console.log(filterLoading);
   return (
     <>
       {filterLoading && <SubjectSkeleton />}
       {!filterLoading && (
         <div>
           <div
-            className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
-              isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
-            }`}
+            className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
+              }`}
           ></div>
 
           <div
-            className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${
-              isFilterOpen ? "translate-x-0" : "-translate-x-full"
-            }`}
+            className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
+              }`}
             ref={filterRef}
           >
             <div className="p-[16px] md:p-[32px] !pb-0">
@@ -506,7 +501,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
               </div>
               <p className="m-[8px_0_24px]">
                 Use these filters to narrow down your search options based on
-                your preferred criteria 
+                your preferred criteria
               </p>
             </div>
             <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
@@ -554,7 +549,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <input
                               checked={
                                 prepopulateFilter?.studyMethod ==
-                                items?.studyMethodTextKey
+                                  items?.studyMethodTextKey
                                   ? true
                                   : false
                               }
@@ -563,7 +558,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   ...prev,
                                   studyMethod:
                                     prev.studyMethod ==
-                                    items?.studyMethodTextKey
+                                      items?.studyMethodTextKey
                                       ? ""
                                       : items?.studyMethodTextKey,
                                 }));
@@ -616,7 +611,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 type="checkbox"
                                 checked={
                                   prepopulateFilter?.studyMode ==
-                                  items?.studyModeTextKey
+                                    items?.studyModeTextKey
                                     ? true
                                     : false
                                 }
@@ -822,117 +817,117 @@ const SearchFilterComponent = ({ data, path }: any) => {
               </Accordion>
               {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
                 jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
-                <Accordion
-                  id="#year"
-                  title="Intake year"
-                  defaultOpenStatus={selectedFilter === "year" ? true : false}
-                >
-                  {/* intake */}
-                  <div className="flex flex-col gap-[8px] p-[8px_0_0]">
-                    <div className="x-small font-semibold text-black uppercase">
-                      Choose YEAR & MONTH
-                    </div>
-                    <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                      {jsondata?.intakeYearDetails?.intakeYearList?.map(
-                        (item: any, index: any) => (
-                          <div
-                            className="form-black flex relative"
-                            key={index}
-                            onClick={() => {
-                              appendSearchParams("year", `${item?.year}`);
-                            }}
-                          >
-                            {isIndexed && (
-                              <Link
-                                id={"year" + item?.year}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl("year", `${item?.year}`),
-                                }}
-                              ></Link>
-                            )}
-                            <input
-                              checked={
-                                `${prepopulateFilter?.year}` == `${item?.year}`
-                                  ? true
-                                  : false
-                              }
-                              onChange={() => {
-                                setPrepopulateFilter((prev: any) => ({
-                                  ...prev,
-                                  year:
-                                    `${prev.year}` == `${item?.year}`
-                                      ? ""
-                                      : `${item?.year}`,
-                                }));
+                  <Accordion
+                    id="#year"
+                    title="Intake year"
+                    defaultOpenStatus={selectedFilter === "year" ? true : false}
+                  >
+                    {/* intake */}
+                    <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+                      <div className="x-small font-semibold text-black uppercase">
+                        Choose YEAR & MONTH
+                      </div>
+                      <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                        {jsondata?.intakeYearDetails?.intakeYearList?.map(
+                          (item: any, index: any) => (
+                            <div
+                              className="form-black flex relative"
+                              key={index}
+                              onClick={() => {
+                                appendSearchParams("year", `${item?.year}`);
                               }}
-                              type="radio"
-                              name={`${item?.year}`}
-                              className="rounded-[4px] outline-none absolute opacity-0"
-                              id={`${item?.year}`}
-                            />
-                            <label
-                              htmlFor={`${item?.year}`}
-                              className="btn btn-black-outline"
                             >
-                              {item?.year}
-                            </label>
-                          </div>
-                        )
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                      {jsondata?.intakeYearDetails?.intakeMonthList?.map(
-                        (item: any, index: any) => (
-                          <div
-                            className="form-black flex relative"
-                            key={index}
-                            onClick={() => {
-                              appendSearchParams("month", item?.month);
-                            }}
-                          >
-                            {isIndexed && (
-                              <Link
-                                id={"month" + item?.month}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl("month", `${item?.month}`),
+                              {isIndexed && (
+                                <Link
+                                  id={"year" + item?.year}
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl("year", `${item?.year}`),
+                                  }}
+                                ></Link>
+                              )}
+                              <input
+                                checked={
+                                  `${prepopulateFilter?.year}` == `${item?.year}`
+                                    ? true
+                                    : false
+                                }
+                                onChange={() => {
+                                  setPrepopulateFilter((prev: any) => ({
+                                    ...prev,
+                                    year:
+                                      `${prev.year}` == `${item?.year}`
+                                        ? ""
+                                        : `${item?.year}`,
+                                  }));
                                 }}
-                              ></Link>
-                            )}
-                            <input
-                              checked={
-                                prepopulateFilter?.month == item?.month
-                                  ? true
-                                  : false
-                              }
-                              onChange={() => {
-                                setPrepopulateFilter((prev: any) => ({
-                                  ...prev,
-                                  month:
-                                    prev?.month == item?.month
-                                      ? ""
-                                      : item?.month,
-                                }));
+                                type="radio"
+                                name={`${item?.year}`}
+                                className="rounded-[4px] outline-none absolute opacity-0"
+                                id={`${item?.year}`}
+                              />
+                              <label
+                                htmlFor={`${item?.year}`}
+                                className="btn btn-black-outline"
+                              >
+                                {item?.year}
+                              </label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                        {jsondata?.intakeYearDetails?.intakeMonthList?.map(
+                          (item: any, index: any) => (
+                            <div
+                              className="form-black flex relative"
+                              key={index}
+                              onClick={() => {
+                                appendSearchParams("month", item?.month);
                               }}
-                              type="radio"
-                              name="All Months"
-                              className="rounded-[4px] outline-none absolute opacity-0"
-                              id={item?.month}
-                            />
-                            <label
-                              htmlFor={item?.month}
-                              className="btn btn-black-outline min-w-[53px] py-[5px]"
                             >
-                              {item?.month}
-                            </label>
-                          </div>
-                        )
-                      )}
+                              {isIndexed && (
+                                <Link
+                                  id={"month" + item?.month}
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl("month", `${item?.month}`),
+                                  }}
+                                ></Link>
+                              )}
+                              <input
+                                checked={
+                                  prepopulateFilter?.month == item?.month
+                                    ? true
+                                    : false
+                                }
+                                onChange={() => {
+                                  setPrepopulateFilter((prev: any) => ({
+                                    ...prev,
+                                    month:
+                                      prev?.month == item?.month
+                                        ? ""
+                                        : item?.month,
+                                  }));
+                                }}
+                                type="radio"
+                                name="All Months"
+                                className="rounded-[4px] outline-none absolute opacity-0"
+                                id={item?.month}
+                              />
+                              <label
+                                htmlFor={item?.month}
+                                className="btn btn-black-outline min-w-[53px] py-[5px]"
+                              >
+                                {item?.month}
+                              </label>
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </Accordion>
-              )}
+                  </Accordion>
+                )}
               <Accordion
                 title="University"
                 id="#university"
@@ -1011,11 +1006,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   </div>
                   <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
                     <div
-                      className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
-                        isUniversityOpen
+                      className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${isUniversityOpen
                           ? "-translate-x-full h-0 hidden"
                           : "translate-x-0 h-auto"
-                      }`}
+                        }`}
                     >
                       {universitiesList?.map((item: any, index: any) => (
                         <div
@@ -1046,9 +1040,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
                     <div
                       className={`bg-white transition-all duration-300 ease-in-out 
-                      ${
-                        isUniversityOpen ? "translate-x-0" : "-translate-x-full"
-                      }
+                      ${isUniversityOpen ? "translate-x-0" : "-translate-x-full"
+                        }
                     `}
                     >
                       {universitiesList?.map((item: any, index: any) => (
@@ -1175,99 +1168,99 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   </div>
                   {(jsondata?.regionList?.length > 0 ||
                     jsondata?.cityList?.length > 0) && (
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">Region</div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one or more
-                      </div>
-                      <ul className="pt-[12px]">
-                        <li>
-                          <div className="form_check relative m-[0_0_12px]">
-                            <div className="flex items-start gap-[8px]">
-                              <div className="checkbox_card">
-                                {isIndexed && (
-                                  <Link
-                                    id={
-                                      "location" +
-                                      parentRegion[0]?.regionTextKey
-                                    }
-                                    href={{
-                                      pathname: `${slug}`,
-                                      query: formUrl(
+                      <div className="flex flex-col gap-[4px]">
+                        <div className="text-para-lg font-semibold">Region</div>
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one or more
+                        </div>
+                        <ul className="pt-[12px]">
+                          <li>
+                            <div className="form_check relative m-[0_0_12px]">
+                              <div className="flex items-start gap-[8px]">
+                                <div className="checkbox_card">
+                                  {isIndexed && (
+                                    <Link
+                                      id={
+                                        "location" +
+                                        parentRegion[0]?.regionTextKey
+                                      }
+                                      href={{
+                                        pathname: `${slug}`,
+                                        query: formUrl(
+                                          "location",
+                                          parentRegion[0]?.regionTextKey
+                                        ),
+                                      }}
+                                    ></Link>
+                                  )}
+                                  <input
+                                    type="checkbox"
+                                    checked={isAllUkChecked || false}
+                                    className="form-checkbox hidden"
+                                    id={parentRegion[0]?.regionName}
+                                    name={parentRegion[0]?.regionName}
+                                    onChange={() => {
+                                      setIsAllUkChecked(!isAllUkChecked);
+                                      appendSearchParams(
                                         "location",
                                         parentRegion[0]?.regionTextKey
-                                      ),
+                                      );
                                     }}
-                                  ></Link>
-                                )}
-                                <input
-                                  type="checkbox"
-                                  checked={isAllUkChecked || false}
-                                  className="form-checkbox hidden"
-                                  id={parentRegion[0]?.regionName}
-                                  name={parentRegion[0]?.regionName}
-                                  onChange={() => {
-                                    setIsAllUkChecked(!isAllUkChecked);
-                                    appendSearchParams(
-                                      "location",
-                                      parentRegion[0]?.regionTextKey
-                                    );
-                                  }}
-                                />
-                                <label
-                                  htmlFor={parentRegion[0]?.regionName}
-                                  className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                >
-                                  <svg
-                                    width="10"
-                                    height="8"
-                                    viewBox="0 0 10 8"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                  />
+                                  <label
+                                    htmlFor={parentRegion[0]?.regionName}
+                                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                   >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                      fill="white"
-                                      stroke="white"
-                                      strokeWidth="0.666667"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
+                                    <svg
+                                      width="10"
+                                      height="8"
+                                      viewBox="0 0 10 8"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                        fill="white"
+                                        stroke="white"
+                                        strokeWidth="0.666667"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  </label>
+                                </div>
+                                <label
+                                  htmlFor="All Uk"
+                                  className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                >
+                                  {parentRegion[0]?.regionName}
                                 </label>
                               </div>
-                              <label
-                                htmlFor="All Uk"
-                                className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                              >
-                                {parentRegion[0]?.regionName}
-                              </label>
                             </div>
-                          </div>
-                          <ul>
-                            <li>
-                              {FirstLevelRegion?.map(
-                                (item: any, index: any) => (
-                                  <LocationcheckBox
-                                    isAllUkChecked={isAllUkChecked}
-                                    key={index + 1}
-                                    item={item}
-                                    jsondata={jsondata}
-                                    slug={slug}
-                                    isIndexed={isIndexed}
-                                    formUrl={formUrl}
-                                    appendSearchParams={appendSearchParams}
-                                  />
-                                )
-                              )}
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+                            <ul>
+                              <li>
+                                {FirstLevelRegion?.map(
+                                  (item: any, index: any) => (
+                                    <LocationcheckBox
+                                      isAllUkChecked={isAllUkChecked}
+                                      key={index + 1}
+                                      item={item}
+                                      jsondata={jsondata}
+                                      slug={slug}
+                                      isIndexed={isIndexed}
+                                      formUrl={formUrl}
+                                      appendSearchParams={appendSearchParams}
+                                    />
+                                  )
+                                )}
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   {jsondata?.cityList && (
                     <div className="flex flex-col gap-[4px]">
                       <div className="text-para-lg font-semibold">City</div>

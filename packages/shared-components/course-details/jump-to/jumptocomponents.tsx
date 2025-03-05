@@ -1,15 +1,17 @@
 'use client';
-
-import React from 'react'
-import Link from 'next/link';
-
 interface SectionsList {
   sectionId: string,
   sectionName: string
 }
 
 const JumpToComponents = ({ sectionsList }: { sectionsList: SectionsList[] }) => {
-  // let formedjumpptoarray=[];
+  const handleScroll = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className='jumpto-container bg-grey-50'>
       <div className="max-w-container mx-auto">
@@ -21,7 +23,7 @@ const JumpToComponents = ({ sectionsList }: { sectionsList: SectionsList[] }) =>
                 {sectionsList?.map((val, index: any) => (
                   <li key={index} className='flex items-center gap-[4px]'>
                     <span className='text-grey para'>-</span>
-                    <Link href={`#${val?.sectionId}`} className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{val?.sectionName}</Link>
+                    <button onClick={() => handleScroll(val?.sectionId)} className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{val?.sectionName}</button>
                   </li>
                 ))}
               </ul>

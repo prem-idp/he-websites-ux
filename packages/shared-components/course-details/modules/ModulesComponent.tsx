@@ -13,7 +13,6 @@ interface ModulesComponentProps {
 };
 
 const ModulesComponent = ({ sectionInfo, modules }: ModulesComponentProps) => {
-    console.log(modules, 'modules')
     return (
         <div id={sectionInfo?.sectionId} className='modules-container'>
             <div className="max-w-container mx-auto">
