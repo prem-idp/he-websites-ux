@@ -29,7 +29,12 @@ const SubRegions = ({
         <div>
           <div className="form_check relative m-[0_0_12px_40px]">
             <div className="flex items-start gap-[8px]">
-              <div className="checkbox_card">
+              <div
+                className="checkbox_card"
+                onClick={() => {
+                  appendSearchParams("location", childItem?.regionTextKey);
+                }}
+              >
                 {isIndexed && !isSubRegionSelected && (
                   <Link
                     id={"location" + childItem?.regionTextKey}
@@ -45,7 +50,6 @@ const SubRegions = ({
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
-                    appendSearchParams("location", childItem?.regionTextKey);
                     setIsSubRegionSelected(!isSubRegionSelected);
                   }}
                 />

@@ -36,14 +36,18 @@ const SubjectCheckBox = ({
 
       <div className="form_check relative">
         <div className={`flex items-start gap-[8px] form_check`}>
-          <div className="checkbox_card">
+          <div
+            className="checkbox_card"
+            onClick={() => {
+              appendSearchParams("subject", item?.subjectTextKey);
+            }}
+          >
             <input
               type="checkbox"
               id={item?.categoryDesc}
               checked={isChecked || false}
               onChange={() => {
                 setIsChecked(!isChecked);
-                appendSearchParams("subject", item?.subjectTextKey);
               }}
               className="form-checkbox hidden"
             />
