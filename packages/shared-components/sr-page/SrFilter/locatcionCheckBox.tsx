@@ -31,7 +31,12 @@ const LocationcheckBox = ({
     <>
       <div className="form_check relative m-[0_0_12px_24px]">
         <div className="flex items-start gap-[8px]">
-          <div className="checkbox_card">
+          <div
+            className="checkbox_card"
+            onClick={() => {
+              appendSearchParams("location", item?.regionTextKey);
+            }}
+          >
             {isIndexed && !isRegionSelected && (
               <Link
                 id={"location" + item?.regionTextKey}
@@ -44,7 +49,6 @@ const LocationcheckBox = ({
             <input
               checked={isRegionSelected || false}
               onChange={() => {
-                appendSearchParams("location", item?.regionTextKey);
                 setIsRegionSelected(!isRegionSelected);
               }}
               type="checkbox"

@@ -666,3 +666,19 @@ export interface URLSearchParams {
   locationType?:any;
   pageno?:any;
 }
+
+export interface MetaDataInterface {
+  title: string,
+  description: string,
+  keyword?: string[],
+  canonical: string,
+  indexation: string,
+  og_title?: string,
+  og_description?: string,
+  og_keyword?: string[],
+  og_canonical?: string,
+  og_indexation?: string,
+  twitter_url?: string,
+  twitter_titile?: string,
+  twitter_description?: string,
+}

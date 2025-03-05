@@ -1,17 +1,17 @@
 /** @type {import('next').NextConfig} */
 
 const getImageDomain = () => {
-  const env = process.env.NODE_ENV || 'development';
-  
+  const env = process.env.NODE_ENV || "development";
+
   switch (env) {
-    case 'development':
-      return 'images-dom.aws.dev.idp-connect.com';
-    case 'staging':
-      return 'images-dom.aws.test.idp-connect.com';
-    case 'production':
-      return 'images-dom.prod.aws.idp-connect.com';
+    case "development":
+      return "images-dom.aws.dev.idp-connect.com";
+    case "staging":
+      return "images-dom.aws.test.idp-connect.com";
+    case "production":
+      return "images-dom.prod.aws.idp-connect.com";
     default:
-      return 'images-dom.aws.dev.idp-connect.com';
+      return "images-dom.aws.dev.idp-connect.com";
   }
 };
 const nextConfig = {
@@ -38,13 +38,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/money/ug-student-cost-of-living-calculator',
-        destination: '/money/ug-student-budget-calculator/',
+        source: "/money/ug-student-cost-of-living-calculator",
+        destination: "/money/ug-student-budget-calculator/",
         permanent: true, // Use true for 301 permanent redirect, false for 302 temporary redirect
-      }
+      },
     ];
   },
- 
+
   //trailingSlash: true,
   // async redirects() {
   //   return [
@@ -79,6 +79,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "images-dom.aws.test.idp-connect.com",
       },
+      { protocol: "https", hostname: "images-dom.aws.stg.idp-connect.com" },
       { protocol: "https", hostname: "images.ctfassets.net" },
       {
         protocol: "https",

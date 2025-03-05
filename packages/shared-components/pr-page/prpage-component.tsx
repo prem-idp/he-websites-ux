@@ -11,6 +11,7 @@ import Paginations from "@packages/shared-components/common-utilities/pagination
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 import { headers } from "next/headers";
+import Cdpage from "@whatuni/src/app/(cdpage)/degrees/[course_name]/[uni_name]/cd/[course_id]/[uni_id]/page";
 
 interface Payload {
   parentQualification: string;
@@ -31,7 +32,7 @@ export async function constructPayload(
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
     parentQualification: "M",
-    pageNo: searchparams?.pageNo || "1", // Default to "1" if not in searchparams
+    pageNo: searchparams?.pageno || "1", // Default to "1" if not in searchparams
     userCoordinates: "51.5072,-0.1276",
   };
   // Start with the base payload
@@ -46,9 +47,11 @@ export async function constructPayload(
   Object.keys(searchparams).forEach((key) => {
     if (searchparams[key] !== undefined && searchparams[key] !== null) {
       // If the key is 'university', map it to 'collegeName' in payloads
-      if (key === "university") {
-        payloads["collegeName"] = searchparams[key];
-      } else {
+      if (key === 'university') {
+        payloads['collegeName'] = searchparams[key];
+      } if (key === 'pageno')
+        payloads['pageNo'] = searchparams[key];
+      else {
         payloads[key] = searchparams[key];
       }
     }
@@ -76,6 +79,7 @@ const searchPRResults = async (searchparams: any) => {
     }
 
     const data = await response.json();
+    console.log("Data Response " + JSON.stringify(data));
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -87,32 +91,31 @@ const transformProviderListData = (data: any) => {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
   }
-  return data.searchResultsList.flatMap(
-    (college: any) =>
-      Array.isArray(college.bestMatchCoursesList)
-        ? college.bestMatchCoursesList.map((course: any) => ({
-            collegeId: college.collegeId,
-            collegeName: college?.collegeTextKey,
-            courseId: course.courseId,
-            pageName: "PR",
-            title: course.courseTitle || "Unknown Title",
-            provideFav: false,
-            subOrderItemid: course?.enquiryDetails?.subOrderItemId,
-            sponsoredListingFlag: college?.sponsoredListingFlag,
-            manualBoostingFlag: college?.manualBoostingFlag,
-            orderItemId: course?.enquiryDetails?.orderItemId,
-            modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-            tagLocation: college.adminVenue || "Unknown Location",
-            points:
-              course.minUcasPoints && course.maxUcasPoints
-                ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-                : 0 - 0,
-            hasProspectus:
-              course.enquiryDetails?.prospectusFlag === "Y" || false,
-            hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
-            hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
-          }))
-        : [] // Ensure an empty array if bestMatchCoursesList is missing
+  return data.searchResultsList.flatMap((college: any) =>
+    Array.isArray(college.bestMatchCoursesList)
+      ? college.bestMatchCoursesList.map((course: any) => ({
+        collegeId: college?.collegeId,
+        collegeName: college?.collegeTextKey,
+        courseId: course?.courseId,
+        cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
+        pageName: 'PR',
+        title: course?.courseTitle || "Unknown Title",
+        provideFav: false,
+        subOrderItemid: course?.enquiryDetails?.subOrderItemId,
+        sponsoredListingFlag: college?.sponsoredListingFlag,
+        manualBoostingFlag: college?.manualBoostingFlag,
+        orderItemId: course?.enquiryDetails?.orderItemId,
+        modulesList: course?.modulesInfo || [], // Ensure modulesList is always an array
+        tagLocation: college?.adminVenue || "Unknown Location",
+        points:
+          course.minUcasPoints && course.maxUcasPoints
+            ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
+            : 0 - 0,
+        hasProspectus: course.enquiryDetails?.prospectusFlag === "Y" || false,
+        hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
+        hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
+      }))
+      : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
 
@@ -151,8 +154,8 @@ const PrPageComponent = async ({ searchparams }: any) => {
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.collegeCount / 10)}
-            currentPage={searchparams?.pageNo || 1}
+            totalPages={Math.ceil(data?.totalCourseCount / 10)}
+            initialPage={searchparams?.pageNo || 1}
             searchParams={{ param: searchparams, currentPage: referer }}
           />
         </ProviderResultsCard>

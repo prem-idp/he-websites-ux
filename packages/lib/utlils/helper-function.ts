@@ -3,6 +3,8 @@
 import { getCurrentUser } from "@aws-amplify/auth";
 import { DataLayerGA4AttrType } from "../types/datalayerGA";
 import { usePathname } from "next/navigation";
+import { MetaDataInterface } from "../types/interfaces";
+import { Metadata } from "next";
 
 function getCookie(name: string): string | null {
   const value = `; ${document.cookie}`;
@@ -190,3 +192,4 @@ export function getArticleDetailUrlParamValues(){
   }
   return {category, subCategory, articleTitle};
 }
+

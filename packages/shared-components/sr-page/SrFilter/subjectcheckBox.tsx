@@ -42,8 +42,8 @@ const SubjectCheckBox = ({
               id={item?.categoryDesc}
               checked={isChecked || false}
               onChange={() => {
-                setIsChecked(!isChecked);
                 appendSearchParams("subject", item?.subjectTextKey);
+                setIsChecked(!isChecked);
               }}
               className="form-checkbox hidden"
             />

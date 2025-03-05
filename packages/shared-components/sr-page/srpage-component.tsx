@@ -14,14 +14,11 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
-import { getSearchPayload } from "../services/utils";
-import Explorearticelskeleton from "../skeleton/search-result/explore-articel-skeleton";
-import dynamicComponentImports from "@packages/lib/dynamic-imports/imports";
-import { v4 as uuidv4 } from "uuid";
+import { getSearchPayload, getSEOSearchPayload } from "../services/utils";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
+import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 
-
-const SearchResultComponent = async ({ searchparams }: any) => {
+const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   let searchResultsData;
@@ -38,18 +35,11 @@ const SearchResultComponent = async ({ searchparams }: any) => {
   }
   return (
     <>
-      <TopSection
-        searchParam={getSearchPayload(
-          searchparams,
-          JSON.parse(cookieStore?.get("filter_param")?.value || "{}"),
-          pathname
-        )}
-        searchResultsData={searchResultsData?.searchResultsList}
-      />
+      <TopSection searchParam = {getSEOSearchPayload(searchparams, params?.hero)} searchResultsData={searchResultsData}/>
       {searchResultsData?.searchResultsList ? (
         <Suspense>
           <SearchFilterButtons />
-          {/* <SearchLabels /> */}
+          <SearchLabels />
         </Suspense>
       ) : (
         <></>
