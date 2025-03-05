@@ -15,7 +15,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
 
   // Sync currentPage with URL query parameter 'pageno'
   useEffect(() => {
-    const pageFromQuery = Number(searchParams.get("pageno")) || 1;
+    const pageFromQuery = Number(searchParams.get("pageno")) || Number(searchParams.get("page_no")) || 1;
     // Ensure currentPage doesn’t exceed totalPages or go below 1
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
   }, [searchParams, validTotalPages]);
@@ -24,7 +24,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
   const buildUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (typeof page === "number") {
-      params.set("pageno", page.toString());
+      params.set(process.env.PROJECT === "Whatuni" ? "pageno": "page_no", page.toString());
     }
     return `?${params.toString()}`;
   };
