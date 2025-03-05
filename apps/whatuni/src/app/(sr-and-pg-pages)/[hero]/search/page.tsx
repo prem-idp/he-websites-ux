@@ -14,12 +14,20 @@ export type MetaDataProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({params, searchParams}: MetaDataProps): Promise<Metadata> {
-
+export async function generateMetadata({
+  params,
+  searchParams,
+}: MetaDataProps): Promise<Metadata> {
   const paramsAwaited = await params;
   const pathname = `/${paramsAwaited?.hero}/search`;
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited, displayNameBFFEndPt, "SR");
+  const metaData = await getSRMetaDetailsFromContentful(
+    await searchParams,
+    pathname,
+    paramsAwaited,
+    displayNameBFFEndPt,
+    "SR"
+  );
 
   return getMetaDetailsObject(metaData);
 }
@@ -34,7 +42,9 @@ const Page = async ({ params, searchParams }: any) => {
   }
   const searchparams = await searchParams;
   const paramsAwaited = await params;
-  return <SearchResultComponent searchparams={searchparams} params={paramsAwaited} />;
+  return (
+    <SearchResultComponent searchparams={searchparams} params={paramsAwaited} />
+  );
 };
 
 export default Page;
