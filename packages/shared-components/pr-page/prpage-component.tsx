@@ -11,6 +11,7 @@ import Paginations from "@packages/shared-components/common-utilities/pagination
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 import { headers } from "next/headers";
+import Cdpage from "@whatuni/src/app/(cdpage)/degrees/[course_name]/[uni_name]/cd/[course_id]/[uni_id]/page";
 
 interface Payload {
   parentQualification: string;
@@ -94,18 +95,19 @@ const transformProviderListData = (data: any) => {
   return data.searchResultsList.flatMap((college: any) =>
     Array.isArray(college.bestMatchCoursesList)
       ? college.bestMatchCoursesList.map((course: any) => ({
-        collegeId: college.collegeId,
+        collegeId: college?.collegeId,
         collegeName: college?.collegeTextKey,
-        courseId: course.courseId,
+        courseId: course?.courseId,
+        cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
         pageName: 'PR',
-        title: course.courseTitle || "Unknown Title",
+        title: course?.courseTitle || "Unknown Title",
         provideFav: false,
         subOrderItemid: course?.enquiryDetails?.subOrderItemId,
         sponsoredListingFlag: college?.sponsoredListingFlag,
         manualBoostingFlag: college?.manualBoostingFlag,
         orderItemId: course?.enquiryDetails?.orderItemId,
-        modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-        tagLocation: college.adminVenue || "Unknown Location",
+        modulesList: course?.modulesInfo || [], // Ensure modulesList is always an array
+        tagLocation: college?.adminVenue || "Unknown Location",
         points:
           course.minUcasPoints && course.maxUcasPoints
             ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
