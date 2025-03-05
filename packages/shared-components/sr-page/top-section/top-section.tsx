@@ -26,7 +26,7 @@ const TopSection: React.FC<searchProps> = async ({
   const seoMetaFeildId: string = getSeoMetaFeildId(searchParam, "SR");
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
-  let contentfulMetadata = await graphQlFetchFunction(query, customParams);
+  let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata =
     contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
 

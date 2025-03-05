@@ -9,8 +9,8 @@ type RequestType = "GET" | "POST";
 
 export async function graphQlFetchFunction(
   payload: string,
-  customParams?: any,
   isContentPreview?: boolean,
+  customParams?: any,
 ) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
