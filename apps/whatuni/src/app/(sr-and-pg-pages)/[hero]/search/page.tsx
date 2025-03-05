@@ -7,6 +7,7 @@ import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPage
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
 export type MetaDataProps = {
   params?: any;
@@ -17,7 +18,8 @@ export async function generateMetadata({params, searchParams}: MetaDataProps): P
 
   const paramsAwaited = await params;
   const pathname = `/${paramsAwaited?.hero}/search`;
-  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited);
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited, displayNameBFFEndPt, "SR");
 
   return getMetaDetailsObject(metaData);
 }
