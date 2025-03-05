@@ -31,6 +31,7 @@ const SearchResultComponent = async ({ searchparams }: any) => {
         searchparams,
         JSON.parse(cookieStore?.get("filter_param")?.value || "{}"),
         pathname,
+        cookieStore?.get("dynamic_random_number")?.value || "",
       )
     );
   } catch (error) {
@@ -42,7 +43,8 @@ const SearchResultComponent = async ({ searchparams }: any) => {
         searchParam={getSearchPayload(
           searchparams,
           JSON.parse(cookieStore?.get("filter_param")?.value || "{}"),
-          pathname
+          pathname,
+          cookieStore.get("dynamic_random_number")?.value || "",
         )}
         searchResultsData={searchResultsData?.searchResultsList}
       />

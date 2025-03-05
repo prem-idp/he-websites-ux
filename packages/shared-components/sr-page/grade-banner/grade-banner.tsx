@@ -1,12 +1,31 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import GradeBannerSkeleton from "@packages/shared-components/skeleton/search-result/grade-banner-skeleton";
+const UcasComponent = dynamic(
+  () =>
+    import(
+      "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
+    ),
+  { ssr: false }
+);
 const GradeBanner = () => {
   const searchparams = useSearchParams();
   const location = searchparams?.get("location");
   const score = searchparams?.get("score");
+  const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
+  const ucasClick = () => {
+    setUcasPopupOpen(true);
+    const body = document?.body;
+    body.classList.add("overflow-y-hidden");
+  };
+  const ucasClose = () => {
+    const body = document?.body;
+    setUcasPopupOpen(false);
+    body.classList.remove("overflow-y-hidden");
+  };
   return (
     <>
       <div
@@ -29,7 +48,7 @@ const GradeBanner = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
+        <div  onClick={ucasClick} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
           <svg
             width="20"
             height="20"
@@ -47,6 +66,9 @@ const GradeBanner = () => {
           Add my grades
         </div>
       </div>
+      {isUcasPopupOpen && (
+            <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
+          )}
       {/* <GradeBannerSkeleton/> */}
     </>
   );

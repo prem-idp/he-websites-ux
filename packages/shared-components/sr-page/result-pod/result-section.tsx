@@ -30,8 +30,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
   subject,
 }) => {
-  subject = subject?.includes(" ") ? subject?.replace(/ /g, '+') : subject
-  console.log("subject", subject)
+ subject = subject?.includes(" ") ? subject?.replace(/ /g, '+') : subject
  const [user, setUserData] = useState<AuthUser | null>(null);
  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
  const [exceedMessage, setExceedMessage] = useState(false);
@@ -671,20 +670,18 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni" &&
-                    courseData?.modulesInfo ? (
+                    {process.env.PROJECT === "Whatuni"  ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">Year 1</div>
+                          <div className="font-semibold">{courseData?.moduleInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            <li>Becoming a Criminologist</li>
-                            <li>Introduction to Law and its Study</li>
-                            <li>Social Research in Practice</li>
-                            <li>Criminology in Late Modernity</li>
-                            <li>Criminal Law</li>
+                            {courseData?.moduleDesc?.split('###').map((desc:any) => (
+                               <li>{desc}</li>
+                            ))}
+                           
                           </ul>
                           <Link
-                            href=""
+                            href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
                             className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
                           >
                             View all modules

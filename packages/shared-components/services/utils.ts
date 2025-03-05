@@ -18,6 +18,7 @@ function getSearchPayload(
     searchParams: any,
     filterCookieParam: any,
     qualification: any,
+    dynamicRandomNumber:any,
 ) {
   const subjectArray =
     searchParams?.subject?.split(",") || searchParams?.course?.split(",") || "";
@@ -53,6 +54,7 @@ function getSearchPayload(
     userCoordinates: "",
     distance: searchParams?.distance || filterCookieParam?.["distance"] || "",
     ucasTariffRange: searchParams?.score || filterCookieParam?.["score"] || "",
+    dynamicRandomNumber:dynamicRandomNumber,
     universityGroup:
       searchParams?.["russell-group"] ||
       filterCookieParam?.["russell-group"] ||

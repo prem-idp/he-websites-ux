@@ -78,7 +78,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             </Link>
           </div>
           <Link
-            href=""
+            href="#"
             className="flex items-center gap-[4px] w-fit text-white font-semibold underline"
             onClick={() => handleNavigation({ featuredData: featuredData })}
           >
