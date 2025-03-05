@@ -131,14 +131,21 @@ function replaceMultiplePlaceholder(pattern: string, inputText: string, selected
 
 function getSRIndexation(searchParams: any, searchPayLoad: any, providerCount: number){
 
-    let paramCount:number = 0;
+    let multiOptionSelected:boolean = false;
+    let filterCount = 0;
+
     Object.keys(searchParams).forEach((key:string)=>{
-      paramCount = paramCount + getselectedCount(searchParams[key]);
+      if(getselectedCount(searchParams[key]) >= 2){
+        multiOptionSelected = true;
+      }
+      filterCount++;
     });
 
-    if(searchPayLoad?.searchKeyword ||
-      paramCount >= 3 ||
-      providerCount <= 3){
+    console.log("searchParams?.length: ", filterCount);
+    if(searchPayLoad?.searchKeyword ||                          //keyword search
+      multiOptionSelected ||                                    //multiple options selected in multi-select filter
+      (!multiOptionSelected && filterCount >= 3) ||     //url has more than 2 params
+      providerCount <= 3){                                      //total search result count is less than/equal to 3
         return "noindex, nofollow";
     }
 
@@ -166,11 +173,11 @@ function formSRPageURL(searchParams: any, pathName: string){
 
   if(filterCount < 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.subject); filterCount = filterCount + getselectedCount(searchParams?.subject);}
   if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
-  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
+  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.location);}
   if(filterCount < 4 && searchParams?.['study-method']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-method=" + searchParams?.['study-method']); filterCount++;}
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
-  if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
+  if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.['intake-month']);}
   if(filterCount < 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("distance=" + searchParams?.distance); filterCount++;}
   if(filterCount < 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}

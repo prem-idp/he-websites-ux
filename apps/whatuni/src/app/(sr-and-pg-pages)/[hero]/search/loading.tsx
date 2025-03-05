@@ -9,13 +9,16 @@ import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/se
 const Loading = () => {
   return (
     <>
+      <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+      <TopSectionSkeleton /></div>
+      <SearchFilterButtonsSkeleton />
+      <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
+      <SearchLabelsSkeleton />
+      <GradeBannerSkeleton />
       <Explorearticelskeleton />
       <FeaturedSkeleton />
-      <GradeBannerSkeleton />
       <ResultSectionSkeleton />
-      <TopSectionSkeleton />
-      <SearchFilterButtonsSkeleton />
-      <SearchLabelsSkeleton />
+      </div>
     </>
   );
 };
