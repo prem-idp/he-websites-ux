@@ -271,11 +271,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
       },
       {} as KeyValueObject
     );
-    const data = await getSrFilter(
-      filterbodyJson(orderedFilters, slug.split("/")[1])
-    );
-
-    setJsondata(data);
+    // const data = await getSrFilter(
+    //   filterbodyJson(orderedFilters, slug.split("/")[1])
+    // );
+    // setJsondata(data);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
@@ -299,8 +298,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2C");
-    const linkTagId2 = document.getElementById(key + value);
-    console.log(linkTagId2);
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       router.refresh();
@@ -312,14 +309,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document.getElementById(key + value);
-      const anchorTags = document.querySelectorAll("Link");
-
-      const ids = Array.from(anchorTags)
-        .map((tag) => tag.id) // Get the `id` attribute
-        .filter((id) => id); // Filter out empty IDs (if any)
-
-      console.log(ids, "ids");
-      console.log(key + value, linkTagId);
       if (linkTagId) {
         linkTagId.click();
         setFilterLoading(false);
@@ -345,8 +334,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       return `${modifiedParam}`;
     }
   };
-  // const linkTagId = document.getElementById("universitytest-for-app");
-  // console.log(linkTagId);
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
     if (key === "subject" || key === "course") {
@@ -591,6 +578,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     items?.studyMethodTextKey
                                   }
                                   onChange={() => {
+                                    appendSearchParams(
+                                      "study-method",
+                                      items?.studyMethodTextKey
+                                    );
                                     setPrepopulateFilter((prev: any) => ({
                                       ...prev,
                                       studyMethod:
@@ -599,10 +590,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           ? ""
                                           : items?.studyMethodTextKey,
                                     }));
-                                    appendSearchParams(
-                                      "study-method",
-                                      items?.studyMethodTextKey
-                                    );
                                   }}
                                   type="checkbox"
                                   id={items?.studyMethodDesc}
@@ -660,14 +647,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       "study-mode",
                                       items?.studyModeTextKey
                                     );
-                                    setPrepopulateFilter((prev: any) => ({
-                                      ...prev,
-                                      studyMode:
-                                        prev?.studyMode ==
-                                        items?.studyModeTextKey
-                                          ? ""
-                                          : items?.studyModeTextKey,
-                                    }));
+                                    // setPrepopulateFilter((prev: any) => ({
+                                    //   ...prev,
+                                    //   studyMode:
+                                    //     prev?.studyMode ==
+                                    //     items?.studyModeTextKey
+                                    //       ? ""
+                                    //       : items?.studyModeTextKey,
+                                    // }));
                                   }}
                                   className="rounded-[4px] outline-none absolute opacity-0"
                                   id={items?.studyModeDesc}
