@@ -541,12 +541,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div
                               className="form-black flex relative"
                               key={index + 1}
-                              // onClick={() => {
-                              //   appendSearchParams(
-                              //     "study-method",
-                              //     items?.studyMethodTextKey
-                              //   );
-                              // }}
                             >
                               {isIndexed && (
                                 <Link
@@ -612,12 +606,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 className="form-black flex relative"
                                 key={index + 1}
                                 id={items?.studyModeTextKey}
-                                // onClick={() => {
-                                //   appendSearchParams(
-                                //     "study-mode",
-                                //     items?.studyModeTextKey
-                                //   );
-                                // }}
                               >
                                 {isIndexed && (
                                   <Link
@@ -681,12 +669,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               <div
                                 className="form-black flex relative"
                                 key={index}
-                                // onClick={() => {
-                                //   appendSearchParams(
-                                //     "study-level",
-                                //     item?.qualTextKey
-                                //   );
-                                // }}
                               >
                                 {isIndexed &&
                                   !slug.includes(item?.qualTextKey) && (
@@ -1204,15 +1186,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <li>
                               <div className="form_check relative m-[0_0_12px]">
                                 <div className="flex items-start gap-[8px]">
-                                  <div
-                                    className="checkbox_card"
-                                    // onClick={() => {
-                                    //   appendSearchParams(
-                                    //     "location",
-                                    //     parentRegion[0]?.regionTextKey
-                                    //   );
-                                    // }}
-                                  >
+                                  <div className="checkbox_card">
                                     {isIndexed && (
                                       <Link
                                         id={
@@ -1310,15 +1284,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   key={index}
                                 >
                                   <div className="flex items-start gap-[8px]">
-                                    <div
-                                      className="checkbox_card"
-                                      // onClick={() => {
-                                      //   appendSearchParams(
-                                      //     "location",
-                                      //     item?.cityTextKey
-                                      //   );
-                                      // }}
-                                    >
+                                    <div className="checkbox_card">
                                       {isIndexed && (
                                         <Link
                                           id={"location" + item?.cityTextKey}
