@@ -466,7 +466,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       selectedMile: milesValue,
     }));
   };
-  console.log(filterLoading);
   return (
     <>
       <div>
