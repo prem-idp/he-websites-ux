@@ -21,7 +21,7 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
         setRenderKey(prev => prev + 1); // Force re-render
     }, [fetcheddata]);
     useEffect(() => {
-        async function clientFetch(){
+        async function clientFetch() {
             try {
                 //console.log("Fetching data from client side...");
                 const searchParams = new URLSearchParams({
@@ -68,18 +68,18 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
                     return <div key={sectionContent?.sectionId}>{(() => {
                         switch (sectionContent?.sectionId) {
                             case 'course-info': return <div key={renderKey}>{children}</div>;
-                            case 'modules': return <Modulescomponents  {...sectionContent} {...fetcheddata} />;
-                            case 'entry-requirements': return <EntryrequirementsComponent key={renderKey} {...sectionContent} {...fetcheddata} />;
-                            case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey}  {...sectionContent} {...fetcheddata} />;
-                            case 'tuition-fees': return <TutionFeesComponent key={renderKey} {...sectionContent} {...fetcheddata} />;
-                            case 'latest-reviews': return <Latestreviewscomponents component fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
-                            case 'uni-info': return <UniInfoComponent  {...sectionContent} {...fetcheddata} />;
+                            case 'modules': return <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
+                            case 'entry-requirements': return <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+                            case 'popular-a-level-subjects': return <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+                            case 'tuition-fees': return <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+                            case 'latest-reviews': return <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} jsonResponse={jsonResponse} />;
+                            case 'uni-info': return <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
                         }
                     })()}</div>
                 })}
             </>
-           
-           
+
+
         </div>
     )
 }

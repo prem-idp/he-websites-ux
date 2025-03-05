@@ -38,9 +38,16 @@ const tooltipsMapper = [
     internalName: "Course info - UK graduate salary",
     key: "ukAverageSalary"
   }
-]
+];
 
-const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList }: any) => {
+interface KeyStatsComponentProps {
+  subjectArea: any, 
+  uniRankings: any, 
+  tooltipList: any,
+  dataSource: any
+}
+
+const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
 
   const [selectedSubject, setSelectedSubject] = useState(subjectArea[0]);
   const [isOpen, setIsOpen] = useState(false);
@@ -95,6 +102,8 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList }: any) => {
     }
   }
 
+  console.log(dataSource, "------")
+
   return (
     <>
       {(isOpen && !!subjectArea) && <LeftPannelModal
@@ -133,7 +142,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList }: any) => {
           </div>
           <div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col gap-[16px] md:gap-[8px]'>
-              <div className='h4 text-white'>Animation</div>
+              <div className='h4 text-white'>{selectedSubject?.subjectName}</div>
               <div className='flex flex-col md:flex-row justify-between gap-[16px] w-full *:text-small *:text-white'>
                 {!!selectedSubject?.dropOutRate && <div className='w-full flex flex-col justify-between gap-[4px]'>
                   <div className='flex items-center justify-between'>
@@ -191,8 +200,8 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList }: any) => {
           <div className='keystats-inner-row'>
             <div className='flex items-center gap-[4px] *:text-x-small *:font-semibold *:tracking-[1px]'>
               <div className='text-white'>SOURCE:</div>
-              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UNISTATS,</a>
-              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UCAS / HESA</a>
+              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>{dataSource?.primaryCtaLabel}</a>
+              {/* <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UCAS / HESA</a> */}
             </div>
           </div>
         </div>

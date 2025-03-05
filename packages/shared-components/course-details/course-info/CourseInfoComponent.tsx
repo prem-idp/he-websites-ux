@@ -22,7 +22,7 @@ const CourseInfoComponent = ({ courseInfo, keyStats, sectionInfo }: any) => {
           <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>Course info</div>
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
             <ReadMoreLessDesc text={courseInfo?.courseSummary} />
-            <Keystatscomponents {...keyStats} tooltipList={sectionInfo?.mediaCardsCollection} />
+            <Keystatscomponents {...keyStats} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction}/>
             <Reviewscomponents heading="What student say" />
           </div>
         </div>

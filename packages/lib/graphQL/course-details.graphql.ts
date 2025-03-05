@@ -22,6 +22,15 @@ export const COURSE_DETAILS_QUERY = `{
           flagComponentStyle
           shortDescription
           longDescription
+          callToAction {
+            ... on CallToActionCta {
+              internalName
+              primaryCtaLabel
+              primaryCtaEventName
+              primaryCtaTarget
+              primaryCtaUrl
+            }
+          }
           mediaCardsCollection {
             items {
               __typename
@@ -40,9 +49,11 @@ export const COURSE_DETAILS_QUERY = `{
               }
               ... on MultipleRichTextAndCta {
                 componentName
+
                 richTextComponent {
                   componentType
                   componentName
+
                   richContent {
                     json
                   }
@@ -54,7 +65,8 @@ export const COURSE_DETAILS_QUERY = `{
       }
     }
   }
-}`;
+}
+`;
 
 interface Section {
     "sys": any

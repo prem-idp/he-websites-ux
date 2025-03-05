@@ -7,18 +7,19 @@ import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
 
-interface UniInfoComponentProps extends CourseSection {
+interface UniInfoComponentProps  {
   uniInfo: any,
-  courseInfo: any
+  courseInfo: any,
+  sectionInfo: CourseSection
 }
 
-const UniInfoComponent = ({ sectionId, sectionName, uniInfo, courseInfo }: UniInfoComponentProps) => {
+const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponentProps) => {
 
   const { awards, location } = uniInfo;
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
-  console.log(courseInfo, "uniInfo")
+  console.log(uniInfo, "uniInfo")
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
@@ -65,10 +66,10 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo, courseInfo }: UniIn
   }, []);
 
   return (
-    <div id={sectionId} className='uni-info-container'>
+    <div id={sectionInfo?.sectionId} className='uni-info-container'>
       <div className="max-w-container mx-auto">
         <div className='uni-info-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-          <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
+          <div className='h5 w-full md:w-[289px]'>{sectionInfo?.sectionName}</div>
           <div className='flex flex-col gap-[16px] md:gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
             <div className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
@@ -138,7 +139,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo, courseInfo }: UniIn
             </div>
 
 
-            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: string }, index: any) => <div key={index} className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
+            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: number }, index: any) => <div key={index} className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className="course-highlight__option flex flex-col md:flex-row items-center gap-[24px]">
                 <div className='w-[120px] p-[10px]'>
                   {award?.image &&
@@ -146,8 +147,8 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo, courseInfo }: UniIn
                   }
                 </div>
                 <div className="flex flex-col gap-[4px] *:text-grey300">
-                  <div className="h5 font-semibold">{award.awardName}</div>
-                  <p className="small">Winner: {award?.winningstatus}</p>
+                  <div className="h5 font-semibold">Whatuni Student Choice Awards</div>
+                  <p className="small">{award?.winningstatus === 1 ? 'Winner: ' : 'Runner: '}{award?.awardName}</p>
                 </div>
               </div>
             </div>)}
