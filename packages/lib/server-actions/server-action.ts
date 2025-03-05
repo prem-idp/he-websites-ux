@@ -9,7 +9,8 @@ type RequestType = "GET" | "POST";
 
 export async function graphQlFetchFunction(
   payload: string,
-  isContentPreview?: boolean
+  customParams?: any,
+  isContentPreview?: boolean,
 ) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
@@ -19,6 +20,7 @@ export async function graphQlFetchFunction(
         Authorization: `Bearer ${isContentPreview ? process.env.NEXT_PUBLIC_PREVIEW_GRAPHQL_AUTH : process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
+      ...customParams,
     });
     const data = await res.json();
     return data;
@@ -88,7 +90,7 @@ export async function httpBFFRequest(
 ): Promise<any> {
   try {
     const url = endpoint;
-    const cacheparam = cacheType?.toString() != "no-cache" && cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
+    const cacheparam = cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
     const res = await fetch(url, {
       method: reqtype,
       headers: {
