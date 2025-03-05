@@ -20,6 +20,7 @@ import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
 
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
+  const headerList = await headers();
   const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   let searchResultsData;
   try {
@@ -29,6 +30,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
         JSON.parse(cookieStore?.get("filter_param")?.value || "{}"),
         pathname,
         cookieStore?.get("dynamic_random_number")?.value || "",
+        headerList?.get("x-forwarded-for") || ""
       )
     );
   } catch (error) {
@@ -37,10 +39,10 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   return (
     <>
       <TopSection searchParam = {getSEOSearchPayload(searchparams, params?.hero)} searchResultsData={searchResultsData}/>
-      {searchResultsData?.searchResultsList ? (
+      {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
         </Suspense>
       ) : (
         <></>
@@ -48,7 +50,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
 
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
         <div className="max-w-container mx-auto">       
-          {searchResultsData?.searchResultsList?.length > 0 ? (           
+          {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (           
             <>
                <SortingFilter sortParam={{ param: searchparams,filterCookieParam:JSON.parse(cookieStore?.get("filter_param")?.value || "{}") }} />
              {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses"?
@@ -63,8 +65,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}
-                subject={searchparams?.subject || searchparams?.course}
+                searchResultsData={searchResultsData?.searchResultsList}                
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <><Paginations
@@ -81,7 +82,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           )}
         </div>
       </section>
-      {searchResultsData?.searchResultsList?.length > 0 ? (
+      {searchResultsData?.searchResultsList?.length > 0 && searchResultsData?.status != 404 ? (
         <>
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">
