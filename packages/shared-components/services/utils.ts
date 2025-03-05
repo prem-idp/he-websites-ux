@@ -54,6 +54,7 @@ function getSearchPayload(
     userCoordinates: "",
     distance: searchParams?.distance || filterCookieParam?.["distance"] || "",
     ucasTariffRange: searchParams?.score || filterCookieParam?.["score"] || "",
+    userRegionId:"",
     dynamicRandomNumber:dynamicRandomNumber,
     universityGroup:
       searchParams?.["russell-group"] ||

@@ -36,7 +36,7 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
     filterCookieParam = JSON.parse(getDecodedCookie("filter_param") || "{}");
   }
 
-  const searchPayLoad = getSearchPayload( searchParams, filterCookieParam, pathnameArray?.[3]?.split?.("-")?.[0]);
+  const searchPayLoad = getSearchPayload( searchParams, filterCookieParam, pathnameArray?.[3]?.split?.("-")?.[0],"");
   const studylevel = `${process.env.PROJECT}` == "Whatuni" ? searchPayLoad?.parentQualification : searchPayLoad?.childQualification;
   const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad);
   // console.log("seoMetaFeildId: ", seoMetaFeildId);
