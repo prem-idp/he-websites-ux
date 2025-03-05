@@ -1,9 +1,9 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import TopSectionSkeleton from "@packages/shared-components/skeleton/search-result/top-section-skeleton";
-import { Seosrdetails } from "@packages/lib/graphQL/graphql-query";
+// import { Seosrdetails } from "@packages/lib/graphQL/graphql-query";
 import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
-import { SEOparams } from "@packages/lib/types/interfaces";
+// import { SEOparams } from "@packages/lib/types/interfaces";
 import { getDisplayNameReqBody, getSeoMetaFeildId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 interface searchProps {
@@ -69,7 +69,7 @@ const TopSection: React.FC<searchProps> = async({ searchParam, searchResultsData
             replaceSEOPlaceHolder(contentfulMetadata?.h1Title, metaFiltersOpted) }
             </div>
             <p> {
-            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted)}</p>
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted)} </p>
           </div>
           {/* end subject */}
           {/* <TopSectionSkeleton/> */}

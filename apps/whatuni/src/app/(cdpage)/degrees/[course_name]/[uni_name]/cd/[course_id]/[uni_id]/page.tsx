@@ -9,8 +9,12 @@ import getApiUrl from "@packages/REST-API/api-urls";
 import makeApiCall from "@packages/REST-API/rest-api";
 import { graphQlFetchFunction } from '@packages/lib/server-actions/server-action';
 import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/graphQL/course-details.graphql";
+import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
+import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
+import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
 export default async function Cdpage({ params }: any) {
 
+  
   const prams_slug = await params;
   const slug = `/degrees/${await prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id2}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
@@ -41,7 +45,7 @@ export default async function Cdpage({ params }: any) {
     "",
     ""
   ];
-  let courseContent = courseContentExtractor(contents);
+  const courseContent = courseContentExtractor(contents);
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
   const courseInfoContent = courseContent?.sectionsList?.filter((section: any) => section?.internalName?.toLowerCase() === 'course info')[0];
   return (
@@ -58,6 +62,11 @@ export default async function Cdpage({ params }: any) {
           <Courseinfocomponents {...data} sectionInfo={courseInfoContent} />
         }
       </Cdpageclient>
+      <Othercoursesmaylikecomponents />
+     <SimilarCourseComponent data={data} />
+      {process.env.PROJECT === "Whatuni" &&
+                <Findacoursecomponents />
+       }
     </>
   )
 }

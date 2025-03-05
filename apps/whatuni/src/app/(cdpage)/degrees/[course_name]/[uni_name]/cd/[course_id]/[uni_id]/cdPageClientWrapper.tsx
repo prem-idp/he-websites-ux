@@ -2,24 +2,16 @@
 import dynamic from 'next/dynamic'
 const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"), { ssr: false });
 import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
-import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
 import JumpToComponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
 import Modulescomponents from '@packages/shared-components/course-details/modules/ModulesComponent';
 import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
 import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
 import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
 import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent';
-// import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
-import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
-import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
-import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-// import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
-// import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
+
 import { useState, useEffect } from 'react';
-// import Othercoursesmaylikecomponents from "@packages/shared-components/course-details/other-courses-you-may-like"
 export default function Cdpageclient({ children, courseContent, data, jsonResponse, prams_slug }: any) {
 
-    //console.log("this is the cdpageclientwrapper")
     const [fetcheddata, setFetcheddata] = useState({ ...data });
     const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
     const [startfetch, setStartfetch] = useState(false);
@@ -29,7 +21,7 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
         setRenderKey(prev => prev + 1); // Force re-render
     }, [fetcheddata]);
     useEffect(() => {
-        async function clientFetch() {
+        async function clientFetch(){
             try {
                 //console.log("Fetching data from client side...");
                 const searchParams = new URLSearchParams({
@@ -65,15 +57,12 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
 
     }, [selectedavilability]);
 
-    //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
+
     return (
 
         <div>
-            <div >
-                <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-            </div>
+            <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
             <JumpToComponents sectionsList={courseContent?.sectionsList} />
-
             <>
                 {courseContent?.sectionsList?.map((sectionContent: { sectionName: string, sectionId: string, [key: string]: any }) => {
                     return <div key={sectionContent?.sectionId}>{(() => {
@@ -89,11 +78,8 @@ export default function Cdpageclient({ children, courseContent, data, jsonRespon
                     })()}</div>
                 })}
             </>
-            <Othercoursesmaylikecomponents />
-            <SimilarCourseComponent {...data} />
-            {process.env.PROJECT === "Whatuni" &&
-                <Findacoursecomponents />
-            }
+           
+           
         </div>
     )
 }
