@@ -151,7 +151,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.collegeCount / 10)}
+            totalPages={Math.ceil(data?.totalCourseCount / 10)}
             initialPage={searchparams?.pageNo || 1}
             searchParams={{ param: searchparams, currentPage: referer }}
           />
