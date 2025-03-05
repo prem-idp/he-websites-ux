@@ -31,7 +31,7 @@ export async function constructPayload(
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
     parentQualification: "M",
-    pageNo: searchparams?.pageNo || "1", // Default to "1" if not in searchparams
+    pageNo: searchparams?.pageno || "1", // Default to "1" if not in searchparams
     userCoordinates: "51.5072,-0.1276",
   };
   // Start with the base payload
@@ -48,7 +48,9 @@ export async function constructPayload(
       // If the key is 'university', map it to 'collegeName' in payloads
       if (key === 'university') {
         payloads['collegeName'] = searchparams[key];
-      } else {
+      } if (key === 'pageno')
+        payloads['pageNo'] = searchparams[key];
+      else {
         payloads[key] = searchparams[key];
       }
     }
