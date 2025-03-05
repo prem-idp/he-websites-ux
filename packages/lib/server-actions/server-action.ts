@@ -111,10 +111,9 @@ export async function httpBFFRequest(
 }
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
+  console.log("PAYLOAD", searchPayload)
   try {
     searchPayload = {
-      dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
-      //userRegionArray : headersList?.get('cloudfront-viewer-country-region'),
       ...searchPayload,
     };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
