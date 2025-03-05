@@ -75,7 +75,7 @@ const TopSection: React.FC<searchProps> = async ({
               )}
             </div>
             <p>
-            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
+            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}
