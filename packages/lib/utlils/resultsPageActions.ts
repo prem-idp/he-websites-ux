@@ -30,30 +30,20 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   console.log("seoMetaFeildId: ", seoMetaFeildId);
 
   //1) bff API hit
-  const courseCountReqBody = filterbodyJson(searchParams, qualInUrl)
   const displayNameReqBody = getDisplayNameReqBody(searchPayLoad);
   //console.log("displayNameReqBody: ", JSON.stringify(displayNameReqBody));
-  const courseCountEndPt = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}${SRGetCourseCountEndPt}`;
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
 
-  const courseCountResponse = await httpBFFRequest(
-    courseCountEndPt, 
-    courseCountReqBody, 
-    "POST", 
-    `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`, 
-    "no-cache", 
-    10000, 
-    {});
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
     displayNameReqBody, 
     "POST", 
     `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
-    "force-cache", 
-    10000, 
+    "no-cache", 
+    0, 
     {});
 
   // console.log("courseCountResponse: ", courseCountResponse);  
-  // console.log("displayNameResponse: ", displayNameResponse);  
+   console.log("displayNameResponse: ", displayNameResponse);  
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   let contentfulMetadata = await graphQlFetchFunction(query);
@@ -64,11 +54,12 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
 
   //
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    courseCount: courseCountResponse?.courseCount ?? undefined,
+    courseCount: displayNameResponse?.courseCount ?? undefined,
     location:  displayNameResponse?.locationName ?? undefined,
     searchSubject: displayNameResponse?.subjectName ?? undefined,
     studylevel: displayNameResponse?.studyLevel ?? undefined,
     studymode: displayNameResponse?.studyMode ?? undefined,
+    providerCount: displayNameResponse?.collegeCount ?? undefined,
   }
   
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted);
