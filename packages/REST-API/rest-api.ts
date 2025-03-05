@@ -77,7 +77,7 @@ const getSrFilter = async (bodyjson: any): Promise<any> => {
 };
  async function fetchenquirydata(enquiryPayload: any) {
   try {
-    const url = `${process.env.NEXT_PUBLIC_GET_ENQUIRY_DETAILS_API}`;
+    const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getEnquiryDetails`;
     const res = await fetch(url, {
       method: "POST",
       headers: {
