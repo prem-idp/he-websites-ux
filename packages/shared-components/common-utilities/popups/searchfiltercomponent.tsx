@@ -46,7 +46,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
-  const [isSubjectOpen, setIsSubjectOpen] = useState(false);
+  const [isSubjectOpen, setIsSubjectOpen] = useState<any>(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState({
     ParentSubject: "",
@@ -58,7 +58,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
   >(null);
 
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
-
+  const subjectClicked = (item: string, closeFilter?: boolean) => {
+    console.log("entered in subject", item);
+    setIsSubjectOpen(closeFilter || !isSubjectOpen);
+    console.log(!isSubjectOpen);
+    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
+      return items.parentSubject == item;
+    });
+    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
+    setSearchedSubject((prev: any) => ({
+      ...prev,
+      isSujectDropdownOpen: false,
+    }));
+  };
+  const subjectParam: any = (
+    searchParams?.get("subject") || searchParams?.get("course")
+  )?.split(",");
   useEffect(() => {
     setPrepopulateFilter({
       studyMethod:
@@ -86,6 +101,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
     setIsIndexed(value);
     if (pathname) {
       setslug(pathname);
+    }
+    const parentSubjectName = getParentSubject(
+      searchParams,
+      jsondata,
+      subjectParam[0]
+    );
+    if (parentSubjectName) {
+      subjectClicked(parentSubjectName, true);
     }
   }, [searchParams]);
   useEffect(() => {
@@ -170,7 +193,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const universitiesList = universitiesSortingList();
   const universityClicked = (displayHeading: string, id: string) => {
     setIsUniversityOpen(!isUniversityOpen);
-
     setSelectUniId({ id, displayHeading });
     setSearchedUniversity((prev: any) => ({
       ...prev,
@@ -397,17 +419,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       },
     ],
   };
-  const subjectClicked = (item: string) => {
-    setIsSubjectOpen(!isSubjectOpen);
-    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items.parentSubject == item;
-    });
-    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
-    setSearchedSubject((prev: any) => ({
-      ...prev,
-      isSujectDropdownOpen: false,
-    }));
-  };
+
   const parentRegion = jsondata?.regionList?.filter((item: any) => {
     return !item?.parentRegionId;
   });
@@ -773,7 +785,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div
                               key={index}
                               onClick={() => {
-                                subjectClicked(item);
+                                subjectClicked(item, true);
                               }}
                               className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                             >
