@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react';
@@ -9,10 +9,57 @@ import Tooltip from '../common-components/Tooltip';
 import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction'
 import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
-const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
+const tooltipsMapper = [
+  {
+    internalName: "Course info - WUSCA Ranking",
+    key: "wuscaRanking"
+  },
+  {
+    internalName: "Course info - CUG Ranking",
+    key: "cugRanking"
+  },
+  {
+    internalName: "Course info - CUG Subject Ranking",
+    key: "cugSubjectRanking"
+  },
+  {
+    internalName: "Course info - Drop-out rate",
+    key: "dropOutRate"
+  },
+  {
+    internalName: "Course info - Employment rate",
+    key: "employmentRate"
+  },
+  {
+    internalName: "Course info - Average salary",
+    key: "averageSalary"
+  },
+  {
+    internalName: "Course info - UK graduate salary",
+    key: "ukAverageSalary"
+  }
+]
+
+const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList }: any) => {
 
   const [selectedSubject, setSelectedSubject] = useState(subjectArea[0]);
   const [isOpen, setIsOpen] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
+
+  useEffect(() => {
+    console.log(tooltipContent, "tempTooltipContent")
+    let tempTooltipContent: any = {};
+    tooltipList?.forEach((tooltipContent: any) => {
+      for (let i of tooltipsMapper) {
+        if (tooltipContent?.internalName?.toLowerCase() === i.internalName?.toLowerCase()) {
+          tempTooltipContent[i.key] = tooltipContent;
+          break;
+        }
+      }
+    });
+    console.log(tempTooltipContent, "tempTooltipContent")
+    setTooltipContent(() => tempTooltipContent);
+  }, [tooltipList]);
 
   function toggleModal() {
     setIsOpen((prev) => !prev)
@@ -28,11 +75,23 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
     const pathPrefix = '/static/assets/icons/course-details/';
     switch (true) {
       case rank.toLowerCase().includes('complete university guide ranking'):
-        return (pathPrefix + 'cug_ranking_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'cug_ranking_stats_icon.svg'),
+          "heading": tooltipContent?.cugRanking?.sectionTitle,
+          "desc": tooltipContent?.cugRanking?.shortDescription
+        };
       case rank.toLowerCase().includes('wusca'):
-        return (pathPrefix + 'wusca_ranking_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'wusca_ranking_stats_icon.svg'),
+          "heading": tooltipContent?.wuscaRanking?.sectionTitle,
+          "desc": tooltipContent?.wuscaRanking?.shortDescription
+        };
       default:
-        return (pathPrefix + 'cug_subject_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'cug_subject_stats_icon.svg'),
+          "heading": tooltipContent?.cugSubjectRanking?.sectionTitle,
+          "desc": tooltipContent?.cugSubjectRanking?.shortDescription
+        };
     }
   }
 
@@ -61,12 +120,12 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
               {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
-                <Image src={getStatsImgPath(rank?.ranking)} alt="academic-cap" width="32" height="32" />
+                <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width="32" height="32" />
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{rank?.ranking}</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">
                     {rank?.totalRank ? (rank?.rank + "/" + rank?.totalRank) : ordinarySuffix(rank?.rank)}
-                    <Tooltip heading={rank?.toolTipHeading} desc={rank?.source} />
+                    <Tooltip heading={getStatsImgPath(rank?.ranking)?.heading} desc={getStatsImgPath(rank?.ranking)?.desc} />
                   </div>
                 </div>
               </div>)}
@@ -83,7 +142,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                     </div>
                     <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>
                       {selectedSubject?.dropOutRate}%
-                      <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                      <Tooltip heading={tooltipContent?.dropOutRate?.sectionTitle} desc={tooltipContent?.dropOutRate?.shortDescription} />
                     </span>
                   </div>
                   <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
@@ -96,7 +155,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                       <span>Employment rate</span>
                     </div>
                     <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedSubject?.graduatesPercent}%
-                      <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                      <Tooltip heading={tooltipContent?.employmentRate?.sectionTitle} desc={tooltipContent?.employmentRate?.shortDescription} />
                     </span>
                   </div>
                   <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
@@ -115,7 +174,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{selectedSubject?.subjectName} graduate salary at this uni</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6MonthsAtUni)}
-                    <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                    <Tooltip heading={tooltipContent?.averageSalary?.sectionTitle} desc={tooltipContent?.averageSalary?.shortDescription} />
                   </div>
                 </div>
               </div>}
@@ -123,7 +182,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">UK {selectedSubject?.subjectName} graduate salary</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6Months)}
-                    <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                    <Tooltip heading={tooltipContent?.ukAverageSalary?.sectionTitle} desc={tooltipContent?.ukAverageSalary?.shortDescription} />
                   </div>
                 </div>
               </div>}

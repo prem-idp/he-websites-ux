@@ -5,14 +5,16 @@ import ReadMoreLessDesc from './ReadMoreLessDesc';
 import { CourseSection } from '../models/course.model';
 import Reviewscomponents from "@packages/shared-components/common-utilities/slider/reviews/reviewscomponents"
 
-interface CourseInfoComponentProps  {
+interface CourseInfoComponentProps {
   courseInfo: any,
   keyStats: any,
-  sectionInfo: CourseSection
+  sectionInfo: any
 }
 
-const CourseInfoComponent = ({ sectionInfo, courseInfo, keyStats }: CourseInfoComponentProps) => {
+const CourseInfoComponent = ({ courseInfo, keyStats, sectionInfo }: any) => {
 
+  // if (!sectionInfo)
+  //   return
   return (
     <div id={sectionInfo?.sectionId} className='courseinfo-container'>
       <div className="max-w-container mx-auto">
@@ -20,7 +22,7 @@ const CourseInfoComponent = ({ sectionInfo, courseInfo, keyStats }: CourseInfoCo
           <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>Course info</div>
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
             <ReadMoreLessDesc text={courseInfo?.courseSummary} />
-            <Keystatscomponents {...keyStats} />
+            <Keystatscomponents {...keyStats} tooltipList={sectionInfo?.mediaCardsCollection} />
             <Reviewscomponents heading="What student say" />
           </div>
         </div>
