@@ -21,7 +21,7 @@ const BookOpenDay  = ({ enquiryProps }: any) => {
          console.log("BOPDURL", response?.booking_url);
          window.open(response?.booking_url, '_blank');
        }else{
-         const url = `/open-days/book?collegeId=${enquiryProps?.collegeId || ""}&courseId=${enquiryProps?.courseId || ""}&suborderItemId=${enquiryProps?.subOrderItemid || ""}&eventId=${response?.event_id || ""}&sponsoredOrderItemId=${enquiryProps?.sponsoredListingFlag || "0"}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=${enquiryProps?.pageName}`;
+         const url = `/open-days/book?collegeId=${enquiryProps?.collegeId || "0"}${enquiryProps?.courseId ? `&courseId=${enquiryProps?.courseId}`:""}${enquiryProps?.subOrderItemid ? `&suborderItemId=${enquiryProps?.subOrderItemid}`:""}${response?.event_id ? `&eventId=${response?.event_id}`:""}${enquiryProps?.sponsoredListingFlag === "Y"? `&sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `&sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=${enquiryProps?.pageName}`;
          router.push(url);
        }
       //  if(response?.event_id && enquiryProps?.pageName === "browsemoneypageresults" || enquiryProps?.pageName === "coursesearchresult"){
