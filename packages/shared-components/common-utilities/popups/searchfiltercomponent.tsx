@@ -58,7 +58,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
   >(null);
 
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
-  console.log(jsondata);
 
   useEffect(() => {
     setPrepopulateFilter({
@@ -94,7 +93,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (pathname) {
       setslug(pathname);
     }
-  }, [searchParams, router]);
+  }, []);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
@@ -216,178 +215,94 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-  // const appendSearchParams = async (
-  //   key: string,
-  //   value: string,
-  //   isQualification?: boolean
-  // ) => {
-  //   if (isUpdating) return;
-  //   isUpdating = true;
-  //   setTimeout(async () => {
-  //     setFilterLoading(true);
-  //     let crossL1Subject = false;
-  //     if (key === "subject" || key === "course") {
-  //       const selectedParent = jsondata?.subjectFilterList
-  //         ?.map((subjects: any) => {
-  //           if (subjects?.subjectTextKey === value) {
-  //             return subjects?.parentSubject;
-  //           }
-  //         })
-  //         ?.filter(Boolean);
-  //       const currentParent = getParentSubject(searchParams, jsondata);
-  //       if (selectedParent != currentParent) {
-  //         crossL1Subject = true;
-  //       }
-  //     }
-  //     const filters = extractUrlAndCookieValues(
-  //       searchParams,
-  //       key,
-  //       value,
-  //       crossL1Subject
-  //     );
-  //     const orderedFilters = getFilterPriority(
-  //       isQualification || false
-  //     )?.reduce((acc, priorityKey) => {
-  //       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-  //       return acc;
-  //     }, {} as KeyValueObject);
-  //     const data = await getSrFilter(
-  //       filterbodyJson(orderedFilters, slug.split("/")[1])
-  //     );
-
-  //     setJsondata(data);
-  //     const urlParams = new URLSearchParams();
-  //     const cookieParams: KeyValueObject = {};
-  //     let totalValues = 0;
-  //     Object.entries(orderedFilters).forEach(([k, v]) => {
-  //       const valuesArray = v.split(",");
-  //       if (totalValues + valuesArray?.length <= 4) {
-  //         urlParams.set(k, valuesArray?.join(","));
-  //         totalValues += valuesArray?.length;
-  //       } else {
-  //         const allowedValues = valuesArray.slice(0, 4 - totalValues);
-  //         const remainingValues = valuesArray.slice(4 - totalValues);
-  //         if (allowedValues?.length > 0) {
-  //           urlParams.set(k, allowedValues?.join(","));
-  //           totalValues += allowedValues?.length;
-  //         }
-  //         if (remainingValues?.length > 0) {
-  //           cookieParams[k] = remainingValues?.join(",");
-  //         }
-  //       }
-  //     });
-  //     const multiSelect =
-  //       urlParams?.toString()?.includes("+") ||
-  //       urlParams?.toString()?.includes("%2C");
-
-  //     if (urlParams?.toString() === searchParams?.toString()) {
-  //       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-  //       router.refresh();
-  //       setFilterLoading(false);
-  //     } else if (multiSelect) {
-  //       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-  //       router.push(`?${urlParams.toString()}`);
-  //       setFilterLoading(false);
-  //     } else {
-  //       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-  //       const linkTagId = document.getElementById(key + value);
-  //       if (linkTagId) {
-  //         linkTagId.click();
-  //         setFilterLoading(false);
-  //       } else {
-  //         router.push(`?${urlParams.toString()}`);
-  //         setFilterLoading(false);
-  //       }
-  //     }
-  //     isUpdating = false;
-  //   }, 0);
-  // };
-
-  //let isUpdating = false;
-
+  let isUpdating = false;
   const appendSearchParams = async (
     key: string,
     value: string,
     isQualification?: boolean
   ) => {
-    // if (isUpdating) return;
-    // isUpdating = true;
-    setFilterLoading(true);
-    let crossL1Subject = false;
-    if (key === "subject" || key === "course") {
-      const selectedParent = jsondata?.subjectFilterList
-        ?.map((subjects: any) => {
-          if (subjects?.subjectTextKey === value) {
-            return subjects?.parentSubject;
-          }
-        })
-        ?.filter(Boolean);
-      const currentParent = getParentSubject(searchParams, jsondata);
-      if (selectedParent != currentParent) {
-        crossL1Subject = true;
+    if (isUpdating) return;
+    setTimeout(async () => {
+      isUpdating = true;
+      setFilterLoading(true);
+      let crossL1Subject = false;
+      if (key === "subject" || key === "course") {
+        const selectedParent = jsondata?.subjectFilterList
+          ?.map((subjects: any) => {
+            if (subjects?.subjectTextKey === value) {
+              return subjects?.parentSubject;
+            }
+          })
+          ?.filter(Boolean);
+        const currentParent = getParentSubject(searchParams, jsondata);
+        if (selectedParent != currentParent) {
+          crossL1Subject = true;
+        }
       }
-    }
-    const filters = extractUrlAndCookieValues(
-      searchParams,
-      key,
-      value,
-      crossL1Subject
-    );
-    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
-      (acc, priorityKey) => {
+      const filters = extractUrlAndCookieValues(
+        searchParams,
+        key,
+        value,
+        crossL1Subject
+      );
+      const orderedFilters = getFilterPriority(
+        isQualification || false
+      )?.reduce((acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
-      },
-      {} as KeyValueObject
-    );
-    const data = await getSrFilter(
-      filterbodyJson(orderedFilters, slug.split("/")[1])
-    );
+      }, {} as KeyValueObject);
+      const data = await getSrFilter(
+        filterbodyJson(orderedFilters, slug.split("/")[1])
+      );
 
-    setJsondata(data);
-    const urlParams = new URLSearchParams();
-    const cookieParams: KeyValueObject = {};
-    let totalValues = 0;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split(",");
-      if (totalValues + valuesArray?.length <= 4) {
-        urlParams.set(k, valuesArray?.join(","));
-        totalValues += valuesArray?.length;
-      } else {
-        const allowedValues = valuesArray.slice(0, 4 - totalValues);
-        const remainingValues = valuesArray.slice(4 - totalValues);
-        if (allowedValues?.length > 0) {
-          urlParams.set(k, allowedValues?.join(","));
-          totalValues += allowedValues?.length;
+      setJsondata(data);
+      const urlParams = new URLSearchParams();
+      const cookieParams: KeyValueObject = {};
+      let totalValues = 0;
+      Object.entries(orderedFilters).forEach(([k, v]) => {
+        const valuesArray = v.split(",");
+        if (totalValues + valuesArray?.length <= 4) {
+          urlParams.set(k, valuesArray?.join(","));
+          totalValues += valuesArray?.length;
+        } else {
+          const allowedValues = valuesArray.slice(0, 4 - totalValues);
+          const remainingValues = valuesArray.slice(4 - totalValues);
+          if (allowedValues?.length > 0) {
+            urlParams.set(k, allowedValues?.join(","));
+            totalValues += allowedValues?.length;
+          }
+          if (remainingValues?.length > 0) {
+            cookieParams[k] = remainingValues?.join(",");
+          }
         }
-        if (remainingValues?.length > 0) {
-          cookieParams[k] = remainingValues?.join(",");
-        }
-      }
-    });
-    const multiSelect =
-      urlParams?.toString()?.includes("+") ||
-      urlParams?.toString()?.includes("%2C");
+      });
+      const multiSelect =
+        urlParams?.toString()?.includes("+") ||
+        urlParams?.toString()?.includes("%2C");
 
-    if (urlParams?.toString() === searchParams?.toString()) {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      router.refresh();
-      setFilterLoading(false);
-    } else if (multiSelect) {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      router.push(`?${urlParams.toString()}`);
-      setFilterLoading(false);
-    } else {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      const linkTagId = document.getElementById(key + value);
-      if (linkTagId) {
-        linkTagId.click();
+      if (urlParams?.toString() === searchParams?.toString()) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        router.refresh();
         setFilterLoading(false);
-      } else {
+      } else if (multiSelect) {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
         router.push(`?${urlParams.toString()}`);
         setFilterLoading(false);
+      } else {
+        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+        const linkTagId = document.getElementById(key + value);
+        if (linkTagId) {
+          console.log(linkTagId);
+          linkTagId.click();
+          setFilterLoading(false);
+        } else {
+          console.log("no log present");
+          router.push(`?${urlParams.toString()}`);
+          setFilterLoading(false);
+        }
       }
-    }
+      isUpdating = false;
+    }, 0);
   };
 
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
@@ -629,7 +544,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           className="form-black flex relative"
                           key={index + 1}
                           onClick={() => {
-                            // alert("clicked");
                             appendSearchParams(
                               "study-method",
                               items?.studyMethodTextKey
@@ -652,17 +566,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             checked={
                               prepopulateFilter?.studyMethod ==
                               items?.studyMethodTextKey
-                                ? true
-                                : false
                             }
                             onChange={() => {
-                              setPrepopulateFilter((prev: any) => ({
-                                ...prev,
-                                studyMethod:
-                                  prev.studyMethod == items?.studyMethodTextKey
-                                    ? ""
-                                    : items?.studyMethodTextKey,
-                              }));
+                              // setPrepopulateFilter((prev: any) => ({
+                              //   ...prev,
+                              //   studyMethod:
+                              //     prev.studyMethod == items?.studyMethodTextKey
+                              //       ? ""
+                              //       : items?.studyMethodTextKey,
+                              // }));
                             }}
                             type="checkbox"
                             id={items?.studyMethodDesc}
@@ -670,7 +582,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             className="rounded-[4px] outline-none absolute opacity-0"
                           />
                           <label
-                            htmlFor="inperson"
+                            htmlFor={items?.studyMethodDesc}
                             className="btn btn-black-outline"
                           >
                             {items?.studyMethodDesc}
@@ -693,12 +605,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             className="form-black flex relative"
                             key={index + 1}
                             id={items?.studyModeTextKey}
-                            onClick={() => {
-                              appendSearchParams(
-                                "study-mode",
-                                items?.studyModeTextKey
-                              );
-                            }}
+                            // onClick={() => {
+                            //   appendSearchParams(
+                            //     "study-mode",
+                            //     items?.studyModeTextKey
+                            //   );
+                            // }}
                           >
                             {isIndexed && (
                               <Link
@@ -717,17 +629,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               checked={
                                 prepopulateFilter?.studyMode ==
                                 items?.studyModeTextKey
-                                  ? true
-                                  : false
                               }
                               onChange={() => {
-                                setPrepopulateFilter((prev: any) => ({
-                                  ...prev,
-                                  studyMode:
-                                    prev?.studyMode == items?.studyModeTextKey
-                                      ? ""
-                                      : items?.studyModeTextKey,
-                                }));
+                                appendSearchParams(
+                                  "study-mode",
+                                  items?.studyModeTextKey
+                                );
+                                // setPrepopulateFilter((prev: any) => ({
+                                //   ...prev,
+                                //   studyMode:
+                                //     prev?.studyMode == items?.studyModeTextKey
+                                //       ? ""
+                                //       : items?.studyModeTextKey,
+                                // }));
                               }}
                               className="rounded-[4px] outline-none absolute opacity-0"
                               id={items?.studyModeDesc}
