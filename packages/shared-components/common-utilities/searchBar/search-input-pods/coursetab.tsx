@@ -54,7 +54,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
     router.prefetch(newUrl);
     window.history.pushState(null, "", newUrl);
     setTimeout(() => router.push(newUrl), 0);
-    setTimeout(() => emitter.emit("rightMenuActionclose", 'closesearch'), 100);
+    setTimeout(() => emitter.emit("rightMenuActionclose", "closesearch"), 100);
   }
   // ==============================use effect to check the use authentication======================================================================
 
@@ -113,9 +113,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         subjects?.qualCode === qualCode
     );
     const prioritySearch = (
-      list: { description: string;[key: string]: any }[],
+      list: { description: string; [key: string]: any }[],
       searchText: string
-    ): { description: string;[key: string]: any }[] => {
+    ): { description: string; [key: string]: any }[] => {
       if (!searchText) return list;
       const searchLower = searchText?.toLowerCase();
       return list
@@ -215,7 +215,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
         .replace(/^-|-$/g, "") // Remove hyphens from the start and end
         ?.toLowerCase(); // Convert the entire string to lowercase
 
-
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -252,7 +251,6 @@ const CourseTab: React.FC<CourseTabProps> = ({
       const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${searchFormHandle.subject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
 
       navigateTo(newUrl);
-
     } else if (searchFormHandle.subject?.url) {
       GADataLayerFn(
         "ga_events",
@@ -288,14 +286,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
 
-
-      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${searchFormHandle.subject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
       navigateTo(newUrl);
     } else if (searchFormHandle?.subject?.description?.trim()) {
       keywordSearch(true);
     }
   };
-
 
   const keywordSearch = async (canmatch: any) => {
     const sanitizedDescription = searchFormHandle?.subject?.description
@@ -359,7 +355,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
 
-      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}&location=${sanitizedRegionName}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
       navigateTo(newUrl);
     }
     if (matchedSubject && canmatch) {
@@ -395,11 +391,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA"
       );
 
-      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`
+      const newUrl = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${matchedSubject.url}${ucasval ? `&score=${min ? min : "0"},${ucasval}` : ""}`;
       navigateTo(newUrl);
     }
     const baseUrl = searchUrlMap[searchFormHandle?.courseType?.qualCode];
     if (baseUrl) {
+      console.log("testing inside the base url");
       GADataLayerFn(
         "ga_events",
         "homepage_search",
@@ -431,7 +428,9 @@ const CourseTab: React.FC<CourseTabProps> = ({
         "NA",
         "NA"
       );
-      return navigateTo(`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${baseUrl}?q=${sanitizedDescription}`);
+      return navigateTo(
+        `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : ""}${baseUrl}?q=${sanitizedDescription}`
+      );
     }
   };
 
@@ -517,10 +516,13 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       document.querySelectorAll<HTMLElement>(
                         ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
                       )
-                    ).find((el) =>
-                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    ).find(
+                      (el) =>
+                        el.classList.contains("bg-blue-50") ||
+                        el.classList.contains("underline")
                     );
                     if (selectedElement) {
+                      //console.log(selectedElement,"selected element");
                       const selectedIndex: any =
                         selectedElement?.getAttribute("data-index-1");
                       setsearchFormHandle((prevData: SearchFormHandle) => ({
@@ -648,8 +650,10 @@ const CourseTab: React.FC<CourseTabProps> = ({
                       document.querySelectorAll<HTMLElement>(
                         ".block.px-\\[16px\\].py-\\[12px\\].hover\\:bg-blue-50.hover\\:underline.cursor-pointer"
                       )
-                    ).find((el) =>
-                      el.classList.contains("bg-blue-50") || el.classList.contains("underline")
+                    ).find(
+                      (el) =>
+                        el.classList.contains("bg-blue-50") ||
+                        el.classList.contains("underline")
                     );
                     if (selectedElement) {
                       const selectedIndex: any =
@@ -716,7 +720,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
               </div>
             )}
           </div>
-          {showlocation &&
+          {showlocation && (
             <div
               className="w-full relative grow md:border-l border-grey-200"
               onClick={() => {
@@ -817,11 +821,12 @@ const CourseTab: React.FC<CourseTabProps> = ({
                         }}
                         key={index}
                         data-index={index}
-                        className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer ${item.regionName ===
-                            searchFormHandle?.location?.regionName
+                        className={`block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer ${
+                          item.regionName ===
+                          searchFormHandle?.location?.regionName
                             ? "bg-blue-50 underline"
                             : ""
-                          }`}
+                        }`}
                       >
                         {item.regionName}
                       </li>
@@ -830,7 +835,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
                 </div>
               )}
             </div>
-          }
+          )}
           <button
             type="submit"
             className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"

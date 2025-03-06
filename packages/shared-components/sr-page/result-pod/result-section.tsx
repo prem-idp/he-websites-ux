@@ -7,94 +7,41 @@ import Getprospectus from "@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
-import { AuthUser, fetchAuthSession, getCurrentUser } from "@aws-amplify/auth";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
-import {
-  addRemoveFavourites,
-  getUserFavourites,
-} from "@packages/lib/utlils/userfavourite";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import { useSearchParams } from "next/navigation";
 interface SrPageResultPodProps {
   searchResultsData: any[];
-  subject: any;
 }
-interface Favourite {
-  fav_id: string;
-  fav_type: string;
-  fav_date?: string;
-  final_choice_id?: string | null;
-  choice_position?: number | null;
-}
+
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
-  subject,
 }) => {
-  const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
   const [exceedMessage, setExceedMessage] = useState(false);
-  useEffect(() => {
-    // Getting favourites list when user logged in
-    async function checkUser() {
-      try {
-        const user: AuthUser = await getCurrentUser();
-        setUserData(user);
-        if (user && typeof window !== 'undefined') {
-          const favList: Favourite[] = await getUserFavourites();
-          setFavourite({ favouritedList: favList?.map(fav => fav?.fav_id) })
-        }
-      } catch (error) {
-        setUserData(null);
-      }
-    }
-    checkUser();
-  }, []);
-  const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
-  const universityPodClick = (navigationUrl: any) => {
-    window.open(navigationUrl, "_self");
-  };
-  //Handle Favourite
-  const handleFavourite = async (contentId: any, contentName: any, contentType: any, e: React.FormEvent) => {
-    e.stopPropagation();
-    if (!user) {
-      return;
-    }
-    const isAdd = !favourite.favouritedList?.includes(contentId?.toString());
-    try {
-      const payload = {
-        contentType: contentType,
-        contentId: contentId,
-        contentName: contentName,
-        inputFlag: isAdd,
-      };
-      const data = await addRemoveFavourites([payload]);
-      if (data?.message === 'Added course' || data?.message === 'Added Institution') {
-        setFavourite((prevState) => ({ ...prevState, favouritedList: [...prevState?.favouritedList, contentId.toString()] }));
-        setfavourtiteTooltip(contentId)
-      } else if (data?.message === 'Removed Institution' || data?.message === 'Removed course') {
-        setfavourtiteTooltip("")
-        setFavourite((prevState) => ({ ...prevState, favouritedList: prevState?.favouritedList?.filter((id) => id != contentId) }));
-      }
-      else if (data?.message === 'Limit exceeded') {
-        setfavourtiteTooltip(""),
-          setExceedMessage(true);
-      }
-    } catch (error) {
-      setFavourite((prevState) => ({ ...prevState, favouritedList: prevState?.favouritedList?.filter((id) => id != contentId) }));
-      console.error('Error toggling favorite:', error);
-    }
-  };
-  const onClose = (event: React.FormEvent) => {
-    event.stopPropagation();
-    setfavourtiteTooltip(""), setExceedMessage(false);
-  };
+ const universityPodClick = (navigationUrl: any) => {
+  window.open(navigationUrl, "_self");
+};
+const searchParams = useSearchParams();
+const handleExceedMessage = (data:any) => {
+  setExceedMessage(data); // Update state in parent
+};
+const onClose = (event: React.FormEvent) => {
+  event.stopPropagation()
+  setExceedMessage(false)
+}
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
     const specificDate: any = new Date(targetDate);
     const differenceInTime = specificDate - currentDate;
-    const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24));
-    return differenceInDays > 1 ? "Next Open day in " + differenceInDays + " days" : "Next Open day in " + differenceInDays + " day";
+    const differenceInDays = Math.ceil(
+      differenceInTime / (1000 * 60 * 60 * 24)
+    );
+    return differenceInDays > 1
+      ? "Next Open day in " + differenceInDays + " days"
+      : "Next Open day in " + differenceInDays + " day";
   };
 
   //
@@ -133,6 +80,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           : "/static/assets/icons/search-result/kent.png"
                       }
                       alt="University logo"
+                      priority={true}
                       width={56}
                       height={56}
                       id="uni_img"
@@ -146,77 +94,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <></>
                   )}
                 </div>
-                <div
-                  onClick={(event) => handleFavourite(data?.collegeId, data?.collegeDisplayName, "INSTITUTION", event)}
-                  className={`${(favourite.favouritedList?.includes(data?.collegeId?.toString())) ? 'heart active' : ''} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                      stroke="#4664DC"
-                      strokeWidth="1.67"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  {favourtiteTooltip === data?.collegeId ? (
-                    <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-grey900 font-semibold">
-                          We have added this to your comparison
-                        </span>
-                        <svg onClick={(event) => onClose(event)}
-                          className="cursor-pointer"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M18 6L6 18"
-                            stroke="#333333"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M6 6L18 18"
-                            stroke="#333333"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                      <Link
-                        href=""
-                        className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
-                      >
-                        View all comparison
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
-                            fill="#3460DC"
-                          />
-                        </svg>
-                      </Link>
-                    </div>) : <></>}
-                </div>
+                <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:data?.collegeId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -349,14 +227,16 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       />
                       {data?.wuscaBadges}
                     </div>
+                    {data?.wuscaBadges?.includes(",") ? 
                     <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + 2 more
-                    </div>
+                      + {data?.wuscaBadges?.split(",")?.length - 1} more
+                    </div> : <></>}
                   </div>
                 ) : (
                   <></>
                 )}
-                {data?.openDayDetails?.openDate && process.env.PROJECT === "Whatuni" ? (
+                {data?.openDayDetails?.openDate &&
+                process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       {calculateDaysBetween(data?.openDayDetails?.openDate)}
@@ -368,6 +248,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
               </div>
             </div>
             <Image
+            priority={true}
               src={
                 data?.collegeMedia?.ipCollegeImage
                   ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
@@ -472,17 +353,34 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
                               {process.env.PROJECT === "PGS" ? (
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z" stroke="#5C656E" strokeWidth="1.13" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>) : <> <Image
-                                  className="hidden md:block"
-                                  src="/static/assets/icons/search-result/calender-grey.svg"
-                                  alt="Lecturers and Teaching"
-                                  width={16}
-                                  height={16}
-                                /></>}
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z"
+                                    stroke="#5C656E"
+                                    stroke-width="1.13"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <Image
+                                    className="hidden md:block"
+                                    src="/static/assets/icons/search-result/calender-grey.svg"
+                                    alt="Lecturers and Teaching"
+                                    width={16}
+                                    height={16}
+                                  />
+                                </>
+                              )}
                               {/* pgs euro icon */}
-
                               {courseData?.minUcasPoints}-
                               {courseData?.maxUcasPoints} ucas points
                             </div>
@@ -490,7 +388,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             <></>
                           )}
                           {courseData?.availabilityDetails?.duration ||
-                            courseData?.availabilityDetails?.studyMode ? (
+                          courseData?.availabilityDetails?.studyMode ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
@@ -507,78 +405,11 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <div onClick={(event) => handleFavourite(courseData?.courseId, courseData?.courseTitle, "COURSE", event)} className={`${favourite.favouritedList?.includes(courseData?.courseId?.toString()) ? 'heart active' : ''} shrink-0 w-[40px] h-[40px] bg-white x-small border border-primary-400 rounded-[24px] flex items-center justify-center hover:bg-blue-100 hover:cursor-pointer relative`}>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                            stroke="#4664DC"
-                            strokeWidth="1.67"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        {favourtiteTooltip === courseData?.courseId ? (
-                          <div className="absolute z-[1] select-none flex border border-grey-200 top-[44px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
-                            <div className="flex items-center justify-between">
-                              <span className="text-grey900 font-semibold">
-                                We have added this to your comparison
-                              </span>
-                              <svg onClick={(event) => onClose(event)}
-                                className="cursor-pointer"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M18 6L6 18"
-                                  stroke="#333333"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M6 6L18 18"
-                                  stroke="#333333"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </div>
-                            <Link
-                              href=""
-                              className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
-                            >
-                              View all comparison
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
-                                  fill="#3460DC"
-                                />
-                              </svg>
-                            </Link>
-                          </div>) : <></>}
-                      </div>
+                      <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:courseData?.courseId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
-                      courseData?.courseSummary ? (
+                    courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
                           courseData?.courseSummary
@@ -598,20 +429,18 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni" &&
-                      courseData?.modulesInfo ? (
+                    {process.env.PROJECT === "Whatuni"  ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">Year 1</div>
+                          <div className="font-semibold">{courseData?.moduleInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            <li>Becoming a Criminologist</li>
-                            <li>Introduction to Law and its Study</li>
-                            <li>Social Research in Practice</li>
-                            <li>Criminology in Late Modernity</li>
-                            <li>Criminal Law</li>
+                            {courseData?.moduleDesc?.split('###').map((desc:any) => (
+                               <li>{desc}</li>
+                            ))}
+                           
                           </ul>
                           <Link
-                            href=""
+                            href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
                             className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
                           >
                             View all modules
@@ -641,6 +470,24 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
+                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                        <ApplyNow
+                          enquiryProps={{
+                            courseId: courseData?.courseId,
+                            collegeId: data?.collegeId,
+                            subOrderItemid:
+                              courseData?.enquiryDetails?.subOrderItemId,
+                            sponsoredListingFlag: data?.sponsoredListingFlag,
+                            manualBoostingFlag: data?.manualBoostingFlag,
+                            orderItemId:
+                              courseData?.enquiryDetails?.orderItemId,
+                            collegeName: data?.collegeTextKey,
+                            pageName: "browsemoneypageresults",
+                          }}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
                         <Getprospectus
                           enquiryProps={{
@@ -719,7 +566,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={`/degree-courses/csearch?subject=${subject}&university=${data?.collegeTextKey}`}
+                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams.toString() ? "&"+searchParams.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}&${searchParams.toString()}`}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
@@ -744,6 +591,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
         </div>
       ))}
+
       {exceedMessage ? (
         <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
           <div
@@ -782,8 +630,10 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
               Ok, got it
             </button>
           </div>
-        </div>)
-        : <></>}
+        </div>
+      ) : (
+        <></>
+      )}
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}

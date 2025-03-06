@@ -7,7 +7,7 @@ import RequestInfo from "@packages/shared-components/common-utilities/cards/inte
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
-
+import Link from "next/link";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
@@ -76,12 +76,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
         <div className="flex flex-col gap-[16px] md:min-h-[240px]">
-          <a
-            href="#"
-            className="h6 hover:underline cursor-pointer text-blue-400"
-          >
+          <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
             {items.title}
-          </a>
+          </Link>
           <ul className="flex flex-wrap gap-[4px]">
             <li className="flex gap-[2px] bg-grey-100 text-grey-500 uppercase font-semibold xs-small px-[8px] rounded-[4px]">
               <Image

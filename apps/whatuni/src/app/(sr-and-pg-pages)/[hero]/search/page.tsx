@@ -6,6 +6,7 @@ import SearchResultComponent from "@packages/shared-components/sr-page/srpage-co
 import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
 
 export type MetaDataProps = {
   params?: any;
@@ -14,21 +15,14 @@ export type MetaDataProps = {
 
 export async function generateMetadata({params, searchParams}: MetaDataProps): Promise<Metadata> {
 
-  const pathname = `/${params?.hero}/search`;
-  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname);
+  const paramsAwaited = await params;
+  const pathname = `/${paramsAwaited?.hero}/search`;
+  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited);
 
-  return {
-    alternates: {
-      canonical: metaData?.canonical || "https://www.Whatuni.com",
-    },
-    title: metaData?.title || "Default Title",
-    description: metaData?.description || "Default Description",
-    robots: metaData?.indexation || "noindex, nofollow",
-    keywords: metaData?.keyword || [],
-  };
+  return getMetaDetailsObject(metaData);
 }
 
-const Page = async ({ searchParams }: any) => {
+const Page = async ({ params, searchParams }: any) => {
   const cookieStore = await cookies();
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
@@ -37,7 +31,8 @@ const Page = async ({ searchParams }: any) => {
     notFound();
   }
   const searchparams = await searchParams;
-  return <SearchResultComponent searchparams={searchparams} />;
+  const paramsAwaited = await params;
+  return <SearchResultComponent searchparams={searchparams} params={paramsAwaited} />;
 };
 
 export default Page;
