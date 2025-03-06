@@ -116,10 +116,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
       const count = await getSrFilterCount(
         filterbodyJson(bodyJson, slug.split("/")[1])
       );
+      console.log(count);
       setCourseCount(count);
     };
     getCount();
-  }, [searchParams]);
+  }, [searchParams, filterLoading]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
@@ -247,6 +248,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const data = await getSrFilter(
           filterbodyJson(filterOrder, slug.split("/")[1])
         );
+        console.log(filterbodyJson(filterOrder, slug.split("/")[1]));
         setJsondata(data);
         setrouterEnd(false);
         setFilterLoading(false);
@@ -254,12 +256,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
     };
     dynamicFilter();
   }, [routerEnd]);
-
+  console.log(jsondata);
   const appendSearchParams = async (
     key: string,
     value: string,
-    isQualification?: boolean
+    isUniversitySelected?: boolean,
+    isQualificationChanged?: boolean
   ) => {
+    console.log("entered");
     setFilterLoading(true);
     let crossL1Subject = false;
     if (key === "subject" || key === "course") {
@@ -273,7 +277,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       const currentParent = getParentSubject(searchParams, jsondata);
       if (selectedParent[0] != currentParent) {
         crossL1Subject = true;
-        console.log("entered");
       }
     }
 
@@ -283,13 +286,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
       value,
       crossL1Subject
     );
-    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
-      (acc, priorityKey) => {
-        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-        return acc;
-      },
-      {} as KeyValueObject
-    );
+    const orderedFilters = getFilterPriority(
+      isUniversitySelected || false
+    )?.reduce((acc, priorityKey) => {
+      if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+      return acc;
+    }, {} as KeyValueObject);
     setFilterOrder(orderedFilters);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
@@ -314,18 +316,35 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2B");
+    let domainPath = null;
+    if (isQualificationChanged && !slug?.includes(value)) {
+      domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
+    }
+
     if (urlParams?.toString() === searchParams?.toString()) {
+      console.log("refresh", urlParams?.toString());
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      if (isQualificationChanged) {
+        router.push(
+          `${domainPath}?${urlParams?.toString()}`.replaceAll("%2B", "+")
+        );
+      }
       router.refresh();
     } else if (multiSelect) {
+      console.log("multi select", urlParams?.toString());
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
+      router.push(
+        `${domainPath ?? ""}?${urlParams.toString()}`.replaceAll("%2B", "+")
+      );
     } else {
+      console.log("link tag");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document.getElementById(key + value);
       if (linkTagId) {
+        console.log("link tag found", linkTagId);
         linkTagId.click();
       } else {
+        console.log("No link tag", urlParams?.toString());
         router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
       }
     }
@@ -407,7 +426,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const decodedValue = decodeURIComponent(paramValue).replace(/\+/g, " ");
     return decodedValue.split(/[\s,]+/).includes(value);
   };
-
   const parentSubjectSet: any = new Set(
     jsondata?.subjectFilterList
       ?.map((items: any) => {
@@ -417,7 +435,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       })
       ?.filter(Boolean)
   );
-
+  console.log(courseCount);
   const ParentSubject: any = [...parentSubjectSet];
 
   const L2subjects = ParentSubject?.map((item: any) => {
@@ -710,10 +728,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   onChange={() => {
                                     appendSearchParams(
                                       "study-level",
-                                      item?.qualTextKey
+                                      item?.qualTextKey,
+                                      false,
+                                      true
                                     );
                                   }}
-                                  type="radio"
+                                  type="checkbox"
                                   name="studylevel"
                                   id={item?.qualDisplayDesc}
                                   value={item?.qualDisplayDesc}
