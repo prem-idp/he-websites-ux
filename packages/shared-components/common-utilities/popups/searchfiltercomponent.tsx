@@ -295,7 +295,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
     Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split(",");
+      const valuesArray = v.split("+");
       if (totalValues + valuesArray?.length <= 4) {
         urlParams.set(k, valuesArray?.join("+"));
         totalValues += valuesArray?.length;
@@ -311,7 +311,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
         }
       }
     });
-    console.log(urlParams?.toString().replaceAll("%2B", "+"));
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2B");
