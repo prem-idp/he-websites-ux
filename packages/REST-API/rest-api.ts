@@ -17,7 +17,6 @@ const makeApiCall = async (
         "x-correlation-id": uuidv4(),
         "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         ...headers,
-
       },
       cache: "force-cache",
       body: method === "GET" ? undefined : JSON.stringify(bodyjson),
@@ -76,5 +75,34 @@ const getSrFilter = async (bodyjson: any): Promise<any> => {
   }
 };
 
+const getSrFilterCount = async (bodyjson: any): Promise<any> => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseCount`;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.SITE_CODE}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+      },
+      body: JSON.stringify(bodyjson),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json().catch(() => ({}));
+      console.error({
+        error: errorResponse,
+        endpoint: apiUrl,
+        status: response?.status,
+        statusText: response?.statusText,
+      });
+      return null;
+    }
+    return await response.json();
+  } catch (error: unknown) {
+    console.error(`API call failed: ${error}`, { endpoint: apiUrl });
+    console.error("Unknown error occurred", { endpoint: apiUrl, error });
+  }
+};
 export default makeApiCall;
-export { getSrFilter };
+export { getSrFilter, getSrFilterCount };

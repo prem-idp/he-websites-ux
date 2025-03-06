@@ -10,10 +10,11 @@ const UniversityCheckBox = ({
 }: any) => {
   const searchparams = useSearchParams();
   const [isUniSelected, setIsUniSelected] = useState(false);
+  const [pageCategory, setPageCategory] = useState("csearch");
   useEffect(() => {
     const uni = searchparams?.get("university")?.includes(item?.collegeTextKey);
-    console.log(uni);
     if (uni) {
+      setPageCategory("search");
       setIsUniSelected(true);
     }
   }, [searchparams]);
@@ -24,7 +25,7 @@ const UniversityCheckBox = ({
           <Link
             id={"university" + item?.collegeTextKey}
             href={{
-              pathname: `/${slug[1]}/${slug[2] == "search" ? "csearch" : "search"}`,
+              pathname: `/${slug[1]}/${pageCategory}`,
               query: formUrl("university", item?.collegeTextKey, true),
             }}
           ></Link>
