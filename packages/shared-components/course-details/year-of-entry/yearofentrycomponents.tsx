@@ -15,8 +15,8 @@ const Yearofentrycomponents = () => {
                             </div>                        
                         <div className='form-radio-group flex flex-row gap-[6px] md:gap-[8px]'>
                           
-                            {years.map((year) => (
-                           <div key={year} className="col flex relative">
+                            {years.map((year, idx) => (
+                           <div key={idx} className="col flex relative">
                          <button
                     onClick={() => setSelectedYear(year)}
                     className={`check-label x-small font-semibold px-[12px] py-[4px] rounded-[22px] border border-text-white ${

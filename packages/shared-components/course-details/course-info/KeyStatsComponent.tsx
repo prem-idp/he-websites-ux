@@ -180,7 +180,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               {!!selectedSubject?.salary6MonthsAtUni && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{selectedSubject?.subjectName} graduate salary at this uni</div>
-                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6MonthsAtUni)}
+                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6MonthsAtUni)}
                     <Tooltip heading={tooltipContent?.averageSalary?.sectionTitle} desc={tooltipContent?.averageSalary?.shortDescription} />
                   </div>
                 </div>
@@ -188,7 +188,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               {!!selectedSubject?.salary6Months && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">UK {selectedSubject?.subjectName} graduate salary</div>
-                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6Months)}
+                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6Months)}
                     <Tooltip heading={tooltipContent?.ukAverageSalary?.sectionTitle} desc={tooltipContent?.ukAverageSalary?.shortDescription} />
                   </div>
                 </div>

@@ -19,7 +19,7 @@ export default function Cdpageclient({ children, courseContent, data, prams_slug
 
   useEffect(() => {
     setRenderKey(prev => prev + 1);
-  }, [fetcheddata]);
+  }, [fetcheddata]);  
 
 
   useEffect(() => {
@@ -91,11 +91,9 @@ export default function Cdpageclient({ children, courseContent, data, prams_slug
               return// Optional: Handle unknown cases
           }
           return (
-
             <div id={sectionId} key={sectionId}>
               {componentToRender}
             </div>
-
           );
         })}
       </>
