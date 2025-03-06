@@ -1,6 +1,6 @@
-'use client'
-
-import React from 'react'
+'use client';
+ 
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react';
@@ -8,35 +8,100 @@ import LeftPannelModal from '@packages/shared-components/course-details/Modal/Le
 import Tooltip from '../common-components/Tooltip';
 import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction'
 import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
-
-const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
-
+ 
+const tooltipsMapper = [
+  {
+    internalName: "Course info - WUSCA Ranking",
+    key: "wuscaRanking"
+  },
+  {
+    internalName: "Course info - CUG Ranking",
+    key: "cugRanking"
+  },
+  {
+    internalName: "Course info - CUG Subject Ranking",
+    key: "cugSubjectRanking"
+  },
+  {
+    internalName: "Course info - Drop-out rate",
+    key: "dropOutRate"
+  },
+  {
+    internalName: "Course info - Employment rate",
+    key: "employmentRate"
+  },
+  {
+    internalName: "Course info - Average salary",
+    key: "averageSalary"
+  },
+  {
+    internalName: "Course info - UK graduate salary",
+    key: "ukAverageSalary"
+  }
+];
+ 
+interface KeyStatsComponentProps {
+  subjectArea: any,
+  uniRankings: any,
+  tooltipList: any,
+  dataSource: any
+}
+ 
+const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
+ 
   const [selectedSubject, setSelectedSubject] = useState(subjectArea?.[0] || null);
-
+ 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
+ 
+  useEffect(() => {
+    let tempTooltipContent: any = {};
+    tooltipList?.forEach((tooltipContent: any) => {
+      for (let i of tooltipsMapper) {
+        if (tooltipContent?.internalName?.toLowerCase() === i.internalName?.toLowerCase()) {
+          tempTooltipContent[i.key] = tooltipContent;
+          break;
+        }
+      }
+    });
+    setTooltipContent(() => tempTooltipContent);
+  }, [tooltipList]);
+ 
   function toggleModal() {
     setIsOpen((prev) => !prev)
   }
-
+ 
   const changeFeesRegion = (item: any) => {
     if (selectedSubject?.subjectName === item?.subjectName)
       return
     setSelectedSubject(() => item[0]);
   }
-
+ 
   function getStatsImgPath(rank: string) {
     const pathPrefix = '/static/assets/icons/course-details/';
     switch (true) {
       case rank.toLowerCase().includes('complete university guide ranking'):
-        return (pathPrefix + 'cug_ranking_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'cug_ranking_stats_icon.svg'),
+          "heading": tooltipContent?.cugRanking?.sectionTitle,
+          "desc": tooltipContent?.cugRanking?.shortDescription
+        };
       case rank.toLowerCase().includes('wusca'):
-        return (pathPrefix + 'wusca_ranking_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'wusca_ranking_stats_icon.svg'),
+          "heading": tooltipContent?.wuscaRanking?.sectionTitle,
+          "desc": tooltipContent?.wuscaRanking?.shortDescription
+        };
       default:
-        return (pathPrefix + 'cug_subject_stats_icon.svg');
+        return {
+          "imgUrl": (pathPrefix + 'cug_subject_stats_icon.svg'),
+          "heading": tooltipContent?.cugSubjectRanking?.sectionTitle,
+          "desc": tooltipContent?.cugSubjectRanking?.shortDescription
+        };
     }
   }
-
+ 
+ 
   return (
     <>
       {(isOpen && !!subjectArea) && <LeftPannelModal
@@ -62,12 +127,12 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
               {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
-                <Image src={getStatsImgPath(rank?.ranking)} alt="academic-cap" width="32" height="32" />
+                <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width={32} height={32} />
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{rank?.ranking}</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">
                     {rank?.totalRank ? (rank?.rank + "/" + rank?.totalRank) : ordinarySuffix(rank?.rank)}
-                    <Tooltip heading={rank?.toolTipHeading} desc={rank?.source} />
+                    <Tooltip heading={getStatsImgPath(rank?.ranking)?.heading} desc={getStatsImgPath(rank?.ranking)?.desc} />
                   </div>
                 </div>
               </div>)}
@@ -75,7 +140,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
           </div>
           <div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col gap-[16px] md:gap-[8px]'>
-              <div className='h4 text-white'>Animation</div>
+              <div className='h4 text-white'>{selectedSubject?.subjectName}</div>
               <div className='flex flex-col md:flex-row justify-between gap-[16px] w-full *:text-small *:text-white'>
                 {!!selectedSubject?.dropOutRate && <div className='w-full flex flex-col justify-between gap-[4px]'>
                   <div className='flex items-center justify-between'>
@@ -84,7 +149,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                     </div>
                     <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>
                       {selectedSubject?.dropOutRate}%
-                      <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                      <Tooltip heading={tooltipContent?.dropOutRate?.sectionTitle} desc={tooltipContent?.dropOutRate?.shortDescription} />
                     </span>
                   </div>
                   <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
@@ -97,7 +162,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
                       <span>Employment rate</span>
                     </div>
                     <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedSubject?.graduatesPercent}%
-                      <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                      <Tooltip heading={tooltipContent?.employmentRate?.sectionTitle} desc={tooltipContent?.employmentRate?.shortDescription} />
                     </span>
                   </div>
                   <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
@@ -115,16 +180,16 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
               {!!selectedSubject?.salary6MonthsAtUni && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">{selectedSubject?.subjectName} graduate salary at this uni</div>
-                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6MonthsAtUni)}
-                    <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6MonthsAtUni)}
+                    <Tooltip heading={tooltipContent?.averageSalary?.sectionTitle} desc={tooltipContent?.averageSalary?.shortDescription} />
                   </div>
                 </div>
               </div>}
               {!!selectedSubject?.salary6Months && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold">UK {selectedSubject?.subjectName} graduate salary</div>
-                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">{poundCostCommaSeparation(+selectedSubject?.salary6Months)}
-                    <Tooltip heading={'CUG Subject Ranking?'} desc={'Source: Complete University Guide 2025.'} />
+                  <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6Months)}
+                    <Tooltip heading={tooltipContent?.ukAverageSalary?.sectionTitle} desc={tooltipContent?.ukAverageSalary?.shortDescription} />
                   </div>
                 </div>
               </div>}
@@ -133,8 +198,8 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
           <div className='keystats-inner-row'>
             <div className='flex items-center gap-[4px] *:text-x-small *:font-semibold *:tracking-[1px]'>
               <div className='text-white'>SOURCE:</div>
-              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UNISTATS,</a>
-              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UCAS / HESA</a>
+              <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>{dataSource?.primaryCtaLabel}</a>
+              {/* <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-white underline'>UCAS / HESA</a> */}
             </div>
           </div>
         </div>
@@ -142,5 +207,5 @@ const KeyStatsComponent = ({ subjectArea, uniRankings }: any) => {
     </>
   )
 }
-
+ 
 export default KeyStatsComponent;

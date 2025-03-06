@@ -38,6 +38,7 @@ export default async function Cdpage({ params }: any) {
     "",
     ""
   ];
+  console.log(data, "data")
   const courseContent = courseContentExtractor(contents);
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
   const courseInfoContent = courseContent?.sectionsList?.filter((section: any) => section?.internalName?.toLowerCase() === 'course info')[0];
