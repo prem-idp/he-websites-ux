@@ -101,7 +101,6 @@ const Subscribe = ({ data, isPreviewTrue, category, subCategory }: any) => {
           CTATitle: jsondata?.ctaLabel,
           signupFailureReason: isSuccess?.message.toString(),
         });
-        //console.log("error");
       }
     } else {
       if (email && !isChecked) {

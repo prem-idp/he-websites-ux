@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 export function middleware(request: NextRequest, response: NextResponse) {
   const { pathname, search, searchParams } = request.nextUrl;
   const slugs = pathname?.split("/");
@@ -9,9 +10,11 @@ export function middleware(request: NextRequest, response: NextResponse) {
     const response = NextResponse.next(); // Initialize response properly
     response.cookies.set("pathnamecookies", pathname.toString());
     response.cookies.set("searchParamscookies", searchParams.toString());
+    if(response.cookies.get("dynamic_random_number")?.value === "") {
+      response.cookies.set("dynamic_random_number",  uuidv4().replace(/\D/g, "").slice(0, 8),{path:"/"});
+    }
     return response;
 
-    // console.log(request,"request headers logging from the middleware")
     // const response = NextResponse.next(); // Initialize response properly
     // const ip =request.headers.get("x-forwarded-for") || "unknown";
     // response.cookies.set("pathname", pathname, { path: "/" });

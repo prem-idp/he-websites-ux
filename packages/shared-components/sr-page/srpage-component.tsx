@@ -16,17 +16,22 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import { cookies, headers } from "next/headers";
 import { getSearchPayload, getSEOSearchPayload } from "../services/utils";
 import { searchResultsFetchFunction } from "@packages/lib/server-actions/server-action";
-import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
-  const pathname =
-    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const headerList = await headers();
+  const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam =JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
   let searchResultsData;
-  const filterCookieParam = cookieStore?.get("filter_param");
-
   try {
     searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(searchparams, filterCookieParam, pathname)
+      getSearchPayload(
+        searchparams,
+        filterCookieParam,
+        pathname,
+        cookieStore?.get("dynamic_random_number")?.value || "",
+        headerList?.get("x-forwarded-for") || ""
+      )
     );
   } catch (error) {
     console.log("error", error);
@@ -34,26 +39,23 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   return (
     <>
       <TopSection searchParam = {getSEOSearchPayload(searchparams, params?.hero)} searchResultsData={searchResultsData}/>
-      {searchResultsData?.searchResultsList ? (
+      {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels />
+          {/* <SearchLabels /> */}
         </Suspense>
       ) : (
         <></>
       )}
 
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <SortingFilter sortParam={{ param: searchparams }} />
-          {searchResultsData?.searchResultsList ? (
+        <div className="max-w-container mx-auto">       
+          {searchResultsData?.searchResultsList?.length > 0 && searchResultsData?.status != 404 ? (           
             <>
-              {process.env.PROJECT === "Whatuni" &&
-              pathname !== "postgraduate-courses" ? (
-                <GradeBanner />
-              ) : (
-                <></>
-              )}
+               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:filterCookieParam }} />
+             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses" && (!searchparams?.location || !searchparams?.score) ?
+              <GradeBanner /> : <></>
+             }
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -63,15 +65,12 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}
-                subject={searchparams?.subject || searchparams?.course}
+                searchResultsData={searchResultsData?.searchResultsList}                
               />
               {searchResultsData?.collegeCount > 10 ? (
-                // <Paginations
-                //   totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                //   currentPage={searchparams?.pageNo || 1}
-                // />
-                <></>
+                <><Paginations
+                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                  currentPage={searchparams?.pageNo || 1} /><></></>
               ) : (
                 <></>
               )}
@@ -83,7 +82,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           )}
         </div>
       </section>
-      {searchResultsData?.searchResultsList ? (
+      {searchResultsData?.searchResultsList?.length > 0 && searchResultsData?.status != 404 ? (
         <>
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">

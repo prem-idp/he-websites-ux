@@ -20,12 +20,13 @@ const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
               <Link
                 className='text-primary-400 hover:underline after:absolute after:content-["/"] after:w-[20px] after:h-[20px] after:text-center after:text-grey-300'
                 href={breadcrumbData.url}
-                >
+              >
+
                 <Image
                   src={breadcrumbData.Imgurl}
-                  width="17"
+                  width={17}
                   className="inline-block"
-                  height="18"
+                  height={18}
                   alt="breadcrumb icon"
                 />
               </Link>
@@ -35,7 +36,7 @@ const Breadcrumblayoutcomponent = ({ propsdata, preview }: any) => {
           </li>
         ))}
       </ul>
-    </nav>  
+    </nav>
   );
 };
 

@@ -31,7 +31,7 @@ export async function constructPayload(
   //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
   const basePayload: Payload = {
     parentQualification: "M",
-    pageNo: searchparams?.pageNo || "1", // Default to "1" if not in searchparams
+    pageNo: searchparams?.pageno || "1", // Default to "1" if not in searchparams
     userCoordinates: "51.5072,-0.1276",
   };
   // Start with the base payload
@@ -48,13 +48,14 @@ export async function constructPayload(
       // If the key is 'university', map it to 'collegeName' in payloads
       if (key === "university") {
         payloads["collegeName"] = searchparams[key];
-      } else {
+      }
+      if (key === "pageno") payloads["pageNo"] = searchparams[key];
+      else {
         payloads[key] = searchparams[key];
       }
     }
   });
 
-  console.log("Construct Payload " + JSON.stringify(payloads));
   return payloads;
 }
 
@@ -66,7 +67,7 @@ const searchPRResults = async (searchparams: any) => {
       {
         method: "POST",
         headers: {
-          sitecode: "WU_WEB",
+          sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
         },
@@ -79,6 +80,7 @@ const searchPRResults = async (searchparams: any) => {
     }
 
     const data = await response.json();
+    console.log("Data Response " + JSON.stringify(data));
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -94,18 +96,19 @@ const transformProviderListData = (data: any) => {
     (college: any) =>
       Array.isArray(college.bestMatchCoursesList)
         ? college.bestMatchCoursesList.map((course: any) => ({
-            collegeId: college.collegeId,
+            collegeId: college?.collegeId,
             collegeName: college?.collegeTextKey,
-            courseId: course.courseId,
+            courseId: course?.courseId,
+            cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
             pageName: "PR",
-            title: course.courseTitle || "Unknown Title",
+            title: course?.courseTitle || "Unknown Title",
             provideFav: false,
             subOrderItemid: course?.enquiryDetails?.subOrderItemId,
             sponsoredListingFlag: college?.sponsoredListingFlag,
             manualBoostingFlag: college?.manualBoostingFlag,
             orderItemId: course?.enquiryDetails?.orderItemId,
-            modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-            tagLocation: college.adminVenue || "Unknown Location",
+            modulesList: course?.modulesInfo || [], // Ensure modulesList is always an array
+            tagLocation: college?.adminVenue || "Unknown Location",
             points:
               course.minUcasPoints && course.maxUcasPoints
                 ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
@@ -154,8 +157,8 @@ const PrPageComponent = async ({ searchparams }: any) => {
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.collegeCount / 10)}
-            currentPage={searchparams?.pageNo || 1}
+            totalPages={Math.ceil(data?.totalCourseCount / 10)}
+            initialPage={searchparams?.pageNo || 1}
             searchParams={{ param: searchparams, currentPage: referer }}
           />
         </ProviderResultsCard>
