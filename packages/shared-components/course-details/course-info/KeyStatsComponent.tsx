@@ -49,7 +49,8 @@ interface KeyStatsComponentProps {
 
 const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
 
-  const [selectedSubject, setSelectedSubject] = useState(subjectArea[0]);
+  const [selectedSubject, setSelectedSubject] = useState(subjectArea?.[0] || null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
 
