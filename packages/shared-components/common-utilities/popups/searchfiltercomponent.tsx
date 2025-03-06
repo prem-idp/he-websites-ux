@@ -1092,6 +1092,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         {universitiesList?.map((item: any, index: any) => (
                           <SelectedUniversity
                             key={index + 1}
+                            isIndexed={isIndexed}
                             isUniversityOpen={isUniversityOpen}
                             universityClicked={universityClicked}
                             id={item.id}
