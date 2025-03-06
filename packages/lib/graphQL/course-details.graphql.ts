@@ -7,7 +7,6 @@ export const COURSE_DETAILS_QUERY = `{
       website
       seoFields {
         metaKeywords
-        metaTile
         metaDescription
         seoFieldsName
       }
