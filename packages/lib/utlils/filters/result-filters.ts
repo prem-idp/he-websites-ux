@@ -4,7 +4,6 @@ type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
     "subject",
-    "study-level",
     "qualification",
     "location",
     "region",
@@ -23,7 +22,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   ];
   const pgsFilters = [
     "course",
-    "study_level",
     "qualification",
     "location",
     "region",
@@ -43,7 +41,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   const whatuniPrFilters = [
     "university",
     "subject",
-    "study-level",
     "qualification",
     "location",
     "region",
@@ -61,7 +58,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   const pgsPrFilters = [
     "university",
     "course",
-    "study_level",
     "qualification",
     "location",
     "region",
@@ -156,13 +152,10 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
+  console.log(entriesArray);
   for (const [key, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
-    if (
-      decodedValue.includes(",") ||
-      decodedValue.includes("+") ||
-      decodedValue.includes(" ")
-    ) {
+    if (decodedValue.includes("+") || decodedValue.includes(" ")) {
       return false;
     }
   }

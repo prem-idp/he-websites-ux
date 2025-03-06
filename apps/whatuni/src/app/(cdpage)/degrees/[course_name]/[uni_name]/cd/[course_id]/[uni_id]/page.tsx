@@ -47,7 +47,10 @@ export default async function Cdpage({ params }: any) {
     <>
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
         <div className="max-w-container mx-auto">
-          <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
+          <Breadcrumblayoutcomponent
+            propsdata={breadcrumbData}
+            preview={false}
+          />
         </div>
       </section>
       <Courseheaderinfocomponents data={data} />
@@ -63,5 +66,5 @@ export default async function Cdpage({ params }: any) {
         <Findacoursecomponents />
       }
     </>
-  )
+  );
 }
