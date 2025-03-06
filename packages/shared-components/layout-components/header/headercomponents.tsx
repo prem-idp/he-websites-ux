@@ -59,7 +59,8 @@ const Header = ({ topnav_data }: props) => {
   const [favouriteCookie, setfavouriteCookie] = useState(getCookieValue("USER_FAV_BASKET_COUNT") || 0);
 
   useEffect(() => {
-    const updateFavourite = (newValue: any) => {
+    const updateFavourite = (newValue:any) => {
+      console.log("from fav", newValue)
       setfavouriteCookie(newValue);
     };
 
@@ -67,7 +68,7 @@ const Header = ({ topnav_data }: props) => {
     return () => {
       eventEmitter.off("favouriteCookieUpdated", updateFavourite);
     };
-
+   
   }, []);
   // =============================================================initial fetch===============================================================================
   useEffect(() => {
@@ -130,7 +131,7 @@ const Header = ({ topnav_data }: props) => {
       fetchData();
     }
   }, [startfetch]);
-
+  
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
@@ -140,6 +141,7 @@ const Header = ({ topnav_data }: props) => {
         const loginviaonetap = getCookieValue("LogedinviaOnetap") || false;
 
         if (!sessiontimecookie && loginviaonetap) {
+          //console.log(sessiontimecookie, loginviaonetap, "!@!@!@!@!");
           setIsAuthenticated("false");
           sessionStorage.clear();
           localStorage?.removeItem("resultSubmit");
@@ -298,7 +300,7 @@ const Header = ({ topnav_data }: props) => {
             className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
           >
             <Link
-
+            
               href="/"
               className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
             >
@@ -343,13 +345,15 @@ const Header = ({ topnav_data }: props) => {
               <>
                 <div
                   onClick={mobileToggleOpen}
-                  className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
-                    } lg:bg-transparent`}
+                  className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
+                    isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
+                  } lg:bg-transparent`}
                 ></div>
 
                 <div
-                  className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${isOpen ? "" : "-translate-x-full duration-300"
-                    } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
+                  className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
+                    isOpen ? "" : "-translate-x-full duration-300"
+                  } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
                     <div
@@ -495,7 +499,7 @@ const Header = ({ topnav_data }: props) => {
                   href={`${process.env.PROJECT === "Whatuni" ? "/degrees/comparison" : "/pgs/mypgs_compare_pkg.customise_basket_prc"}`}
                   title="Shortlist"
                   className="cursor-pointer"
-                // onClick={() => rightMenuAction("SHORTLIST")}
+                  // onClick={() => rightMenuAction("SHORTLIST")}
                 >
                   <span
                     ref={shortlistref}

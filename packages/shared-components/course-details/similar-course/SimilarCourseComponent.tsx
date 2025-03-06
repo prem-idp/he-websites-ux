@@ -6,7 +6,7 @@ import React from 'react';
 
 interface SimilarCourseComponentProps { similarCourses: { title: string, courses: any[], subHeading?: string } };
 
-const SimilarCourseComponent = ({ data }: any) => {
+const SimilarCourseComponent = ({ similarCourses }: SimilarCourseComponentProps) => {
     return (
         <div className='similar-container bg-grey-50'>
             <div className="max-w-container mx-auto">
@@ -16,7 +16,7 @@ const SimilarCourseComponent = ({ data }: any) => {
                     </div>
                     <div className='similar-course-container '>
                         <div className="similar-inner-wrap">
-                            <Similarcoursecard similarCourses={data?.similarCourses?.courses}></Similarcoursecard>
+                            <Similarcoursecard similarCourses={similarCourses?.courses}></Similarcoursecard>
                         </div>
                     </div>
                 </div>

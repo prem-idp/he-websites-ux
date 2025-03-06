@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Pagination } from "swiper/modules";
@@ -11,8 +12,8 @@ import 'swiper/css/pagination';
 interface ReviewSliderProps {
   reviewData: ReviewDetailsList["reviewDetail"];
   pageName?: any;
-  parent_category?: any;
-  sub_Category?: any;
+  parent_category?:any;
+  sub_Category?:any;
 }
 
 const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
@@ -22,7 +23,7 @@ const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
   sub_Category,
 }) => {
 
-  const { category, subCategory, articleTitle } = getArticleDetailUrlParamValues();
+  const{category, subCategory, articleTitle} = getArticleDetailUrlParamValues();
 
   return (
     <>
@@ -55,7 +56,7 @@ const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
                 ratings={5}
                 pageName={pageName}
                 article_category={category ? category : parent_category}
-                article_subCat={subCategory ? subCategory : sub_Category}
+                article_subCat={subCategory ? subCategory: sub_Category}
               />
             </SwiperSlide>
           ))}

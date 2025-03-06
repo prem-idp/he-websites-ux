@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}:any) => {   
  
+
    const [selectedCourse, setSelectedCourse] = useState(() =>
   data?.courseInfo?.availability?.length ? data.courseInfo.availability[0] : null
 );
@@ -12,7 +13,8 @@ const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}
       function handleApply(){
         setSelectedavailability(selectedCourse);
         onClose()
- }
+
+     }
   return (
     
     <>

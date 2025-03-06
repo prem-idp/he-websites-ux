@@ -20,12 +20,11 @@ interface FeesType {
   "seq_no": number
 }
 
-interface TutionFeesComponentProps  {
-  tutionFees: FeesType[],
-  sectionInfo: CourseSection
+interface TutionFeesComponentProps extends CourseSection {
+  tutionFees: FeesType[]
 }
 
-const TutionFeesComponent = ({ sectionInfo, tutionFees }: TutionFeesComponentProps) => {
+const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesComponentProps) => {
 
   tutionFees = tutionFees?.sort((a, b) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }));
   const [isOpen, setIsOpen] = useState(false);
@@ -95,10 +94,10 @@ const TutionFeesComponent = ({ sectionInfo, tutionFees }: TutionFeesComponentPro
         onClose={togglemodal}
         onApply={changeFeesRegion}
       />}
-      <div id={sectionInfo?.sectionId} className='tuition-fees-container'>
+      <div id={sectionId} className='tuition-fees-container'>
         <div className="max-w-container mx-auto">
           <div className='tuition-fees-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-            <div className='h5 w-full md:w-[289px]'>{sectionInfo?.sectionName}</div>
+            <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
             <div className='flex w-full lg:w-[calc(100%_-_309px)]'>
               <div className='card flex flex-col gap-[10px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
                 <div className='card-header'>
@@ -140,7 +139,7 @@ const TutionFeesComponent = ({ sectionInfo, tutionFees }: TutionFeesComponentPro
                 </div>
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
-                  <span className='text-grey300'></span><a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 hover:underline'>{sectionInfo?.callToAction?.primaryCtaLabel}</a>
+                  <span className='text-grey300'>UCAS /</span><a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 hover:underline'>IDP Connect</a>
                 </div>
               </div>
             </div>
