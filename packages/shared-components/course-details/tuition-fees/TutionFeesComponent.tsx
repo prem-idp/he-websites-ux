@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+
 
 import { useState } from 'react'
 import LeftPannelModal from '@packages/shared-components/course-details/Modal/LeftPannelModal';
@@ -20,15 +19,19 @@ interface FeesType {
   "seq_no": number
 }
 
-interface TutionFeesComponentProps extends CourseSection {
-  tutionFees: FeesType[]
+
+interface TutionFeesComponentProps {
+  tutionFees: FeesType[],
+  sectionInfo: CourseSection
 }
 
-const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesComponentProps) => {
+const TutionFeesComponent = ({ sectionInfo, tutionFees }: any) => {
 
-  tutionFees = tutionFees?.sort((a, b) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }));
+  tutionFees = tutionFees?.length
+    ? tutionFees.sort((a: any, b: any) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }))
+    : [];
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFeesType, setSelectedFeesType] = useState(tutionFees[0]);
+  const [selectedFeesType, setSelectedFeesType] = useState(tutionFees[0]?.length > 0 ? tutionFees[0] : null);
   const [toolTips, setToolTips] = useState({ feesToolTip: '', regionTooltip: '' });
 
   useEffect(() => {
@@ -94,16 +97,16 @@ const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesC
         onClose={togglemodal}
         onApply={changeFeesRegion}
       />}
-      <div id={sectionId} className='tuition-fees-container'>
+      <div id={sectionInfo?.sectionId} className='tuition-fees-container'>
         <div className="max-w-container mx-auto">
           <div className='tuition-fees-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-            <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
+            <div className='h5 w-full md:w-[289px]'>{sectionInfo?.sectionName}</div>
             <div className='flex w-full lg:w-[calc(100%_-_309px)]'>
               <div className='card flex flex-col gap-[10px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
                 <div className='card-header'>
                   <div className='flex items-start md:items-center  gap-[16px] md:gap-[8px]'>
                     <div className='para font-semibold text-black'>Student living</div>
-                    <div onClick={() => togglemodal()} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{selectedFeesType.feeType}
+                    <div onClick={() => togglemodal()} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{selectedFeesType?.feeType}
                       <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -123,7 +126,7 @@ const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesC
                           Not currently available
                         </div>}
                       {selectedFeesType?.fee ? <div className="small text-black">Students from&nbsp;
-                        <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedFeesType.feeType?.toLowerCase() !== 'rest of world' ? selectedFeesType.feeType : 'International'}
+                        <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>{selectedFeesType?.feeType?.toLowerCase() !== 'rest of world' ? selectedFeesType?.feeType : 'International'}
                           <Tooltip desc={toolTips.regionTooltip} />
                         </span>
                       </div> :
@@ -139,7 +142,7 @@ const TutionFeesComponent = ({ sectionId, sectionName, tutionFees }: TutionFeesC
                 </div>
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
-                  <span className='text-grey300'>UCAS /</span><a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 hover:underline'>IDP Connect</a>
+                  <span className='text-grey300'></span><a href={DATA_SOURCE_PAGE_PATH} className='text-primary-400 hover:underline'>{sectionInfo?.callToAction?.primaryCtaLabel}</a>
                 </div>
               </div>
             </div>

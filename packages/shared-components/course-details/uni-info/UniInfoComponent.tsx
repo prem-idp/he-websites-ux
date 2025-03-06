@@ -7,21 +7,20 @@ import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
 
-interface UniInfoComponentProps extends CourseSection {
-  uniInfo: any
+interface UniInfoComponentProps {
+  uniInfo: any,
+  courseInfo: any,
+  sectionInfo: CourseSection
 }
 
-const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentProps) => {
+const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
 
-  const { awards, location } = uniInfo;
+  // const { awards, location } = uniInfo;
+  const awards = uniInfo?.awards;
+  const location = uniInfo?.location;
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
-
-  function googleMap() {
-    ("https://maps.google.com/?q=" + location.latitude + ',' + location.longitude);
-  }
-
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
@@ -30,7 +29,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
           container: mapContainerRef.current,
           style: 'mapbox://styles/mapbox/streets-v12',
           zoom: 15,
-          center: [location.longitude, location.latitude]
+          center: [location?.longitude, location?.latitude]
         });
         // Add zoom and rotation controls to the map.
         mapRef.current.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
@@ -38,11 +37,10 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
         // Add marker after map loads
         mapRef.current.on('load', () => {
           new mapboxgl.Marker({ color: '#00BBFD' }) // Blue color
-            .setLngLat([location.longitude, location.latitude]) // Marker position
+            .setLngLat([location?.longitude, location?.latitude]) // Marker position
             .addTo(mapRef.current);
         });
       }
-      //console.log('mapbox loaded');
     }
 
     // load Mapbox only if it's entered into the view
@@ -54,9 +52,9 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
       }
     });
 
-  if (mapContainerRef.current) {
-    observer.observe(mapContainerRef.current);
-  }
+    if (mapContainerRef.current) {
+      observer.observe(mapContainerRef.current);
+    }
     // observer.observe(mapContainerRef.current);
 
     return () => {
@@ -68,10 +66,10 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
   }, []);
 
   return (
-    <div id={sectionId} className='uni-info-container'>
+    <div id={sectionInfo?.sectionId} className='uni-info-container'>
       <div className="max-w-container mx-auto">
         <div className='uni-info-card-container flex flex-col lg:flex-row justify-between gap-[20px] px-[16px] md:px-[20px] xl:px-[0] py-[40px]'>
-          <div className='h5 w-full md:w-[289px]'>{sectionName}</div>
+          <div className='h5 w-full md:w-[289px]'>{sectionInfo?.sectionName}</div>
           <div className='flex flex-col gap-[16px] md:gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
             <div className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
@@ -85,7 +83,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
                 <div className='uniresults-right flex flex-col gap-[16px]'>
                   <div className='uni-info-card flex flex-col gap-[8px]'>
                     <div className='flex flex-row md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
-                      <a href="#" className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
+                      <a href={`/university-profile/'+ ${courseInfo?.institutionNameUrl} +'/${courseInfo?.institutionId}/`} className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
                       <div className={`heart ${uniInfo?.favoriteFlag ? 'active' : ''} min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
                         <svg
                           width="20"
@@ -141,7 +139,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
             </div>
 
 
-            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: string }, index: any) => <div key={index} className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
+            {awards?.length && awards?.map((award: { awardName: string, image: string, winningstatus: number }, index: any) => <div key={index} className='course-card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
               <div className="course-highlight__option flex flex-col md:flex-row items-center gap-[24px]">
                 <div className='w-[120px] p-[10px]'>
                   {award?.image &&
@@ -149,8 +147,8 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
                   }
                 </div>
                 <div className="flex flex-col gap-[4px] *:text-grey300">
-                  <div className="h5 font-semibold">{award.awardName}</div>
-                  <p className="small">Winner: {award?.winningstatus}</p>
+                  <div className="h5 font-semibold">Whatuni Student Choice Awards</div>
+                  <p className="small">{award?.winningstatus === 1 ? 'Winner: ' : 'Runner: '}{award?.awardName}</p>
                 </div>
               </div>
             </div>)}
@@ -158,7 +156,7 @@ const UniInfoComponent = ({ sectionId, sectionName, uniInfo }: UniInfoComponentP
 
             <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
               <div className='card-map w-full md:w-[453px] max-md:h-[350px] relative'>
-                <a href={"https://maps.google.com/?q=" + location.latitude + ',' + location.longitude} target="_blank" className='btn btn-primary absolute top-[16px] right-[16px] z-[1]'>VIEW GOOGLE MAPS</a>
+                <a href={"https://maps.google.com/?q=" + location?.latitude + ',' + location?.longitude} target="_blank" className='btn btn-primary absolute top-[16px] right-[16px] z-[1]'>VIEW GOOGLE MAPS</a>
                 <div className='w-full' style={{ height: '100%' }} id='map-container' ref={mapContainerRef} />
               </div>
               <div className='course-card flex flex-col gap-[16px] bg-white p-[16px] md:p-[24px] w-full md:w-[calc(100%_-_452px)]'>
