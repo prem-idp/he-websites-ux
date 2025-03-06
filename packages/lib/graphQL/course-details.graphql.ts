@@ -69,34 +69,47 @@ export const COURSE_DETAILS_QUERY = `{
 `;
 
 interface Section {
-    "sys": any
-    "internalName": string,
-    "cardSectionTitle": string,
-    "flagComponentStyle": string,
-    "shortDescription": string | null,
-    "longDescription": string | null,
-    "mediaCardsCollection": any
+  "sys": any
+  "internalName": string,
+  "cardSectionTitle": string,
+  "flagComponentStyle": string,
+  "shortDescription": string | null,
+  "longDescription": string | null,
+  "mediaCardsCollection": any
 }
 
 interface Sections {
-    [key: string]: any,
-    dynamicZoneComponentsCollection: {
-        items: Section[]
-    }
+  [key: string]: any,
+  dynamicZoneComponentsCollection: {
+    items: Section[]
+  }
 }
 
 interface CousrseContent {
-    data: {
-        pageTemplateDynamicPageCollection: {
-            items: Sections[]
-        }
+  data: {
+    pageTemplateDynamicPageCollection: {
+      items: Sections[]
     }
+  }
 }
 
-export function courseContentExtractor(data: CousrseContent) {
-    let result: any = { ...data?.data?.pageTemplateDynamicPageCollection?.items[0] }
-    result.sections = [...result?.dynamicZoneComponentsCollection?.items];
-    result = result?.sections?.map((item: any) => ({ ...item, mediaCardsCollection: item?.mediaCardsCollection?.items }))
-    delete result['dynamicZoneComponentsCollection'];
-    return { sectionsList: result?.map((item: any) => ({ ...item, sectionName: item?.cardSectionTitle, sectionId: item?.internalName?.toLowerCase()?.replaceAll(' ', '-') })) };
-}   
+export function courseContentExtractor(data: any) {
+  if (!data?.data?.pageTemplateDynamicPageCollection?.items?.length) {
+    return { sectionsList: [] };
+  }
+
+  let pageData = data.data.pageTemplateDynamicPageCollection.items[0];
+
+  if (!pageData?.dynamicZoneComponentsCollection?.items?.length) {
+    return { sectionsList: [] };
+  }
+
+  const sections = pageData.dynamicZoneComponentsCollection.items.map((item: any) => ({
+    ...item,
+    mediaCardsCollection: item?.mediaCardsCollection?.items || [],
+    sectionName: item?.cardSectionTitle || '',
+    sectionId: item?.internalName?.toLowerCase()?.replace(/\s+/g, '-') || '',
+  }));
+
+  return { sectionsList: sections };
+}
