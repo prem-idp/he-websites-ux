@@ -271,8 +271,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
         })
         ?.filter(Boolean);
       const currentParent = getParentSubject(searchParams, jsondata);
-      if (selectedParent != currentParent) {
+      if (selectedParent[0] != currentParent) {
         crossL1Subject = true;
+        console.log("entered");
       }
     }
 
@@ -282,7 +283,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       value,
       crossL1Subject
     );
-    console.log(filters);
     const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
       (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
@@ -290,7 +290,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       },
       {} as KeyValueObject
     );
-    console.log(orderedFilters);
     setFilterOrder(orderedFilters);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
@@ -312,7 +311,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         }
       }
     });
-
+    console.log(urlParams?.toString().replace("%2B", "+"));
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2B");
@@ -321,16 +320,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       router.refresh();
     } else if (multiSelect) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      router.push(`?${urlParams.toString()}`);
+      router.push(`?${urlParams.toString()}`.replace("%2B", "+"));
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document.getElementById(key + value);
       if (linkTagId) {
         linkTagId.click();
-        console.log(linkTagId);
       } else {
-        console.log("link tag is not present");
-        router.push(`?${urlParams.toString()}`);
+        router.push(`?${urlParams.toString()}`.replace("%2B", "+"));
       }
     }
     setrouterEnd(true);
@@ -391,14 +388,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (count >= 4) {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
-        return param;
+        return param?.toString()?.replace("%2B", "+");
       } else {
         return `${`subject=${searchParams?.get("subject")}&${key}=${value}`}`;
       }
     } else {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
-        return param;
+        return param?.toString();
       } else {
         return `${urlParams.toString()}`;
       }
