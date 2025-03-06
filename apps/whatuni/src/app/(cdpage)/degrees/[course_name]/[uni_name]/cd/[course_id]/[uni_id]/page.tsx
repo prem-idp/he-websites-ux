@@ -11,7 +11,7 @@ import SimilarCourseComponent from '@packages/shared-components/course-details/s
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
 export default async function Cdpage({ params }: any) {
   const prams_slug = await params;
-  const slug = `/degrees/${await prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id2}/`
+  const slug = `/degrees/${await prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
   const searchparams = new URLSearchParams({
     courseId: String(prams_slug?.course_id || ""),
