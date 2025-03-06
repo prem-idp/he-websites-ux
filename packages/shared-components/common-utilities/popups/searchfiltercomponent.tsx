@@ -311,7 +311,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         }
       }
     });
-    console.log(urlParams?.toString().replace("%2B", "+"));
+    console.log(urlParams?.toString().replaceAll("%2B", "+"));
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2B");
@@ -320,14 +320,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       router.refresh();
     } else if (multiSelect) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      router.push(`?${urlParams.toString()}`.replace("%2B", "+"));
+      router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document.getElementById(key + value);
       if (linkTagId) {
         linkTagId.click();
       } else {
-        router.push(`?${urlParams.toString()}`.replace("%2B", "+"));
+        router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
       }
     }
     setrouterEnd(true);
