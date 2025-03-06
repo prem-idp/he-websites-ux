@@ -4,6 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import GradeBannerSkeleton from "@packages/shared-components/skeleton/search-result/grade-banner-skeleton";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 const UcasComponent = dynamic(
   () =>
     import(
@@ -16,7 +17,11 @@ const GradeBanner = () => {
   const location = searchparams?.get("location");
   const score = searchparams?.get("score");
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
-  const ucasClick = () => {
+
+  const filterEvents = (eventName: string | null | undefined) => {
+    emitter.emit("isfilterOpen", eventName);
+  };
+  const ucasClick = (eve:any) => {
     setUcasPopupOpen(true);
     const body = document?.body;
     body.classList.add("overflow-y-hidden");
@@ -41,14 +46,14 @@ const GradeBanner = () => {
             />
           </div>
           <div className="flex flex-col gap-[4px]">
-            <div className="para-lg font-bold font-farro">Add your grades</div>
+            <div className="para-lg font-bold font-farro">Add your {score ? "location" : "grades"}</div>
             <div className="small">
-              Add your location to explore options near you or anywhere you
-              prefer
+            {score ? "Add your location to explore options near you or anywhere you prefer" : "Add your UCAS points to help tailor your search to find the right uni for you"}
+             
             </div>
           </div>
         </div>
-        <div  onClick={ucasClick} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
+        <div  onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
           <svg
             width="20"
             height="20"
@@ -63,7 +68,7 @@ const GradeBanner = () => {
               fill="#F9FAFB"
             />
           </svg>
-          Add my grades
+          Add my {score ? "location" : "grades"}
         </div>
       </div>
       {isUcasPopupOpen && (

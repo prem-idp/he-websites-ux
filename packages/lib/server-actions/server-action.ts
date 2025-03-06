@@ -113,9 +113,6 @@ export async function httpBFFRequest(
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
   console.log("PAYLOAD", searchPayload)
   try {
-    searchPayload = {
-      ...searchPayload,
-    };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
     const res = await fetch(url, {
       method: "POST",
