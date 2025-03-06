@@ -6,7 +6,7 @@ import React from 'react';
 
 interface SimilarCourseComponentProps { similarCourses: { title: string, courses: any[], subHeading?: string } };
 
-const SimilarCourseComponent = ({ similarCourses }: SimilarCourseComponentProps) => {
+const SimilarCourseComponent = ({ similarCourses }: any) => {
     return (
         <div className='similar-container bg-grey-50'>
             <div className="max-w-container mx-auto">
