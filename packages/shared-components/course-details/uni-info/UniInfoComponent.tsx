@@ -13,9 +13,11 @@ interface UniInfoComponentProps {
   sectionInfo: CourseSection
 }
 
-const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponentProps) => {
+const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
 
-  const { awards, location } = uniInfo;
+  // const { awards, location } = uniInfo;
+  const awards = uniInfo?.awards;
+  const location = uniInfo?.location;
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
@@ -27,7 +29,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
           container: mapContainerRef.current,
           style: 'mapbox://styles/mapbox/streets-v12',
           zoom: 15,
-          center: [location.longitude, location.latitude]
+          center: [location?.longitude, location?.latitude]
         });
         // Add zoom and rotation controls to the map.
         mapRef.current.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
@@ -35,7 +37,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
         // Add marker after map loads
         mapRef.current.on('load', () => {
           new mapboxgl.Marker({ color: '#00BBFD' }) // Blue color
-            .setLngLat([location.longitude, location.latitude]) // Marker position
+            .setLngLat([location?.longitude, location?.latitude]) // Marker position
             .addTo(mapRef.current);
         });
       }
@@ -154,7 +156,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
 
             <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
               <div className='card-map w-full md:w-[453px] max-md:h-[350px] relative'>
-                <a href={"https://maps.google.com/?q=" + location.latitude + ',' + location.longitude} target="_blank" className='btn btn-primary absolute top-[16px] right-[16px] z-[1]'>VIEW GOOGLE MAPS</a>
+                <a href={"https://maps.google.com/?q=" + location?.latitude + ',' + location?.longitude} target="_blank" className='btn btn-primary absolute top-[16px] right-[16px] z-[1]'>VIEW GOOGLE MAPS</a>
                 <div className='w-full' style={{ height: '100%' }} id='map-container' ref={mapContainerRef} />
               </div>
               <div className='course-card flex flex-col gap-[16px] bg-white p-[16px] md:p-[24px] w-full md:w-[calc(100%_-_452px)]'>
