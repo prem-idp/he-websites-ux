@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
 import PageViewLogging from "@packages/lib/utlils/pageviewlogging";
-import { generateBreadcrumbData } from "@packages/lib/utlils/generateBreadcrumb"
+import {generateBreadcrumbData} from "@packages/lib/utlils/generateBreadcrumb"
 const Page = async ({ params, searchParams }: any) => {
   const pageNameforArtcileDetail = "articleDetail";
   const searchparams = await searchParams;
@@ -45,7 +45,7 @@ const Page = async ({ params, searchParams }: any) => {
     data?.metaTagThemeCollection?.items[0]?.title,
     data?.pageTitle,
   ];
-  const breadcrumbData = generateBreadcrumbData(slugurl, customLabels);
+  const breadcrumbData = generateBreadcrumbData(slugurl,customLabels);
   const jsonLd = {
     "@context": "http://schema.org",
     "@type": "Article",
@@ -149,6 +149,7 @@ const Page = async ({ params, searchParams }: any) => {
                                 dt?.__typename === "MultipleCardContainer" &&
                                 dt?.flagComponentStyle !== "ArticleCarousal"
                               ) {
+                                //console.log("inside the if");
                               } else {
                                 const Component: any = dynamicComponent(
                                   dt?.__typename

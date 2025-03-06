@@ -1,13 +1,6 @@
-import { getDecodedCookie } from "./filters/result-filters";
-// import { MetaDataProps } from "@whatuni/src/app/(sr-and-pg-pages)/[hero]/search/page";
-import { getSearchPayload, getSEOSearchPayload } from "@packages/shared-components/services/utils";
-import { cookies, headers } from "next/headers";
+import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
 import { graphQlFetchFunction, httpBFFRequest } from "../server-actions/server-action";
 import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
-import { getFiltersInparamReqBody } from "@packages/shared-components/sr-page/SrFilter/filterWrapper";
-import { getSrFilter } from "@packages/REST-API/rest-api";
-import { filterbodyJson } from "./filters/filterJson";
-import { SRDisplayNameEndPt, SRGetCourseCountEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { MetaDataInterface } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 
@@ -20,33 +13,31 @@ interface MetaFilterTypesReplace{
     courseCount?: string,
 }
 
-export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any) {
-  //Initializing and Assigning values
-
-  const qualInUrl = params?.hero;
+export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string, pageType: string) {
   
+  //Initializing and Assigning values
+  const qualInUrl = params?.hero;
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
-  const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad);
+  const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad, pageType);
   console.log("seoMetaFeildId: ", seoMetaFeildId);
 
   //1) bff API hit
   const displayNameReqBody = getDisplayNameReqBody(searchPayLoad);
-  //console.log("displayNameReqBody: ", JSON.stringify(displayNameReqBody));
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
     displayNameReqBody, 
     "POST", 
     `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
-    "no-cache", 
+    "no-store", 
     0, 
     {});
 
   // console.log("courseCountResponse: ", courseCountResponse);  
-   console.log("displayNameResponse: ", displayNameResponse);  
+  // console.log("displayNameResponse: ", displayNameResponse);  
+
   //2) contentful API hit
+  const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
-  let contentfulMetadata = await graphQlFetchFunction(query);
+  let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
 
 
@@ -64,7 +55,7 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted);
   const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
-  const index = getSRIndexation(searchParams, searchPayLoad);
+  const index = getSRIndexation(searchParams, searchPayLoad, Number(displayNameResponse?.collegeCount));
   const canonical = getSRCanonical(searchParams, pathName) ?? (getCustomDomain() + pathName);
   
   let actualMetaData: MetaDataInterface = {
@@ -89,18 +80,12 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
 export function getDisplayNameReqBody(searchPayLoad: any){
   const displayNameReqBody = { 
 
-    "parentQualification": searchPayLoad?.parentQualification ?? "", 
-
-    "childQualification": searchPayLoad?.childQualification ?? "", 
-
-    "searchSubject": searchPayLoad?.searchSubject ?? "", 
-
-    "searchKeyword": searchPayLoad?.searchKeyword ?? "", 
-
-    "jacsCode": searchPayLoad?.jacsCode ?? "", 
-
-    "location": searchPayLoad?.location ?? "", 
-
+    "parentQualification": searchPayLoad?.parentQualification ?? "",
+    "childQualification": searchPayLoad?.childQualification ?? "",
+    "searchSubject": searchPayLoad?.searchSubject ?? "",
+    "searchKeyword": searchPayLoad?.searchKeyword ?? "",
+    "jacsCode": searchPayLoad?.jacsCode ?? "",
+    "location": searchPayLoad?.location ?? "",
     "studyMode": searchPayLoad?.studyMode ?? "",
 
   }
@@ -144,9 +129,23 @@ function replaceMultiplePlaceholder(pattern: string, inputText: string, selected
 }
 
 
-function getSRIndexation(searchParams: any, searchPayLoad: any){
-    if(searchPayLoad?.searchKeyword ||
-       searchParams?.length >= 3 ){
+function getSRIndexation(searchParams: any, searchPayLoad: any, providerCount: number){
+
+    let multiOptionSelected:boolean = false;
+    let filterCount = 0;
+
+    Object.keys(searchParams).forEach((key:string)=>{
+      if(getselectedCount(searchParams[key]) >= 2){
+        multiOptionSelected = true;
+      }
+      filterCount++;
+    });
+
+    console.log("searchParams?.length: ", filterCount);
+    if(searchPayLoad?.searchKeyword ||                          //keyword search
+      multiOptionSelected ||                                    //multiple options selected in multi-select filter
+      (!multiOptionSelected && filterCount >= 3) ||     //url has more than 2 params
+      providerCount <= 3){                                      //total search result count is less than/equal to 3
         return "noindex, nofollow";
     }
 
@@ -161,24 +160,24 @@ function getSRCanonical(searchParams: any, pathName: string){
   return formSRPageURL(newObj, pathName)
 } 
 
+function getselectedCount(filterValueString: string|undefined) : number{
+  if(!filterValueString) return 0;
+  const filterValueArr = filterValueString?.trim()?.split(" ");
+  return filterValueArr ? filterValueArr?.length : 0 ;
+}
+
 function formSRPageURL(searchParams: any, pathName: string){
   let filterCount: number = 0;
   let formURL = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
   formURL = formURL + pathName;
 
-  function getselectedCount(filterValueString: string|undefined) : number{
-    if(!filterValueString) return 0;
-    const filterValueArr = filterValueString?.trim()?.split(" ");
-    return filterValueArr ? filterValueArr?.length : 0 ;
-  }
-
   if(filterCount < 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.subject); filterCount = filterCount + getselectedCount(searchParams?.subject);}
   if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
-  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
+  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.location);}
   if(filterCount < 4 && searchParams?.['study-method']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-method=" + searchParams?.['study-method']); filterCount++;}
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
-  if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.subject);;}
+  if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.['intake-month']);}
   if(filterCount < 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("distance=" + searchParams?.distance); filterCount++;}
   if(filterCount < 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
@@ -190,7 +189,7 @@ function formSRPageURL(searchParams: any, pathName: string){
 }
 
 
-export function getSeoMetaFeildId(searchPayLoad: any) {
+export function getSeoMetaFeildId(searchPayLoad: any, pageType: string) {
 
   const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] == "" ? false : true); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] == "" ? false : true);
@@ -342,6 +341,6 @@ export function getSeoMetaFeildId(searchPayLoad: any) {
     seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "location";
   } 
 
-  return "SEO - " + seoMetaFeildId + ` - ${process.env.PROJECT}`;
+  return `SEO - ${pageType} - ${seoMetaFeildId} - ${process.env.PROJECT}`;
 
 }

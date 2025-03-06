@@ -23,9 +23,10 @@ const TopSection: React.FC<searchProps> = async ({
   const displayNameReqBody = getDisplayNameReqBody(searchParam);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
-  const seoMetaFeildId: string = getSeoMetaFeildId(searchParam);
+  const seoMetaFeildId: string = getSeoMetaFeildId(searchParam, "SR");
+  const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
-  let contentfulMetadata = await graphQlFetchFunction(query);
+  let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata =
     contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
 
@@ -74,7 +75,7 @@ const TopSection: React.FC<searchProps> = async ({
               )}
             </div>
             <p>
-            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
+            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}

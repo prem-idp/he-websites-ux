@@ -9,7 +9,8 @@ type RequestType = "GET" | "POST";
 
 export async function graphQlFetchFunction(
   payload: string,
-  isContentPreview?: boolean
+  isContentPreview?: boolean,
+  customParams?: any,
 ) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
@@ -19,6 +20,7 @@ export async function graphQlFetchFunction(
         Authorization: `Bearer ${isContentPreview ? process.env.NEXT_PUBLIC_PREVIEW_GRAPHQL_AUTH : process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
+      ...customParams,
     });
     const data = await res.json();
     return data;
@@ -88,7 +90,7 @@ export async function httpBFFRequest(
 ): Promise<any> {
   try {
     const url = endpoint;
-    const cacheparam = cacheType?.toString() != "no-cache" && cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
+    const cacheparam = cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
     const res = await fetch(url, {
       method: reqtype,
       headers: {
@@ -111,8 +113,12 @@ export async function httpBFFRequest(
 }
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
-  console.log("PAYLOAD", searchPayload)
   try {
+    searchPayload = {
+      dynamicRandomNumber: uuidv4().replace(/\D/g, "").slice(0, 8),
+      //userRegionArray : headersList?.get('cloudfront-viewer-country-region'),
+      ...searchPayload,
+    };
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
     const res = await fetch(url, {
       method: "POST",
@@ -151,4 +157,3 @@ const getUserLocationInfo = async (latitude: any, longitude: any) => {
   }
 };
 export { searchResultsFetchFunction, getUserLocationInfo };
-

@@ -8,7 +8,7 @@ pageSeoFieldsCollection(
     {
       seoFieldsName
       h2WithgradeText
-      h2Text
+      h2WithoutgradeText
       h1Title
       metaTile
       metaDescription

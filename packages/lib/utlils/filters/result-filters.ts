@@ -18,6 +18,8 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "location-type",
     "pageno",
+    "russell-group",
+    "sort",
   ];
   const pgsFilters = [
     "course",
@@ -35,6 +37,8 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "location_type",
     "page_no",
+    "russell_group",
+    "sort",
   ];
   const whatuniPrFilters = [
     "university",
@@ -52,6 +56,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "location-type",
     "pageno",
+    "sort",
   ];
   const pgsPrFilters = [
     "university",
@@ -69,6 +74,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "location_type",
     "page_no",
+    "sort",
   ];
   if (process.env.PROJECT === "Whatuni" && isQualification) {
     return [...whatuniPrFilters];
@@ -87,7 +93,12 @@ const extractUrlAndCookieValues = (
   value: string,
   crossSubject?: boolean
 ): KeyValueObject => {
-  const paramsObject = Object.fromEntries(searchParams.entries());
+  const queryString = searchParams?.toString();
+  const paramsObject = queryString.split("&").reduce((acc: any, param: any) => {
+    const [key, value] = param.split("=");
+    acc[key] = decodeURIComponent(value);
+    return acc;
+  }, {});
   const cookieObject: KeyValueObject = JSON.parse(
     getDecodedCookie("filter_param") || "{}"
   );
@@ -100,15 +111,15 @@ const extractUrlAndCookieValues = (
     }
   }
   if (mergedObject[key]) {
-    let valuesSet = new Set(mergedObject[key].split(","));
+    let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
     } else if (key === "subject" || key === "location") {
       valuesSet.add(value);
     } else {
-      valuesSet = new Set(`${value}`.split(","));
+      valuesSet = new Set(`${value}`.split("+"));
     }
-    mergedObject[key] = Array.from(valuesSet).join(",");
+    mergedObject[key] = Array.from(valuesSet).join("+");
     if (!mergedObject[key]) delete mergedObject[key];
   } else {
     mergedObject[key] = value;
@@ -135,8 +146,8 @@ const mergeTwoObjects = (
         k,
         paramsObject[k]
           ? Array.from(
-              new Set([...paramsObject[k].split(","), ...v.split(",")])
-            ).join(",")
+              new Set([...paramsObject[k]?.split("+"), ...v?.split("+")])
+            ).join("+")
           : v,
       ])
     ),
@@ -172,7 +183,7 @@ const getParentSubject = (
   if (searchParams) {
     const sub =
       searchParams?.get("subject") || searchParams?.get("course") || "";
-    const arr = sub?.split(",");
+    const arr = sub?.split(" ");
     const parents: any = arr?.map((selectedSub: string) => {
       const getParent = jsondata?.subjectFilterList?.map((items: any) => {
         if (selectedSub == items?.subjectTextKey) {
@@ -203,7 +214,6 @@ function getUserLocation() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         const data = getUserLocationInfo(latitude, longitude);
-        console.log({ data });
         return data;
       },
       (error) => {

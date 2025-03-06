@@ -6,21 +6,15 @@ interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
 }
 
-export default async function PrPageTopSection({ searchResultlist }: ProviderTopCardProps) {
-
-  if (!searchResultlist || !searchResultlist.searchResultsList?.length) {
-    return <></>
-  }
+const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) => {
 
   const college = searchResultlist?.searchResultsList[0];
-  const logoSrc = `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}` + college?.collegeMedia?.ipCollegeLogo; // Extract the logo URL
+  const logoSrc = college?.collegeMedia?.wuCollegeLogo; // Extract the logo URL
   const distanceInMiles = college?.distanceInMiles ?? 0;
   const collegeName = college?.collegeDisplayName;
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
   const rating = college?.rating ?? 0; // Default to 0 if null
-
-  const reviewsLinksrc = `/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
   return (
     <section className="bg-white">
@@ -51,7 +45,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                   />
                   {rating}
                 </span>
-                <Link href={reviewsLinksrc} className="underline ">
+                <Link href="#" className="underline ">
                   {reviewCount} reviews
                 </Link>
               </div>
@@ -70,7 +64,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                 </li>
                 <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
                   <span>
-                    WUSCA ranking: {college?.wuscaRanking}
+                    WUSCA ranking: 18th
                     <div
                       className="absolute select-none hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"
                     >
@@ -117,3 +111,5 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
     </section>
   );
 };
+
+export default PrPageTopSection;

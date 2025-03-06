@@ -118,6 +118,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
       isFormValid = false;
     }
 
+    console.log(firstname, lastname, email, year, agreement);
 
     const handleSubscriptionGAlog = async () => {
       const datalog: DataLayerGA4AttrType = {
@@ -157,7 +158,7 @@ const Dontmissout = ({ key, data, preview }: any) => {
           method: "POST",
           headers: {
             "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-            sitecode: String(process.env.SITE_CODE),
+            sitecode:String(process.env.SITE_CODE),
             "Content-Type": "application/json",
             "x-correlation-id": uuidv4(),
           },
@@ -230,12 +231,13 @@ const Dontmissout = ({ key, data, preview }: any) => {
       setEmailprev("");
     }
   }
-  const domain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev"
+  const domain = `${
+    process.env.NEXT_PUBLIC_ENVIRONMENT === "dev"
       ? "https://mdev.dev.aws."
       : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg"
         ? "https://mtest.test.aws."
         : "https://www."
-    }`;
+  }`;
   return (
     <>
       {authenticated && (

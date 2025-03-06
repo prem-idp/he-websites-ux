@@ -17,10 +17,11 @@ import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjec
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import LocationcheckBox from "@packages/shared-components/sr-page/SrFilter/locatcionCheckBox";
 import { getParentSubject } from "@packages/lib/utlils/filters/result-filters";
-import { getSrFilter } from "@packages/REST-API/rest-api";
+import { getSrFilter, getSrFilterCount } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
+
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -42,12 +43,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
     locationMilesArray: locationMilesArray,
   });
   const [slug, setslug] = useState(path || "degree-courses/search");
-
+  const [courseCount, setCourseCount] = useState<any>(0);
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
-  const [isSubjectOpen, setIsSubjectOpen] = useState(false);
+  const [isSubjectOpen, setIsSubjectOpen] = useState<any>(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filterOrder, setFilterOrder] = useState<any>(false);
   const [selectedSubject, setSelectedSubject] = useState({
     ParentSubject: "",
     SubjectList: "",
@@ -56,9 +58,23 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [selectedFilter, SetselectedFilter] = useState<
     null | undefined | string
   >(null);
+  const [routerEnd, setrouterEnd] = useState(false);
 
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
-
+  const subjectClicked = (item: string, closeFilter?: boolean) => {
+    setIsSubjectOpen(closeFilter || !isSubjectOpen);
+    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
+      return items.parentSubject == item;
+    });
+    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
+    setSearchedSubject((prev: any) => ({
+      ...prev,
+      isSujectDropdownOpen: false,
+    }));
+  };
+  const subjectParam: any = (
+    searchParams?.get("subject") || searchParams?.get("course")
+  )?.split(",");
   useEffect(() => {
     setPrepopulateFilter({
       studyMethod:
@@ -87,6 +103,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (pathname) {
       setslug(pathname);
     }
+    const parentSubjectName = getParentSubject(
+      searchParams,
+      jsondata,
+      subjectParam[0]
+    );
+    if (parentSubjectName) {
+      subjectClicked(parentSubjectName, true);
+    }
+    const getCount = async () => {
+      const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
+      const count = await getSrFilterCount(
+        filterbodyJson(bodyJson, slug.split("/")[1])
+      );
+      setCourseCount(count);
+    };
+    getCount();
   }, [searchParams]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
@@ -170,14 +202,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const universitiesList = universitiesSortingList();
   const universityClicked = (displayHeading: string, id: string) => {
     setIsUniversityOpen(!isUniversityOpen);
-
     setSelectUniId({ id, displayHeading });
     setSearchedUniversity((prev: any) => ({
       ...prev,
       isUniversityDropdownOpen: false,
     }));
   };
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -195,6 +225,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const closeFilter = () => {
     setIsFilterOpen(false);
     SetselectedFilter(null);
@@ -209,93 +240,97 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-  let isUpdating = false;
+
+  useEffect(() => {
+    const dynamicFilter = async () => {
+      if (routerEnd) {
+        const data = await getSrFilter(
+          filterbodyJson(filterOrder, slug.split("/")[1])
+        );
+        setJsondata(data);
+        setrouterEnd(false);
+        setFilterLoading(false);
+      }
+    };
+    dynamicFilter();
+  }, [routerEnd]);
+
   const appendSearchParams = async (
     key: string,
     value: string,
     isQualification?: boolean
   ) => {
-    if (isUpdating) return;
-    setTimeout(async () => {
-      isUpdating = true;
-      setFilterLoading(true);
-      let crossL1Subject = false;
-      if (key === "subject" || key === "course") {
-        const selectedParent = jsondata?.subjectFilterList
-          ?.map((subjects: any) => {
-            if (subjects?.subjectTextKey === value) {
-              return subjects?.parentSubject;
-            }
-          })
-          ?.filter(Boolean);
-        const currentParent = getParentSubject(searchParams, jsondata);
-        if (selectedParent != currentParent) {
-          crossL1Subject = true;
-        }
+    setFilterLoading(true);
+    let crossL1Subject = false;
+    if (key === "subject" || key === "course") {
+      const selectedParent = jsondata?.subjectFilterList
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey === value) {
+            return subjects?.parentSubject;
+          }
+        })
+        ?.filter(Boolean);
+      const currentParent = getParentSubject(searchParams, jsondata);
+      if (selectedParent[0] != currentParent) {
+        crossL1Subject = true;
+        console.log("entered");
       }
-      const filters = extractUrlAndCookieValues(
-        searchParams,
-        key,
-        value,
-        crossL1Subject
-      );
-      const orderedFilters = getFilterPriority(
-        isQualification || false
-      )?.reduce((acc, priorityKey) => {
+    }
+
+    const filters = extractUrlAndCookieValues(
+      searchParams,
+      key,
+      value,
+      crossL1Subject
+    );
+    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
+      (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
-      }, {} as KeyValueObject);
-      const data = await getSrFilter(
-        filterbodyJson(orderedFilters, slug.split("/")[1])
-      );
-
-      setJsondata(data);
-      const urlParams = new URLSearchParams();
-      const cookieParams: KeyValueObject = {};
-      let totalValues = 0;
-      Object.entries(orderedFilters).forEach(([k, v]) => {
-        const valuesArray = v.split(",");
-        if (totalValues + valuesArray?.length <= 4) {
-          urlParams.set(k, valuesArray?.join(","));
-          totalValues += valuesArray?.length;
-        } else {
-          const allowedValues = valuesArray.slice(0, 4 - totalValues);
-          const remainingValues = valuesArray.slice(4 - totalValues);
-          if (allowedValues?.length > 0) {
-            urlParams.set(k, allowedValues?.join(","));
-            totalValues += allowedValues?.length;
-          }
-          if (remainingValues?.length > 0) {
-            cookieParams[k] = remainingValues?.join(",");
-          }
-        }
-      });
-      const multiSelect =
-        urlParams?.toString()?.includes("+") ||
-        urlParams?.toString()?.includes("%2C");
-
-      if (urlParams?.toString() === searchParams?.toString()) {
-        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        router.refresh();
-        setFilterLoading(false);
-      } else if (multiSelect) {
-        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        router.push(`?${urlParams.toString()}`);
-        setFilterLoading(false);
+      },
+      {} as KeyValueObject
+    );
+    setFilterOrder(orderedFilters);
+    const urlParams = new URLSearchParams();
+    const cookieParams: KeyValueObject = {};
+    let totalValues = 0;
+    Object.entries(orderedFilters).forEach(([k, v]) => {
+      const valuesArray = v.split(",");
+      if (totalValues + valuesArray?.length <= 4) {
+        urlParams.set(k, valuesArray?.join("+"));
+        totalValues += valuesArray?.length;
       } else {
-        document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-        const linkTagId = document.getElementById(key + value);
-        if (linkTagId) {
-          linkTagId.click();
-          setFilterLoading(false);
-        } else {
-          router.push(`?${urlParams.toString()}`);
-          setFilterLoading(false);
+        const allowedValues = valuesArray.slice(0, 4 - totalValues);
+        const remainingValues = valuesArray.slice(4 - totalValues);
+        if (allowedValues?.length > 0) {
+          urlParams.set(k, allowedValues?.join("+"));
+          totalValues += allowedValues?.length;
+        }
+        if (remainingValues?.length > 0) {
+          cookieParams[k] = remainingValues?.join("+");
         }
       }
-      isUpdating = false;
-      setFilterLoading(false);
-    }, 0);
+    });
+    console.log(urlParams?.toString().replaceAll("%2B", "+"));
+    const multiSelect =
+      urlParams?.toString()?.includes("+") ||
+      urlParams?.toString()?.includes("%2B");
+    if (urlParams?.toString() === searchParams?.toString()) {
+      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      router.refresh();
+    } else if (multiSelect) {
+      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
+    } else {
+      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      const linkTagId = document.getElementById(key + value);
+      if (linkTagId) {
+        linkTagId.click();
+      } else {
+        router.push(`?${urlParams.toString()}`.replaceAll("%2B", "+"));
+      }
+    }
+    setrouterEnd(true);
   };
 
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
@@ -308,6 +343,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       return `${modifiedParam}`;
     }
   };
+
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
     if (key === "subject" || key === "course") {
@@ -341,10 +377,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a)?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split(",");
+      const valuesArray = v.split("+");
       if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
-          urlParams.set(k, valuesArray.join(","));
+          urlParams.set(k, valuesArray.join("+"));
           totalValues += valuesArray?.length;
         }
       }
@@ -352,14 +388,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (count >= 4) {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
-        return param;
+        return param?.toString()?.replace("%2B", "+");
       } else {
         return `${`subject=${searchParams?.get("subject")}&${key}=${value}`}`;
       }
     } else {
       if (key == "subject") {
         const param = modifySearchParams(key, value, urlParams);
-        return param;
+        return param?.toString();
       } else {
         return `${urlParams.toString()}`;
       }
@@ -372,6 +408,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const decodedValue = decodeURIComponent(paramValue).replace(/\+/g, " ");
     return decodedValue.split(/[\s,]+/).includes(value);
   };
+
   const parentSubjectSet: any = new Set(
     jsondata?.subjectFilterList
       ?.map((items: any) => {
@@ -381,41 +418,26 @@ const SearchFilterComponent = ({ data, path }: any) => {
       })
       ?.filter(Boolean)
   );
+
   const ParentSubject: any = [...parentSubjectSet];
+
   const L2subjects = ParentSubject?.map((item: any) => {
     const filteredSubjects = jsondata?.subjectFilterList?.filter(
       (subject: any) => subject?.parentSubject === item
     );
     return { parent: item, subjects: filteredSubjects };
   });
-  const studyMethodList = {
-    studyMethodList: [
-      {
-        studyMethodDesc: "Online",
-        studyMethodTextKey: "online",
-        selectedFlag: "N",
-      },
-    ],
-  };
-  const subjectClicked = (item: string) => {
-    setIsSubjectOpen(!isSubjectOpen);
-    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items.parentSubject == item;
-    });
-    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
-    setSearchedSubject((prev: any) => ({
-      ...prev,
-      isSujectDropdownOpen: false,
-    }));
-  };
+
   const parentRegion = jsondata?.regionList?.filter((item: any) => {
     return !item?.parentRegionId;
   });
+
   const FirstLevelRegion = jsondata?.regionList
     ?.map((region: any) => {
       if (region.parentRegionId == 1) return region;
     })
     .filter(Boolean);
+
   const subjectKeyWordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
       const filteredSubject = jsondata?.subjectFilterList?.filter(
@@ -527,69 +549,71 @@ const SearchFilterComponent = ({ data, path }: any) => {
                 >
                   {/* subject */}
                   <div className="flex flex-col gap-[24px] pt-[24px]">
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">
-                        Study Method
-                      </div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one
-                      </div>
-                      <div className="flex flex-wrap gap-[8px]">
-                        {studyMethodList?.studyMethodList?.map(
-                          (items: any, index: any) => (
-                            <div
-                              className="form-black flex relative"
-                              key={index + 1}
-                            >
-                              {isIndexed && (
-                                <Link
-                                  id={
-                                    "study-method" + items?.studyMethodTextKey
+                    {jsondata?.studyMethodList?.length > 0 && (
+                      <div className="flex flex-col gap-[4px]">
+                        <div className="text-para-lg font-semibold">
+                          Study Method
+                        </div>
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one
+                        </div>
+                        <div className="flex flex-wrap gap-[8px]">
+                          {jsondata?.studyMethodList?.map(
+                            (items: any, index: any) => (
+                              <div
+                                className="form-black flex relative"
+                                key={index + 1}
+                              >
+                                {isIndexed && (
+                                  <Link
+                                    id={
+                                      "study-method" + items?.studyMethodTextKey
+                                    }
+                                    href={{
+                                      pathname: `${slug}`,
+                                      query: formUrl(
+                                        "study-method",
+                                        items?.studyMethodTextKey
+                                      ),
+                                    }}
+                                  ></Link>
+                                )}
+                                <input
+                                  checked={
+                                    prepopulateFilter?.studyMethod ==
+                                    items?.studyMethodTextKey
                                   }
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl(
+                                  onChange={() => {
+                                    appendSearchParams(
                                       "study-method",
                                       items?.studyMethodTextKey
-                                    ),
+                                    );
+                                    setPrepopulateFilter((prev: any) => ({
+                                      ...prev,
+                                      studyMethod:
+                                        prev.studyMethod ==
+                                        items?.studyMethodTextKey
+                                          ? ""
+                                          : items?.studyMethodTextKey,
+                                    }));
                                   }}
-                                ></Link>
-                              )}
-                              <input
-                                checked={
-                                  prepopulateFilter?.studyMethod ==
-                                  items?.studyMethodTextKey
-                                }
-                                onChange={() => {
-                                  setPrepopulateFilter((prev: any) => ({
-                                    ...prev,
-                                    studyMethod:
-                                      prev.studyMethod ==
-                                      items?.studyMethodTextKey
-                                        ? ""
-                                        : items?.studyMethodTextKey,
-                                  }));
-                                  appendSearchParams(
-                                    "study-method",
-                                    items?.studyMethodTextKey
-                                  );
-                                }}
-                                type="checkbox"
-                                id={items?.studyMethodDesc}
-                                name={items?.studyMethodDesc}
-                                className="rounded-[4px] outline-none absolute opacity-0"
-                              />
-                              <label
-                                htmlFor={items?.studyMethodDesc}
-                                className="btn btn-black-outline"
-                              >
-                                {items?.studyMethodDesc}
-                              </label>
-                            </div>
-                          )
-                        )}
+                                  type="checkbox"
+                                  id={items?.studyMethodDesc}
+                                  name={items?.studyMethodDesc}
+                                  className="rounded-[4px] outline-none absolute opacity-0"
+                                />
+                                <label
+                                  htmlFor={items?.studyMethodDesc}
+                                  className="btn btn-black-outline"
+                                >
+                                  {items?.studyMethodDesc}
+                                </label>
+                              </div>
+                            )
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {jsondata?.studyModeList && (
                       <div className="flex flex-col gap-[4px]">
                         <div className="text-para-lg font-semibold">
@@ -629,14 +653,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       "study-mode",
                                       items?.studyModeTextKey
                                     );
-                                    setPrepopulateFilter((prev: any) => ({
-                                      ...prev,
-                                      studyMode:
-                                        prev?.studyMode ==
-                                        items?.studyModeTextKey
-                                          ? ""
-                                          : items?.studyModeTextKey,
-                                    }));
+                                    // setPrepopulateFilter((prev: any) => ({
+                                    //   ...prev,
+                                    //   studyMode:
+                                    //     prev?.studyMode ==
+                                    //     items?.studyModeTextKey
+                                    //       ? ""
+                                    //       : items?.studyModeTextKey,
+                                    // }));
                                   }}
                                   className="rounded-[4px] outline-none absolute opacity-0"
                                   id={items?.studyModeDesc}
@@ -773,7 +797,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             <div
                               key={index}
                               onClick={() => {
-                                subjectClicked(item);
+                                subjectClicked(item, true);
                               }}
                               className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                             >
@@ -1442,8 +1466,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         id={item?.universityGroupDesc}
                                         checked={
                                           prepopulateFilter?.russellGroup !== ""
-                                            ? true
-                                            : false
                                         }
                                         onChange={() => {
                                           appendSearchParams(
@@ -1515,7 +1537,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] font-semibold min-w-[200px] hover:bg-primary-500 md:w-[344px]"
                   onClick={ShowResults}
                 >
-                  Show all 0 results
+                  Show all {courseCount?.courseCount} results
                 </button>
               </div>
             </>
