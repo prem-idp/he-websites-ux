@@ -566,7 +566,7 @@ const onClose = (event: React.FormEvent) => {
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}&${searchParams.toString()}` : `/pgs/search?university=${data?.collegeTextKey}&${searchParams.toString()}`}
+                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams.toString() ? "&"+searchParams.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}&${searchParams.toString()}`}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
