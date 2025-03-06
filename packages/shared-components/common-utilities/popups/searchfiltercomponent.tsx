@@ -208,7 +208,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       isUniversityDropdownOpen: false,
     }));
   };
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -283,6 +282,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       value,
       crossL1Subject
     );
+    console.log(filters);
     const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
       (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
@@ -290,6 +290,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       },
       {} as KeyValueObject
     );
+    console.log(orderedFilters);
     setFilterOrder(orderedFilters);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
@@ -297,23 +298,24 @@ const SearchFilterComponent = ({ data, path }: any) => {
     Object.entries(orderedFilters).forEach(([k, v]) => {
       const valuesArray = v.split(",");
       if (totalValues + valuesArray?.length <= 4) {
-        urlParams.set(k, valuesArray?.join(","));
+        urlParams.set(k, valuesArray?.join("+"));
         totalValues += valuesArray?.length;
       } else {
         const allowedValues = valuesArray.slice(0, 4 - totalValues);
         const remainingValues = valuesArray.slice(4 - totalValues);
         if (allowedValues?.length > 0) {
-          urlParams.set(k, allowedValues?.join(","));
+          urlParams.set(k, allowedValues?.join("+"));
           totalValues += allowedValues?.length;
         }
         if (remainingValues?.length > 0) {
-          cookieParams[k] = remainingValues?.join(",");
+          cookieParams[k] = remainingValues?.join("+");
         }
       }
     });
+
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
-      urlParams?.toString()?.includes("%2C");
+      urlParams?.toString()?.includes("%2B");
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       router.refresh();
@@ -378,10 +380,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a)?.length;
     Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split(",");
+      const valuesArray = v.split("+");
       if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
-          urlParams.set(k, valuesArray.join(","));
+          urlParams.set(k, valuesArray.join("+"));
           totalValues += valuesArray?.length;
         }
       }

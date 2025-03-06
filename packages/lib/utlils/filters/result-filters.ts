@@ -108,9 +108,9 @@ const extractUrlAndCookieValues = (
     } else if (key === "subject" || key === "location") {
       valuesSet.add(value);
     } else {
-      valuesSet = new Set(`${value}`.split(","));
+      valuesSet = new Set(`${value}`.split("+"));
     }
-    mergedObject[key] = Array.from(valuesSet).join(",");
+    mergedObject[key] = Array.from(valuesSet).join("+");
     if (!mergedObject[key]) delete mergedObject[key];
   } else {
     mergedObject[key] = value;
