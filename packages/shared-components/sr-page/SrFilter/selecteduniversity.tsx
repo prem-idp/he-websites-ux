@@ -11,6 +11,7 @@ const SelectedUniversity = ({
   pathname,
   formUrl,
   appendSearchParams,
+  isIndexed,
 }: any) => {
   const slug = pathname?.split("/");
   return (
@@ -55,6 +56,7 @@ const SelectedUniversity = ({
                 <UniversityCheckBox
                   key={index + 1}
                   slug={slug}
+                  isIndexed={isIndexed}
                   formUrl={formUrl}
                   appendSearchParams={appendSearchParams}
                   item={item}
