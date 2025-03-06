@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 
 import { ReviewDetails } from "@packages/lib/types/interfaces";
@@ -11,13 +12,13 @@ interface ReviewCardProps {
   article_category?: string;
   article_subCat?: string;
 }
-const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_category, article_subCat}) => {
+const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_category, article_subCat }) => {
   return (
     <ClickTrackerWrapper
       gaData={{
         event: "ga_contentful_events",
         eventName: "university_reviews",
-        data_label: article_subCat, 
+        data_label: article_subCat,
         cta_name: "NA",
         cta_url: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
         page_name: pageName,

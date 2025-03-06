@@ -56,7 +56,6 @@ export async function constructPayload(
     }
   });
 
-  console.log("Construct Payload " + JSON.stringify(payloads));
   return payloads;
 }
 
