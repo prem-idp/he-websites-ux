@@ -19,6 +19,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "location-type",
     "pageno",
     "russell-group",
+    "sort",
   ];
   const pgsFilters = [
     "course",
@@ -37,6 +38,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "location_type",
     "page_no",
     "russell_group",
+    "sort",
   ];
   const whatuniPrFilters = [
     "university",
@@ -54,6 +56,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "location-type",
     "pageno",
+    "sort",
   ];
   const pgsPrFilters = [
     "university",
@@ -71,6 +74,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "location_type",
     "page_no",
+    "sort",
   ];
   if (process.env.PROJECT === "Whatuni" && isQualification) {
     return [...whatuniPrFilters];
