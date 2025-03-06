@@ -227,9 +227,9 @@ const onClose = (event: React.FormEvent) => {
                       />
                       {data?.wuscaBadges}
                     </div>
-                    {data?.wuscaBadgeCount ? 
+                    {data?.wuscaBadges?.includes(",") ? 
                     <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + {data?.wuscaBadgeCount} more
+                      + {data?.wuscaBadges?.split(",")?.length - 1} more
                     </div> : <></>}
                   </div>
                 ) : (
