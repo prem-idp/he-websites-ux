@@ -5,14 +5,13 @@ import { PercentageBar } from '../common-components/PercentageBar';
 import { CourseSection } from '../models/course.model';
 import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
 
-interface PopularALevelSubjectsComponentProps  {
+interface PopularALevelSubjectsComponentProps {
   popularSubjects: any,
   sectionInfo: CourseSection
 }
 
-const Popularalevelsubjectcomponents = ({ sectionInfo, popularSubjects }: PopularALevelSubjectsComponentProps) => {
+const Popularalevelsubjectcomponents = ({ sectionInfo, popularSubjects }: any) => {
 
-  const { subjects } = popularSubjects;
 
   return (
     <>
@@ -22,7 +21,7 @@ const Popularalevelsubjectcomponents = ({ sectionInfo, popularSubjects }: Popula
             <div className='h5 w-full md:w-[289px]'>{sectionInfo?.sectionName}</div>
             <div className='flex flex-col gap-[16px] md:gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
 
-              {subjects?.map((subjectGroup: any, index: any) => <div key={index} className='card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
+              {popularSubjects?.subjects?.map((subjectGroup: any, index: any) => <div key={index} className='card flex flex-col gap-[16px] w-full border border-grey-200 rounded-[8px] bg-white p-[16px] md:p-[24px]'>
                 <div className='card-header flex flex-col gap-[8px]'>
                   <div className='h6 text-black'>{subjectGroup?.name}</div>
                   <p className='para text-black'>{subjectGroup?.description}</p>

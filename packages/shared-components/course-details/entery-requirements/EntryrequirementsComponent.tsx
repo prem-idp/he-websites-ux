@@ -9,10 +9,10 @@ interface EntryrequirementsComponentProps {
   sectionInfo: CourseSection
 }
 
-const EntryrequirementsComponent = ({ sectionInfo, entryRequirements }: EntryrequirementsComponentProps) => {
+const EntryrequirementsComponent = ({ sectionInfo, entryRequirements }: any) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEntryReq, setSelectedEntryReq] = useState(entryRequirements[0]);
+  const [selectedEntryReq, setSelectedEntryReq] = useState(entryRequirements?.length > 0 ? entryRequirements[0] : null);
 
   function togglemodal() {
     setIsOpen((prev) => !prev)

@@ -20,10 +20,10 @@ const ModulesAccordionComponent = ({ modules }: ModulesAccordionComponentProps) 
   return (
     <>
       <div className="accordion flex flex-col rounded-[6px] bg-white border border-grey-200 px-[16px]">
-        {modules.map((module, index: number) => (
+        {modules?.map((module, index: number) => (
           <div className="accordion-item flex flex-col gap-[8px] py-[16px] border-b border-b-grey-200 last:border-b-0" key={index}>
             <div className='accordion-header flex items-center justify-between gap-[48px] para-lg font-semibold text-primary-400 hover:underline cursor-pointer' onClick={() => toggleAccordion(index)}>
-              {module.moduleName}
+              {module?.moduleName}
               <div className="relative flex items-center justify-center w-[12px] h-[12px]">
                 <span className="absolute">
                   <svg width="12" height="3" viewBox="0 0 12 3" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +48,7 @@ const ModulesAccordionComponent = ({ modules }: ModulesAccordionComponentProps) 
 
                   className={`accordion-body `}>
                   <div className="mt-[16px]">
-                    <ModuleChildAccordionComponent subModules={module.subModules} />
+                    <ModuleChildAccordionComponent subModules={module?.subModules} />
                   </div>
                 </motion.div>
               )}

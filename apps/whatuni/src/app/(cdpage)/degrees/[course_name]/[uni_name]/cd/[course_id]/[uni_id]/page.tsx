@@ -51,11 +51,11 @@ export default async function Cdpage({ params }: any) {
       </section>
       <Courseheaderinfocomponents data={data} />
       <Yearofentrycomponents />
-      <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} >
-        {courseInfoContent &&
-          <Courseinfocomponents data={data} sectionInfo={courseInfoContent} />
-        }
-      </Cdpageclient>
+      {Object.keys(data || {}).length > 0 && (
+        <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug}>
+          {courseInfoContent && <Courseinfocomponents data={data} sectionInfo={courseInfoContent} />}
+        </Cdpageclient>
+      )}
       <Othercoursesmaylikecomponents />
       <SimilarCourseComponent data={data} />
       {process.env.PROJECT === "Whatuni" &&
