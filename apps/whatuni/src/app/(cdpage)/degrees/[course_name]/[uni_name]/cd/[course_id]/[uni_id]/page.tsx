@@ -9,6 +9,12 @@ import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/grap
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
+
+import { reviewPayload } from "@packages/lib/api-payloads/payloads";
+import getApiUrl from "@packages/REST-API/api-urls";
+import makeApiCall from "@packages/REST-API/rest-api";
+
+
 export default async function Cdpage({ params }: any) {
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
@@ -19,7 +25,7 @@ export default async function Cdpage({ params }: any) {
     collegeId: String(prams_slug?.uni_id || ""),
   });
   const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
-  const [data, contents] = await Promise.all([
+  const [data, contents, jsonResponse] = await Promise.all([
     fetch(url, {
       method: "GET",
       headers: {
@@ -27,8 +33,16 @@ export default async function Cdpage({ params }: any) {
         "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
       },
     }).then((res) => res.json()),
-    graphQlFetchFunction(COURSE_DETAILS_QUERY)
+    graphQlFetchFunction(COURSE_DETAILS_QUERY),
+    makeApiCall(
+      getApiUrl?.homePageReviews,
+      "POST",
+      null,
+      null,
+      reviewPayload
+    )
   ]);
+
 
   const customLabels = [
     "degrees",
@@ -38,10 +52,10 @@ export default async function Cdpage({ params }: any) {
     "",
     ""
   ];
-  console.log(data, "data")
+
   const courseContent = courseContentExtractor(contents);
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
-  const courseInfoContent = courseContent?.sectionsList?.filter((section: any) => section?.internalName?.toLowerCase() === 'course info')[0];
+
 
   return (
     <>
@@ -52,11 +66,7 @@ export default async function Cdpage({ params }: any) {
       </section>
       <Courseheaderinfocomponents data={data} />
       <Yearofentrycomponents />
-      {Object.keys(data || {}).length > 0 && (
-        <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug}>
-          {courseInfoContent && <Courseinfocomponents data={data} sectionInfo={courseInfoContent} />}
-        </Cdpageclient>
-      )}
+      <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} jsonResponse={jsonResponse} />
       <Othercoursesmaylikecomponents />
       <SimilarCourseComponent data={data} />
       {process.env.PROJECT === "Whatuni" &&

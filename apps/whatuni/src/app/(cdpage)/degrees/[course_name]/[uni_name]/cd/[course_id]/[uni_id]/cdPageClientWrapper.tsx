@@ -8,10 +8,9 @@ const EntryrequirementsComponent = dynamic(() => import('@packages/shared-compon
 const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent'));
 const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents'));
 const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'));
+const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent'));
 import { useState, useEffect } from 'react';
-export default function Cdpageclient({ children, courseContent, data, prams_slug }: any) {
-
-
+export default function Cdpageclient({ courseContent, data, prams_slug, jsonResponse }: any) {
   const [fetcheddata, setFetcheddata] = useState({ ...data });
   const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
   const [startfetch, setStartfetch] = useState(false);
@@ -19,7 +18,7 @@ export default function Cdpageclient({ children, courseContent, data, prams_slug
 
   useEffect(() => {
     setRenderKey(prev => prev + 1);
-  }, [fetcheddata]);  
+  }, [fetcheddata]);
 
 
   useEffect(() => {
@@ -55,6 +54,7 @@ export default function Cdpageclient({ children, courseContent, data, prams_slug
 
   }, [selectedavilability]);
 
+
   return (
 
     <div>
@@ -66,7 +66,7 @@ export default function Cdpageclient({ children, courseContent, data, prams_slug
           let componentToRender;
           switch (sectionId) {
             case 'course-info':
-              componentToRender = <div key={renderKey}>{children}</div>;
+              componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} jsonResponse={jsonResponse} />;
               break;
             case 'modules':
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
