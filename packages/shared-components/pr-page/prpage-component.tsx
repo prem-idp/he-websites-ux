@@ -10,6 +10,7 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
+import { getSearchPayload } from "../services/utils";
 import { headers } from "next/headers";
 
 interface Payload {
@@ -24,43 +25,18 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export async function constructPayload(
-  searchparams: SearchParams = {}
-): Promise<Payload> {
-  //  const cookieStore = await cookies(); // Get cookies in App Router
-  //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
-  const basePayload: Payload = {
-    parentQualification: "M",
-    pageNo: searchparams?.pageno || "1", // Default to "1" if not in searchparams
-    userCoordinates: "51.5072,-0.1276",
-  };
-  // Start with the base payload
-  const payloads: Payload = { ...basePayload };
-
-  // Object.keys(cookieMap).forEach((key) => {
-  //   if (cookieMap[key] !== undefined && cookieMap[key] !== null) {
-  //     payloads[key] = cookieMap[key];
-  //   }
-  // });
-
-  Object.keys(searchparams).forEach((key) => {
-    if (searchparams[key] !== undefined && searchparams[key] !== null) {
-      // If the key is 'university', map it to 'collegeName' in payloads
-      if (key === "university") {
-        payloads["collegeName"] = searchparams[key];
-      }
-      if (key === "pageno") payloads["pageNo"] = searchparams[key];
-      else {
-        payloads[key] = searchparams[key];
-      }
-    }
-  });
-
-  return payloads;
-}
-
 const searchPRResults = async (searchparams: any) => {
-  const payloads = await constructPayload(searchparams);
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+
+  const payloads = await getSearchPayload(searchparams,
+    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
+    headerList?.get("x-forwarded-for") || ""
+  );
+
+  
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",

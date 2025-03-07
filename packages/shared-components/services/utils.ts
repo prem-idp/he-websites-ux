@@ -49,6 +49,8 @@ const searchPayload: any = {
         filterCookieParam?.["study-method"] ||
         "",
     collegeId: "",
+    collegeName:
+       searchParams?.['university'] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType:
         searchParams?.["location-type"] ||
