@@ -3,7 +3,7 @@ import React from "react";
 import { cookies, headers } from "next/headers";
 import { qualCode } from "@packages/lib/utlils/filters/filterJson";
 import SearchResultComponent from "@packages/shared-components/sr-page/srpage-component";
-import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
+import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
@@ -21,13 +21,7 @@ export async function generateMetadata({
   const paramsAwaited = await params;
   const pathname = `/${paramsAwaited?.hero}/search`;
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const metaData = await getSRMetaDetailsFromContentful(
-    await searchParams,
-    pathname,
-    paramsAwaited,
-    displayNameBFFEndPt,
-    "SR"
-  );
+  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited, displayNameBFFEndPt);
 
   return getMetaDetailsObject(metaData);
 }

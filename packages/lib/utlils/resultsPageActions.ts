@@ -11,57 +11,56 @@ interface MetaFilterTypesReplace{
     location?: string[],
     providerCount?: string,
     courseCount?: string,
+    university?: string,
 }
 
-export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string, pageType: string) {
+export async function getSearchPageMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string) {
   
   //Initializing and Assigning values
   const qualInUrl = params?.hero;
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
-  const seoMetaFeildId: string = getSeoMetaFeildId(searchPayLoad, pageType);
-  console.log("seoMetaFeildId: ", seoMetaFeildId);
+  let metaTitle, metaDesc, index, canonical;
 
   //1) bff API hit
   const displayNameReqBody = getDisplayNameReqBody(searchPayLoad);
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
+  const displayNameResponse = await httpBFFRequest(
+    displayNameBFFEndPt, 
     displayNameReqBody, 
     "POST", 
     `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
     "no-store", 
     0, 
-    {});
-
-  // console.log("courseCountResponse: ", courseCountResponse);  
-  // console.log("displayNameResponse: ", displayNameResponse);  
+    {}
+  );
+    
 
   //2) contentful API hit
-  const customParams = {cache: "no-cache", next: {revalidate: 300}};
+  const seoMetaFeildId: string  = process.env.PROJECT === "Whatuni" ? getWU_SearchSEOFieldId(searchPayLoad) : getPGS_SearchSEOFieldId(searchPayLoad); 
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
+  const customParams = {cache: "no-cache", next: {revalidate: 300}};
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
-
-
-  // console.log("contentfulMetadata: ", contentfulMetadata)
+  console.log("seoMetaFeildId: ", seoMetaFeildId);
+  console.log("contentfulMetadata: ", contentfulMetadata);
 
   //
-  const metaFiltersOpted: MetaFilterTypesReplace = {
-    courseCount: displayNameResponse?.courseCount ?? undefined,
-    location:  displayNameResponse?.locationName ?? undefined,
-    searchSubject: displayNameResponse?.subjectName ?? undefined,
-    studylevel: displayNameResponse?.studyLevel ?? undefined,
-    studymode: displayNameResponse?.studyMode ?? undefined,
-    providerCount: displayNameResponse?.collegeCount ?? undefined,
+  const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNameResponse);
+
+  metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTite, metaFiltersOpted);
+  metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
+
+  if(process.env.PROJECT == "Whatuni"){
+    index = getWU_Indexation(searchParams, searchPayLoad, metaFiltersOpted);
+    canonical = getWU_Canonical(searchParams, pathName, contentfulMetadata?.canonical);
+  } else if(process.env.PROJECT == "PGS"){
+    index = getPGS_Indexation(searchParams, searchPayLoad, metaFiltersOpted, contentfulMetadata?.robots);
+    canonical = getPGS_Canonical(searchParams, pathName, contentfulMetadata?.canonical);
   }
   
-  const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTile, metaFiltersOpted);
-  const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
-  const index = getSRIndexation(searchParams, searchPayLoad, Number(displayNameResponse?.collegeCount));
-  const canonical = getSRCanonical(searchParams, pathName) ?? (getCustomDomain() + pathName);
-  
   let actualMetaData: MetaDataInterface = {
-    canonical: canonical,
+    canonical: canonical ?? (getCustomDomain() + pathName),
     description: metaDesc ?? "Default description",
-    indexation: index,
+    indexation: index ?? "",
     keyword: [],
     title: metaTitle ?? "Default title",
     og_title: metaTitle,
@@ -72,9 +71,19 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
     twitter_description: metaDesc,
   } 
 
-  // console.log("actualMetaData: ", actualMetaData);
-
   return actualMetaData;
+}
+
+export function getMetaOptedDisplayNames(displayNameResponse: any): MetaFilterTypesReplace{
+  return {
+    courseCount: displayNameResponse?.courseCount ?? undefined,
+    location:  displayNameResponse?.locationName ?? undefined,
+    searchSubject: displayNameResponse?.subjectName ?? undefined,
+    studylevel: displayNameResponse?.studyLevel ?? undefined,
+    studymode: displayNameResponse?.studyMode ?? undefined,
+    providerCount: displayNameResponse?.collegeCount ?? undefined,
+    university: displayNameResponse?.collegeName ?? undefined,
+  }
 }
 
 export function getDisplayNameReqBody(searchPayLoad: any){
@@ -87,6 +96,7 @@ export function getDisplayNameReqBody(searchPayLoad: any){
     "jacsCode": searchPayLoad?.jacsCode ?? "",
     "location": searchPayLoad?.location ?? "",
     "studyMode": searchPayLoad?.studyMode ?? "",
+    "collegeName": searchPayLoad?.university ?? "",
 
   }
   return displayNameReqBody;
@@ -113,6 +123,15 @@ export function replaceSEOPlaceHolder(inputText: any, metaFiltersOpted: MetaFilt
     }
     if (inputText?.includes("[STUDY MODE]")) {
       inputText = inputText.replace("[STUDY MODE]", metaFiltersOpted?.studymode ?? "");
+    }
+    if (inputText?.includes("[STUDY METHOD]")) {
+      inputText = inputText.replace("[STUDY METHOD]", metaFiltersOpted?.studymode ?? "");
+    } 
+    if (inputText?.includes("[PROVIDER]")) {
+      inputText = inputText.replace("[PROVIDER]", metaFiltersOpted?.university ?? "");
+    } 
+    if (inputText?.includes("[QUALIFICATION]")) {
+      inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
     return inputText;
 }
@@ -128,36 +147,73 @@ function replaceMultiplePlaceholder(pattern: string, inputText: string, selected
   return inputText;
 }
 
-
-function getSRIndexation(searchParams: any, searchPayLoad: any, providerCount: number){
+function getWU_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpted: MetaFilterTypesReplace){
 
     let multiOptionSelected:boolean = false;
-    let filterCount = 0;
+    let noOfFilterSelected = 0;
 
     Object.keys(searchParams).forEach((key:string)=>{
       if(getselectedCount(searchParams[key]) >= 2){
         multiOptionSelected = true;
       }
-      filterCount++;
+      noOfFilterSelected++;
     });
 
-    console.log("searchParams?.length: ", filterCount);
     if(searchPayLoad?.searchKeyword ||                          //keyword search
-      multiOptionSelected ||                                    //multiple options selected in multi-select filter
-      (!multiOptionSelected && filterCount >= 3) ||     //url has more than 2 params
-      providerCount <= 3){                                      //total search result count is less than/equal to 3
+       multiOptionSelected ||                                   //multiple options selected in multi-select filter
+       (!multiOptionSelected && noOfFilterSelected > 4) ||      //url has more than 4 params
+       Number(metaFiltersOpted?.providerCount) <= 3){           //total search result count is less than/equal to 3
         return "noindex, nofollow";
     }
 
     return "index, follow";
 } 
 
-function getSRCanonical(searchParams: any, pathName: string){
+function getWU_Canonical(searchParams: any, pathName: string, contentfulCanonicalType: string){
   
+  const { sort, ...newObj } = {...searchParams};
+  let canonicalUrl = formSRPageURL(newObj, pathName);
+
+  return canonicalUrl;
+} 
+
+function getPGS_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpted: MetaFilterTypesReplace, contentfulIndex: string){
+
+  let multiOptionSelected:boolean = false;
+  let filterCount = 0;
+
+  Object.keys(searchParams).forEach((key:string)=>{
+    if(getselectedCount(searchParams[key]) >= 2){
+      multiOptionSelected = true;
+    }
+    filterCount++;
+  });
+
+  if(searchPayLoad?.searchKeyword ||                          //keyword search
+     multiOptionSelected ||                                    //multiple options selected in multi-select filter
+     (!multiOptionSelected && filterCount >= 3) ||             //url has more than 2 params
+     Number(metaFiltersOpted?.providerCount) <= 3){            //total search result count is less than/equal to 3
+      contentfulIndex = "noindex, nofollow";
+  }
+
+  return contentfulIndex;
+} 
+
+function getPGS_Canonical(searchParams: any, pathName: string, contentfulCanonicalType: string){
+
   const canonicalSearchParams = {...searchParams};
   const { sort, ...newObj } = canonicalSearchParams;
+  let canonicalUrl;
 
-  return formSRPageURL(newObj, pathName)
+  if(contentfulCanonicalType == "nextIndexUrl"){
+    canonicalUrl = "";
+  } else if(contentfulCanonicalType == "mainPageUrl"){
+    canonicalUrl = getCustomDomain() + pathName;
+  } else{
+    canonicalUrl = formSRPageURL(newObj, pathName);
+  }
+
+  return canonicalUrl;
 } 
 
 function getselectedCount(filterValueString: string|undefined) : number{
@@ -170,6 +226,7 @@ function formSRPageURL(searchParams: any, pathName: string){
   let filterCount: number = 0;
   let formURL = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
   formURL = formURL + pathName;
+
 
   if(filterCount < 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.subject); filterCount = filterCount + getselectedCount(searchParams?.subject);}
   if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
@@ -188,159 +245,413 @@ function formSRPageURL(searchParams: any, pathName: string){
   return formURL;
 }
 
+export function getWU_SearchSEOFieldId(searchPayLoad: any){
 
-export function getSeoMetaFeildId(searchPayLoad: any, pageType: string) {
-
-  const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] == "" ? false : true); 
-  const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] == "" ? false : true);
+  const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length == 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
+  const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length == 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
-   let seoMetaFeildId = "Default";
-   const getStudylevelSeoField = (studylevel: string) => {
-      if(`${process.env.PROJECT}` == "PGS"){
-        if (studylevel == "M") {return "M";} 
-        else if (studylevel == "L") {return "L";}
-        else if (studylevel == "T") {return "ACC-Fnd";}
-        else if (studylevel == "A") {return "FND";}
-        else if (studylevel == "N") {return "hnd-hnc";}
-      } else return studylevel; 
+  const universitySelected = searchPayLoad?.university && searchPayLoad?.university.trim() !== "" ? true : false;
+  let seoMetaFeildId = "Default";
+
+  if(!universitySelected){  //SR page SEO's
+    if (  //no filter
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "No filters"
+    } else if ( // region only
+      !(subjectSelected || keywordSelected) &&
+      locationSelected &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Region only";
+    } else if ( // multiple subjects
+      ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Multiple Subjects Only";
+    } else if ( // multiple subjects + studymode
+      ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.parentQualification &&
+      searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Multiple Subjects and Study Mode"
+    } else if ( // subject + region
+      ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.location?.length == 1 &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Subject & Region with No Course Type"
+    } else if ( // subject + studyLevel + region (doubt contradiction)
+      ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Subject plus Region with Study Level"
+    } else if ( // subject + more regions
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length > 1) &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject + region(2+)"
+    } else if ( // more region only
+      !(subjectSelected || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length > 1) &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "Multiple Regions";
+    } else if ( // only subject atmost atleast one
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+          seoMetaFeildId = "subject"
+    } else if ( // subject + location
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length == 1) &&
+      !searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+          seoMetaFeildId = "subject + location"
+    } else if ( // only studyLevel(for each study levels diff text possible)
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = `studyLevel(${searchPayLoad?.parentQualification})`;
+    } else if ( //subject + location + studyMode
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length == 1) &&
+      !searchPayLoad?.parentQualification &&
+      searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject + studyMode + location"
+  
+    } else if (  // subject + subject (UG)
+      (subjectSelected && searchPayLoad?.searchSubject?.length == 2) &&
+      !locationSelected &&
+      searchPayLoad?.parentQualification &&
+      searchPayLoad?.parentQualification == "M" &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject(2)" + `studyLevel(${searchPayLoad?.parentQualification})`;
+    } else if ( // subject + studyLevel(for each study levels diff text possible)
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject + " + `studyLevel(${searchPayLoad?.parentQualification})`;
+  
+    } else if ( // subject + studyLevel + studymode (doubt)
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.parentQualification &&
+      searchPayLoad?.studyMode
+    ) {
+        seoMetaFeildId = "subject + " + `studyLevel(${searchPayLoad?.parentQualification}) + ` + "studyMode";
+  
+    } else if ( // subject + studyLevel + studymode + location
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length == 1) &&
+      searchPayLoad?.parentQualification &&
+      searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject + " + `studyLevel(${searchPayLoad?.parentQualification}) + ` + "studyMode + " + "location";
+  
+    } else if ( // subject + studyLevel + location
+      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+      (locationSelected && searchPayLoad?.location?.length == 1) &&
+      searchPayLoad?.parentQualification &&
+      !searchPayLoad?.studyMode
+    ) {
+      seoMetaFeildId = "subject + " + `studyLevel(${searchPayLoad?.parentQualification}) + ` + "location";
+    } 
+
+    seoMetaFeildId = `SR - ${seoMetaFeildId}`;
+  } else if(universitySelected){  //PR page SEO's
+
+    // if(searchPayLoad?.parentQualification != "all"){
+    //     if( //  university + no filter
+    //       !(subjectSelected || keywordSelected) &&
+    //       !locationSelected &&
+    //       !searchPayLoad?.studyMode
+    //     ){
+    //       seoMetaFeildId = `studyLevel(UG/PG)`;
+    //     } else if( //  university + subject alone
+    //       (subjectSelected || keywordSelected) &&
+    //       !locationSelected &&
+    //       !searchPayLoad?.studyMode
+    //     ){
+    //       seoMetaFeildId = `subject + studyLevel(UG/PG)`;
+    //     } else if( // university + subject + location
+    //       (subjectSelected || keywordSelected) &&
+    //       locationSelected &&
+    //       !searchPayLoad?.studyMode
+    //     ){
+    //       seoMetaFeildId = `subject + studyLevel(UG/PG) + location`;
+    //     } else if( // university + subject + studymode + location
+    //       (subjectSelected || keywordSelected) &&
+    //       locationSelected &&
+    //       searchPayLoad?.studyMode
+    //     ){
+    //       seoMetaFeildId = `subject + studyLevel(UG/PG) + studyMode + location`;
+    //     } else if( // university + studymode
+    //       !(subjectSelected || keywordSelected) &&
+    //       !locationSelected &&
+    //       searchPayLoad?.studyMode
+    //     ){
+    //       seoMetaFeildId = `studyLevel(UG/PG) + studyMode`;
+    //     }
+    // } else if(searchPayLoad?.parentQualification == "all"){
+    //   seoMetaFeildId = `studyLevel(all)`;
+    // }
+    // seoMetaFeildId = `PR - ${seoMetaFeildId}`
   }
 
-  if (  //no filter
-    !(subjectSelected || keywordSelected) &&
-    !locationSelected &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "No filters"
-  } else if ( // region only
-    !(subjectSelected || keywordSelected) &&
-    locationSelected &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Region only";
-  } else if ( // multiple subjects
-    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-    !locationSelected &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Multiple Subjects Only";
-  } else if ( // multiple subjects + studymode
-    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-    !locationSelected &&
-    !searchPayLoad?.parentQualification &&
-    searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Multiple Subjects and Study Mode"
-  } else if ( // subject + region
-    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-    locationSelected &&
-    searchPayLoad?.location?.length == 1 &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Subject & Region with No Course Type"
-  } else if ( // subject + studyLevel + region (doubt contradiction)
-    ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-    locationSelected &&
-    searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Subject plus Region with Study Level"
-  } else if ( // subject + more regions
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length > 1) &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "subject + region(2+)"
-  } else if ( // more region only
-    !(subjectSelected || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length > 1) &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "Multiple Regions";
-  } else if ( // only subject atmost atleast one
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    !locationSelected &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-        seoMetaFeildId = "subject"
-  } else if ( // subject + location
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length == 1) &&
-    !searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-        seoMetaFeildId = "subject + location"
-  } else if ( // only studyLevel(for each study levels diff text possible)
-    !(subjectSelected || keywordSelected) &&
-    !locationSelected &&
-    searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = `studyLevel(${studyLevelCotentfulCode})`;
-  } else if ( //subject + location + studyMode
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length == 1) &&
-    !searchPayLoad?.parentQualification &&
-    searchPayLoad?.studyMode
-  ) {
-    seoMetaFeildId = "subject + studyMode + location"
+  return `SEO - ${seoMetaFeildId} - Whatuni`;
 
-  } else if (  // subject + subject (UG)
-    (subjectSelected && searchPayLoad?.searchSubject?.length == 2) &&
-    !locationSelected &&
-    searchPayLoad?.parentQualification &&
-    searchPayLoad?.parentQualification == "M" &&
-    !searchPayLoad?.studyMode
-  ) {
-    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject(2)" + `studyLevel(${studyLevelCotentfulCode})`;
-  } else if ( // subject + studyLevel(for each study levels diff text possible)
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    !locationSelected &&
-    searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    
-    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode})`;
+}
 
-  } else if ( // subject + studyLevel + studymode (doubt)
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    !locationSelected &&
-    searchPayLoad?.parentQualification &&
-    searchPayLoad?.studyMode
-  ) {
-      const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-      seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "studyMode";
+export function getPGS_SearchSEOFieldId(searchPayLoad: any){
 
-  } else if ( // subject + studyLevel + studymode + location
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length == 1) &&
-    searchPayLoad?.parentQualification &&
-    searchPayLoad?.studyMode
-  ) {
-    
-    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "studyMode + " + "location";
+  const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length == 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
+  const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length == 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
+  const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
+  const universitySelected = searchPayLoad?.university?.trim() != "" ? true : false;
+  const startDateSelected = searchPayLoad?.intakeYear?.trim() != "" && searchPayLoad?.intakeMonth?.trim() != "" ? true : false;
+  let seoMetaFeildId = "Default";
 
-  } else if ( // subject + studyLevel + location
-    ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-    (locationSelected && searchPayLoad?.location?.length == 1) &&
-    searchPayLoad?.parentQualification &&
-    !searchPayLoad?.studyMode
-  ) {
-    
-    const studyLevelCotentfulCode = getStudylevelSeoField(searchPayLoad?.parentQualification);
-    seoMetaFeildId = "subject + " + `studyLevel(${studyLevelCotentfulCode}) + ` + "location";
-  } 
+  if(!universitySelected){    //SR page SEO's
 
-  return `SEO - ${pageType} - ${seoMetaFeildId} - ${process.env.PROJECT}`;
+    if( // subject
+      (subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+      ) {
+          seoMetaFeildId = `subject`;
+    } else if( // subject + location
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      !searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `subject + location`;
+    } else if( // subject + startDate
+      (subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      startDateSelected
+    ) {
+        seoMetaFeildId =`subject + startDate`;
+    } else if( // subject + studyMethod
+      (subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      !searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `subject + studyMethod`;
+    } else if( // subject + qualification
+      (subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `subject + qualification`;
+    } else if( // subject + qualification + location
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `subject + qualification + location`;
+    } else if( // subject + studyMethod + location
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      !searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `subject + startDate + location`;
+    } else if( // subject + startDate + location
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      !searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      startDateSelected
+    ) {
+        seoMetaFeildId = `subject + startDate + location`;
+    } else if( // subject + startDate + location + studyMethod
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      !searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      startDateSelected
+    ) {
+        seoMetaFeildId = `subject + startDate + location + studyMethod`;
+    } else if( // qualification
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `qualification`;
+    } else if( // qualification + location
+      !(subjectSelected || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + location`;
+    } else if( // qualification + startDate
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + startDate`;
+    } else if( // qualification + studyMethod
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + studyMethod`;
+    } else if( // qualification + studyMethod + location
+      !(subjectSelected || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + studyMethod + location`;
+    } else if( // qualification + studyMethod + startDate
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      searchPayLoad?.studyMethod &&
+      startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + studyMethod + startDate`;
+    } else if( // qualification + studyMethod + startDate + location
+      !(subjectSelected || keywordSelected) &&
+      !locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMethod &&
+      !startDateSelected
+    ) {
+        seoMetaFeildId = `qualification + studyMethod + startDate + location`;
+    }
+      seoMetaFeildId = `SR - ${seoMetaFeildId}`
+  } else if(universitySelected){  //PR page SEO's
+      if( // university alone
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        !startDateSelected
+        ) {
+            seoMetaFeildId = `subject`;
+      } else if( // university + qualification
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `university + qualification`;
+      }  else if( // university + startDate
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        startDateSelected
+      ) {
+          seoMetaFeildId = `university + startDate`;
+      }  else if( // university + studyMethod
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `university + studyMethod`;
+      }  else if( // university + studyMethod + qualification
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        searchPayLoad?.childQualification &&
+        searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `university + studyMethod + qualification`;
+      }  else if( // university + studyMethod + startDate
+        !(subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        searchPayLoad?.studyMethod &&
+        startDateSelected
+      ) {
+          seoMetaFeildId = `university + studyMethod + startDate`;
+      }  else if( // subject + university
+        (subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `subject + university`;
+      }  else if( // subject + university + studyMethod
+        (subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        !searchPayLoad?.childQualification &&
+        searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `subject + university + studyMethod`;
+      }  else if( // subject + university + startDate
+        (subjectSelected || keywordSelected) &&
+        locationSelected &&
+        !searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        startDateSelected
+      ) {
+          seoMetaFeildId = `subject + university + startDate`;
+      }  else if( // subject + university + qualification
+        (subjectSelected || keywordSelected) &&
+        !locationSelected &&
+        searchPayLoad?.childQualification &&
+        !searchPayLoad?.studyMethod &&
+        !startDateSelected
+      ) {
+          seoMetaFeildId = `subject + university + qualification`;
+      } 
+      seoMetaFeildId = `PR - ${seoMetaFeildId}`;
+  }
+
+  return `SEO - ${seoMetaFeildId} - PGS`;
 
 }

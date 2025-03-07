@@ -70,13 +70,12 @@ const searchPayload: any = {
 return searchPayload;
 }
 
-export function getSEOSearchPayload(searchParams: any, qualification: string) {
-  const subjectArray =
-    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || [];
-  const locationArray =
-    searchParams?.location?.split(",") ||
-    searchParams?.location?.split(",") ||
-    [];
+export function getSEOSearchPayload(
+  searchParams: any,
+  qualification: string
+) {
+  const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || [];
+  const locationArray = searchParams?.location?.split(" ") || searchParams?.location?.split(" ") || [];
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification: searchParams?.qualification || undefined,
@@ -85,19 +84,20 @@ export function getSEOSearchPayload(searchParams: any, qualification: string) {
     searchKeyword: searchParams?.q || searchParams?.keyword || undefined,
     jacsCode: undefined,
     location: locationArray,
-    studyMode:
-      searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
+    studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
     studyMethod: searchParams?.["study-method"] || undefined,
     collegeId: undefined,
-    pageNo: searchParams?.pageno || searchParams?.page_no || undefined,
+    pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
     locationType: searchParams?.["location-type"] || undefined,
     intakeYear: searchParams?.year || undefined,
-    intakeMonth: searchParams?.month || undefined,
+    intakeMonth: searchParams?.month  || undefined,
     sortBy: searchParams?.sort || undefined,
     userCoordinates: undefined,
     distance: searchParams?.distance || undefined,
     ucasTariffRange: searchParams?.score || undefined,
     universityGroup: searchParams?.["russell-group"] || undefined,
+    university: searchParams?.university || undefined,
+
   };
   return searchPayload;
 }
