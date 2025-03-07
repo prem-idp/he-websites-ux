@@ -1,20 +1,29 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import UserFavouriteTopSection from "./UserFavouriteTopSection"; // Import the client component
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
 }
 
-const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) => {
+export default async function PrPageTopSection({ searchResultlist }: ProviderTopCardProps) {
+
+  if (!searchResultlist || !searchResultlist.searchResultsList?.length) {
+    return <></>
+  }
 
   const college = searchResultlist?.searchResultsList[0];
-  const logoSrc = college?.collegeMedia?.wuCollegeLogo; // Extract the logo URL
+  const logoSrc = `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}` + college?.collegeMedia?.ipCollegeLogo; // Extract the logo URL
   const distanceInMiles = college?.distanceInMiles ?? 0;
   const collegeName = college?.collegeDisplayName;
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
   const rating = college?.rating ?? 0; // Default to 0 if null
+
+  const reviewsLinksrc = `/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
+
 
   return (
     <section className="bg-white">
@@ -45,7 +54,7 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
                   />
                   {rating}
                 </span>
-                <Link href="#" className="underline ">
+                <Link href={reviewsLinksrc} className="underline ">
                   {reviewCount} reviews
                 </Link>
               </div>
@@ -64,7 +73,7 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
                 </li>
                 <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
                   <span>
-                    WUSCA ranking: 18th
+                    WUSCA ranking: {college?.wuscaRanking}
                     <div
                       className="absolute select-none hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"
                     >
@@ -88,7 +97,7 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
             </div>
           </div>
           <span className="favorite group mr-[0] lg:mr-[10px]  items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-            <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
+            {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
               <svg
                 width="20"
                 height="20"
@@ -104,12 +113,12 @@ const PrPageTopSection: React.FC<ProviderTopCardProps> = ({ searchResultlist }) 
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
+            </div> */}
+            <UserFavouriteTopSection collegeId={college?.collegeId} collegeName={college?.collegeName} />
+
           </span>
         </div>
       </div>
     </section>
   );
 };
-
-export default PrPageTopSection;
