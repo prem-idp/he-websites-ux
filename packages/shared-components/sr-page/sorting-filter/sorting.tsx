@@ -26,12 +26,12 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     if (urlParams.size >= 4) { // If Query params > 4
       const updatedFilterParams = {
         ...filterCookieParam,
-        sort:  value && value === "R" ? "" : value
+        sort:  value && value === "r" ? "" : value
       };  
       setNewCookie(`filter_param=${JSON.stringify(updatedFilterParams)}; path=/; secure`);    
     } else {
-      if(value && value !== "R") {
-      urlParams.set("sort", value && value === "R" ? "" : value);
+      if(value && value !== "r") {
+      urlParams.set("sort", value && value === "r" ? "" : value);
       } else {
         urlParams.delete("sort")
       }
@@ -96,7 +96,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                     checked={
                       value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                         ? true
-                        : value === "R"
+                        : value === "r"
                           ? true
                           : false
                     }
@@ -128,7 +128,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                         checked={
                           value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                             ? true
-                            : value === "R"
+                            : value === "r"
                               ? true
                               : false
                         }

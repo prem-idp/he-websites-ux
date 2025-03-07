@@ -43,10 +43,11 @@ const searchPayload: any = {
     jacsCode: "",
     location: locationArray,
     studyMode:
-        searchParams?.study_mode || searchParams?.["study-mode"] || "",
+        searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode,
     studyMethod:
         searchParams?.["study-method"] ||
-        filterCookieParam?.["study-method"] ||
+        filterCookieParam?.["study-method"] ||  searchParams?.study_method ||
+        filterCookieParam?.study_method ||
         "",
     collegeId: "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
@@ -56,7 +57,7 @@ const searchPayload: any = {
         "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
     intakeMonth: searchParams?.month || filterCookieParam?.month || "",
-    sortBy: searchParams?.sort || filterCookieParam?.sort || "",
+    sortBy: searchParams?.sort?.toUpperCase() || filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",
     distance: searchParams?.distance || filterCookieParam?.distance || "",
     ucasTariffRange: searchParams?.score || filterCookieParam?.score || "",
