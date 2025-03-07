@@ -67,7 +67,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               )}
               <SrPageResultPod
                 searchResultsData={searchResultsData?.searchResultsList}
-                subject={searchparams?.subject || searchparams?.course}
+                subject={searchparams?.subject || searchparams?.course || ""}
               />
               {searchResultsData?.collegeCount > 10 ? (
                 // <Paginations

@@ -47,6 +47,7 @@ const makeApiCall = async (
 
 const getSrFilter = async (bodyjson: any): Promise<any> => {
   const apiUrl = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getSearchFilters`;
+
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -62,9 +63,11 @@ const getSrFilter = async (bodyjson: any): Promise<any> => {
       const errorResponse = await response.json().catch(() => ({}));
       console.error({
         error: errorResponse,
+        sitecode: `${process.env.SITE_CODE}`,
         endpoint: apiUrl,
         status: response?.status,
         statusText: response?.statusText,
+        bodyjson,
       });
       return null;
     }

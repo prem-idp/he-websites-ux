@@ -14,7 +14,6 @@ const LocationcheckBox = ({
   const searchparams = useSearchParams();
 
   const [isChecked, setIsChecked] = useState<any>(false);
-  console.log({ name: childItem?.regionName, isChecked });
   useEffect(() => {
     const locationParam: any = searchparams?.get("location")?.split(" ");
     const urlRegionId = jsondata?.regionList

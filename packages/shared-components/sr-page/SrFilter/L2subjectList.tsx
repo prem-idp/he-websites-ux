@@ -32,17 +32,19 @@ const L2subjectList = ({
   //   searchParams?.get("courses") ||
   //   ""
   // )?.split(",");
-
-  const showSubjectLabel =
-    subjectsArray?.subjects
-      ?.map((subjects: any) => {
-        if (subjects?.subjectTextKey == subjectsSelected[0]) {
-          return subjects;
-        }
-      })
-      ?.filter(Boolean)?.length > 0
-      ? true
-      : false;
+  let showSubjectLabel;
+  if (subjectsSelected?.length > 0) {
+    showSubjectLabel =
+      subjectsArray?.subjects
+        ?.map((subjects: any) => {
+          if (subjects?.subjectTextKey == subjectsSelected[0]) {
+            return subjects;
+          }
+        })
+        ?.filter(Boolean)?.length > 0
+        ? true
+        : false;
+  }
 
   const subjectLable = subjectsSelected
     ?.map((subjectParam: any) => {

@@ -26,7 +26,6 @@ const Regions = ({
         }
       })
       ?.filter(Boolean)[0];
-    console.log({ name: item?.regionTextKey, urlRegionId, locationParam });
     if (
       locationParam[0] == country?.regionTextKey ||
       urlRegionId == item?.parentRegionId ||

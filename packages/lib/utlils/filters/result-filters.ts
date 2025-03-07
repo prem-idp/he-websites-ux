@@ -156,7 +156,6 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
-  console.log(entriesArray);
   for (const [key, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
     if (decodedValue.includes("+") || decodedValue.includes(" ")) {
@@ -239,6 +238,7 @@ function heirarchicalLocation(regions: any) {
   });
   return root;
 }
+
 export {
   locationMilesArray,
   heirarchicalLocation,
