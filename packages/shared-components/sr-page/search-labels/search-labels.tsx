@@ -4,7 +4,7 @@ import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-re
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
-const SearchLabelsContent = ({searchLabel}) => {
+const SearchLabelsContent = ({searchLabel}:any) => {
 
   const [filterList, setFilterList] = useState<string[]>([]);
 
@@ -46,7 +46,7 @@ const SearchLabelsContent = ({searchLabel}) => {
               >
                 {items}
                 {index !== 0 && index !== 1 ?
-                <svg onClick={()=> removeFilter(items)}
+                <svg 
                   className="cursor-pointer"
                   width="16"
                   height="16"
@@ -94,7 +94,7 @@ const SearchLabelsContent = ({searchLabel}) => {
 };
 
 // Main component with Suspense boundary
-const SearchLabels = ({searchLabel}) => {
+const SearchLabels = ({searchLabel}:any) => {
   return (
     <Suspense fallback=''>
       <SearchLabelsContent searchLabel={searchLabel}/>
