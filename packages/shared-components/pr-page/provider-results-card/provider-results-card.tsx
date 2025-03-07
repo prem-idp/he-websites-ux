@@ -11,7 +11,7 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
-  children: any
+  children?: any
 }
 
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
