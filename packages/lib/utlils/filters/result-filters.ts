@@ -15,6 +15,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance-from-home",
     "university-group",
+    "score",
     "location-type",
     "pageno",
     "russell-group",
@@ -33,6 +34,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance_from_home",
     "university_group",
+    "score",
     "location_type",
     "page_no",
     "russell_group",
@@ -51,6 +53,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance-from-home",
     "university-group",
+    "score",
     "location-type",
     "pageno",
     "sort",
@@ -68,6 +71,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance_from_home",
     "university_group",
+    "score",
     "location_type",
     "page_no",
     "sort",
@@ -106,7 +110,7 @@ const extractUrlAndCookieValues = (
       delete mergedObject?.course;
     }
   }
-  if (mergedObject[key]) {
+  if (mergedObject[key] && key != "location") {
     let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
@@ -117,6 +121,8 @@ const extractUrlAndCookieValues = (
     }
     mergedObject[key] = Array.from(valuesSet).join("+");
     if (!mergedObject[key]) delete mergedObject[key];
+  } else if (key == "location") {
+    mergedObject[key] = value;
   } else {
     mergedObject[key] = value;
   }
@@ -217,9 +223,27 @@ function getUserLocation() {
     console.warn("Geolocation is not supported by your browser.");
   }
 }
-
+function heirarchicalLocation(regions: any) {
+  const regionMap = new Map();
+  regions.forEach((region: any) => {
+    regionMap.set(region.regionId, { ...region, children: [] });
+  });
+  const root: any = [];
+  regions.forEach((region: any) => {
+    if (region.parentRegionId) {
+      const parent = regionMap.get(region.parentRegionId);
+      if (parent) {
+        parent.children.push(regionMap.get(region.regionId));
+      }
+    } else {
+      root.push(regionMap.get(region.regionId));
+    }
+  });
+  return root;
+}
 export {
   locationMilesArray,
+  heirarchicalLocation,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,

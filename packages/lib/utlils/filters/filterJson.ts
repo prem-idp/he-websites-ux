@@ -14,7 +14,7 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
       inputObject?.subject?.split(" ") || inputObject?.course?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
-    location: inputObject?.location || "",
+    location: inputObject?.location?.split(" ") || "",
     studyMode: inputObject?.study_mode || inputObject["study-mode"] || "",
     studyMethod: inputObject?.study_method || inputObject["study-Method"] || "",
     collegeId: "",

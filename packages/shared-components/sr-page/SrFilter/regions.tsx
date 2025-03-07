@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import SubRegions from "@packages/shared-components/sr-page/SrFilter/subregion";
-const LocationcheckBox = ({
+import LocationCheckBox from "@packages/shared-components/sr-page/SrFilter/locationCheckBox";
+const Regions = ({
   item,
   jsondata,
   slug,
@@ -11,6 +11,7 @@ const LocationcheckBox = ({
   formUrl,
   appendSearchParams,
   isAllUkChecked,
+  country,
 }: any) => {
   const searchparams = useSearchParams();
 
@@ -90,14 +91,16 @@ const LocationcheckBox = ({
         </div>
       </div>
       <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-        <SubRegions
+        <LocationCheckBox
           item={item}
           jsondata={jsondata}
           isIndexed={isIndexed}
           slug={slug}
           formUrl={formUrl}
+          type={"region"}
           appendSearchParams={appendSearchParams}
           isRegionSelected={isRegionSelected}
+          country={country}
         />
         <li>
           {jsondata?.regionList
@@ -108,15 +111,17 @@ const LocationcheckBox = ({
             })
             .filter(Boolean)
             ?.map((childItem: any, index: any) => (
-              <SubRegions
+              <LocationCheckBox
                 key={index + 1}
                 childItem={childItem}
                 jsondata={jsondata}
                 isIndexed={isIndexed}
+                type={"subregion"}
                 slug={slug}
                 formUrl={formUrl}
                 appendSearchParams={appendSearchParams}
                 isRegionSelected={isRegionSelected}
+                country={country}
               />
             ))}
         </li>
@@ -125,4 +130,4 @@ const LocationcheckBox = ({
   );
 };
 
-export default LocationcheckBox;
+export default Regions;
