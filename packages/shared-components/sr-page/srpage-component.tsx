@@ -59,7 +59,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     <>
       <TopSection
         searchParam={getSEOSearchPayload(searchparams, params?.hero)}
-        searchResultsData={searchResultsData}
+        params={params}
       />
       {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
         <Suspense>
