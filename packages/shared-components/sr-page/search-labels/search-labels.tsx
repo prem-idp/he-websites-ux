@@ -39,9 +39,9 @@ const SearchLabelsContent = ({searchLabel}:any) => {
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
       if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course")) {
-        const updatedSubValues = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
-        const updatedSubParam = updatedSubValues && updatedSubValues?.length > 0 ? updatedSubValues?.join('+') : undefined;
-        currentParams.set(filterKey, updatedSubParam || "");
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
+        const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
+        updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
       } else {
        currentParams.delete(filterKey); 
       } 
@@ -57,7 +57,7 @@ const SearchLabelsContent = ({searchLabel}:any) => {
         document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
       }
          // Check if URL has fewer than 4 params
-      if (currentParams.toString().split('&').length < 4) {
+      if (currentParams?.toString()?.split('&')?.length < 4) {
       for (const [key] of Object.entries(filterCookie)) {
         if (!currentParams.has(key)) {
           currentParams.set(key, filterCookie[key]);
@@ -69,7 +69,7 @@ const SearchLabelsContent = ({searchLabel}:any) => {
     }
     }
     const updatedUrl = `${window.location.pathname}${
-      currentParams.toString() ? `?${currentParams.toString()}` : ''
+      currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;
    router.push(updatedUrl);router.refresh();
   };
