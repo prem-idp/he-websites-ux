@@ -5,7 +5,7 @@ import SrPageNoResults from "@packages/shared-components/sr-page/no-results/srpa
 import TopSection from "@packages/shared-components/sr-page/top-section/top-section";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import Faqcomponents from "@packages/shared-components/common-utilities/faq/faqcomponents";
-import {Paginations} from "@packages/shared-components/common-utilities/paginations/paginations";
+import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import FeaturedVideoSection from "@packages/shared-components/sr-page/featured-video/featured";
 import SearchLabels from "@packages/shared-components/sr-page/search-labels/search-labels";
 import SrPageResultPod from "@packages/shared-components/sr-page/result-pod/result-section";

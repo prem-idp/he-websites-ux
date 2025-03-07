@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
-export const Paginations = ({ totalPages, initialPage }: any) => {
+ const Paginations = ({ totalPages, initialPage }: any) => {
   const searchParams = useSearchParams();
 
   // Ensure totalPages and initialPage are valid numbers
@@ -136,5 +136,7 @@ export const Paginations = ({ totalPages, initialPage }: any) => {
     </>
   );
 };
+
+export default Paginations;
 
 
