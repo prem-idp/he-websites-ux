@@ -1,39 +1,79 @@
 "use client";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 const SearchLabelsContent = ({searchLabel}:any) => {
-
-  const [filterList, setFilterList] = useState<string[]>([]);
-
-  console.log("SearchLabels Search Params " + JSON.stringify(searchLabel));
-
+  const router = useRouter();
+  const [filterList, setFilterList] = useState<any[]>([]);
   const constructFilterList = () => {
-    const filters: string[] = [];
-    console.log("studylevel",searchLabel?.subjectName?.[0])
+    const filters: any[] = [];
     // Add filters only if they exist
-     searchLabel?.year ? filters.push(searchLabel?.year) : filters.push("2025");
-    if (searchLabel?.studyLevel) filters.push(searchLabel?.studyLevel);
-    if (searchLabel?.subjectName) filters.push(searchLabel?.subjectName?.[0]);
-    if (searchLabel?.studyMode) filters.push(searchLabel?.studyMode);
-    if (searchLabel?.locationName) filters.push(searchLabel?.locationName?.[0]);
-   
-
-    // Remove duplicates if any
+     searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
+    if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
+    if (searchLabel?.subjectName) {
+      if(searchLabel?.subjectName?.length === 1) {
+      filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
+      } else {
+        searchLabel?.subjectName.forEach((value:any, index:any) => {
+          filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:value});
+        });
+      }
+    }
+    if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
+    if (searchLabel?.locationName) filters.push({key:'location' , value:searchLabel?.locationName});
     return Array.from(new Set(filters));
   };
 
   useEffect(() => {
     const newList = constructFilterList();
-    console.log("New List " + newList);
     setFilterList(newList);
-  }, []); // Re-run when searchParams change
+  }, [searchLabel]); // Re-run
 
   const openFilterFunction = () => {
     emitter.emit("isfilterOpen", null);
   };
+  const removeFilter = (filterKey: string,value:any) => {
+    const currentParams = new URLSearchParams(window.location.search);    
+    // Remove the specific filter from URL params
+    if(currentParams.has(filterKey)) {
+      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course")) {
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
+        const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
+        updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
+      } else {
+       currentParams.delete(filterKey); 
+      } 
+    } 
+    // Remove from cookies if needed
+    if (document.cookie.includes('filter_param')) {
+      const filterCookie = JSON.parse(decodeURIComponent(
+        document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+      ));
+      
+      if (filterCookie[filterKey]) {
+        delete filterCookie[filterKey];
+        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
+      }
+         // Check if URL has fewer than 4 params
+      if (currentParams?.toString()?.split('&')?.length < 4) {
+      for (const [key] of Object.entries(filterCookie)) {
+        if (!currentParams.has(key)) {
+          currentParams.set(key, filterCookie[key]);
+          delete filterCookie[key];
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
+          break;
+        }
+      }
+    }
+    }
+    const updatedUrl = `${window.location.pathname}${
+      currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
+    }`;
+   router.push(updatedUrl);router.refresh();
+  };
+
   return (
     <>
       <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[4]">
@@ -44,9 +84,9 @@ const SearchLabelsContent = ({searchLabel}:any) => {
                 className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
                 key={index + 1}
               >
-                {items}
+                {items?.value}
                 {index !== 0 && index !== 1 ?
-                <svg 
+                <svg onClick={()=> removeFilter(items?.key,items?.value)}
                   className="cursor-pointer"
                   width="16"
                   height="16"
