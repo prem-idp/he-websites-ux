@@ -7,7 +7,7 @@ import ProviderResultsCard from "./provider-results-card/provider-results-card";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import SearchLabels from "@packages/shared-components/sr-page/search-labels/search-labels";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
+import {Paginations} from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 import { headers } from "next/headers";
@@ -148,7 +148,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
       </section>
       <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
-      <SearchLabels />
+      {/* <SearchLabels searchLabel={} /> */}
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (
