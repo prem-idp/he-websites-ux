@@ -28,6 +28,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [jsondata, setJsondata] = useState(data);
+  const parentRegion = jsondata?.regionList?.filter((item: any) => {
+    return !item?.parentRegionId;
+  });
   const [searchedSubject, setSearchedSubject] = useState({
     subjectkeyword: "",
     sortedSubjects: [],
@@ -45,7 +48,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
   });
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [courseCount, setCourseCount] = useState<any>(0);
-  const [isAllUkChecked, setIsAllUkChecked] = useState<any>();
+  const [isAllUkChecked, setIsAllUkChecked] = useState<any>(
+    searchParams?.get("location") == parentRegion[0]?.regionTextKey
+  );
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isSubjectOpen, setIsSubjectOpen] = useState<any>(false);
@@ -78,8 +83,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     searchParams?.get("subject") || searchParams?.get("course")
   )?.split(",");
   useEffect(() => {
-    const cookieFilter = JSON.parse(getCookie("filter_param") || "");
-    console.log(extractUrlAndCookieValues(searchParams, "", ""));
+    const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
     setPrepopulateFilter({
       studyMethod:
         searchParams?.get("study-method") ||
@@ -458,7 +462,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const temp = extractUrlAndCookieValues(searchParams, "", "")?.[key]?.split(
       "+"
     );
+
     if (temp?.includes(value)) {
+      console.log(temp, value);
       return true;
     } else {
       return false;
@@ -482,10 +488,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       (subject: any) => subject?.parentSubject === item
     );
     return { parent: item, subjects: filteredSubjects };
-  });
-
-  const parentRegion = jsondata?.regionList?.filter((item: any) => {
-    return !item?.parentRegionId;
   });
 
   const FirstLevelRegion = jsondata?.regionList
@@ -1301,7 +1303,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         )}
                                         <input
                                           type="checkbox"
-                                          checked={isAllUkChecked || false}
+                                          checked={
+                                            searchParams?.get("location") ==
+                                            parentRegion[0]?.regionTextKey
+                                          }
                                           className="form-checkbox hidden"
                                           id={parentRegion[0]?.regionName}
                                           name={parentRegion[0]?.regionName}
@@ -1350,7 +1355,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       {FirstLevelRegion?.map(
                                         (item: any, index: any) => (
                                           <Regions
-                                            isAllUkChecked={isAllUkChecked}
+                                            containsSearchParam={
+                                              containsSearchParam
+                                            }
                                             country={parentRegion}
                                             key={index + 1}
                                             item={item}

@@ -121,8 +121,6 @@ const extractUrlAndCookieValues = (
     }
     mergedObject[key] = Array.from(valuesSet).join("+");
     if (!mergedObject[key]) delete mergedObject[key];
-  } else if (key == "location") {
-    mergedObject[key] = value;
   } else {
     mergedObject[key] = value;
   }

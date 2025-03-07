@@ -10,24 +10,31 @@ const Regions = ({
   isIndexed,
   formUrl,
   appendSearchParams,
-  isAllUkChecked,
+  containsSearchParam,
   country,
 }: any) => {
   const searchparams = useSearchParams();
 
-  const [isRegionSelected, setIsRegionSelected] =
-    useState<any>(!!isAllUkChecked);
+  const [isRegionSelected, setIsRegionSelected] = useState<any>(false);
 
   useEffect(() => {
-    if (isAllUkChecked) {
+    const locationParam: any = searchparams?.get("location")?.split(" ");
+    const urlRegionId = jsondata?.regionList
+      ?.map((region: any) => {
+        if (region?.regionTextKey == locationParam[0]) {
+          return region?.regionId;
+        }
+      })
+      ?.filter(Boolean)[0];
+    console.log({ name: item?.regionTextKey, urlRegionId, locationParam });
+    if (
+      locationParam[0] == country?.regionTextKey ||
+      urlRegionId == item?.parentRegionId ||
+      locationParam[0] == item?.regionTextKey
+    ) {
       setIsRegionSelected(true);
-    } else {
-      const region = searchparams
-        ?.get("location")
-        ?.includes(item?.regionTextKey);
-      setIsRegionSelected(region);
     }
-  }, [isAllUkChecked, searchparams]);
+  }, [isRegionSelected, searchparams]);
   return (
     <>
       <div className="form_check relative m-[0_0_12px_24px]">
@@ -91,17 +98,17 @@ const Regions = ({
         </div>
       </div>
       <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-        <LocationCheckBox
+        {/* <LocationCheckBox
+          isSelected={containsSearchParam("location", item?.regionTextKey)}
           item={item}
           jsondata={jsondata}
           isIndexed={isIndexed}
           slug={slug}
           formUrl={formUrl}
-          type={"region"}
           appendSearchParams={appendSearchParams}
           isRegionSelected={isRegionSelected}
           country={country}
-        />
+        /> */}
         <li>
           {jsondata?.regionList
             ?.map((regionlist: any) => {
@@ -113,6 +120,7 @@ const Regions = ({
             ?.map((childItem: any, index: any) => (
               <LocationCheckBox
                 key={index + 1}
+                containsSearchParam={containsSearchParam}
                 childItem={childItem}
                 jsondata={jsondata}
                 isIndexed={isIndexed}

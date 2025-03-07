@@ -2,118 +2,38 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  extractUrlAndCookieValues,
-  heirarchicalLocation,
-} from "@packages/lib/utlils/filters/result-filters";
-import { getCookie } from "@packages/lib/utlils/helper-function";
 const LocationcheckBox = ({
   childItem,
   isIndexed,
-  type,
   jsondata,
   slug,
   formUrl,
   appendSearchParams,
-  isRegionSelected,
   country,
 }: any) => {
   const searchparams = useSearchParams();
 
-  const [isChecked, setIsChecked] = useState<any>(!!isRegionSelected);
+  const [isChecked, setIsChecked] = useState<any>(false);
+  console.log({ name: childItem?.regionName, isChecked });
   useEffect(() => {
-    const locationParam = searchparams?.get("location")?.split(" ");
+    const locationParam: any = searchparams?.get("location")?.split(" ");
+    const urlRegionId = jsondata?.regionList
+      ?.map((region: any) => {
+        if (region?.regionTextKey == locationParam[0]) {
+          return region?.regionId;
+        }
+      })
+      ?.filter(Boolean)[0];
     if (
-      locationParam?.length == 1 &&
-      locationParam[0] == country?.regionTextKey
+      locationParam[0] == country?.regionTextKey ||
+      urlRegionId == childItem?.parentRegionId ||
+      locationParam[0] == childItem?.regionTextKey
     ) {
       setIsChecked(true);
+    } else {
+      setIsChecked(false);
     }
-
-    // if (isRegionSelected) {
-    //   setIsSubRegionSelected(true);
-    // } else {
-    //   const subregion = searchparams
-    //     .get("location")
-    //     ?.includes(childItem?.regionTextKey);
-    //   setIsSubRegionSelected(subregion);
-    // }
-  }, [isRegionSelected, searchparams]);
-  const regionList = heirarchicalLocation(jsondata?.regionList);
-  // console.log({ regionList });
-  // const locationCheckboxClicked = (regionTextKey: string) => {
-  //   appendSearchParams("location", "");
-  // };
-  // function locationCheckboxClicked(regionTextKey: any) {
-  //   const urlParams = searchparams;
-  //   const cookieParams = JSON.parse(getCookie("filter_param") || "");
-
-  //   const urlLocation: any = urlParams?.get("location")
-  //     ? urlParams?.get("location")?.split(" ")
-  //     : [];
-  //   const cookieLocation = cookieParams?.location
-  //     ? cookieParams?.location?.split("+")
-  //     : [];
-
-  //   let allLocations = Array.from(new Set([...urlLocation, ...cookieLocation]));
-  //   if (allLocations.includes(regionTextKey)) {
-  //     allLocations = allLocations.filter(
-  //       (location) => location !== regionTextKey
-  //     );
-  //   } else {
-  //     allLocations.push(regionTextKey);
-  //   }
-
-  //   function getSubRegions(region: any) {
-  //     return region.children.flatMap((child: any) => [
-  //       child.regionTextKey,
-  //       ...getSubRegions(child),
-  //     ]);
-  //   }
-
-  //   function isAllSubRegionsSelected(region: any) {
-  //     const subRegions = getSubRegions(region);
-  //     return subRegions.every((subRegion: any) =>
-  //       allLocations.includes(subRegion)
-  //     );
-  //   }
-
-  //   function getRegionByKey(regionList: any, key: any) {
-  //     for (const region of regionList) {
-  //       if (region.regionTextKey === key) return region;
-  //       if (region.children.length) {
-  //         const found: any = getRegionByKey(region.children, key);
-  //         if (found) return found;
-  //       }
-  //     }
-  //     return null;
-  //   }
-
-  //   // Check for region-level selection
-  //   for (const country of regionList) {
-  //     if (isAllSubRegionsSelected(country)) {
-  //       allLocations = allLocations.filter(
-  //         (loc) => !getSubRegions(country).includes(loc)
-  //       );
-  //       allLocations.push(country.regionTextKey);
-  //     } else {
-  //       for (const region of country.children) {
-  //         if (isAllSubRegionsSelected(region)) {
-  //           allLocations = allLocations.filter(
-  //             (loc) => !getSubRegions(region).includes(loc)
-  //           );
-  //           allLocations.push(region.regionTextKey);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   console.log(`?location=${allLocations.join("+")}`);
-  //   appendSearchParams("location", allLocations.join("+"));
-  //   //router.push(`?location${allLocations.join("+")}`);
-  // }
-
-  // Usage
-  // updateLocationSearchParams("london");
+  }, [searchparams]);
 
   return (
     <>
@@ -124,7 +44,6 @@ const LocationcheckBox = ({
               <div
                 className="checkbox_card"
                 onClick={() => {
-                  //locationCheckboxClicked(childItem?.regionTextKey);
                   appendSearchParams("location", childItem?.regionTextKey);
                 }}
               >
@@ -139,7 +58,7 @@ const LocationcheckBox = ({
                 )}
                 <input
                   type="checkbox"
-                  checked={isChecked || false}
+                  checked={isChecked}
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
