@@ -21,6 +21,7 @@ import { getSrFilter, getSrFilterCount } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
+import { getCookie } from "@packages/lib/utlils/helper-function";
 
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
@@ -77,14 +78,20 @@ const SearchFilterComponent = ({ data, path }: any) => {
     searchParams?.get("subject") || searchParams?.get("course")
   )?.split(",");
   useEffect(() => {
+    const cookieFilter = JSON.parse(getCookie("filter_param") || "");
+    console.log(extractUrlAndCookieValues(searchParams, "", ""));
     setPrepopulateFilter({
       studyMethod:
         searchParams?.get("study-method") ||
         searchParams?.get("study_method") ||
+        cookieFilter?.["study-method"] ||
+        cookieFilter?.["study_method"] ||
         "",
       studyMode:
         searchParams?.get("study-mode") ||
         searchParams?.get("study_mode") ||
+        cookieFilter?.["study-mode"] ||
+        cookieFilter?.["study_mode"] ||
         "",
       year: searchParams?.get("year") || "",
       month: searchParams?.get("month") || "",
@@ -92,10 +99,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       russellGroup:
         searchParams?.get("russell-group") ||
         searchParams?.get("russell_group") ||
+        cookieFilter?.["russell_group"] ||
+        cookieFilter?.["russell-group"] ||
         "",
       locationType:
         searchParams?.get("location-type") ||
         searchParams?.get("location_type") ||
+        cookieFilter?.["location_type"] ||
+        cookieFilter?.["location-type"] ||
         "",
     });
     const value = isSingleSelection(searchParams);
@@ -121,7 +132,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setCourseCount(count);
     };
     getCount();
-  }, [searchParams, filterLoading]);
+  }, [searchParams, filterLoading, routerEnd]);
   useEffect(() => {
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
@@ -444,11 +455,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
   };
 
   const containsSearchParam = (key: string, value: string): boolean => {
-    const paramValue = searchParams.get(key);
-    if (!paramValue) return false;
-    const decodedValue = decodeURIComponent(paramValue).replace(/\+/g, " ");
-    return decodedValue.split(/[\s,]+/).includes(value);
+    const temp = extractUrlAndCookieValues(searchParams, "", "")?.[key]?.split(
+      "+"
+    );
+    if (temp?.includes(value)) {
+      return true;
+    } else {
+      return false;
+    }
   };
+
   const parentSubjectSet: any = new Set(
     jsondata?.subjectFilterList
       ?.map((items: any) => {
@@ -458,7 +474,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       })
       ?.filter(Boolean)
   );
-  console.log(courseCount);
+
   const ParentSubject: any = [...parentSubjectSet];
 
   const L2subjects = ParentSubject?.map((item: any) => {
