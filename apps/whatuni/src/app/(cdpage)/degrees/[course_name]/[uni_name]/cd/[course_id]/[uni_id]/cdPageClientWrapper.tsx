@@ -1,35 +1,25 @@
 'use client'
 import dynamic from 'next/dynamic'
-const UniInfoComponent =dynamic(()=>import("@packages/shared-components/course-details/uni-info/UniInfoComponent"),{ssr:false});
-import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
-import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
-import Modulescomponents from '@packages/shared-components/course-details/modules/ModulesComponent';
-import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
-import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
-import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
-import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent';
-// import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
-import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
-import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
-import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-// import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
-// import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
+const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"));
+const Courseoptionscomponents = dynamic(() => import('@packages/shared-components/course-details/course-options/courseoptionscomponents'));
+const JumpToComponents = dynamic(() => import('@packages/shared-components/course-details/jump-to/jumptocomponents'));
+const Modulescomponents = dynamic(() => import('@packages/shared-components/course-details/modules/ModulesComponent'));
+const EntryrequirementsComponent = dynamic(() => import('@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent'));
+const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent'));
+const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents'));
+const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'));
+const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent'));
 import { useState, useEffect } from 'react';
-// import Othercoursesmaylikecomponents from "@packages/shared-components/course-details/other-courses-you-may-like"
-export default function Cdpageclient({ children,courseContent, data, prams_slug }: any) {
+export default function Cdpageclient({ courseContent, data, prams_slug, jsonResponse }: any) {
+  const [fetcheddata, setFetcheddata] = useState({ ...data });
+  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
+  const [startfetch, setStartfetch] = useState(false);
+  const [renderKey, setRenderKey] = useState(0);
 
-    //console.log("this is the cdpageclientwrapper")
-    const [fetcheddata, setFetcheddata] = useState({ ...data });
-    const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
-    const [startfetch,setStartfetch]=useState(false);
-    const [renderKey, setRenderKey] = useState(0);
+  useEffect(() => {
+    setRenderKey(prev => prev + 1);
+  }, [fetcheddata]);
 
-    useEffect(() => {
-        setRenderKey(prev => prev + 1); // Force re-render
-    }, [fetcheddata]);
-
-    //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
 
   useEffect(() => {
     async function clientFetch() {
@@ -64,18 +54,19 @@ export default function Cdpageclient({ children,courseContent, data, prams_slug 
 
   }, [selectedavilability]);
 
+
   return (
 
     <div>
       <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-       <Jumptocomponents sectionsList={courseContent?.sectionsList} />
+      <JumpToComponents sectionsList={courseContent?.sectionsList} />
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {
           const { sectionId } = sectionContent;
           let componentToRender;
           switch (sectionId) {
             case 'course-info':
-              componentToRender = <div key={renderKey}>{children}</div>;
+              componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} jsonResponse={jsonResponse} />;
               break;
             case 'modules':
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
