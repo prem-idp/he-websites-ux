@@ -97,7 +97,7 @@ const UserFavourite= ({favouriteProps} : any) => {
 
     return (
         <>
-        <div
+        <div data-testid = "favourite"
                   onClick={(event) =>
                     handleFavourite(
                         favouriteProps?.contentId,
@@ -129,7 +129,7 @@ const UserFavourite= ({favouriteProps} : any) => {
                         <span className="text-grey900 font-semibold">
                           We have added this to your comparison
                         </span>
-                        <svg
+                        <svg 
                           onClick={(event) => onClose(event)}
                           className="cursor-pointer"
                           width="16"
