@@ -14,7 +14,7 @@
     "build": "npm run build --workspace=whatuni",
     "start": "npm run start --workspace=whatuni",
     "dev": "npm run dev --workspace=whatuni",
-    "lint": "eslint .",
+    "lint": "eslint -f html -o ./reports/eslint-report.html --color ./",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "dev:pgs": "npm run dev --workspace=pgs",
