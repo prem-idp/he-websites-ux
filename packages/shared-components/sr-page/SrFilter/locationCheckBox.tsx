@@ -2,27 +2,39 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-const SubRegions = ({
+const LocationcheckBox = ({
   childItem,
   isIndexed,
+  jsondata,
   slug,
   formUrl,
   appendSearchParams,
-  isRegionSelected,
+  country,
 }: any) => {
   const searchparams = useSearchParams();
-  const [isSubRegionSelected, setIsSubRegionSelected] =
-    useState<any>(!!isRegionSelected);
+
+  const [isChecked, setIsChecked] = useState<any>(false);
+  console.log({ name: childItem?.regionName, isChecked });
   useEffect(() => {
-    if (isRegionSelected) {
-      setIsSubRegionSelected(true);
+    const locationParam: any = searchparams?.get("location")?.split(" ");
+    const urlRegionId = jsondata?.regionList
+      ?.map((region: any) => {
+        if (region?.regionTextKey == locationParam[0]) {
+          return region?.regionId;
+        }
+      })
+      ?.filter(Boolean)[0];
+    if (
+      locationParam[0] == country?.regionTextKey ||
+      urlRegionId == childItem?.parentRegionId ||
+      locationParam[0] == childItem?.regionTextKey
+    ) {
+      setIsChecked(true);
     } else {
-      const subregion = searchparams
-        .get("location")
-        ?.includes(childItem?.regionTextKey);
-      setIsSubRegionSelected(subregion);
+      setIsChecked(false);
     }
-  }, [isRegionSelected, searchparams]);
+  }, [searchparams]);
+
   return (
     <>
       {childItem && (
@@ -35,7 +47,7 @@ const SubRegions = ({
                   appendSearchParams("location", childItem?.regionTextKey);
                 }}
               >
-                {isIndexed && !isSubRegionSelected && (
+                {isIndexed && !isChecked && (
                   <Link
                     id={"location" + childItem?.regionTextKey}
                     href={{
@@ -46,11 +58,11 @@ const SubRegions = ({
                 )}
                 <input
                   type="checkbox"
-                  checked={isSubRegionSelected || false}
+                  checked={isChecked}
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
-                    setIsSubRegionSelected(!isSubRegionSelected);
+                    setIsChecked(!isChecked);
                   }}
                 />
                 <label
@@ -91,4 +103,4 @@ const SubRegions = ({
   );
 };
 
-export default SubRegions;
+export default LocationcheckBox;

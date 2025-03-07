@@ -2,31 +2,39 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import SubRegions from "@packages/shared-components/sr-page/SrFilter/subregion";
-const LocationcheckBox = ({
+import LocationCheckBox from "@packages/shared-components/sr-page/SrFilter/locationCheckBox";
+const Regions = ({
   item,
   jsondata,
   slug,
   isIndexed,
   formUrl,
   appendSearchParams,
-  isAllUkChecked,
+  containsSearchParam,
+  country,
 }: any) => {
   const searchparams = useSearchParams();
 
-  const [isRegionSelected, setIsRegionSelected] =
-    useState<any>(!!isAllUkChecked);
+  const [isRegionSelected, setIsRegionSelected] = useState<any>(false);
 
   useEffect(() => {
-    if (isAllUkChecked) {
+    const locationParam: any = searchparams?.get("location")?.split(" ");
+    const urlRegionId = jsondata?.regionList
+      ?.map((region: any) => {
+        if (region?.regionTextKey == locationParam[0]) {
+          return region?.regionId;
+        }
+      })
+      ?.filter(Boolean)[0];
+    console.log({ name: item?.regionTextKey, urlRegionId, locationParam });
+    if (
+      locationParam[0] == country?.regionTextKey ||
+      urlRegionId == item?.parentRegionId ||
+      locationParam[0] == item?.regionTextKey
+    ) {
       setIsRegionSelected(true);
-    } else {
-      const region = searchparams
-        ?.get("location")
-        ?.includes(item?.regionTextKey);
-      setIsRegionSelected(region);
     }
-  }, [isAllUkChecked, searchparams]);
+  }, [isRegionSelected, searchparams]);
   return (
     <>
       <div className="form_check relative m-[0_0_12px_24px]">
@@ -90,7 +98,8 @@ const LocationcheckBox = ({
         </div>
       </div>
       <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-        <SubRegions
+        {/* <LocationCheckBox
+          isSelected={containsSearchParam("location", item?.regionTextKey)}
           item={item}
           jsondata={jsondata}
           isIndexed={isIndexed}
@@ -98,7 +107,8 @@ const LocationcheckBox = ({
           formUrl={formUrl}
           appendSearchParams={appendSearchParams}
           isRegionSelected={isRegionSelected}
-        />
+          country={country}
+        /> */}
         <li>
           {jsondata?.regionList
             ?.map((regionlist: any) => {
@@ -108,15 +118,18 @@ const LocationcheckBox = ({
             })
             .filter(Boolean)
             ?.map((childItem: any, index: any) => (
-              <SubRegions
+              <LocationCheckBox
                 key={index + 1}
+                containsSearchParam={containsSearchParam}
                 childItem={childItem}
                 jsondata={jsondata}
                 isIndexed={isIndexed}
+                type={"subregion"}
                 slug={slug}
                 formUrl={formUrl}
                 appendSearchParams={appendSearchParams}
                 isRegionSelected={isRegionSelected}
+                country={country}
               />
             ))}
         </li>
@@ -125,4 +138,4 @@ const LocationcheckBox = ({
   );
 };
 
-export default LocationcheckBox;
+export default Regions;
