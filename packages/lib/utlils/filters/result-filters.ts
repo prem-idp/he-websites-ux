@@ -5,7 +5,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -24,7 +23,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   const pgsFilters = [
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -44,7 +42,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university",
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -62,7 +59,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university",
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -110,11 +106,11 @@ const extractUrlAndCookieValues = (
       delete mergedObject?.course;
     }
   }
-  if (mergedObject[key] && key != "location") {
+  if (mergedObject[key] && key != "region") {
     let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
-    } else if (key === "subject" || key === "location") {
+    } else if (key === "subject") {
       valuesSet.add(value);
     } else {
       valuesSet = new Set(`${value}`.split("+"));

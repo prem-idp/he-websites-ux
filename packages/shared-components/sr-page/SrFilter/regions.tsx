@@ -19,8 +19,7 @@ const Regions = ({
 
   useEffect(() => {
     const appliedvalues =
-      extractUrlAndCookieValues(searchparams, "", "")?.location?.split("+") ||
-      [];
+      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
     if (
       appliedvalues?.includes(item?.regionTextKey) ||
       appliedvalues?.includes(country?.regionTextKey)
@@ -41,8 +40,7 @@ const Regions = ({
     );
 
     let appliedRegions =
-      extractUrlAndCookieValues(searchparams, "", "")?.location?.split("+") ||
-      [];
+      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
 
     const isParentRegion = regionListData?.regionList.some(
       (region: any) => region.parentRegionId === selectedRegion.regionId
@@ -96,7 +94,7 @@ const Regions = ({
       }
     }
 
-    appendSearchParams("location", appliedRegions.join("+"));
+    appendSearchParams("region", appliedRegions.join("+"));
   };
 
   return (
@@ -111,10 +109,10 @@ const Regions = ({
           >
             {isIndexed && !isRegionSelected && (
               <Link
-                id={"location" + item?.regionTextKey}
+                id={"region" + item?.regionTextKey}
                 href={{
                   pathname: `${slug}`,
-                  query: formUrl("location", item?.regionTextKey),
+                  query: formUrl("region", item?.regionTextKey),
                 }}
               ></Link>
             )}

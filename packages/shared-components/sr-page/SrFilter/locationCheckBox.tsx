@@ -20,8 +20,7 @@ const LocationcheckBox = ({
       (region: any) => region?.regionId === parentRegion_Id
     )?.regionTextKey;
     const appliedvalues =
-      extractUrlAndCookieValues(searchparams, "", "")?.location?.split("+") ||
-      [];
+      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
     if (
       appliedvalues?.includes(childItem?.regionTextKey) ||
       appliedvalues?.includes(country?.regionTextKey) ||
@@ -48,10 +47,10 @@ const LocationcheckBox = ({
               >
                 {isIndexed && !isChecked && (
                   <Link
-                    id={"location" + childItem?.regionTextKey}
+                    id={"region" + childItem?.regionTextKey}
                     href={{
                       pathname: `${slug}`,
-                      query: formUrl("location", childItem?.regionTextKey),
+                      query: formUrl("region", childItem?.regionTextKey),
                     }}
                   ></Link>
                 )}

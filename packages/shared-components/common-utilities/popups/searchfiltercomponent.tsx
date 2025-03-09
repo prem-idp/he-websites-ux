@@ -51,7 +51,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [courseCount, setCourseCount] = useState<any>(0);
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>(
-    searchParams?.get("location") == parentRegion[0]?.regionTextKey
+    searchParams?.get("region") == parentRegion[0]?.regionTextKey
   );
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
@@ -95,7 +95,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
         "",
       year: searchParams?.get("year") || "",
       month: searchParams?.get("month") || "",
-      location: searchParams?.get("location") || "",
+      region: searchParams?.get("region") || "",
+      city: searchParams?.get("city") || "",
       russellGroup:
         searchParams?.get(keyName?.russellGroup) ||
         cookieFilter?.[keyName?.russellGroup] ||
@@ -1280,13 +1281,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         {isIndexed && (
                                           <Link
                                             id={
-                                              "location" +
+                                              "region" +
                                               parentRegion[0]?.regionTextKey
                                             }
                                             href={{
                                               pathname: `${slug}`,
                                               query: formUrl(
-                                                "location",
+                                                "region",
                                                 parentRegion[0]?.regionTextKey
                                               ),
                                             }}
@@ -1295,7 +1296,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         <input
                                           type="checkbox"
                                           checked={
-                                            searchParams?.get("location") ==
+                                            searchParams?.get("region") ==
                                             parentRegion[0]?.regionTextKey
                                           }
                                           className="form-checkbox hidden"
@@ -1304,7 +1305,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           onChange={() => {
                                             setIsAllUkChecked(!isAllUkChecked);
                                             appendSearchParams(
-                                              "location",
+                                              "region",
                                               parentRegion[0]?.regionTextKey
                                             );
                                           }}
@@ -1390,13 +1391,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           {isIndexed && (
                                             <Link
                                               id={
-                                                "location" +
-                                                cityItem?.cityTextKey
+                                                "city" + cityItem?.cityTextKey
                                               }
                                               href={{
                                                 pathname: `${slug}`,
                                                 query: formUrl(
-                                                  "location",
+                                                  "city",
                                                   cityItem?.cityTextKey
                                                 ),
                                               }}
@@ -1405,21 +1405,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           <input
                                             type="checkbox"
                                             checked={
-                                              prepopulateFilter?.location ==
+                                              prepopulateFilter?.city ==
                                               cityItem?.cityTextKey
                                                 ? true
                                                 : false
                                             }
                                             onChange={() => {
                                               appendSearchParams(
-                                                "location",
+                                                "city",
                                                 cityItem?.cityTextKey
                                               );
                                               setPrepopulateFilter(
                                                 (prev: any) => ({
                                                   ...prev,
-                                                  location:
-                                                    prev?.location ==
+                                                  city:
+                                                    prev?.city ==
                                                     cityItem?.cityTextKey
                                                       ? ""
                                                       : cityItem?.cityTextKey,

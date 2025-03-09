@@ -39,7 +39,10 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     searchSubject: inputObject?.[keyName?.subject]?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
-    location: inputObject?.location?.split(" ") || "",
+    location: [
+      ...(inputObject?.region ? inputObject.region.split(" ") : []),
+      ...(inputObject?.city ? inputObject.city.split(" ") : []),
+    ],
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
     collegeId: "",
