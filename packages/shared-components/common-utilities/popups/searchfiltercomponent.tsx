@@ -72,7 +72,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const subjectClicked = (item: string, closeFilter?: boolean) => {
     setIsSubjectOpen(closeFilter || !isSubjectOpen);
     const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items.parentSubject == item;
+      return items?.parentSubject == item;
     });
     setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
     setSearchedSubject((prev: any) => ({
@@ -80,7 +80,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
       isSujectDropdownOpen: false,
     }));
   };
-  const subjectParam: any = searchParams?.get(keyName?.subject)?.split(",");
+  const subjectParam: any =
+    searchParams?.get(keyName?.subject)?.split(",") || [];
   useEffect(() => {
     const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
     setPrepopulateFilter({
@@ -121,7 +122,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const getCount = async () => {
       const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
       const count = await getSrFilterCount(
-        filterbodyJson(bodyJson, slug.split("/")[1])
+        filterbodyJson(bodyJson, slug?.split("/")[1])
       );
       setCourseCount(count);
     };
@@ -135,12 +136,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
       const element = document?.getElementById(`#${eventName}`);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        element?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
       SetselectedFilter(eventName);
       setIsFilterOpen(true);
       const body = document.body;
-      body.classList.add("overflow-y-hidden");
+      body?.classList?.add("overflow-y-hidden");
     };
     emitter.on("isfilterOpen", handleTogglePopup);
     return () => {
@@ -195,14 +196,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
         displayHeading: "V - Z",
         unilist: [],
       },
-    ].map((item: any) => {
+    ]?.map((item: any) => {
       item.unilist = jsondata?.universityFilterList?.filter(
         (collegeItem: any) => {
           const regex = new RegExp(`^[${item.sortingValue}]`, "i");
-          return regex.test(collegeItem?.collegeName);
+          return regex?.test(collegeItem?.collegeName);
         }
       );
-      listvalue.push(item);
+      listvalue?.push(item);
     });
     return listvalue;
   };
@@ -252,7 +253,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const dynamicFilter = async () => {
       if (routerEnd) {
         const data = await getSrFilter(
-          filterbodyJson(filterOrder, slug.split("/")[1])
+          filterbodyJson(filterOrder, slug?.split("/")[1])
         );
         setJsondata(data);
         setrouterEnd(false);
@@ -264,7 +265,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     dynamicFilter();
   }, [routerEnd]);
   const clearFilter = () => {
-    const firstSubject = (searchParams?.get(keyName?.subject) || "").split(" ");
+    const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
+      " "
+    );
     const url = `${firstSubject[0] ? `${slug}?subject=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param=""; path=/;`;
     router.push(url);
@@ -308,16 +311,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split("+");
+    Object.entries(orderedFilters)?.forEach(([k, v]) => {
+      const valuesArray = v?.split("+");
       if (totalValues + valuesArray?.length <= 4) {
-        urlParams.set(k, valuesArray?.join("+"));
+        urlParams?.set(k, valuesArray?.join("+"));
         totalValues += valuesArray?.length;
       } else {
-        const allowedValues = valuesArray.slice(0, 4 - totalValues);
-        const remainingValues = valuesArray.slice(4 - totalValues);
+        const allowedValues = valuesArray?.slice(0, 4 - totalValues);
+        const remainingValues = valuesArray?.slice(4 - totalValues);
         if (allowedValues?.length > 0) {
-          urlParams.set(k, allowedValues?.join("+"));
+          urlParams?.set(k, allowedValues?.join("+"));
           totalValues += allowedValues?.length;
         }
         if (remainingValues?.length > 0) {
@@ -338,28 +341,28 @@ const SearchFilterComponent = ({ data, path }: any) => {
       if (isQualificationChanged) {
         router.push(
           `${domainPath}?${urlParams?.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
+            ?.replaceAll("%2B", "+")
+            ?.replaceAll("%2C", ",")
         );
       }
       router.refresh();
     } else if (multiSelect) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       router.push(
-        `${domainPath ?? ""}?${urlParams.toString()}`
-          .replaceAll("%2B", "+")
-          .replaceAll("%2C", ",")
+        `${domainPath ?? ""}?${urlParams?.toString()}`
+          ?.replaceAll("%2B", "+")
+          ?.replaceAll("%2C", ",")
       );
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      const linkTagId = document.getElementById(key + value);
+      const linkTagId = document?.getElementById(key + value);
       if (linkTagId) {
         linkTagId.click();
       } else {
         router.push(
-          `?${urlParams.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
+          `?${urlParams?.toString()}`
+            ?.replaceAll("%2B", "+")
+            ?.replaceAll("%2C", ",")
         );
       }
     }
@@ -370,7 +373,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const urlParentSubject = getParentSubject(searchParams, jsondata);
     const selectedParentSubject = getParentSubject(null, jsondata, value);
     if (urlParentSubject == selectedParentSubject) {
-      const searchparamObject = Object?.fromEntries(urlParams.entries());
+      const searchparamObject = Object?.fromEntries(urlParams?.entries());
       searchparamObject[key] = value;
       const modifiedParam = new URLSearchParams(searchparamObject);
       return `${modifiedParam}`;
@@ -398,7 +401,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       value,
       crossL1Subject
     );
-    const orderedFilters = getFilterPriority(isQualification || false).reduce(
+    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
       (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
@@ -409,11 +412,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
     let totalValues = 0;
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a)?.length;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split("+");
+    Object.entries(orderedFilters)?.forEach(([k, v]) => {
+      const valuesArray = v?.split("+");
       if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
-          urlParams.set(k, valuesArray.join("+"));
+          urlParams?.set(k, valuesArray?.join("+"));
           totalValues += valuesArray?.length;
         }
       }
@@ -421,9 +424,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (count >= 4) {
       if (key == keyName?.subject) {
         const param = modifySearchParams(key, value, urlParams);
-        return param?.toString()?.replace("%2B", "+").replaceAll("%2C", ",");
+        return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
       } else {
-        return `${`subject=${searchParams?.get(keyName?.subject)}&${key}=${value}`}`.replaceAll(
+        return `${`subject=${searchParams?.get(keyName?.subject)}&${key}=${value}`}`?.replaceAll(
           "%2C",
           ","
         );
@@ -433,7 +436,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const param = modifySearchParams(key, value, urlParams);
         return param?.toString();
       } else {
-        return `${urlParams.toString()}`.replaceAll("%2C", ",");
+        return `${urlParams?.toString()}`?.replaceAll("%2C", ",");
       }
     }
   };
@@ -452,8 +455,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const parentSubjectSet: any = new Set(
     jsondata?.subjectFilterList
       ?.map((items: any) => {
-        if (items.parentSubject) {
-          return items.parentSubject;
+        if (items?.parentSubject) {
+          return items?.parentSubject;
         }
       })
       ?.filter(Boolean)
@@ -470,9 +473,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const FirstLevelRegion = jsondata?.regionList
     ?.map((region: any) => {
-      if (region.parentRegionId == 1) return region;
+      if (region?.parentRegionId == 1) return region;
     })
-    .filter(Boolean);
+    ?.filter(Boolean);
 
   const subjectKeyWordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
@@ -628,7 +631,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     setPrepopulateFilter((prev: any) => ({
                                       ...prev,
                                       studyMethod:
-                                        prev.studyMethod ==
+                                        prev?.studyMethod ==
                                         studyMethodChild?.studyMethodTextKey
                                           ? ""
                                           : studyMethodChild?.studyMethodTextKey,
@@ -726,7 +729,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 key={index}
                               >
                                 {isIndexed &&
-                                  !slug.includes(qualChild?.qualTextKey) && (
+                                  !slug?.includes(qualChild?.qualTextKey) && (
                                     <Link
                                       id={
                                         "study-level" + qualChild?.qualTextKey
@@ -795,7 +798,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               placeholder="Search subjects"
                               value={searchedSubject?.subjectkeyword}
                               onChange={(event) => {
-                                subjectKeyWordSearch(event.target.value);
+                                subjectKeyWordSearch(event?.target?.value);
                               }}
                             />
                             {searchedSubject?.isSujectDropdownOpen && (
@@ -923,7 +926,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   setPrepopulateFilter((prev: any) => ({
                                     ...prev,
                                     year:
-                                      `${prev.year}` == `${yearItem?.year}`
+                                      `${prev?.year}` == `${yearItem?.year}`
                                         ? ""
                                         : `${yearItem?.year}`,
                                   }));
@@ -1148,7 +1151,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                 {(jsondata?.cityList?.length > 0 ||
                   jsondata?.regionList?.length > 0) && (
                   <>
-                    {slug.split("/")[2] === "search" && (
+                    {slug?.split("/")[2] === "search" && (
                       <Accordion
                         title="Location"
                         id="#location"
@@ -1346,10 +1349,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                             containsSearchParam={
                                               containsSearchParam
                                             }
-                                            country={parentRegion}
+                                            country={parentRegion[0] || []}
                                             key={index + 1}
                                             item={regionItem}
-                                            jsondata={jsondata}
+                                            regionListData={
+                                              jsondata?.regionList
+                                            }
                                             slug={slug}
                                             isIndexed={isIndexed}
                                             formUrl={formUrl}
@@ -1538,7 +1543,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                     )}
                   </>
                 )}
-                {slug.split("/")[2] === "search" && (
+                {slug?.split("/")[2] === "search" && (
                   <>
                     {jsondata?.universityGroupList?.length > 0 && (
                       <Accordion

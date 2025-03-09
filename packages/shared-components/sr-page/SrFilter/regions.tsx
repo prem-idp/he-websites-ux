@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 import LocationCheckBox from "@packages/shared-components/sr-page/SrFilter/locationCheckBox";
 const Regions = ({
   item,
-  jsondata,
+  regionListData,
   slug,
   isIndexed,
   formUrl,
   appendSearchParams,
-  containsSearchParam,
   country,
 }: any) => {
   const searchparams = useSearchParams();
@@ -18,22 +18,87 @@ const Regions = ({
   const [isRegionSelected, setIsRegionSelected] = useState<any>(false);
 
   useEffect(() => {
-    const locationParam: any = searchparams?.get("location")?.split(" ");
-    const urlRegionId = jsondata?.regionList
-      ?.map((region: any) => {
-        if (region?.regionTextKey == locationParam[0]) {
-          return region?.regionId;
-        }
-      })
-      ?.filter(Boolean)[0];
+    const appliedvalues =
+      extractUrlAndCookieValues(searchparams, "", "")?.location?.split("+") ||
+      [];
     if (
-      locationParam[0] == country?.regionTextKey ||
-      urlRegionId == item?.parentRegionId ||
-      locationParam[0] == item?.regionTextKey
+      appliedvalues?.includes(item?.regionTextKey) ||
+      appliedvalues?.includes(country?.regionTextKey)
     ) {
       setIsRegionSelected(true);
+    } else {
+      setIsRegionSelected(false);
     }
-  }, [isRegionSelected, searchparams]);
+  }, [searchparams]);
+  const locationClicked = (regionTextKey: string) => {
+    const selectedRegion = regionListData?.regionList.find(
+      (region: any) => region.regionTextKey === regionTextKey
+    );
+    if (!selectedRegion) return;
+
+    const parentRegion = regionListData?.regionList.find(
+      (region: any) => region.regionId === selectedRegion.parentRegionId
+    );
+
+    let appliedRegions =
+      extractUrlAndCookieValues(searchparams, "", "")?.location?.split("+") ||
+      [];
+
+    const isParentRegion = regionListData?.regionList.some(
+      (region: any) => region.parentRegionId === selectedRegion.regionId
+    );
+
+    if (isParentRegion) {
+      appliedRegions = appliedRegions.filter((region) => {
+        const subregion = regionListData?.regionList.find(
+          (r: any) => r.regionTextKey === region
+        );
+        return subregion?.parentRegionId !== selectedRegion.regionId;
+      });
+      appliedRegions.push(regionTextKey);
+    } else if (parentRegion) {
+      if (appliedRegions.includes(parentRegion.regionTextKey)) {
+        appliedRegions = appliedRegions.filter(
+          (region) => region !== parentRegion.regionTextKey
+        );
+        const siblingRegions = regionListData?.regionList
+          ?.filter(
+            (region: any) => region.parentRegionId === parentRegion.regionId
+          )
+          ?.map((region: any) => region.regionTextKey)
+          ?.filter((region: any) => region !== regionTextKey);
+        appliedRegions.push(...siblingRegions);
+      } else {
+        if (appliedRegions.includes(regionTextKey)) {
+          appliedRegions = appliedRegions.filter(
+            (region) => region !== regionTextKey
+          );
+        } else {
+          appliedRegions.push(regionTextKey);
+        }
+      }
+
+      const allSubregions = regionListData?.regionList
+        ?.filter(
+          (region: any) => region.parentRegionId === parentRegion.regionId
+        )
+        ?.map((region: any) => region.regionTextKey);
+
+      const allSelected = allSubregions.every((subregion: any) =>
+        appliedRegions.includes(subregion)
+      );
+
+      if (allSelected) {
+        appliedRegions = appliedRegions.filter(
+          (region) => !allSubregions.includes(region)
+        );
+        appliedRegions.push(parentRegion.regionTextKey);
+      }
+    }
+
+    appendSearchParams("location", appliedRegions.join("+"));
+  };
+
   return (
     <>
       <div className="form_check relative m-[0_0_12px_24px]">
@@ -41,7 +106,7 @@ const Regions = ({
           <div
             className="checkbox_card"
             onClick={() => {
-              appendSearchParams("location", item?.regionTextKey);
+              locationClicked(item?.regionTextKey);
             }}
           >
             {isIndexed && !isRegionSelected && (
@@ -97,38 +162,24 @@ const Regions = ({
         </div>
       </div>
       <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
-        {/* <LocationCheckBox
-          isSelected={containsSearchParam("location", item?.regionTextKey)}
-          item={item}
-          jsondata={jsondata}
-          isIndexed={isIndexed}
-          slug={slug}
-          formUrl={formUrl}
-          appendSearchParams={appendSearchParams}
-          isRegionSelected={isRegionSelected}
-          country={country}
-        /> */}
         <li>
-          {jsondata?.regionList
+          {regionListData?.regionList
             ?.map((regionlist: any) => {
               if (regionlist?.parentRegionId == item?.regionId) {
                 return regionlist;
               }
             })
-            .filter(Boolean)
+            ?.filter(Boolean)
             ?.map((childItem: any, index: any) => (
               <LocationCheckBox
                 key={index + 1}
-                containsSearchParam={containsSearchParam}
                 childItem={childItem}
-                jsondata={jsondata}
                 isIndexed={isIndexed}
-                type={"subregion"}
+                regionListData={regionListData}
                 slug={slug}
                 formUrl={formUrl}
-                appendSearchParams={appendSearchParams}
-                isRegionSelected={isRegionSelected}
                 country={country}
+                locationClicked={locationClicked}
               />
             ))}
         </li>

@@ -64,15 +64,15 @@ const L2subjectList = ({
     <div
       className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
     >
-      {showSubjectLabel && subjectLable.length > 0 && (
+      {showSubjectLabel && subjectLable?.length > 0 && (
         <ul className="flex flex-wrap gap-[8px] uppercase">
           <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
             {subjectLable[0]?.categoryDesc}
           </li>
-          {subjectLable.length > 1 && (
+          {subjectLable?.length > 1 && (
             <>
               {subjectLable
-                .splice(1)
+                ?.splice(1)
                 ?.map((subjectNames: any, index: number) => (
                   <li
                     key={index + 1}

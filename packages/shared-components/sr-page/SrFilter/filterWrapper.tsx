@@ -10,7 +10,7 @@ export async function getFiltersInparamReqBody(cookieStore: any) {
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const params = cookieStore?.get("searchParamscookies")?.value || "{}";
   const urlparams = new URLSearchParams(params);
-  const cookieObject = Object.fromEntries(urlparams.entries());
+  const cookieObject = Object.fromEntries(urlparams?.entries());
   return filterbodyJson(cookieObject, pathname);
 }
 

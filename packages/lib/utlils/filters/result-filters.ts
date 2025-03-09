@@ -220,12 +220,16 @@ function getUserLocation() {
     console.warn("Geolocation is not supported by your browser.");
   }
 }
-function heirarchicalLocation(regions: any) {
+
+function hierarchicalLocation(regions: any) {
   const regionMap = new Map();
+
   regions.forEach((region: any) => {
     regionMap.set(region.regionId, { ...region, children: [] });
   });
+
   const root: any = [];
+
   regions.forEach((region: any) => {
     if (region.parentRegionId) {
       const parent = regionMap.get(region.parentRegionId);
@@ -233,6 +237,14 @@ function heirarchicalLocation(regions: any) {
         parent.children.push(regionMap.get(region.regionId));
       }
     } else {
+      return;
+    }
+  });
+  regions.forEach((region: any) => {
+    if (
+      region.parentRegionId &&
+      !regions.some((r: any) => r.regionId === region.parentRegionId)
+    ) {
       root.push(regionMap.get(region.regionId));
     }
   });
@@ -241,7 +253,7 @@ function heirarchicalLocation(regions: any) {
 
 export {
   locationMilesArray,
-  heirarchicalLocation,
+  hierarchicalLocation,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,
