@@ -48,19 +48,25 @@ const TopSection: React.FC<searchProps> = async ({
     }
     return qualText;
   }
+
+  const getBreadcrumb = () => {
+    if(process.env.PROJECT == "Whatuni"){
+      const breadcrumb_courses = searchParam?.parentQualification ? [{url: get_find_a_course_url(searchParam?.parentQualification), label: "Courses"}] : [];
+      const breadCrumb_subject = searchParam?.searchSubject && searchParam?.searchSubject?.length >= 1 ? [{url: `/${params?.hero}/search?subject=${searchParam?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
+      const breadCrumb_keyword = searchParam?.searchKeyword ? [{url: `/${params?.hero}/search?q=${searchParam?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
+      return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
+    } else if(process.env.PROJECT == "PGS"){
+      return [{url: "#", label: "Default breadcrumb"}];
+    }
+    return [];
+  }
   
-  const breadcrumb_courses = searchParam?.parentQualification ? [{url: get_find_a_course_url(searchParam?.parentQualification), label: "Courses"}] : [];
-  const breadCrumb_subject = searchParam?.searchSubject && searchParam?.searchSubject?.length >= 1 ? [{url: `/${params?.hero}/search?subject=${searchParam?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-  const breadCrumb_keyword = searchParam?.searchKeyword ? [{url: `/${params?.hero}/search?q=${searchParam?.searchKeyword}`, label: `${subjectDisplayName} courses`}] : [];
-  console.log("searchParam?.searchKeyword", searchParam?.searchKeyword);
   const breadcrumbData = [
     {
       url: domain,
       Imgurl: "/static/assets/icons/breadcrumbs-home-icon.svg",
     },
-    ...breadcrumb_courses,
-    ...breadCrumb_subject,
-    ...breadCrumb_keyword,
+    ...getBreadcrumb(),
   ];
   const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNameResponse);
   return (
@@ -80,7 +86,7 @@ const TopSection: React.FC<searchProps> = async ({
             </div>
             <p>
             {/* {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) } */}
-            {replaceSEOPlaceHolder(contentfulMetadata?.h2Text || "Choose from [Course count] courses from [Provider Count] universities based on your selections.", metaFiltersOpted)}
+            {replaceSEOPlaceHolder(contentfulMetadata?.h2Text || "Choose from [COURSE COUNT] courses from [PROVIDER COUNT] universities based on your selections.", metaFiltersOpted)}
             </p>
           </div>
           {/* end subject */}
