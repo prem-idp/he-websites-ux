@@ -3,6 +3,7 @@ import { getUserLocationInfo } from "@packages/lib/server-actions/server-action"
 type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
+    "university",
     "subject",
     "qualification",
     "region",
@@ -16,12 +17,12 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "score",
     "location-type",
-    "pageno",
     "russell-group",
     "sort",
     "postcode",
   ];
   const pgsFilters = [
+    "university",
     "course",
     "qualification",
     "region",
@@ -35,7 +36,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "score",
     "location_type",
-    "page_no",
     "russell_group",
     "sort",
     "postcode",
@@ -54,7 +54,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university-group",
     "score",
     "location-type",
-    "pageno",
     "sort",
     "postcode",
   ];
@@ -72,7 +71,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university_group",
     "score",
     "location_type",
-    "page_no",
     "sort",
     "postcode",
   ];

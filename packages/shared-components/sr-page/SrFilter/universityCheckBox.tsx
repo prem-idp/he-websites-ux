@@ -17,6 +17,9 @@ const UniversityCheckBox = ({
     if (uni) {
       setPageCategory("search");
       setIsUniSelected(true);
+    } else {
+      setPageCategory("csearch");
+      setIsUniSelected(false);
     }
   }, [searchparams]);
   return (
