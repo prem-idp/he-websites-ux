@@ -11,7 +11,7 @@ interface ModulesAccordionComponentProps {
 
 const ModulesAccordionComponent = ({ modules }: ModulesAccordionComponentProps) => {
 
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
