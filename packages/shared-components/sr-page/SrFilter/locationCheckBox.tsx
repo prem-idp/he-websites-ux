@@ -2,32 +2,29 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 const LocationcheckBox = ({
   childItem,
   isIndexed,
-  jsondata,
+  regionListData,
   slug,
   formUrl,
-  appendSearchParams,
   country,
+  locationClicked,
 }: any) => {
   const searchparams = useSearchParams();
-
   const [isChecked, setIsChecked] = useState<any>(false);
-  console.log({ name: childItem?.regionName, isChecked });
   useEffect(() => {
-    const locationParam: any = searchparams?.get("location")?.split(" ");
-    const urlRegionId = jsondata?.regionList
-      ?.map((region: any) => {
-        if (region?.regionTextKey == locationParam[0]) {
-          return region?.regionId;
-        }
-      })
-      ?.filter(Boolean)[0];
+    const parentRegion_Id = childItem?.parentRegionId;
+    const parentRegion_Name = regionListData?.find(
+      (region: any) => region?.regionId === parentRegion_Id
+    )?.regionTextKey;
+    const appliedvalues =
+      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
     if (
-      locationParam[0] == country?.regionTextKey ||
-      urlRegionId == childItem?.parentRegionId ||
-      locationParam[0] == childItem?.regionTextKey
+      appliedvalues?.includes(childItem?.regionTextKey) ||
+      appliedvalues?.includes(country?.regionTextKey) ||
+      appliedvalues?.includes(parentRegion_Name)
     ) {
       setIsChecked(true);
     } else {
@@ -44,15 +41,15 @@ const LocationcheckBox = ({
               <div
                 className="checkbox_card"
                 onClick={() => {
-                  appendSearchParams("location", childItem?.regionTextKey);
+                  locationClicked(childItem?.regionTextKey);
                 }}
               >
                 {isIndexed && !isChecked && (
                   <Link
-                    id={"location" + childItem?.regionTextKey}
+                    id={"region" + childItem?.regionTextKey}
                     href={{
                       pathname: `${slug}`,
-                      query: formUrl("location", childItem?.regionTextKey),
+                      query: formUrl("region", childItem?.regionTextKey),
                     }}
                   ></Link>
                 )}

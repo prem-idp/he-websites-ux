@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../accordion/accordion";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useSearchParams, usePathname } from "next/navigation";
 import {
@@ -28,6 +29,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [jsondata, setJsondata] = useState(data);
+  const keyName = KeyNames();
   const parentRegion = jsondata?.regionList?.filter((item: any) => {
     return !item?.parentRegionId;
   });
@@ -49,7 +51,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [courseCount, setCourseCount] = useState<any>(0);
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>(
-    searchParams?.get("location") == parentRegion[0]?.regionTextKey
+    searchParams?.get("region") == parentRegion[0]?.regionTextKey
   );
   const [isIndexed, setIsIndexed] = useState(true);
   const filterRef = useRef<HTMLDivElement | null>(null);
@@ -65,12 +67,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
     null | undefined | string
   >(null);
   const [routerEnd, setrouterEnd] = useState(false);
-
+  const [postCodeValue, setPostCodeValue] = useState("");
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
   const subjectClicked = (item: string, closeFilter?: boolean) => {
     setIsSubjectOpen(closeFilter || !isSubjectOpen);
     const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items.parentSubject == item;
+      return items?.parentSubject == item;
     });
     setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
     setSearchedSubject((prev: any) => ({
@@ -78,39 +80,30 @@ const SearchFilterComponent = ({ data, path }: any) => {
       isSujectDropdownOpen: false,
     }));
   };
-  console.log(jsondata);
-  const subjectParam: any = (
-    searchParams?.get("subject") || searchParams?.get("course")
-  )?.split(",");
+  const subjectParam: any =
+    searchParams?.get(keyName?.subject)?.split(",") || [];
   useEffect(() => {
     const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
     setPrepopulateFilter({
       studyMethod:
-        searchParams?.get("study-method") ||
-        searchParams?.get("study_method") ||
-        cookieFilter?.["study-method"] ||
-        cookieFilter?.["study_method"] ||
+        searchParams?.get(keyName?.studyMethod) ||
+        cookieFilter?.[keyName?.studyMethod] ||
         "",
       studyMode:
-        searchParams?.get("study-mode") ||
-        searchParams?.get("study_mode") ||
-        cookieFilter?.["study-mode"] ||
-        cookieFilter?.["study_mode"] ||
+        searchParams?.get(keyName?.studyMode) ||
+        cookieFilter?.[keyName?.studyMode] ||
         "",
       year: searchParams?.get("year") || "",
       month: searchParams?.get("month") || "",
-      location: searchParams?.get("location") || "",
+      region: searchParams?.get("region") || "",
+      city: searchParams?.get("city") || "",
       russellGroup:
-        searchParams?.get("russell-group") ||
-        searchParams?.get("russell_group") ||
-        cookieFilter?.["russell_group"] ||
-        cookieFilter?.["russell-group"] ||
+        searchParams?.get(keyName?.russellGroup) ||
+        cookieFilter?.[keyName?.russellGroup] ||
         "",
       locationType:
-        searchParams?.get("location-type") ||
-        searchParams?.get("location_type") ||
-        cookieFilter?.["location_type"] ||
-        cookieFilter?.["location-type"] ||
+        searchParams?.get(keyName?.locationType) ||
+        cookieFilter?.[keyName?.locationType] ||
         "",
     });
     const value = isSingleSelection(searchParams);
@@ -130,9 +123,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const getCount = async () => {
       const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
       const count = await getSrFilterCount(
-        filterbodyJson(bodyJson, slug.split("/")[1])
+        filterbodyJson(bodyJson, slug?.split("/")[1])
       );
-      console.log(count);
       setCourseCount(count);
     };
     getCount();
@@ -145,12 +137,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
       const element = document?.getElementById(`#${eventName}`);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        element?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
       SetselectedFilter(eventName);
       setIsFilterOpen(true);
       const body = document.body;
-      body.classList.add("overflow-y-hidden");
+      body?.classList?.add("overflow-y-hidden");
     };
     emitter.on("isfilterOpen", handleTogglePopup);
     return () => {
@@ -205,14 +197,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
         displayHeading: "V - Z",
         unilist: [],
       },
-    ].map((item: any) => {
+    ]?.map((item: any) => {
       item.unilist = jsondata?.universityFilterList?.filter(
         (collegeItem: any) => {
           const regex = new RegExp(`^[${item.sortingValue}]`, "i");
-          return regex.test(collegeItem?.collegeName);
+          return regex?.test(collegeItem?.collegeName);
         }
       );
-      listvalue.push(item);
+      listvalue?.push(item);
     });
     return listvalue;
   };
@@ -257,14 +249,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-
+  const postCodeChange = (value: any) => {
+    if (!isNaN(value) && value?.length <= 10) {
+      setPostCodeValue(value);
+    }
+  };
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
         const data = await getSrFilter(
-          filterbodyJson(filterOrder, slug.split("/")[1])
+          filterbodyJson(filterOrder, slug?.split("/")[1])
         );
-        console.log(filterbodyJson(filterOrder, slug.split("/")[1]));
         setJsondata(data);
         setrouterEnd(false);
         setTimeout(() => {
@@ -275,11 +270,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     dynamicFilter();
   }, [routerEnd]);
   const clearFilter = () => {
-    const firstSubject = (
-      searchParams?.get("subject") ||
-      searchParams?.get("course") ||
-      ""
-    ).split(" ");
+    const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
+      " "
+    );
     const url = `${firstSubject[0] ? `${slug}?subject=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param=""; path=/;`;
     router.push(url);
@@ -291,10 +284,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     isUniversitySelected?: boolean,
     isQualificationChanged?: boolean
   ) => {
-    console.log("entered");
     setFilterLoading(true);
     let crossL1Subject = false;
-    if (key === "subject" || key === "course") {
+    if (key === keyName?.subject) {
       const selectedParent = jsondata?.subjectFilterList
         ?.map((subjects: any) => {
           if (subjects?.subjectTextKey === value) {
@@ -324,16 +316,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split("+");
+    Object.entries(orderedFilters)?.forEach(([k, v]) => {
+      const valuesArray = v?.split("+");
       if (totalValues + valuesArray?.length <= 4) {
-        urlParams.set(k, valuesArray?.join("+"));
+        urlParams?.set(k, valuesArray?.join("+"));
         totalValues += valuesArray?.length;
       } else {
-        const allowedValues = valuesArray.slice(0, 4 - totalValues);
-        const remainingValues = valuesArray.slice(4 - totalValues);
+        const allowedValues = valuesArray?.slice(0, 4 - totalValues);
+        const remainingValues = valuesArray?.slice(4 - totalValues);
         if (allowedValues?.length > 0) {
-          urlParams.set(k, allowedValues?.join("+"));
+          urlParams?.set(k, allowedValues?.join("+"));
           totalValues += allowedValues?.length;
         }
         if (remainingValues?.length > 0) {
@@ -350,36 +342,32 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
 
     if (urlParams?.toString() === searchParams?.toString()) {
-      console.log("refresh", urlParams?.toString());
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       if (isQualificationChanged) {
         router.push(
           `${domainPath}?${urlParams?.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
+            ?.replaceAll("%2B", "+")
+            ?.replaceAll("%2C", ",")
         );
       }
       router.refresh();
     } else if (multiSelect) {
-      console.log("multi select", urlParams?.toString());
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       router.push(
-        `${domainPath ?? ""}?${urlParams.toString()}`
-          .replaceAll("%2B", "+")
-          .replaceAll("%2C", ",")
+        `${domainPath ?? ""}?${urlParams?.toString()}`
+          ?.replaceAll("%2B", "+")
+          ?.replaceAll("%2C", ",")
       );
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      const linkTagId = document.getElementById(key + value);
+      const linkTagId = document?.getElementById(key + value);
       if (linkTagId) {
-        console.log("link tag found", linkTagId);
         linkTagId.click();
       } else {
-        console.log("No link tag", urlParams?.toString());
         router.push(
-          `?${urlParams.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
+          `?${urlParams?.toString()}`
+            ?.replaceAll("%2B", "+")
+            ?.replaceAll("%2C", ",")
         );
       }
     }
@@ -390,7 +378,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const urlParentSubject = getParentSubject(searchParams, jsondata);
     const selectedParentSubject = getParentSubject(null, jsondata, value);
     if (urlParentSubject == selectedParentSubject) {
-      const searchparamObject = Object?.fromEntries(urlParams.entries());
+      const searchparamObject = Object?.fromEntries(urlParams?.entries());
       searchparamObject[key] = value;
       const modifiedParam = new URLSearchParams(searchparamObject);
       return `${modifiedParam}`;
@@ -399,7 +387,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
-    if (key === "subject" || key === "course") {
+    if (key === keyName?.subject) {
       const selectedParent = jsondata?.subjectFilterList
         ?.map((subjects: any) => {
           if (subjects?.subjectTextKey === value) {
@@ -418,7 +406,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       value,
       crossL1Subject
     );
-    const orderedFilters = getFilterPriority(isQualification || false).reduce(
+    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
       (acc, priorityKey) => {
         if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
         return acc;
@@ -429,31 +417,31 @@ const SearchFilterComponent = ({ data, path }: any) => {
     let totalValues = 0;
     const a = Object.fromEntries(searchParams.entries());
     const count = Object.keys(a)?.length;
-    Object.entries(orderedFilters).forEach(([k, v]) => {
-      const valuesArray = v.split("+");
+    Object.entries(orderedFilters)?.forEach(([k, v]) => {
+      const valuesArray = v?.split("+");
       if (totalValues + valuesArray?.length <= 4) {
         if (k != "study-level") {
-          urlParams.set(k, valuesArray.join("+"));
+          urlParams?.set(k, valuesArray?.join("+"));
           totalValues += valuesArray?.length;
         }
       }
     });
     if (count >= 4) {
-      if (key == "subject") {
+      if (key == keyName?.subject) {
         const param = modifySearchParams(key, value, urlParams);
-        return param?.toString()?.replace("%2B", "+").replaceAll("%2C", ",");
+        return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
       } else {
-        return `${`subject=${searchParams?.get("subject")}&${key}=${value}`}`.replaceAll(
+        return `${`subject=${searchParams?.get(keyName?.subject)}&${key}=${value}`}`?.replaceAll(
           "%2C",
           ","
         );
       }
     } else {
-      if (key == "subject") {
+      if (key == keyName?.subject) {
         const param = modifySearchParams(key, value, urlParams);
         return param?.toString();
       } else {
-        return `${urlParams.toString()}`.replaceAll("%2C", ",");
+        return `${urlParams?.toString()}`?.replaceAll("%2C", ",");
       }
     }
   };
@@ -462,9 +450,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const temp = extractUrlAndCookieValues(searchParams, "", "")?.[key]?.split(
       "+"
     );
-
     if (temp?.includes(value)) {
-      console.log(temp, value);
       return true;
     } else {
       return false;
@@ -474,8 +460,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const parentSubjectSet: any = new Set(
     jsondata?.subjectFilterList
       ?.map((items: any) => {
-        if (items.parentSubject) {
-          return items.parentSubject;
+        if (items?.parentSubject) {
+          return items?.parentSubject;
         }
       })
       ?.filter(Boolean)
@@ -492,9 +478,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const FirstLevelRegion = jsondata?.regionList
     ?.map((region: any) => {
-      if (region.parentRegionId == 1) return region;
+      if (region?.parentRegionId == 1) return region;
     })
-    .filter(Boolean);
+    ?.filter(Boolean);
 
   const subjectKeyWordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
@@ -617,7 +603,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         </div>
                         <div className="flex flex-wrap gap-[8px]">
                           {jsondata?.studyMethodList?.map(
-                            (items: any, index: any) => (
+                            (studyMethodChild: any, index: number) => (
                               <div
                                 className="form-black flex relative"
                                 key={index + 1}
@@ -625,13 +611,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 {isIndexed && (
                                   <Link
                                     id={
-                                      "study-method" + items?.studyMethodTextKey
+                                      keyName?.studyMethod +
+                                      studyMethodChild?.studyMethodTextKey
                                     }
                                     href={{
                                       pathname: `${slug}`,
                                       query: formUrl(
-                                        "study-method",
-                                        items?.studyMethodTextKey
+                                        keyName?.studyMethod,
+                                        studyMethodChild?.studyMethodTextKey
                                       ),
                                     }}
                                   ></Link>
@@ -639,32 +626,32 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 <input
                                   checked={
                                     prepopulateFilter?.studyMethod ==
-                                    items?.studyMethodTextKey
+                                    studyMethodChild?.studyMethodTextKey
                                   }
                                   onChange={() => {
                                     appendSearchParams(
-                                      "study-method",
-                                      items?.studyMethodTextKey
+                                      keyName?.studyMethod,
+                                      studyMethodChild?.studyMethodTextKey
                                     );
                                     setPrepopulateFilter((prev: any) => ({
                                       ...prev,
                                       studyMethod:
-                                        prev.studyMethod ==
-                                        items?.studyMethodTextKey
+                                        prev?.studyMethod ==
+                                        studyMethodChild?.studyMethodTextKey
                                           ? ""
-                                          : items?.studyMethodTextKey,
+                                          : studyMethodChild?.studyMethodTextKey,
                                     }));
                                   }}
                                   type="checkbox"
-                                  id={items?.studyMethodDesc}
-                                  name={items?.studyMethodDesc}
+                                  id={studyMethodChild?.studyMethodDesc}
+                                  name={studyMethodChild?.studyMethodDesc}
                                   className="rounded-[4px] outline-none absolute opacity-0"
                                 />
                                 <label
-                                  htmlFor={items?.studyMethodDesc}
+                                  htmlFor={studyMethodChild?.studyMethodDesc}
                                   className="btn btn-black-outline"
                                 >
-                                  {items?.studyMethodDesc}
+                                  {studyMethodChild?.studyMethodDesc}
                                 </label>
                               </div>
                             )
@@ -682,20 +669,23 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         </div>
                         <div className="flex flex-row flex-wrap gap-[8px]">
                           {jsondata?.studyModeList?.map(
-                            (items: any, index: any) => (
+                            (studyModeChild: any, index: number) => (
                               <div
                                 className="form-black flex relative"
                                 key={index + 1}
-                                id={items?.studyModeTextKey}
+                                id={studyModeChild?.studyModeTextKey}
                               >
                                 {isIndexed && (
                                   <Link
-                                    id={"study-mode" + items?.studyModeTextKey}
+                                    id={
+                                      keyName?.studyMode +
+                                      studyModeChild?.studyModeTextKey
+                                    }
                                     href={{
                                       pathname: `${slug}`,
                                       query: formUrl(
-                                        "study-mode",
-                                        items?.studyModeTextKey
+                                        keyName?.studyMode,
+                                        studyModeChild?.studyModeTextKey
                                       ),
                                     }}
                                   ></Link>
@@ -704,31 +694,23 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   type="checkbox"
                                   checked={
                                     prepopulateFilter?.studyMode ==
-                                    items?.studyModeTextKey
+                                    studyModeChild?.studyModeTextKey
                                   }
                                   onChange={() => {
                                     appendSearchParams(
-                                      "study-mode",
-                                      items?.studyModeTextKey
+                                      keyName?.studyMode,
+                                      studyModeChild?.studyModeTextKey
                                     );
-                                    // setPrepopulateFilter((prev: any) => ({
-                                    //   ...prev,
-                                    //   studyMode:
-                                    //     prev?.studyMode ==
-                                    //     items?.studyModeTextKey
-                                    //       ? ""
-                                    //       : items?.studyModeTextKey,
-                                    // }));
                                   }}
                                   className="rounded-[4px] outline-none absolute opacity-0"
-                                  id={items?.studyModeDesc}
-                                  name={items?.studyModeDesc}
+                                  id={studyModeChild?.studyModeDesc}
+                                  name={studyModeChild?.studyModeDesc}
                                 />
                                 <label
-                                  htmlFor={items?.studyModeDesc}
+                                  htmlFor={studyModeChild?.studyModeDesc}
                                   className="btn btn-black-outline"
                                 >
-                                  {items?.studyModeDesc}
+                                  {studyModeChild?.studyModeDesc}
                                 </label>
                               </div>
                             )
@@ -746,45 +728,49 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         </div>
                         <div className="flex flex-wrap gap-[8px]">
                           {jsondata?.qualificationList?.map(
-                            (item: any, index: any) => (
+                            (qualChild: any, index: number) => (
                               <div
                                 className="form-black flex relative"
                                 key={index}
                               >
                                 {isIndexed &&
-                                  !slug.includes(item?.qualTextKey) && (
+                                  !slug?.includes(qualChild?.qualTextKey) && (
                                     <Link
-                                      id={"study-level" + item?.qualTextKey}
+                                      id={
+                                        "study-level" + qualChild?.qualTextKey
+                                      }
                                       href={{
-                                        pathname: `/${item?.qualTextKey}-courses/search`,
+                                        pathname: `/${qualChild?.qualTextKey}-courses/search`,
                                         query: formUrl(
                                           "study-level",
-                                          item?.qualTextKey
+                                          qualChild?.qualTextKey
                                         ),
                                       }}
                                     ></Link>
                                   )}
                                 <input
-                                  checked={slug?.includes(item?.qualTextKey)}
+                                  checked={slug?.includes(
+                                    qualChild?.qualTextKey
+                                  )}
                                   onChange={() => {
                                     appendSearchParams(
                                       "study-level",
-                                      item?.qualTextKey,
+                                      qualChild?.qualTextKey,
                                       false,
                                       true
                                     );
                                   }}
                                   type="radio"
                                   name="studylevel"
-                                  id={item?.qualDisplayDesc}
-                                  value={item?.qualDisplayDesc}
+                                  id={qualChild?.qualDisplayDesc}
+                                  value={qualChild?.qualDisplayDesc}
                                   className="rounded-[4px] outline-none absolute opacity-0"
                                 />
                                 <label
-                                  htmlFor={item?.qualDisplayDesc}
+                                  htmlFor={qualChild?.qualDisplayDesc}
                                   className="btn btn-black-outline"
                                 >
-                                  {item?.qualDisplayDesc}
+                                  {qualChild?.qualDisplayDesc}
                                 </label>
                               </div>
                             )
@@ -817,7 +803,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               placeholder="Search subjects"
                               value={searchedSubject?.subjectkeyword}
                               onChange={(event) => {
-                                subjectKeyWordSearch(event.target.value);
+                                subjectKeyWordSearch(event?.target?.value);
                               }}
                             />
                             {searchedSubject?.isSujectDropdownOpen && (
@@ -854,31 +840,33 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       ${isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
                       `}
                           >
-                            {ParentSubject?.map((item: any, index: any) => (
-                              <div
-                                key={index}
-                                onClick={() => {
-                                  subjectClicked(item, true);
-                                }}
-                                className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
-                              >
-                                {item}
-                                <svg
-                                  width="16"
-                                  height="17"
-                                  viewBox="0 0 16 17"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
+                            {ParentSubject?.map(
+                              (l1Subjects: any, index: any) => (
+                                <div
+                                  key={index}
+                                  onClick={() => {
+                                    subjectClicked(l1Subjects, true);
+                                  }}
+                                  className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                                 >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                    fill="#4664DC"
-                                  />
-                                </svg>
-                              </div>
-                            ))}
+                                  {l1Subjects}
+                                  <svg
+                                    width="16"
+                                    height="17"
+                                    viewBox="0 0 16 17"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
+                                      fill="#4664DC"
+                                    />
+                                  </svg>
+                                </div>
+                              )
+                            )}
                           </div>
                           <div
                             className={`
@@ -914,52 +902,54 @@ const SearchFilterComponent = ({ data, path }: any) => {
                     title="Intake year"
                     defaultOpenStatus={selectedFilter === "year" ? true : false}
                   >
-                    {/* intake */}
                     <div className="flex flex-col gap-[8px] p-[8px_0_0]">
                       <div className="x-small font-semibold text-black uppercase">
                         Choose YEAR & MONTH
                       </div>
                       <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                         {jsondata?.intakeYearDetails?.intakeYearList?.map(
-                          (item: any, index: any) => (
+                          (yearItem: any, index: number) => (
                             <div
                               className="form-black flex relative"
                               key={index}
                             >
                               {isIndexed && (
                                 <Link
-                                  id={"year" + item?.year}
+                                  id={"year" + yearItem?.year}
                                   href={{
                                     pathname: `${slug}`,
-                                    query: formUrl("year", `${item?.year}`),
+                                    query: formUrl("year", `${yearItem?.year}`),
                                   }}
                                 ></Link>
                               )}
                               <input
                                 checked={
                                   `${prepopulateFilter?.year}` ==
-                                  `${item?.year}`
+                                  `${yearItem?.year}`
                                 }
                                 onChange={() => {
                                   setPrepopulateFilter((prev: any) => ({
                                     ...prev,
                                     year:
-                                      `${prev.year}` == `${item?.year}`
+                                      `${prev?.year}` == `${yearItem?.year}`
                                         ? ""
-                                        : `${item?.year}`,
+                                        : `${yearItem?.year}`,
                                   }));
-                                  appendSearchParams("year", `${item?.year}`);
+                                  appendSearchParams(
+                                    "year",
+                                    `${yearItem?.year}`
+                                  );
                                 }}
                                 type="checkbox"
-                                name={`${item?.year}`}
+                                name={`${yearItem?.year}`}
                                 className="rounded-[4px] outline-none absolute opacity-0"
-                                id={`${item?.year}`}
+                                id={`${yearItem?.year}`}
                               />
                               <label
-                                htmlFor={`${item?.year}`}
+                                htmlFor={`${yearItem?.year}`}
                                 className="btn btn-black-outline"
                               >
-                                {item?.year}
+                                {yearItem?.year}
                               </label>
                             </div>
                           )
@@ -967,44 +957,47 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       </div>
                       <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                         {jsondata?.intakeYearDetails?.intakeMonthList?.map(
-                          (item: any, index: any) => (
+                          (monthItem: any, index: any) => (
                             <div
                               className="form-black flex relative"
                               key={index}
                             >
                               {isIndexed && (
                                 <Link
-                                  id={"month" + item?.month}
+                                  id={"month" + monthItem?.month}
                                   href={{
                                     pathname: `${slug}`,
-                                    query: formUrl("month", `${item?.month}`),
+                                    query: formUrl(
+                                      "month",
+                                      `${monthItem?.month}`
+                                    ),
                                   }}
                                 ></Link>
                               )}
                               <input
                                 checked={
-                                  prepopulateFilter?.month == item?.month
+                                  prepopulateFilter?.month == monthItem?.month
                                 }
                                 onChange={() => {
-                                  appendSearchParams("month", item?.month);
+                                  appendSearchParams("month", monthItem?.month);
                                   setPrepopulateFilter((prev: any) => ({
                                     ...prev,
                                     month:
-                                      prev?.month == item?.month
+                                      prev?.month == monthItem?.month
                                         ? ""
-                                        : item?.month,
+                                        : monthItem?.month,
                                   }));
                                 }}
                                 type="checkbox"
-                                name={item?.month}
+                                name={monthItem?.month}
                                 className="rounded-[4px] outline-none absolute opacity-0"
-                                id={item?.month}
+                                id={monthItem?.month}
                               />
                               <label
-                                htmlFor={item?.month}
+                                htmlFor={monthItem?.month}
                                 className="btn btn-black-outline min-w-[53px] py-[5px]"
                               >
-                                {item?.month}
+                                {monthItem?.month}
                               </label>
                             </div>
                           )
@@ -1053,7 +1046,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               {searchedUniversity?.sortedUni?.length > 0 ? (
                                 <ul>
                                   {searchedUniversity?.sortedUni?.map(
-                                    (uni: any, index: number) => (
+                                    (sortedUniItem: any, index: number) => (
                                       <li key={index + 1}>
                                         <div
                                           onClick={() => {
@@ -1065,7 +1058,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                                       ?.filter(
                                                         (university: any) =>
                                                           university?.collegeNameDisplay ===
-                                                          uni?.collegeNameDisplay
+                                                          sortedUniItem?.collegeNameDisplay
                                                       )
                                                       ?.map(
                                                         () => universityArray
@@ -1079,7 +1072,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           }}
                                           className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                                         >
-                                          {uni?.collegeNameDisplay}
+                                          {sortedUniItem?.collegeNameDisplay}
                                         </div>
                                       </li>
                                     )
@@ -1100,34 +1093,36 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               : "translate-x-0 h-auto"
                           }`}
                         >
-                          {universitiesList?.map((item: any, index: any) => (
-                            <div
-                              key={index}
-                              onClick={() => {
-                                universityClicked(
-                                  item?.displayHeading,
-                                  item?.id
-                                );
-                              }}
-                              className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
-                            >
-                              {item?.name}
-                              <svg
-                                width="16"
-                                height="17"
-                                viewBox="0 0 16 17"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
+                          {universitiesList?.map(
+                            (uniItem: any, index: number) => (
+                              <div
+                                key={index}
+                                onClick={() => {
+                                  universityClicked(
+                                    uniItem?.displayHeading,
+                                    uniItem?.id
+                                  );
+                                }}
+                                className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                               >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                  fill="#4664DC"
-                                />
-                              </svg>
-                            </div>
-                          ))}
+                                {uniItem?.name}
+                                <svg
+                                  width="16"
+                                  height="17"
+                                  viewBox="0 0 16 17"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
+                                    fill="#4664DC"
+                                  />
+                                </svg>
+                              </div>
+                            )
+                          )}
                         </div>
 
                         <div
@@ -1137,20 +1132,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       }
                     `}
                         >
-                          {universitiesList?.map((item: any, index: any) => (
-                            <SelectedUniversity
-                              key={index + 1}
-                              isIndexed={isIndexed}
-                              isUniversityOpen={isUniversityOpen}
-                              universityClicked={universityClicked}
-                              id={item.id}
-                              appendSearchParams={appendSearchParams}
-                              formUrl={formUrl}
-                              selectedId={selectUniId}
-                              universityList={item?.unilist}
-                              pathname={slug}
-                            />
-                          ))}
+                          {universitiesList?.map(
+                            (university: any, index: number) => (
+                              <SelectedUniversity
+                                key={index + 1}
+                                isIndexed={isIndexed}
+                                isUniversityOpen={isUniversityOpen}
+                                universityClicked={universityClicked}
+                                id={university?.id}
+                                appendSearchParams={appendSearchParams}
+                                formUrl={formUrl}
+                                selectedId={selectUniId}
+                                universityList={university?.unilist}
+                                pathname={slug}
+                              />
+                            )
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1159,7 +1156,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                 {(jsondata?.cityList?.length > 0 ||
                   jsondata?.regionList?.length > 0) && (
                   <>
-                    {slug.split("/")[2] === "search" && (
+                    {slug?.split("/")[2] === "search" && (
                       <Accordion
                         title="Location"
                         id="#location"
@@ -1196,17 +1193,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                                         <ul>
                                           {locationMilesArray?.map(
-                                            (items, index) => (
+                                            (mileItem, index) => (
                                               <li
                                                 key={index + 1}
                                                 onClick={() => {
                                                   toggleLocationMiles(
-                                                    items?.miles
+                                                    mileItem?.miles
                                                   );
                                                 }}
                                                 className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
                                               >
-                                                {items?.miles}
+                                                {mileItem?.miles}
                                               </li>
                                             )
                                           )}
@@ -1220,9 +1217,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
                                       aria-label="submenu"
                                       placeholder="Enter Postcode"
+                                      value={postCodeValue}
+                                      onChange={(event) => {
+                                        postCodeChange(event.target.value);
+                                      }}
                                     />
                                   </div>
                                   <button
+                                    onClick={() => {
+                                      appendSearchParams(
+                                        "postcode",
+                                        postCodeValue
+                                      );
+                                    }}
                                     type="submit"
                                     className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
                                   >
@@ -1264,7 +1271,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 />
                               </svg>
                               <div
-                                // href=""
                                 onClick={getUserLocation}
                                 className="small text-blue-400 hover:underline"
                               >
@@ -1289,13 +1295,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         {isIndexed && (
                                           <Link
                                             id={
-                                              "location" +
+                                              "region" +
                                               parentRegion[0]?.regionTextKey
                                             }
                                             href={{
                                               pathname: `${slug}`,
                                               query: formUrl(
-                                                "location",
+                                                "region",
                                                 parentRegion[0]?.regionTextKey
                                               ),
                                             }}
@@ -1304,7 +1310,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         <input
                                           type="checkbox"
                                           checked={
-                                            searchParams?.get("location") ==
+                                            searchParams?.get("region") ==
                                             parentRegion[0]?.regionTextKey
                                           }
                                           className="form-checkbox hidden"
@@ -1313,7 +1319,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           onChange={() => {
                                             setIsAllUkChecked(!isAllUkChecked);
                                             appendSearchParams(
-                                              "location",
+                                              "region",
                                               parentRegion[0]?.regionTextKey
                                             );
                                           }}
@@ -1353,15 +1359,17 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   <ul>
                                     <li>
                                       {FirstLevelRegion?.map(
-                                        (item: any, index: any) => (
+                                        (regionItem: any, index: number) => (
                                           <Regions
                                             containsSearchParam={
                                               containsSearchParam
                                             }
-                                            country={parentRegion}
+                                            country={parentRegion[0] || []}
                                             key={index + 1}
-                                            item={item}
-                                            jsondata={jsondata}
+                                            item={regionItem}
+                                            regionListData={
+                                              jsondata?.regionList
+                                            }
                                             slug={slug}
                                             isIndexed={isIndexed}
                                             formUrl={formUrl}
@@ -1387,7 +1395,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               </div>
                               <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
                                 {jsondata?.cityList?.map(
-                                  (item: any, index: any) => (
+                                  (cityItem: any, index: number) => (
                                     <div
                                       className="form_check relative"
                                       key={index}
@@ -1397,13 +1405,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           {isIndexed && (
                                             <Link
                                               id={
-                                                "location" + item?.cityTextKey
+                                                "city" + cityItem?.cityTextKey
                                               }
                                               href={{
                                                 pathname: `${slug}`,
                                                 query: formUrl(
-                                                  "location",
-                                                  item?.cityTextKey
+                                                  "city",
+                                                  cityItem?.cityTextKey
                                                 ),
                                               }}
                                             ></Link>
@@ -1411,33 +1419,33 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           <input
                                             type="checkbox"
                                             checked={
-                                              prepopulateFilter?.location ==
-                                              item?.cityTextKey
+                                              prepopulateFilter?.city ==
+                                              cityItem?.cityTextKey
                                                 ? true
                                                 : false
                                             }
                                             onChange={() => {
                                               appendSearchParams(
-                                                "location",
-                                                item?.cityTextKey
+                                                "city",
+                                                cityItem?.cityTextKey
                                               );
                                               setPrepopulateFilter(
                                                 (prev: any) => ({
                                                   ...prev,
-                                                  location:
-                                                    prev?.location ==
-                                                    item?.cityTextKey
+                                                  city:
+                                                    prev?.city ==
+                                                    cityItem?.cityTextKey
                                                       ? ""
-                                                      : item?.cityTextKey,
+                                                      : cityItem?.cityTextKey,
                                                 })
                                               );
                                             }}
                                             className="form-checkbox hidden"
-                                            id={item?.cityName}
-                                            name={item?.cityName}
+                                            id={cityItem?.cityName}
+                                            name={cityItem?.cityName}
                                           />
                                           <label
-                                            htmlFor={item?.cityName}
+                                            htmlFor={cityItem?.cityName}
                                             className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                           >
                                             <svg
@@ -1461,10 +1469,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           </label>
                                         </div>
                                         <label
-                                          htmlFor={item?.cityName}
+                                          htmlFor={cityItem?.cityName}
                                           className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                         >
-                                          {item?.cityName}
+                                          {cityItem?.cityName}
                                         </label>
                                       </div>
                                     </div>
@@ -1483,43 +1491,60 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               </div>
                               <div className="flex items-center gap-[8px]">
                                 {jsondata?.uniLocationTypeList?.map(
-                                  (item: any, index: any) => (
+                                  (uniLocationTypeItem: any, index: number) => (
                                     <div
                                       className="form-black flex relative"
                                       key={index}
                                     >
+                                      {isIndexed && (
+                                        <Link
+                                          id={
+                                            keyName?.locationType +
+                                            uniLocationTypeItem?.locTypeTextKey
+                                          }
+                                          href={{
+                                            pathname: `${slug}`,
+                                            query: formUrl(
+                                              keyName?.locationType,
+                                              uniLocationTypeItem?.locTypeTextKey
+                                            ),
+                                          }}
+                                        ></Link>
+                                      )}
                                       <input
                                         type="checkbox"
                                         checked={
                                           prepopulateFilter?.locationType ==
-                                          item?.locTypeTextKey
+                                          uniLocationTypeItem?.locTypeTextKey
                                             ? true
                                             : false
                                         }
                                         onChange={() => {
                                           appendSearchParams(
-                                            "location-type",
-                                            item?.locTypeTextKey
+                                            keyName?.locationType,
+                                            uniLocationTypeItem?.locTypeTextKey
                                           );
                                           setPrepopulateFilter((prev: any) => ({
                                             ...prev,
                                             locationType:
                                               prev?.locationType ==
-                                              item?.locTypeTextKey
+                                              uniLocationTypeItem?.locTypeTextKey
                                                 ? ""
-                                                : item?.locTypeTextKey,
+                                                : uniLocationTypeItem?.locTypeTextKey,
                                           }));
                                         }}
-                                        name={item?.locTypeDesc}
+                                        name={uniLocationTypeItem?.locTypeDesc}
                                         className="rounded-[4px] outline-none absolute opacity-0"
-                                        id={item?.locTypeDesc}
-                                        value={item?.locTypeDesc}
+                                        id={uniLocationTypeItem?.locTypeDesc}
+                                        value={uniLocationTypeItem?.locTypeDesc}
                                       />
                                       <label
-                                        htmlFor={item?.locTypeDesc}
+                                        htmlFor={
+                                          uniLocationTypeItem?.locTypeDesc
+                                        }
                                         className="btn btn-black-outline"
                                       >
-                                        {item?.locTypeDesc}
+                                        {uniLocationTypeItem?.locTypeDesc}
                                       </label>
                                     </div>
                                   )
@@ -1532,7 +1557,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                     )}
                   </>
                 )}
-                {slug.split("/")[2] === "search" && (
+                {slug?.split("/")[2] === "search" && (
                   <>
                     {jsondata?.universityGroupList?.length > 0 && (
                       <Accordion
@@ -1545,37 +1570,56 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           </div>
                           <div className="flex flex-col gap-[12px]">
                             {jsondata?.universityGroupList?.map(
-                              (item: any, index: any) => (
+                              (uniGroupListItem: any, index: number) => (
                                 <div
                                   className="form_check relative"
                                   key={index}
                                 >
                                   <div className="flex items-start gap-[8px]">
                                     <div className="checkbox_card">
+                                      {isIndexed && (
+                                        <Link
+                                          id={
+                                            keyName?.russellGroup +
+                                            uniGroupListItem?.universityGroupTextKey
+                                          }
+                                          href={{
+                                            pathname: `${slug}`,
+                                            query: formUrl(
+                                              keyName?.russellGroup,
+                                              uniGroupListItem?.universityGroupTextKey
+                                            ),
+                                          }}
+                                        ></Link>
+                                      )}
                                       <input
                                         type="checkbox"
                                         className="form-checkbox hidden"
-                                        id={item?.universityGroupDesc}
+                                        id={
+                                          uniGroupListItem?.universityGroupDesc
+                                        }
                                         checked={
                                           prepopulateFilter?.russellGroup !== ""
                                         }
                                         onChange={() => {
                                           appendSearchParams(
-                                            "russell-group",
-                                            item?.universityGroupTextKey
+                                            keyName?.russellGroup,
+                                            uniGroupListItem?.universityGroupTextKey
                                           );
                                           setPrepopulateFilter((prev: any) => ({
                                             ...prev,
                                             russellGroup:
                                               prev?.russellGroup ==
-                                              item?.universityGroupTextKey
+                                              uniGroupListItem?.universityGroupTextKey
                                                 ? ""
-                                                : item?.universityGroupTextKey,
+                                                : uniGroupListItem?.universityGroupTextKey,
                                           }));
                                         }}
                                       />
                                       <label
-                                        htmlFor={item?.universityGroupDesc}
+                                        htmlFor={
+                                          uniGroupListItem?.universityGroupDesc
+                                        }
                                         className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                       >
                                         <svg
@@ -1599,10 +1643,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       </label>
                                     </div>
                                     <label
-                                      htmlFor={item?.universityGroupDesc}
+                                      htmlFor={
+                                        uniGroupListItem?.universityGroupDesc
+                                      }
                                       className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                     >
-                                      {item?.universityGroupDesc}
+                                      {uniGroupListItem?.universityGroupDesc}
                                     </label>
                                   </div>
                                 </div>

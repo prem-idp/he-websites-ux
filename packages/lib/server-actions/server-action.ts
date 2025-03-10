@@ -10,7 +10,7 @@ type RequestType = "GET" | "POST";
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean,
-  customParams?: any,
+  customParams?: any
 ) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
@@ -86,11 +86,14 @@ export async function httpBFFRequest(
   xAPIKey: string,
   cacheType: RequestCache,
   cacheTime: number,
-  customHeaders: any,
+  customHeaders: any
 ): Promise<any> {
   try {
     const url = endpoint;
-    const cacheparam = cacheType?.toString() != "no-store" ? {next: {revalidate: cacheTime}} : {};
+    const cacheparam =
+      cacheType?.toString() != "no-store"
+        ? { next: { revalidate: cacheTime } }
+        : {};
     const res = await fetch(url, {
       method: reqtype,
       headers: {
@@ -101,7 +104,7 @@ export async function httpBFFRequest(
       },
       body: JSON.stringify(bodyPayload),
       cache: cacheType ? cacheType : "default",
-      ...cacheparam
+      ...cacheparam,
     });
 
     const data = await res.json();
@@ -127,7 +130,6 @@ const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
       cache: "no-store",
     });
 
-    // Parse the JSON response
     const data = await res.json();
     return data;
   } catch (error) {

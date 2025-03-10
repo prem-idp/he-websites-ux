@@ -5,7 +5,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -20,11 +19,11 @@ const getFilterPriority = (isQualification?: boolean) => {
     "pageno",
     "russell-group",
     "sort",
+    "postcode",
   ];
   const pgsFilters = [
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -39,12 +38,12 @@ const getFilterPriority = (isQualification?: boolean) => {
     "page_no",
     "russell_group",
     "sort",
+    "postcode",
   ];
   const whatuniPrFilters = [
     "university",
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -57,12 +56,12 @@ const getFilterPriority = (isQualification?: boolean) => {
     "location-type",
     "pageno",
     "sort",
+    "postcode",
   ];
   const pgsPrFilters = [
     "university",
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -75,6 +74,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "location_type",
     "page_no",
     "sort",
+    "postcode",
   ];
   if (process.env.PROJECT === "Whatuni" && isQualification) {
     return [...whatuniPrFilters];
@@ -110,11 +110,11 @@ const extractUrlAndCookieValues = (
       delete mergedObject?.course;
     }
   }
-  if (mergedObject[key] && key != "location") {
+  if (mergedObject[key] && key != "region") {
     let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
-    } else if (key === "subject" || key === "location") {
+    } else if (key === "subject") {
       valuesSet.add(value);
     } else {
       valuesSet = new Set(`${value}`.split("+"));
@@ -156,7 +156,6 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
-  console.log(entriesArray);
   for (const [key, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
     if (decodedValue.includes("+") || decodedValue.includes(" ")) {
@@ -221,12 +220,16 @@ function getUserLocation() {
     console.warn("Geolocation is not supported by your browser.");
   }
 }
-function heirarchicalLocation(regions: any) {
+
+function hierarchicalLocation(regions: any) {
   const regionMap = new Map();
+
   regions.forEach((region: any) => {
     regionMap.set(region.regionId, { ...region, children: [] });
   });
+
   const root: any = [];
+
   regions.forEach((region: any) => {
     if (region.parentRegionId) {
       const parent = regionMap.get(region.parentRegionId);
@@ -234,14 +237,23 @@ function heirarchicalLocation(regions: any) {
         parent.children.push(regionMap.get(region.regionId));
       }
     } else {
+      return;
+    }
+  });
+  regions.forEach((region: any) => {
+    if (
+      region.parentRegionId &&
+      !regions.some((r: any) => r.regionId === region.parentRegionId)
+    ) {
       root.push(regionMap.get(region.regionId));
     }
   });
   return root;
 }
+
 export {
   locationMilesArray,
-  heirarchicalLocation,
+  hierarchicalLocation,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,
