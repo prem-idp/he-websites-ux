@@ -13,7 +13,14 @@ interface Favourite {
   final_choice_id?: string | null;
   choice_position?: number | null;
 }
-const UserFavourite= ({favouriteProps} : any) => {
+
+interface UserFavouriteProps {
+  contentType:string,
+  contentId: number,
+  contentName: string,
+  exceedData: (val: boolean) => void
+}
+const UserFavourite= (favouriteProps : UserFavouriteProps) => {
 
     const [user, setUserData] = useState<AuthUser | null>(null);
     const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
@@ -57,17 +64,20 @@ const UserFavourite= ({favouriteProps} : any) => {
          };
          const data = await addRemoveFavourites([payload]);
          if (
-           data?.message === "Added course" ||
-           data?.message === "Added Institution"
+           data?.message?.toLowerCase() === "added course" ||
+           data?.message?.toLowerCase() === "added institution"
          ) {
            setFavourite((prevState) => ({
              ...prevState,
-             favouritedList: [...prevState?.favouritedList, contentId.toString()],
+             favouritedList: [
+              ...(prevState?.favouritedList || []), // Ensure favouritedList is an array, default to empty array
+              contentId.toString(),
+            ],
            }));
            setfavourtiteTooltip(contentId);
          } else if (
-           data?.message === "Removed Institution" ||
-           data?.message === "Removed course"
+           data?.message?.toLowerCase() === "removed institution" ||
+           data?.message?.toLowerCase() === "removed course"
          ) {
            setfavourtiteTooltip("");
            setFavourite((prevState) => ({
@@ -76,7 +86,7 @@ const UserFavourite= ({favouriteProps} : any) => {
                (id) => id != contentId
              ),
            }));
-         } else if (data?.message === "Limit exceeded") {
+         } else if (data?.message?.toLowerCase() === "limit exceeded") {
            setfavourtiteTooltip(""), favouriteProps?.exceedData(true);
            console.log("EXCEED", favouriteProps?.exceedData)
          }
@@ -123,7 +133,7 @@ const UserFavourite= ({favouriteProps} : any) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  {favourtiteTooltip === favouriteProps?.contentId ? (
+                  {+favourtiteTooltip === favouriteProps?.contentId ? (
                     <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
                         <span className="text-grey900 font-semibold">
