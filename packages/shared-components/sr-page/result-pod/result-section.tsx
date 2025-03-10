@@ -65,6 +65,7 @@ const onClose = (event: React.FormEvent) => {
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
+                {data?.collegeMedia?.ipCollegeLogo ? (
                   <Link
                     href={
                       process.env.PROJECT === "Whatuni"
@@ -73,6 +74,7 @@ const onClose = (event: React.FormEvent) => {
                     }
                     className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                   >
+                    
                     <Image
                       src={
                         data?.collegeMedia?.ipCollegeLogo
@@ -83,8 +85,8 @@ const onClose = (event: React.FormEvent) => {
                       width={56}
                       height={56}
                       id="uni_img"
-                    />
-                  </Link>
+                    /> 
+                  </Link> ): <></>}
                   {data?.sponsoredListingFlag === "Y" ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
@@ -246,6 +248,7 @@ const onClose = (event: React.FormEvent) => {
                 )}
               </div>
             </div>
+            {data?.collegeMedia?.ipCollegeImage ? (
             <Image
               src={
                 data?.collegeMedia?.ipCollegeImage
@@ -256,7 +259,7 @@ const onClose = (event: React.FormEvent) => {
               width={500}
               height={376}
               className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-            />
+            /> ) : <></>}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
