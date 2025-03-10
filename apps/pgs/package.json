@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "next dev  --port 3001",
     "build": "next build",
+    "lint": "eslint -f html -o ./reports/pgs-eslint-report.html --color ./",
+    "test": "jest --watchAll",
+    "test:coverage": "jest --coverage",
     "start": "next start -p 3001",
     "open-next": "open-next build",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
     "analyze": "next build && next-bundle-analyzer"
   }
 }
