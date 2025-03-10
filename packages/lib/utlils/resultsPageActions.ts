@@ -170,9 +170,18 @@ function getWU_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpte
 } 
 
 function getWU_Canonical(searchParams: any, pathName: string, contentfulCanonicalType: string){
-  
+
+  let multiOptionSelected:boolean = false;
+  Object.keys(searchParams).forEach((key:string)=>{
+    if(getselectedCount(searchParams[key]) >= 2){
+      multiOptionSelected = true;
+    }
+  });
+
   const { sort, ...newObj } = {...searchParams};
-  let canonicalUrl = formSRPageURL(newObj, pathName);
+  let canonicalUrl;
+  if(multiOptionSelected) canonicalUrl = formSRPageURL({}, pathName)
+  else canonicalUrl = formSRPageURL(newObj, pathName);
 
   return canonicalUrl;
 } 
