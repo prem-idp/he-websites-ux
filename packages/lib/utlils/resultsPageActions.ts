@@ -419,7 +419,7 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
     // } else if(searchPayLoad?.parentQualification == "all"){
     //   seoMetaFeildId = `studyLevel(all)`;
     // }
-    // seoMetaFeildId = `PR - ${seoMetaFeildId}`
+    seoMetaFeildId = `PR - ${seoMetaFeildId}`
   }
 
   return `SEO - ${seoMetaFeildId} - Whatuni`;
