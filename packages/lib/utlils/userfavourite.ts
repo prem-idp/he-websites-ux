@@ -11,7 +11,7 @@ const getUserFavourites = async (): Promise<any> => {
         const session = await fetchAuthSession();
         const headers: any = {
           "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_FAV_X_API_KEY}`,
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         };
         let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API}`;
         if (session.tokens?.idToken) {
@@ -34,7 +34,7 @@ const getUserFavourites = async (): Promise<any> => {
      async function addRemoveFavourites(payload:any[]){
         try {
           const favpayload = {
-            affiliateId: process.env.PROJECT === "Whatuni" ? "220703" : "607022",     
+            affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,     
             AddFavoriteRequestList: payload,    
           };
           const session = await fetchAuthSession();

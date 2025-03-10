@@ -3,17 +3,13 @@ import Keystatscomponents from './KeyStatsComponent';
 import ReviewComponent from '../common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
 import { CourseSection } from '../models/course.model';
-import Reviewscomponents from "@packages/shared-components/common-utilities/slider/reviews/reviewscomponents"
-
-interface CourseInfoComponentProps extends CourseSection {
-
-}
 interface CourseInfoComponentProps {
   courseInfo: any,
-  keyStats: any
+  keyStats: any,
+  sectionInfo: any
 }
 
-const CourseInfoComponent = ({ data, sectionInfo }: any) => {
+const CourseInfoComponent = ({ data, sectionInfo, jsonResponse }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
 
   return (
@@ -24,8 +20,7 @@ const CourseInfoComponent = ({ data, sectionInfo }: any) => {
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
             <ReadMoreLessDesc text={courseInfo?.courseSummary} />
             <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
-            <Reviewscomponents heading="What student say" />
-            {/* </div> */}
+            <ReviewComponent heading="What student say" jsonResponse={jsonResponse} />
           </div>
         </div>
       </div>

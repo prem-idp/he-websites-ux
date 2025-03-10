@@ -7,14 +7,17 @@ import RequestInfo from "@packages/shared-components/common-utilities/cards/inte
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
-
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import Link from "next/link";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
-  children: any
+  children?: any
 }
 
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
+
+  const [exceedMessage, setExceedMessage] = useState(false);
 
   // State to track which cards' modules are visible
   const [visibleModules, setVisibleModules] = useState<boolean[]>(
@@ -30,17 +33,23 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
 
   // Provider card toggle function  END
 
-  // State to track favorited status for each item
-  const [favoritedItems, setFavoritedItems] = useState<boolean[]>(
-    new Array(searchResultlist.length).fill(false)
-  );
+  // // State to track favorited status for each item
+  // const [favoritedItems, setFavoritedItems] = useState<boolean[]>(
+  //   new Array(searchResultlist.length).fill(false)
+  // );
 
-  // Handler to toggle the favorited state for a specific item
-  const favoriteHandleClick = (index: number) => {
-    setFavoritedItems((prev) =>
-      prev.map((item, i) => (i === index ? !item : item))
-    );
+  // // Handler to toggle the favorited state for a specific item
+  // const favoriteHandleClick = (index: number) => {
+  //   setFavoritedItems((prev) =>
+  //     prev.map((item, i) => (i === index ? !item : item))
+  //   );
+  // };
+
+
+  const handleExceedMessage = (data: any) => {
+    setExceedMessage(data); // Update state in parent
   };
+
 
   const providerCard = searchResultlist.map((items, index) => (
     <div
@@ -49,9 +58,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
       className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200"
     >
       <div className="flex justify-end p-[16px] bg-blue-100">
-        <span onClick={() => favoriteHandleClick(index)} className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+        <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
           {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100"> */}
-          <div
+          {/* <div
             className={`heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 ${favoritedItems[index] ? 'bg-blue-100' : 'bg-white'
               }`}
           >
@@ -71,17 +80,15 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 fill={favoritedItems[index] ? "#4664DC" : "none"}
               />
             </svg>
-          </div>
+          </div> */}
+          <UserFavourite favouriteProps={{ exceedData: { handleExceedMessage }, contentId: items?.courseId, contentName: items?.title, contentType: "INSTITUTION" }}></UserFavourite>
         </span>
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
         <div className="flex flex-col gap-[16px] md:min-h-[240px]">
-          <a
-            href="#"
-            className="h6 hover:underline cursor-pointer text-blue-400"
-          >
+          <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
             {items.title}
-          </a>
+          </Link>
           <ul className="flex flex-wrap gap-[4px]">
             <li className="flex gap-[2px] bg-grey-100 text-grey-500 uppercase font-semibold xs-small px-[8px] rounded-[4px]">
               <Image
