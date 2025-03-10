@@ -21,7 +21,7 @@ const nextConfig = {
   //   },
   // },
   skipTrailingSlashRedirect: true,
-  // productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: true,
   async headers() {
     return [
       {

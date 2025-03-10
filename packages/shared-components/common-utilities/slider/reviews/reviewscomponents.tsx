@@ -18,6 +18,7 @@ interface ReviewProps {
   category?: any;
   subCategory?: any;
 }
+
 const Reviewscomponents: React.FC<ReviewProps> = async ({
   heading,
   subheading,

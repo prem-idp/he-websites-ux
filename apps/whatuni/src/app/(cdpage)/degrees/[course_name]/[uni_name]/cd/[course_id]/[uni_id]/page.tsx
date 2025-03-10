@@ -9,11 +9,10 @@ import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/grap
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-
 import { reviewPayload } from "@packages/lib/api-payloads/payloads";
 import getApiUrl from "@packages/REST-API/api-urls";
 import makeApiCall from "@packages/REST-API/rest-api";
-
+import LazyLoadWrapper from "@packages/lib/utlils/lazyloadcomponent"
 
 export default async function Cdpage({ params }: any) {
   const prams_slug = await params;
@@ -70,7 +69,9 @@ export default async function Cdpage({ params }: any) {
       <Othercoursesmaylikecomponents />
       <SimilarCourseComponent data={data} />
       {process.env.PROJECT === "Whatuni" &&
-        <Findacoursecomponents />
+        <LazyLoadWrapper>
+          <Findacoursecomponents />
+        </LazyLoadWrapper>
       }
     </>
   )
