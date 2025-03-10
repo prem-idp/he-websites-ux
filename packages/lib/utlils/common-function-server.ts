@@ -32,5 +32,8 @@ export function getMetaDetailsObject(metaData: MetaDataInterface): Metadata{
   }
   
   export function getCustomDomain(){
-    return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
+    if(process.env.projects == "Whatuni")
+      return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
+    else (process.env.projects == "PGS")
+    return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : "http://localhost:3000"}`;
   }

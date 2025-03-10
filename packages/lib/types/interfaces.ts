@@ -682,3 +682,8 @@ export interface MetaDataInterface {
   twitter_titile?: string,
   twitter_description?: string,
 }
+
+export type MetaDataProps = {
+  params?: any;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
