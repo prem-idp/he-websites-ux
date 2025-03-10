@@ -361,7 +361,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document?.getElementById(key + value);
-      if (linkTagId) {
+      if (linkTagId && !isIndexed) {
         linkTagId.click();
       } else {
         router.push(
@@ -441,11 +441,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
         const param = modifySearchParams(key, value, urlParams);
         return param?.toString();
       } else {
-        return `${urlParams?.toString()}`?.replaceAll("%2C", ",");
+        const urlObejct: any = Object?.fromEntries(urlParams?.entries());
+        urlObejct[keyName?.subject] =
+          urlObejct[keyName?.subject]?.split("+")[0] || [];
+        if (urlObejct?.region) {
+          urlObejct["region"] = urlObejct?.region?.split("+")[0] || [];
+        }
+        if (urlObejct?.city) {
+          urlObejct["city"] = urlObejct?.city?.split("+")[0] || [];
+        }
+        return `${new URLSearchParams(urlObejct)?.toString()}`?.replaceAll(
+          "%2C",
+          ","
+        );
       }
     }
   };
-
   const containsSearchParam = (key: string, value: string): boolean => {
     const temp = extractUrlAndCookieValues(searchParams, "", "")?.[key]?.split(
       "+"
@@ -608,21 +619,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 className="form-black flex relative"
                                 key={index + 1}
                               >
-                                {isIndexed && (
-                                  <Link
-                                    id={
-                                      keyName?.studyMethod +
+                                {/* {isIndexed && ( */}
+                                <Link
+                                  id={
+                                    keyName?.studyMethod +
+                                    studyMethodChild?.studyMethodTextKey
+                                  }
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl(
+                                      keyName?.studyMethod,
                                       studyMethodChild?.studyMethodTextKey
-                                    }
-                                    href={{
-                                      pathname: `${slug}`,
-                                      query: formUrl(
-                                        keyName?.studyMethod,
-                                        studyMethodChild?.studyMethodTextKey
-                                      ),
-                                    }}
-                                  ></Link>
-                                )}
+                                    ),
+                                  }}
+                                ></Link>
+                                {/* )} */}
                                 <input
                                   checked={
                                     prepopulateFilter?.studyMethod ==
@@ -675,21 +686,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 key={index + 1}
                                 id={studyModeChild?.studyModeTextKey}
                               >
-                                {isIndexed && (
-                                  <Link
-                                    id={
-                                      keyName?.studyMode +
+                                {/* {isIndexed && ( */}
+                                <Link
+                                  id={
+                                    keyName?.studyMode +
+                                    studyModeChild?.studyModeTextKey
+                                  }
+                                  href={{
+                                    pathname: `${slug}`,
+                                    query: formUrl(
+                                      keyName?.studyMode,
                                       studyModeChild?.studyModeTextKey
-                                    }
-                                    href={{
-                                      pathname: `${slug}`,
-                                      query: formUrl(
-                                        keyName?.studyMode,
-                                        studyModeChild?.studyModeTextKey
-                                      ),
-                                    }}
-                                  ></Link>
-                                )}
+                                    ),
+                                  }}
+                                ></Link>
+                                {/* )} */}
                                 <input
                                   type="checkbox"
                                   checked={
@@ -733,7 +744,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 className="form-black flex relative"
                                 key={index}
                               >
-                                {isIndexed &&
+                                {
+                                  // isIndexed &&
                                   !slug?.includes(qualChild?.qualTextKey) && (
                                     <Link
                                       id={
@@ -747,7 +759,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         ),
                                       }}
                                     ></Link>
-                                  )}
+                                  )
+                                }
                                 <input
                                   checked={slug?.includes(
                                     qualChild?.qualTextKey
@@ -913,15 +926,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               className="form-black flex relative"
                               key={index}
                             >
-                              {isIndexed && (
-                                <Link
-                                  id={"year" + yearItem?.year}
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl("year", `${yearItem?.year}`),
-                                  }}
-                                ></Link>
-                              )}
+                              {/* {isIndexed && ( */}
+                              <Link
+                                id={"year" + yearItem?.year}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl("year", `${yearItem?.year}`),
+                                }}
+                              ></Link>
+                              {/* )} */}
                               <input
                                 checked={
                                   `${prepopulateFilter?.year}` ==
@@ -962,18 +975,18 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               className="form-black flex relative"
                               key={index}
                             >
-                              {isIndexed && (
-                                <Link
-                                  id={"month" + monthItem?.month}
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl(
-                                      "month",
-                                      `${monthItem?.month}`
-                                    ),
-                                  }}
-                                ></Link>
-                              )}
+                              {/* {isIndexed && ( */}
+                              <Link
+                                id={"month" + monthItem?.month}
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl(
+                                    "month",
+                                    `${monthItem?.month}`
+                                  ),
+                                }}
+                              ></Link>
+                              {/* )} */}
                               <input
                                 checked={
                                   prepopulateFilter?.month == monthItem?.month
@@ -1292,21 +1305,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   <div className="form_check relative m-[0_0_12px]">
                                     <div className="flex items-start gap-[8px]">
                                       <div className="checkbox_card">
-                                        {isIndexed && (
-                                          <Link
-                                            id={
-                                              "region" +
+                                        {/* {isIndexed && ( */}
+                                        <Link
+                                          id={
+                                            "region" +
+                                            parentRegion[0]?.regionTextKey
+                                          }
+                                          href={{
+                                            pathname: `${slug}`,
+                                            query: formUrl(
+                                              "region",
                                               parentRegion[0]?.regionTextKey
-                                            }
-                                            href={{
-                                              pathname: `${slug}`,
-                                              query: formUrl(
-                                                "region",
-                                                parentRegion[0]?.regionTextKey
-                                              ),
-                                            }}
-                                          ></Link>
-                                        )}
+                                            ),
+                                          }}
+                                        ></Link>
+                                        {/* )} */}
                                         <input
                                           type="checkbox"
                                           checked={
@@ -1402,20 +1415,18 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     >
                                       <div className="flex items-start gap-[8px]">
                                         <div className="checkbox_card">
-                                          {isIndexed && (
-                                            <Link
-                                              id={
-                                                "city" + cityItem?.cityTextKey
-                                              }
-                                              href={{
-                                                pathname: `${slug}`,
-                                                query: formUrl(
-                                                  "city",
-                                                  cityItem?.cityTextKey
-                                                ),
-                                              }}
-                                            ></Link>
-                                          )}
+                                          {/* {isIndexed && ( */}
+                                          <Link
+                                            id={"city" + cityItem?.cityTextKey}
+                                            href={{
+                                              pathname: `${slug}`,
+                                              query: formUrl(
+                                                "city",
+                                                cityItem?.cityTextKey
+                                              ),
+                                            }}
+                                          ></Link>
+                                          {/* )} */}
                                           <input
                                             type="checkbox"
                                             checked={
@@ -1496,21 +1507,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="form-black flex relative"
                                       key={index}
                                     >
-                                      {isIndexed && (
-                                        <Link
-                                          id={
-                                            keyName?.locationType +
+                                      {/* {isIndexed && ( */}
+                                      <Link
+                                        id={
+                                          keyName?.locationType +
+                                          uniLocationTypeItem?.locTypeTextKey
+                                        }
+                                        href={{
+                                          pathname: `${slug}`,
+                                          query: formUrl(
+                                            keyName?.locationType,
                                             uniLocationTypeItem?.locTypeTextKey
-                                          }
-                                          href={{
-                                            pathname: `${slug}`,
-                                            query: formUrl(
-                                              keyName?.locationType,
-                                              uniLocationTypeItem?.locTypeTextKey
-                                            ),
-                                          }}
-                                        ></Link>
-                                      )}
+                                          ),
+                                        }}
+                                      ></Link>
+                                      {/* )} */}
                                       <input
                                         type="checkbox"
                                         checked={
@@ -1577,21 +1588,21 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 >
                                   <div className="flex items-start gap-[8px]">
                                     <div className="checkbox_card">
-                                      {isIndexed && (
-                                        <Link
-                                          id={
-                                            keyName?.russellGroup +
+                                      {/* {isIndexed && ( */}
+                                      <Link
+                                        id={
+                                          keyName?.russellGroup +
+                                          uniGroupListItem?.universityGroupTextKey
+                                        }
+                                        href={{
+                                          pathname: `${slug}`,
+                                          query: formUrl(
+                                            keyName?.russellGroup,
                                             uniGroupListItem?.universityGroupTextKey
-                                          }
-                                          href={{
-                                            pathname: `${slug}`,
-                                            query: formUrl(
-                                              keyName?.russellGroup,
-                                              uniGroupListItem?.universityGroupTextKey
-                                            ),
-                                          }}
-                                        ></Link>
-                                      )}
+                                          ),
+                                        }}
+                                      ></Link>
+                                      {/* )} */}
                                       <input
                                         type="checkbox"
                                         className="form-checkbox hidden"

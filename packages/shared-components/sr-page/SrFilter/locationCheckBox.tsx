@@ -44,15 +44,18 @@ const LocationcheckBox = ({
                   locationClicked(childItem?.regionTextKey);
                 }}
               >
-                {isIndexed && !isChecked && (
-                  <Link
-                    id={"region" + childItem?.regionTextKey}
-                    href={{
-                      pathname: `${slug}`,
-                      query: formUrl("region", childItem?.regionTextKey),
-                    }}
-                  ></Link>
-                )}
+                {
+                  // isIndexed &&
+                  !isChecked && (
+                    <Link
+                      id={"region" + childItem?.regionTextKey}
+                      href={{
+                        pathname: `${slug}`,
+                        query: formUrl("region", childItem?.regionTextKey),
+                      }}
+                    ></Link>
+                  )
+                }
                 <input
                   type="checkbox"
                   checked={isChecked}
