@@ -41,7 +41,6 @@ const LocationcheckBox = ({
               <div
                 className="checkbox_card"
                 onClick={() => {
-                  // appendSearchParams("location", childItem?.regionTextKey);
                   locationClicked(childItem?.regionTextKey);
                 }}
               >

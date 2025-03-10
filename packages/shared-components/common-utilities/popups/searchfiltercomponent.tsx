@@ -67,7 +67,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     null | undefined | string
   >(null);
   const [routerEnd, setrouterEnd] = useState(false);
-
+  const [postCodeValue, setPostCodeValue] = useState("");
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
   const subjectClicked = (item: string, closeFilter?: boolean) => {
     setIsSubjectOpen(closeFilter || !isSubjectOpen);
@@ -249,7 +249,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-
+  const postCodeChange = (value: any) => {
+    if (!isNaN(value) && value?.length <= 10) {
+      setPostCodeValue(value);
+    }
+  };
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
@@ -1213,9 +1217,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
                                       aria-label="submenu"
                                       placeholder="Enter Postcode"
+                                      value={postCodeValue}
+                                      onChange={(event) => {
+                                        postCodeChange(event.target.value);
+                                      }}
                                     />
                                   </div>
                                   <button
+                                    onClick={() => {
+                                      appendSearchParams(
+                                        "postcode",
+                                        postCodeValue
+                                      );
+                                    }}
                                     type="submit"
                                     className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
                                   >

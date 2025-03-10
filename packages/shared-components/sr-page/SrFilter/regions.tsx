@@ -30,12 +30,12 @@ const Regions = ({
     }
   }, [searchparams]);
   const locationClicked = (regionTextKey: string) => {
-    const selectedRegion = regionListData?.regionList.find(
+    const selectedRegion = regionListData?.regionList?.find(
       (region: any) => region.regionTextKey === regionTextKey
     );
     if (!selectedRegion) return;
 
-    const parentRegion = regionListData?.regionList.find(
+    const parentRegion = regionListData?.regionList?.find(
       (region: any) => region.regionId === selectedRegion.parentRegionId
     );
 
@@ -48,7 +48,7 @@ const Regions = ({
 
     if (isParentRegion) {
       appliedRegions = appliedRegions.filter((region) => {
-        const subregion = regionListData?.regionList.find(
+        const subregion = regionListData?.regionList?.find(
           (r: any) => r.regionTextKey === region
         );
         return subregion?.parentRegionId !== selectedRegion.regionId;
