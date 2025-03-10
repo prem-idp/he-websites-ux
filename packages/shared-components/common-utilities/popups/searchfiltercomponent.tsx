@@ -276,7 +276,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const url = `${firstSubject[0] ? `${slug}?subject=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param=""; path=/;`;
     router.push(url);
-    setIsFilterOpen(false);
   };
   const appendSearchParams = async (
     key: string,
@@ -339,6 +338,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
     let domainPath = null;
     if (isQualificationChanged && !slug?.includes(value)) {
       domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
+    } else if (key === "university") {
+      const uni = searchParams?.get("university")?.includes(value);
+      if (key === "university" && uni) {
+        domainPath = `/${slug?.split("/")?.[1]}/search`;
+      } else if (key === "university" && !uni) {
+        domainPath = `/${slug?.split("/")?.[1]}/csearch`;
+      }
     }
 
     if (urlParams?.toString() === searchParams?.toString()) {
@@ -352,20 +358,28 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }
       router.refresh();
     } else if (multiSelect) {
+      console.log("multi select");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      console.log(
+        `${domainPath ?? ""}?${urlParams?.toString()}`
+          ?.replaceAll("%2B", "+")
+          ?.replaceAll("%2C", ",")
+      );
       router.push(
         `${domainPath ?? ""}?${urlParams?.toString()}`
           ?.replaceAll("%2B", "+")
           ?.replaceAll("%2C", ",")
       );
     } else {
+      console.log("link tag based");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document?.getElementById(key + value);
       if (linkTagId && !isIndexed) {
         linkTagId.click();
       } else {
+        console.log("link tag not found");
         router.push(
-          `?${urlParams?.toString()}`
+          `${domainPath ?? ""}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
             ?.replaceAll("%2C", ",")
         );
