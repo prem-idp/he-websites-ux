@@ -102,7 +102,10 @@ export function getDisplayNameReqBody(searchPayLoad: any){
   return displayNameReqBody;
 }
 
-export function replaceSEOPlaceHolder(inputText: any, metaFiltersOpted: MetaFilterTypesReplace) {
+export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaFilterTypesReplace) {
+
+    if(inputText?.toUpperCase() === "NA" || !inputText) return "";
+
     if (inputText?.includes("[COURSE COUNT]")) {
       inputText = inputText.replace("[COURSE COUNT]", metaFiltersOpted?.courseCount ?? "0")
     } 
@@ -202,7 +205,8 @@ function getPGS_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpt
      multiOptionSelected ||                                    //multiple options selected in multi-select filter
      (!multiOptionSelected && filterCount >= 3) ||             //url has more than 2 params
      Number(metaFiltersOpted?.providerCount) <= 3){            //total search result count is less than/equal to 3
-      contentfulIndex = "noindex, nofollow";
+      
+    contentfulIndex = "noindex, nofollow";
   }
 
   return contentfulIndex;

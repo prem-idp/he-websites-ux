@@ -28,6 +28,7 @@ const TopSection: React.FC<searchProps> = async ({
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   const domain = getCustomDomain();
+  const defaultH1text = "Compare courses and degrees in the UK";
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
 
@@ -82,11 +83,12 @@ const TopSection: React.FC<searchProps> = async ({
           {/* start subject */}
           <div className="py-[16px]">
             <div className="h5 mb-[4px]">
-              {replaceSEOPlaceHolder(contentfulMetadata?.h1Title || "Compare courses and degrees in the UK" , metaFiltersOpted)}
+              {replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted)}
             </div>
             <p>
-            {/* {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) } */}
-            {replaceSEOPlaceHolder(contentfulMetadata?.h2Text || "Choose from [COURSE COUNT] courses from [PROVIDER COUNT] universities based on your selections.", metaFiltersOpted)}
+            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? 
+            replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
+            replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}
