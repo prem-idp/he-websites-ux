@@ -418,7 +418,7 @@ const onClose = (event: React.FormEvent) => {
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
                           <Link
-                            href=""
+                            href={`/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`}
                             className="text-blue-400 cursor-pointer hover:underline"
                           >
                             Read More
