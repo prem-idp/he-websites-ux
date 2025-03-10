@@ -24,6 +24,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
 };
 const searchParams = useSearchParams();
+
 const handleExceedMessage = (data:any) => {
   setExceedMessage(data); // Update state in parent
 };
@@ -95,7 +96,7 @@ const onClose = (event: React.FormEvent) => {
                     <></>
                   )}
                 </div>
-                <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:data?.collegeId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
+                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" exceedData={handleExceedMessage}></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -406,7 +407,7 @@ const onClose = (event: React.FormEvent) => {
                           )}
                         </div>
                       </div>
-                      <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:courseData?.courseId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
+                      <UserFavourite contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" exceedData={handleExceedMessage}></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
