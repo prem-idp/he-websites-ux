@@ -8,11 +8,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import { MetaDataProps } from "@packages/lib/types/interfaces";
 
-export type MetaDataProps = {
-  params?: any;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
 
 export async function generateMetadata({
   params,
