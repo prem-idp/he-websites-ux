@@ -43,7 +43,7 @@ const searchPayload: any = {
     jacsCode: "",
     location: locationArray,
     studyMode:
-        searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode,
+        searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode || "",
     studyMethod:
         searchParams?.["study-method"] ||
         filterCookieParam?.["study-method"] ||  searchParams?.study_method ||
