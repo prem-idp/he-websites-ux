@@ -1,18 +1,8 @@
 import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
 import { graphQlFetchFunction, httpBFFRequest } from "../server-actions/server-action";
 import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
-import { MetaDataInterface } from "../types/interfaces";
+import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
-
-interface MetaFilterTypesReplace{
-    searchSubject?: string[],
-    studylevel?: string,
-    studymode?: string,
-    location?: string[],
-    providerCount?: string,
-    courseCount?: string,
-    university?: string,
-}
 
 export async function getSearchPageMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string) {
   
@@ -32,6 +22,7 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
     0, 
     {}
   );
+  console.log("displayNameResponse: ", displayNameResponse);
     
 
   //2) contentful API hit
@@ -51,10 +42,10 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
 
   if(process.env.PROJECT == "Whatuni"){
     index = getWU_Indexation(searchParams, searchPayLoad, metaFiltersOpted);
-    canonical = getWU_Canonical(searchParams, pathName, contentfulMetadata?.canonical);
+    canonical = getWU_Canonical(searchParams, pathName, `/${qualInUrl}/`);
   } else if(process.env.PROJECT == "PGS"){
     index = getPGS_Indexation(searchParams, searchPayLoad, metaFiltersOpted, contentfulMetadata?.robots);
-    canonical = getPGS_Canonical(searchParams, pathName, contentfulMetadata?.canonical);
+    canonical = getPGS_Canonical(searchParams, pathName, `/${qualInUrl}/`);
   }
   
   let actualMetaData: MetaDataInterface = {
@@ -83,6 +74,8 @@ export function getMetaOptedDisplayNames(displayNameResponse: any): MetaFilterTy
     studymode: displayNameResponse?.studyMode ?? undefined,
     providerCount: displayNameResponse?.collegeCount ?? undefined,
     university: displayNameResponse?.collegeName ?? undefined,
+    startmonth: displayNameResponse?.month ?? undefined,
+    startYear: displayNameResponse?.year ?? undefined,
   }
 }
 
@@ -136,6 +129,12 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
     if (inputText?.includes("[QUALIFICATION]")) {
       inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
+    if (inputText?.includes("[MONTH]")) {
+      inputText = inputText.replace("[MONTH]", metaFiltersOpted?.startmonth ?? "");
+    } 
+    if (inputText?.includes("[YEAR]")) {
+      inputText = inputText.replace("[YEAR]", metaFiltersOpted?.startYear ?? "");
+    } 
     return inputText;
 }
 
@@ -172,7 +171,7 @@ function getWU_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpte
     return "index, follow";
 } 
 
-function getWU_Canonical(searchParams: any, pathName: string, contentfulCanonicalType: string){
+function getWU_Canonical(searchParams: any, pathName: string, qualInUrl: string){
 
   let multiOptionSelected:boolean = false;
   Object.keys(searchParams).forEach((key:string)=>{
@@ -183,7 +182,7 @@ function getWU_Canonical(searchParams: any, pathName: string, contentfulCanonica
 
   const { sort, ...newObj } = {...searchParams};
   let canonicalUrl;
-  if(multiOptionSelected) canonicalUrl = formSRPageURL({}, pathName)
+  if(multiOptionSelected) canonicalUrl = formSRPageURL({}, qualInUrl)
   else canonicalUrl = formSRPageURL(newObj, pathName);
 
   return canonicalUrl;
@@ -202,9 +201,10 @@ function getPGS_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpt
   });
 
   if(searchPayLoad?.searchKeyword ||                          //keyword search
-     multiOptionSelected ||                                    //multiple options selected in multi-select filter
-     (!multiOptionSelected && filterCount >= 3) ||             //url has more than 2 params
-     Number(metaFiltersOpted?.providerCount) <= 3){            //total search result count is less than/equal to 3
+     multiOptionSelected ||                                   //multiple options selected in multi-select filter
+     (!multiOptionSelected && filterCount >= 3) ||            //url has more than 2 params
+     Number(metaFiltersOpted?.providerCount) <= 3 ||          //total search result count is less than/equal to 3
+     (searchPayLoad?.intakeYear || searchPayLoad?.intakeMonth)){            
       
     contentfulIndex = "noindex, nofollow";
   }
@@ -237,7 +237,7 @@ function getselectedCount(filterValueString: string|undefined) : number{
 
 function formSRPageURL(searchParams: any, pathName: string){
   let filterCount: number = 0;
-  let formURL = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
+  let formURL = getCustomDomain();
   formURL = formURL + pathName;
 
 
@@ -263,7 +263,7 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
   const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length == 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length == 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
-  const universitySelected = searchPayLoad?.university && searchPayLoad?.university.trim() !== "" ? true : false;
+  const universitySelected = searchPayLoad?.university && searchPayLoad?.university?.trim() != "" ? true : false;
   let seoMetaFeildId = "Default";
 
   if(!universitySelected){  //SR page SEO's
@@ -323,7 +323,7 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
-      seoMetaFeildId = "Multiple Regions";
+      seoMetaFeildId = "region(2+)";
     } else if ( // only subject atmost atleast one
       ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
       !locationSelected &&
@@ -444,8 +444,8 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
   const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length == 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length == 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
-  const universitySelected = searchPayLoad?.university?.trim() != "" ? true : false;
-  const startDateSelected = searchPayLoad?.intakeYear?.trim() != "" && searchPayLoad?.intakeMonth?.trim() != "" ? true : false;
+  const universitySelected = searchPayLoad?.university && searchPayLoad?.university?.trim() != "" ? true : false;
+  const startDateSelected = searchPayLoad?.intakeYear && searchPayLoad?.intakeYear?.trim() != "" && searchPayLoad?.intakeMonth?.trim() != "" ? true : false;
   let seoMetaFeildId = "Default";
 
   if(!universitySelected){    //SR page SEO's
@@ -481,7 +481,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       searchPayLoad?.studyMethod &&
       !startDateSelected
     ) {
-        seoMetaFeildId = `subject + studyMethod`;
+        seoMetaFeildId = `subject + courseType`;
     } else if( // subject + qualification
       (subjectSelected || keywordSelected) &&
       !locationSelected &&
@@ -521,7 +521,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       searchPayLoad?.studyMethod &&
       startDateSelected
     ) {
-        seoMetaFeildId = `subject + startDate + location + studyMethod`;
+        seoMetaFeildId = `subject + startDate + location + courseType`;
     } else if( // qualification
       !(subjectSelected || keywordSelected) &&
       !locationSelected &&
@@ -553,7 +553,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       searchPayLoad?.studyMethod &&
       !startDateSelected
     ) {
-        seoMetaFeildId = `qualification + studyMethod`;
+        seoMetaFeildId = `qualification + courseType`;
     } else if( // qualification + studyMethod + location
       !(subjectSelected || keywordSelected) &&
       locationSelected &&
@@ -561,7 +561,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       searchPayLoad?.studyMethod &&
       !startDateSelected
     ) {
-        seoMetaFeildId = `qualification + studyMethod + location`;
+        seoMetaFeildId = `qualification + courseType + location`;
     } else if( // qualification + studyMethod + startDate
       !(subjectSelected || keywordSelected) &&
       !locationSelected &&
@@ -569,15 +569,15 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       searchPayLoad?.studyMethod &&
       startDateSelected
     ) {
-        seoMetaFeildId = `qualification + studyMethod + startDate`;
+        seoMetaFeildId = `qualification + courseType + startDate`;
     } else if( // qualification + studyMethod + startDate + location
       !(subjectSelected || keywordSelected) &&
-      !locationSelected &&
+      locationSelected &&
       searchPayLoad?.childQualification &&
-      !searchPayLoad?.studyMethod &&
-      !startDateSelected
+      searchPayLoad?.studyMethod &&
+      startDateSelected
     ) {
-        seoMetaFeildId = `qualification + studyMethod + startDate + location`;
+        seoMetaFeildId = `qualification + courseType + startDate + location`;
     }
       seoMetaFeildId = `SR - ${seoMetaFeildId}`
   } else if(universitySelected){  //PR page SEO's
@@ -620,7 +620,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
         searchPayLoad?.studyMethod &&
         !startDateSelected
       ) {
-          seoMetaFeildId = `university + studyMethod + qualification`;
+          seoMetaFeildId = `university + courseType + qualification`;
       }  else if( // university + studyMethod + startDate
         !(subjectSelected || keywordSelected) &&
         !locationSelected &&
@@ -628,7 +628,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
         searchPayLoad?.studyMethod &&
         startDateSelected
       ) {
-          seoMetaFeildId = `university + studyMethod + startDate`;
+          seoMetaFeildId = `university + courseType + startDate`;
       }  else if( // subject + university
         (subjectSelected || keywordSelected) &&
         !locationSelected &&
@@ -644,7 +644,7 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
         searchPayLoad?.studyMethod &&
         !startDateSelected
       ) {
-          seoMetaFeildId = `subject + university + studyMethod`;
+          seoMetaFeildId = `subject + university + courseType`;
       }  else if( // subject + university + startDate
         (subjectSelected || keywordSelected) &&
         locationSelected &&

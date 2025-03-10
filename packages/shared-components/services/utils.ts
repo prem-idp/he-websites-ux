@@ -85,7 +85,7 @@ export function getSEOSearchPayload(
     jacsCode: undefined,
     location: locationArray,
     studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
-    studyMethod: searchParams?.["study-method"] || undefined,
+    studyMethod: searchParams?.["study_mode"] || undefined,
     collegeId: undefined,
     pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
     locationType: searchParams?.["location-type"] || undefined,
