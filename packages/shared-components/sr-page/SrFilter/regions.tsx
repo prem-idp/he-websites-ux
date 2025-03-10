@@ -29,72 +29,73 @@ const Regions = ({
       setIsRegionSelected(false);
     }
   }, [searchparams]);
+
   const locationClicked = (regionTextKey: string) => {
-    const selectedRegion = regionListData?.regionList?.find(
-      (region: any) => region.regionTextKey === regionTextKey
+    console.log(regionTextKey);
+    console.log(regionListData);
+    const selectedRegion = regionListData?.find(
+      (region: any) => region?.regionTextKey == regionTextKey
     );
+
+    console.log({ selectedRegion });
     if (!selectedRegion) return;
-
-    const parentRegion = regionListData?.regionList?.find(
-      (region: any) => region.regionId === selectedRegion.parentRegionId
+    const parentRegion = regionListData?.find(
+      (region: any) => region?.regionId === selectedRegion?.parentRegionId
     );
-
     let appliedRegions =
       extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
-
-    const isParentRegion = regionListData?.regionList.some(
-      (region: any) => region.parentRegionId === selectedRegion.regionId
+    const isParentRegion = regionListData?.some(
+      (region: any) => region?.parentRegionId === selectedRegion?.regionId
     );
-
+    console.log("selected value oda parent", parentRegion);
+    console.log("applied filter", appliedRegions);
+    console.log("isParentRegion", isParentRegion);
     if (isParentRegion) {
-      appliedRegions = appliedRegions.filter((region) => {
-        const subregion = regionListData?.regionList?.find(
-          (r: any) => r.regionTextKey === region
+      appliedRegions = appliedRegions?.filter((region) => {
+        const subregion = regionListData?.find(
+          (r: any) => r?.regionTextKey === region
         );
-        return subregion?.parentRegionId !== selectedRegion.regionId;
+        return subregion?.parentRegionId !== selectedRegion?.regionId;
       });
-      appliedRegions.push(regionTextKey);
+      appliedRegions?.push(regionTextKey);
     } else if (parentRegion) {
-      if (appliedRegions.includes(parentRegion.regionTextKey)) {
+      if (appliedRegions.includes(parentRegion?.regionTextKey)) {
         appliedRegions = appliedRegions.filter(
-          (region) => region !== parentRegion.regionTextKey
+          (region) => region !== parentRegion?.regionTextKey
         );
-        const siblingRegions = regionListData?.regionList
+        const siblingRegions = regionListData
           ?.filter(
-            (region: any) => region.parentRegionId === parentRegion.regionId
+            (region: any) => region?.parentRegionId === parentRegion?.regionId
           )
-          ?.map((region: any) => region.regionTextKey)
+          ?.map((region: any) => region?.regionTextKey)
           ?.filter((region: any) => region !== regionTextKey);
         appliedRegions.push(...siblingRegions);
       } else {
-        if (appliedRegions.includes(regionTextKey)) {
-          appliedRegions = appliedRegions.filter(
+        if (appliedRegions?.includes(regionTextKey)) {
+          appliedRegions = appliedRegions?.filter(
             (region) => region !== regionTextKey
           );
         } else {
-          appliedRegions.push(regionTextKey);
+          appliedRegions?.push(regionTextKey);
         }
       }
-
-      const allSubregions = regionListData?.regionList
+      const allSubregions = regionListData
         ?.filter(
-          (region: any) => region.parentRegionId === parentRegion.regionId
+          (region: any) => region?.parentRegionId === parentRegion?.regionId
         )
-        ?.map((region: any) => region.regionTextKey);
-
-      const allSelected = allSubregions.every((subregion: any) =>
-        appliedRegions.includes(subregion)
+        ?.map((region: any) => region?.regionTextKey);
+      const allSelected = allSubregions?.every((subregion: any) =>
+        appliedRegions?.includes(subregion)
       );
-
       if (allSelected) {
-        appliedRegions = appliedRegions.filter(
-          (region) => !allSubregions.includes(region)
+        appliedRegions = appliedRegions?.filter(
+          (region) => !allSubregions?.includes(region)
         );
-        appliedRegions.push(parentRegion.regionTextKey);
+        appliedRegions?.push(parentRegion?.regionTextKey);
       }
     }
-
-    appendSearchParams("region", appliedRegions.join("+"));
+    console.log(appliedRegions?.join("+"));
+    appendSearchParams("region", appliedRegions?.join("+"));
   };
 
   return (
@@ -161,7 +162,7 @@ const Regions = ({
       </div>
       <ul className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
         <li>
-          {regionListData?.regionList
+          {regionListData
             ?.map((regionlist: any) => {
               if (regionlist?.parentRegionId == item?.regionId) {
                 return regionlist;

@@ -16,7 +16,7 @@ const LocationcheckBox = ({
   const [isChecked, setIsChecked] = useState<any>(false);
   useEffect(() => {
     const parentRegion_Id = childItem?.parentRegionId;
-    const parentRegion_Name = regionListData?.regionList?.find(
+    const parentRegion_Name = regionListData?.find(
       (region: any) => region?.regionId === parentRegion_Id
     )?.regionTextKey;
     const appliedvalues =
