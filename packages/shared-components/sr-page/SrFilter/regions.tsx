@@ -108,15 +108,18 @@ const Regions = ({
               locationClicked(item?.regionTextKey);
             }}
           >
-            {isIndexed && !isRegionSelected && (
-              <Link
-                id={"region" + item?.regionTextKey}
-                href={{
-                  pathname: `${slug}`,
-                  query: formUrl("region", item?.regionTextKey),
-                }}
-              ></Link>
-            )}
+            {
+              // isIndexed &&
+              !isRegionSelected && (
+                <Link
+                  id={"region" + item?.regionTextKey}
+                  href={{
+                    pathname: `${slug}`,
+                    query: formUrl("region", item?.regionTextKey),
+                  }}
+                ></Link>
+              )
+            }
             <input
               checked={isRegionSelected || false}
               onChange={() => {
