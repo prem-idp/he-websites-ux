@@ -1,11 +1,11 @@
 "use server";
 import React from "react";
 import PrPageComponent from "@packages/shared-components/pr-page/prpage-component";
-import { MetaDataProps } from "../search/page";
 import { Metadata } from "next";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
+import { MetaDataProps } from "@packages/lib/types/interfaces";
 
 export async function generateMetadata({
   params,
