@@ -24,7 +24,7 @@ export default function ClientWrapper() {
     <>
       <TrackSessionId />
       <GoogleOneTap />
-      {/* <OneTrustCookieScript domianValue={process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN || ""} /> */}
+      <OneTrustCookieScript domianValue={process.env.NEXT_PUBLIC_WU_ONE_TRUST_DOMAIN || ""} />
       <SetCookiewuIdToken />
       <GTMScript />
     </>
