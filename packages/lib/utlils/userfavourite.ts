@@ -13,7 +13,7 @@ const getUserFavourites = async (): Promise<any> => {
           "Content-Type": "application/json",
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         };
-        let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API}`;
+        let apiUrl = `${process.env.NEXT_PUBLIC_VIEW_FAVOURITES_API}/v1/favourites/get-favourite`;
         if (session.tokens?.idToken) {
           
           headers.Authorization = `${session.tokens.idToken}`;
