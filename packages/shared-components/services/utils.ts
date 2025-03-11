@@ -22,7 +22,7 @@ export function getSearchPayload(
   userIp :any,
 ) {
 let subjectArray="";
-if(searchParams?.subject) 
+if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
@@ -30,7 +30,7 @@ const locationArray = searchParams?.location?.includes(" ")
     ? searchParams?.location?.split(" ")
     : searchParams?.location
       ? [searchParams?.location]
-      : ""      
+      : ""     
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
@@ -56,7 +56,7 @@ const searchPayload: any = {
         filterCookieParam?.["location-type"] ||
         "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
-    intakeMonth: searchParams?.month || filterCookieParam?.month || "",
+    intakeMonth: searchParams?.month?.toUpperCase() || filterCookieParam?.month?.toUpperCase()|| "",
     sortBy: searchParams?.sort?.toUpperCase() || filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",
     distance: searchParams?.distance || filterCookieParam?.distance || "",
