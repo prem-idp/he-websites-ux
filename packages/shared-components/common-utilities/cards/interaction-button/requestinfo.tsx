@@ -23,12 +23,12 @@ const RequestInfo = ({ enquiryProps }: any) => {
         router.push(url);
       }
       else if(enquiryProps?.pageName === "browsemoneypageresults" && response?.requestInfoEmail){
-        const url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}/law${enquiryProps?.subOrderItemid ? `/n-${enquiryProps?.subOrderItemid}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
+        const url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}/law${enquiryProps?.subOrderItemid ? `/n-${enquiryProps?.subOrderItemid}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
         console.log("URL Printing", url);
         router.push(url);
       }
       else if(enquiryProps?.pageName === "coursesearchresult" && response?.requestInfoEmail){
-        const url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}/law${enquiryProps?.subOrderItemid ? `/n-${enquiryProps?.subOrderItemid}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
+        const url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}/law${enquiryProps?.subOrderItemid ? `/n-${enquiryProps?.subOrderItemid}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
         console.log("URL Printing", url);
         router.push(url);
       }

@@ -17,11 +17,11 @@ const BookOpenDay  = ({ enquiryProps }: any) => {
        };
        const response = await fetchenquirydata(bookOpenDayPayload);
        console.log("response printing", response);
-       if(response?.booking_url){
-         console.log("BOPDURL", response?.booking_url);
-         window.open(response?.booking_url, '_blank');
+       if(response?.bookingUrl){
+         console.log("BOPDURL", response?.bookingUrl);
+         window.open(response?.bookingUrl, '_blank');
        }else{
-         const url = `/open-days/book?collegeId=${enquiryProps?.collegeId || "0"}${enquiryProps?.courseId ? `&courseId=${enquiryProps?.courseId}`:""}${enquiryProps?.subOrderItemid ? `&suborderItemId=${enquiryProps?.subOrderItemid}`:""}${response?.event_id ? `&eventId=${response?.event_id}`:""}${enquiryProps?.sponsoredListingFlag === "Y"? `&sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `&sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=${enquiryProps?.pageName}`;
+         const url = `/open-days/book?collegeId=${enquiryProps?.collegeId || "0"}${enquiryProps?.courseId ? `&courseId=${enquiryProps?.courseId}`:""}${enquiryProps?.subOrderItemid ? `&suborderItemId=${enquiryProps?.subOrderItemid}`:""}${response?.eventId ? `&eventId=${response?.eventId}`:""}${enquiryProps?.sponsoredListingFlag === "Y"? `&sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `&sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=${enquiryProps?.pageName}`;
          router.push(url);
        }
       //  if(response?.event_id && enquiryProps?.pageName === "browsemoneypageresults" || enquiryProps?.pageName === "coursesearchresult"){
