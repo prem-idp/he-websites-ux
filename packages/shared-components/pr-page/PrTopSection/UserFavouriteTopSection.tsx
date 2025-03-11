@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 
 interface ClientTopSectionProps {
-    collegeId: string;
+    collegeId: number;
     collegeName: string;
 }
 
@@ -18,13 +18,10 @@ export default function ClientTopSection({ collegeId, collegeName }: ClientTopSe
 
     return (
         <>
-            <UserFavourite
-                favouriteProps={{
-                    exceedData: { handleExceedMessage },
-                    contentId: collegeId,
-                    contentName: collegeName,
-                    contentType: "INSTITUTION",
-                }}
+            <UserFavourite exceedData={handleExceedMessage}
+                contentId={collegeId}
+                contentName={collegeName}
+                contentType="INSTITUTION"
             />
             {exceedMessage && <p>Exceed Message Triggered!</p>} {/* Example usage */}
         </>

@@ -81,7 +81,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               />
             </svg>
           </div> */}
-          <UserFavourite favouriteProps={{ exceedData: { handleExceedMessage }, contentId: items?.courseId, contentName: items?.title, contentType: "COURSE" }}></UserFavourite>
+          <UserFavourite exceedData={handleExceedMessage} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
