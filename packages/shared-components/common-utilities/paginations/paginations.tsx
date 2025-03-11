@@ -74,7 +74,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
             ({currentPage > 1} &&
             <li>
               <Link
-                href={currentPage > 1 ? buildUrl(currentPage - 1) : "#"}
+                href={currentPage > 1 ? buildUrl(currentPage - 1) : "javascript:void(0)"}
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
               >
                 <svg
@@ -97,7 +97,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
             {items.map((item, index) => (
               <li key={index}>
                 <Link
-                  href={item !== "..." ? buildUrl(item) : "#"}
+                  href={item !== "..." ? buildUrl(item) : "javascript:void(0)"}
                   className={
                     currentPage === item
                       ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
@@ -112,7 +112,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
             ({currentPage < validTotalPages &&
               <li>
                 <Link
-                  href={currentPage < validTotalPages ? buildUrl(nextPage) : "#"}
+                  href={currentPage < validTotalPages ? buildUrl(nextPage) : " javascript:void(0)"}
                   className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
                 >
                   <svg
@@ -134,7 +134,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
               </li>})
           </ul>
         </nav>
-      </div>
+      </div >
     </>
   );
 };
