@@ -72,7 +72,7 @@ const transformProviderListData = (data: any) => {
           collegeId: college?.collegeId,
           collegeName: college?.collegeTextKey,
           courseId: course?.courseId,
-          cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
+          cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/cd/${course?.courseId}/${college?.collegeId}`,
           pageName: "coursesearchresult",
           title: course?.courseTitle || "Unknown Title",
           provideFav: false,
