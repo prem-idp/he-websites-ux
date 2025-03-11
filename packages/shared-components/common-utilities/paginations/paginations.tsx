@@ -71,6 +71,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
       <div className="pt-[24px] pb-[40px] md:pb-[64px]">
         <nav aria-label="navigation">
           <ul className="pagination flex justify-center items-center gap-[8px]">
+            ({currentPage > 1} &&
             <li>
               <Link
                 href={currentPage > 1 ? buildUrl(currentPage - 1) : "#"}
@@ -92,7 +93,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
                   />
                 </svg>
               </Link>
-            </li>
+            </li>)
             {items.map((item, index) => (
               <li key={index}>
                 <Link
