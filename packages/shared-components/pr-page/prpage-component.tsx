@@ -76,7 +76,7 @@ const transformProviderListData = (data: any) => {
           pageName: "coursesearchresult",
           title: course?.courseTitle || "Unknown Title",
           provideFav: false,
-          subOrderItemid: course?.enquiryDetails?.subOrderItemId,
+          subOrderItemId: course?.enquiryDetails?.subOrderItemId,
           sponsoredListingFlag: college?.sponsoredListingFlag,
           manualBoostingFlag: college?.manualBoostingFlag,
           orderItemId: course?.enquiryDetails?.orderItemId,
