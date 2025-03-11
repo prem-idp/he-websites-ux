@@ -36,7 +36,7 @@ const searchPRResults = async (searchparams: any) => {
     headerList?.get("x-forwarded-for") || ""
   );
 
-  
+
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
@@ -73,7 +73,7 @@ const transformProviderListData = (data: any) => {
           collegeName: college?.collegeTextKey,
           courseId: course?.courseId,
           cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
-          pageName: "PR",
+          pageName: "coursesearchresult",
           title: course?.courseTitle || "Unknown Title",
           provideFav: false,
           subOrderItemid: course?.enquiryDetails?.subOrderItemId,

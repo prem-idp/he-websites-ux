@@ -160,7 +160,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
                 collegeName: items?.collegeTextKey,
-                pageName: "browsemoneypageresults"
+                pageName: items?.pageName,
               }} />}
           {items.hasWebsite &&
             <Visitwebsite
