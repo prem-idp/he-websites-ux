@@ -4,12 +4,12 @@
 import React, { useState } from "react";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 
-interface ClientTopSectionProps {
+interface UserFavouriteTopSectionProps {
     collegeId: number;
     collegeName: string;
 }
 
-export default function ClientTopSection({ collegeId, collegeName }: ClientTopSectionProps) {
+export default function UserFavouriteTopSection({ collegeId, collegeName }: UserFavouriteTopSectionProps) {
     const [exceedMessage, setExceedMessage] = useState(false);
 
     const handleExceedMessage = (data: any) => {

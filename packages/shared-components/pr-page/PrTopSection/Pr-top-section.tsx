@@ -21,9 +21,10 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
   const rating = college?.rating ?? 0; // Default to 0 if null
+  const collegeTextKey = college?.collegeTextKey;
+  const reviewsLinksrc = `/university-course-reviews/${collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
-  const reviewsLinksrc = `/university-course-reviews/${college?.collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
-
+  console.log(" College Name ", collegeTextKey);
 
   return (
     <section className="bg-white">
@@ -114,7 +115,8 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                 />
               </svg>
             </div> */}
-            <UserFavouriteTopSection collegeId={college?.collegeId} collegeName={college?.collegeName} />
+
+            <UserFavouriteTopSection collegeId={college?.collegeId} collegeName={collegeTextKey} />
 
           </span>
         </div>
