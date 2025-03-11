@@ -109,28 +109,29 @@ const Paginations = ({ totalPages, initialPage }: any) => {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href={currentPage < validTotalPages ? buildUrl(nextPage) : "#"}
-                className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
-              >
-                <svg
-                  width="7"
-                  height="12"
-                  viewBox="0 0 7 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            ({currentPage < validTotalPages &&
+              <li>
+                <Link
+                  href={currentPage < validTotalPages ? buildUrl(nextPage) : "#"}
+                  className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
                 >
-                  <path
-                    d="M1 1L6 6L1 11"
-                    stroke="#333F48"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
-            </li>
+                  <svg
+                    width="7"
+                    height="12"
+                    viewBox="0 0 7 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 1L6 6L1 11"
+                      stroke="#333F48"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+              </li>})
           </ul>
         </nav>
       </div>
