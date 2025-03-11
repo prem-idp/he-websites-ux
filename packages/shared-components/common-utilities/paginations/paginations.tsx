@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
- const Paginations = ({ totalPages, initialPage }: any) => {
+const Paginations = ({ totalPages, initialPage }: any) => {
   const searchParams = useSearchParams();
 
   // Ensure totalPages and initialPage are valid numbers
@@ -68,73 +68,75 @@ import React, { useEffect, useState } from "react";
 
   return (
     <>
-      <div className="pt-[24px] pb-[40px] md:pb-[64px]">
-        <nav aria-label="navigation">
-          <ul className="pagination flex justify-center items-center gap-[8px]">
-            ({currentPage > 1} &&
-            <li>
-              <Link
-                href={currentPage > 1 ? buildUrl(currentPage - 1) : "javascript:void(0)"}
-                className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
-              >
-                <svg
-                  width="7"
-                  height="12"
-                  viewBox="0 0 7 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 11L1 6L6 1"
-                    stroke="#333F48"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
-            </li>)
-            {items.map((item, index) => (
-              <li key={index}>
-                <Link
-                  href={item !== "..." ? buildUrl(item) : "javascript:void(0)"}
-                  className={
-                    currentPage === item
-                      ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
-                      : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${item !== "..." ? "hover:bg-blue-100 hover:text-primary-400" : ""
-                      }`
-                  }
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
-            ({currentPage < validTotalPages &&
-              <li>
-                <Link
-                  href={currentPage < validTotalPages ? buildUrl(nextPage) : " javascript:void(0)"}
-                  className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
-                >
-                  <svg
-                    width="7"
-                    height="12"
-                    viewBox="0 0 7 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+      {validTotalPages > 1 &&
+        <div className="pt-[24px] pb-[40px] md:pb-[64px]">
+          <nav aria-label="navigation">
+            <ul className="pagination flex justify-center items-center gap-[8px]">
+              {currentPage > 1 &&
+                <li>
+                  <Link
+                    href={currentPage > 1 ? buildUrl(currentPage - 1) : "javascript:void(0)"}
+                    className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
                   >
-                    <path
-                      d="M1 1L6 6L1 11"
-                      stroke="#333F48"
-                      strokeWidth="1.67"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </Link>
-              </li>})
-          </ul>
-        </nav>
-      </div >
+                    <svg
+                      width="7"
+                      height="12"
+                      viewBox="0 0 7 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 11L1 6L6 1"
+                        stroke="#333F48"
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
+                </li>}
+              {items.map((item, index) => (
+                <li key={index}>
+                  <Link
+                    href={item !== "..." ? buildUrl(item) : "javascript:void(0)"}
+                    className={
+                      currentPage === item
+                        ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
+                        : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${item !== "..." ? "hover:bg-blue-100 hover:text-primary-400" : ""
+                        }`
+                    }
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              {currentPage < validTotalPages &&
+                <li>
+                  <Link
+                    href={currentPage < validTotalPages ? buildUrl(nextPage) : " javascript:void(0)"}
+                    className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
+                  >
+                    <svg
+                      width="7"
+                      height="12"
+                      viewBox="0 0 7 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 1L6 6L1 11"
+                        stroke="#333F48"
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
+                </li>}
+            </ul>
+          </nav>
+        </div >
+      }
     </>
   );
 };
