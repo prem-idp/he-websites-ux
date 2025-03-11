@@ -7,6 +7,7 @@ import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import { fetchAuthSession } from "@aws-amplify/auth";
 import { useSearchParams, usePathname } from "next/navigation";
 import {
   getFilterPriority,
@@ -18,7 +19,11 @@ import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjec
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import Regions from "@packages/shared-components/sr-page/SrFilter/regions";
 import { getParentSubject } from "@packages/lib/utlils/filters/result-filters";
-import { getSrFilter, getSrFilterCount } from "@packages/REST-API/rest-api";
+import {
+  getSrFilter,
+  getSrFilterCount,
+  getUserYearOfEntry,
+} from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
@@ -150,10 +155,18 @@ const SearchFilterComponent = ({ data, path }: any) => {
         searchParams?.get(keyName?.studyMode) ||
         cookieFilter?.[keyName?.studyMode] ||
         "",
-      year: searchParams?.get("year") || "",
-      month: searchParams?.get("month") || "",
-      region: searchParams?.get("region") || "",
-      city: searchParams?.get("city") || "",
+      year:
+        searchParams?.get(keyName?.year) || cookieFilter?.[keyName?.year] || "",
+      month:
+        searchParams?.get(keyName?.month) ||
+        cookieFilter?.[keyName?.month] ||
+        "",
+      region:
+        searchParams?.get(keyName?.region) ||
+        cookieFilter?.[keyName?.region] ||
+        "",
+      city:
+        searchParams?.get(keyName?.city) || cookieFilter?.[keyName?.city] || "",
       russellGroup:
         searchParams?.get(keyName?.russellGroup) ||
         cookieFilter?.[keyName?.russellGroup] ||
@@ -201,6 +214,20 @@ const SearchFilterComponent = ({ data, path }: any) => {
   }, [searchParams, filterLoading, routerEnd]);
 
   useEffect(() => {
+    const getYear = async () => {
+      const response = await fetchAuthSession({ forceRefresh: true });
+      const { idToken } = response?.tokens ?? {};
+      if (idToken) {
+        const year = await getUserYearOfEntry({
+          affiliateId: process.env.AFFILATED_ID,
+        });
+        console.log(year);
+      } else {
+        console.log("no logged");
+      }
+    };
+    getYear();
+
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
         return "";
