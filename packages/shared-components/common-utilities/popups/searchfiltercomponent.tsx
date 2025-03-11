@@ -58,6 +58,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [isSubjectOpen, setIsSubjectOpen] = useState<any>(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterOrder, setFilterOrder] = useState<any>(false);
+  const [isUniversityOpen, setIsUniversityOpen] = useState(false);
+  const [selectUniId, setSelectUniId] = useState<any>("");
   const [selectedSubject, setSelectedSubject] = useState({
     ParentSubject: "",
     SubjectList: "",
@@ -69,89 +71,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const [routerEnd, setrouterEnd] = useState(false);
   const [postCodeValue, setPostCodeValue] = useState("");
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
-  const subjectClicked = (item: string, closeFilter?: boolean) => {
-    setIsSubjectOpen(closeFilter || !isSubjectOpen);
-    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items?.parentSubject == item;
-    });
-    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
-    setSearchedSubject((prev: any) => ({
-      ...prev,
-      isSujectDropdownOpen: false,
-    }));
-  };
-  const subjectParam: any =
-    searchParams?.get(keyName?.subject)?.split(",") || [];
-  useEffect(() => {
-    const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
-    setPrepopulateFilter({
-      studyMethod:
-        searchParams?.get(keyName?.studyMethod) ||
-        cookieFilter?.[keyName?.studyMethod] ||
-        "",
-      studyMode:
-        searchParams?.get(keyName?.studyMode) ||
-        cookieFilter?.[keyName?.studyMode] ||
-        "",
-      year: searchParams?.get("year") || "",
-      month: searchParams?.get("month") || "",
-      region: searchParams?.get("region") || "",
-      city: searchParams?.get("city") || "",
-      russellGroup:
-        searchParams?.get(keyName?.russellGroup) ||
-        cookieFilter?.[keyName?.russellGroup] ||
-        "",
-      locationType:
-        searchParams?.get(keyName?.locationType) ||
-        cookieFilter?.[keyName?.locationType] ||
-        "",
-    });
-    const value = isSingleSelection(searchParams);
-    setslug(path);
-    setIsIndexed(value);
-    if (pathname) {
-      setslug(pathname);
-    }
-    const parentSubjectName = getParentSubject(
-      searchParams,
-      jsondata,
-      subjectParam[0]
-    );
-    if (parentSubjectName) {
-      subjectClicked(parentSubjectName, true);
-    }
-    const getCount = async () => {
-      const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
-      const count = await getSrFilterCount(
-        filterbodyJson(bodyJson, slug?.split("/")[1])
-      );
-      setCourseCount(count);
-    };
-    getCount();
-  }, [searchParams, filterLoading, routerEnd]);
-  useEffect(() => {
-    const handleTogglePopup = (eventName: string | null | undefined) => {
-      if (typeof document === "undefined") {
-        return "";
-      }
 
-      const element = document?.getElementById(`#${eventName}`);
-      if (element) {
-        element?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-      SetselectedFilter(eventName);
-      setIsFilterOpen(true);
-      const body = document.body;
-      body?.classList?.add("overflow-y-hidden");
-    };
-    emitter.on("isfilterOpen", handleTogglePopup);
-    return () => {
-      emitter.off("isfilterOpen", handleTogglePopup);
-    };
-  }, [isFilterOpen]);
-
-  const [isUniversityOpen, setIsUniversityOpen] = useState(false);
-  const [selectUniId, setSelectUniId] = useState<any>("");
   const universitiesSortingList: any = () => {
     const listvalue: any[] = [];
     [
@@ -217,6 +137,148 @@ const SearchFilterComponent = ({ data, path }: any) => {
       isUniversityDropdownOpen: false,
     }));
   };
+  const subjectParam: any =
+    searchParams?.get(keyName?.subject)?.split(",") || [];
+  useEffect(() => {
+    const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
+    setPrepopulateFilter({
+      studyMethod:
+        searchParams?.get(keyName?.studyMethod) ||
+        cookieFilter?.[keyName?.studyMethod] ||
+        "",
+      studyMode:
+        searchParams?.get(keyName?.studyMode) ||
+        cookieFilter?.[keyName?.studyMode] ||
+        "",
+      year: searchParams?.get("year") || "",
+      month: searchParams?.get("month") || "",
+      region: searchParams?.get("region") || "",
+      city: searchParams?.get("city") || "",
+      russellGroup:
+        searchParams?.get(keyName?.russellGroup) ||
+        cookieFilter?.[keyName?.russellGroup] ||
+        "",
+      locationType:
+        searchParams?.get(keyName?.locationType) ||
+        cookieFilter?.[keyName?.locationType] ||
+        "",
+    });
+    const value = isSingleSelection(searchParams);
+    setslug(path);
+    setIsIndexed(value);
+    if (pathname) {
+      setslug(pathname);
+    }
+    const parentSubjectName = getParentSubject(
+      searchParams,
+      jsondata,
+      subjectParam[0]
+    );
+    if (parentSubjectName) {
+      subjectClicked(parentSubjectName, true);
+    }
+    const getCount = async () => {
+      const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
+      const count = await getSrFilterCount(
+        filterbodyJson(bodyJson, slug?.split("/")[1])
+      );
+      setCourseCount(count);
+    };
+    getCount();
+
+    const isUniversityAdded = searchParams?.get(keyName?.university) || null;
+    let selectedUniId: any = "";
+    if (isUniversityAdded) {
+      const sortedUni = universitiesList?.find((uni: any) =>
+        uni?.sortingValue?.includes(isUniversityAdded.charAt(0)?.toUpperCase())
+      );
+      selectedUniId = sortedUni || "";
+      if (selectedUniId) {
+        setIsUniversityOpen(true);
+        universityClicked(selectedUniId?.displayHeading, selectedUniId?.id);
+      }
+    }
+  }, [searchParams, filterLoading, routerEnd]);
+
+  useEffect(() => {
+    const handleTogglePopup = (eventName: string | null | undefined) => {
+      if (typeof document === "undefined") {
+        return "";
+      }
+
+      const element = document?.getElementById(`#${eventName}`);
+      if (element) {
+        element?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      SetselectedFilter(eventName);
+      setIsFilterOpen(true);
+      const body = document.body;
+      body?.classList?.add("overflow-y-hidden");
+    };
+    emitter.on("isfilterOpen", handleTogglePopup);
+    return () => {
+      emitter.off("isfilterOpen", handleTogglePopup);
+    };
+  }, [isFilterOpen]);
+
+  // const universitiesSortingList: any = () => {
+  //   const listvalue: any[] = [];
+  //   [
+  //     {
+  //       id: "Uni1",
+  //       name: "Universities A - C",
+  //       sortingValue: "A-B-C",
+  //       displayHeading: "A - C",
+  //       unilist: [],
+  //     },
+  //     {
+  //       id: "Uni2",
+  //       name: "Universities D - H",
+  //       sortingValue: "D-E-F-G-H",
+  //       displayHeading: "D - H",
+  //       unilist: [],
+  //     },
+  //     {
+  //       id: "Uni3",
+  //       name: "Universities I - M",
+  //       sortingValue: "I-J-K-L-M",
+  //       displayHeading: "I - M",
+  //       unilist: [],
+  //     },
+  //     {
+  //       id: "Uni4",
+  //       name: "Universities N - P",
+  //       sortingValue: "N-O-P-Q-P",
+  //       displayHeading: "N - P",
+  //       unilist: [],
+  //     },
+  //     {
+  //       id: "Uni5",
+  //       name: "Universities Q - U",
+  //       sortingValue: "Q-R-S-T-U",
+  //       displayHeading: "Q - U",
+  //       unilist: [],
+  //     },
+  //     {
+  //       id: "Uni6",
+  //       name: "Universities V - Z",
+  //       sortingValue: "V-W-X-Y-Z",
+  //       displayHeading: "V - Z",
+  //       unilist: [],
+  //     },
+  //   ]?.map((item: any) => {
+  //     item.unilist = jsondata?.universityFilterList?.filter(
+  //       (collegeItem: any) => {
+  //         const regex = new RegExp(`^[${item.sortingValue}]`, "i");
+  //         return regex?.test(collegeItem?.collegeName);
+  //       }
+  //     );
+  //     listvalue?.push(item);
+  //   });
+  //   return listvalue;
+  // };
+  // const universitiesList = universitiesSortingList();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -262,9 +324,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
         );
         setJsondata(data);
         setrouterEnd(false);
-        setTimeout(() => {
-          setFilterLoading(false);
-        }, 2);
+        setSearchedSubject((prev: any) => ({
+          ...prev,
+          subjectkeyword: "",
+        }));
+        setSearchedUniversity((prev: any) => ({
+          ...prev,
+          universityKeyword: "",
+          isUniversityDropdownOpen: false,
+        }));
+        setFilterLoading(false);
       }
     };
     dynamicFilter();
@@ -273,7 +342,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
       " "
     );
-    const url = `${firstSubject[0] ? `${slug}?subject=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
+    const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param=""; path=/;`;
     router.push(url);
   };
@@ -359,6 +428,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       router.refresh();
     } else if (multiSelect) {
       console.log("multi select");
+
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       console.log(
         `${domainPath ?? ""}?${urlParams?.toString()}`
@@ -374,7 +444,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
       console.log("link tag based");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       const linkTagId = document?.getElementById(key + value);
-      if (linkTagId && !isIndexed) {
+      if (linkTagId && isIndexed) {
+        console.log("link tag found", linkTagId);
         linkTagId.click();
       } else {
         console.log("link tag not found");
@@ -387,7 +458,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
     setrouterEnd(true);
   };
-
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
     const urlParentSubject = getParentSubject(searchParams, jsondata);
     const selectedParentSubject = getParentSubject(null, jsondata, value);
@@ -557,6 +627,18 @@ const SearchFilterComponent = ({ data, path }: any) => {
       selectedMile: milesValue,
     }));
   };
+  const subjectClicked = (item: string, closeFilter?: boolean) => {
+    setIsSubjectOpen(closeFilter || !isSubjectOpen);
+    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
+      return items?.parentSubject == item;
+    });
+
+    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
+    setSearchedSubject((prev: any) => ({
+      ...prev,
+      isSujectDropdownOpen: false,
+    }));
+  };
   return (
     <>
       <div>
@@ -565,7 +647,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
             isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
           }`}
         ></div>
-
         <div
           className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${
             isFilterOpen ? "translate-x-0" : "-translate-x-full"
@@ -842,8 +923,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         <li key={index + 1}>
                                           <div
                                             onClick={() => {
-                                              subjectClicked(
-                                                subjects?.parentSubject
+                                              appendSearchParams(
+                                                keyName?.subject,
+                                                subjects?.subjectTextKey
                                               );
                                             }}
                                             className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
@@ -1077,25 +1159,29 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       <li key={index + 1}>
                                         <div
                                           onClick={() => {
-                                            const selectedItem =
-                                              universitiesList
-                                                ?.flatMap(
-                                                  (universityArray: any) =>
-                                                    universityArray?.unilist
-                                                      ?.filter(
-                                                        (university: any) =>
-                                                          university?.collegeNameDisplay ===
-                                                          sortedUniItem?.collegeNameDisplay
-                                                      )
-                                                      ?.map(
-                                                        () => universityArray
-                                                      ) || []
-                                                )
-                                                ?.filter(Boolean)[0];
-                                            universityClicked(
-                                              selectedItem?.displayHeading,
-                                              selectedItem?.id
+                                            appendSearchParams(
+                                              "university",
+                                              sortedUniItem?.collegeTextKey
                                             );
+                                            // const selectedItem =
+                                            //   universitiesList
+                                            //     ?.flatMap(
+                                            //       (universityArray: any) =>
+                                            //         universityArray?.unilist
+                                            //           ?.filter(
+                                            //             (university: any) =>
+                                            //               university?.collegeNameDisplay ===
+                                            //               sortedUniItem?.collegeNameDisplay
+                                            //           )
+                                            //           ?.map(
+                                            //             () => universityArray
+                                            //           ) || []
+                                            //     )
+                                            //     ?.filter(Boolean)[0];
+                                            // universityClicked(
+                                            //   selectedItem?.displayHeading,
+                                            //   selectedItem?.id
+                                            // );
                                           }}
                                           className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                                         >

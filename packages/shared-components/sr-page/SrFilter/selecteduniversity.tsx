@@ -2,6 +2,8 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import UniversityCheckBox from "./universityCheckBox";
+import { useSearchParams } from "next/navigation";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 const SelectedUniversity = ({
   universityClicked,
   isUniversityOpen,
@@ -13,16 +15,28 @@ const SelectedUniversity = ({
   appendSearchParams,
   isIndexed,
 }: any) => {
+  console.log(universityList);
   const slug = pathname?.split("/");
+  const searchParams = useSearchParams();
+  const keyName = KeyNames();
+  const uniParam = searchParams?.get(keyName?.university) || null;
+  let displayUniName = null;
+  if (uniParam) {
+    displayUniName =
+      universityList?.find((unis: any) => unis?.collegeTextKey === uniParam)
+        ?.collegeNameDisplay || null;
+  }
   return (
     <div
       className={`flex flex-col gap-[16px] ${isUniversityOpen && id === selectedId?.id ? "" : "hidden"}`}
     >
-      {/* <ul className="flex flex-wrap gap-[8px] uppercase">
-        <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-          University of Aberdeen
-        </li>
-      </ul> */}
+      {displayUniName && (
+        <ul className="flex flex-wrap gap-[8px] uppercase">
+          <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
+            {displayUniName}
+          </li>
+        </ul>
+      )}
       <div className="flex flex-col gap-[12px] h-[246px] overflow-y-auto custom-scrollbar-2">
         <div
           onClick={() => {

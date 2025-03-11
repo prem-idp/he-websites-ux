@@ -5,9 +5,18 @@ const qualCode: any = {
   "access-foundation-courses": "T",
   "hnd-hnc-courses": "N",
 };
+
 const KeyNames = () => {
+  const sameNameObject = {
+    month: "month",
+    year: "year",
+    region: "region",
+    city: "city",
+    university: "university",
+  };
   if (process.env.PROJECT === "Whatuni") {
     return {
+      ...sameNameObject,
       subject: "subject",
       studyMethod: "study-method",
       studyMode: "study-mode",
@@ -19,6 +28,7 @@ const KeyNames = () => {
     };
   } else {
     return {
+      ...sameNameObject,
       subject: "course",
       studyMethod: "study_method",
       studyMode: "study_mode",
@@ -40,8 +50,8 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
     location: [
-      ...(inputObject?.region ? inputObject.region.split(" ") : []),
-      ...(inputObject?.city ? inputObject.city.split(" ") : []),
+      ...(inputObject?.region ? inputObject?.region?.split(" ") : []),
+      ...(inputObject?.city ? inputObject?.city?.split(" ") : []),
     ],
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
@@ -49,7 +59,7 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     pageNo: inputObject?.[keyName?.pageNumber] || "",
     locationType: inputObject[keyName?.locationType] || "",
     intakeYear: inputObject?.year || "",
-    intakeMonth: inputObject?.month || "",
+    intakeMonth: inputObject?.month?.toUpperCase() || "",
     sortBy: "",
     userCoordinates: "51.5072,-0.1276",
     distance: "",
