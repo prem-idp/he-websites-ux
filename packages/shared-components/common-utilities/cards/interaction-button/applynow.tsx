@@ -16,9 +16,9 @@ const ApplyNow = ({ enquiryProps }: any) => {
       console.log("payload", applyNowPayload);
       const response = await fetchenquirydata(applyNowPayload);
       console.log("response printing", response);
-      if(response?.applynow_url){
-        console.log("APPLYNOWURL", response?.applynow_url);
-        window.open(response.applynow_url, '_blank');
+      if(response?.applyNowUrl){
+        console.log("APPLYNOWURL", response?.applyNowUrl);
+        window.open(response.applyNowUrl, '_blank');
       }
      } catch(error){
         console.error('Error fetching enquiry data:', error);
