@@ -16,7 +16,7 @@ import optimizedSearch from "@packages/REST-API/optimizedsearch"
 
 const UcasComponent = dynamic(
   () =>
-    import(npm
+    import(
       "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
     /* webpackChunkName:'UcasComponent' */),
   { ssr: false }
