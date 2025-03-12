@@ -41,7 +41,7 @@ export default async function Cdpage({ params }: any) {
       reviewPayload
     )
   ]);
-
+  console.log(data, "json")
 
   const customLabels = [
     "degrees",

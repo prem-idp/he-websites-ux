@@ -12,7 +12,7 @@ const Courseinfocomponents = dynamic(() => import('@packages/shared-components/c
 import { useState, useEffect } from 'react';
 export default function Cdpageclient({ courseContent, data, prams_slug, jsonResponse }: any) {
   const [fetcheddata, setFetcheddata] = useState({ ...data });
-  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
+  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
 
@@ -67,24 +67,34 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
           let componentToRender;
           switch (sectionId) {
             case 'course-info':
+              if (!data?.courseInfo) return null;
               componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} jsonResponse={jsonResponse} />;
               break;
             case 'modules':
+              if (data?.modules?.length <= 0) return null;
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'entry-requirements':
+              if (!data?.entryRequirements) return null;
               componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'popular-a-level-subjects':
+              if (data?.popularALevelSubjects?.length <= 0) return null;
               componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'tuition-fees':
+              if (data?.tutionFees?.length <= 0) return null;
+
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latest-reviews':
+              if (data?.latest_reviews?.length <= 0) return null;
+
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uni-info':
+              if (!data?.uniInfo) return null;
+
               componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             default:

@@ -20,7 +20,9 @@ const Courseheaderinfocomponents = ({ data }: any) => {
             <div className='uniresults-inner flex flex-col md:flex-row md:gap-[24px]'>
               <div className='uniresults-left'>
                 <div className="univ__logo bg-white p-[4px] w-[120px] rounded-[8px] shadow-custom-4 overflow-hidden hidden md:block">
-                  <Image className='w-full' src={data?.courseInfo?.institutionLogoUrl} alt="uni logoo" width={112} height={112} />
+                  {data?.courseInfo?.institutionLogoUrl &&
+                    <Image className='w-full' src={data?.courseInfo?.institutionLogoUrl} alt="uni logoo" width={112} height={112} />
+                  }
                 </div>
               </div>
               <div className='uniresults-right flex flex-col flex-1 gap-[16px]'>
