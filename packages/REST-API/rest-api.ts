@@ -133,7 +133,6 @@ async function fetchenquirydata(enquiryPayload: any) {
   }
 }
 
-
 const getUserYearOfEntry = async (bodyjson: any): Promise<any> => {
   const apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/dev-hewebsites-bff/v1/users/details`;
   const response = await fetchAuthSession({ forceRefresh: true });
@@ -168,6 +167,4 @@ const getUserYearOfEntry = async (bodyjson: any): Promise<any> => {
 };
 
 export default makeApiCall;
-export { getSrFilter, getSrFilterCount, getUserYearOfEntry };
-
-
+export { getSrFilter, getSrFilterCount, getUserYearOfEntry, fetchenquirydata };
