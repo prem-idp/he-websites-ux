@@ -125,7 +125,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             <>
               <span
                 onClick={() => toggleModuleVisibility(index)}
-                className="text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] after:rotate-[90deg] after:transition-all after:delay-0 after:duration-300 after:ease-linear"
+                className="text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[12px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[4px] before:top-[10px] after:absolute after:content-[''] after:w-[12px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[4px] after:top-[10px] after:rotate-[90deg] after:transition-all after:delay-0 after:duration-300 after:ease-linear"
               >
                 Modules
               </span>
