@@ -8,7 +8,7 @@ import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndp
 import { useSearchParams } from "next/navigation";
 import { getSearchPayload } from "@packages/shared-components/services/utils";
 
-const SearchLabelsContent =  ({searchPayLoad}) => {
+const SearchLabelsContent =  ({searchPayLoad}:any) => {
   const router = useRouter();
   const [filterList, setFilterList] = useState<any[]>([]);
   const searchParams = useSearchParams();  
@@ -154,7 +154,7 @@ getSearchLabels();
 };
 
 // Main component with Suspense boundary
-const SearchLabels = ({searchPayLoad}) => {
+const SearchLabels = ({searchPayLoad}:any) => {
   return (
     <Suspense fallback=''>
       <SearchLabelsContent searchPayLoad={searchPayLoad}/>

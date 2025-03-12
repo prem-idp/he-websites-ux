@@ -54,7 +54,7 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
            data?.message?.toLowerCase() === "added course" ||
            data?.message?.toLowerCase() === "added institution"
          ) {
-           setFavourite((prevState) => ({
+           setFavourite((prevState:any) => ({
              ...prevState,
              favouritedList: [
               ...(prevState?.favouritedList || []), // Ensure favouritedList is an array, default to empty array
@@ -67,10 +67,10 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
            data?.message?.toLowerCase() === "removed course"
          ) {
            setfavourtiteTooltip("");
-           setFavourite((prevState) => ({
+           setFavourite((prevState:any) => ({
              ...prevState,
              favouritedList: prevState?.favouritedList?.filter(
-               (id) => id != contentId
+               (id:any) => id != contentId
              ),
            }));
          } else if (data?.message?.toLowerCase() === "limit exceeded") {
@@ -78,10 +78,10 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
            setExceedMessage(true)
          }
        } catch (error) {
-         setFavourite((prevState) => ({
+         setFavourite((prevState:any) => ({
            ...prevState,
            favouritedList: prevState?.favouritedList?.filter(
-             (id) => id != contentId
+             (id:any) => id != contentId
            ),
          }));
          console.error("Error toggling favorite:", error);
