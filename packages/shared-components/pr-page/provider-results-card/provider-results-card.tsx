@@ -31,20 +31,6 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     );
   };
 
-  // Provider card toggle function  END
-
-  // // State to track favorited status for each item
-  // const [favoritedItems, setFavoritedItems] = useState<boolean[]>(
-  //   new Array(searchResultlist.length).fill(false)
-  // );
-
-  // // Handler to toggle the favorited state for a specific item
-  // const favoriteHandleClick = (index: number) => {
-  //   setFavoritedItems((prev) =>
-  //     prev.map((item, i) => (i === index ? !item : item))
-  //   );
-  // };
-
 
   const handleExceedMessage = (data: any) => {
     setExceedMessage(data); // Update state in parent
@@ -59,28 +45,6 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     >
       <div className="flex justify-end p-[16px] bg-blue-100">
         <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100"> */}
-          {/* <div
-            className={`heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 ${favoritedItems[index] ? 'bg-blue-100' : 'bg-white'
-              }`}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                stroke="#4664DC"
-                strokeWidth="1.67"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill={favoritedItems[index] ? "#4664DC" : "none"}
-              />
-            </svg>
-          </div> */}
           <UserFavourite exceedData={handleExceedMessage} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
       </div>
@@ -125,7 +89,8 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             <>
               <span
                 onClick={() => toggleModuleVisibility(index)}
-                className="text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] after:rotate-[90deg] after:transition-all after:delay-0 after:duration-300 after:ease-linear"
+                className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'
+                  } after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
               >
                 Modules
               </span>
@@ -201,7 +166,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               }} />}
         </div>
       </div>
-    </div>
+    </div >
   ));
   return (
     <>
