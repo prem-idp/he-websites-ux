@@ -1,20 +1,21 @@
 'use client'
 import dynamic from 'next/dynamic'
-const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent"));
-const Courseoptionscomponents = dynamic(() => import('@packages/shared-components/course-details/course-options/courseoptionscomponents'));
-const JumpToComponents = dynamic(() => import('@packages/shared-components/course-details/jump-to/jumptocomponents'));
-const Modulescomponents = dynamic(() => import('@packages/shared-components/course-details/modules/ModulesComponent'));
-const EntryrequirementsComponent = dynamic(() => import('@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent'));
-const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent'));
-const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents'));
-const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'));
-const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent'));
+const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent" /* webpackChunkName:'uniinfo' */));
+const Courseoptionscomponents = dynamic(() => import('@packages/shared-components/course-details/course-options/courseoptionscomponents' /* webpackChunkName:"courseoptions" */));
+const JumpToComponents = dynamic(() => import('@packages/shared-components/course-details/jump-to/jumptocomponents' /* webpackChunkName:"jumptocomponents" */));
+const Modulescomponents = dynamic(() => import('@packages/shared-components/course-details/modules/ModulesComponent' /* webpackChunkName:"modules" */));
+const EntryrequirementsComponent = dynamic(() => import('@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent' /* webpackChunkName:"entryrequirements" */));
+const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent' /* webpackChunkName:"tutionfees" */));
+const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents' /*webpackChunkName:"popularsubject"*/));
+const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
+const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
 import { useState, useEffect } from 'react';
 export default function Cdpageclient({ courseContent, data, prams_slug, jsonResponse }: any) {
   const [fetcheddata, setFetcheddata] = useState({ ...data });
-  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
+  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
+
 
   useEffect(() => {
     setRenderKey(prev => prev + 1);
@@ -66,24 +67,34 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
           let componentToRender;
           switch (sectionId) {
             case 'course-info':
+              if (!data?.courseInfo) return null;
               componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} jsonResponse={jsonResponse} />;
               break;
             case 'modules':
+              if (data?.modules?.length <= 0) return null;
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'entry-requirements':
+              if (!data?.entryRequirements) return null;
               componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'popular-a-level-subjects':
+              if (data?.popularALevelSubjects?.length <= 0) return null;
               componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'tuition-fees':
+              if (data?.tutionFees?.length <= 0) return null;
+
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latest-reviews':
+              if (data?.latest_reviews?.length <= 0) return null;
+
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uni-info':
+              if (!data?.uniInfo) return null;
+
               componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             default:

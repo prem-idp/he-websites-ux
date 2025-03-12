@@ -21,7 +21,7 @@ const Reviewfiltermodalcomponents = () => {
                 <div className='modal-box p-[16px_18px_16px_16px]  md:p-[20px_16px_20px_20px] lg:p-[32px_8px_24px_32px]  bg-white relative z-0 right-0 md:top-[44px] lg:top-0 h-[100vh]'>
                     <div onClick={() => setIsopen(false)} className='modal_close w-[44px] h-[44px] md:bg-primary-400 md:hover:bg-primary-500 flex items-center justify-center absolute top-0 md:top-[-44px] lg:top-0 right-0 lg:right-auto left-auto lg:left-[-44px] z-[1] cursor-pointer'>
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path className='stroke-grey-600 md:stroke-white' d="M1 13L13 1M1 1L13 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path className='stroke-grey-600 md:stroke-white' d="M1 13L13 1M1 1L13 13" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </div>
                     <div className='review-modal-container flex flex-col gap-[16px]'>
@@ -57,7 +57,7 @@ const Reviewfiltermodalcomponents = () => {
                                     <div className='flex gap-[8px] w-[full] md:w-[408px]'>
                                         <button type='button' className='flex  flex-1 group items-center justify-between gap-[8px] x-small font-semibold text-grey300 cursor-pointer border border-grey300 rounded-[20px] p-[8px_16px] relative'>Business
                                             <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                             {/* -- */}
                                             <div className='hidden z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left:0 md:right-0 top-[35px] w-full group-hover:block'>
@@ -96,7 +96,7 @@ const Reviewfiltermodalcomponents = () => {
                                         </button>
                                         <button type="button" className='flex flex-1 group items-center justify-between gap-[8px] x-small font-semibold text-grey300 cursor-pointer border border-grey300 rounded-[20px] p-[8px_16px] relative'>More Recent
                                             <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                             {/* -- */}
                                             <div className='hidden z-[1] bg-white shadow-custom-3 rounded-[4px] absolute left:0 md:right-0 top-[35px] w-full group-hover:block'>
@@ -144,7 +144,7 @@ const Reviewfiltermodalcomponents = () => {
                                                 <div className='para-lg font-semibold text-grey300 '>Filter overall ratings</div>
                                                 <div className='flex items-center gap-[8px] x-small font-normal text-grey300 hover:underline cursor-pointer'>Overall ratings
                                                     <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#333333" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                                                     </svg>
                                                 </div>
                                             </div>
@@ -488,7 +488,7 @@ const Reviewfiltermodalcomponents = () => {
                                                 </div>
                                                 <div className='flex gap-[8px] items-center w-fit small text-grey300  cursor-pointer'>
                                                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M4.66732 15.1667H2.66732C2.3137 15.1667 1.97456 15.0262 1.72451 14.7762C1.47446 14.5261 1.33398 14.187 1.33398 13.8333V9.16668C1.33398 8.81306 1.47446 8.47392 1.72451 8.22387C1.97456 7.97382 2.3137 7.83334 2.66732 7.83334H4.66732M9.33398 6.50001V3.83334C9.33398 3.30291 9.12327 2.7942 8.7482 2.41913C8.37313 2.04406 7.86442 1.83334 7.33398 1.83334L4.66732 7.83334V15.1667H12.1873C12.5089 15.1703 12.8209 15.0576 13.0659 14.8493C13.3109 14.6411 13.4724 14.3513 13.5207 14.0333L14.4407 8.03334C14.4697 7.84225 14.4568 7.64713 14.4029 7.46151C14.349 7.27589 14.2554 7.10421 14.1286 6.95835C14.0017 6.8125 13.8447 6.69596 13.6684 6.61682C13.492 6.53768 13.3006 6.49782 13.1073 6.50001H9.33398Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <path d="M4.66732 15.1667H2.66732C2.3137 15.1667 1.97456 15.0262 1.72451 14.7762C1.47446 14.5261 1.33398 14.187 1.33398 13.8333V9.16668C1.33398 8.81306 1.47446 8.47392 1.72451 8.22387C1.97456 7.97382 2.3137 7.83334 2.66732 7.83334H4.66732M9.33398 6.50001V3.83334C9.33398 3.30291 9.12327 2.7942 8.7482 2.41913C8.37313 2.04406 7.86442 1.83334 7.33398 1.83334L4.66732 7.83334V15.1667H12.1873C12.5089 15.1703 12.8209 15.0576 13.0659 14.8493C13.3109 14.6411 13.4724 14.3513 13.5207 14.0333L14.4407 8.03334C14.4697 7.84225 14.4568 7.64713 14.4029 7.46151C14.349 7.27589 14.2554 7.10421 14.1286 6.95835C14.0017 6.8125 13.8447 6.69596 13.6684 6.61682C13.492 6.53768 13.3006 6.49782 13.1073 6.50001H9.33398Z" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                                     </svg>
                                                     <span className='small text-grey300 underline'>6</span>
                                                 </div>
@@ -678,7 +678,7 @@ const Reviewfiltermodalcomponents = () => {
                                                 </div>
                                                 <div className='flex gap-[8px] items-center w-fit small text-grey300  cursor-pointer'>
                                                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M4.66732 15.1667H2.66732C2.3137 15.1667 1.97456 15.0262 1.72451 14.7762C1.47446 14.5261 1.33398 14.187 1.33398 13.8333V9.16668C1.33398 8.81306 1.47446 8.47392 1.72451 8.22387C1.97456 7.97382 2.3137 7.83334 2.66732 7.83334H4.66732M9.33398 6.50001V3.83334C9.33398 3.30291 9.12327 2.7942 8.7482 2.41913C8.37313 2.04406 7.86442 1.83334 7.33398 1.83334L4.66732 7.83334V15.1667H12.1873C12.5089 15.1703 12.8209 15.0576 13.0659 14.8493C13.3109 14.6411 13.4724 14.3513 13.5207 14.0333L14.4407 8.03334C14.4697 7.84225 14.4568 7.64713 14.4029 7.46151C14.349 7.27589 14.2554 7.10421 14.1286 6.95835C14.0017 6.8125 13.8447 6.69596 13.6684 6.61682C13.492 6.53768 13.3006 6.49782 13.1073 6.50001H9.33398Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <path d="M4.66732 15.1667H2.66732C2.3137 15.1667 1.97456 15.0262 1.72451 14.7762C1.47446 14.5261 1.33398 14.187 1.33398 13.8333V9.16668C1.33398 8.81306 1.47446 8.47392 1.72451 8.22387C1.97456 7.97382 2.3137 7.83334 2.66732 7.83334H4.66732M9.33398 6.50001V3.83334C9.33398 3.30291 9.12327 2.7942 8.7482 2.41913C8.37313 2.04406 7.86442 1.83334 7.33398 1.83334L4.66732 7.83334V15.1667H12.1873C12.5089 15.1703 12.8209 15.0576 13.0659 14.8493C13.3109 14.6411 13.4724 14.3513 13.5207 14.0333L14.4407 8.03334C14.4697 7.84225 14.4568 7.64713 14.4029 7.46151C14.349 7.27589 14.2554 7.10421 14.1286 6.95835C14.0017 6.8125 13.8447 6.69596 13.6684 6.61682C13.492 6.53768 13.3006 6.49782 13.1073 6.50001H9.33398Z" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                                     </svg>
                                                     <span className='small text-grey300 underline'>67</span>
                                                 </div>

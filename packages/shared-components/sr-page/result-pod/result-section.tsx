@@ -20,18 +20,18 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
 }) => {
   const [exceedMessage, setExceedMessage] = useState(false);
- const universityPodClick = (navigationUrl: any) => {
-  typeof window !== "undefined" && window?.open(navigationUrl, "_self");
-};
-const searchParams = useSearchParams();
+  const universityPodClick = (navigationUrl: any) => {
+    typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+  };
+  const searchParams = useSearchParams();
 
-const handleExceedMessage = (data:any) => {
-  setExceedMessage(data); // Update state in parent
-};
-const onClose = (event: React.FormEvent) => {
-  event.stopPropagation()
-  setExceedMessage(false)
-}
+  const handleExceedMessage = (data: any) => {
+    setExceedMessage(data); // Update state in parent
+  };
+  const onClose = (event: React.FormEvent) => {
+    event.stopPropagation()
+    setExceedMessage(false)
+  }
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -66,28 +66,28 @@ const onClose = (event: React.FormEvent) => {
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
-                {data?.collegeMedia?.ipCollegeLogo ? (
-                  <Link
-                    href={
-                      process.env.PROJECT === "Whatuni"
-                        ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
-                        : `/universities/${data?.collegeTextKey}}`
-                    }
-                    className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
-                  >
-                    
-                    <Image
-                      src={
-                        data?.collegeMedia?.ipCollegeLogo
-                          ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
-                          : "/static/assets/icons/search-result/kent.png"
+                  {data?.collegeMedia?.ipCollegeLogo ? (
+                    <Link
+                      href={
+                        process.env.PROJECT === "Whatuni"
+                          ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                          : `/universities/${data?.collegeTextKey}}`
                       }
-                      alt="University logo"
-                      width={56}
-                      height={56}
-                      id="uni_img"
-                    /> 
-                  </Link> ): <></>}
+                      className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
+                    >
+
+                      <Image
+                        src={
+                          data?.collegeMedia?.ipCollegeLogo
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
+                            : "/static/assets/icons/search-result/kent.png"
+                        }
+                        alt="University logo"
+                        width={56}
+                        height={56}
+                        id="uni_img"
+                      />
+                    </Link>) : <></>}
                   {data?.sponsoredListingFlag === "Y" ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
@@ -229,16 +229,16 @@ const onClose = (event: React.FormEvent) => {
                       />
                       {data?.wuscaBadges}
                     </div>
-                    {data?.wuscaBadges?.includes(",") ? 
-                    <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + {data?.wuscaBadges?.split(",")?.length - 1} more
-                    </div> : <></>}
+                    {data?.wuscaBadges?.includes(",") ?
+                      <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                        + {data?.wuscaBadges?.split(",")?.length - 1} more
+                      </div> : <></>}
                   </div>
                 ) : (
                   <></>
                 )}
                 {data?.openDayDetails?.openDate &&
-                process.env.PROJECT === "Whatuni" ? (
+                  process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       {calculateDaysBetween(data?.openDayDetails?.openDate)}
@@ -250,17 +250,17 @@ const onClose = (event: React.FormEvent) => {
               </div>
             </div>
             {data?.collegeMedia?.ipCollegeImage ? (
-            <Image
-              src={
-                data?.collegeMedia?.ipCollegeImage
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  : "/static/assets/images/search-results/university.jpg"
-              }
-              alt="University"
-              width={500}
-              height={376}
-              className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-            /> ) : <></>}
+              <Image
+                src={
+                  data?.collegeMedia?.ipCollegeImage
+                    ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                    : "/static/assets/images/search-results/university.jpg"
+                }
+                alt="University"
+                width={500}
+                height={376}
+                className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
+              />) : <></>}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
@@ -365,9 +365,9 @@ const onClose = (event: React.FormEvent) => {
                                   <path
                                     d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z"
                                     stroke="#5C656E"
-                                    stroke-width="1.13"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.13"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                 </svg>
                               ) : (
@@ -390,7 +390,7 @@ const onClose = (event: React.FormEvent) => {
                             <></>
                           )}
                           {courseData?.availabilityDetails?.duration ||
-                          courseData?.availabilityDetails?.studyMode ? (
+                            courseData?.availabilityDetails?.studyMode ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
@@ -411,7 +411,7 @@ const onClose = (event: React.FormEvent) => {
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
-                    courseData?.courseSummary ? (
+                      courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
                           courseData?.courseSummary
@@ -431,15 +431,15 @@ const onClose = (event: React.FormEvent) => {
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni"  && courseData?.moduleDesc? (
+                    {process.env.PROJECT === "Whatuni" && courseData?.moduleDesc ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
                           <div className="font-semibold">{courseData?.moduleInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            {courseData?.moduleDesc?.split('###').map((desc:any,index:any) => (
-                               <li key={index}>{desc}</li>
+                            {courseData?.moduleDesc?.split('###').map((desc: any, index: any) => (
+                              <li key={index}>{desc}</li>
                             ))}
-                           
+
                           </ul>
                           <Link
                             href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
@@ -472,7 +472,7 @@ const onClose = (event: React.FormEvent) => {
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                      {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
                         <ApplyNow
                           enquiryProps={{
                             courseId: courseData?.courseId,
@@ -568,7 +568,7 @@ const onClose = (event: React.FormEvent) => {
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}`}
+                href={process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams?.toString() ? "&" + searchParams?.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}${searchParams?.toString() ? "&" + searchParams?.toString() : ""}`}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses

@@ -5,7 +5,7 @@ import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action
 import { homePageQuery } from "@packages/lib/graphQL/graphql-query";
 import dynamic from "next/dynamic";
 const PageViewLogging = dynamic(
-  () => import("@packages/lib/utlils/pageviewlogging")
+  () => import("@packages/lib/utlils/pageviewlogging" /* webpackChunkName:'PageViewLogging' */)
 );
 import {
   MultipleCardContainer,
