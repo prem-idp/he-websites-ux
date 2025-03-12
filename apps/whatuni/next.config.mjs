@@ -2,7 +2,6 @@
 
 const getImageDomain = () => {
   const env = process.env.NODE_ENV || "development";
-
   switch (env) {
     case "development":
       return "images-dom.aws.dev.idp-connect.com";
