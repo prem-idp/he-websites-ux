@@ -164,10 +164,11 @@ const isSingleSelection = (searchParams: URLSearchParams): boolean => {
 };
 
 const locationMilesArray = [
-  { miles: "5 miles" },
-  { miles: "10 miles" },
-  { miles: "25 miles" },
-  { miles: "50 miles" },
+  { miles: "Any distance", distance: "" },
+  { miles: "20 miles", distance: "20" },
+  { miles: "50 miles", distance: "50" },
+  { miles: "100 miles", distance: "100" },
+  { miles: "200 miles", distance: "200" },
 ];
 const getParentSubject = (
   searchParams: any,

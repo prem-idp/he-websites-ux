@@ -12,7 +12,10 @@ const KeyNames = () => {
     year: "year",
     region: "region",
     city: "city",
+    sort: "sort",
     university: "university",
+    postcode: "postcode",
+    score: "score",
   };
   if (process.env.PROJECT === "Whatuni") {
     return {
@@ -45,29 +48,33 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
     parentQualification: qualCode?.[parentQual] || "M",
     childQualification: "",
-    searchCategoryCode: ["AK.", "AA.3", "A"],
+    searchCategoryCode: " ",
     searchSubject: inputObject?.[keyName?.subject]?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
     location: [
-      ...(inputObject?.region ? inputObject?.region?.split(" ") : []),
-      ...(inputObject?.city ? inputObject?.city?.split(" ") : []),
+      ...(inputObject[keyName?.region]
+        ? inputObject[keyName?.region]?.split(" ")
+        : []),
+      ...(inputObject[keyName?.city]
+        ? inputObject[keyName?.city]?.split(" ")
+        : []),
     ],
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
     collegeId: "",
     pageNo: inputObject?.[keyName?.pageNumber] || "",
     locationType: inputObject[keyName?.locationType] || "",
-    intakeYear: inputObject?.year || "",
+    intakeYear: inputObject[keyName?.year] || "",
     intakeMonth: inputObject?.month?.toUpperCase() || "",
-    sortBy: "",
+    sortBy: inputObject[keyName?.sort] || "",
     userCoordinates: "51.5072,-0.1276",
-    distance: "",
-    ucasTariffRange: "",
+    distance: inputObject[keyName?.distanceFromHome] || "",
+    ucasTariffRange: inputObject[keyName?.score] || "",
     userRegionArray: "",
     dynamicRandomNumber: "",
-    universityGroup: "",
-    postCode: "",
+    universityGroup: inputObject[keyName?.russellGroup]?.split(" ") || "",
+    postCode: inputObject[keyName?.postcode] || "",
   };
 };
 export { filterbodyJson, qualCode, KeyNames };

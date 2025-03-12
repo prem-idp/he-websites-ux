@@ -435,6 +435,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           if (jsonData == "updated") {
             document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
             document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
+            const getSrFilterCookie = JSON.parse(
+              getCookie("filter_param") || "{}"
+            );
+            getSrFilterCookie["score"] =
+              `${qual[0]?.min !== "" ? qual[0].min : 0},${ucasPoint}`;
+            document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)};  path=/;`;
             setFirstTimeUser(false);
             setQualCopy(qual);
             onClose();
@@ -448,6 +454,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           setApplybtn("Apply");
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
           document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
+          const getSrFilterCookie = JSON.parse(
+            getCookie("filter_param") || "{}"
+          );
+          getSrFilterCookie["score"] =
+            `${qual[0]?.min !== undefined ? qual[0]?.min : 0},${ucasPoint}`;
+          document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)};  path=/;`;
           setFirstTimeUser(false);
           setQualCopy(qual);
         }
@@ -458,6 +470,12 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
           document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
+          const getSrFilterCookie = JSON.parse(
+            getCookie("filter_param") || "{}"
+          );
+          getSrFilterCookie["score"] =
+            `${qual[0]?.min !== "" ? qual[0].min : 0},${ucasPoint}`;
+          document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)}; path=/;`;
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");

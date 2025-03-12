@@ -20,6 +20,7 @@ const FilterWrapper = async () => {
   const searchparams = cookieStore?.get("searchParamscookies")?.value || "{}";
   const urlparams = new URLSearchParams(searchparams || "?default=value");
   const paramObject = Object?.fromEntries(urlparams?.entries());
+  console.log(filterbodyJson(paramObject, fullPath?.split("/")[1]));
   const data = await getSrFilter(
     filterbodyJson(paramObject, fullPath?.split("/")[1])
   );
