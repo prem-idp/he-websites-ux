@@ -47,9 +47,6 @@ const Regions = ({
     const isParentRegion = regionListData?.some(
       (region: any) => region?.parentRegionId === selectedRegion?.regionId
     );
-    console.log("selected value oda parent", parentRegion);
-    console.log("applied filter", appliedRegions);
-    console.log("isParentRegion", isParentRegion);
     if (isParentRegion) {
       appliedRegions = appliedRegions?.filter((region) => {
         const subregion = regionListData?.find(

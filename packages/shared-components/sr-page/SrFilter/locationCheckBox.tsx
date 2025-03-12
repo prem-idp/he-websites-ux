@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 const LocationcheckBox = ({
   childItem,
-  isIndexed,
   regionListData,
   slug,
   formUrl,
