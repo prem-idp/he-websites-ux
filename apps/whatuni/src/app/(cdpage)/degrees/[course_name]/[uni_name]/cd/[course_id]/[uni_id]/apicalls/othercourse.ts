@@ -5,7 +5,7 @@ export const otherRecommendedCourse = async (
 ): Promise<any> => {
     try {
         const response = await fetch(
-            "https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/v1/recommended/recom-course",
+            "https://api.he-websites.dm.dev.idp.com/hewebsites/v1/recommended/recom-course",
             {
                 method: "POST",
                 headers: {

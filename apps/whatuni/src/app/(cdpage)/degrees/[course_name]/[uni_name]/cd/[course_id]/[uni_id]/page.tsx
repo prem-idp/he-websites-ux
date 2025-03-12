@@ -47,6 +47,7 @@ export default async function Cdpage({ params }: any) {
     ""
   ];
 
+
   const courseContent = courseContentExtractor(contents);
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
 
