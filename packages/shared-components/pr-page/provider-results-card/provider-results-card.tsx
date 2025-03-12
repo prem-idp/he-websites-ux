@@ -155,7 +155,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
@@ -167,7 +167,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
@@ -178,7 +178,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid:
+                subOrderItemId:
                   items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
@@ -192,7 +192,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,

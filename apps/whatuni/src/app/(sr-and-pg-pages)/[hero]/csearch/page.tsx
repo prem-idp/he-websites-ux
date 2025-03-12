@@ -11,11 +11,9 @@ export async function generateMetadata({
   params,
   searchParams,
 }: MetaDataProps): Promise<Metadata> {
-  const paramsAwaited = await params;
-  const pathname = `/${paramsAwaited?.hero}/csearch`;
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited, displayNameBFFEndPt);
-
+  const qulInUrl = (await params)?.hero;
+  const pathname = `/${qulInUrl}/csearch`;
+  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, qulInUrl, pathname);
   return getMetaDetailsObject(metaData);
 }
 

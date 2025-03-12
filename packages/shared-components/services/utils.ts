@@ -77,8 +77,9 @@ export function getSEOSearchPayload(
   searchParams: any,
   qualification: string
 ) {
-  const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || [];
-  const locationArray = searchParams?.location?.split(" ") || searchParams?.location?.split(" ") || [];
+  const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || undefined;
+  const regionArray = searchParams?.region?.split(" ") || undefined;
+  const cityArray  = searchParams?.city?.split(" ") || undefined;
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification: searchParams?.qualification || undefined,
@@ -86,9 +87,11 @@ export function getSEOSearchPayload(
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || undefined,
     jacsCode: undefined,
-    location: locationArray,
+    region: regionArray,
+    city: cityArray,
+    location: cityArray || regionArray,
     studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
-    studyMethod: searchParams?.["study-method"] || undefined,
+    studyMethod: searchParams?.["study_mode"] || undefined,
     collegeId: undefined,
     pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
     locationType: searchParams?.["location-type"] || undefined,
@@ -100,7 +103,6 @@ export function getSEOSearchPayload(
     ucasTariffRange: searchParams?.score || undefined,
     universityGroup: searchParams?.["russell-group"] || undefined,
     university: searchParams?.university || undefined,
-
   };
   return searchPayload;
 }
