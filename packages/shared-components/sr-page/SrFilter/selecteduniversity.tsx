@@ -15,7 +15,6 @@ const SelectedUniversity = ({
   appendSearchParams,
   isIndexed,
 }: any) => {
-  console.log(universityList);
   const slug = pathname?.split("/");
   const searchParams = useSearchParams();
   const keyName = KeyNames();

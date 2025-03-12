@@ -338,11 +338,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const ShowResults = () => {
     setIsFilterOpen(false);
   };
-  const postCodeChange = (value: any) => {
-    if (!isNaN(value) && value?.length <= 10) {
-      setPostCodeValue(value);
+  const postCodeChange = (value: string) => {
+    const trimmedValue = value.trim().toUpperCase();
+    const specialCharRegex = /[^a-zA-Z0-9 ]/;
+    if (!specialCharRegex.test(trimmedValue) && trimmedValue.length <= 8) {
+      setPostCodeValue(trimmedValue);
     }
   };
+
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
@@ -379,6 +382,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     isUniversitySelected?: boolean,
     isQualificationChanged?: boolean
   ) => {
+    console.log({ key, value, isQualificationChanged, isUniversitySelected });
     setFilterLoading(true);
     let crossL1Subject = false;
     if (key === keyName?.subject) {
@@ -408,9 +412,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
       return acc;
     }, {} as KeyValueObject);
     setFilterOrder(orderedFilters);
+    console.log(filters);
+    console.log(orderedFilters);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
+    console.log("initial", urlParams?.toString(), cookieParams);
     Object.entries(orderedFilters)?.forEach(([k, v]) => {
       const valuesArray = v?.split("+");
       if (totalValues + valuesArray?.length <= 4) {
@@ -431,6 +438,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const multiSelect =
       urlParams?.toString()?.includes("+") ||
       urlParams?.toString()?.includes("%2B");
+    console.log(multiSelect);
     let domainPath = null;
     if (isQualificationChanged && !slug?.includes(value)) {
       domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
@@ -442,10 +450,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
         domainPath = `/${slug?.split("/")?.[1]}/csearch`;
       }
     }
-
+    console.log(domainPath);
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       if (isQualificationChanged) {
+        console.log(
+          `${domainPath}?${urlParams?.toString()}`
+            ?.replaceAll("%2B", "+")
+            ?.replaceAll("%2C", ",")
+        );
         router.push(
           `${domainPath}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
@@ -455,7 +468,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       router.refresh();
     } else if (multiSelect) {
       console.log("multi select");
-
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
       console.log(
         `${domainPath ?? ""}?${urlParams?.toString()}`
@@ -488,12 +500,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
     const urlParentSubject = getParentSubject(searchParams, jsondata);
     const selectedParentSubject = getParentSubject(null, jsondata, value);
-    if (urlParentSubject == selectedParentSubject) {
-      const searchparamObject = Object?.fromEntries(urlParams?.entries());
-      searchparamObject[key] = value;
-      const modifiedParam = new URLSearchParams(searchparamObject);
-      return `${modifiedParam}`;
-    }
+    // if (urlParentSubject == selectedParentSubject) {
+    const searchparamObject = Object?.fromEntries(urlParams?.entries());
+    searchparamObject[key] = value;
+    const modifiedParam = new URLSearchParams(searchparamObject);
+    return `${modifiedParam}`;
+    // }
   };
 
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
@@ -537,9 +549,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
         }
       }
     });
+
     if (count >= 4) {
       if (key == keyName?.subject) {
         const param = modifySearchParams(key, value, urlParams);
+
         return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
       } else {
         return `${`subject=${searchParams?.get(keyName?.subject)}&${key}=${value}`}`?.replaceAll(
@@ -666,6 +680,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
       isSujectDropdownOpen: false,
     }));
   };
+  const postcodeSubmit = () => {
+    if (postCodeValue) {
+      appendSearchParams("postcode", postCodeValue);
+    }
+  };
+  console.log(jsondata);
   return (
     <>
       <div>
@@ -1364,12 +1384,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                     />
                                   </div>
                                   <button
-                                    onClick={() => {
-                                      appendSearchParams(
-                                        "postcode",
-                                        postCodeValue
-                                      );
-                                    }}
+                                    onClick={postcodeSubmit}
                                     type="submit"
                                     className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
                                   >
@@ -1420,14 +1435,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           </div>
                           {(jsondata?.regionList?.length > 0 ||
                             jsondata?.cityList?.length > 0) && (
-                            <div className="flex flex-col gap-[4px]">
+                            <div className="flex flex-col gap-[4px] ">
                               <div className="text-para-lg font-semibold">
                                 Region
                               </div>
                               <div className="x-small font-semibold text-black uppercase">
                                 Choose one or more
                               </div>
-                              <ul className="pt-[12px]">
+                              <ul
+                                className={`pt-[12px] ${prepopulateFilter?.city ? "opacity-50" : ""}`}
+                              >
                                 <li>
                                   <div className="form_check relative m-[0_0_12px]">
                                     <div className="flex items-start gap-[8px]">
@@ -1533,7 +1550,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               <div className="x-small font-semibold text-black uppercase">
                                 Choose one or more
                               </div>
-                              <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2">
+                              <div
+                                className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${prepopulateFilter?.region ? "opacity-50" : ""}`}
+                              >
                                 {jsondata?.cityList?.map(
                                   (cityItem: any, index: number) => (
                                     <div

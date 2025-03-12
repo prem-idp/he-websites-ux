@@ -13,6 +13,7 @@ const KeyNames = () => {
     region: "region",
     city: "city",
     university: "university",
+    postcode: "postcode",
   };
   if (process.env.PROJECT === "Whatuni") {
     return {
