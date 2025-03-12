@@ -25,18 +25,16 @@ export default async function Cdpage({ params }: any) {
   });
   const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
   const [data, contents, jsonResponse, othercourse_datta] = await Promise.all([
-    cdfetchData(url),
-    graphQlFetchFunction(COURSE_DETAILS_QUERY),
-    makeApiCall(
-      getApiUrl?.homePageReviews,
-      "POST",
-      null,
-      null,
-      reviewPayload
-    ),
-    otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id),
+    cdfetchData(url).catch(err => ({ error: err })),
+    graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),
+    makeApiCall(getApiUrl?.homePageReviews, "POST", null, null, reviewPayload)
+      .catch(err => ({ error: err })),
+    otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
+      .catch(err => ({ error: err }))
   ]);
-  console.log(data, othercourse_datta, "json")
+
+  // console.log(data, othercourse_datta, "json")
+  // console.log(jsonResponse, "jsonResponse")
 
   const customLabels = [
     "degrees",
