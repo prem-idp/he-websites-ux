@@ -12,13 +12,32 @@ const UcasComponent = dynamic(
     ),
   { ssr: false }
 );
+
+// Function to get the size of query parameters excluding a specific one
+const  getfilterCount = (url:any,excludeParam:any[]) => {
+  const urlObj = new URL(url);  // Create a URL object
+  const params = new URLSearchParams(urlObj.search); // Get query parameters
+  params?.delete(excludeParam[0]);
+  params?.delete(excludeParam[1]);
+  params?.delete(excludeParam[2]);
+  params?.delete(excludeParam[3]);  
+  const filterCookie = JSON.parse(decodeURIComponent(
+    document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+  ));  
+  //if(filterCookie?.subject) delete filterCookie?.subject
+  const filterCount = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
+  return filterCount
+}
+
 const SearchFilterButtons = () => {
   const searchParams = useSearchParams();
-  const locationFilterCount = searchParams?.get("location")?.split(",")?.length;
-  const subjectFilterCount = (
-    searchParams?.get("subject")?.split(",") ||
-    searchParams?.get("course")?.split(",")
+  const locationFilterCount:any = searchParams?.get("region")?.split(" ")?.length || searchParams?.get("city")?.split(" ")?.length;
+  let subjectFilterCount = (
+    searchParams?.get("subject")?.split(" ") ||
+    searchParams?.get("course")?.split(" ")
   )?.length;
+  //subjectFilterCount = subjectFilterCount + filterCookie?.subject && filterCookie?.subject?.includes("+") ? filterCookie?.subject?.includes("+").split("+").length : filterCookie?.subject && 1;
+  const filterCount = getfilterCount(typeof window !== "undefined" && window.location.href,["pageno","page_no","sort","q","keyword"])
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),
@@ -105,7 +124,7 @@ const SearchFilterButtons = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            Filter (2)
+            Filter ({filterCount})
           </div>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
             <div

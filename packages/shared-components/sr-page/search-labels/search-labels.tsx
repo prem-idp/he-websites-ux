@@ -34,17 +34,25 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
    searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
   if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
   if (searchLabel?.subjectName) {
-    console.log("searchLabel?.subjectName", searchLabel?.subjectName)
     if(searchLabel?.subjectName?.length === 1) {
     filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
     } else {
-      searchLabel?.subjectName.forEach((value:any, index:any) => {
+      searchLabel?.subjectName?.forEach((value:any, index:any) => {
         filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:value});
       });
     }
   }
   if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
-  if (searchLabel?.locationName) filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+  if (searchLabel?.studyMethod) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-method' :'study_method'  , value:searchLabel?.studyMethod});
+  if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
+  if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
+  if(searchLabel?.locationName?.length === 1) {
+    filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+  } else {
+    searchLabel?.locationName?.forEach((value:any, index:any) => {
+      filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:value});
+    });
+  }
   setFilterList(Array.from(new Set(filters)));
          }
 getSearchLabels();
@@ -61,7 +69,7 @@ getSearchLabels();
     ));  
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
-      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course")) {
+      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "region" || filterKey === "city")) {
         const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
         const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
         updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
