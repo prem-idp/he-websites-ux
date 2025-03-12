@@ -14,13 +14,14 @@ const BookOpenDay  = ({ enquiryProps }: any) => {
          affiliateId: 220703,
          sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
          manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+         qualCode:enquiryProps?.qualCode
        };
        const response = await fetchenquirydata(bookOpenDayPayload);
        console.log("response printing", response);
        if(response?.bookingUrl){
          console.log("BOPDURL", response?.bookingUrl);
          window.open(response?.bookingUrl, '_blank');
-       }else{
+       }else if(response?.eventId){
          const url = `/open-days/book?collegeId=${enquiryProps?.collegeId || "0"}${enquiryProps?.courseId ? `&courseId=${enquiryProps?.courseId}`:""}${enquiryProps?.subOrderItemid ? `&suborderItemId=${enquiryProps?.subOrderItemid}`:""}${response?.eventId ? `&eventId=${response?.eventId}`:""}${enquiryProps?.sponsoredListingFlag === "Y"? `&sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `&sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=${enquiryProps?.pageName}`;
          router.push(url);
        }
