@@ -22,20 +22,9 @@ interface SrPageResultPodProps {
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,qualCode
 }) => {
-  const [exceedMessage, setExceedMessage] = useState(false);
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
 };
-
-
-const handleExceedMessage = (data:any) => {
-  setExceedMessage(data); // Update state in parent
-};
-const onClose = (event: React.FormEvent) => {
-  event.stopPropagation()
-  setExceedMessage(false)
-}
-
 interface Favourite {
   fav_id: string;
   fav_type: string;
@@ -151,7 +140,7 @@ queryString ? `&${queryString}` : ''
                     <></>
                   )}
                 </div>
-                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" exceedData={handleExceedMessage}></UserFavourite>
+                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -462,7 +451,7 @@ queryString ? `&${queryString}` : ''
                           )}
                         </div>
                       </div>
-                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" exceedData={handleExceedMessage}></UserFavourite>
+                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE"></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
@@ -653,48 +642,7 @@ queryString ? `&${queryString}` : ''
           </div>
         </div>
       ))}
-      {exceedMessage ? (
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
-          <div
-            onClick={onClose}
-            className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-grey-400"
-                d="M1 13L13 1M1 1L13 13"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className="review-modal-container flex flex-col gap-[16px]]">
-            <div className="mb-[4px] para-lg font-semibold">
-              Maximum number of favourites
-            </div>
-            <p className="small text-grey-500">
-              You can only favourite a max of 30 unis and courses. Remove a
-              selection to add another
-            </p>
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-primary w-fit mt-[24px] ml-auto"
-            >
-              Ok, got it
-            </button>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+    
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}

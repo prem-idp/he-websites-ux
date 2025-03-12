@@ -55,7 +55,10 @@ getSearchLabels();
     emitter.emit("isfilterOpen", "subject");
   };
   const removeFilter = (filterKey: string,value:any) => {
-    const currentParams = new URLSearchParams(window.location.search);    
+    const currentParams = new URLSearchParams(window.location.search);  
+    const filterCookie = JSON.parse(decodeURIComponent(
+      document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+    ));  
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
       if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course")) {
@@ -63,15 +66,12 @@ getSearchLabels();
         const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
         updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
       } else {
+        
        currentParams.delete(filterKey); 
       } 
     } 
     // Remove from cookies if needed
     if (document.cookie.includes('filter_param')) {
-      const filterCookie = JSON.parse(decodeURIComponent(
-        document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
-      ));
-      
       if (filterCookie[filterKey]) {
         delete filterCookie[filterKey];
         document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
@@ -82,7 +82,7 @@ getSearchLabels();
         if (!currentParams.has(key)) {
           currentParams.set(key, filterCookie[key]);
           delete filterCookie[key];
-          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))} || "{}"; path=/`;
           break;
         }
       }

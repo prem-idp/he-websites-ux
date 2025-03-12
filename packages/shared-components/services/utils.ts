@@ -24,7 +24,7 @@ export function getSearchPayload(
 let subjectArray="";
 if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
-subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject) : subjectArray;
+subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject?.includes("+") ?filterCookieParam?.subject?.split("+") : filterCookieParam?.subject) : subjectArray;
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
 const regionArray:any[] = searchParams?.region?.includes(" ")
@@ -38,6 +38,8 @@ const cityArray:any[] = searchParams?.city?.includes(" ")
       ? [searchParams?.city]
       : "" 
 const locationArray = regionArray && cityArray ? regionArray.concat(cityArray) :  regionArray ? regionArray : cityArray
+const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
+const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
@@ -58,10 +60,7 @@ const searchPayload: any = {
         "",
     collegeId: "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
-    locationType:
-        searchParams?.["location-type"] ||
-        filterCookieParam?.["location-type"] ||
-        "",
+    locationType: locationType ? [locationType] : "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
     intakeMonth: searchParams?.month?.toUpperCase() || filterCookieParam?.month?.toUpperCase()|| "",
     sortBy: typeof searchParams?.sort === 'string' && searchParams?.sort?.toUpperCase() ||  typeof filterCookieParam?.sort === 'string' &&  filterCookieParam?.sort?.toUpperCase() || "",
@@ -70,10 +69,7 @@ const searchPayload: any = {
     ucasTariffRange: searchParams?.score || filterCookieParam?.score || "",
     userRegionId:userIp,
     dynamicRandomNumber:dynamicRandomNumber,
-    universityGroup:
-        searchParams?.["russell-group"] ||
-        filterCookieParam?.["russell-group"] ||
-        "",
+    universityGroup: russellGroup ? [russellGroup] : ""
 }
 return searchPayload;
 }
