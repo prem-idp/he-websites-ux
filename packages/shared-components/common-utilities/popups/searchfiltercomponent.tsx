@@ -373,7 +373,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       " "
     );
     const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
-    document.cookie = `filter_param=""; path=/;`;
+    document.cookie = `filter_param={}; path=/;`;
     router.push(url);
   };
   const appendSearchParams = async (

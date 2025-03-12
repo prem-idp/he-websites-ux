@@ -32,15 +32,6 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   let searchResultsData;
   let displayNameResponse;
   try {
-    console.log(
-      getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathname,
-        cookieStore?.get("dynamic_random_number")?.value || "",
-        headerList?.get("x-forwarded-for") || ""
-      )
-    );
     searchResultsData = await searchResultsFetchFunction(
       getSearchPayload(
         searchparams,
