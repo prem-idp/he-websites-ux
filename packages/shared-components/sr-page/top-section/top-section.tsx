@@ -5,8 +5,10 @@ import { getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldI
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
+import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
+import { cookies } from "next/headers";
 interface searchProps {
-  searchParam?: any;
+  searchParams?: any;
   params: any;
 }
 interface MetaFilterTypesReplace {
@@ -18,13 +20,16 @@ interface MetaFilterTypesReplace {
   courseCount?: any;
 }
 const TopSection: React.FC<searchProps> = async ({
-  searchParam,
+  searchParams,
   params
 }) => {
-  const displayNameReqBody = getDisplayNameReqBody(searchParam);
+  const cookieStore = await cookies();
+  const qualInUrl =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl)
+  const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
-  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchParam) : getPGS_SearchSEOFieldId(searchParam);
+  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchSEOPayload) : getPGS_SearchSEOFieldId(searchSEOPayload);
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   const domain = getCustomDomain();
@@ -52,9 +57,9 @@ const TopSection: React.FC<searchProps> = async ({
 
   const getBreadcrumb = () => {
     if(process.env.PROJECT == "Whatuni"){
-      const breadcrumb_courses = searchParam?.parentQualification ? [{url: get_find_a_course_url(searchParam?.parentQualification), label: "Courses"}] : [];
-      const breadCrumb_subject = searchParam?.searchSubject && searchParam?.searchSubject?.length >= 1 ? [{url: `/${params?.hero}/search?subject=${searchParam?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-      const breadCrumb_keyword = searchParam?.searchKeyword ? [{url: `/${params?.hero}/search?q=${searchParam?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
+      const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: get_find_a_course_url(searchSEOPayload?.parentQualification), label: "Courses"}] : [];
+      const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
+      const breadCrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/search?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
       return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
     } else if(process.env.PROJECT == "PGS"){
       return [{url: "#", label: "Default breadcrumb"}];
@@ -69,7 +74,12 @@ const TopSection: React.FC<searchProps> = async ({
     },
     ...getBreadcrumb(),
   ];
-  const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNameResponse);
+  const displayNames = {
+    ...displayNameResponse,
+    month: searchParams?.month?.toUpperCase(),
+    year: searchParams?.year,
+  }
+  const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
   return (
     <>
       {/* start breadcrumb and subject*/}
@@ -86,9 +96,9 @@ const TopSection: React.FC<searchProps> = async ({
               {replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted)}
             </div>
             <p>
-            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? 
+            {searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
             replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
-            replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) }
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}

@@ -696,5 +696,5 @@ export interface MetaFilterTypesReplace{
   courseCount?: string,
   university?: string,
   startYear?: string,
-  startmonth?: string,
+  startMonth?: string,
 }

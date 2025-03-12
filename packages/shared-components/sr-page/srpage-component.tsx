@@ -25,6 +25,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   const filterCookieParam =JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
   let searchResultsData;
   let displayNameResponse;
+  const paramsAwaited = await params;
   try {
     searchResultsData = await searchResultsFetchFunction(
       getSearchPayload(
@@ -58,8 +59,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   return (
     <>
       <TopSection
-        searchParam={getSEOSearchPayload(searchparams, params?.hero)}
-        params={params}
+        searchParams={await searchparams}
+        params={paramsAwaited}
       />
       {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
         <Suspense>

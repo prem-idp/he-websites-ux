@@ -11,10 +11,8 @@ export async function generateMetadata({
   params,
   searchParams,
 }: MetaDataProps): Promise<Metadata> {
-  const paramsAwaited = await params;
   const pathname = `/pgs/search`;
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, pathname, paramsAwaited, displayNameBFFEndPt);
+  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, "", pathname);
 
   return getMetaDetailsObject(metaData);
 }
