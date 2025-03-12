@@ -238,15 +238,22 @@ function getselectedCount(filterValueString: string|undefined) : number{
 }
 
 function formSRPageURL(searchParams: any, pathName: string){
+  const project = process.env.PROJECT;
   let filterCount: number = 0;
   let formURL = getCustomDomain();
   formURL = formURL + pathName;
 
+  function formatMultiSelctedOption(inputstring: string){
+    return inputstring?.trim()?.replaceAll(" ", "+");
+  }
+
   if(filterCount < 4 && searchParams?.university) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("university=" + searchParams?.university); filterCount++;}
-  if(filterCount < 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.subject); filterCount = filterCount + getselectedCount(searchParams?.subject);}
-  if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + searchParams?.qualification); filterCount++;}
-  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + searchParams?.location); filterCount = filterCount + getselectedCount(searchParams?.location);}
-  if(filterCount < 4 && searchParams?.['study-method']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-method=" + searchParams?.['study-method']); filterCount++;}
+  if(filterCount < 4 && searchParams?.subject && project == "Whatuni") {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + formatMultiSelctedOption(searchParams?.subject)); filterCount = filterCount + getselectedCount(searchParams?.subject);}
+  if(filterCount < 4 && searchParams?.course && project == "PGS") {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("course=" + formatMultiSelctedOption(searchParams?.course)); filterCount = filterCount + getselectedCount(searchParams?.course);}
+  if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("qualification=" + searchParams?.qualification); filterCount++;}
+  if(filterCount < 4 && searchParams?.region) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("region=" + formatMultiSelctedOption(searchParams?.region)); filterCount = filterCount + getselectedCount(searchParams?.region);}
+  if(filterCount < 4 && searchParams?.city) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("city=" + formatMultiSelctedOption(searchParams?.city)); filterCount = filterCount + getselectedCount(searchParams?.city);}
+  if(filterCount < 4 && searchParams?.['study_mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study_mode=" + searchParams?.['study_mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.['intake-month']);}
@@ -687,4 +694,66 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
 
   return `SEO - ${seoMetaFeildId} - PGS`;
 
+}
+
+export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any, pathName: string){
+
+  const qualSelected = searchSEOPayload?.childQualification && searchSEOPayload?.childQualification?.trim() !== "";
+  const uniSelected = searchSEOPayload?.university && searchSEOPayload?.university?.trim() !== "";
+  const subjectSelected = searchSEOPayload?.searchSubject?.length <= 0 ? false : (searchSEOPayload?.searchSubject?.length >= 1 && searchSEOPayload?.searchSubject?.[0] != "" ? true : false);
+  const keywordSelected = searchSEOPayload?.searchKeyword && searchSEOPayload?.searchKeyword?.trim() != "" ? true : false;
+  const locationSelectd = searchSEOPayload?.location?.length <= 0 ? false : (searchSEOPayload?.location?.length >= 1 && searchSEOPayload?.location?.[0] != "" ? true : false);
+  
+  const displaySubject = `${displayNames?.subjectName && displayNames?.subjectName?.length > 0 ? displayNames?.subjectName[0] : ""}`;
+  const displayLocation = `${displayNames?.location && displayNames?.location?.length > 0 ? displayNames?.location[0] : ""}`;
+  const urlSubject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length > 0 ? searchSEOPayload?.searchSubject[0] : searchSEOPayload?.keywordSelected;
+  const urlRegion = searchSEOPayload?.region && searchSEOPayload?.region?.length > 0 ? searchSEOPayload?.region[0] : undefined;
+  const urlCity = searchSEOPayload?.city && searchSEOPayload?.city?.length > 0 ? searchSEOPayload?.city[0] : undefined;
+
+  let uniBC: any = [], subBC: any = [], qualBC: any = [], locBC: any = [], studyModeBC: any = [];
+
+  if(qualSelected){//qualification
+    const urlObj = {
+      qualification: searchSEOPayload?.childQualification,
+    }
+    qualBC = [
+      {url: `/${searchSEOPayload?.childQualification}`, label: displayNames?.studyLevel ?? searchSEOPayload?.childQualification},
+      {url: formSRPageURL(urlObj, pathName), label: `${displayNames?.studyLevel ?? searchSEOPayload?.childQualification} Search Results`}];
+  }
+  if(subjectSelected || keywordSelected){//subject
+    const urlObj = {
+      course: urlSubject,
+      qualification: searchSEOPayload?.childQualification,
+    }
+    subBC = urlObj && displaySubject ? [{url: formSRPageURL(urlObj, pathName), label: displaySubject}] : [];
+  }
+  if(uniSelected){//university
+    const urlObj = {
+      course: urlSubject,
+      qualification: searchSEOPayload?.childQualification,
+      university: searchSEOPayload?.university
+    }
+    uniBC = urlObj && displayNames?.collegeName && searchSEOPayload?.university ? [{url: formSRPageURL(urlObj, pathName), label: displayNames?.collegeName ?? searchSEOPayload?.university}] : [];
+  }
+  if(locationSelectd){//location
+    const urlObj = {
+      course: urlSubject,
+      region: urlRegion,
+      city: urlCity,
+      qualification: searchSEOPayload?.childQualification,
+    }
+    locBC = urlObj && displayLocation ? [{url: formSRPageURL(urlObj, pathName), label: displayLocation}] : [];
+  }
+  if(searchSEOPayload?.studyMethod){//studyMode
+    const urlObj = {
+      course: urlSubject,
+      region: urlRegion,
+      city: urlCity,
+      study_mode: searchSEOPayload?.studyMethod,
+      qualification: searchSEOPayload?.childQualification,
+    }
+    studyModeBC = urlObj && (displayNames?.studyMethod || searchSEOPayload?.studyMethod) ? [{url: formSRPageURL(urlObj, pathName), label: displayNames?.studyMethod ?? searchSEOPayload?.studyMethod}] : [];
+  }
+
+  return [ ...qualBC, ...subBC, ...uniBC, ...locBC, ...studyModeBC ];
 }
