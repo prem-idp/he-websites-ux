@@ -14,7 +14,7 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
-import { getSearchPayload, getSEOSearchPayload } from "../services/utils";
+import { getSearchPayload, getSEOSearchPayload, getQualCode} from "../services/utils";
 import { searchResultsFetchFunction , httpBFFRequest} from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
@@ -25,33 +25,15 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   const filterCookieParam =JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
   let searchResultsData;
   let displayNameResponse;
+  const searchPayLoad = getSearchPayload(
+    searchparams,
+    filterCookieParam,
+    pathname,
+    cookieStore?.get("dynamic_random_number")?.value || "",
+    headerList?.get("x-forwarded-for") || ""
+  )
   try {
-    searchResultsData = await searchResultsFetchFunction(
-      getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathname,
-        cookieStore?.get("dynamic_random_number")?.value || "",
-        headerList?.get("x-forwarded-for") || ""
-      )
-    );
-      const searchPayLoad =  getSearchPayload(
-        searchparams,
-        filterCookieParam,
-        pathname,
-        cookieStore?.get("dynamic_random_number")?.value || "",
-        headerList?.get("x-forwarded-for") || ""
-      )
-    const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-
-   displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
-    searchPayLoad, 
-    "POST", 
-    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
-    "no-cache", 
-    0, 
-    {});
-    console.log("displaynames", displayNameResponse)
+    searchResultsData = await searchResultsFetchFunction(searchPayLoad);
   } catch (error) {
     console.log("error", error);
   }
@@ -64,7 +46,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
         <Suspense>
           <SearchFilterButtons />
-          <SearchLabels searchLabel={displayNameResponse}/>
+          <SearchLabels searchPayLoad={searchPayLoad}/>
         </Suspense>
       ) : (
         <></>
@@ -87,7 +69,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}                
+                searchResultsData={searchResultsData?.searchResultsList} 
+                qualCode={getQualCode(pathname)}                   
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <><Paginations

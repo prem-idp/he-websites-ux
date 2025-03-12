@@ -11,19 +11,22 @@ import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-r
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import { useSearchParams } from "next/navigation";
+import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 interface SrPageResultPodProps {
   searchResultsData: any[];
+  qualCode:string;
 }
 
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,
+  searchResultsData,qualCode
 }) => {
   const [exceedMessage, setExceedMessage] = useState(false);
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
 };
-const searchParams = useSearchParams();
+
 
 const handleExceedMessage = (data:any) => {
   setExceedMessage(data); // Update state in parent
@@ -32,6 +35,33 @@ const onClose = (event: React.FormEvent) => {
   event.stopPropagation()
   setExceedMessage(false)
 }
+
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
+}
+    const [user, setUserData] = useState<AuthUser | null>(null);
+    const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+    //const [exceedMessage, setExceedMessage] = useState(false);
+     useEffect(() => {
+       // Getting favourites list when user logged in
+       async function checkUser() {
+         try {
+           const user: AuthUser = await getCurrentUser();
+           setUserData(user);
+           if (user && typeof window !== "undefined") {
+             const favList: Favourite[] = await getUserFavourites();
+             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+           }
+         } catch (error) {
+           setUserData(null);
+         }
+       }
+       checkUser();
+     }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -44,8 +74,33 @@ const onClose = (event: React.FormEvent) => {
       ? "Next Open day in " + differenceInDays + " days"
       : "Next Open day in " + differenceInDays + " day";
   };
-
   //
+  const getPRPageURL = (collegeTextKey: any) => {
+    const searchParams = useSearchParams();
+    let updatedParams :any[];
+     // Create filtered params object
+  const filteredParams = Array.from(searchParams.entries())
+  .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
+  .reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+
+// Convert filtered params to URLSearchParams
+const queryString = new URLSearchParams(filteredParams).toString();
+const baseUrl = process.env.PROJECT === "Whatuni" 
+? "/degree-courses/csearch"
+: "/pgs/search";
+
+// Construct the final URL
+const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
+queryString ? `&${queryString}` : ''
+}`;
+
+    
+    return providerResultURL;
+
+  }
   return (
     <>
       {searchResultsData?.map((data, index) => (
@@ -96,7 +151,7 @@ const onClose = (event: React.FormEvent) => {
                     <></>
                   )}
                 </div>
-                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" exceedData={handleExceedMessage}></UserFavourite>
+                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" exceedData={handleExceedMessage}></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -407,7 +462,7 @@ const onClose = (event: React.FormEvent) => {
                           )}
                         </div>
                       </div>
-                      <UserFavourite contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" exceedData={handleExceedMessage}></UserFavourite>
+                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" exceedData={handleExceedMessage}></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
@@ -485,6 +540,7 @@ const onClose = (event: React.FormEvent) => {
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
+                            qualCode:"L"
                           }}
                         />
                       ) : (
@@ -503,6 +559,7 @@ const onClose = (event: React.FormEvent) => {
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
                           }}
                         />
                       ) : (
@@ -520,6 +577,7 @@ const onClose = (event: React.FormEvent) => {
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
                             pageName: "browsemoneypageresults",
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
                           }}
                         />
                       ) : (
@@ -538,6 +596,7 @@ const onClose = (event: React.FormEvent) => {
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
                           }}
                         />
                       ) : (
@@ -556,6 +615,7 @@ const onClose = (event: React.FormEvent) => {
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
                           }}
                         />
                       ) : (
@@ -568,7 +628,7 @@ const onClose = (event: React.FormEvent) => {
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}`}
+                href={getPRPageURL(data?.collegeTextKey) }
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses

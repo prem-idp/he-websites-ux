@@ -18,29 +18,16 @@ interface UserFavouriteProps {
   contentType:string,
   contentId: number,
   contentName: string,
-  exceedData: (val: boolean) => void
+  exceedData: (val: boolean) => void,
+  favourites: any
 }
 const UserFavourite= (favouriteProps : UserFavouriteProps) => {
 
     const [user, setUserData] = useState<AuthUser | null>(null);
-    const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
-    //const [exceedMessage, setExceedMessage] = useState(false);
-     useEffect(() => {
-       // Getting favourites list when user logged in
-       async function checkUser() {
-         try {
-           const user: AuthUser = await getCurrentUser();
-           setUserData(user);
-           if (user && typeof window !== "undefined") {
-             const favList: Favourite[] = await getUserFavourites();
-             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-           }
-         } catch (error) {
-           setUserData(null);
-         }
-       }
-       checkUser();
-     }, []);
+    const [favourite, setFavourite] = useState<any>(favouriteProps.favourites);
+  useEffect(() => {
+    setFavourite(favouriteProps.favourites);
+  }, [favouriteProps.favourites]);
      const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
 
      //Handle Favourite
@@ -51,10 +38,10 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
        e: React.FormEvent
      ) => {
        e.stopPropagation();
-       if (!user) {
+       if (!favourite) {
          window.location.href = "/register/";
        }
-       const isAdd = !favourite.favouritedList?.includes(contentId?.toString());
+       const isAdd = !favourite?.favouritedList?.includes(contentId?.toString());
        try {
          const payload = {
            contentType: contentType,
@@ -88,7 +75,6 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
            }));
          } else if (data?.message?.toLowerCase() === "limit exceeded") {
            setfavourtiteTooltip(""), favouriteProps?.exceedData(true);
-           console.log("EXCEED", favouriteProps?.exceedData)
          }
        } catch (error) {
          setFavourite((prevState) => ({
@@ -116,7 +102,7 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
                       event
                     )
                   }
-                  className={`${favourite.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+                  className={`${favourite?.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"

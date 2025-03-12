@@ -1,38 +1,58 @@
 "use client";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import {  httpBFFRequest} from "@packages/lib/server-actions/server-action";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import { useSearchParams } from "next/navigation";
+import { getSearchPayload } from "@packages/shared-components/services/utils";
 
-const SearchLabelsContent = ({searchLabel}:any) => {
+const SearchLabelsContent =  ({searchPayLoad}) => {
   const router = useRouter();
   const [filterList, setFilterList] = useState<any[]>([]);
-  const constructFilterList = () => {
-    const filters: any[] = [];
-    // Add filters only if they exist
-     searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
-    if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
-    if (searchLabel?.subjectName) {
-      if(searchLabel?.subjectName?.length === 1) {
-      filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
-      } else {
-        searchLabel?.subjectName.forEach((value:any, index:any) => {
-          filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:value});
-        });
-      }
+  const searchParams = useSearchParams();  
+  let searchLabel: any;
+    useEffect(() => {
+    async function getSearchLabels() {
+      
+  try {   
+   
+    const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+    searchLabel = await httpBFFRequest(displayNameBFFEndPt, 
+    searchPayLoad, 
+    "POST", 
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
+    "no-cache", 
+    0, 
+    {});
+  } catch (error) {
+    console.log("error", error);
+  }
+  const filters: any[] = [];
+  // Add filters only if they exist
+   searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
+  if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
+  if (searchLabel?.subjectName) {
+    console.log("searchLabel?.subjectName", searchLabel?.subjectName)
+    if(searchLabel?.subjectName?.length === 1) {
+    filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
+    } else {
+      searchLabel?.subjectName.forEach((value:any, index:any) => {
+        filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:value});
+      });
     }
-    if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
-    if (searchLabel?.locationName) filters.push({key:'location' , value:searchLabel?.locationName});
-    return Array.from(new Set(filters));
-  };
+  }
+  if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
+  if (searchLabel?.locationName) filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+  setFilterList(Array.from(new Set(filters)));
+         }
+getSearchLabels();
 
-  useEffect(() => {
-    const newList = constructFilterList();
-    setFilterList(newList);
-  }, [searchLabel]); // Re-run
+}, [searchLabel]);
 
   const openFilterFunction = () => {
-    emitter.emit("isfilterOpen", null);
+    emitter.emit("isfilterOpen", "subject");
   };
   const removeFilter = (filterKey: string,value:any) => {
     const currentParams = new URLSearchParams(window.location.search);    
@@ -71,7 +91,7 @@ const SearchLabelsContent = ({searchLabel}:any) => {
     const updatedUrl = `${window.location.pathname}${
       currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;
-   router.push(updatedUrl);router.refresh();
+   window.location.href = updatedUrl
   };
 
   return (
@@ -134,10 +154,10 @@ const SearchLabelsContent = ({searchLabel}:any) => {
 };
 
 // Main component with Suspense boundary
-const SearchLabels = ({searchLabel}:any) => {
+const SearchLabels = ({searchPayLoad}) => {
   return (
     <Suspense fallback=''>
-      <SearchLabelsContent searchLabel={searchLabel}/>
+      <SearchLabelsContent searchPayLoad={searchPayLoad}/>
     </Suspense>
   );
 };
