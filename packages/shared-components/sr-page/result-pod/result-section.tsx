@@ -521,7 +521,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={{
                             courseId: courseData?.courseId,
                             collegeId: data?.collegeId,
-                            subOrderItemid:
+                            subOrderItemId:
                               courseData?.enquiryDetails?.subOrderItemId,
                             sponsoredListingFlag: data?.sponsoredListingFlag,
                             manualBoostingFlag: data?.manualBoostingFlag,
@@ -540,7 +540,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={{
                             courseId: courseData?.courseId,
                             collegeId: data?.collegeId,
-                            subOrderItemid:
+                            subOrderItemId:
                               courseData?.enquiryDetails?.subOrderItemId,
                             sponsoredListingFlag: data?.sponsoredListingFlag,
                             manualBoostingFlag: data?.manualBoostingFlag,
@@ -559,7 +559,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={{
                             courseId: courseData?.courseId,
                             collegeId: data?.collegeId,
-                            subOrderItemid:
+                            subOrderItemId:
                               courseData?.enquiryDetails?.subOrderItemId,
                             sponsoredListingFlag: data?.sponsoredListingFlag,
                             manualBoostingFlag: data?.manualBoostingFlag,
@@ -577,7 +577,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={{
                             courseId: courseData?.courseId,
                             collegeId: data?.collegeId,
-                            subOrderItemid:
+                            subOrderItemId:
                               courseData?.enquiryDetails?.subOrderItemId,
                             sponsoredListingFlag: data?.sponsoredListingFlag,
                             manualBoostingFlag: data?.manualBoostingFlag,
@@ -596,7 +596,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={{
                             courseId: courseData?.courseId,
                             collegeId: data?.collegeId,
-                            subOrderItemid:
+                            subOrderItemId:
                               courseData?.enquiryDetails?.subOrderItemId,
                             sponsoredListingFlag: data?.sponsoredListingFlag,
                             manualBoostingFlag: data?.manualBoostingFlag,

@@ -12,7 +12,9 @@ const UcasComponent = dynamic(
     ),
   { ssr: false }
 );
-
+const filterCookie = JSON.parse(decodeURIComponent(
+  typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+)); 
 // Function to get the size of query parameters excluding a specific one
 const  getfilterCount = (url:any,excludeParam:any[]) => {
   const urlObj = new URL(url);  // Create a URL object
@@ -21,10 +23,8 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
   params?.delete(excludeParam[1]);
   params?.delete(excludeParam[2]);
   params?.delete(excludeParam[3]);  
-  const filterCookie = JSON.parse(decodeURIComponent(
-    document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
-  ));  
-  //if(filterCookie?.subject) delete filterCookie?.subject
+  
+  if(filterCookie?.subject) delete filterCookie?.subject
   const filterCount = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
   return filterCount
 }
@@ -36,7 +36,8 @@ const SearchFilterButtons = () => {
     searchParams?.get("subject")?.split(" ") ||
     searchParams?.get("course")?.split(" ")
   )?.length;
-  //subjectFilterCount = subjectFilterCount + filterCookie?.subject && filterCookie?.subject?.includes("+") ? filterCookie?.subject?.includes("+").split("+").length : filterCookie?.subject && 1;
+  if(filterCookie?.subject)
+  subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.includes("+").split("+").length : 1);
   const filterCount = getfilterCount(typeof window !== "undefined" && window.location.href,["pageno","page_no","sort","q","keyword"])
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
