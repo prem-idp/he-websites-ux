@@ -62,19 +62,11 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           {searchResultsData?.searchResultsList?.length > 0 &&
           searchResultsData?.status != 404 ? (
             <>
-              <SortingFilter
-                sortParam={{
-                  param: searchparams,
-                  filterCookieParam: filterCookieParam,
-                }}
-              />
-              {process.env.PROJECT === "Whatuni" &&
-              pathname !== "postgraduate-courses" &&
-              (!searchparams?.location || !searchparams?.score) ? (
-                <GradeBanner />
-              ) : (
-                <></>
-              )}
+            {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses" && (!searchparams?.location || !searchparams?.score) ?
+              <GradeBanner /> : <></>
+             }
+               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:filterCookieParam }} />
+             
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection

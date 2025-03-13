@@ -17,40 +17,41 @@ interface SrPageResultPodProps {
   searchResultsData: any[];
   qualCode: string;
 }
-
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
+}
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData, qualCode
+  searchResultsData,qualCode
 }) => {
-  const universityPodClick = (navigationUrl: any) => {
-    typeof window !== "undefined" && window?.open(navigationUrl, "_self");
-  };
-  interface Favourite {
-    fav_id: string;
-    fav_type: string;
-    fav_date?: string;
-    final_choice_id?: string | null;
-    choice_position?: number | null;
-  }   const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
-  //const [exceedMessage, setExceedMessage] = useState(false);
-  useEffect(() => {
-    // Getting favourites list when user logged in
-    async function checkUser() {
-      try {
-        const user: AuthUser = await getCurrentUser();
-        setUserData(user);
-        if (user && typeof window !== "undefined") {
-          const favList: Favourite[] = await getUserFavourites();
-          setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-        }
-      } catch (error) {
-        setUserData(null);
-      }
-    }
-    checkUser();
-  }, []);
+  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+ const universityPodClick = (navigationUrl: any) => {
+  typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+};
+
+     useEffect(() => {
+       // Getting favourites list when user logged in
+       async function checkUser() {
+         try {
+           const user: AuthUser = await getCurrentUser();
+           setUserData(user);
+           if (user && typeof window !== "undefined") {
+             const favList: Favourite[] = await getUserFavourites();
+             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+           }
+         } catch (error) {
+           setUserData(null);
+         }
+       }
+       checkUser();
+     }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -66,7 +67,6 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   //
   const getPRPageURL = (collegeTextKey: any) => {
 
-    let updatedParams: any[];
     // Create filtered params object
     const filteredParams = Array.from(searchParams.entries())
       .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city', 'russell-group'].includes(key))
@@ -394,10 +394,10 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {courseData?.minUcasPoints ? (
+                          {((courseData?.minUcasPoints || courseData?.maxUcasPoints) && process.env.PROJECT === "Whatuni") || (courseData?.availabilityDetails?.fees && process.env.PROJECT === "PGS") ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" ? (
+                              {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
                                 <svg
                                   width="16"
                                   height="16"
@@ -412,22 +412,22 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   />
-                                </svg>
-                              ) : (
+                                </svg> 
+                               ) : (
                                 <>
-                                  {" "}
+                                 {process.env.PROJECT === "Whatuni" &&
                                   <Image
                                     className="hidden md:block"
                                     src="/static/assets/icons/search-result/calender-grey.svg"
                                     alt="Lecturers and Teaching"
                                     width={16}
                                     height={16}
-                                  />
+                                  />}
                                 </>
                               )}
                               {/* pgs euro icon */}
-                              {courseData?.minUcasPoints}-
-                              {courseData?.maxUcasPoints} ucas points
+                              {process.env.PROJECT === "PGS" ? courseData?.availabilityDetails?.fees : (courseData?.minUcasPoints && courseData?.maxUcasPoints ? courseData?.minUcasPoints +"-"+ courseData?.maxUcasPoints : courseData?.minUcasPoints ? courseData?.minUcasPoints : courseData?.maxUcasPoints) + " ucas points" }
+                              
                             </div>
                           ) : (
                             <></>
@@ -457,7 +457,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                       courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
-                          courseData?.courseSummary
+                        <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
                         </div>
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
@@ -474,13 +474,13 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni" && courseData?.moduleDesc ? (
+                    {process.env.PROJECT === "Whatuni"  && courseData?.modulesDesc? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">{courseData?.moduleInfo}</div>
+                          <div className="font-semibold">{courseData?.modulesInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            {courseData?.moduleDesc?.split('###').map((desc: any, index: any) => (
-                              <li key={index}>{desc}</li>
+                            {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
+                               <li key={index}>{desc}</li>
                             ))}
 
                           </ul>
@@ -528,7 +528,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode: "L"
+                            qualCode:"L",
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -547,7 +548,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -565,7 +567,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
                             pageName: "browsemoneypageresults",
-                            qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -584,7 +587,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -603,7 +607,8 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
