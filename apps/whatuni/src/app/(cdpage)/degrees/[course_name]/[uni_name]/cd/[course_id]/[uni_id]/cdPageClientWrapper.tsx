@@ -21,7 +21,6 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
     setRenderKey(prev => prev + 1);
   }, [fetcheddata]);
 
-
   useEffect(() => {
     async function clientFetch() {
       try {
