@@ -6,14 +6,14 @@ const ApplyNow = ({ enquiryProps }: any) => {
     console.log("Enter", enquiryProps);
      try {
       const applyNowPayload = {
-        suborderItemId: enquiryProps?.subOrderItemid,
-        orderItemId: enquiryProps?.orderItemId || null,
+        suborderItemId: enquiryProps?.subOrderItemId,
+        orderItemId: enquiryProps?.orderItemId || "",
         collegeId: enquiryProps?.collegeId,
         affiliateId: 220703,
         sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
         manualBoostingFlag: enquiryProps?.manualBoostingFlag,
       };
-      console.log("payload", applyNowPayload);
+      console.log("applyNowPayload", applyNowPayload);
       const response = await fetchenquirydata(applyNowPayload);
       console.log("response printing", response);
       if(response?.applyNowUrl){
