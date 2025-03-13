@@ -683,7 +683,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
         >
           <div className="backdrop-shadow-white fixed top-0 left-0 w-full h-full z-10"></div>
           <div className="fixed top-0 left-0 w-full h-full z-10 flex flex-col gap-[10px] text-black items-center justify-center">
-            {/* <span className="blink"></span> */}
             <svg
               className="animate-spin"
               width="30"

@@ -747,15 +747,3 @@ h6 {
     border-2 border-primary-400
   } 
   /* sr */
-  @keyframes blink {
-    50% {
-      opacity: 0.0;
-    }
-  }
-  .blink {
-    animation: blink 1s step-start 0s infinite;
-    background-color: #4664DC;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
