@@ -11,8 +11,8 @@ const Reviewfiltermodalcomponents = () => {
     function Handlegallery() {
         console.log("inside the handlegallery")
         setOpengallery((prev) => !prev);
-
     }
+
     return (
         <>   {opengallery && <Reviewgallerymodalcomponents setOpengallery={setOpengallery} />}
             <div onClick={() => setIsopen(false)} className={`${isOpen ? "animate-fadeIn block" : "hidden"} backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white z-[7]`}>
