@@ -25,18 +25,7 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-const searchPRResults = async (searchparams: any) => {
-  const cookieStore = await cookies();
-  const headerList = await headers();
-  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
-  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-
-  const payloads = await getSearchPayload(searchparams,
-    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
-    headerList?.get("x-forwarded-for") || ""
-  );
-
-
+const searchPRResults = async (payloads: any) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
@@ -96,9 +85,18 @@ const transformProviderListData = (data: any) => {
 };
 
 const PrPageComponent = async ({ searchparams }: any) => {
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const data = await searchPRResults(searchparams); // Fetch earach the PR results
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+
+  const payloads = await getSearchPayload(searchparams,
+    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
+    headerList?.get("x-forwarded-for") || ""
+  );
+
+  const referer = headerList.get("referer");
+  const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
   const breadcrumbData = [
     {
@@ -124,7 +122,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
       </section>
       <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
-      <SearchLabels />
+      <SearchLabels searchPayLoad={payloads} />
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (
