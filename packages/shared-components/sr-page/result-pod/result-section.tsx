@@ -34,7 +34,6 @@ interface Favourite {
 }
     const [user, setUserData] = useState<AuthUser | null>(null);
     const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
-    //const [exceedMessage, setExceedMessage] = useState(false);
      useEffect(() => {
        // Getting favourites list when user logged in
        async function checkUser() {
@@ -395,10 +394,10 @@ queryString ? `&${queryString}` : ''
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {courseData?.minUcasPoints ? (
+                          {courseData?.minUcasPoints  || courseData?.availabilityDetails?.fees ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" ? (
+                              {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
                                 <svg
                                   width="16"
                                   height="16"
@@ -413,22 +412,22 @@ queryString ? `&${queryString}` : ''
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                   />
-                                </svg>
-                              ) : (
+                                </svg> 
+                               ) : (
                                 <>
-                                  {" "}
+                                 {process.env.PROJECT === "Whatuni" &&
                                   <Image
                                     className="hidden md:block"
                                     src="/static/assets/icons/search-result/calender-grey.svg"
                                     alt="Lecturers and Teaching"
                                     width={16}
                                     height={16}
-                                  />
+                                  />}
                                 </>
                               )}
                               {/* pgs euro icon */}
-                              {courseData?.minUcasPoints}-
-                              {courseData?.maxUcasPoints} ucas points
+                              {process.env.PROJECT === "PGS" ? courseData?.availabilityDetails?.fees : (courseData?.minUcasPoints && courseData?.maxUcasPoints ? courseData?.minUcasPoints +"-"+ courseData?.maxUcasPoints : courseData?.minUcasPoints ? courseData?.minUcasPoints : courseData?.maxUcasPoints) + " ucas points" }
+                              
                             </div>
                           ) : (
                             <></>
@@ -458,7 +457,7 @@ queryString ? `&${queryString}` : ''
                     courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
-                          courseData?.courseSummary
+                        <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
                         </div>
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
@@ -475,12 +474,12 @@ queryString ? `&${queryString}` : ''
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni"  && courseData?.moduleDesc? (
+                    {process.env.PROJECT === "Whatuni"  && courseData?.modulesDesc? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">{courseData?.moduleInfo}</div>
+                          <div className="font-semibold">{courseData?.modulesInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            {courseData?.moduleDesc?.split('###').map((desc:any,index:any) => (
+                            {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
                                <li key={index}>{desc}</li>
                             ))}
                            
