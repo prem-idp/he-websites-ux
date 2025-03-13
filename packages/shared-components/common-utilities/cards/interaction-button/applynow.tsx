@@ -7,7 +7,7 @@ const ApplyNow = ({ enquiryProps }: any) => {
      try {
       const applyNowPayload = {
         suborderItemId: enquiryProps?.subOrderItemId,
-        orderItemId: enquiryProps?.orderItemId || "",
+        orderItemId: enquiryProps?.orderItemId,
         collegeId: enquiryProps?.collegeId,
         affiliateId: 220703,
         sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
