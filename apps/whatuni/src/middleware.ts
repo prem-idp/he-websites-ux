@@ -10,8 +10,12 @@ export function middleware(request: NextRequest, response: NextResponse) {
     const response = NextResponse.next(); // Initialize response properly
     response.cookies.set("pathnamecookies", pathname.toString());
     response.cookies.set("searchParamscookies", searchParams.toString());
-    if(response.cookies.get("dynamic_random_number")?.value === "") {
-      response.cookies.set("dynamic_random_number",  uuidv4().replace(/\D/g, "").slice(0, 8),{path:"/"});
+    if (response.cookies.get("dynamic_random_number")?.value === "") {
+      response.cookies.set(
+        "dynamic_random_number",
+        uuidv4().replace(/\D/g, "").slice(0, 8),
+        { path: "/" }
+      );
     }
     return response;
 
@@ -22,7 +26,6 @@ export function middleware(request: NextRequest, response: NextResponse) {
     // response.cookies.set("searchParams", searchParams.toString(), { path: "/" });
     // response.cookies.set("user-ip", ip, { path: "/" });
     // return response;
-
     // return NextResponse.next();
   }
 

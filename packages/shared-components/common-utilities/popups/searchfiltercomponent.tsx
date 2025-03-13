@@ -306,6 +306,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
   }, [filterState?.isFilterOpen]);
   const ShowResults = () => {
+    const body = document.body;
+    body?.classList?.remove("overflow-y-hidden");
     setFilterState((prev: any) => ({ ...prev, isFilterOpen: false }));
   };
   const postCodeChange = (value: string) => {
