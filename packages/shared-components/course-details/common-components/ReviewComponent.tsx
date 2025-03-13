@@ -10,7 +10,7 @@ interface ReviewComponentProps {
 }
 
 const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponentProps) => {
-
+    console.log(jsonResponse, "--------------")
     const [reviewjsondata, setReviewjsondata] = useState(jsonResponse);
 
 
@@ -29,10 +29,10 @@ const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponent
             </div>
 
             <Reviewslidercomponents
-                reviewData={reviewjsondata?.reviewDetail}
+                reviewData={jsonResponse}
                 pageName="cd"
                 data-testid="review-slider"
-                data-review-count={jsonResponse?.reviewDetail?.length}
+                data-review-count={jsonResponse}
                 parent_category=""
                 sub_Category=""
             />
