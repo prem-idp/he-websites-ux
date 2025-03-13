@@ -18,8 +18,8 @@ export function getSearchPayload(
   searchParams: any,
   filterCookieParam: any,
   qualification: any,
-  dynamicRandomNumber:any,
-  userIp :any,
+  dynamicRandomNumber: any,
+  userIp: any
 ) {
 let subjectArray="";
 if(searchParams?.subject)  
@@ -43,9 +43,7 @@ const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russe
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
-        searchParams?.qualification ||
-        filterCookieParam?.qualification ||
-        "",
+      searchParams?.qualification || filterCookieParam?.qualification || "",
     searchCategoryCode: "",
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || "",
@@ -54,13 +52,14 @@ const searchPayload: any = {
     studyMode:
         searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode || "",
     studyMethod:
-        searchParams?.["study-method"] ||
-        filterCookieParam?.["study-method"] ||  searchParams?.study_method ||
-        filterCookieParam?.study_method ||
-        "",
+      searchParams?.["study-method"] ||
+      filterCookieParam?.["study-method"] ||
+      searchParams?.study_method ||
+      filterCookieParam?.study_method ||
+      "",
     collegeId: "",
     collegeName:
-       searchParams?.['university'] || filterCookieParam?.["university"] || "",
+      searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType: locationType ? [locationType] : "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",

@@ -62,7 +62,7 @@ const L2subjectList = ({
     ?.flat();
   return (
     <div
-      className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.ParentSubject == subjectsArray?.parent ? "" : "hidden"}`}
+      className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.parentSubject == subjectsArray?.parent ? "" : "hidden"}`}
     >
       {showSubjectLabel && subjectLable?.length > 0 && (
         <ul className="flex flex-wrap gap-[8px] uppercase">
@@ -152,7 +152,7 @@ const L2subjectList = ({
         </div>
         <div className="flex flex-col gap-[12px]">
           <div className="small font-bold">
-            {selectedSubject?.ParentSubject}
+            {selectedSubject?.parentSubject}
           </div>
           <div className="flex flex-col gap-[12px]">
             {subjectsArray?.subjects?.map((item: any, index: any) => (
@@ -164,7 +164,7 @@ const L2subjectList = ({
                 appendSearchParams={appendSearchParams}
                 state={containsSearchParam("subject", item?.subjectTextKey)}
                 slug={slug}
-                parent={selectedSubject?.ParentSubject}
+                parent={selectedSubject?.parentSubject}
               />
             ))}
           </div>

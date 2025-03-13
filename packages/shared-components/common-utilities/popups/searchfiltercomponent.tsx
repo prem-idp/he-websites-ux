@@ -28,54 +28,62 @@ import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const filterRef = useRef<HTMLDivElement | null>(null);
   const [jsondata, setJsondata] = useState(data);
   const keyName = KeyNames();
   const parentRegion = jsondata?.regionList?.filter((item: any) => {
     return !item?.parentRegionId;
   });
-  const [searchedSubject, setSearchedSubject] = useState({
+
+  const [subjectState, setSubjectState] = useState({
     subjectkeyword: "",
     sortedSubjects: [],
     isSujectDropdownOpen: false,
+    isSubjectOpen: false,
+    selectedSubject: {
+      parentSubject: "",
+      subjectList: "",
+    },
   });
-  const [searchedUniversity, setSearchedUniversity] = useState({
-    universityKeyword: "",
-    sortedUni: [],
-    isUniversityDropdownOpen: false,
-  });
-  const [location, setLocation] = useState({
+
+  const [locationState, setLocationState] = useState({
     isdropDownOpen: false,
     selectedMile: "50 miles",
     locationMilesArray: locationMilesArray,
     locationMilesError: false,
+    postCodeValue: "",
   });
+
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [courseCount, setCourseCount] = useState<any>(0);
   const [isAllUkChecked, setIsAllUkChecked] = useState<any>(
-    searchParams?.get("region") == parentRegion[0]?.regionTextKey
+    searchParams?.get(keyName?.region) == parentRegion[0]?.regionTextKey
   );
   const [isIndexed, setIsIndexed] = useState(true);
-  const filterRef = useRef<HTMLDivElement | null>(null);
-  const [isSubjectOpen, setIsSubjectOpen] = useState<any>(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filterOrder, setFilterOrder] = useState<any>(false);
-  const [isUniversityOpen, setIsUniversityOpen] = useState(false);
-  const [selectUniId, setSelectUniId] = useState<any>("");
-  const [selectedSubject, setSelectedSubject] = useState({
-    ParentSubject: "",
-    SubjectList: "",
+
+  const [filterState, setFilterState] = useState({
+    isFilterOpen: false,
+    isFilterLoading: false,
+    filterOrder: {},
+    selectedFilter: "",
   });
-  const [filterLoading, setFilterLoading] = useState(false);
-  const [selectedFilter, SetselectedFilter] = useState<
-    null | undefined | string
-  >(null);
+
+  const [searchedUniversity, setSearchedUniversity] = useState({
+    universityKeyword: "",
+    sortedUni: [],
+    isUniversityDropdownOpen: false,
+    isUniversityOpen: false,
+    selectUniId: {
+      id: "",
+      displayHeading: "",
+    },
+  });
+
   const [routerEnd, setrouterEnd] = useState(false);
-  const [postCodeValue, setPostCodeValue] = useState("");
   const [prepopulateFilter, setPrepopulateFilter] = useState<any>(null);
 
   const universitiesSortingList: any = () => {
@@ -136,11 +144,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
   };
   const universitiesList = universitiesSortingList();
   const universityClicked = (displayHeading: string, id: string) => {
-    setIsUniversityOpen(!isUniversityOpen);
-    setSelectUniId({ id, displayHeading });
     setSearchedUniversity((prev: any) => ({
       ...prev,
       isUniversityDropdownOpen: false,
+      isUniversityOpen: !prev?.isUniversityOpen,
+      selectUniId: { id, displayHeading },
     }));
   };
   const subjectParam: any =
@@ -216,11 +224,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       );
       selectedUniId = sortedUni || "";
       if (selectedUniId) {
-        setIsUniversityOpen(true);
+        setSearchedUniversity((prev: any) => ({
+          ...prev,
+          isUniversityOpen: true,
+        }));
         universityClicked(selectedUniId?.displayHeading, selectedUniId?.id);
       }
     }
-  }, [searchParams, filterLoading, routerEnd]);
+  }, [searchParams, filterState?.isFilterLoading, routerEnd]);
 
   useEffect(() => {
     const getYear = async () => {
@@ -231,8 +242,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
           affiliateId: process.env.AFFILATED_ID,
         });
         console.log(year);
-      } else {
-        console.log("no logged");
       }
     };
     getYear();
@@ -246,8 +255,12 @@ const SearchFilterComponent = ({ data, path }: any) => {
       if (element) {
         element?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-      SetselectedFilter(eventName);
-      setIsFilterOpen(true);
+
+      setFilterState((prev: any) => ({
+        ...prev,
+        isFilterOpen: true,
+        selectedFilter: eventName,
+      }));
       const body = document.body;
       body?.classList?.add("overflow-y-hidden");
     };
@@ -255,65 +268,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     return () => {
       emitter.off("isfilterOpen", handleTogglePopup);
     };
-  }, [isFilterOpen]);
-
-  // const universitiesSortingList: any = () => {
-  //   const listvalue: any[] = [];
-  //   [
-  //     {
-  //       id: "Uni1",
-  //       name: "Universities A - C",
-  //       sortingValue: "A-B-C",
-  //       displayHeading: "A - C",
-  //       unilist: [],
-  //     },
-  //     {
-  //       id: "Uni2",
-  //       name: "Universities D - H",
-  //       sortingValue: "D-E-F-G-H",
-  //       displayHeading: "D - H",
-  //       unilist: [],
-  //     },
-  //     {
-  //       id: "Uni3",
-  //       name: "Universities I - M",
-  //       sortingValue: "I-J-K-L-M",
-  //       displayHeading: "I - M",
-  //       unilist: [],
-  //     },
-  //     {
-  //       id: "Uni4",
-  //       name: "Universities N - P",
-  //       sortingValue: "N-O-P-Q-P",
-  //       displayHeading: "N - P",
-  //       unilist: [],
-  //     },
-  //     {
-  //       id: "Uni5",
-  //       name: "Universities Q - U",
-  //       sortingValue: "Q-R-S-T-U",
-  //       displayHeading: "Q - U",
-  //       unilist: [],
-  //     },
-  //     {
-  //       id: "Uni6",
-  //       name: "Universities V - Z",
-  //       sortingValue: "V-W-X-Y-Z",
-  //       displayHeading: "V - Z",
-  //       unilist: [],
-  //     },
-  //   ]?.map((item: any) => {
-  //     item.unilist = jsondata?.universityFilterList?.filter(
-  //       (collegeItem: any) => {
-  //         const regex = new RegExp(`^[${item.sortingValue}]`, "i");
-  //         return regex?.test(collegeItem?.collegeName);
-  //       }
-  //     );
-  //     listvalue?.push(item);
-  //   });
-  //   return listvalue;
-  // };
-  // const universitiesList = universitiesSortingList();
+  }, [filterState?.isFilterOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -321,8 +276,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
         filterRef.current &&
         !filterRef.current.contains(event.target as Node)
       ) {
-        setIsFilterOpen(false);
-        SetselectedFilter(null);
+        setFilterState((prev: any) => ({
+          ...prev,
+          isFilterOpen: false,
+          selectedFilter: null,
+        }));
         const body = document.body;
         body.classList.remove("overflow-y-hidden");
       }
@@ -334,24 +292,30 @@ const SearchFilterComponent = ({ data, path }: any) => {
   }, []);
 
   const closeFilter = () => {
-    setIsFilterOpen(false);
-    SetselectedFilter(null);
+    setFilterState((prev: any) => ({
+      ...prev,
+      isFilterOpen: false,
+      selectedFilter: null,
+    }));
     const body = document.body;
     body.classList.remove("overflow-y-hidden");
   };
   useEffect(() => {
-    if (isFilterOpen && filterRef.current) {
+    if (filterState?.isFilterOpen && filterRef.current) {
       filterRef.current.scrollTop = filterRef.current.scrollHeight;
     }
-  }, [isFilterOpen]);
+  }, [filterState?.isFilterOpen]);
   const ShowResults = () => {
-    setIsFilterOpen(false);
+    setFilterState((prev: any) => ({ ...prev, isFilterOpen: false }));
   };
   const postCodeChange = (value: string) => {
     const trimmedValue = value.trim().toUpperCase();
     const specialCharRegex = /[^a-zA-Z0-9 ]/;
     if (!specialCharRegex.test(trimmedValue) && trimmedValue.length <= 8) {
-      setPostCodeValue(trimmedValue);
+      setLocationState((prev: any) => ({
+        ...prev,
+        postCodeValue: trimmedValue,
+      }));
     }
   };
 
@@ -359,11 +323,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const dynamicFilter = async () => {
       if (routerEnd) {
         const data = await getSrFilter(
-          filterbodyJson(filterOrder, slug?.split("/")[1])
+          filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
         );
         setJsondata(data);
         setrouterEnd(false);
-        setSearchedSubject((prev: any) => ({
+        setSubjectState((prev: any) => ({
           ...prev,
           subjectkeyword: "",
         }));
@@ -372,7 +336,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
           universityKeyword: "",
           isUniversityDropdownOpen: false,
         }));
-        setFilterLoading(false);
+        setFilterState((prev: any) => ({ ...prev, isFilterLoading: false }));
       }
     };
     dynamicFilter();
@@ -383,6 +347,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     );
     const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param={}; path=/;`;
+    sessionStorage.setItem("filter_params", "{}");
     router.push(url);
   };
   const appendSearchParams = async (
@@ -391,7 +356,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     isUniversitySelected?: boolean,
     isQualificationChanged?: boolean
   ) => {
-    setFilterLoading(true);
+    setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
     let crossL1Subject = false;
     if (key === keyName?.subject) {
       const selectedParent = jsondata?.subjectFilterList
@@ -419,7 +384,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
       return acc;
     }, {} as KeyValueObject);
-    setFilterOrder(orderedFilters);
+    setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
@@ -456,12 +421,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       if (isQualificationChanged) {
-        console.log(
-          `${domainPath}?${urlParams?.toString()}`
-            ?.replaceAll("%2B", "+")
-            ?.replaceAll("%2C", ",")
-        );
         router.push(
           `${domainPath}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
@@ -470,27 +431,20 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }
       router.refresh();
     } else if (multiSelect) {
-      console.log("multi select");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      console.log(
-        `${domainPath ?? ""}?${urlParams?.toString()}`
-          ?.replaceAll("%2B", "+")
-          ?.replaceAll("%2C", ",")
-      );
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       router.push(
         `${domainPath ?? ""}?${urlParams?.toString()}`
           ?.replaceAll("%2B", "+")
           ?.replaceAll("%2C", ",")
       );
     } else {
-      console.log("link tag based");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       const linkTagId = document?.getElementById(key + value);
       if (linkTagId && isIndexed) {
-        console.log("link tag found", linkTagId);
         linkTagId.click();
       } else {
-        console.log("link tag not found");
         router.push(
           `${domainPath ?? ""}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
@@ -501,8 +455,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
     setrouterEnd(true);
   };
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
-    const urlParentSubject = getParentSubject(searchParams, jsondata);
-    const selectedParentSubject = getParentSubject(null, jsondata, value);
+    //const urlParentSubject = getParentSubject(searchParams, jsondata);
+    //const selectedParentSubject = getParentSubject(null, jsondata, value);
     // if (urlParentSubject == selectedParentSubject) {
     const searchparamObject = Object?.fromEntries(urlParams?.entries());
     searchparamObject[key] = value;
@@ -510,7 +464,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     return `${modifiedParam}`;
     // }
   };
-
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
     if (key === keyName?.subject) {
@@ -559,7 +512,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
         return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
       } else {
-        return `${`subject=${searchParams?.get(keyName?.subject)}&${key}=${value}`}`?.replaceAll(
+        return `${searchParams?.get(keyName?.subject) ? `subject=${searchParams.get(keyName?.subject)}&` : ""}${key}=${value}`.replaceAll(
           "%2C",
           ","
         );
@@ -570,13 +523,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
         return param?.toString();
       } else {
         const urlObejct: any = Object?.fromEntries(urlParams?.entries());
-        urlObejct[keyName?.subject] =
-          urlObejct[keyName?.subject]?.split("+")[0] || [];
+        if (urlObejct?.subject) {
+          urlObejct[keyName?.subject] =
+            urlObejct[keyName?.subject]?.split("+")[0] || [];
+        }
         if (urlObejct?.region) {
-          urlObejct["region"] = urlObejct?.region?.split("+")[0] || [];
+          urlObejct[keyName?.region] = urlObejct?.region?.split("+")[0] || [];
         }
         if (urlObejct?.city) {
-          urlObejct["city"] = urlObejct?.city?.split("+")[0] || [];
+          urlObejct[keyName?.city] = urlObejct?.city?.split("+")[0] || [];
         }
         return `${new URLSearchParams(urlObejct)?.toString()}`?.replaceAll(
           "%2C",
@@ -629,14 +584,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
             ?.toLowerCase()
             .startsWith(keyword?.toLowerCase())
       );
-      setSearchedSubject((prev: any) => ({
+      setSubjectState((prev: any) => ({
         ...prev,
         subjectkeyword: keyword,
         isSujectDropdownOpen: true,
         sortedSubjects: filteredSubject,
       }));
     } else if (keyword?.length < 3) {
-      setSearchedSubject((prev: any) => ({
+      setSubjectState((prev: any) => ({
         ...prev,
         subjectkeyword: keyword,
         isSujectDropdownOpen: false,
@@ -665,30 +620,36 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
   };
   const toggleLocationMiles = (milesValue: string) => {
-    setLocation((prev: any) => ({
+    setLocationState((prev: any) => ({
       ...prev,
       isdropDownOpen: !prev?.isdropDownOpen,
       selectedMile: milesValue,
     }));
   };
   const subjectClicked = (item: string, closeFilter?: boolean) => {
-    setIsSubjectOpen(closeFilter || !isSubjectOpen);
+    setSubjectState((prev: any) => ({
+      ...prev,
+      isSubjectOpen: closeFilter || !prev?.isSubjectOpen,
+    }));
     const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
       return items?.parentSubject == item;
     });
 
-    setSelectedSubject({ ParentSubject: item, SubjectList: L2subject });
-    setSearchedSubject((prev: any) => ({
+    setSubjectState((prev: any) => ({
       ...prev,
       isSujectDropdownOpen: false,
+      selectedSubject: {
+        parentSubject: item,
+        subjectList: L2subject,
+      },
     }));
   };
   const postcodeSubmit = () => {
-    if (postCodeValue) {
-      setLocation((prev) => ({ ...prev, locationMilesError: false }));
-      appendSearchParams("postcode", postCodeValue);
+    if (locationState?.postCodeValue) {
+      setLocationState((prev) => ({ ...prev, locationMilesError: false }));
+      appendSearchParams("postcode", locationState?.postCodeValue);
     } else {
-      setLocation((prev) => ({ ...prev, locationMilesError: true }));
+      setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
   return (
@@ -696,12 +657,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       <div>
         <div
           className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
-            isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
+            filterState?.isFilterOpen
+              ? "animate-fadeIn block"
+              : "animate-fadeOut hidden"
           }`}
         ></div>
         <div
           className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${
-            isFilterOpen ? "translate-x-0" : "-translate-x-full"
+            filterState?.isFilterOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           ref={filterRef}
         >
@@ -739,14 +702,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
             </p>
           </div>
 
-          {!filterLoading ? (
+          {!filterState?.isFilterLoading ? (
             <>
               <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
                 <Accordion
                   title="Subject"
                   id="#subject"
                   defaultOpenStatus={
-                    selectedFilter === "all" || selectedFilter === "subject"
+                    filterState?.selectedFilter === "all" ||
+                    filterState?.selectedFilter === "subject"
                   }
                 >
                   {/* subject */}
@@ -961,16 +925,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               className="w-full focus:outline-none small text-black placeholder:text-gray-500"
                               aria-label="enter keyword"
                               placeholder="Search subjects"
-                              value={searchedSubject?.subjectkeyword}
+                              value={subjectState?.subjectkeyword}
                               onChange={(event) => {
                                 subjectKeyWordSearch(event?.target?.value);
                               }}
                             />
-                            {searchedSubject?.isSujectDropdownOpen && (
+                            {subjectState?.isSujectDropdownOpen && (
                               <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                                {searchedSubject?.sortedSubjects?.length > 0 ? (
+                                {subjectState?.sortedSubjects?.length > 0 ? (
                                   <ul>
-                                    {searchedSubject?.sortedSubjects?.map(
+                                    {subjectState?.sortedSubjects?.map(
                                       (subjects: any, index: number) => (
                                         <li key={index + 1}>
                                           <div
@@ -998,7 +962,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
                           <div
                             className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
-                      ${isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
+                      ${subjectState?.isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
                       `}
                           >
                             {ParentSubject?.map(
@@ -1032,16 +996,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           <div
                             className={`
                         bg-white transition-all duration-300 ease-in-out
-                        ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
+                        ${subjectState?.isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
                       `}
                           >
                             {L2subjects?.map((subjects: any, index: number) => (
                               <L2subjectList
                                 key={index}
                                 subjectsArray={subjects}
-                                selectedSubject={selectedSubject}
+                                selectedSubject={subjectState?.selectedSubject}
                                 isIndexed={isIndexed}
-                                isSubjectOpen={isSubjectOpen}
+                                isSubjectOpen={subjectState?.isSubjectOpen}
                                 subjectClicked={subjectClicked}
                                 formUrl={formUrl}
                                 slug={slug}
@@ -1061,7 +1025,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                   <Accordion
                     id="#year"
                     title="Intake year"
-                    defaultOpenStatus={selectedFilter === "year" ? true : false}
+                    defaultOpenStatus={
+                      filterState?.selectedFilter === "year" ? true : false
+                    }
                   >
                     <div className="flex flex-col gap-[8px] p-[8px_0_0]">
                       <div className="x-small font-semibold text-black uppercase">
@@ -1172,7 +1138,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                     title="University"
                     id="#university"
                     defaultOpenStatus={
-                      selectedFilter === "university" ? true : false
+                      filterState?.selectedFilter === "university"
+                        ? true
+                        : false
                     }
                   >
                     <div className="flex flex-col gap-[16px] pt-[24px]">
@@ -1253,7 +1221,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
                         <div
                           className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
-                            isUniversityOpen
+                            searchedUniversity?.isUniversityOpen
                               ? "-translate-x-full h-0 hidden"
                               : "translate-x-0 h-auto"
                           }`}
@@ -1293,7 +1261,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         <div
                           className={`bg-white transition-all duration-300 ease-in-out 
                       ${
-                        isUniversityOpen ? "translate-x-0" : "-translate-x-full"
+                        searchedUniversity?.isUniversityOpen
+                          ? "translate-x-0"
+                          : "-translate-x-full"
                       }
                     `}
                         >
@@ -1302,12 +1272,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               <SelectedUniversity
                                 key={index + 1}
                                 isIndexed={isIndexed}
-                                isUniversityOpen={isUniversityOpen}
+                                isUniversityOpen={
+                                  searchedUniversity?.isUniversityOpen
+                                }
                                 universityClicked={universityClicked}
                                 id={university?.id}
                                 appendSearchParams={appendSearchParams}
                                 formUrl={formUrl}
-                                selectedId={selectUniId}
+                                selectedId={searchedUniversity?.selectUniId}
                                 universityList={university?.unilist}
                                 pathname={slug}
                               />
@@ -1326,7 +1298,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         title="Location"
                         id="#location"
                         defaultOpenStatus={
-                          selectedFilter === "location" ? true : false
+                          filterState?.selectedFilter === "location"
+                            ? true
+                            : false
                         }
                       >
                         {/* location */}
@@ -1346,7 +1320,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
                                       type="button"
                                     >
-                                      Range: {location?.selectedMile}
+                                      Range: {locationState?.selectedMile}
                                       <Image
                                         src="/static/assets/icons/arrow_down_black.svg"
                                         width="20"
@@ -1354,7 +1328,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         alt="Search icon"
                                       />
                                     </button>
-                                    {location?.isdropDownOpen && (
+                                    {locationState?.isdropDownOpen && (
                                       <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
                                         <ul>
                                           {locationMilesArray?.map(
@@ -1382,7 +1356,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
                                       aria-label="submenu"
                                       placeholder="Enter Postcode"
-                                      value={postCodeValue}
+                                      value={locationState?.postCodeValue}
                                       onChange={(event) => {
                                         postCodeChange(event.target.value);
                                       }}
@@ -1403,7 +1377,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   </button>
                                 </div>
                               </div>
-                              {location?.locationMilesError && (
+                              {locationState?.locationMilesError && (
                                 <p className="small text-negative-default">
                                   Please enter postcode
                                 </p>
@@ -1456,8 +1430,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   <div className="form_check relative m-[0_0_12px]">
                                     <div className="flex items-start gap-[8px]">
                                       <div className="checkbox_card">
-                                        {/* {isIndexed && ( */}
-                                        <Link
+                                        {/* <Link
                                           id={
                                             "region" +
                                             parentRegion[0]?.regionTextKey
@@ -1470,7 +1443,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                             ),
                                           }}
                                         ></Link>
-                                        {/* )} */}
                                         <input
                                           type="checkbox"
                                           checked={
@@ -1510,7 +1482,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                               strokeLinejoin="round"
                                             />
                                           </svg>
-                                        </label>
+                                        </label> */}
                                       </div>
                                       <label
                                         htmlFor="All Uk"
@@ -1651,7 +1623,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 Location type
                               </div>
                               <div className="x-small font-semibold text-black uppercase">
-                                Choose one or more
+                                Choose one
                               </div>
                               <div className="flex items-center gap-[8px]">
                                 {jsondata?.uniLocationTypeList?.map(
@@ -1730,7 +1702,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       >
                         <div className="flex flex-col gap-[8px] pt-[24px]">
                           <div className="x-small font-semibold text-black uppercase">
-                            Choose one or more
+                            Choose one
                           </div>
                           <div className="flex flex-col gap-[12px]">
                             {jsondata?.universityGroupList?.map(

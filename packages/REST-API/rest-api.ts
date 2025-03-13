@@ -31,7 +31,6 @@ const makeApiCall = async (
         status: response?.status,
         statusText: response?.statusText,
       });
-      throw new Error(`API Error: ${response?.status} ${response?.statusText}`);
     }
 
     return await response.json();

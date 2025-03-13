@@ -31,13 +31,11 @@ const Regions = ({
   }, [searchparams]);
 
   const locationClicked = (regionTextKey: string) => {
-    console.log(regionTextKey);
-    console.log(regionListData);
+
     const selectedRegion = regionListData?.find(
       (region: any) => region?.regionTextKey == regionTextKey
     );
 
-    console.log({ selectedRegion });
     if (!selectedRegion) return;
     const parentRegion = regionListData?.find(
       (region: any) => region?.regionId === selectedRegion?.parentRegionId
@@ -91,7 +89,6 @@ const Regions = ({
         appliedRegions?.push(parentRegion?.regionTextKey);
       }
     }
-    console.log(appliedRegions?.join("+"));
     appendSearchParams("region", appliedRegions?.join("+"));
   };
 

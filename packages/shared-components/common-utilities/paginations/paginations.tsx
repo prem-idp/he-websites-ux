@@ -3,19 +3,22 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-
 const Paginations = ({ totalPages, initialPage }: any) => {
   const searchParams = useSearchParams();
 
   // Ensure totalPages and initialPage are valid numbers
-  const validTotalPages = Number(totalPages) > 0 ? Math.ceil(Number(totalPages)) : 1;
+  const validTotalPages =
+    Number(totalPages) > 0 ? Math.ceil(Number(totalPages)) : 1;
   const validInitialPage = Number(initialPage) > 0 ? Number(initialPage) : 1;
   //console.log
   const [currentPage, setCurrentPage] = useState(validInitialPage);
 
   // Sync currentPage with URL query parameter 'pageno'
   useEffect(() => {
-    const pageFromQuery = Number(searchParams.get("pageno")) || Number(searchParams.get("page_no")) || 1;
+    const pageFromQuery =
+      Number(searchParams.get("pageno")) ||
+      Number(searchParams.get("page_no")) ||
+      1;
     // Ensure currentPage doesn’t exceed totalPages or go below 1
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
   }, [searchParams, validTotalPages]);
@@ -24,7 +27,10 @@ const Paginations = ({ totalPages, initialPage }: any) => {
   const buildUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (typeof page === "number") {
-      params.set(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no", page.toString());
+      params.set(
+        process.env.PROJECT === "Whatuni" ? "pageno" : "page_no",
+        page.toString()
+      );
     }
     return `?${params.toString()}`;
   };
@@ -142,5 +148,3 @@ const Paginations = ({ totalPages, initialPage }: any) => {
 };
 
 export default Paginations;
-
-
