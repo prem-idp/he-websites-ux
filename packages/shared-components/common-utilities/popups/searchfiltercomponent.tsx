@@ -1443,8 +1443,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   <div className="form_check relative m-[0_0_12px]">
                                     <div className="flex items-start gap-[8px]">
                                       <div className="checkbox_card">
-                                        {/* {isIndexed && ( */}
-                                        <Link
+                                        {/* <Link
                                           id={
                                             "region" +
                                             parentRegion[0]?.regionTextKey
@@ -1457,7 +1456,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                             ),
                                           }}
                                         ></Link>
-                                        {/* )} */}
                                         <input
                                           type="checkbox"
                                           checked={
@@ -1497,7 +1495,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                               strokeLinejoin="round"
                                             />
                                           </svg>
-                                        </label>
+                                        </label> */}
                                       </div>
                                       <label
                                         htmlFor="All Uk"
