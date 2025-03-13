@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
+import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite';
 
 interface UniInfoComponentProps {
   uniInfo: any,
@@ -21,6 +22,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
 
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement | any>(null);
+  console.log(uniInfo, courseInfo, 'uniInfo')
   useEffect(() => {
     function loadMabBox() {
       mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
@@ -84,7 +86,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
                   <div className='uni-info-card flex flex-col gap-[8px]'>
                     <div className='flex flex-row md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
                       <a href={`/university-profile/'+ ${courseInfo?.institutionNameUrl} +'/${courseInfo?.institutionId}/`} className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
-                      <div className={`heart ${uniInfo?.favoriteFlag ? 'active' : ''} min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
+                      {/* <div className={`heart ${uniInfo?.favoriteFlag ? 'active' : ''} min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
                         <svg
                           width="20"
                           height="20"
@@ -100,7 +102,13 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
                             strokeLinejoin="round"
                           />
                         </svg>
-                      </div>
+                      </div> */}
+                      <UserFavourite {...{
+                        contentType: 'INSTITUTION',
+                        contentId: courseInfo?.institutionId,
+                        contentName: courseInfo?.institutionName,
+                        exceedData: () => { }
+                      }} />
                     </div>
                     <p className='small text-grey300 line-clamp-3 md:line-clamp-2 w-full md:w-[calc(100%_-_58px)]'>Norwich University of the Arts was founded more than 175 years ago, and today provides students with excellent teaching that...</p>
                     <div className='flex flex flex-col md:flex-row gap-[8px] md:gap-[32px]'>
