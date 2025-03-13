@@ -4,17 +4,17 @@ import { fetchenquirydata } from '@packages/REST-API/rest-api';
 
 const Visitwebsite = ({ enquiryProps }: any) => {
   const handleVisitWebsite = async () => {
-    console.log("Enter", enquiryProps);
+    console.log("Enter Props", enquiryProps);
      try {
       const vwPayload = {
-        suborderItemId: enquiryProps?.subOrderItemid,
-        orderItemId: enquiryProps?.orderItemId || null,
+        suborderItemId: enquiryProps?.subOrderItemId,
+        orderItemId: enquiryProps?.orderItemId,
         collegeId: enquiryProps?.collegeId,
-        affiliateId: 220703,
-        sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
+        affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
+        sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
         manualBoostingFlag: enquiryProps?.manualBoostingFlag,
       };
-      console.log("payload", vwPayload);
+      console.log("vwpayload", vwPayload);
       const response = await fetchenquirydata(vwPayload);
       console.log("response printing", response);
       if(response?.website){
