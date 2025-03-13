@@ -35,6 +35,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
   )
+  const paramsAwaited = await params;
   try {
     searchResultsData = await searchResultsFetchFunction(searchPayLoad);
   } catch (error) {
@@ -43,8 +44,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   return (
     <>
       <TopSection
-        searchParam={getSEOSearchPayload(searchparams, params?.hero)}
-        params={params}
+        searchParams={await searchparams}
+        params={paramsAwaited}
       />
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (

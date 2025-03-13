@@ -687,7 +687,6 @@ export type MetaDataProps = {
   params?: any;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
-
 export interface MetaFilterTypesReplace{
   searchSubject?: string[],
   studylevel?: string,
@@ -698,4 +697,4 @@ export interface MetaFilterTypesReplace{
   university?: string,
   startYear?: string,
   startMonth?: string,
-};
+}

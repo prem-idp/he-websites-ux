@@ -12,6 +12,7 @@ pageSeoFieldsCollection(
     canonical
     h1Title
     h2Text
+    h2WithgradeText
     robots
     websiteCollection
     {
