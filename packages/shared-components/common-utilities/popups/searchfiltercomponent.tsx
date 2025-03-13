@@ -28,7 +28,6 @@ import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
 import { getCookie } from "@packages/lib/utlils/helper-function";
-
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -348,6 +347,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     );
     const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param={}; path=/;`;
+    sessionStorage.setItem("filter_params", "{}");
     router.push(url);
   };
   const appendSearchParams = async (
@@ -421,12 +421,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       if (isQualificationChanged) {
-        console.log(
-          `${domainPath}?${urlParams?.toString()}`
-            ?.replaceAll("%2B", "+")
-            ?.replaceAll("%2C", ",")
-        );
         router.push(
           `${domainPath}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
@@ -435,27 +431,20 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }
       router.refresh();
     } else if (multiSelect) {
-      console.log("multi select");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      console.log(
-        `${domainPath ?? ""}?${urlParams?.toString()}`
-          ?.replaceAll("%2B", "+")
-          ?.replaceAll("%2C", ",")
-      );
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       router.push(
         `${domainPath ?? ""}?${urlParams?.toString()}`
           ?.replaceAll("%2B", "+")
           ?.replaceAll("%2C", ",")
       );
     } else {
-      console.log("link tag based");
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
       const linkTagId = document?.getElementById(key + value);
       if (linkTagId && isIndexed) {
-        console.log("link tag found", linkTagId);
         linkTagId.click();
       } else {
-        console.log("link tag not found");
         router.push(
           `${domainPath ?? ""}?${urlParams?.toString()}`
             ?.replaceAll("%2B", "+")
@@ -638,7 +627,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }));
   };
   const subjectClicked = (item: string, closeFilter?: boolean) => {
-    console.log(closeFilter);
     setSubjectState((prev: any) => ({
       ...prev,
       isSubjectOpen: closeFilter || !prev?.isSubjectOpen,
@@ -664,7 +652,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
-  console.log(jsondata);
   return (
     <>
       <div>

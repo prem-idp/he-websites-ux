@@ -69,8 +69,8 @@ const Paginations = ({ totalPages, initialPage }: any) => {
   // Calculate nextPage safely
   const nextPage = Math.min(currentPage + 1, validTotalPages);
 
-  // console.log("NextPage: " + nextPage);
-  // console.log("items: " + items);
+  console.log("NextPage: " + nextPage);
+  console.log("items: " + items);
 
   return (
     <>
@@ -78,6 +78,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
         <nav aria-label="navigation">
           <ul className="pagination flex justify-center items-center gap-[8px]">
             <li>
+              re
               <Link
                 href={currentPage > 1 ? buildUrl(currentPage - 1) : "#"}
                 className="hover:bg-blue-100 cursor-pointer flex items-center justify-center text-center px-[2px] py-[8px] rounded-[4px] w-[36px] h-[36px]"
