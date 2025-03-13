@@ -3,19 +3,22 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-
- const Paginations = ({ totalPages, initialPage }: any) => {
+const Paginations = ({ totalPages, initialPage }: any) => {
   const searchParams = useSearchParams();
 
   // Ensure totalPages and initialPage are valid numbers
-  const validTotalPages = Number(totalPages) > 0 ? Math.ceil(Number(totalPages)) : 1;
+  const validTotalPages =
+    Number(totalPages) > 0 ? Math.ceil(Number(totalPages)) : 1;
   const validInitialPage = Number(initialPage) > 0 ? Number(initialPage) : 1;
   //console.log
   const [currentPage, setCurrentPage] = useState(validInitialPage);
 
   // Sync currentPage with URL query parameter 'pageno'
   useEffect(() => {
-    const pageFromQuery = Number(searchParams.get("pageno")) || Number(searchParams.get("page_no")) || 1;
+    const pageFromQuery =
+      Number(searchParams.get("pageno")) ||
+      Number(searchParams.get("page_no")) ||
+      1;
     // Ensure currentPage doesn’t exceed totalPages or go below 1
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
   }, [searchParams, validTotalPages]);
@@ -24,7 +27,10 @@ import React, { useEffect, useState } from "react";
   const buildUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (typeof page === "number") {
-      params.set(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no", page.toString());
+      params.set(
+        process.env.PROJECT === "Whatuni" ? "pageno" : "page_no",
+        page.toString()
+      );
     }
     return `?${params.toString()}`;
   };
@@ -63,8 +69,8 @@ import React, { useEffect, useState } from "react";
   // Calculate nextPage safely
   const nextPage = Math.min(currentPage + 1, validTotalPages);
 
-  console.log("NextPage: " + nextPage);
-  console.log("items: " + items);
+  // console.log("NextPage: " + nextPage);
+  // console.log("items: " + items);
 
   return (
     <>
@@ -100,8 +106,11 @@ import React, { useEffect, useState } from "react";
                   className={
                     currentPage === item
                       ? "block small w-[36px] h-[36px] font-normal text-center px-[2px] py-[8px] rounded-[4px] bg-primary-400 text-white"
-                      : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${item !== "..." ? "hover:bg-blue-100 hover:text-primary-400" : ""
-                      }`
+                      : `block small w-[36px] h-[36px] font-normal text-grey300 text-center px-[2px] py-[8px] rounded-[4px] ${
+                          item !== "..."
+                            ? "hover:bg-blue-100 hover:text-primary-400"
+                            : ""
+                        }`
                   }
                 >
                   {item}
@@ -138,5 +147,3 @@ import React, { useEffect, useState } from "react";
 };
 
 export default Paginations;
-
-

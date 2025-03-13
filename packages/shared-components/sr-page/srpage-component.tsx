@@ -48,6 +48,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       cookieStore?.get("dynamic_random_number")?.value || "",
       headerList?.get("x-forwarded-for") || ""
     );
+    console.log(searchPayLoad);
     const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
 
     displayNameResponse = await httpBFFRequest(
@@ -59,7 +60,6 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       0,
       {}
     );
-    console.log("displaynames", displayNameResponse);
   } catch (error) {
     console.log("error", error);
   }
