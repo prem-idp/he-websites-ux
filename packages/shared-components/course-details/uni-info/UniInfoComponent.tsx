@@ -14,7 +14,7 @@ interface UniInfoComponentProps {
   sectionInfo: CourseSection
 }
 
-const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: any) => {
+const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponentProps) => {
 
   // const { awards, location } = uniInfo;
   const awards = uniInfo?.awards;
