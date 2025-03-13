@@ -9,6 +9,8 @@ const TutionFeesComponent = dynamic(() => import('@packages/shared-components/co
 const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents' /*webpackChunkName:"popularsubject"*/));
 const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
 const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
+const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
+
 import { useState, useEffect } from 'react';
 export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
   const [fetcheddata, setFetcheddata] = useState({ ...data });
@@ -103,7 +105,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
         })}
       </>
 
-
+      {false && <ReviewPannelComponent />}
     </div>
   )
 }
