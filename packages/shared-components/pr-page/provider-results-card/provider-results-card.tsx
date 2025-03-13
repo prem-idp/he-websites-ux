@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 //import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
@@ -9,15 +9,23 @@ import Visitwebsite from "@packages/shared-components/common-utilities/cards/int
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import Link from "next/link";
+import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
   children?: any
 }
 
-const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
+}
 
-  const [exceedMessage, setExceedMessage] = useState(false);
+const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
 
   // State to track which cards' modules are visible
   const [visibleModules, setVisibleModules] = useState<boolean[]>(
@@ -31,10 +39,24 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     );
   };
 
-
-  const handleExceedMessage = (data: any) => {
-    setExceedMessage(data); // Update state in parent
-  };
+  const [user, setUserData] = useState<AuthUser | null>(null);
+  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
+  useEffect(() => {
+    // Getting favourites list when user logged in
+    async function checkUser() {
+      try {
+        const user: AuthUser = await getCurrentUser();
+        setUserData(user);
+        if (user && typeof window !== "undefined") {
+          const favList: Favourite[] = await getUserFavourites();
+          setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+        }
+      } catch (error) {
+        setUserData(null);
+      }
+    }
+    checkUser();
+  }, []);
 
 
   const providerCard = searchResultlist.map((items, index) => (
@@ -45,7 +67,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     >
       <div className="flex justify-end p-[16px] bg-blue-100">
         <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          <UserFavourite exceedData={handleExceedMessage} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
+          <UserFavourite favourites={favourite} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
