@@ -105,6 +105,8 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: getImageDomain() },
+      { protocol: "https", hostname: 'images-intl.prod.aws.idp-connect.com' },
+
     ],
   },
 };
