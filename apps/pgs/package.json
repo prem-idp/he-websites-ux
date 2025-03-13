@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/pgs"
+  ],
   "scripts": {
     "dev": "next dev  --port 3001",
     "build": "next build",
     "lint": "eslint -f html -o ./reports/pgs-eslint-report.html --color ./",
+    "lint:pgs": "eslint -f html -o ./reports/pgs/eslint-report.html --color ./",
     "test": "jest --watchAll",
-    "test:coverage": "jest --coverage",
+    "test:coverage-pgs": "jest --coverage",
     "start": "next start -p 3001",
     "open-next": "open-next build",
     "analyze": "next build && next-bundle-analyzer"
