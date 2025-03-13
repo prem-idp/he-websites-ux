@@ -15,7 +15,7 @@ interface Favourite {
 }
 
 interface UserFavouriteProps {
-  contentType:string,
+  contentType: 'INSTITUTION' |'COURSE',
   contentId: number,
   contentName: string,
   favourites: any

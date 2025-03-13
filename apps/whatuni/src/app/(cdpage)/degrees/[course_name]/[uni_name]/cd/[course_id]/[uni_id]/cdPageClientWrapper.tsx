@@ -9,13 +9,14 @@ const TutionFeesComponent = dynamic(() => import('@packages/shared-components/co
 const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents' /*webpackChunkName:"popularsubject"*/));
 const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
 const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
+const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
+
 import { useState, useEffect } from 'react';
-export default function Cdpageclient({ courseContent, data, prams_slug, jsonResponse }: any) {
+export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
   const [fetcheddata, setFetcheddata] = useState({ ...data });
   const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
-
 
   useEffect(() => {
     setRenderKey(prev => prev + 1);
@@ -51,7 +52,6 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
     else {
       setStartfetch(true)
     }
-
   }, [selectedavilability]);
 
 
@@ -67,7 +67,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
           switch (sectionId) {
             case 'course-info':
               if (!data?.courseInfo) return null;
-              componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} jsonResponse={jsonResponse} />;
+              componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} />;
               break;
             case 'modules':
               if (data?.modules?.length <= 0) return null;
@@ -83,22 +83,19 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
               break;
             case 'tuition-fees':
               if (data?.tutionFees?.length <= 0) return null;
-
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latest-reviews':
-              if (data?.latest_reviews?.length <= 0) return null;
-
+              if (data?.latest_reviews?.length <= 0) return null
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uni-info':
               if (!data?.uniInfo) return null;
-
               componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             default:
               componentToRender = null;
-              return// Optional: Handle unknown cases
+              return;
           }
           return (
             <div id={sectionId} key={sectionId}>
@@ -108,7 +105,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug, jsonResp
         })}
       </>
 
-
+      {false && <ReviewPannelComponent />}
     </div>
   )
 }
