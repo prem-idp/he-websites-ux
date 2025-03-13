@@ -17,14 +17,6 @@ interface SrPageResultPodProps {
   searchResultsData: any[];
   qualCode:string;
 }
-
-
-const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,qualCode
-}) => {
- const universityPodClick = (navigationUrl: any) => {
-  typeof window !== "undefined" && window?.open(navigationUrl, "_self");
-};
 interface Favourite {
   fav_id: string;
   fav_type: string;
@@ -32,8 +24,18 @@ interface Favourite {
   final_choice_id?: string | null;
   choice_position?: number | null;
 }
-    const [user, setUserData] = useState<AuthUser | null>(null);
-    const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+
+const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
+  searchResultsData,qualCode
+}) => {
+  const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
+  const [user, setUserData] = useState<AuthUser | null>(null);
+  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+ const universityPodClick = (navigationUrl: any) => {
+  typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+};
+
      useEffect(() => {
        // Getting favourites list when user logged in
        async function checkUser() {
@@ -63,11 +65,8 @@ interface Favourite {
       : "Next Open day in " + differenceInDays + " day";
   };
   //
-  const getPRPageURL = (collegeTextKey: any) => {
-    const searchParams = useSearchParams();
-    let updatedParams :any[];
-     // Create filtered params object
-  const filteredParams = Array.from(searchParams.entries())
+  const getPRPageURL = (collegeTextKey: any) => {   
+    const filteredParams = Array.from(searchParams.entries())
   .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
   .reduce((acc, [key, value]) => {
     acc[key] = value;
@@ -394,7 +393,7 @@ queryString ? `&${queryString}` : ''
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {courseData?.minUcasPoints  || courseData?.availabilityDetails?.fees ? (
+                          {((courseData?.minUcasPoints || courseData?.maxUcasPoints) && process.env.PROJECT === "Whatuni") || (courseData?.availabilityDetails?.fees && process.env.PROJECT === "PGS") ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
                               {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
@@ -528,7 +527,8 @@ queryString ? `&${queryString}` : ''
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode:"L"
+                            qualCode:"L",
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -547,7 +547,8 @@ queryString ? `&${queryString}` : ''
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -565,7 +566,8 @@ queryString ? `&${queryString}` : ''
                             orderItemId:
                               courseData?.enquiryDetails?.orderItemId,
                             pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -584,7 +586,8 @@ queryString ? `&${queryString}` : ''
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
@@ -603,7 +606,8 @@ queryString ? `&${queryString}` : ''
                               courseData?.enquiryDetails?.orderItemId,
                             collegeName: data?.collegeTextKey,
                             pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode
+                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
+                            selectedSubject:selectedSubject
                           }}
                         />
                       ) : (
