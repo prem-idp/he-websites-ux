@@ -6,12 +6,10 @@ import FeaturedSkeleton from "@packages/shared-components/skeleton/search-result
 
 interface FeaturedProviderDetailsProps {
   featuredData: any;
-  url?: any;
 }
 
 const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
   featuredData,
-  url,
 }) => {
   const handleNavigation = (navigationUrl: any) => {
     try {
@@ -25,24 +23,17 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
 
   const [isPlaying, setIsPlaying] = useState(false); // State to track if video is playing
   const videoRef = useRef<HTMLVideoElement | null>(null); // Reference to the video element
-  const [isVideoEnded, setIsVideoEnded] = useState(false);
   const togglePlayPause = (event:React.FormEvent) => {
     event.stopPropagation();
     if (videoRef.current) {
       if (videoRef.current.paused) {
         videoRef.current.play();
         setIsPlaying(true); 
-        //setIsVideoEnded(false);// Update state to indicate video is playing
-      } else {
-        console.log("paused")
-        videoRef.current.pause();
-        setIsPlaying(false); // Update state to indicate video is paused
       }
     }
   };
-  const handleVideoEnd = () => {
-    setIsPlaying(false); 
-    //setIsVideoEnded(true);// Video is not playing anymore
+  const stopNavigating = (event:React.FormEvent) => {
+    event.stopPropagation();
   };
   return (
     <>
@@ -67,7 +58,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             Featured
           </div>
           {featuredData?.profileHeadlineUrl ? (
-            <Link href={featuredData?.profileHeadlineUrl}>
+            <Link href={featuredData?.profileHeadlineUrl} target="_blank" onClick={(event)=> stopNavigating(event)}>
               <div className="text-grey-50 h6">{featuredData?.headline}</div>
             </Link>
           ) : (
@@ -132,12 +123,11 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
                     ? `${featuredData?.mediaPath}`
                     : "/"
                 }
-                onClick={(event) => {togglePlayPause(event)}}
+                onClick={(event) => stopNavigating(event)}
                 style={{ display: isPlaying ? 'block' : 'none' }}
                 controls = {true}
-                onEnded={handleVideoEnd}
               ></video>
-              <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center" onClick={(event) => {togglePlayPause(event)}} style={{ display: isPlaying ? 'none' : 'block' }}>
+              <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center" style={{ display: isPlaying ? 'none' : 'block' }}>
                 <Image
                   src={
                     featuredData?.thumbnailPath

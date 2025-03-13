@@ -40,6 +40,7 @@ const cityArray:any[] = searchParams?.city?.includes(" ")
 const locationArray = regionArray && cityArray ? regionArray.concat(cityArray) :  regionArray ? regionArray : cityArray
 const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
 const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
+const score = searchParams?.score && !searchParams?.score?.includes(",") || filterCookieParam?.score && !filterCookieParam?.score?.includes(",") ? "0," + (searchParams?.score || filterCookieParam?.score) : searchParams?.score
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
@@ -66,7 +67,7 @@ const searchPayload: any = {
     sortBy: typeof searchParams?.sort === 'string' && searchParams?.sort?.toUpperCase() ||  typeof filterCookieParam?.sort === 'string' &&  filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",
     distance: searchParams?.distance_from_home || filterCookieParam?.distance_from_home || searchParams?.["distance-from-home"] || filterCookieParam?.["distance-from-home"] || "",
-    ucasTariffRange: searchParams?.score || filterCookieParam?.score || "",
+    ucasTariffRange: score || "",
     userRegionId:userIp,
     dynamicRandomNumber:dynamicRandomNumber,
     universityGroup: russellGroup ? [russellGroup] : ""
