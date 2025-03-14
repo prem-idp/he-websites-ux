@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 //import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
@@ -27,6 +28,8 @@ interface Favourite {
 
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
 
+  const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   // State to track which cards' modules are visible
   const [visibleModules, setVisibleModules] = useState<boolean[]>(
     new Array(searchResultlist.length).fill(false) // Initially, all are closed
@@ -131,7 +134,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           )}
           {visibleModules[index] && (
             <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
-              See all modules
+              <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
+                See all modules
+              </Link>
             </span>
           )}
         </div>
@@ -148,6 +153,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 orderItemId: items?.orderItemId,
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
+                selectedSubject: { selectedSubject },
               }} />}
           {items.hasWebsite &&
             <Visitwebsite
@@ -173,7 +179,8 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                   items?.orderItemId,
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
-              }} />} {/* Assuming a flag for this */}
+                selectedSubject: { selectedSubject },
+              }} />}
           {items.hasEmail &&
             <RequestInfo
               enquiryProps={{
@@ -185,6 +192,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 orderItemId: items?.orderItemId,
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
+                selectedSubject: { selectedSubject },
               }} />}
         </div>
       </div>

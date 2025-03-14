@@ -12,6 +12,7 @@ import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 import { getSearchPayload } from "../services/utils";
 import { headers } from "next/headers";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Payload {
   parentQualification: string;
@@ -27,12 +28,14 @@ interface SearchParams {
 
 const searchPRResults = async (payloads: any) => {
   try {
+    const uuid = uuidv4();
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
       headers: {
         "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+        "x-correlation-id": uuid
       },
       body: JSON.stringify(payloads),
     });
