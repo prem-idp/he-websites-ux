@@ -28,6 +28,7 @@ import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
 import { getCookie } from "@packages/lib/utlils/helper-function";
+import FilterSpinner from "@packages/shared-components/skeleton/search-result/filter-spinner";
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -154,35 +155,41 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const subjectParam: any =
     searchParams?.get(keyName?.subject)?.split(",") || [];
   useEffect(() => {
-    const cookieFilter = JSON.parse(getCookie("filter_param") || "{}");
+    const sessionFilter = JSON.parse(
+      sessionStorage.getItem("filter_param") || "{}"
+    );
     setPrepopulateFilter({
       studyMethod:
         searchParams?.get(keyName?.studyMethod) ||
-        cookieFilter?.[keyName?.studyMethod] ||
+        sessionFilter?.[keyName?.studyMethod] ||
         "",
       studyMode:
         searchParams?.get(keyName?.studyMode) ||
-        cookieFilter?.[keyName?.studyMode] ||
+        sessionFilter?.[keyName?.studyMode] ||
         "",
       year:
-        searchParams?.get(keyName?.year) || cookieFilter?.[keyName?.year] || "",
+        searchParams?.get(keyName?.year) ||
+        sessionFilter?.[keyName?.year] ||
+        "",
       month:
         searchParams?.get(keyName?.month) ||
-        cookieFilter?.[keyName?.month] ||
+        sessionFilter?.[keyName?.month] ||
         "",
       region:
         searchParams?.get(keyName?.region) ||
-        cookieFilter?.[keyName?.region] ||
+        sessionFilter?.[keyName?.region] ||
         "",
       city:
-        searchParams?.get(keyName?.city) || cookieFilter?.[keyName?.city] || "",
+        searchParams?.get(keyName?.city) ||
+        sessionFilter?.[keyName?.city] ||
+        "",
       russellGroup:
         searchParams?.get(keyName?.russellGroup) ||
-        cookieFilter?.[keyName?.russellGroup] ||
+        sessionFilter?.[keyName?.russellGroup] ||
         "",
       locationType:
         searchParams?.get(keyName?.locationType) ||
-        cookieFilter?.[keyName?.locationType] ||
+        sessionFilter?.[keyName?.locationType] ||
         "",
     });
     const value = isSingleSelection(searchParams);
@@ -324,6 +331,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
+        console.log(
+          filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
+        );
         const data = await getSrFilter(
           filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
         );
@@ -349,7 +359,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     );
     const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
     document.cookie = `filter_param={}; path=/;`;
-    sessionStorage.setItem("filter_params", "{}");
+    sessionStorage.setItem("filter_param", "{}");
     router.push(url);
   };
   const appendSearchParams = async (
@@ -423,7 +433,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
     if (urlParams?.toString() === searchParams?.toString()) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
+      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
       if (isQualificationChanged) {
         router.push(
           `${domainPath}?${urlParams?.toString()}`
@@ -434,7 +444,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       router.refresh();
     } else if (multiSelect) {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
+      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
       router.push(
         `${domainPath ?? ""}?${urlParams?.toString()}`
           ?.replaceAll("%2B", "+")
@@ -442,7 +452,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       );
     } else {
       document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_params", JSON.stringify(cookieParams));
+      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
       const linkTagId = document?.getElementById(key + value);
       if (linkTagId && isIndexed) {
         linkTagId.click();
@@ -654,6 +664,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
+  console.log(jsondata);
   return (
     <>
       <div>
@@ -671,28 +682,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
           }`}
           ref={filterRef}
         >
-          <div className="backdrop-shadow-white fixed top-0 left-0 w-full h-full z-10"></div>
-          <div className="fixed top-0 left-0 w-full h-full z-10 flex flex-col gap-[10px] text-black items-center justify-center">
-            <svg
-              className="animate-spin"
-              width="30"
-              height="30"
-              viewBox="0 0 65 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M64.5 32C64.5 49.6731 50.1731 64 32.5 64C14.8269 64 0.5 49.6731 0.5 32C0.5 14.3269 14.8269 0 32.5 0C50.1731 0 64.5 14.3269 64.5 32ZM8.5 32C8.5 45.2548 19.2452 56 32.5 56C45.7548 56 56.5 45.2548 56.5 32C56.5 18.7452 45.7548 8 32.5 8C19.2452 8 8.5 18.7452 8.5 32Z"
-                fill="#C8F0F5"
-              />
-              <path
-                d="M14.1456 5.78713C18.2822 2.89061 23.0457 1.01424 28.0465 0.311421C33.0473 -0.391393 38.1434 0.0993091 42.9182 1.74341C47.693 3.38751 52.0109 6.13832 55.5189 9.77094C59.0269 13.4036 61.6253 17.8148 63.1018 22.6441C64.5782 27.4734 64.8908 32.5835 64.0138 37.5567C63.1369 42.53 61.0955 47.225 58.0563 51.2581C55.0172 55.2911 51.0667 58.5477 46.5279 60.7614C41.989 62.9752 36.9907 64.0833 31.9415 63.9951L32.0811 55.9963C35.868 56.0624 39.6168 55.2314 43.0209 53.5711C46.425 51.9108 49.3879 49.4684 51.6672 46.4436C53.9466 43.4188 55.4777 39.8975 56.1354 36.1676C56.7931 32.4377 56.5587 28.605 55.4513 24.9831C54.344 21.3611 52.3951 18.0527 49.7642 15.3282C47.1332 12.6037 43.8947 10.5406 40.3136 9.30756C36.7325 8.07448 32.9104 7.70646 29.1598 8.23357C25.4093 8.76068 21.8367 10.168 18.7342 12.3403L14.1456 5.78713Z"
-                fill="#0086F8"
-              />
-            </svg>
-            <p> Filtering Result</p>
-          </div>
-
+          {filterState?.isFilterLoading && <FilterSpinner />}
           <div className="p-[16px] md:p-[32px] !pb-0">
             <div className="flex justify-between">
               <h6 className="h2">Filter</h6>
@@ -727,454 +717,209 @@ const SearchFilterComponent = ({ data, path }: any) => {
             </p>
           </div>
 
-          {!filterState?.isFilterLoading ? (
-            <>
-              <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
-                <Accordion
-                  title="Subject"
-                  id="#subject"
-                  defaultOpenStatus={
-                    filterState?.selectedFilter === "all" ||
-                    filterState?.selectedFilter === "subject"
-                  }
-                >
-                  {/* subject */}
-                  <div className="flex flex-col gap-[24px] pt-[24px]">
-                    {jsondata?.studyMethodList?.length > 0 && (
-                      <div className="flex flex-col gap-[4px]">
-                        <div className="text-para-lg font-semibold">
-                          Study Method
-                        </div>
-                        <div className="x-small font-semibold text-black uppercase">
-                          Choose one
-                        </div>
-                        <div className="flex flex-wrap gap-[8px]">
-                          {jsondata?.studyMethodList?.map(
-                            (studyMethodChild: any, index: number) => (
-                              <div
-                                className="form-black flex relative"
-                                key={index + 1}
-                              >
-                                {/* {isIndexed && ( */}
-                                <Link
-                                  id={
-                                    keyName?.studyMethod +
-                                    studyMethodChild?.studyMethodTextKey
-                                  }
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl(
-                                      keyName?.studyMethod,
-                                      studyMethodChild?.studyMethodTextKey
-                                    ),
-                                  }}
-                                ></Link>
-                                {/* )} */}
-                                <input
-                                  checked={
-                                    prepopulateFilter?.studyMethod ==
-                                    studyMethodChild?.studyMethodTextKey
-                                  }
-                                  onChange={() => {
-                                    appendSearchParams(
-                                      keyName?.studyMethod,
-                                      studyMethodChild?.studyMethodTextKey
-                                    );
-                                    setPrepopulateFilter((prev: any) => ({
-                                      ...prev,
-                                      studyMethod:
-                                        prev?.studyMethod ==
-                                        studyMethodChild?.studyMethodTextKey
-                                          ? ""
-                                          : studyMethodChild?.studyMethodTextKey,
-                                    }));
-                                  }}
-                                  type="checkbox"
-                                  id={studyMethodChild?.studyMethodDesc}
-                                  name={studyMethodChild?.studyMethodDesc}
-                                  className="rounded-[4px] outline-none absolute opacity-0"
-                                />
-                                <label
-                                  htmlFor={studyMethodChild?.studyMethodDesc}
-                                  className="btn btn-black-outline"
-                                >
-                                  {studyMethodChild?.studyMethodDesc}
-                                </label>
-                              </div>
-                            )
-                          )}
-                        </div>
+          <>
+            <div className="h-[calc(100%-215px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-213px)]">
+              <Accordion
+                title="Subject"
+                id="#subject"
+                defaultOpenStatus={
+                  filterState?.selectedFilter === "all" ||
+                  filterState?.selectedFilter === "subject"
+                }
+              >
+                {/* subject */}
+                <div className="flex flex-col gap-[24px] pt-[24px]">
+                  {jsondata?.studyMethodList?.length > 0 && (
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="text-para-lg font-semibold">
+                        Study Method
                       </div>
-                    )}
-                    {jsondata?.studyModeList && (
-                      <div className="flex flex-col gap-[4px]">
-                        <div className="text-para-lg font-semibold">
-                          Study mode
-                        </div>
-                        <div className="x-small font-semibold text-black uppercase">
-                          Choose one
-                        </div>
-                        <div className="flex flex-row flex-wrap gap-[8px]">
-                          {jsondata?.studyModeList?.map(
-                            (studyModeChild: any, index: number) => (
-                              <div
-                                className="form-black flex relative"
-                                key={index + 1}
-                                id={studyModeChild?.studyModeTextKey}
-                              >
-                                {/* {isIndexed && ( */}
-                                <Link
-                                  id={
-                                    keyName?.studyMode +
-                                    studyModeChild?.studyModeTextKey
-                                  }
-                                  href={{
-                                    pathname: `${slug}`,
-                                    query: formUrl(
-                                      keyName?.studyMode,
-                                      studyModeChild?.studyModeTextKey
-                                    ),
-                                  }}
-                                ></Link>
-                                {/* )} */}
-                                <input
-                                  type="checkbox"
-                                  checked={
-                                    prepopulateFilter?.studyMode ==
-                                    studyModeChild?.studyModeTextKey
-                                  }
-                                  onChange={() => {
-                                    appendSearchParams(
-                                      keyName?.studyMode,
-                                      studyModeChild?.studyModeTextKey
-                                    );
-                                  }}
-                                  className="rounded-[4px] outline-none absolute opacity-0"
-                                  id={studyModeChild?.studyModeDesc}
-                                  name={studyModeChild?.studyModeDesc}
-                                />
-                                <label
-                                  htmlFor={studyModeChild?.studyModeDesc}
-                                  className="btn btn-black-outline"
-                                >
-                                  {studyModeChild?.studyModeDesc}
-                                </label>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {jsondata?.qualificationList?.length > 0 && (
-                      <div className="flex flex-col gap-[4px]">
-                        <div className="text-para-lg font-semibold">
-                          Study level
-                        </div>
-                        <div className="x-small font-semibold text-black uppercase">
-                          Choose one
-                        </div>
-                        <div className="flex flex-wrap gap-[8px]">
-                          {jsondata?.qualificationList?.map(
-                            (qualChild: any, index: number) => (
-                              <div
-                                className="form-black flex relative"
-                                key={index}
-                              >
-                                {
-                                  // isIndexed &&
-                                  !slug?.includes(qualChild?.qualTextKey) && (
-                                    <Link
-                                      id={
-                                        "study-level" + qualChild?.qualTextKey
-                                      }
-                                      href={{
-                                        pathname: `/${qualChild?.qualTextKey}-courses/search`,
-                                        query: formUrl(
-                                          "study-level",
-                                          qualChild?.qualTextKey
-                                        ),
-                                      }}
-                                    ></Link>
-                                  )
-                                }
-                                <input
-                                  checked={slug?.includes(
-                                    qualChild?.qualTextKey
-                                  )}
-                                  onChange={() => {
-                                    appendSearchParams(
-                                      "study-level",
-                                      qualChild?.qualTextKey,
-                                      false,
-                                      true
-                                    );
-                                  }}
-                                  type="radio"
-                                  name="studylevel"
-                                  id={qualChild?.qualDisplayDesc}
-                                  value={qualChild?.qualDisplayDesc}
-                                  className="rounded-[4px] outline-none absolute opacity-0"
-                                />
-                                <label
-                                  htmlFor={qualChild?.qualDisplayDesc}
-                                  className="btn btn-black-outline"
-                                >
-                                  {qualChild?.qualDisplayDesc}
-                                </label>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {jsondata?.subjectFilterList?.length > 0 && (
-                      <div className="flex flex-col gap-[16px]">
-                        <div className="flex flex-col gap-[4px]">
-                          <div className="text-para-lg font-semibold">
-                            Subject area
-                          </div>
-                          <div className="x-small font-semibold text-black uppercase">
-                            choose one subject area
-                          </div>
-                        </div>
-                        <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
-                          <div className="flex item-center gap-[12px] relative">
-                            <Image
-                              src="/static/assets/icons/search-result/search-black.svg"
-                              width="20"
-                              height="20"
-                              alt="Search icon"
-                            />
-                            <input
-                              type="text"
-                              className="w-full focus:outline-none small text-black placeholder:text-gray-500"
-                              aria-label="enter keyword"
-                              placeholder="Search subjects"
-                              value={subjectState?.subjectkeyword}
-                              onChange={(event) => {
-                                subjectKeyWordSearch(event?.target?.value);
-                              }}
-                            />
-                            {subjectState?.isSujectDropdownOpen && (
-                              <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                                {subjectState?.sortedSubjects?.length > 0 ? (
-                                  <ul>
-                                    {subjectState?.sortedSubjects?.map(
-                                      (subjects: any, index: number) => (
-                                        <li key={index + 1}>
-                                          <div
-                                            onClick={() => {
-                                              appendSearchParams(
-                                                keyName?.subject,
-                                                subjects?.subjectTextKey
-                                              );
-                                            }}
-                                            className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                                          >
-                                            {subjects?.categoryDesc}
-                                          </div>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                ) : (
-                                  <p>No match found</p>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
-                          <div
-                            className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
-                      ${subjectState?.isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
-                      `}
-                          >
-                            {ParentSubject?.map(
-                              (l1Subjects: any, index: any) => (
-                                <div
-                                  key={index}
-                                  onClick={() => {
-                                    subjectClicked(l1Subjects, true);
-                                  }}
-                                  className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
-                                >
-                                  {l1Subjects}
-                                  <svg
-                                    width="16"
-                                    height="17"
-                                    viewBox="0 0 16 17"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                      fill="#4664DC"
-                                    />
-                                  </svg>
-                                </div>
-                              )
-                            )}
-                          </div>
-                          <div
-                            className={`
-                        bg-white transition-all duration-300 ease-in-out
-                        ${subjectState?.isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
-                      `}
-                          >
-                            {L2subjects?.map((subjects: any, index: number) => (
-                              <L2subjectList
-                                key={index}
-                                subjectsArray={subjects}
-                                selectedSubject={subjectState?.selectedSubject}
-                                isIndexed={isIndexed}
-                                isSubjectOpen={subjectState?.isSubjectOpen}
-                                subjectClicked={subjectClicked}
-                                formUrl={formUrl}
-                                slug={slug}
-                                appendSearchParams={appendSearchParams}
-                                containsSearchParam={containsSearchParam}
-                                jsondata={jsondata?.subjectFilterList}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Accordion>
-                {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
-                  jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
-                  <Accordion
-                    id="#year"
-                    title="Intake year"
-                    defaultOpenStatus={
-                      filterState?.selectedFilter === "year" ? true : false
-                    }
-                  >
-                    <div className="flex flex-col gap-[8px] p-[8px_0_0]">
                       <div className="x-small font-semibold text-black uppercase">
-                        Choose YEAR & MONTH
+                        Choose one
                       </div>
-                      <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                        {jsondata?.intakeYearDetails?.intakeYearList?.map(
-                          (yearItem: any, index: number) => (
+                      <div className="flex flex-wrap gap-[8px]">
+                        {jsondata?.studyMethodList?.map(
+                          (studyMethodChild: any, index: number) => (
                             <div
                               className="form-black flex relative"
-                              key={index}
+                              key={index + 1}
                             >
                               {/* {isIndexed && ( */}
                               <Link
-                                id={"year" + yearItem?.year}
-                                href={{
-                                  pathname: `${slug}`,
-                                  query: formUrl("year", `${yearItem?.year}`),
-                                }}
-                              ></Link>
-                              {/* )} */}
-                              <input
-                                checked={
-                                  `${prepopulateFilter?.year}` ==
-                                  `${yearItem?.year}`
+                                id={
+                                  keyName?.studyMethod +
+                                  studyMethodChild?.studyMethodTextKey
                                 }
-                                onChange={() => {
-                                  setPrepopulateFilter((prev: any) => ({
-                                    ...prev,
-                                    year:
-                                      `${prev?.year}` == `${yearItem?.year}`
-                                        ? ""
-                                        : `${yearItem?.year}`,
-                                  }));
-                                  appendSearchParams(
-                                    "year",
-                                    `${yearItem?.year}`
-                                  );
-                                }}
-                                type="checkbox"
-                                name={`${yearItem?.year}`}
-                                className="rounded-[4px] outline-none absolute opacity-0"
-                                id={`${yearItem?.year}`}
-                              />
-                              <label
-                                htmlFor={`${yearItem?.year}`}
-                                className="btn btn-black-outline"
-                              >
-                                {yearItem?.year}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
-                        {jsondata?.intakeYearDetails?.intakeMonthList?.map(
-                          (monthItem: any, index: any) => (
-                            <div
-                              className="form-black flex relative"
-                              key={index}
-                            >
-                              {/* {isIndexed && ( */}
-                              <Link
-                                id={"month" + monthItem?.month}
                                 href={{
                                   pathname: `${slug}`,
                                   query: formUrl(
-                                    "month",
-                                    `${monthItem?.month}`
+                                    keyName?.studyMethod,
+                                    studyMethodChild?.studyMethodTextKey
                                   ),
                                 }}
                               ></Link>
                               {/* )} */}
                               <input
                                 checked={
-                                  prepopulateFilter?.month == monthItem?.month
+                                  prepopulateFilter?.studyMethod ==
+                                  studyMethodChild?.studyMethodTextKey
                                 }
                                 onChange={() => {
-                                  appendSearchParams("month", monthItem?.month);
+                                  appendSearchParams(
+                                    keyName?.studyMethod,
+                                    studyMethodChild?.studyMethodTextKey
+                                  );
                                   setPrepopulateFilter((prev: any) => ({
                                     ...prev,
-                                    month:
-                                      prev?.month == monthItem?.month
+                                    studyMethod:
+                                      prev?.studyMethod ==
+                                      studyMethodChild?.studyMethodTextKey
                                         ? ""
-                                        : monthItem?.month,
+                                        : studyMethodChild?.studyMethodTextKey,
                                   }));
                                 }}
                                 type="checkbox"
-                                name={monthItem?.month}
+                                id={studyMethodChild?.studyMethodDesc}
+                                name={studyMethodChild?.studyMethodDesc}
                                 className="rounded-[4px] outline-none absolute opacity-0"
-                                id={monthItem?.month}
                               />
                               <label
-                                htmlFor={monthItem?.month}
-                                className="btn btn-black-outline min-w-[53px] py-[5px]"
+                                htmlFor={studyMethodChild?.studyMethodDesc}
+                                className="btn btn-black-outline"
                               >
-                                {monthItem?.month}
+                                {studyMethodChild?.studyMethodDesc}
                               </label>
                             </div>
                           )
                         )}
                       </div>
                     </div>
-                  </Accordion>
-                )}
-                {jsondata?.universityFilterList?.length > 0 && (
-                  <Accordion
-                    title="University"
-                    id="#university"
-                    defaultOpenStatus={
-                      filterState?.selectedFilter === "university"
-                        ? true
-                        : false
-                    }
-                  >
-                    <div className="flex flex-col gap-[16px] pt-[24px]">
+                  )}
+                  {jsondata?.studyModeList && (
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="text-para-lg font-semibold">
+                        Study mode
+                      </div>
+                      <div className="x-small font-semibold text-black uppercase">
+                        Choose one
+                      </div>
+                      <div className="flex flex-row flex-wrap gap-[8px]">
+                        {jsondata?.studyModeList?.map(
+                          (studyModeChild: any, index: number) => (
+                            <div
+                              className="form-black flex relative"
+                              key={index + 1}
+                              id={studyModeChild?.studyModeTextKey}
+                            >
+                              {/* {isIndexed && ( */}
+                              <Link
+                                id={
+                                  keyName?.studyMode +
+                                  studyModeChild?.studyModeTextKey
+                                }
+                                href={{
+                                  pathname: `${slug}`,
+                                  query: formUrl(
+                                    keyName?.studyMode,
+                                    studyModeChild?.studyModeTextKey
+                                  ),
+                                }}
+                              ></Link>
+                              {/* )} */}
+                              <input
+                                type="checkbox"
+                                checked={
+                                  prepopulateFilter?.studyMode ==
+                                  studyModeChild?.studyModeTextKey
+                                }
+                                onChange={() => {
+                                  appendSearchParams(
+                                    keyName?.studyMode,
+                                    studyModeChild?.studyModeTextKey
+                                  );
+                                }}
+                                className="rounded-[4px] outline-none absolute opacity-0"
+                                id={studyModeChild?.studyModeDesc}
+                                name={studyModeChild?.studyModeDesc}
+                              />
+                              <label
+                                htmlFor={studyModeChild?.studyModeDesc}
+                                className="btn btn-black-outline"
+                              >
+                                {studyModeChild?.studyModeDesc}
+                              </label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {jsondata?.qualificationList?.length > 0 && (
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="text-para-lg font-semibold">
+                        Study level
+                      </div>
+                      <div className="x-small font-semibold text-black uppercase">
+                        Choose one
+                      </div>
+                      <div className="flex flex-wrap gap-[8px]">
+                        {jsondata?.qualificationList?.map(
+                          (qualChild: any, index: number) => (
+                            <div
+                              className="form-black flex relative"
+                              key={index}
+                            >
+                              {
+                                // isIndexed &&
+                                !slug?.includes(qualChild?.qualTextKey) && (
+                                  <Link
+                                    id={"study-level" + qualChild?.qualTextKey}
+                                    href={{
+                                      pathname: `/${qualChild?.qualTextKey}-courses/search`,
+                                      query: formUrl(
+                                        "study-level",
+                                        qualChild?.qualTextKey
+                                      ),
+                                    }}
+                                  ></Link>
+                                )
+                              }
+                              <input
+                                checked={slug?.includes(qualChild?.qualTextKey)}
+                                onChange={() => {
+                                  appendSearchParams(
+                                    "study-level",
+                                    qualChild?.qualTextKey,
+                                    false,
+                                    true
+                                  );
+                                }}
+                                type="radio"
+                                name="studylevel"
+                                id={qualChild?.qualDisplayDesc}
+                                value={qualChild?.qualDisplayDesc}
+                                className="rounded-[4px] outline-none absolute opacity-0"
+                              />
+                              <label
+                                htmlFor={qualChild?.qualDisplayDesc}
+                                className="btn btn-black-outline"
+                              >
+                                {qualChild?.qualDisplayDesc}
+                              </label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {jsondata?.subjectFilterList?.length > 0 && (
+                    <div className="flex flex-col gap-[16px]">
                       <div className="flex flex-col gap-[4px]">
                         <div className="text-para-lg font-semibold">
-                          Find a university
+                          Subject area
                         </div>
                         <div className="x-small font-semibold text-black uppercase">
-                          Choose one
+                          choose one subject area
                         </div>
                       </div>
                       <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
@@ -1189,48 +934,29 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             type="text"
                             className="w-full focus:outline-none small text-black placeholder:text-gray-500"
                             aria-label="enter keyword"
-                            placeholder="Search universities"
+                            placeholder="Search subjects"
+                            value={subjectState?.subjectkeyword}
                             onChange={(event) => {
-                              universityKeywordSearch(event?.target?.value);
+                              subjectKeyWordSearch(event?.target?.value);
                             }}
-                            value={searchedUniversity?.universityKeyword}
                           />
-                          {searchedUniversity?.isUniversityDropdownOpen && (
+                          {subjectState?.isSujectDropdownOpen && (
                             <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                              {searchedUniversity?.sortedUni?.length > 0 ? (
+                              {subjectState?.sortedSubjects?.length > 0 ? (
                                 <ul>
-                                  {searchedUniversity?.sortedUni?.map(
-                                    (sortedUniItem: any, index: number) => (
+                                  {subjectState?.sortedSubjects?.map(
+                                    (subjects: any, index: number) => (
                                       <li key={index + 1}>
                                         <div
                                           onClick={() => {
                                             appendSearchParams(
-                                              "university",
-                                              sortedUniItem?.collegeTextKey
+                                              keyName?.subject,
+                                              subjects?.subjectTextKey
                                             );
-                                            // const selectedItem =
-                                            //   universitiesList
-                                            //     ?.flatMap(
-                                            //       (universityArray: any) =>
-                                            //         universityArray?.unilist
-                                            //           ?.filter(
-                                            //             (university: any) =>
-                                            //               university?.collegeNameDisplay ===
-                                            //               sortedUniItem?.collegeNameDisplay
-                                            //           )
-                                            //           ?.map(
-                                            //             () => universityArray
-                                            //           ) || []
-                                            //     )
-                                            //     ?.filter(Boolean)[0];
-                                            // universityClicked(
-                                            //   selectedItem?.displayHeading,
-                                            //   selectedItem?.id
-                                            // );
                                           }}
                                           className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
                                         >
-                                          {sortedUniItem?.collegeNameDisplay}
+                                          {subjects?.categoryDesc}
                                         </div>
                                       </li>
                                     )
@@ -1245,217 +971,460 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       </div>
                       <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
                         <div
-                          className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
-                            searchedUniversity?.isUniversityOpen
-                              ? "-translate-x-full h-0 hidden"
-                              : "translate-x-0 h-auto"
-                          }`}
+                          className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
+                      ${subjectState?.isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
+                      `}
                         >
-                          {universitiesList?.map(
-                            (uniItem: any, index: number) => (
-                              <div
-                                key={index}
-                                onClick={() => {
-                                  universityClicked(
-                                    uniItem?.displayHeading,
-                                    uniItem?.id
-                                  );
-                                }}
-                                className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
+                          {ParentSubject?.map((l1Subjects: any, index: any) => (
+                            <div
+                              key={index}
+                              onClick={() => {
+                                subjectClicked(l1Subjects, true);
+                              }}
+                              className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
+                            >
+                              {l1Subjects}
+                              <svg
+                                width="16"
+                                height="17"
+                                viewBox="0 0 16 17"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
-                                {uniItem?.name}
-                                <svg
-                                  width="16"
-                                  height="17"
-                                  viewBox="0 0 16 17"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                    fill="#4664DC"
-                                  />
-                                </svg>
-                              </div>
-                            )
-                          )}
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
+                                  fill="#4664DC"
+                                />
+                              </svg>
+                            </div>
+                          ))}
                         </div>
-
                         <div
-                          className={`bg-white transition-all duration-300 ease-in-out 
+                          className={`
+                        bg-white transition-all duration-300 ease-in-out
+                        ${subjectState?.isSubjectOpen ? "translate-x-0" : "-translate-x-full"}
+                      `}
+                        >
+                          {L2subjects?.map((subjects: any, index: number) => (
+                            <L2subjectList
+                              key={index}
+                              subjectsArray={subjects}
+                              selectedSubject={subjectState?.selectedSubject}
+                              isIndexed={isIndexed}
+                              isSubjectOpen={subjectState?.isSubjectOpen}
+                              subjectClicked={subjectClicked}
+                              formUrl={formUrl}
+                              slug={slug}
+                              appendSearchParams={appendSearchParams}
+                              containsSearchParam={containsSearchParam}
+                              jsondata={jsondata?.subjectFilterList}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Accordion>
+              {(jsondata?.intakeYearDetails?.intakeYearList?.length > 0 ||
+                jsondata?.intakeYearDetails?.intakeMonthList?.length > 0) && (
+                <Accordion
+                  id="#year"
+                  title="Intake year"
+                  defaultOpenStatus={
+                    filterState?.selectedFilter === "year" ? true : false
+                  }
+                >
+                  <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+                    <div className="x-small font-semibold text-black uppercase">
+                      Choose YEAR & MONTH
+                    </div>
+                    <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                      {jsondata?.intakeYearDetails?.intakeYearList?.map(
+                        (yearItem: any, index: number) => (
+                          <div className="form-black flex relative" key={index}>
+                            {/* {isIndexed && ( */}
+                            <Link
+                              id={"year" + yearItem?.year}
+                              href={{
+                                pathname: `${slug}`,
+                                query: formUrl("year", `${yearItem?.year}`),
+                              }}
+                            ></Link>
+                            {/* )} */}
+                            <input
+                              checked={
+                                `${prepopulateFilter?.year}` ==
+                                `${yearItem?.year}`
+                              }
+                              onChange={() => {
+                                setPrepopulateFilter((prev: any) => ({
+                                  ...prev,
+                                  year:
+                                    `${prev?.year}` == `${yearItem?.year}`
+                                      ? ""
+                                      : `${yearItem?.year}`,
+                                }));
+                                appendSearchParams("year", `${yearItem?.year}`);
+                              }}
+                              type="checkbox"
+                              name={`${yearItem?.year}`}
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id={`${yearItem?.year}`}
+                            />
+                            <label
+                              htmlFor={`${yearItem?.year}`}
+                              className="btn btn-black-outline"
+                            >
+                              {yearItem?.year}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
+                      {jsondata?.intakeYearDetails?.intakeMonthList?.map(
+                        (monthItem: any, index: any) => (
+                          <div className="form-black flex relative" key={index}>
+                            {/* {isIndexed && ( */}
+                            <Link
+                              id={"month" + monthItem?.month}
+                              href={{
+                                pathname: `${slug}`,
+                                query: formUrl("month", `${monthItem?.month}`),
+                              }}
+                            ></Link>
+                            {/* )} */}
+                            <input
+                              checked={
+                                prepopulateFilter?.month == monthItem?.month
+                              }
+                              onChange={() => {
+                                appendSearchParams("month", monthItem?.month);
+                                setPrepopulateFilter((prev: any) => ({
+                                  ...prev,
+                                  month:
+                                    prev?.month == monthItem?.month
+                                      ? ""
+                                      : monthItem?.month,
+                                }));
+                              }}
+                              type="checkbox"
+                              name={monthItem?.month}
+                              className="rounded-[4px] outline-none absolute opacity-0"
+                              id={monthItem?.month}
+                            />
+                            <label
+                              htmlFor={monthItem?.month}
+                              className="btn btn-black-outline min-w-[53px] py-[5px]"
+                            >
+                              {monthItem?.month}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </Accordion>
+              )}
+              {jsondata?.universityFilterList?.length > 0 && (
+                <Accordion
+                  title="University"
+                  id="#university"
+                  defaultOpenStatus={
+                    filterState?.selectedFilter === "university" ? true : false
+                  }
+                >
+                  <div className="flex flex-col gap-[16px] pt-[24px]">
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="text-para-lg font-semibold">
+                        Find a university
+                      </div>
+                      <div className="x-small font-semibold text-black uppercase">
+                        Choose one
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-[22px] p-[11px_12px] border border-grey-300 hover:border-primary-500 md:p-[9px_12px]">
+                      <div className="flex item-center gap-[12px] relative">
+                        <Image
+                          src="/static/assets/icons/search-result/search-black.svg"
+                          width="20"
+                          height="20"
+                          alt="Search icon"
+                        />
+                        <input
+                          type="text"
+                          className="w-full focus:outline-none small text-black placeholder:text-gray-500"
+                          aria-label="enter keyword"
+                          placeholder="Search universities"
+                          onChange={(event) => {
+                            universityKeywordSearch(event?.target?.value);
+                          }}
+                          value={searchedUniversity?.universityKeyword}
+                        />
+                        {searchedUniversity?.isUniversityDropdownOpen && (
+                          <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                            {searchedUniversity?.sortedUni?.length > 0 ? (
+                              <ul>
+                                {searchedUniversity?.sortedUni?.map(
+                                  (sortedUniItem: any, index: number) => (
+                                    <li key={index + 1}>
+                                      <div
+                                        onClick={() => {
+                                          appendSearchParams(
+                                            "university",
+                                            sortedUniItem?.collegeTextKey
+                                          );
+                                          // const selectedItem =
+                                          //   universitiesList
+                                          //     ?.flatMap(
+                                          //       (universityArray: any) =>
+                                          //         universityArray?.unilist
+                                          //           ?.filter(
+                                          //             (university: any) =>
+                                          //               university?.collegeNameDisplay ===
+                                          //               sortedUniItem?.collegeNameDisplay
+                                          //           )
+                                          //           ?.map(
+                                          //             () => universityArray
+                                          //           ) || []
+                                          //     )
+                                          //     ?.filter(Boolean)[0];
+                                          // universityClicked(
+                                          //   selectedItem?.displayHeading,
+                                          //   selectedItem?.id
+                                          // );
+                                        }}
+                                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                                      >
+                                        {sortedUniItem?.collegeNameDisplay}
+                                      </div>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            ) : (
+                              <p>No match found</p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
+                      <div
+                        className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
+                          searchedUniversity?.isUniversityOpen
+                            ? "-translate-x-full h-0 hidden"
+                            : "translate-x-0 h-auto"
+                        }`}
+                      >
+                        {universitiesList?.map(
+                          (uniItem: any, index: number) => (
+                            <div
+                              key={index}
+                              onClick={() => {
+                                universityClicked(
+                                  uniItem?.displayHeading,
+                                  uniItem?.id
+                                );
+                              }}
+                              className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
+                            >
+                              {uniItem?.name}
+                              <svg
+                                width="16"
+                                height="17"
+                                viewBox="0 0 16 17"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
+                                  fill="#4664DC"
+                                />
+                              </svg>
+                            </div>
+                          )
+                        )}
+                      </div>
+
+                      <div
+                        className={`bg-white transition-all duration-300 ease-in-out 
                       ${
                         searchedUniversity?.isUniversityOpen
                           ? "translate-x-0"
                           : "-translate-x-full"
                       }
                     `}
-                        >
-                          {universitiesList?.map(
-                            (university: any, index: number) => (
-                              <SelectedUniversity
-                                key={index + 1}
-                                isIndexed={isIndexed}
-                                isUniversityOpen={
-                                  searchedUniversity?.isUniversityOpen
-                                }
-                                universityClicked={universityClicked}
-                                id={university?.id}
-                                appendSearchParams={appendSearchParams}
-                                formUrl={formUrl}
-                                selectedId={searchedUniversity?.selectUniId}
-                                universityList={university?.unilist}
-                                pathname={slug}
-                              />
-                            )
-                          )}
-                        </div>
+                      >
+                        {universitiesList?.map(
+                          (university: any, index: number) => (
+                            <SelectedUniversity
+                              key={index + 1}
+                              isIndexed={isIndexed}
+                              isUniversityOpen={
+                                searchedUniversity?.isUniversityOpen
+                              }
+                              universityClicked={universityClicked}
+                              id={university?.id}
+                              appendSearchParams={appendSearchParams}
+                              formUrl={formUrl}
+                              selectedId={searchedUniversity?.selectUniId}
+                              universityList={university?.unilist}
+                              pathname={slug}
+                            />
+                          )
+                        )}
                       </div>
                     </div>
-                  </Accordion>
-                )}
-                {(jsondata?.cityList?.length > 0 ||
-                  jsondata?.regionList?.length > 0) && (
-                  <>
-                    {slug?.split("/")[2] === "search" && (
-                      <Accordion
-                        title="Location"
-                        id="#location"
-                        defaultOpenStatus={
-                          filterState?.selectedFilter === "location"
-                            ? true
-                            : false
-                        }
-                      >
-                        {/* location */}
-                        <div className="flex flex-col gap-[24px]">
-                          <div className="flex flex-col gap-[8px] pt-[24px]">
-                            <div className="font-semibold">
-                              Distance from home
-                            </div>
-                            <div className="flex flex-col gap-[16px]">
-                              <div className="bg-white rounded-[24px] w-full p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[4px] md:w-[508px]">
-                                <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
-                                  <div className="relative shrink-0">
-                                    <button
-                                      onClick={() => {
-                                        toggleLocationMiles("50 miles");
-                                      }}
-                                      className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
-                                      type="button"
-                                    >
-                                      Range: {locationState?.selectedMile}
-                                      <Image
-                                        src="/static/assets/icons/arrow_down_black.svg"
-                                        width="20"
-                                        height="20"
-                                        alt="Search icon"
-                                      />
-                                    </button>
-                                    {locationState?.isdropDownOpen && (
-                                      <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
-                                        <ul>
-                                          {locationMilesArray?.map(
-                                            (mileItem, index) => (
-                                              <li
-                                                key={index + 1}
-                                                onClick={() => {
-                                                  toggleLocationMiles(
-                                                    mileItem?.miles
-                                                  );
-                                                }}
-                                                className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
-                                              >
-                                                {mileItem?.miles}
-                                              </li>
-                                            )
-                                          )}
-                                        </ul>
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
-                                    <input
-                                      type="text"
-                                      className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
-                                      aria-label="submenu"
-                                      placeholder="Enter Postcode"
-                                      value={locationState?.postCodeValue}
-                                      onChange={(event) => {
-                                        postCodeChange(event.target.value);
-                                      }}
-                                    />
-                                  </div>
+                  </div>
+                </Accordion>
+              )}
+              {(jsondata?.cityList?.length > 0 ||
+                jsondata?.regionList?.length > 0) && (
+                <>
+                  {slug?.split("/")[2] === "search" && (
+                    <Accordion
+                      title="Location"
+                      id="#location"
+                      defaultOpenStatus={
+                        filterState?.selectedFilter === "location"
+                          ? true
+                          : false
+                      }
+                    >
+                      {/* location */}
+                      <div className="flex flex-col gap-[24px]">
+                        <div className="flex flex-col gap-[8px] pt-[24px]">
+                          <div className="font-semibold">
+                            Distance from home
+                          </div>
+                          <div className="flex flex-col gap-[16px]">
+                            <div className="bg-white rounded-[24px] w-full p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[4px] md:w-[508px]">
+                              <div className="flex flex-col gap-[24px] small md:flex-row md:items-center md:gap-[10px]">
+                                <div className="relative shrink-0">
                                   <button
-                                    onClick={postcodeSubmit}
-                                    type="submit"
-                                    className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
+                                    onClick={() => {
+                                      toggleLocationMiles("50 miles");
+                                    }}
+                                    className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
+                                    type="button"
                                   >
+                                    Range: {locationState?.selectedMile}
                                     <Image
-                                      src="/static/assets/icons/search_icon.svg"
-                                      width="18"
-                                      height="18"
+                                      src="/static/assets/icons/arrow_down_black.svg"
+                                      width="20"
+                                      height="20"
                                       alt="Search icon"
                                     />
-                                    Search
                                   </button>
+                                  {locationState?.isdropDownOpen && (
+                                    <div className="bg-white z-[1] shadow-custom-3 rounded-[4px] absolute left-[-16px] top-[33px] w-[calc(100%+32px)] md:w-[calc(100%+16px)]">
+                                      <ul>
+                                        {locationMilesArray?.map(
+                                          (mileItem, index) => (
+                                            <li
+                                              key={index + 1}
+                                              onClick={() => {
+                                                toggleLocationMiles(
+                                                  mileItem?.miles
+                                                );
+                                              }}
+                                              className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
+                                            >
+                                              {mileItem?.miles}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
                                 </div>
+                                <div className="w-full grow border-y-[1px] border-grey-200 md:border-l md:border-y-0">
+                                  <input
+                                    type="text"
+                                    className="w-full focus:outline-none text-black placeholder:text-gray-500 px-[0] py-[24px] md:px-[16px] md:py-[0px]"
+                                    aria-label="submenu"
+                                    placeholder="Enter Postcode"
+                                    value={locationState?.postCodeValue}
+                                    onChange={(event) => {
+                                      postCodeChange(event.target.value);
+                                    }}
+                                  />
+                                </div>
+                                <button
+                                  onClick={postcodeSubmit}
+                                  type="submit"
+                                  className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[7px] md:min-w-[114px] md:w-[130px]"
+                                >
+                                  <Image
+                                    src="/static/assets/icons/search_icon.svg"
+                                    width="18"
+                                    height="18"
+                                    alt="Search icon"
+                                  />
+                                  Search
+                                </button>
                               </div>
-                              {locationState?.locationMilesError && (
-                                <p className="small text-negative-default">
-                                  Please enter postcode
-                                </p>
-                              )}
                             </div>
-                            <div className="flex items-center gap-[4px]">
-                              <svg
-                                width="16"
-                                height="18"
-                                viewBox="0 0 16 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M12.3137 12.8137C11.5923 13.5351 10.1389 14.9886 9.04085 16.0866C8.2598 16.8676 6.99496 16.8675 6.21391 16.0865C5.13566 15.0082 3.70908 13.5817 2.94113 12.8137C0.352958 10.2255 0.352958 6.02929 2.94113 3.44113C5.52929 0.852958 9.72554 0.852958 12.3137 3.44113C14.9019 6.02929 14.9019 10.2255 12.3137 12.8137Z"
-                                  stroke="#4664DC"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M10.1127 8.12742C10.1127 9.5 9 10.6127 7.62742 10.6127C6.25484 10.6127 5.14214 9.5 5.14214 8.12742C5.14214 6.75483 6.25484 5.64214 7.62742 5.64214C9 5.64214 10.1127 6.75483 10.1127 8.12742Z"
-                                  stroke="#4664DC"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                              <div
-                                onClick={getUserLocation}
-                                className="small text-blue-400 hover:underline"
-                              >
-                                Use current location
-                              </div>
+                            {locationState?.locationMilesError && (
+                              <p className="small text-negative-default">
+                                Please enter postcode
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-[4px]">
+                            <svg
+                              width="16"
+                              height="18"
+                              viewBox="0 0 16 18"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12.3137 12.8137C11.5923 13.5351 10.1389 14.9886 9.04085 16.0866C8.2598 16.8676 6.99496 16.8675 6.21391 16.0865C5.13566 15.0082 3.70908 13.5817 2.94113 12.8137C0.352958 10.2255 0.352958 6.02929 2.94113 3.44113C5.52929 0.852958 9.72554 0.852958 12.3137 3.44113C14.9019 6.02929 14.9019 10.2255 12.3137 12.8137Z"
+                                stroke="#4664DC"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M10.1127 8.12742C10.1127 9.5 9 10.6127 7.62742 10.6127C6.25484 10.6127 5.14214 9.5 5.14214 8.12742C5.14214 6.75483 6.25484 5.64214 7.62742 5.64214C9 5.64214 10.1127 6.75483 10.1127 8.12742Z"
+                                stroke="#4664DC"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                            <div
+                              onClick={getUserLocation}
+                              className="small text-blue-400 hover:underline"
+                            >
+                              Use current location
                             </div>
                           </div>
-                          {(jsondata?.regionList?.length > 0 ||
-                            jsondata?.cityList?.length > 0) && (
-                            <div className="flex flex-col gap-[4px] ">
-                              <div className="text-para-lg font-semibold">
-                                Region
-                              </div>
-                              <div className="x-small font-semibold text-black uppercase">
-                                Choose one or more
-                              </div>
-                              <ul
-                                className={`pt-[12px] ${prepopulateFilter?.city ? "opacity-50" : ""}`}
-                              >
-                                <li>
-                                  <div className="form_check relative m-[0_0_12px]">
-                                    <div className="flex items-start gap-[8px]">
-                                      <div className="checkbox_card">
-                                        {/* <Link
+                        </div>
+                        {(jsondata?.regionList?.length > 0 ||
+                          jsondata?.cityList?.length > 0) && (
+                          <div className="flex flex-col gap-[4px] ">
+                            <div className="text-para-lg font-semibold">
+                              Region
+                            </div>
+                            <div className="x-small font-semibold text-black uppercase">
+                              Choose one or more
+                            </div>
+                            <ul
+                              className={`pt-[12px] ${prepopulateFilter?.city ? "opacity-50" : ""}`}
+                            >
+                              <li>
+                                <div className="form_check relative m-[0_0_12px]">
+                                  <div className="flex items-start gap-[8px]">
+                                    <div className="checkbox_card">
+                                      {/* <Link
                                           id={
                                             "region" +
                                             parentRegion[0]?.regionTextKey
@@ -1508,341 +1477,329 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                             />
                                           </svg>
                                         </label> */}
+                                    </div>
+                                    <label
+                                      htmlFor="All Uk"
+                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                    >
+                                      {parentRegion[0]?.regionName}
+                                    </label>
+                                  </div>
+                                </div>
+                                <ul>
+                                  <li>
+                                    {FirstLevelRegion?.map(
+                                      (regionItem: any, index: number) => (
+                                        <Regions
+                                          containsSearchParam={
+                                            containsSearchParam
+                                          }
+                                          country={parentRegion[0]}
+                                          key={index + 1}
+                                          item={regionItem}
+                                          regionListData={jsondata?.regionList}
+                                          slug={slug}
+                                          isIndexed={isIndexed}
+                                          formUrl={formUrl}
+                                          appendSearchParams={
+                                            appendSearchParams
+                                          }
+                                        />
+                                      )
+                                    )}
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                        {jsondata?.cityList && (
+                          <div className="flex flex-col gap-[4px]">
+                            <div className="text-para-lg font-semibold">
+                              City
+                            </div>
+                            <div className="x-small font-semibold text-black uppercase">
+                              Choose one or more
+                            </div>
+                            <div
+                              className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${prepopulateFilter?.region ? "opacity-50" : ""}`}
+                            >
+                              {jsondata?.cityList?.map(
+                                (cityItem: any, index: number) => (
+                                  <div
+                                    className="form_check relative"
+                                    key={index}
+                                  >
+                                    <div className="flex items-start gap-[8px]">
+                                      <div className="checkbox_card">
+                                        {/* {isIndexed && ( */}
+                                        <Link
+                                          id={"city" + cityItem?.cityTextKey}
+                                          href={{
+                                            pathname: `${slug}`,
+                                            query: formUrl(
+                                              "city",
+                                              cityItem?.cityTextKey
+                                            ),
+                                          }}
+                                        ></Link>
+                                        {/* )} */}
+                                        <input
+                                          type="checkbox"
+                                          checked={
+                                            prepopulateFilter?.city ==
+                                            cityItem?.cityTextKey
+                                              ? true
+                                              : false
+                                          }
+                                          onChange={() => {
+                                            appendSearchParams(
+                                              "city",
+                                              cityItem?.cityTextKey
+                                            );
+                                            setPrepopulateFilter(
+                                              (prev: any) => ({
+                                                ...prev,
+                                                city:
+                                                  prev?.city ==
+                                                  cityItem?.cityTextKey
+                                                    ? ""
+                                                    : cityItem?.cityTextKey,
+                                              })
+                                            );
+                                          }}
+                                          className="form-checkbox hidden"
+                                          id={cityItem?.cityName}
+                                          name={cityItem?.cityName}
+                                        />
+                                        <label
+                                          htmlFor={cityItem?.cityName}
+                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                        >
+                                          <svg
+                                            width="10"
+                                            height="8"
+                                            viewBox="0 0 10 8"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                              fill="white"
+                                              stroke="white"
+                                              strokeWidth="0.666667"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            />
+                                          </svg>
+                                        </label>
                                       </div>
                                       <label
-                                        htmlFor="All Uk"
+                                        htmlFor={cityItem?.cityName}
                                         className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                       >
-                                        {parentRegion[0]?.regionName}
+                                        {cityItem?.cityName}
                                       </label>
                                     </div>
                                   </div>
-                                  <ul>
-                                    <li>
-                                      {FirstLevelRegion?.map(
-                                        (regionItem: any, index: number) => (
-                                          <Regions
-                                            containsSearchParam={
-                                              containsSearchParam
-                                            }
-                                            country={parentRegion[0]}
-                                            key={index + 1}
-                                            item={regionItem}
-                                            regionListData={
-                                              jsondata?.regionList
-                                            }
-                                            slug={slug}
-                                            isIndexed={isIndexed}
-                                            formUrl={formUrl}
-                                            appendSearchParams={
-                                              appendSearchParams
-                                            }
-                                          />
-                                        )
-                                      )}
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
+                                )
+                              )}
                             </div>
-                          )}
-                          {jsondata?.cityList && (
-                            <div className="flex flex-col gap-[4px]">
-                              <div className="text-para-lg font-semibold">
-                                City
-                              </div>
-                              <div className="x-small font-semibold text-black uppercase">
-                                Choose one or more
-                              </div>
-                              <div
-                                className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${prepopulateFilter?.region ? "opacity-50" : ""}`}
-                              >
-                                {jsondata?.cityList?.map(
-                                  (cityItem: any, index: number) => (
-                                    <div
-                                      className="form_check relative"
-                                      key={index}
-                                    >
-                                      <div className="flex items-start gap-[8px]">
-                                        <div className="checkbox_card">
-                                          {/* {isIndexed && ( */}
-                                          <Link
-                                            id={"city" + cityItem?.cityTextKey}
-                                            href={{
-                                              pathname: `${slug}`,
-                                              query: formUrl(
-                                                "city",
-                                                cityItem?.cityTextKey
-                                              ),
-                                            }}
-                                          ></Link>
-                                          {/* )} */}
-                                          <input
-                                            type="checkbox"
-                                            checked={
-                                              prepopulateFilter?.city ==
-                                              cityItem?.cityTextKey
-                                                ? true
-                                                : false
-                                            }
-                                            onChange={() => {
-                                              appendSearchParams(
-                                                "city",
-                                                cityItem?.cityTextKey
-                                              );
-                                              setPrepopulateFilter(
-                                                (prev: any) => ({
-                                                  ...prev,
-                                                  city:
-                                                    prev?.city ==
-                                                    cityItem?.cityTextKey
-                                                      ? ""
-                                                      : cityItem?.cityTextKey,
-                                                })
-                                              );
-                                            }}
-                                            className="form-checkbox hidden"
-                                            id={cityItem?.cityName}
-                                            name={cityItem?.cityName}
-                                          />
-                                          <label
-                                            htmlFor={cityItem?.cityName}
-                                            className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                          >
-                                            <svg
-                                              width="10"
-                                              height="8"
-                                              viewBox="0 0 10 8"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                                fill="white"
-                                                stroke="white"
-                                                strokeWidth="0.666667"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              />
-                                            </svg>
-                                          </label>
-                                        </div>
-                                        <label
-                                          htmlFor={cityItem?.cityName}
-                                          className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                        >
-                                          {cityItem?.cityName}
-                                        </label>
-                                      </div>
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            </div>
-                          )}
-                          {jsondata?.uniLocationTypeList && (
-                            <div className="flex flex-col gap-[4px]">
-                              <div className="text-para-lg font-semibold">
-                                Location type
-                              </div>
-                              <div className="x-small font-semibold text-black uppercase">
-                                Choose one
-                              </div>
-                              <div className="flex items-center gap-[8px]">
-                                {jsondata?.uniLocationTypeList?.map(
-                                  (uniLocationTypeItem: any, index: number) => (
-                                    <div
-                                      className="form-black flex relative"
-                                      key={index}
-                                    >
-                                      {/* {isIndexed && ( */}
-                                      <Link
-                                        id={
-                                          keyName?.locationType +
-                                          uniLocationTypeItem?.locTypeTextKey
-                                        }
-                                        href={{
-                                          pathname: `${slug}`,
-                                          query: formUrl(
-                                            keyName?.locationType,
-                                            uniLocationTypeItem?.locTypeTextKey
-                                          ),
-                                        }}
-                                      ></Link>
-                                      {/* )} */}
-                                      <input
-                                        type="checkbox"
-                                        checked={
-                                          prepopulateFilter?.locationType ==
-                                          uniLocationTypeItem?.locTypeTextKey
-                                            ? true
-                                            : false
-                                        }
-                                        onChange={() => {
-                                          appendSearchParams(
-                                            keyName?.locationType,
-                                            uniLocationTypeItem?.locTypeTextKey
-                                          );
-                                          setPrepopulateFilter((prev: any) => ({
-                                            ...prev,
-                                            locationType:
-                                              prev?.locationType ==
-                                              uniLocationTypeItem?.locTypeTextKey
-                                                ? ""
-                                                : uniLocationTypeItem?.locTypeTextKey,
-                                          }));
-                                        }}
-                                        name={uniLocationTypeItem?.locTypeDesc}
-                                        className="rounded-[4px] outline-none absolute opacity-0"
-                                        id={uniLocationTypeItem?.locTypeDesc}
-                                        value={uniLocationTypeItem?.locTypeDesc}
-                                      />
-                                      <label
-                                        htmlFor={
-                                          uniLocationTypeItem?.locTypeDesc
-                                        }
-                                        className="btn btn-black-outline"
-                                      >
-                                        {uniLocationTypeItem?.locTypeDesc}
-                                      </label>
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </Accordion>
-                    )}
-                  </>
-                )}
-                {slug?.split("/")[2] === "search" && (
-                  <>
-                    {jsondata?.universityGroupList?.length > 0 && (
-                      <Accordion
-                        title="University group"
-                        defaultOpenStatus={false}
-                      >
-                        <div className="flex flex-col gap-[8px] pt-[24px]">
-                          <div className="x-small font-semibold text-black uppercase">
-                            Choose one
                           </div>
-                          <div className="flex flex-col gap-[12px]">
-                            {jsondata?.universityGroupList?.map(
-                              (uniGroupListItem: any, index: number) => (
-                                <div
-                                  className="form_check relative"
-                                  key={index}
-                                >
-                                  <div className="flex items-start gap-[8px]">
-                                    <div className="checkbox_card">
-                                      {/* {isIndexed && ( */}
-                                      <Link
-                                        id={
-                                          keyName?.russellGroup +
+                        )}
+                        {jsondata?.uniLocationTypeList && (
+                          <div className="flex flex-col gap-[4px]">
+                            <div className="text-para-lg font-semibold">
+                              Location type
+                            </div>
+                            <div className="x-small font-semibold text-black uppercase">
+                              Choose one
+                            </div>
+                            <div className="flex items-center gap-[8px]">
+                              {jsondata?.uniLocationTypeList?.map(
+                                (uniLocationTypeItem: any, index: number) => (
+                                  <div
+                                    className="form-black flex relative"
+                                    key={index}
+                                  >
+                                    {/* {isIndexed && ( */}
+                                    <Link
+                                      id={
+                                        keyName?.locationType +
+                                        uniLocationTypeItem?.locTypeTextKey
+                                      }
+                                      href={{
+                                        pathname: `${slug}`,
+                                        query: formUrl(
+                                          keyName?.locationType,
+                                          uniLocationTypeItem?.locTypeTextKey
+                                        ),
+                                      }}
+                                    ></Link>
+                                    {/* )} */}
+                                    <input
+                                      type="checkbox"
+                                      checked={
+                                        prepopulateFilter?.locationType ==
+                                        uniLocationTypeItem?.locTypeTextKey
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={() => {
+                                        appendSearchParams(
+                                          keyName?.locationType,
+                                          uniLocationTypeItem?.locTypeTextKey
+                                        );
+                                        setPrepopulateFilter((prev: any) => ({
+                                          ...prev,
+                                          locationType:
+                                            prev?.locationType ==
+                                            uniLocationTypeItem?.locTypeTextKey
+                                              ? ""
+                                              : uniLocationTypeItem?.locTypeTextKey,
+                                        }));
+                                      }}
+                                      name={uniLocationTypeItem?.locTypeDesc}
+                                      className="rounded-[4px] outline-none absolute opacity-0"
+                                      id={uniLocationTypeItem?.locTypeDesc}
+                                      value={uniLocationTypeItem?.locTypeDesc}
+                                    />
+                                    <label
+                                      htmlFor={uniLocationTypeItem?.locTypeDesc}
+                                      className="btn btn-black-outline"
+                                    >
+                                      {uniLocationTypeItem?.locTypeDesc}
+                                    </label>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </Accordion>
+                  )}
+                </>
+              )}
+              {slug?.split("/")[2] === "search" && (
+                <>
+                  {jsondata?.universityGroupList?.length > 0 && (
+                    <Accordion
+                      title="University group"
+                      defaultOpenStatus={false}
+                    >
+                      <div className="flex flex-col gap-[8px] pt-[24px]">
+                        <div className="x-small font-semibold text-black uppercase">
+                          Choose one
+                        </div>
+                        <div className="flex flex-col gap-[12px]">
+                          {jsondata?.universityGroupList?.map(
+                            (uniGroupListItem: any, index: number) => (
+                              <div className="form_check relative" key={index}>
+                                <div className="flex items-start gap-[8px]">
+                                  <div className="checkbox_card">
+                                    {/* {isIndexed && ( */}
+                                    <Link
+                                      id={
+                                        keyName?.russellGroup +
+                                        uniGroupListItem?.universityGroupTextKey
+                                      }
+                                      href={{
+                                        pathname: `${slug}`,
+                                        query: formUrl(
+                                          keyName?.russellGroup,
                                           uniGroupListItem?.universityGroupTextKey
-                                        }
-                                        href={{
-                                          pathname: `${slug}`,
-                                          query: formUrl(
-                                            keyName?.russellGroup,
+                                        ),
+                                      }}
+                                    ></Link>
+                                    {/* )} */}
+                                    <input
+                                      type="checkbox"
+                                      className="form-checkbox hidden"
+                                      id={uniGroupListItem?.universityGroupDesc}
+                                      checked={
+                                        prepopulateFilter?.russellGroup !== ""
+                                      }
+                                      onChange={() => {
+                                        appendSearchParams(
+                                          keyName?.russellGroup,
+                                          uniGroupListItem?.universityGroupTextKey
+                                        );
+                                        setPrepopulateFilter((prev: any) => ({
+                                          ...prev,
+                                          russellGroup:
+                                            prev?.russellGroup ==
                                             uniGroupListItem?.universityGroupTextKey
-                                          ),
-                                        }}
-                                      ></Link>
-                                      {/* )} */}
-                                      <input
-                                        type="checkbox"
-                                        className="form-checkbox hidden"
-                                        id={
-                                          uniGroupListItem?.universityGroupDesc
-                                        }
-                                        checked={
-                                          prepopulateFilter?.russellGroup !== ""
-                                        }
-                                        onChange={() => {
-                                          appendSearchParams(
-                                            keyName?.russellGroup,
-                                            uniGroupListItem?.universityGroupTextKey
-                                          );
-                                          setPrepopulateFilter((prev: any) => ({
-                                            ...prev,
-                                            russellGroup:
-                                              prev?.russellGroup ==
-                                              uniGroupListItem?.universityGroupTextKey
-                                                ? ""
-                                                : uniGroupListItem?.universityGroupTextKey,
-                                          }));
-                                        }}
-                                      />
-                                      <label
-                                        htmlFor={
-                                          uniGroupListItem?.universityGroupDesc
-                                        }
-                                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                      >
-                                        <svg
-                                          width="10"
-                                          height="8"
-                                          viewBox="0 0 10 8"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                            fill="white"
-                                            stroke="white"
-                                            strokeWidth="0.666667"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                      </label>
-                                    </div>
+                                              ? ""
+                                              : uniGroupListItem?.universityGroupTextKey,
+                                        }));
+                                      }}
+                                    />
                                     <label
                                       htmlFor={
                                         uniGroupListItem?.universityGroupDesc
                                       }
-                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                      className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
                                     >
-                                      {uniGroupListItem?.universityGroupDesc}
+                                      <svg
+                                        width="10"
+                                        height="8"
+                                        viewBox="0 0 10 8"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                          fill="white"
+                                          stroke="white"
+                                          strokeWidth="0.666667"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
                                     </label>
                                   </div>
+                                  <label
+                                    htmlFor={
+                                      uniGroupListItem?.universityGroupDesc
+                                    }
+                                    className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
+                                  >
+                                    {uniGroupListItem?.universityGroupDesc}
+                                  </label>
                                 </div>
-                              )
-                            )}
-                          </div>
+                              </div>
+                            )
+                          )}
                         </div>
-                      </Accordion>
-                    )}
-                  </>
-                )}
-              </div>
-              <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
-                <div className="min-w-[128px] text-center hover:underline md:text-left">
-                  <div
-                    onClick={clearFilter}
-                    aria-label="reset filters"
-                    className="text-primary-400 font-semibold"
-                  >
-                    Clear
-                  </div>
-                </div>
-                <button
-                  className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] font-semibold min-w-[200px] hover:bg-primary-500 md:w-[344px]"
-                  onClick={ShowResults}
+                      </div>
+                    </Accordion>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="flex items-center justify-between p-[16px] fixed w-full bottom-0 shadow-custom-10 bg-white md:p-[16px_32px] md:w-[768px]">
+              <div className="min-w-[128px] text-center hover:underline md:text-left">
+                <div
+                  onClick={clearFilter}
+                  aria-label="reset filters"
+                  className="text-primary-400 font-semibold"
                 >
-                  Show all {courseCount?.courseCount} results
-                </button>
+                  Clear
+                </div>
               </div>
-            </>
-          ) : (
-            <SubjectSkeleton />
-          )}
+              <button
+                className="bg-primary-400 text-white rounded-[24px] py-[10px] px-[16px] font-semibold min-w-[200px] hover:bg-primary-500 md:w-[344px]"
+                onClick={ShowResults}
+              >
+                Show all {courseCount?.courseCount} results
+              </button>
+            </div>
+          </>
         </div>
       </div>
     </>

@@ -22,6 +22,7 @@ const FilterWrapper = async () => {
   const data = await getSrFilter(
     filterbodyJson(paramObject, fullPath?.split("/")[1])
   );
+  console.log({ data });
   return <>{data && <SearchFilterComponent data={data} path={fullPath} />}</>;
 };
 

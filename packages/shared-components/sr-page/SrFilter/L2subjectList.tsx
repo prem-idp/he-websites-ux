@@ -2,6 +2,7 @@
 import React from "react";
 import { mergeTwoObjects } from "@packages/lib/utlils/filters/result-filters";
 import SubjectCheckBox from "./subjectcheckBox";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { useSearchParams } from "next/navigation";
 import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
 import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
@@ -17,12 +18,12 @@ const L2subjectList = ({
   subjectsArray,
 }: any) => {
   const searchParams = useSearchParams();
-  const keyName = process.env.PROJECT === "Whatuni" ? "subject" : "course";
+  const keyName = KeyNames();
   const subjectsSelected = extractUrlAndCookieValues(
     searchParams,
     "undefined",
     "undefined"
-  )?.[keyName]?.split(",");
+  )?.[keyName?.subject]?.split(",");
   // const keyName = process.env.PROJECT === "Whatuni" ? "subject" : "course";
   // const cookieSubject = {
   //   [keyName]: JSON.parse(getDecodedCookie("filter_param") || "")?.[keyName],
