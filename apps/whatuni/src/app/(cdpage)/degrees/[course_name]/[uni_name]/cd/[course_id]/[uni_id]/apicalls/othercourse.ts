@@ -1,4 +1,5 @@
 // postRecommendedCourse.ts
+import { v4 as uuidv4 } from "uuid";
 export const otherRecommendedCourse = async (
     courseId: string,
     collegeId: string
@@ -11,6 +12,7 @@ export const otherRecommendedCourse = async (
                 headers: {
                     "x-api-key": "vrlwDbRFMn4pcfGFqaFjR8JGreMibYxJ9mO72PFy", // API Key
                     "Content-Type": "application/json",
+                    "x-correlation-id": uuidv4(),
                     "siteCode": String(process.env.SITE_CODE), // Sending siteCode in headers
                 },
                 body: JSON.stringify({

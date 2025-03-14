@@ -18,7 +18,8 @@ import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions';
 import { MetaDataInterface, MetaFilterTypesReplace } from '@packages/lib/types/interfaces';
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant';
 import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
-import { otherRecommendedCourse } from "./apicalls/othercourse"
+import { otherRecommendedCourse } from "./apicalls/othercourse";
+import { notFound } from 'next/navigation';
 export async function generateMetadata({ params }: any) {
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
@@ -45,8 +46,13 @@ export default async function Cdpage({ params }: any) {
       .catch(err => ({ error: err }))
   ]);
 
-  console.log(data, "json")
+  console.log(data, "data")
+  console.log(contents, "contents")
+  console.log(othercourseData, "othercourseData")
 
+  if (data?.status !== "200") {
+    notFound()
+  }
 
   const customLabels = [
     "degrees",
