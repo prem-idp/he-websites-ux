@@ -432,8 +432,8 @@ queryString ? `&${queryString}` : ''
                           ) : (
                             <></>
                           )}
-                          {courseData?.availabilityDetails?.duration ||
-                          courseData?.availabilityDetails?.studyMode && (
+                          {(courseData?.availabilityDetails?.duration ||
+                          courseData?.availabilityDetails?.studyMode) && (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
