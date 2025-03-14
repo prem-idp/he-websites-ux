@@ -37,7 +37,7 @@ const SearchFilterButtons = () => {
     searchParams?.get("course")?.split(" ")
   )?.length;
   if(filterCookie?.subject)
-  subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.includes("+").split("+").length : 1);
+  subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
   const filterCount = getfilterCount(typeof window !== "undefined" && window.location.href,["pageno","page_no","sort","q","keyword"])
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),

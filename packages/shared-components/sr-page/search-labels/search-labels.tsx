@@ -3,7 +3,7 @@ import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
 import { usePathname, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import {  httpBFFRequest} from "@packages/lib/server-actions/server-action";
+import {  httpClientRequest} from "@packages/lib/utlils/clientapirequest";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { useSearchParams } from "next/navigation";
 import { getSearchPayload } from "@packages/shared-components/services/utils";
@@ -16,10 +16,9 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
     useEffect(() => {
     async function getSearchLabels() {
       
-  try {   
-   
+  try {     
     const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-    searchLabel = await httpBFFRequest(displayNameBFFEndPt, 
+    searchLabel = await httpClientRequest(displayNameBFFEndPt, 
     searchPayLoad, 
     "POST", 
     `${process.env.NEXT_PUBLIC_X_API_KEY}`, 

@@ -69,29 +69,45 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
 
     // Create filtered params object
     const filteredParams = Array.from(searchParams.entries())
-      .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city', 'russell-group'].includes(key))
-      .reduce((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-      }, {} as Record<string, string>);
+  .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
+  .reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+// Convert filtered params to URLSearchParams
+const queryString = new URLSearchParams(filteredParams).toString();
+const baseUrl = process.env.PROJECT === "Whatuni" 
+? "/degree-courses/csearch"
+: "/pgs/search";
 
-    // Convert filtered params to URLSearchParams
-    const queryString = new URLSearchParams(filteredParams).toString();
-    const baseUrl = process.env.PROJECT === "Whatuni"
-      ? "/degree-courses/csearch"
-      : "/pgs/search";
-
-    // Construct the final URL
-    const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${queryString ? `&${queryString}` : ''
-      }`;
-
-
+// Construct the final URL
+const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
+queryString ? `&${queryString}` : ''
+}`;    
     return providerResultURL;
 
   }
+  
+  const getEnquiryProps = (data:any,courseData:any) => {
+    const baseEnquiryProps = {
+      courseId: courseData?.courseId,
+      collegeId: data?.collegeId,
+      subOrderItemId: courseData?.enquiryDetails?.subOrderItemId,
+      sponsoredListingFlag: data?.sponsoredListingFlag,
+      manualBoostingFlag: data?.manualBoostingFlag,
+      orderItemId: courseData?.enquiryDetails?.orderItemId,
+      collegeName: data?.collegeTextKey,
+      pageName: "browsemoneypageresults",
+      qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode,
+      selectedSubject: selectedSubject
+    };
+    return baseEnquiryProps
+  }
+
   return (
     <>
       {searchResultsData?.map((data, index) => (
+        
         <div
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
@@ -515,101 +531,37 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                      {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
-                        <ApplyNow
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemId:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                            qualCode:"L",
-                            selectedSubject:selectedSubject
-                          }}
-                        />
+                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                          <ApplyNow
+                            enquiryProps={getEnquiryProps(data,courseData)}
+                          />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
                         <Getprospectus
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemId:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
-                            selectedSubject:selectedSubject
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <Visitwebsite
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemId:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
-                            selectedSubject:selectedSubject
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <BookOpenDay
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemId:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
-                            selectedSubject:selectedSubject
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.emailFlag === "Y" ? (
                         <RequestInfo
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemId:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                            qualCode:process.env.PROJECT === "PGS" ? "L" : qualCode,
-                            selectedSubject:selectedSubject
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
