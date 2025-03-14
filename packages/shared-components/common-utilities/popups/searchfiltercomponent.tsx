@@ -1,6 +1,7 @@
 "use client";
 type KeyValueObject = Record<string, string>;
 import React, { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +14,8 @@ import {
   getFilterPriority,
   isSingleSelection,
 } from "@packages/lib/utlils/filters/result-filters";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
+import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
 import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters";
 import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjectList";
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
@@ -25,10 +27,12 @@ import {
   getUserYearOfEntry,
 } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
-import SubjectSkeleton from "@packages/shared-components/skeleton/search-result/subject-skeleton";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
-import { getCookie } from "@packages/lib/utlils/helper-function";
-import FilterSpinner from "@packages/shared-components/skeleton/search-result/filter-spinner";
+const FilterSpinner = dynamic(
+  () =>
+    import("@packages/shared-components/skeleton/search-result/filter-spinner"),
+  { ssr: false }
+);
 const SearchFilterComponent = ({ data, path }: any) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -216,7 +220,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
 
     const getCount = async () => {
-      const bodyJson = extractUrlAndCookieValues(searchParams, "", "");
+      const bodyJson = extractUrlAndSessionValues(searchParams, "", "");
       const count = await getSrFilterCount(
         filterbodyJson(bodyJson, slug?.split("/")[1])
       );
@@ -362,12 +366,23 @@ const SearchFilterComponent = ({ data, path }: any) => {
     sessionStorage.setItem("filter_param", "{}");
     router.push(url);
   };
+  const modifySearchParams = (key: string, value: string, urlParams: any) => {
+    //const urlParentSubject = getParentSubject(searchParams, jsondata);
+    //const selectedParentSubject = getParentSubject(null, jsondata, value);
+    // if (urlParentSubject == selectedParentSubject) {
+    const searchparamObject = Object?.fromEntries(urlParams?.entries());
+    searchparamObject[key] = value;
+    const modifiedParam = new URLSearchParams(searchparamObject);
+    return `${modifiedParam}`;
+    // }
+  };
   const appendSearchParams = async (
     key: string,
     value: string,
     isUniversitySelected?: boolean,
     isQualificationChanged?: boolean
   ) => {
+    console.log({ key, value });
     setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
     let crossL1Subject = false;
     if (key === keyName?.subject) {
@@ -384,7 +399,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }
     }
 
-    const filters = extractUrlAndCookieValues(
+    const filters = extractUrlAndSessionValues(
       searchParams,
       key,
       value,
@@ -397,6 +412,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
       return acc;
     }, {} as KeyValueObject);
     setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
+    console.log(filters);
+    console.log(orderedFilters);
     const urlParams = new URLSearchParams();
     const cookieParams: KeyValueObject = {};
     let totalValues = 0;
@@ -466,16 +483,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
     setrouterEnd(true);
   };
-  const modifySearchParams = (key: string, value: string, urlParams: any) => {
-    //const urlParentSubject = getParentSubject(searchParams, jsondata);
-    //const selectedParentSubject = getParentSubject(null, jsondata, value);
-    // if (urlParentSubject == selectedParentSubject) {
-    const searchparamObject = Object?.fromEntries(urlParams?.entries());
-    searchparamObject[key] = value;
-    const modifiedParam = new URLSearchParams(searchparamObject);
-    return `${modifiedParam}`;
-    // }
-  };
+
   const formUrl = (key: string, value: string, isQualification?: boolean) => {
     let crossL1Subject = false;
     if (key === keyName?.subject) {
@@ -491,7 +499,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         crossL1Subject = true;
       }
     }
-    const filters = extractUrlAndCookieValues(
+    const filters = extractUrlAndSessionValues(
       searchParams,
       key,
       value,
@@ -521,10 +529,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
     if (count >= 4) {
       if (key == keyName?.subject) {
         const param = modifySearchParams(key, value, urlParams);
-
         return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
       } else {
-        return `${searchParams?.get(keyName?.subject) ? `subject=${searchParams.get(keyName?.subject)}&` : ""}${key}=${value}`.replaceAll(
+        return `${searchParams?.get(keyName?.subject) ? `${keyName?.subject}=${searchParams.get(keyName?.subject)}&` : ""}${key}=${value}`.replaceAll(
           "%2C",
           ","
         );
@@ -553,7 +560,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
   };
   const containsSearchParam = (key: string, value: string): boolean => {
-    const temp = extractUrlAndCookieValues(searchParams, "", "")?.[key]?.split(
+    const temp = extractUrlAndSessionValues(searchParams, "", "")?.[key]?.split(
       "+"
     );
     if (temp?.includes(value)) {
@@ -664,7 +671,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
-  console.log(jsondata);
   return (
     <>
       <div>
@@ -751,7 +757,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                   studyMethodChild?.studyMethodTextKey
                                 }
                                 href={{
-                                  pathname: `${slug}`,
+                                  pathname: generatePathName(
+                                    slug,
+                                    keyName?.studyMethod
+                                  ),
                                   query: formUrl(
                                     keyName?.studyMethod,
                                     studyMethodChild?.studyMethodTextKey
@@ -811,21 +820,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               key={index + 1}
                               id={studyModeChild?.studyModeTextKey}
                             >
-                              {/* {isIndexed && ( */}
                               <Link
                                 id={
                                   keyName?.studyMode +
                                   studyModeChild?.studyModeTextKey
                                 }
                                 href={{
-                                  pathname: `${slug}`,
+                                  pathname: generatePathName(
+                                    slug,
+                                    keyName?.studyMode
+                                  ),
                                   query: formUrl(
                                     keyName?.studyMode,
                                     studyModeChild?.studyModeTextKey
                                   ),
                                 }}
                               ></Link>
-                              {/* )} */}
                               <input
                                 type="checkbox"
                                 checked={
@@ -854,63 +864,71 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       </div>
                     </div>
                   )}
-                  {jsondata?.qualificationList?.length > 0 && (
-                    <div className="flex flex-col gap-[4px]">
-                      <div className="text-para-lg font-semibold">
-                        Study level
-                      </div>
-                      <div className="x-small font-semibold text-black uppercase">
-                        Choose one
-                      </div>
-                      <div className="flex flex-wrap gap-[8px]">
-                        {jsondata?.qualificationList?.map(
-                          (qualChild: any, index: number) => (
-                            <div
-                              className="form-black flex relative"
-                              key={index}
-                            >
-                              {
-                                // isIndexed &&
-                                !slug?.includes(qualChild?.qualTextKey) && (
-                                  <Link
-                                    id={"study-level" + qualChild?.qualTextKey}
-                                    href={{
-                                      pathname: `/${qualChild?.qualTextKey}-courses/search`,
-                                      query: formUrl(
+                  {process.env.PROJECT === "Whatuni" && (
+                    <>
+                      {jsondata?.qualificationList?.length > 0 && (
+                        <div className="flex flex-col gap-[4px]">
+                          <div className="text-para-lg font-semibold">
+                            Study level
+                          </div>
+                          <div className="x-small font-semibold text-black uppercase">
+                            Choose one
+                          </div>
+                          <div className="flex flex-wrap gap-[8px]">
+                            {jsondata?.qualificationList?.map(
+                              (qualChild: any, index: number) => (
+                                <div
+                                  className="form-black flex relative"
+                                  key={index}
+                                >
+                                  {
+                                    // isIndexed &&
+                                    !slug?.includes(qualChild?.qualTextKey) && (
+                                      <Link
+                                        id={
+                                          "study-level" + qualChild?.qualTextKey
+                                        }
+                                        href={{
+                                          pathname: `/${qualChild?.qualTextKey}-courses/search`,
+                                          query: formUrl(
+                                            "study-level",
+                                            qualChild?.qualTextKey
+                                          ),
+                                        }}
+                                      ></Link>
+                                    )
+                                  }
+                                  <input
+                                    checked={slug?.includes(
+                                      qualChild?.qualTextKey
+                                    )}
+                                    onChange={() => {
+                                      appendSearchParams(
                                         "study-level",
-                                        qualChild?.qualTextKey
-                                      ),
+                                        qualChild?.qualTextKey,
+                                        false,
+                                        true
+                                      );
                                     }}
-                                  ></Link>
-                                )
-                              }
-                              <input
-                                checked={slug?.includes(qualChild?.qualTextKey)}
-                                onChange={() => {
-                                  appendSearchParams(
-                                    "study-level",
-                                    qualChild?.qualTextKey,
-                                    false,
-                                    true
-                                  );
-                                }}
-                                type="radio"
-                                name="studylevel"
-                                id={qualChild?.qualDisplayDesc}
-                                value={qualChild?.qualDisplayDesc}
-                                className="rounded-[4px] outline-none absolute opacity-0"
-                              />
-                              <label
-                                htmlFor={qualChild?.qualDisplayDesc}
-                                className="btn btn-black-outline"
-                              >
-                                {qualChild?.qualDisplayDesc}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
+                                    type="radio"
+                                    name="studylevel"
+                                    id={qualChild?.qualDisplayDesc}
+                                    value={qualChild?.qualDisplayDesc}
+                                    className="rounded-[4px] outline-none absolute opacity-0"
+                                  />
+                                  <label
+                                    htmlFor={qualChild?.qualDisplayDesc}
+                                    className="btn btn-black-outline"
+                                  >
+                                    {qualChild?.qualDisplayDesc}
+                                  </label>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                   {jsondata?.subjectFilterList?.length > 0 && (
                     <div className="flex flex-col gap-[16px]">
@@ -1047,10 +1065,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           <div className="form-black flex relative" key={index}>
                             {/* {isIndexed && ( */}
                             <Link
-                              id={"year" + yearItem?.year}
+                              id={keyName?.year + yearItem?.year}
                               href={{
-                                pathname: `${slug}`,
-                                query: formUrl("year", `${yearItem?.year}`),
+                                pathname: generatePathName(slug, keyName?.year),
+                                query: formUrl(
+                                  keyName?.year,
+                                  `${yearItem?.year}`
+                                ),
                               }}
                             ></Link>
                             {/* )} */}
@@ -1067,7 +1088,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       ? ""
                                       : `${yearItem?.year}`,
                                 }));
-                                appendSearchParams("year", `${yearItem?.year}`);
+                                appendSearchParams(
+                                  keyName?.year,
+                                  `${yearItem?.year}`
+                                );
                               }}
                               type="checkbox"
                               name={`${yearItem?.year}`}
@@ -1090,10 +1114,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           <div className="form-black flex relative" key={index}>
                             {/* {isIndexed && ( */}
                             <Link
-                              id={"month" + monthItem?.month}
+                              id={keyName?.month + monthItem?.month}
                               href={{
-                                pathname: `${slug}`,
-                                query: formUrl("month", `${monthItem?.month}`),
+                                pathname: generatePathName(
+                                  slug,
+                                  keyName?.month
+                                ),
+                                query: formUrl(
+                                  keyName?.month,
+                                  `${monthItem?.month}`
+                                ),
                               }}
                             ></Link>
                             {/* )} */}
@@ -1102,7 +1132,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                 prepopulateFilter?.month == monthItem?.month
                               }
                               onChange={() => {
-                                appendSearchParams("month", monthItem?.month);
+                                appendSearchParams(
+                                  keyName?.month,
+                                  monthItem?.month
+                                );
                                 setPrepopulateFilter((prev: any) => ({
                                   ...prev,
                                   month:
@@ -1174,7 +1207,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       <div
                                         onClick={() => {
                                           appendSearchParams(
-                                            "university",
+                                            keyName?.university,
                                             sortedUniItem?.collegeTextKey
                                           );
                                           // const selectedItem =
@@ -1275,7 +1308,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               formUrl={formUrl}
                               selectedId={searchedUniversity?.selectUniId}
                               universityList={university?.unilist}
-                              pathname={slug}
+                              slug={slug}
                             />
                           )
                         )}
@@ -1534,9 +1567,15 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       <div className="checkbox_card">
                                         {/* {isIndexed && ( */}
                                         <Link
-                                          id={"city" + cityItem?.cityTextKey}
+                                          id={
+                                            keyName?.city +
+                                            cityItem?.cityTextKey
+                                          }
                                           href={{
-                                            pathname: `${slug}`,
+                                            pathname: generatePathName(
+                                              slug,
+                                              keyName?.city
+                                            ),
                                             query: formUrl(
                                               "city",
                                               cityItem?.cityTextKey
@@ -1554,7 +1593,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                           }
                                           onChange={() => {
                                             appendSearchParams(
-                                              "city",
+                                              keyName?.city,
                                               cityItem?.cityTextKey
                                             );
                                             setPrepopulateFilter(
@@ -1631,7 +1670,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         uniLocationTypeItem?.locTypeTextKey
                                       }
                                       href={{
-                                        pathname: `${slug}`,
+                                        pathname: generatePathName(
+                                          slug,
+                                          keyName?.locationType
+                                        ),
                                         query: formUrl(
                                           keyName?.locationType,
                                           uniLocationTypeItem?.locTypeTextKey
@@ -1707,7 +1749,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         uniGroupListItem?.universityGroupTextKey
                                       }
                                       href={{
-                                        pathname: `${slug}`,
+                                        pathname: generatePathName(
+                                          slug,
+                                          keyName?.russellGroup
+                                        ),
                                         query: formUrl(
                                           keyName?.russellGroup,
                                           uniGroupListItem?.universityGroupTextKey

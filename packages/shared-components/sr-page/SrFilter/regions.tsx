@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
+import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
 import LocationCheckBox from "@packages/shared-components/sr-page/SrFilter/locationCheckBox";
+import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 const Regions = ({
   item,
   regionListData,
@@ -14,12 +16,13 @@ const Regions = ({
   country,
 }: any) => {
   const searchparams = useSearchParams();
-
+  const keyName = KeyNames();
   const [isRegionSelected, setIsRegionSelected] = useState<any>(false);
 
   useEffect(() => {
     const appliedvalues =
-      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
+      extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
+      [];
     if (
       appliedvalues?.includes(item?.regionTextKey) ||
       appliedvalues?.includes(country?.regionTextKey)
@@ -31,7 +34,6 @@ const Regions = ({
   }, [searchparams]);
 
   const locationClicked = (regionTextKey: string) => {
-
     const selectedRegion = regionListData?.find(
       (region: any) => region?.regionTextKey == regionTextKey
     );
@@ -41,7 +43,8 @@ const Regions = ({
       (region: any) => region?.regionId === selectedRegion?.parentRegionId
     );
     let appliedRegions =
-      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
+      extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
+      [];
     const isParentRegion = regionListData?.some(
       (region: any) => region?.parentRegionId === selectedRegion?.regionId
     );
@@ -89,7 +92,7 @@ const Regions = ({
         appliedRegions?.push(parentRegion?.regionTextKey);
       }
     }
-    appendSearchParams("region", appliedRegions?.join("+"));
+    appendSearchParams(keyName?.region, appliedRegions?.join("+"));
   };
 
   return (
@@ -108,7 +111,7 @@ const Regions = ({
                 <Link
                   id={"region" + item?.regionTextKey}
                   href={{
-                    pathname: `${slug}`,
+                    pathname: generatePathName(slug, keyName?.region),
                     query: formUrl("region", item?.regionTextKey),
                   }}
                 ></Link>

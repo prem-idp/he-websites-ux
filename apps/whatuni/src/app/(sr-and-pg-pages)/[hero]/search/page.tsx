@@ -9,14 +9,17 @@ import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
 import { MetaDataProps } from "@packages/lib/types/interfaces";
 
-
 export async function generateMetadata({
   params,
   searchParams,
 }: MetaDataProps): Promise<Metadata> {
   const qulInUrl = (await params)?.hero;
   const pathname = `/${qulInUrl}/search`;
-  const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, qulInUrl, pathname);
+  const metaData = await getSearchPageMetaDetailsFromContentful(
+    await searchParams,
+    qulInUrl,
+    pathname
+  );
 
   return getMetaDetailsObject(metaData);
 }

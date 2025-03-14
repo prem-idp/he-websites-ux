@@ -49,18 +49,20 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     parentQualification: qualCode?.[parentQual] || "L",
     childQualification: "",
     searchCategoryCode: "",
-    searchSubject: inputObject?.[keyName?.subject]?.split(" ") || "",
+    searchSubject: inputObject?.[keyName?.subject]?.includes("+")
+      ? inputObject?.[keyName?.subject]?.split("+")
+      : inputObject?.[keyName?.subject]?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
     location:
       inputObject[keyName?.region] || inputObject[keyName?.city]
         ? [
-            ...(inputObject[keyName?.region]
-              ? inputObject[keyName?.region]?.split(" ")
-              : []),
-            ...(inputObject[keyName?.city]
-              ? inputObject[keyName?.city]?.split(" ")
-              : []),
+            ...(inputObject[keyName?.region]?.includes("+")
+              ? inputObject[keyName?.region]?.split("+")
+              : inputObject[keyName?.region]?.split(" ")),
+            ...(inputObject[keyName?.city]?.includes("+")
+              ? inputObject[keyName?.city]?.split("+")
+              : inputObject[keyName?.city]?.split(" ")),
           ]
         : "",
     studyMode: inputObject[keyName?.studyMode] || "",

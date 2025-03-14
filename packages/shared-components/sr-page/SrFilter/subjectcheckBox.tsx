@@ -1,35 +1,28 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
+import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 const SubjectCheckBox = ({
   item,
   appendSearchParams,
   state,
-  isIndexed,
   formUrl,
   slug,
-  parent,
 }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(state || false);
-  const [iscurrentParent, setIscurrentParent] = useState<any>("");
   useEffect(() => {
     setIsChecked(state);
   }, [state]);
-  const searchparams = useSearchParams();
-  useEffect(() => {
-    const subject = localStorage?.getItem("parentSub");
-    setIscurrentParent(subject);
-  }, [searchparams]);
-
+  const keyName = KeyNames();
   return (
     <div>
       {/* {isIndexed && ( */}
       <Link
-        id={"subject" + item?.subjectTextKey}
+        id={keyName?.subject + item?.subjectTextKey}
         href={{
-          pathname: `${slug}`,
-          query: formUrl("subject", item?.subjectTextKey),
+          pathname: generatePathName(slug, keyName?.subject),
+          query: formUrl(keyName?.subject, item?.subjectTextKey),
         }}
       ></Link>
       {/* )} */}
@@ -42,7 +35,7 @@ const SubjectCheckBox = ({
               id={item?.categoryDesc}
               checked={isChecked || false}
               onChange={() => {
-                appendSearchParams("subject", item?.subjectTextKey);
+                appendSearchParams(keyName?.subject, item?.subjectTextKey);
                 setIsChecked(!isChecked);
               }}
               className="form-checkbox hidden"

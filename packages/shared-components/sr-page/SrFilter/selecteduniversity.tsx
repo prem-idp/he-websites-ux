@@ -10,12 +10,11 @@ const SelectedUniversity = ({
   universityList,
   id,
   selectedId,
-  pathname,
+  slug,
   formUrl,
   appendSearchParams,
   isIndexed,
 }: any) => {
-  const slug = pathname?.split("/");
   const searchParams = useSearchParams();
   const keyName = KeyNames();
   const uniParam = searchParams?.get(keyName?.university) || null;

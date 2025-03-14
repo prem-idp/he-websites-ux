@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
+import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 const LocationcheckBox = ({
   childItem,
   regionListData,
@@ -11,6 +13,7 @@ const LocationcheckBox = ({
   country,
   locationClicked,
 }: any) => {
+  const keyName = KeyNames();
   const searchparams = useSearchParams();
   const [isChecked, setIsChecked] = useState<any>(false);
   useEffect(() => {
@@ -19,7 +22,8 @@ const LocationcheckBox = ({
       (region: any) => region?.regionId === parentRegion_Id
     )?.regionTextKey;
     const appliedvalues =
-      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
+      extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
+      [];
     if (
       appliedvalues?.includes(childItem?.regionTextKey) ||
       appliedvalues?.includes(country?.regionTextKey) ||
@@ -39,18 +43,21 @@ const LocationcheckBox = ({
             <div className="flex items-start gap-[8px]">
               <div
                 className="checkbox_card"
-                onClick={() => {
-                  locationClicked(childItem?.regionTextKey);
-                }}
+                // onClick={() => {
+                //   locationClicked(childItem?.regionTextKey);
+                // }}
               >
                 {
                   // isIndexed &&
                   !isChecked && (
                     <Link
-                      id={"region" + childItem?.regionTextKey}
+                      id={keyName?.region + childItem?.regionTextKey}
                       href={{
-                        pathname: `${slug}`,
-                        query: formUrl("region", childItem?.regionTextKey),
+                        pathname: generatePathName(slug, keyName?.region),
+                        query: formUrl(
+                          keyName?.region,
+                          childItem?.regionTextKey
+                        ),
                       }}
                     ></Link>
                   )
@@ -61,7 +68,8 @@ const LocationcheckBox = ({
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
-                    setIsChecked(!isChecked);
+                    //setIsChecked(!isChecked);
+                    locationClicked(childItem?.regionTextKey);
                   }}
                 />
                 <label

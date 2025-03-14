@@ -2,18 +2,22 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
+import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 const UniversityCheckBox = ({
   slug,
   formUrl,
   appendSearchParams,
   item,
-  isIndexed,
 }: any) => {
   const searchparams = useSearchParams();
+  const keyName = KeyNames();
   const [isUniSelected, setIsUniSelected] = useState(false);
   const [pageCategory, setPageCategory] = useState("csearch");
   useEffect(() => {
-    const uni = searchparams?.get("university")?.includes(item?.collegeTextKey);
+    const uni = searchparams
+      ?.get(keyName?.university)
+      ?.includes(item?.collegeTextKey);
     if (uni) {
       setPageCategory("search");
       setIsUniSelected(true);
@@ -28,20 +32,32 @@ const UniversityCheckBox = ({
         <div className="checkbox_card">
           {/* {isIndexed && ( */}
           <Link
-            id={"university" + item?.collegeTextKey}
+            id={keyName?.university + item?.collegeTextKey}
             href={{
-              pathname: `/${slug[1]}/${pageCategory}`,
-              query: formUrl("university", item?.collegeTextKey, true),
+              pathname: generatePathName(
+                slug,
+                keyName?.university,
+                searchparams
+                  ?.get(keyName?.university)
+                  ?.includes(item?.collegeTextKey)
+              ),
+              query: formUrl(keyName?.university, item?.collegeTextKey, true),
             }}
           ></Link>
           {/* )} */}
           <input
             type="checkbox"
-            checked={searchparams?.get("university") === item?.collegeTextKey}
+            checked={
+              searchparams?.get(keyName?.university) === item?.collegeTextKey
+            }
             className="form-checkbox hidden"
             id={item?.collegeName}
             onChange={() => {
-              appendSearchParams("university", item?.collegeTextKey, true);
+              appendSearchParams(
+                keyName?.university,
+                item?.collegeTextKey,
+                true
+              );
               setIsUniSelected(!isUniSelected);
             }}
           />

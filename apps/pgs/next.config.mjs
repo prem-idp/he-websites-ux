@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 const getImageDomain = () => {
   const env = process.env.NODE_ENV || "development";
 
@@ -40,6 +39,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "images-dom.aws.test.idp-connect.com",
       },
+      { protocol: "https", hostname: "images-dom.aws.stg.idp-connect.com" },
     ],
   },
 };

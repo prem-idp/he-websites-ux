@@ -1,11 +1,9 @@
 "use client";
 import React from "react";
-import { mergeTwoObjects } from "@packages/lib/utlils/filters/result-filters";
 import SubjectCheckBox from "./subjectcheckBox";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { useSearchParams } from "next/navigation";
-import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
-import { getDecodedCookie } from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
 const L2subjectList = ({
   selectedSubject,
   isIndexed,
@@ -19,20 +17,9 @@ const L2subjectList = ({
 }: any) => {
   const searchParams = useSearchParams();
   const keyName = KeyNames();
-  const subjectsSelected = extractUrlAndCookieValues(
-    searchParams,
-    "undefined",
-    "undefined"
-  )?.[keyName?.subject]?.split(",");
-  // const keyName = process.env.PROJECT === "Whatuni" ? "subject" : "course";
-  // const cookieSubject = {
-  //   [keyName]: JSON.parse(getDecodedCookie("filter_param") || "")?.[keyName],
-  // };
-  // const subjectParams = (
-  //   searchParams?.get("subject") ||
-  //   searchParams?.get("courses") ||
-  //   ""
-  // )?.split(",");
+  const subjectsSelected = extractUrlAndSessionValues(searchParams, "", "")?.[
+    keyName?.subject
+  ]?.split("+");
   let showSubjectLabel;
   if (subjectsSelected?.length > 0) {
     showSubjectLabel =
@@ -73,7 +60,7 @@ const L2subjectList = ({
           {subjectLable?.length > 1 && (
             <>
               {subjectLable
-                ?.splice(1)
+                ?.slice(1)
                 ?.map((subjectNames: any, index: number) => (
                   <li
                     key={index + 1}
@@ -83,7 +70,7 @@ const L2subjectList = ({
                     <svg
                       onClick={() => {
                         appendSearchParams(
-                          "subject",
+                          keyName?.subject,
                           subjectNames?.subjectTextKey
                         );
                       }}
@@ -163,7 +150,10 @@ const L2subjectList = ({
                 formUrl={formUrl}
                 isIndexed={isIndexed}
                 appendSearchParams={appendSearchParams}
-                state={containsSearchParam("subject", item?.subjectTextKey)}
+                state={containsSearchParam(
+                  keyName?.subject,
+                  item?.subjectTextKey
+                )}
                 slug={slug}
                 parent={selectedSubject?.parentSubject}
               />
