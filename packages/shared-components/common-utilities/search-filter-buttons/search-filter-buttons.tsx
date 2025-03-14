@@ -105,7 +105,7 @@ const SearchFilterButtons = () => {
                   fill="#F9FAFB"
                 />
               </svg>
-              Add my grades ({gradeCount})
+              Add my grades {gradeCount ? "("+{gradeCount}+")" : ""}
             </div>
           )}
           {isUcasPopupOpen && (
