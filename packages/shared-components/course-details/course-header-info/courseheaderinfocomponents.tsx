@@ -7,10 +7,34 @@ import Link from 'next/link'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import RequestInfo from '@packages/shared-components/common-utilities/cards/interaction-button/requestinfo'
 import BookEvent from '@packages/shared-components/common-utilities/cards/interaction-button/bookevent'
+import { getMetaDetailsQueryForSRpage } from '@packages/lib/graphQL/search-results'
+import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actions/server-action'
+import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
+import { getRequestInputPayload} from '@whatuni/src/app/(cdpage)/degrees/[course_name]/[uni_name]/cd/[course_id]/[uni_id]/page'
+import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant'
+import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
 
-const Courseheaderinfocomponents = ({ data }: any) => {
-
-
+const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
+  const prams_slug = await data;
+  let h1h2Text: string[] = [];
+  const displayNameReqBody = getRequestInputPayload(searchPayload);
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  console.log("searchParams...", displayNameBFFEndPt)
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
+    displayNameReqBody, 
+    "POST", 
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
+    "no-cache",  0, 
+    {});
+  const query = getMetaDetailsQueryForSRpage("SEO - courseDetails"  + ` - ${process.env.PROJECT}`);
+  let contentfulMetadata = await graphQlFetchFunction(query);
+  console.log("contentfulMetadata...", contentfulMetadata)
+  contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
+  h1h2Text = contentfulMetadata.h1Title.includes("[SPLIT]") ? contentfulMetadata.h1Title.split("[SPLIT]"): null;
+  const metaFiltersOpted: MetaFilterTypesReplace = {
+    providerName : displayNameResponse?.collegeName ?? undefined,
+    courseName : displayNameResponse?.courseName ?? undefined,
+  };
   return (
     <>
       <div className='cd-uni-info-container'>
@@ -28,11 +52,11 @@ const Courseheaderinfocomponents = ({ data }: any) => {
               <div className='uniresults-right flex flex-col flex-1 gap-[16px]'>
                 <div className='uni-info-card flex flex-col gap-[8px] md:gap-0'>
                   <div className='flex flex-col-reverse md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
-                    <span>{data?.courseInfo?.courseTitle}</span>
+                    <span>{replaceSEOPlaceHolder(h1h2Text?.[0], metaFiltersOpted)}</span>
                     <Favbutton />
                   </div>
                   <div className='flex flex-col gap-[8px]'>
-                    <a href={'/university-profile/' + data?.courseInfo?.institutionNameUrl + '/' + data?.courseInfo?.institutionId + '/'} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{data?.courseInfo?.institutionName}</a>
+                    <a href={'/university-profile/' + data?.courseInfo?.institutionNameUrl + '/' + data?.courseInfo?.institutionId + '/'} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{replaceSEOPlaceHolder(h1h2Text?.[1], metaFiltersOpted)}</a>
                     <div className='flex'>
                       <div className='rating-pod flex items-center gap-[8px]'>
                         <div className='rating-card flex items-center gap-[8px]'>
@@ -51,7 +75,7 @@ const Courseheaderinfocomponents = ({ data }: any) => {
                         <a href="#" className='reviewLink block small text-primary-400 hover:text-primary-500 hover:underline'>View reviews</a>
                       </div>
                     </div>
-                    <p className='small text-grey300'>Want to know what its like to study this course at uni? Weve got all the key info, from entry requirements to the modules on offer. If that all sounds good, why not check out reviews from real students or even book onto an upcoming open day?</p>
+                    <p className='small text-grey300'>{replaceSEOPlaceHolder(contentfulMetadata.h2Text, metaFiltersOpted)}</p>
                   </div>
                 </div>
                 <div className='uniresults-content-right flex items-end'>

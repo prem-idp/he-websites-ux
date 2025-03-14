@@ -4,17 +4,7 @@ import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
 import { MetaDataInterface } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 
-interface MetaFilterTypesReplace{
-    searchSubject?: string[],
-    studylevel?: string,
-    studymode?: string,
-    location?: string[],
-    providerCount?: string,
-    courseCount?: string,
-    university?: string,
-}
-
-export async function getSearchPageMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string) {
+export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string, pageType: string) {
   
   //Initializing and Assigning values
   const qualInUrl = params?.hero;
@@ -136,6 +126,12 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
     if (inputText?.includes("[QUALIFICATION]")) {
       inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
+     if (inputText?.includes("[COURSE NAME]")) {
+      inputText = inputText.replace("[COURSE NAME]", metaFiltersOpted?.studylevel ?? "")
+    }
+    if (inputText?.includes("[UNIVERSITY]")) {
+      inputText = inputText.replace("[UNIVERSITY]", metaFiltersOpted?.studymode ?? "");
+    }
     return inputText;
 }
 
