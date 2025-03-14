@@ -127,13 +127,14 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                 </div>
               ))}
             </div>
-            {process.env.PROJECT === "Whatuni" ? (
+            {process.env.PROJECT === "Whatuni" && (
               <>
                 <div className="font-semibold text-heading6 md:text-small">
                   Wusca categories{" "}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
                   {Object.entries(wuscaCategories).map(([label, value]) => (
+                    
                     <div
                       key={value}
                       className="custom-radio"
@@ -159,8 +160,6 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                   ))}
                 </div>
               </>
-            ) : (
-              <></>
             )}
           </div>
         </div>

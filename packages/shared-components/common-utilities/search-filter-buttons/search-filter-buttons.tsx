@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
   params?.delete(excludeParam[3]);  
   
   if(filterCookie?.subject) delete filterCookie?.subject
-  const filterCount = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
+  const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
   return filterCount
 }
 
@@ -37,8 +37,15 @@ const SearchFilterButtons = () => {
     searchParams?.get("course")?.split(" ")
   )?.length;
   if(filterCookie?.subject)
-  subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
-  const filterCount = getfilterCount(typeof window !== "undefined" && window.location.href,["pageno","page_no","sort","q","keyword"])
+    subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
+  let url:any;
+  const [filterCount, setFilterCount] = useState(0)
+  useEffect(() => { 
+  if (typeof window !== 'undefined') {
+     url = new URL(window.location.href);
+  }   
+   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword"]))
+  }, [filterCount]); 
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),

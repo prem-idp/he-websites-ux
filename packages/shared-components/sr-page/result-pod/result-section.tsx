@@ -123,7 +123,7 @@ queryString ? `&${queryString}` : ''
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
-                {data?.collegeMedia?.ipCollegeLogo ? (
+                {data?.collegeMedia?.ipCollegeLogo && (
                   <Link
                     href={
                       process.env.PROJECT === "Whatuni"
@@ -144,13 +144,11 @@ queryString ? `&${queryString}` : ''
                       height={56}
                       id="uni_img"
                     /> 
-                  </Link> ): <></>}
-                  {data?.sponsoredListingFlag === "Y" ? (
+                  </Link> )}
+                  {data?.sponsoredListingFlag === "Y" && (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
-                  ) : (
-                    <></>
                   )}
                 </div>
                 <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
@@ -169,7 +167,7 @@ queryString ? `&${queryString}` : ''
                   {data?.courseCount} engineering{" "}
                   {data?.courseCount === 1 ? "course" : "courses"}
                 </div>
-                {data?.reviewCount ? (
+                {data?.reviewCount && (
                   <div className="flex items-center gap-[8px] text-grey-50 small">
                     <div className="flex items-center gap-[2px]">
                       <svg
@@ -193,18 +191,14 @@ queryString ? `&${queryString}` : ''
                       {data?.reviewCount} reviews
                     </Link>
                   </div>
-                ) : (
-                  <></>
                 )}
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
-                  {data?.adminVenue ? (
+                  {data?.adminVenue && (
                     <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
                       {data?.adminVenue}
                     </div>
-                  ) : (
-                    <></>
                   )}
-                  {data?.distanceInMiles ? (
+                  {data?.distanceInMiles && (
                     <div className="flex items-center justify-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       <svg
                         width="16"
@@ -230,11 +224,9 @@ queryString ? `&${queryString}` : ''
                       </svg>
                       {data?.distanceInMiles} Miles from you
                     </div>
-                  ) : (
-                    <></>
                   )}
                 </div>
-                {data?.wuscaRanking ? (
+                {data?.wuscaRanking && (
                   <div className="x-small underline w-fit relative group">
                     WUSCA rank: {data?.wuscaRanking}
                     <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
@@ -272,10 +264,8 @@ queryString ? `&${queryString}` : ''
                       </p>
                     </div>
                   </div>
-                ) : (
-                  <></>
                 )}
-                {data?.wuscaBadges && process.env.PROJECT === "Whatuni" ? (
+                {data?.wuscaBadges && process.env.PROJECT === "Whatuni" && (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       <Image
@@ -291,8 +281,6 @@ queryString ? `&${queryString}` : ''
                       + {data?.wuscaBadges?.split(",")?.length - 1} more
                     </div> : <></>}
                   </div>
-                ) : (
-                  <></>
                 )}
                 {data?.openDayDetails?.openDate &&
                 process.env.PROJECT === "Whatuni" ? (
@@ -306,7 +294,7 @@ queryString ? `&${queryString}` : ''
                 )}
               </div>
             </div>
-            {data?.collegeMedia?.ipCollegeImage ? (
+            {data?.collegeMedia?.ipCollegeImage && (
             <Image
               src={
                 data?.collegeMedia?.ipCollegeImage
@@ -317,11 +305,11 @@ queryString ? `&${queryString}` : ''
               width={500}
               height={376}
               className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-            /> ) : <></>}
+            /> )}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
-              {data?.review1Text ? (
+              {data?.review1Text && (
                 <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
                   <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
                     <div className="text-heading1 relative top-[20px] font-farro font-normal">
@@ -384,8 +372,6 @@ queryString ? `&${queryString}` : ''
                     </div>
                   </div>
                 </div>
-              ) : (
-                <></>
               )}
 
               {data?.bestMatchCoursesList?.map(
@@ -447,7 +433,7 @@ queryString ? `&${queryString}` : ''
                             <></>
                           )}
                           {courseData?.availabilityDetails?.duration ||
-                          courseData?.availabilityDetails?.studyMode ? (
+                          courseData?.availabilityDetails?.studyMode && (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
@@ -459,8 +445,6 @@ queryString ? `&${queryString}` : ''
                               {courseData?.availabilityDetails?.duration} <> </>
                               {courseData?.availabilityDetails?.studyMode}
                             </div>
-                          ) : (
-                            <></>
                           )}
                         </div>
                       </div>
@@ -529,40 +513,30 @@ queryString ? `&${queryString}` : ''
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" && (
                           <ApplyNow
                             enquiryProps={getEnquiryProps(data,courseData)}
                           />
-                      ) : (
-                        <></>
                       )}
-                      {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
+                      {courseData?.enquiryDetails?.prospectusFlag === "Y" && (
                         <Getprospectus
                           enquiryProps={getEnquiryProps(data,courseData)}
                         />
-                      ) : (
-                        <></>
                       )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" && (
                         <Visitwebsite
                           enquiryProps={getEnquiryProps(data,courseData)}
                         />
-                      ) : (
-                        <></>
                       )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
+                      {courseData?.enquiryDetails?.websiteFlag === "Y" && (
                         <BookOpenDay
                         enquiryProps={getEnquiryProps(data,courseData)}
                         />
-                      ) : (
-                        <></>
                       )}
-                      {courseData?.enquiryDetails?.emailFlag === "Y" ? (
+                      {courseData?.enquiryDetails?.emailFlag === "Y" && (
                         <RequestInfo
                         enquiryProps={getEnquiryProps(data,courseData)}
                         />
-                      ) : (
-                        <></>
                       )}
                     </div>
                   </div>
