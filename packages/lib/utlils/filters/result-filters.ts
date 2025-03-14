@@ -97,10 +97,12 @@ const extractUrlAndCookieValues = (
     acc[key] = decodeURIComponent(value);
     return acc;
   }, {});
-  const cookieObject: KeyValueObject = JSON.parse(
-    getDecodedCookie("filter_param") || "{}"
-  );
-  const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
+
+  const sessionObject: KeyValueObject =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("filter_param") || "{}")
+      : {};
+  const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
   if (crossSubject) {
     if (process.env.PROJECT === "Whatuni") {
       delete mergedObject?.subject;
@@ -135,12 +137,12 @@ const getDecodedCookie = (name: string) => {
 
 const mergeTwoObjects = (
   paramsObject: KeyValueObject,
-  cookieObject: KeyValueObject = {}
+  sessionObject: KeyValueObject = {}
 ): KeyValueObject => {
   return {
     ...paramsObject,
     ...Object.fromEntries(
-      Object.entries(cookieObject).map(([k, v]) => [
+      Object.entries(sessionObject).map(([k, v]) => [
         k,
         paramsObject[k]
           ? Array.from(

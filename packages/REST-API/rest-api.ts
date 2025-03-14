@@ -115,7 +115,8 @@ async function fetchenquirydata(enquiryPayload: any) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.SITE_CODE}`,
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
       },
       body: JSON.stringify(enquiryPayload),
