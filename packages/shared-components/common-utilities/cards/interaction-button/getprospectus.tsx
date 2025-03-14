@@ -26,14 +26,26 @@ const Getprospectus  = ({ enquiryProps }: any) => {
           window.open(response.requestProspectusWebform, '_blank');
         }
         else if(enquiryProps?.pageName === "browsemoneypageresults" && response?.requestProspectusEmail){
-        const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr`;
-        console.log("URL Printing", url);
-        router.push(url);
+          if(enquiryProps?.subOrderItemId){
+            const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId ? enquiryProps?.orderItemId : `sponsoredOrderItemId=0`}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr`;
+            console.log("URL Printing", url);
+            router.push(url);
+          }else{
+            const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}/n-/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId ? enquiryProps?.orderItemId : `sponsoredOrderItemId=`}` : `sponsoredOrderItemId=`}&pageName=sr&nonAdvertiserFlag=Y`;
+            console.log("URL Printing", url);
+            router.push(url);
+          }
         }
         else if(enquiryProps?.pageName === "coursesearchresult" && response?.requestProspectusEmail){
-          const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId}` : `sponsoredOrderItemId=`}&pageName=${enquiryProps?.pageName}`;
-          console.log("URL Printing", url);
-          router.push(url);
+          if(enquiryProps?.subOrderItemId){
+            const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId ? enquiryProps?.orderItemId : `sponsoredOrderItemId=`}` : `sponsoredOrderItemId=`}&pageName=${enquiryProps?.pageName}`;
+            console.log("URL Printing", url);
+            router.push(url);
+          }else{
+            const url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}/n-/order-prospectus.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId ? enquiryProps?.orderItemId : `sponsoredOrderItemId=`}` : `sponsoredOrderItemId=`}&pageName=${enquiryProps?.pageName}&nonAdvertiserFlag=Y`;
+            console.log("URL Printing", url);
+            router.push(url);
+          }
           }
        } catch(error){
           console.error('Error fetching enquiry data:', error);
