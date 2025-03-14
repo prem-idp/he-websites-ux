@@ -8,9 +8,6 @@ import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/grap
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
 import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-import { reviewPayload } from "@packages/lib/api-payloads/payloads";
-import getApiUrl from "@packages/REST-API/api-urls";
-import makeApiCall from "@packages/REST-API/rest-api";
 import LazyLoadWrapper from "@packages/lib/utlils/lazyloadcomponent"
 import { cdfetchData } from "./apicalls/cdpagedata"
 import { getMetaDetailsQueryForSRpage } from '@packages/lib/graphQL/search-results';
@@ -19,11 +16,11 @@ import { MetaDataInterface, MetaFilterTypesReplace } from '@packages/lib/types/i
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant';
 import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
 import { otherRecommendedCourse } from "./apicalls/othercourse";
-import { notFound } from 'next/navigation';
+
+
 export async function generateMetadata({ params }: any) {
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
-  // ------------------------------------------------------initial fetch ----------------------------------------------------------------
   const searchparams = new URLSearchParams({
     courseId: String(prams_slug?.course_id || ""),
   });
@@ -50,9 +47,7 @@ export default async function Cdpage({ params }: any) {
   console.log(contents, "contents")
   console.log(othercourseData, "othercourseData")
 
-  if (data?.status !== "200") {
-    notFound()
-  }
+
 
   const customLabels = [
     "degrees",
@@ -75,7 +70,7 @@ export default async function Cdpage({ params }: any) {
           <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
         </div>
       </section>
-      <Courseheaderinfocomponents data={data} searchPayload = {searchparams}/>
+      <Courseheaderinfocomponents data={data} searchPayload={searchparams} />
       <Yearofentrycomponents />
       <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
       {othercourseData?.length > 0 &&
@@ -96,19 +91,20 @@ export async function getCDMetaDetailsFromContentful(searchParams: any, slug: st
   //1) bff API hit
   const displayNameReqBody = getRequestInputPayload(searchParams);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
-    displayNameReqBody, 
-    "POST", 
-    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
-    "no-cache",  0, 
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt,
+    displayNameReqBody,
+    "POST",
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+    "no-cache", 0,
     {});
+  console.log(displayNameResponse, "displayNameResponse")
   //2) contentful API hit
-  const query = getMetaDetailsQueryForSRpage("SEO - courseDetails"  + ` - ${process.env.PROJECT}`);
+  const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    providerName : displayNameResponse?.collegeName ?? undefined,
-    courseName : displayNameResponse?.courseName ?? undefined,
+    providerName: displayNameResponse?.collegeName ?? undefined,
+    courseName: displayNameResponse?.courseName ?? undefined,
   }
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTite, metaFiltersOpted);
   const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
@@ -126,15 +122,15 @@ export async function getCDMetaDetailsFromContentful(searchParams: any, slug: st
     twitter_url: canonical,
     twitter_titile: metaTitle,
     twitter_description: metaDesc,
-  } 
+  }
   return actualMetaData;
-  }
+}
 
-  export function getRequestInputPayload(searchPayLoad: any){
-    let courseId = searchPayLoad?.get('courseId'); 
-    courseId = +courseId;
-    const displayNameReqBody = { 
-      "courseId":  courseId ?? "", 
-    }
-    return displayNameReqBody;
+export function getRequestInputPayload(searchPayLoad: any) {
+  let courseId = searchPayLoad?.get('courseId');
+  courseId = +courseId;
+  const displayNameReqBody = {
+    "courseId": courseId ?? "",
   }
+  return displayNameReqBody;
+}
