@@ -12,7 +12,7 @@ export async function generateMetadata({
   searchParams,
 }: MetaDataProps): Promise<Metadata> {
   const qulInUrl = "degree-courses";
-  const pathname = `/${qulInUrl}/search`;
+  const pathname = `/${qulInUrl}/`;
   const metaData = await getSearchPageMetaDetailsFromContentful(await searchParams, qulInUrl, pathname);
 
   return getMetaDetailsObject(metaData);

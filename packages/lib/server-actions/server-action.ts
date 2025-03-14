@@ -98,6 +98,7 @@ export async function httpBFFRequest(
         "Content-Type": "application/json",
         sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "x-api-key": xAPIKey,
+        "x-correlation-id": uuidv4(),
       },
       body: JSON.stringify(bodyPayload),
       cache: cacheType ? cacheType : "default",
