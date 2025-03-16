@@ -1,6 +1,5 @@
 "use client";
-type KeyValueObject = Record<string, string>;
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -28,6 +27,7 @@ import {
 } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
+type KeyValueObject = Record<string, string>;
 const FilterSpinner = dynamic(
   () =>
     import("@packages/shared-components/skeleton/search-result/filter-spinner"),
@@ -40,8 +40,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [jsondata, setJsondata] = useState(data);
   const keyName = KeyNames();
-  const parentRegion = jsondata?.regionList?.filter((item: any) => {
-    return !item?.parentRegionId;
+  const parentRegion = jsondata?.regionList?.filter((regionItem: any) => {
+    return !regionItem?.parentRegionId;
   });
 
   const [subjectState, setSubjectState] = useState({
@@ -148,14 +148,27 @@ const SearchFilterComponent = ({ data, path }: any) => {
     return listvalue;
   };
   const universitiesList = universitiesSortingList();
-  const universityClicked = (displayHeading: string, id: string) => {
-    setSearchedUniversity((prev: any) => ({
-      ...prev,
-      isUniversityDropdownOpen: false,
-      isUniversityOpen: !prev?.isUniversityOpen,
-      selectUniId: { id, displayHeading },
-    }));
-  };
+
+  // const universityClicked = (displayHeading: string, id: string) => {
+  //   setSearchedUniversity((prev: any) => ({
+  //     ...prev,
+  //     isUniversityDropdownOpen: false,
+  //     isUniversityOpen: !prev?.isUniversityOpen,
+  //     selectUniId: { id, displayHeading },
+  //   }));
+  // };
+  const universityClicked = useCallback(
+    (displayHeading: string, id: string) => {
+      setSearchedUniversity((prev: any) => ({
+        ...prev,
+        isUniversityDropdownOpen: false,
+        isUniversityOpen: !prev?.isUniversityOpen,
+        selectUniId: { id, displayHeading },
+      }));
+    },
+    []
+  );
+
   const subjectParam: any =
     searchParams?.get(keyName?.subject)?.split(",") || [];
   useEffect(() => {
@@ -366,223 +379,228 @@ const SearchFilterComponent = ({ data, path }: any) => {
     sessionStorage.setItem("filter_param", "{}");
     router.push(url);
   };
-  const modifySearchParams = (key: string, value: string, urlParams: any) => {
-    //const urlParentSubject = getParentSubject(searchParams, jsondata);
-    //const selectedParentSubject = getParentSubject(null, jsondata, value);
-    // if (urlParentSubject == selectedParentSubject) {
-    const searchparamObject = Object?.fromEntries(urlParams?.entries());
-    searchparamObject[key] = value;
-    const modifiedParam = new URLSearchParams(searchparamObject);
-    return `${modifiedParam}`;
-    // }
-  };
-  const appendSearchParams = async (
-    key: string,
-    value: string,
-    isUniversitySelected?: boolean,
-    isQualificationChanged?: boolean
-  ) => {
-    console.log({ key, value });
-    setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
-    let crossL1Subject = false;
-    if (key === keyName?.subject) {
-      const selectedParent = jsondata?.subjectFilterList
-        ?.map((subjects: any) => {
-          if (subjects?.subjectTextKey === value) {
-            return subjects?.parentSubject;
-          }
-        })
-        ?.filter(Boolean);
-      const currentParent = getParentSubject(searchParams, jsondata);
-      if (selectedParent[0] != currentParent) {
-        crossL1Subject = true;
+  const modifySearchParams = useCallback(
+    (key: string, value: string, urlParams: any) => {
+      //const urlParentSubject = getParentSubject(searchParams, jsondata);
+      //const selectedParentSubject = getParentSubject(null, jsondata, value);
+      // if (urlParentSubject == selectedParentSubject) {
+      const searchparamObject = Object?.fromEntries(urlParams?.entries());
+      searchparamObject[key] = value;
+      const modifiedParam = new URLSearchParams(searchparamObject);
+      return `${modifiedParam}`;
+      // }
+    },
+    []
+  );
+  const checkCrossL1Subject = useCallback(
+    (
+      key: string,
+      value: string,
+      jsondata: any,
+      searchParams: URLSearchParams
+    ) => {
+      if (key === keyName?.subject) {
+        const selectedParent = getParentSubject(null, jsondata, value);
+        const currentParent = getParentSubject(searchParams, jsondata);
+        return selectedParent !== currentParent;
       }
-    }
+      return false;
+    },
+    []
+  );
 
-    const filters = extractUrlAndSessionValues(
-      searchParams,
-      key,
-      value,
-      crossL1Subject
-    );
-    const orderedFilters = getFilterPriority(
-      isUniversitySelected || false
-    )?.reduce((acc, priorityKey) => {
-      if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-      return acc;
-    }, {} as KeyValueObject);
-    setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
-    console.log(filters);
-    console.log(orderedFilters);
-    const urlParams = new URLSearchParams();
-    const cookieParams: KeyValueObject = {};
-    let totalValues = 0;
-    Object.entries(orderedFilters)?.forEach(([k, v]) => {
-      const valuesArray = v?.split("+");
-      if (totalValues + valuesArray?.length <= 4) {
-        urlParams?.set(k, valuesArray?.join("+"));
-        totalValues += valuesArray?.length;
-      } else {
-        const allowedValues = valuesArray?.slice(0, 4 - totalValues);
-        const remainingValues = valuesArray?.slice(4 - totalValues);
-        if (allowedValues?.length > 0) {
-          urlParams?.set(k, allowedValues?.join("+"));
-          totalValues += allowedValues?.length;
-        }
-        if (remainingValues?.length > 0) {
-          cookieParams[k] = remainingValues?.join("+");
-        }
-      }
-    });
-    const multiSelect =
-      urlParams?.toString()?.includes("+") ||
-      urlParams?.toString()?.includes("%2B");
-    let domainPath = null;
-    if (isQualificationChanged && !slug?.includes(value)) {
-      domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
-    } else if (key === "university") {
-      const uni = searchParams?.get("university")?.includes(value);
-      if (key === "university" && uni) {
-        domainPath = `/${slug?.split("/")?.[1]}/search`;
-      } else if (key === "university" && !uni) {
-        domainPath = `/${slug?.split("/")?.[1]}/csearch`;
-      }
-    }
-    if (urlParams?.toString() === searchParams?.toString()) {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
-      if (isQualificationChanged) {
-        router.push(
-          `${domainPath}?${urlParams?.toString()}`
-            ?.replaceAll("%2B", "+")
-            ?.replaceAll("%2C", ",")
-        );
-      }
-      router.refresh();
-    } else if (multiSelect) {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
-      router.push(
-        `${domainPath ?? ""}?${urlParams?.toString()}`
-          ?.replaceAll("%2B", "+")
-          ?.replaceAll("%2C", ",")
+  const extractAndOrderFilters = useCallback(
+    (
+      searchParams: URLSearchParams,
+      key: string,
+      value: string,
+      isUniversitySelected: boolean = false,
+      crossL1Subject: boolean = false
+    ) => {
+      const filters = extractUrlAndSessionValues(
+        searchParams,
+        key,
+        value,
+        crossL1Subject
       );
-    } else {
-      document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
-      sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
+      return getFilterPriority(isUniversitySelected)?.reduce(
+        (acc, priorityKey) => {
+          if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
+          return acc;
+        },
+        {} as KeyValueObject
+      );
+    },
+    []
+  );
+
+  const constructSearchParams = useCallback(
+    (orderedFilters: KeyValueObject) => {
+      const urlParams = new URLSearchParams();
+      const cookieParams: KeyValueObject = {};
+      let totalValues = 0;
+
+      Object.entries(orderedFilters)?.forEach(([k, v]) => {
+        const valuesArray = v?.split("+");
+        if (totalValues + valuesArray?.length <= 4) {
+          urlParams.set(k, valuesArray.join("+"));
+          totalValues += valuesArray?.length;
+        } else {
+          const allowedValues = valuesArray?.slice(0, 4 - totalValues);
+          const remainingValues = valuesArray?.slice(4 - totalValues);
+          if (allowedValues?.length > 0) {
+            urlParams.set(k, allowedValues.join("+"));
+            totalValues += allowedValues.length;
+          }
+          if (remainingValues?.length > 0) {
+            cookieParams[k] = remainingValues.join("+");
+          }
+        }
+      });
+
+      return { urlParams, cookieParams };
+    },
+    []
+  );
+
+  const handleCookiesAndSession = (cookieParams: KeyValueObject) => {
+    document.cookie = `filter_param=${JSON.stringify(cookieParams)}; path=/;`;
+    sessionStorage.setItem("filter_param", JSON.stringify(cookieParams));
+  };
+
+  const appendSearchParams = useCallback(
+    async (
+      key: string,
+      value: string,
+      isUniversitySelected?: boolean,
+      isQualificationChanged?: boolean
+    ) => {
+      setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
+      const crossL1Subject = checkCrossL1Subject(
+        key,
+        value,
+        jsondata,
+        searchParams
+      );
+      const orderedFilters = extractAndOrderFilters(
+        searchParams,
+        key,
+        value,
+        isUniversitySelected,
+        crossL1Subject
+      );
+      setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
+      const { urlParams, cookieParams } = constructSearchParams(orderedFilters);
+      handleCookiesAndSession(cookieParams);
+      const multiSelect =
+        urlParams.toString().includes("+") ||
+        urlParams.toString().includes("%2B");
+      let domainPath = null;
+      if (isQualificationChanged && !slug?.includes(value)) {
+        domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
+      } else if (key === keyName?.university) {
+        const uniSelected = searchParams
+          ?.get(keyName?.university)
+          ?.includes(value);
+        domainPath = `/${slug?.split("/")?.[1]}/${uniSelected ? "search" : "csearch"}`;
+      }
+
       const linkTagId = document?.getElementById(key + value);
-      if (linkTagId && isIndexed) {
+      if (
+        urlParams.toString() === searchParams.toString() &&
+        !isQualificationChanged
+      ) {
+        router.refresh();
+      } else if (linkTagId && isIndexed && !multiSelect) {
         linkTagId.click();
       } else {
         router.push(
-          `${domainPath ?? ""}?${urlParams?.toString()}`
-            ?.replaceAll("%2B", "+")
-            ?.replaceAll("%2C", ",")
+          `${domainPath ?? ""}?${urlParams.toString()}`
+            .replaceAll("%2B", "+")
+            .replaceAll("%2C", ",")
         );
       }
-    }
-    setrouterEnd(true);
-  };
-
-  const formUrl = (key: string, value: string, isQualification?: boolean) => {
-    let crossL1Subject = false;
-    if (key === keyName?.subject) {
-      const selectedParent = jsondata?.subjectFilterList
-        ?.map((subjects: any) => {
-          if (subjects?.subjectTextKey === value) {
-            return subjects?.parentSubject;
-          }
-        })
-        ?.filter(Boolean);
-      const currentParent = getParentSubject(searchParams, jsondata);
-      if (selectedParent != currentParent) {
-        crossL1Subject = true;
-      }
-    }
-    const filters = extractUrlAndSessionValues(
-      searchParams,
-      key,
-      value,
-      crossL1Subject
-    );
-    const orderedFilters = getFilterPriority(isQualification || false)?.reduce(
-      (acc, priorityKey) => {
-        if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
-        return acc;
-      },
-      {} as KeyValueObject
-    );
-    const urlParams = new URLSearchParams();
-    let totalValues = 0;
-    const a = Object.fromEntries(searchParams.entries());
-    const count = Object.keys(a)?.length;
-    Object.entries(orderedFilters)?.forEach(([k, v]) => {
-      const valuesArray = v?.split("+");
-      if (totalValues + valuesArray?.length <= 4) {
-        if (k != "study-level") {
-          urlParams?.set(k, valuesArray?.join("+"));
-          totalValues += valuesArray?.length;
-        }
-      }
-    });
-
-    if (count >= 4) {
-      if (key == keyName?.subject) {
-        const param = modifySearchParams(key, value, urlParams);
-        return param?.toString()?.replace("%2B", "+")?.replaceAll("%2C", ",");
-      } else {
-        return `${searchParams?.get(keyName?.subject) ? `${keyName?.subject}=${searchParams.get(keyName?.subject)}&` : ""}${key}=${value}`.replaceAll(
-          "%2C",
-          ","
-        );
-      }
-    } else {
-      if (key == keyName?.subject) {
-        const param = modifySearchParams(key, value, urlParams);
-        return param?.toString();
-      } else {
-        const urlObejct: any = Object?.fromEntries(urlParams?.entries());
-        if (urlObejct?.subject) {
-          urlObejct[keyName?.subject] =
-            urlObejct[keyName?.subject]?.split("+")[0] || [];
-        }
-        if (urlObejct?.region) {
-          urlObejct[keyName?.region] = urlObejct?.region?.split("+")[0] || [];
-        }
-        if (urlObejct?.city) {
-          urlObejct[keyName?.city] = urlObejct?.city?.split("+")[0] || [];
-        }
-        return `${new URLSearchParams(urlObejct)?.toString()}`?.replaceAll(
-          "%2C",
-          ","
-        );
-      }
-    }
-  };
-  const containsSearchParam = (key: string, value: string): boolean => {
-    const temp = extractUrlAndSessionValues(searchParams, "", "")?.[key]?.split(
-      "+"
-    );
-    if (temp?.includes(value)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const parentSubjectSet: any = new Set(
-    jsondata?.subjectFilterList
-      ?.map((items: any) => {
-        if (items?.parentSubject) {
-          return items?.parentSubject;
-        }
-      })
-      ?.filter(Boolean)
+      setrouterEnd(true);
+    },
+    [searchParams, jsondata, slug, router, isIndexed]
   );
 
-  const ParentSubject: any = [...parentSubjectSet];
+  const formUrl = useCallback(
+    (key: string, value: string, isQualification?: boolean) => {
+      const crossL1Subject = checkCrossL1Subject(
+        key,
+        value,
+        jsondata,
+        searchParams
+      );
+      const orderedFilters = extractAndOrderFilters(
+        searchParams,
+        key,
+        value,
+        isQualification,
+        crossL1Subject
+      );
 
-  const L2subjects = ParentSubject?.map((item: any) => {
+      const urlParams = new URLSearchParams();
+      let totalValues = 0;
+      Object.entries(orderedFilters)?.forEach(([k, v]) => {
+        if (totalValues + v.split("+").length <= 4 && k !== "study-level") {
+          urlParams.set(k, v);
+          totalValues += v.split("+").length;
+        }
+      });
+
+      let paramString = "";
+      if (key === keyName?.subject) {
+        paramString = modifySearchParams(key, value, urlParams)?.toString();
+      } else {
+        const urlObject = Object.fromEntries(urlParams.entries());
+        ["subject", "region", "city"].forEach((paramKey) => {
+          if (urlObject[paramKey]) {
+            // urlObject[keyName[paramKey as keyof typeof keyName]] =
+            //   urlObject[paramKey].split("+")[0] || [];
+            urlObject[keyName[paramKey as keyof typeof keyName]] =
+              (urlObject[paramKey]?.split("+")[0] as string) || "";
+          }
+        });
+        paramString = new URLSearchParams(urlObject).toString();
+      }
+
+      if (
+        Object.keys(Object.fromEntries(searchParams.entries())).length >= 4 &&
+        key !== keyName?.subject
+      ) {
+        paramString = `${searchParams?.get(keyName?.subject) ? `${keyName?.subject}=${searchParams.get(keyName?.subject)}&` : ""}${key}=${value}`;
+      }
+
+      return paramString.replaceAll("%2C", ",");
+    },
+    [searchParams, jsondata]
+  );
+
+  const containsSearchParam = useCallback(
+    (key: string, value: string): boolean => {
+      const temp = extractUrlAndSessionValues(searchParams, "", "")?.[
+        key
+      ]?.split("+");
+      if (temp?.includes(value)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [searchParams, extractUrlAndSessionValues]
+  );
+
+  const parentSubjectList: any = Array.from(
+    new Set(
+      jsondata?.subjectFilterList
+        ?.filter((items: any) => items?.parentSubject)
+        ?.map((items: any) => items.parentSubject)
+    )
+  );
+
+  const L2subjects = parentSubjectList?.map((item: any) => {
     const filteredSubjects = jsondata?.subjectFilterList?.filter(
       (subject: any) => subject?.parentSubject === item
     );
@@ -645,24 +663,28 @@ const SearchFilterComponent = ({ data, path }: any) => {
       selectedMile: milesValue,
     }));
   };
-  const subjectClicked = (item: string, closeFilter?: boolean) => {
-    setSubjectState((prev: any) => ({
-      ...prev,
-      isSubjectOpen: closeFilter || !prev?.isSubjectOpen,
-    }));
-    const L2subject = jsondata?.subjectFilterList?.filter((items: any) => {
-      return items?.parentSubject == item;
-    });
 
-    setSubjectState((prev: any) => ({
-      ...prev,
-      isSujectDropdownOpen: false,
-      selectedSubject: {
-        parentSubject: item,
-        subjectList: L2subject,
-      },
-    }));
-  };
+  const subjectClicked = useCallback(
+    (item: string, closeFilter?: boolean) => {
+      setSubjectState((prev: any) => ({
+        ...prev,
+        isSubjectOpen: closeFilter || !prev?.isSubjectOpen,
+      }));
+      const L2subject = jsondata?.subjectFilterList?.filter(
+        (items: any) => items?.parentSubject === item
+      );
+      setSubjectState((prev: any) => ({
+        ...prev,
+        isSujectDropdownOpen: false,
+        selectedSubject: {
+          parentSubject: item,
+          subjectList: L2subject,
+        },
+      }));
+    },
+    [jsondata]
+  );
+
   const postcodeSubmit = () => {
     if (locationState?.postCodeValue) {
       setLocationState((prev) => ({ ...prev, locationMilesError: false }));
@@ -993,31 +1015,33 @@ const SearchFilterComponent = ({ data, path }: any) => {
                       ${subjectState?.isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
                       `}
                         >
-                          {ParentSubject?.map((l1Subjects: any, index: any) => (
-                            <div
-                              key={index}
-                              onClick={() => {
-                                subjectClicked(l1Subjects, true);
-                              }}
-                              className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
-                            >
-                              {l1Subjects}
-                              <svg
-                                width="16"
-                                height="17"
-                                viewBox="0 0 16 17"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
+                          {parentSubjectList?.map(
+                            (l1Subjects: any, index: any) => (
+                              <div
+                                key={index}
+                                onClick={() => {
+                                  subjectClicked(l1Subjects, true);
+                                }}
+                                className="flex items-center gap-[4px] text-blue-400 small font-semibold cursor-pointer hover:underline"
                               >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
-                                  fill="#4664DC"
-                                />
-                              </svg>
-                            </div>
-                          ))}
+                                {l1Subjects}
+                                <svg
+                                  width="16"
+                                  height="17"
+                                  viewBox="0 0 16 17"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M4.48037 14.6192C3.97269 14.1116 3.97269 13.2884 4.48037 12.7808L8.76113 8.5L4.48037 4.21924C3.97269 3.71156 3.97269 2.88844 4.48037 2.38076C4.98805 1.87308 5.81117 1.87308 6.31885 2.38076L11.5188 7.58076C12.0265 8.08844 12.0265 8.91156 11.5188 9.41924L6.31885 14.6192C5.81117 15.1269 4.98805 15.1269 4.48037 14.6192Z"
+                                    fill="#4664DC"
+                                  />
+                                </svg>
+                              </div>
+                            )
+                          )}
                         </div>
                         <div
                           className={`

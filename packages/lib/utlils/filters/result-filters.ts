@@ -141,35 +141,57 @@ const locationMilesArray = [
   { miles: "100 miles", distance: "100" },
   { miles: "200 miles", distance: "200" },
 ];
+// const getParentSubject = (
+//   searchParams: any,
+//   jsondata: any,
+//   subjectTextKey?: any
+// ) => {
+//   if (searchParams) {
+//     const sub = searchParams?.get(keyName?.subject) || "";
+//     const arr = sub?.split(" ");
+//     const parents: any = arr?.map((selectedSub: string) => {
+//       const getParent = jsondata?.subjectFilterList?.map((items: any) => {
+//         if (selectedSub == items?.subjectTextKey) {
+//           return items?.parentSubject;
+//         }
+//       });
+//       return getParent?.filter(Boolean);
+//     });
+//     return parents?.flat()[0];
+//   } else if (subjectTextKey) {
+//     const parent = jsondata?.subjectFilterList
+//       ?.map((subjects: any) => {
+//         if (subjects?.subjectTextKey == subjectTextKey) {
+//           return subjects?.parentSubject;
+//         }
+//       })
+//       ?.filter(Boolean);
+//     return `${parent}`;
+//   }
+// };
 const getParentSubject = (
   searchParams: any,
   jsondata: any,
   subjectTextKey?: any
 ) => {
   if (searchParams) {
-    const sub = searchParams?.get(keyName?.subject) || "";
-    const arr = sub?.split(" ");
-    const parents: any = arr?.map((selectedSub: string) => {
-      const getParent = jsondata?.subjectFilterList?.map((items: any) => {
-        if (selectedSub == items?.subjectTextKey) {
-          return items?.parentSubject;
-        }
-      });
-      return getParent?.filter(Boolean);
-    });
-    return parents?.flat()[0];
-  } else {
-    if (subjectTextKey) {
-      const parent = jsondata?.subjectFilterList
-        ?.map((subjects: any) => {
-          if (subjects?.subjectTextKey == subjectTextKey) {
-            return subjects?.parentSubject;
-          }
-        })
-        ?.filter(Boolean);
-      return `${parent}`;
+    const firstSubject = searchParams?.get(keyName?.subject)?.split(" ")?.[0];
+    if (firstSubject) {
+      return (
+        jsondata?.subjectFilterList?.find(
+          (item: any) => item?.subjectTextKey === firstSubject
+        )?.parentSubject || null
+      );
     }
   }
+  if (subjectTextKey) {
+    return (
+      jsondata?.subjectFilterList?.find(
+        (item: any) => item?.subjectTextKey === subjectTextKey
+      )?.parentSubject || null
+    );
+  }
+  return null;
 };
 
 function getUserLocation() {
@@ -228,7 +250,6 @@ const generatePathName = (
   const parts = slug?.split("/").filter(Boolean);
   const basePath = `/${parts[0] || ""}`;
   const currentPage = parts[1] || "";
-  console.log({ key, slug });
   if (basePath !== "/pgs") {
     if (key === "university") {
       if (currentPage === "csearch" && isUniversitySelected) {
