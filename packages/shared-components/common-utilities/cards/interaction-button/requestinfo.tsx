@@ -1,11 +1,19 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { fetchenquirydata } from '@packages/REST-API/rest-api';
 import { useRouter } from "next/navigation";
 import { fetchAuthSession } from "aws-amplify/auth";
-const RequestInfo = async ({ enquiryProps }: any) => {
+const RequestInfo = ({ enquiryProps }: any) => {
   const router = useRouter()
-  const session = await fetchAuthSession();
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const getSession = async () => {
+      const sessionData = await fetchAuthSession();
+      setSession(sessionData);
+    };
+    getSession();
+  }, []);
   const handleRequestInfo = async () => {
     console.log("Enter Props", enquiryProps);
      try {
@@ -54,7 +62,7 @@ const RequestInfo = async ({ enquiryProps }: any) => {
       return `/degrees/get-pdf?from=COURSE&collegeId=${enquiryProps?.collegeId}&courseId=${enquiryProps?.courseId}`;
     else
       return `/register/?pagetype=non-request-info&coursename=${enquiryProps?.courseName}&collegename=${enquiryProps?.collegeName}&collegeid=${enquiryProps?.collegeId}`;
-  }
+  };
   return (
     <>
       <button
