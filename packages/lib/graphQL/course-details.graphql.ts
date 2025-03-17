@@ -1,28 +1,41 @@
 export const COURSE_DETAILS_QUERY = `{
-  pageTemplateDynamicPageCollection(limit: 7) {
-    items {
+pageTemplateDynamicPageCollection(limit: 1,where: { pageName: "Course Details - Whatuni" })
+  {
+    items{
       pageName
       pageTitle
       urlSlug
       website
-      seoFields {
-        metaKeywords
-        metaDescription
-        seoFieldsName
+      seoFieldsCollection
+      {
+        items
+        {
+          seoFieldsName
+          metaKeywords
+          metaDescription
+          robots
+          canonical
+
+        }
       }
       gaPageName
-      dynamicZoneComponentsCollection(limit: 7) {
-        items {
-          sys {
-            id
+      dynamicZoneComponentsCollection
+      {
+        items
+        {
+           sys {
+
+              id
           }
           internalName
           cardSectionTitle
           flagComponentStyle
           shortDescription
           longDescription
-          callToAction {
-            ... on CallToActionCta {
+          callToAction
+          {
+            ... on CallToActionCta
+            {
               internalName
               primaryCtaLabel
               primaryCtaEventName
@@ -30,33 +43,44 @@ export const COURSE_DETAILS_QUERY = `{
               primaryCtaUrl
             }
           }
-          mediaCardsCollection {
-            items {
+          mediaCardsCollection
+          {
+            items
+            {
               __typename
-              ... on PageComponentSectionTitle {
-                internalName
+      ... on PageComponentSectionTitle
+              {
+               internalName
                 sectionTitle
                 shortDescription
                 flagComponentStyle
-              }
-              ... on CallToActionCta {
+
+             } 
+             ... on  CallToActionCta
+              {
                 internalName
                 primaryCtaUrl
                 primaryCtaLabel
                 primaryCtaTarget
                 primaryCtaEventName
               }
-              ... on MultipleRichTextAndCta {
+              ... on MultipleRichTextAndCta
+              {
                 componentName
 
-                richTextComponent {
+                richTextComponent
+
+                {
+
                   componentType
                   componentName
 
-                  richContent {
+                  richContent
+                  {
                     json
                   }
                 }
+
               }
             }
           }
