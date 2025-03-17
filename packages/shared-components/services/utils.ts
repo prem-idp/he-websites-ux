@@ -75,18 +75,15 @@ export function getSEOSearchPayload(
   qualification: string
 ) {
   const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || undefined;
-  const regionArray = searchParams?.region?.split(" ") || undefined;
-  const cityArray  = searchParams?.city?.split(" ") || undefined;
+  const locationArray = searchParams?.location?.split(" ") || undefined;
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification: searchParams?.qualification || undefined,
     searchCategoryCode: undefined,
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || undefined,
-    jacsCode: undefined,
-    region: regionArray,
-    city: cityArray,
-    location: cityArray || regionArray,
+    jacsCode: searchParams?.jacs || undefined,
+    location: locationArray,
     studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
     studyMethod: searchParams?.["study_mode"] || undefined,
     collegeId: undefined,

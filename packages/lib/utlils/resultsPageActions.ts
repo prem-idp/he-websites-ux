@@ -8,9 +8,6 @@ import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndp
 export async function getSearchPageMetaDetailsFromContentful(searchParams: any, qualInUrl: string, pathName: string) {
   
   //Initializing and Assigning values
-  //const cookieStore = await cookies();
-  // const pathName = cookieStore?.get("pathnamecookies")?.value ?? "";
-  // const qualInUrl = pathName?.split("/")[1] || "{}";
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
@@ -97,7 +94,7 @@ export function getDisplayNameReqBody(searchPayLoad: any){
     "searchSubject": searchPayLoad?.searchSubject ?? "",
     "searchKeyword": searchPayLoad?.searchKeyword ?? "",
     "jacsCode": searchPayLoad?.jacsCode ?? "",
-    "location": searchPayLoad?.region ?? searchPayLoad?.city ?? [],
+    "location": searchPayLoad?.location ?? [],
     "studyMode": searchPayLoad?.studyMode ?? "",
     "collegeName": searchPayLoad?.university ?? "",
     
@@ -174,7 +171,8 @@ function getWU_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpte
     if(searchPayLoad?.searchKeyword ||                                                        //keyword search
        multiOptionSelected ||                                                                 //multiple options selected in multi-select filter
        (!multiOptionSelected && noOfFilterSelected > 4) ||                                    //url has more than 4 params
-       (Number(metaFiltersOpted?.providerCount) <= 3 && !searchParams?.university)){          //total search result count is less than/equal to 3(only SR)
+       (!searchParams?.university && Number(metaFiltersOpted?.providerCount) <= 3) ||         //total search result count is less than/equal to 3(only SR) also for no result SR
+       (searchParams?.university && Number(metaFiltersOpted?.providerCount) < 1)){            //No result PR
         return "noindex, nofollow";
     }
 
@@ -190,7 +188,7 @@ function getWU_Canonical(searchParams: any, pathName: string, qualInUrl: string)
     }
   });
 
-  const { sort, ...newObj } = {...searchParams};
+  const { sort, pageno, ...newObj } = {...searchParams};
   let canonicalUrl;
   if(multiOptionSelected && !searchParams?.university) canonicalUrl = formSRPageURL({}, (qualInUrl && qualInUrl != "" ? `/${qualInUrl}` : pathName))
   else if(multiOptionSelected && searchParams?.university) canonicalUrl = formSRPageURL({university: newObj?.university}, pathName);  
@@ -211,11 +209,11 @@ function getPGS_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpt
     filterCount++;
   });
 
-  if(searchPayLoad?.searchKeyword ||                          //keyword search
-     multiOptionSelected ||                                   //multiple options selected in multi-select filter
-     (!multiOptionSelected && filterCount >= 3) ||            //url has more than 2 params
-     Number(metaFiltersOpted?.providerCount) <= 3 ||          //total search result count is less than/equal to 3
-     (searchPayLoad?.intakeYear || searchPayLoad?.intakeMonth)){     //started date is selected
+  if(searchPayLoad?.searchKeyword ||                                  //keyword search
+     multiOptionSelected ||                                           //multiple options selected in multi-select filter
+     (!multiOptionSelected && filterCount >= 3) ||                    //url has more than 2 params
+     Number(metaFiltersOpted?.providerCount) <= 3 ||                  //total search result count is less than/equal to 3
+     (searchPayLoad?.intakeYear || searchPayLoad?.intakeMonth)){      //started date is selected
       
     contentfulIndex = "noindex, nofollow";
   }
@@ -225,7 +223,7 @@ function getPGS_Indexation(searchParams: any, searchPayLoad: any, metaFiltersOpt
 
 function getPGS_Canonical(searchParams: any, pathName: string, qualInUrl: string){
 
-  const { sort, ...newObj } = {...searchParams};
+  const { sort, pageno, ...newObj } = {...searchParams};
   let canonicalUrl, multiOptionSelected:boolean = false;
   Object.keys(searchParams).forEach((key:string)=>{
     if(getselectedCount(searchParams[key]) >= 2){
@@ -233,9 +231,12 @@ function getPGS_Canonical(searchParams: any, pathName: string, qualInUrl: string
     }
   });
 
-  if(multiOptionSelected && !searchParams?.university) canonicalUrl = formSRPageURL({}, (qualInUrl && qualInUrl != "" ? `/${qualInUrl}` : pathName))
-  else if(multiOptionSelected && searchParams?.university) canonicalUrl = formSRPageURL({university: newObj?.university}, pathName);  
-  else canonicalUrl = formSRPageURL(newObj, pathName);
+  if(multiOptionSelected && !searchParams?.university) 
+    canonicalUrl = formSRPageURL({}, (qualInUrl && qualInUrl != "" ? `/${qualInUrl}` : pathName))
+  else if(multiOptionSelected && searchParams?.university) 
+    canonicalUrl = formSRPageURL({university: newObj?.university}, pathName);  
+  else 
+    canonicalUrl = formSRPageURL(newObj, pathName);
 
   return canonicalUrl;
 } 
@@ -247,7 +248,6 @@ function getselectedCount(filterValueString: string|undefined) : number{
 }
 
 function formSRPageURL(searchParams: any, pathName: string){
-  const project = process.env.PROJECT;
   let filterCount: number = 0;
   let formURL = getCustomDomain();
   formURL = formURL + pathName;
@@ -257,11 +257,12 @@ function formSRPageURL(searchParams: any, pathName: string){
   }
 
   if(filterCount < 4 && searchParams?.university) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("university=" + searchParams?.university); filterCount++;}
-  if(filterCount < 4 && searchParams?.subject && project == "Whatuni") {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + formatMultiSelctedOption(searchParams?.subject)); filterCount = filterCount + getselectedCount(searchParams?.subject);}
-  if(filterCount < 4 && searchParams?.course && project == "PGS") {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("course=" + formatMultiSelctedOption(searchParams?.course)); filterCount = filterCount + getselectedCount(searchParams?.course);}
+  if(filterCount < 4 && searchParams?.subject) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("subject=" + formatMultiSelctedOption(searchParams?.subject)); filterCount = filterCount + getselectedCount(searchParams?.subject);}
+  if(filterCount < 4 && searchParams?.course) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("course=" + formatMultiSelctedOption(searchParams?.course)); filterCount = filterCount + getselectedCount(searchParams?.course);}
+  if(filterCount < 4 && searchParams?.q) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("q=" + searchParams?.q); filterCount++;}
+  if(filterCount < 4 && searchParams?.keyword) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("keyword=" + searchParams?.keyword); filterCount++}
   if(filterCount < 4 && searchParams?.qualification) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("qualification=" + searchParams?.qualification); filterCount++;}
-  if(filterCount < 4 && searchParams?.region) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("region=" + formatMultiSelctedOption(searchParams?.region)); filterCount = filterCount + getselectedCount(searchParams?.region);}
-  if(filterCount < 4 && searchParams?.city) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("city=" + formatMultiSelctedOption(searchParams?.city)); filterCount = filterCount + getselectedCount(searchParams?.city);}
+  if(filterCount < 4 && searchParams?.location) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location=" + formatMultiSelctedOption(searchParams?.location)); filterCount = filterCount + getselectedCount(searchParams?.location);}
   if(filterCount < 4 && searchParams?.['study_mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study_mode=" + searchParams?.['study_mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
@@ -278,7 +279,6 @@ function formSRPageURL(searchParams: any, pathName: string){
 
 export function getWU_SearchSEOFieldId(searchPayLoad: any){
 
-  //const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
   const universitySelected = searchPayLoad?.university && searchPayLoad?.university?.trim() != "" ? true : false;
@@ -287,13 +287,6 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
   const locationSelected = regionSelected || citySelected;
 
   let seoMetaFeildId = "Default";
-
-  console.log("searchPayLoad: ", searchPayLoad);
-  console.log("searchPayLoad?.location: ", searchPayLoad?.location);
-  console.log(((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected),
-  (locationSelected && searchPayLoad?.location?.length == 1),
-  searchPayLoad?.parentQualification,
-  !searchPayLoad?.studyMode);
 
   if(!universitySelected){  //SR page SEO's
     if (  //no filter
@@ -690,10 +683,10 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   const displayUniversity = displayNames?.collegeName ?? "";
   const displayStudyMethod = displayNames?.studyMode ?? "";
 
-  const urlSubject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length > 0 ? searchSEOPayload?.searchSubject[0] : searchSEOPayload?.keywordSelected;
+  const urlSubject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length > 0 ? searchSEOPayload?.searchSubject[0] : "";
+  const urlKeyword = searchSEOPayload?.searchKeyword ?? "";
   const urlParentSubject = `${displayNames?.parentSubjectTextKey && displayNames?.parentSubjectTextKey?.length > 0 ? displayNames?.parentSubjectTextKey[0] : ""}`;
-  const urlRegion = searchSEOPayload?.region && searchSEOPayload?.region?.length > 0 ? searchSEOPayload?.region[0] : undefined;
-  const urlCity = searchSEOPayload?.city && searchSEOPayload?.city?.length > 0 ? searchSEOPayload?.city[0] : undefined;
+  const urlLocation = searchSEOPayload?.location && searchSEOPayload?.location?.length > 0 ? searchSEOPayload?.location[0] : undefined;
   const urlUniversity = searchSEOPayload?.univresity ?? "";
   const urlStudymethod = searchSEOPayload?.studyMethod?? "";
 
@@ -709,13 +702,13 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   }
   if(subjectSelected || keywordSelected){//subject
     const urlObj = {
-      course: urlSubject,
+      course: urlSubject || urlKeyword,
       qualification: searchSEOPayload?.childQualification,
     }
     subBC = displaySubject ? [{url: formSRPageURL(urlObj, pathName), label: displaySubject}] : [];
     if(parentSubjectSelected && displayNames?.parentSubjectName?.length > 0 && urlParentSubject?.trim() != urlSubject?.trim()){
       const parentUrlObj = {
-      course: urlParentSubject ?? "",
+      course: urlParentSubject || "",
       qualification: searchSEOPayload?.childQualification,
       }
       subBC = urlParentSubject && displayParentSubject ? [{url: formSRPageURL(parentUrlObj, pathName), label: displayParentSubject}, ...subBC] : subBC;
@@ -723,26 +716,25 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   }
   if(uniSelected){//university
     const urlObj = {
-      course: urlSubject,
+      course: urlSubject || urlKeyword,
       qualification: searchSEOPayload?.childQualification,
       university: urlUniversity
     }
     uniBC = displayUniversity ? [{url: formSRPageURL(urlObj, pathName), label: displayUniversity ?? urlUniversity}] : [];
   }
+  console.log("locationSelectd: ", locationSelectd, urlLocation, displayLocation);
   if(locationSelectd){//location
     const urlObj = {
-      course: urlSubject,
-      region: urlRegion,
-      city: urlCity,
+      course: urlSubject || urlKeyword,
+      location: urlLocation,
       qualification: searchSEOPayload?.childQualification,
     }
     locBC = displayLocation ? [{url: formSRPageURL(urlObj, pathName), label: displayLocation}] : [];
   }
   if(searchSEOPayload?.studyMethod){//studyMode
     const urlObj = {
-      course: urlSubject,
-      region: urlRegion,
-      city: urlCity,
+      course: urlSubject || urlKeyword,
+      location: urlLocation,
       university: urlUniversity,
       study_mode: searchSEOPayload?.studyMethod,
       qualification: searchSEOPayload?.childQualification,
