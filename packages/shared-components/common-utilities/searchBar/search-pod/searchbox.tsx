@@ -18,7 +18,7 @@ const UcasComponent = dynamic(
   () =>
     import(
       "@packages/shared-components/common-utilities/popups/ucas-calculator/ucascomponent"
-    ),
+    /* webpackChunkName:'UcasComponent' */),
   { ssr: false }
 );
 const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
@@ -152,11 +152,10 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                   {universalSearchPanel?.map((items: any, index: number) => (
                     <li
                       key={index + 1}
-                      className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
-                        searchFormHandle?.activeTab === `tab${index + 1}`
-                          ? "bg-neutral-900 text-white"
-                          : "bg-white text-neutral-900"
-                      }`}
+                      className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${searchFormHandle?.activeTab === `tab${index + 1}`
+                        ? "bg-neutral-900 text-white"
+                        : "bg-white text-neutral-900"
+                        }`}
                       onClick={() => searchTabClick(`tab${index + 1}`)}
                     >
                       {items?.navTitle}
@@ -292,7 +291,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
 
                 <div className="row-start-2 md:col-span-2 mt-[16px]">
                   {searchFormHandle?.activeTab === "tab1" &&
-                  Object.keys(course_data).length > 0 ? (
+                    Object.keys(course_data).length > 0 ? (
                     <>
                       <CourseTab
                         placeholder={universalSearchPanel[0]?.navCtAlabel}
@@ -314,7 +313,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                     )
                   )}
                   {searchFormHandle?.activeTab === "tab2" &&
-                  Object.keys(uni_data).length > 0 ? (
+                    Object.keys(uni_data).length > 0 ? (
                     <>
                       <UniversityTab
                         placeholder={universalSearchPanel[1]?.navCtAlabel}

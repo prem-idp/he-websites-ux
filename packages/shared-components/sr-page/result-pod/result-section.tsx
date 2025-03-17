@@ -11,26 +11,47 @@ import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-r
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import { useSearchParams } from "next/navigation";
+import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 interface SrPageResultPodProps {
   searchResultsData: any[];
+  qualCode: string;
+}
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
 }
 
-
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,
+  searchResultsData,qualCode
 }) => {
-  const [exceedMessage, setExceedMessage] = useState(false);
+  const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
+  const [user, setUserData] = useState<AuthUser | null>(null);
+  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
 };
-const searchParams = useSearchParams();
-const handleExceedMessage = (data:any) => {
-  setExceedMessage(data); // Update state in parent
-};
-const onClose = (event: React.FormEvent) => {
-  event.stopPropagation()
-  setExceedMessage(false)
-}
+
+     useEffect(() => {
+       // Getting favourites list when user logged in
+       async function checkUser() {
+         try {
+           const user: AuthUser = await getCurrentUser();
+           setUserData(user);
+           if (user && typeof window !== "undefined") {
+             const favList: Favourite[] = await getUserFavourites();
+             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+           }
+         } catch (error) {
+           setUserData(null);
+         }
+       }
+       checkUser();
+     }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -43,11 +64,50 @@ const onClose = (event: React.FormEvent) => {
       ? "Next Open day in " + differenceInDays + " days"
       : "Next Open day in " + differenceInDays + " day";
   };
-
   //
+  const getPRPageURL = (collegeTextKey: any) => {
+
+    // Create filtered params object
+    const filteredParams = Array.from(searchParams.entries())
+  .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
+  .reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+// Convert filtered params to URLSearchParams
+const queryString = new URLSearchParams(filteredParams).toString();
+const baseUrl = process.env.PROJECT === "Whatuni" 
+? "/degree-courses/csearch"
+: "/pgs/search";
+
+// Construct the final URL
+const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
+queryString ? `&${queryString}` : ''
+}`;    
+    return providerResultURL;
+
+  }
+  
+  const getEnquiryProps = (data:any,courseData:any) => {
+    const baseEnquiryProps = {
+      courseId: courseData?.courseId,
+      collegeId: data?.collegeId,
+      subOrderItemId: courseData?.enquiryDetails?.subOrderItemId,
+      sponsoredListingFlag: data?.sponsoredListingFlag,
+      manualBoostingFlag: data?.manualBoostingFlag,
+      orderItemId: courseData?.enquiryDetails?.orderItemId,
+      collegeName: data?.collegeTextKey,
+      pageName: "browsemoneypageresults",
+      qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode,
+      selectedSubject: selectedSubject
+    };
+    return baseEnquiryProps
+  }
+
   return (
     <>
       {searchResultsData?.map((data, index) => (
+        
         <div
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
@@ -65,26 +125,28 @@ const onClose = (event: React.FormEvent) => {
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
-                  <Link
-                    href={
-                      process.env.PROJECT === "Whatuni"
-                        ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
-                        : `/universities/${data?.collegeTextKey}}`
-                    }
-                    className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
-                  >
-                    <Image
-                      src={
-                        data?.collegeMedia?.ipCollegeLogo
-                          ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
-                          : "/static/assets/icons/search-result/kent.png"
+                  {data?.collegeMedia?.ipCollegeLogo ? (
+                    <Link
+                      href={
+                        process.env.PROJECT === "Whatuni"
+                          ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                          : `/universities/${data?.collegeTextKey}}`
                       }
-                      alt="University logo"
-                      width={56}
-                      height={56}
-                      id="uni_img"
-                    />
-                  </Link>
+                      className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
+                    >
+
+                      <Image
+                        src={
+                          data?.collegeMedia?.ipCollegeLogo
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
+                            : "/static/assets/icons/search-result/kent.png"
+                        }
+                        alt="University logo"
+                        width={56}
+                        height={56}
+                        id="uni_img"
+                      />
+                    </Link>) : <></>}
                   {data?.sponsoredListingFlag === "Y" ? (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
@@ -93,7 +155,7 @@ const onClose = (event: React.FormEvent) => {
                     <></>
                   )}
                 </div>
-                <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:data?.collegeId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
+                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -226,16 +288,16 @@ const onClose = (event: React.FormEvent) => {
                       />
                       {data?.wuscaBadges}
                     </div>
-                    {data?.wuscaBadges?.includes(",") ? 
-                    <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + {data?.wuscaBadges?.split(",")?.length - 1} more
-                    </div> : <></>}
+                    {data?.wuscaBadges?.includes(",") ?
+                      <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                        + {data?.wuscaBadges?.split(",")?.length - 1} more
+                      </div> : <></>}
                   </div>
                 ) : (
                   <></>
                 )}
                 {data?.openDayDetails?.openDate &&
-                process.env.PROJECT === "Whatuni" ? (
+                  process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       {calculateDaysBetween(data?.openDayDetails?.openDate)}
@@ -246,17 +308,18 @@ const onClose = (event: React.FormEvent) => {
                 )}
               </div>
             </div>
-            <Image
-              src={
-                data?.collegeMedia?.ipCollegeImage
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  : "/static/assets/images/search-results/university.jpg"
-              }
-              alt="University"
-              width={500}
-              height={376}
-              className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-            />
+            {data?.collegeMedia?.ipCollegeImage ? (
+              <Image
+                src={
+                  data?.collegeMedia?.ipCollegeImage
+                    ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                    : "/static/assets/images/search-results/university.jpg"
+                }
+                alt="University"
+                width={500}
+                height={376}
+                className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
+              />) : <></>}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
@@ -347,10 +410,10 @@ const onClose = (event: React.FormEvent) => {
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {courseData?.minUcasPoints ? (
+                          {((courseData?.minUcasPoints || courseData?.maxUcasPoints) && process.env.PROJECT === "Whatuni") || (courseData?.availabilityDetails?.fees && process.env.PROJECT === "PGS") ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" ? (
+                              {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
                                 <svg
                                   width="16"
                                   height="16"
@@ -361,32 +424,32 @@ const onClose = (event: React.FormEvent) => {
                                   <path
                                     d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z"
                                     stroke="#5C656E"
-                                    stroke-width="1.13"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.13"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
-                                </svg>
-                              ) : (
+                                </svg> 
+                               ) : (
                                 <>
-                                  {" "}
+                                 {process.env.PROJECT === "Whatuni" &&
                                   <Image
                                     className="hidden md:block"
                                     src="/static/assets/icons/search-result/calender-grey.svg"
                                     alt="Lecturers and Teaching"
                                     width={16}
                                     height={16}
-                                  />
+                                  />}
                                 </>
                               )}
                               {/* pgs euro icon */}
-                              {courseData?.minUcasPoints}-
-                              {courseData?.maxUcasPoints} ucas points
+                              {process.env.PROJECT === "PGS" ? courseData?.availabilityDetails?.fees : (courseData?.minUcasPoints && courseData?.maxUcasPoints ? courseData?.minUcasPoints +"-"+ courseData?.maxUcasPoints : courseData?.minUcasPoints ? courseData?.minUcasPoints : courseData?.maxUcasPoints) + " ucas points" }
+                              
                             </div>
                           ) : (
                             <></>
                           )}
                           {courseData?.availabilityDetails?.duration ||
-                          courseData?.availabilityDetails?.studyMode ? (
+                            courseData?.availabilityDetails?.studyMode ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
@@ -403,19 +466,19 @@ const onClose = (event: React.FormEvent) => {
                           )}
                         </div>
                       </div>
-                      <UserFavourite favouriteProps = {{exceedData:{handleExceedMessage},contentId:courseData?.courseId,contentName:data?.collegeDisplayName,contentType:"INSTITUTION"}}></UserFavourite>
+                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE"></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
-                    courseData?.courseSummary ? (
+                      courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
-                          courseData?.courseSummary
+                        <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
                         </div>
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
                           <Link
-                            href=""
+                            href={`/courses/search/postgraduate/${data?.collegeTextKey}/${courseData?.courseTitleTextKey}/${courseData?.courseId}`}
                             className="text-blue-400 cursor-pointer hover:underline"
                           >
                             Read More
@@ -427,15 +490,15 @@ const onClose = (event: React.FormEvent) => {
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni"  && courseData?.moduleDesc? (
+                    {process.env.PROJECT === "Whatuni"  && courseData?.modulesDesc? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">{courseData?.moduleInfo}</div>
+                          <div className="font-semibold">{courseData?.modulesInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            {courseData?.moduleDesc?.split('###').map((desc:any,index:any) => (
+                            {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
                                <li key={index}>{desc}</li>
                             ))}
-                           
+
                           </ul>
                           <Link
                             href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
@@ -469,90 +532,36 @@ const onClose = (event: React.FormEvent) => {
                       }`}
                     >
                         {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
-                        <ApplyNow
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
-                        />
+                          <ApplyNow
+                            enquiryProps={getEnquiryProps(data,courseData)}
+                          />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
                         <Getprospectus
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <Visitwebsite
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            pageName: "browsemoneypageresults",
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <BookOpenDay
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.emailFlag === "Y" ? (
                         <RequestInfo
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
@@ -564,7 +573,7 @@ const onClose = (event: React.FormEvent) => {
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={ process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}${searchParams?.toString() ? "&"+searchParams?.toString() : ""}`}
+                href={getPRPageURL(data?.collegeTextKey)}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
@@ -589,48 +598,7 @@ const onClose = (event: React.FormEvent) => {
           </div>
         </div>
       ))}
-      {exceedMessage ? (
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
-          <div
-            onClick={onClose}
-            className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-grey-400"
-                d="M1 13L13 1M1 1L13 13"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className="review-modal-container flex flex-col gap-[16px]]">
-            <div className="mb-[4px] para-lg font-semibold">
-              Maximum number of favourites
-            </div>
-            <p className="small text-grey-500">
-              You can only favourite a max of 30 unis and courses. Remove a
-              selection to add another
-            </p>
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-primary w-fit mt-[24px] ml-auto"
-            >
-              Ok, got it
-            </button>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}

@@ -24,15 +24,15 @@ const SubjectCheckBox = ({
 
   return (
     <div>
-      {isIndexed && (
-        <Link
-          id={"subject" + item?.subjectTextKey}
-          href={{
-            pathname: `${slug}`,
-            query: formUrl("subject", item?.subjectTextKey),
-          }}
-        ></Link>
-      )}
+      {/* {isIndexed && ( */}
+      <Link
+        id={"subject" + item?.subjectTextKey}
+        href={{
+          pathname: `${slug}`,
+          query: formUrl("subject", item?.subjectTextKey),
+        }}
+      ></Link>
+      {/* )} */}
 
       <div className="form_check relative">
         <div className={`flex items-start gap-[8px] form_check`}>

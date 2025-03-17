@@ -31,7 +31,7 @@ const TutionFeesComponent = ({ sectionInfo, tutionFees }: any) => {
     ? tutionFees.sort((a: any, b: any) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }))
     : [];
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFeesType, setSelectedFeesType] = useState(tutionFees[0]?.length > 0 ? tutionFees[0] : null);
+  const [selectedFeesType, setSelectedFeesType] = useState(tutionFees[0] ? tutionFees[0] : null);
   const [toolTips, setToolTips] = useState({ feesToolTip: '', regionTooltip: '' });
 
   useEffect(() => {

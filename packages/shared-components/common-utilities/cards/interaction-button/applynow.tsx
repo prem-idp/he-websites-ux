@@ -1,17 +1,34 @@
 import React from "react";
+import { fetchenquirydata } from '@packages/REST-API/rest-api';
 
-const ApplyNow = ({ pageName }: any) => {
+const ApplyNow = ({ enquiryProps }: any) => {
+  const handleApplyNow = async () => {
+    console.log("Enter", enquiryProps);
+     try {
+      const applyNowPayload = {
+        suborderItemId: enquiryProps?.subOrderItemId,
+        orderItemId: enquiryProps?.orderItemId,
+        collegeId: enquiryProps?.collegeId,
+        affiliateId: 220703,
+        sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
+        manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+      };
+      console.log("applyNowPayload", applyNowPayload);
+      const response = await fetchenquirydata(applyNowPayload);
+      console.log("response printing", response);
+      if(response?.applyNowUrl){
+        console.log("APPLYNOWURL", response?.applyNowUrl);
+        window.open(response.applyNowUrl, '_blank');
+      }
+     } catch(error){
+        console.error('Error fetching enquiry data:', error);
+     }
+  };
   return (
     <>
-      {pageName == "courseDetails" ? (
-        <button type="button" className={"btn btn-negative-default w-full"}>
+        <button type="button" className="btn btn-negative-default w-full" onClick={handleApplyNow}>
           Get Prospectus
         </button>
-      ) : (
-        <button type="button" className="btn btn-orange w-full">
-          Apply now {pageName}
-        </button>
-      )}
     </>
   );
 };

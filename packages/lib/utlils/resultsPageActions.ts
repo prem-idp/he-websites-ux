@@ -1,5 +1,8 @@
 import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
-import { graphQlFetchFunction, httpBFFRequest } from "../server-actions/server-action";
+import {
+  graphQlFetchFunction,
+  httpBFFRequest,
+} from "../server-actions/server-action";
 import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
 import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
@@ -65,7 +68,7 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
     twitter_url: canonical,
     twitter_titile: metaTitle,
     twitter_description: metaDesc,
-  } 
+  };
 
   return actualMetaData;
 }

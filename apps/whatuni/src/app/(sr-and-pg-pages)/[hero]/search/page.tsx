@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { qualCode } from "@packages/lib/utlils/filters/filterJson";
 import SearchResultComponent from "@packages/shared-components/sr-page/srpage-component";
 import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";

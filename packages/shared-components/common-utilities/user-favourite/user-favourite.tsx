@@ -13,27 +13,21 @@ interface Favourite {
   final_choice_id?: string | null;
   choice_position?: number | null;
 }
-const UserFavourite= ({favouriteProps} : any) => {
+
+interface UserFavouriteProps {
+  contentType: 'INSTITUTION' |'COURSE',
+  contentId: number,
+  contentName: string,
+  favourites: any
+}
+const UserFavourite= (favouriteProps : UserFavouriteProps) => {
 
     const [user, setUserData] = useState<AuthUser | null>(null);
-    const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
-    //const [exceedMessage, setExceedMessage] = useState(false);
-     useEffect(() => {
-       // Getting favourites list when user logged in
-       async function checkUser() {
-         try {
-           const user: AuthUser = await getCurrentUser();
-           setUserData(user);
-           if (user && typeof window !== "undefined") {
-             const favList: Favourite[] = await getUserFavourites();
-             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-           }
-         } catch (error) {
-           setUserData(null);
-         }
-       }
-       checkUser();
-     }, []);
+    const [favourite, setFavourite] = useState<any>(favouriteProps.favourites);
+    const [exceedMessage, setExceedMessage] = useState(false);
+  useEffect(() => {
+    setFavourite(favouriteProps.favourites);
+  }, [favouriteProps.favourites]);
      const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
 
      //Handle Favourite
@@ -44,10 +38,10 @@ const UserFavourite= ({favouriteProps} : any) => {
        e: React.FormEvent
      ) => {
        e.stopPropagation();
-       if (!user) {
+       if (!favourite) {
          window.location.href = "/register/";
        }
-       const isAdd = !favourite.favouritedList?.includes(contentId?.toString());
+       const isAdd = !favourite?.favouritedList?.includes(contentId?.toString());
        try {
          const payload = {
            contentType: contentType,
@@ -57,34 +51,37 @@ const UserFavourite= ({favouriteProps} : any) => {
          };
          const data = await addRemoveFavourites([payload]);
          if (
-           data?.message === "Added course" ||
-           data?.message === "Added Institution"
+           data?.message?.toLowerCase() === "added course" ||
+           data?.message?.toLowerCase() === "added institution"
          ) {
-           setFavourite((prevState) => ({
+           setFavourite((prevState:any) => ({
              ...prevState,
-             favouritedList: [...prevState?.favouritedList, contentId.toString()],
+             favouritedList: [
+              ...(prevState?.favouritedList || []), // Ensure favouritedList is an array, default to empty array
+              contentId.toString(),
+            ],
            }));
            setfavourtiteTooltip(contentId);
          } else if (
-           data?.message === "Removed Institution" ||
-           data?.message === "Removed course"
+           data?.message?.toLowerCase() === "removed institution" ||
+           data?.message?.toLowerCase() === "removed course"
          ) {
            setfavourtiteTooltip("");
-           setFavourite((prevState) => ({
+           setFavourite((prevState:any) => ({
              ...prevState,
              favouritedList: prevState?.favouritedList?.filter(
-               (id) => id != contentId
+               (id:any) => id != contentId
              ),
            }));
-         } else if (data?.message === "Limit exceeded") {
-           setfavourtiteTooltip(""), favouriteProps?.exceedData(true);
-           console.log("EXCEED", favouriteProps?.exceedData)
+         } else if (data?.message?.toLowerCase() === "limit exceeded") {
+           setfavourtiteTooltip(""),
+           setExceedMessage(true)
          }
        } catch (error) {
-         setFavourite((prevState) => ({
+         setFavourite((prevState:any) => ({
            ...prevState,
            favouritedList: prevState?.favouritedList?.filter(
-             (id) => id != contentId
+             (id:any) => id != contentId
            ),
          }));
          console.error("Error toggling favorite:", error);
@@ -92,12 +89,13 @@ const UserFavourite= ({favouriteProps} : any) => {
      };
      const onClose = (event: React.FormEvent) => {
        event.stopPropagation();
-       setfavourtiteTooltip(""), favouriteProps?.exceedData(false);
+       setfavourtiteTooltip(""), 
+       setExceedMessage(false)
      };
 
     return (
         <>
-        <div
+        <div data-testid = "favourite"
                   onClick={(event) =>
                     handleFavourite(
                         favouriteProps?.contentId,
@@ -106,7 +104,7 @@ const UserFavourite= ({favouriteProps} : any) => {
                       event
                     )
                   }
-                  className={`${favourite.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+                  className={`${favourite.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"
@@ -123,13 +121,13 @@ const UserFavourite= ({favouriteProps} : any) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  {favourtiteTooltip === favouriteProps?.contentId ? (
+                  {+favourtiteTooltip === favouriteProps?.contentId ? (
                     <div className="absolute z-[1] select-none flex border border-grey-200 top-[43px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] right-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:right-[18px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
                         <span className="text-grey900 font-semibold">
                           We have added this to your comparison
                         </span>
-                        <svg
+                        <svg 
                           onClick={(event) => onClose(event)}
                           className="cursor-pointer"
                           width="16"
@@ -179,7 +177,52 @@ const UserFavourite= ({favouriteProps} : any) => {
                     <></>
                   )}
                 </div>
-
+                {exceedMessage && (
+            <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
+              <div
+                
+                className="backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white"
+              ></div>
+              <div className="modal-box shadow-custom-6 w-[343px] md:w-[512px] p-[24px] bg-white rounded-[8px] fixed top-[30%] translate-y-[30%] left-0 right-0 mx-auto">
+                <div
+                  onClick={onClose}
+                  className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="stroke-grey-400"
+                      d="M1 13L13 1M1 1L13 13"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div className="review-modal-container flex flex-col gap-[16px]]">
+                  <div className="mb-[4px] para-lg font-semibold">
+                    Maximum number of favourites
+                  </div>
+                  <p className="small text-grey-500">
+                    You can only favourite a max of 30 unis and courses. Remove
+                    a selection to add another
+                  </p>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn btn-primary w-fit mt-[24px] ml-auto"
+                  >
+                    Ok, got it
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
                
                 </>
     )    
