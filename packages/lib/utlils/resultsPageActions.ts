@@ -8,7 +8,7 @@ import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
-export async function getSearchPageMetaDetailsFromContentful(searchParams: any, qualInUrl: string, pathName: string) {
+export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string, pageType: string) {
   
   //Initializing and Assigning values
   //const cookieStore = await cookies();
@@ -142,6 +142,12 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
     if (inputText?.includes("[QUALIFICATION]")) {
       inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
+     if (inputText?.includes("[COURSE NAME]")) {
+      inputText = inputText.replace("[COURSE NAME]", metaFiltersOpted?.studylevel ?? "")
+    }
+    if (inputText?.includes("[UNIVERSITY]")) {
+      inputText = inputText.replace("[UNIVERSITY]", metaFiltersOpted?.studymode ?? "");
+    }
     if (inputText?.includes("[MONTH]")) {
       inputText = inputText.replace("[MONTH]", metaFiltersOpted?.startMonth ?? "");
     } 
