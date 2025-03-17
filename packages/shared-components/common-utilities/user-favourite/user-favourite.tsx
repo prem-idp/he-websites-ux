@@ -15,7 +15,7 @@ interface Favourite {
 }
 
 interface UserFavouriteProps {
-  contentType:string,
+  contentType: 'INSTITUTION' |'COURSE',
   contentId: number,
   contentName: string,
   favourites: any
@@ -104,7 +104,7 @@ const UserFavourite= (favouriteProps : UserFavouriteProps) => {
                       event
                     )
                   }
-                  className={`${favourite?.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+                  className={`${favourite.favouritedList?.includes(favouriteProps?.contentId?.toString()) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
                 >
                   <svg
                     width="20"

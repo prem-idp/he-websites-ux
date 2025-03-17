@@ -1,17 +1,16 @@
 /** @type {import('next').NextConfig} */
-
 const getImageDomain = () => {
-  const env = process.env.NODE_ENV || 'development';
-  
+  const env = process.env.NODE_ENV || "development";
+
   switch (env) {
-    case 'development':
-      return 'images-dom.aws.dev.idp-connect.com';
-    case 'staging':
-      return 'images-dom.aws.test.idp-connect.com';
-    case 'production':
-      return 'images-dom.prod.aws.idp-connect.com';
+    case "development":
+      return "images-dom.aws.dev.idp-connect.com";
+    case "staging":
+      return "images-dom.aws.test.idp-connect.com";
+    case "production":
+      return "images-dom.prod.aws.idp-connect.com";
     default:
-      return 'images-dom.aws.dev.idp-connect.com';
+      return "images-dom.aws.dev.idp-connect.com";
   }
 };
 const nextConfig = {
@@ -22,7 +21,7 @@ const nextConfig = {
     AFFILATE_ID: "607022",
     DOMAIN: "postgraduatesearch.com",
     SUBDOMAIN: "https://mdev.dev.aws.whatuni.com",
-    SITE_CODE: "WU_PGS",
+    SITE_CODE: "PGS_WEB",
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -40,6 +39,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "images-dom.aws.test.idp-connect.com",
       },
+      { protocol: "https", hostname: "images-dom.aws.stg.idp-connect.com" },
     ],
   },
 };

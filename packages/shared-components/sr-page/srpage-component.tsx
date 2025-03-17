@@ -21,8 +21,11 @@ import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndp
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
-  const pathname =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  const filterCookieParam =JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const pathname =
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam = JSON.parse(
+    cookieStore?.get("filter_param")?.value || "{}"
+  );
   let searchResultsData;
   let displayNameResponse;
   const searchPayLoad = getSearchPayload(
@@ -32,6 +35,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
   )
+  const paramsAwaited = await params;
   try {
     searchResultsData = await searchResultsFetchFunction(searchPayLoad);
   } catch (error) {
@@ -40,10 +44,11 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   return (
     <>
       <TopSection
-        searchParam={getSEOSearchPayload(searchparams, params?.hero)}
-        searchResultsData={searchResultsData}
+        searchParams={await searchparams}
+        params={paramsAwaited}
       />
-      {searchResultsData?.searchResultsList?.length > 0  && searchResultsData?.status != 404 ? (
+      {searchResultsData?.searchResultsList?.length > 0 &&
+      searchResultsData?.status != 404 ? (
         <Suspense>
           <SearchFilterButtons />
           <SearchLabels searchPayLoad={searchPayLoad}/>
@@ -53,8 +58,9 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       )}
 
       <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
-        <div className="max-w-container mx-auto">       
-          {searchResultsData?.searchResultsList?.length > 0 && searchResultsData?.status != 404 ? (           
+        <div className="max-w-container mx-auto">
+          {searchResultsData?.searchResultsList?.length > 0 &&
+          searchResultsData?.status != 404 ? (
             <>
             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses" && (!searchparams?.location || !searchparams?.score) ?
               <GradeBanner /> : <></>
@@ -74,9 +80,13 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 qualCode={getQualCode(pathname)}                   
               />
               {searchResultsData?.collegeCount > 10 ? (
-                <><Paginations
-                  totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
-                  currentPage={searchparams?.pageNo || 1} /><></></>
+                <>
+                  <Paginations
+                    totalPages={Math.ceil(searchResultsData?.collegeCount / 10)}
+                    currentPage={searchparams?.pageNo || 1}
+                  />
+                  <></>
+                </>
               ) : (
                 <></>
               )}
@@ -88,7 +98,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           )}
         </div>
       </section>
-      {searchResultsData?.searchResultsList?.length > 0 && searchResultsData?.status != 404 ? (
+      {searchResultsData?.searchResultsList?.length > 0 &&
+      searchResultsData?.status != 404 ? (
         <>
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">

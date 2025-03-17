@@ -2,7 +2,6 @@
 
 const getImageDomain = () => {
   const env = process.env.NODE_ENV || "development";
-
   switch (env) {
     case "development":
       return "images-dom.aws.dev.idp-connect.com";
@@ -20,8 +19,26 @@ const nextConfig = {
   //     exclude: ["error"],
   //   },
   // },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          // Group common dependencies into a separate chunk
+          commons: {
+            name: 'commons',
+            chunks: 'all',
+            minChunks: 2,
+          },
+        },
+      };
+    }
+    return config;
+  },
   skipTrailingSlashRedirect: true,
-  // productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: true,
   async headers() {
     return [
       {
@@ -88,6 +105,8 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: getImageDomain() },
+      { protocol: "https", hostname: 'images-intl.prod.aws.idp-connect.com' },
+
     ],
   },
 };

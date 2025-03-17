@@ -1,5 +1,5 @@
 'use client';
- 
+
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,7 +8,7 @@ import LeftPannelModal from '@packages/shared-components/course-details/Modal/Le
 import Tooltip from '../common-components/Tooltip';
 import { ordinarySuffix, poundCostCommaSeparation } from '@packages/lib/utlils/commonFunction'
 import { DATA_SOURCE_PAGE_PATH } from '@packages/constants/whatuni.const';
- 
+
 const tooltipsMapper = [
   {
     internalName: "Course info - WUSCA Ranking",
@@ -39,21 +39,21 @@ const tooltipsMapper = [
     key: "ukAverageSalary"
   }
 ];
- 
+
 interface KeyStatsComponentProps {
   subjectArea: any,
   uniRankings: any,
   tooltipList: any,
   dataSource: any
 }
- 
+
 const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
- 
+
   const [selectedSubject, setSelectedSubject] = useState(subjectArea?.[0] || null);
- 
+
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
- 
+
   useEffect(() => {
     let tempTooltipContent: any = {};
     tooltipList?.forEach((tooltipContent: any) => {
@@ -66,17 +66,17 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
     });
     setTooltipContent(() => tempTooltipContent);
   }, [tooltipList]);
- 
+
   function toggleModal() {
     setIsOpen((prev) => !prev)
   }
- 
+
   const changeFeesRegion = (item: any) => {
     if (selectedSubject?.subjectName === item?.subjectName)
       return
     setSelectedSubject(() => item[0]);
   }
- 
+
   function getStatsImgPath(rank: string) {
     const pathPrefix = '/static/assets/icons/course-details/';
     switch (true) {
@@ -100,8 +100,8 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
         };
     }
   }
- 
- 
+
+
   return (
     <>
       {(isOpen && !!subjectArea) && <LeftPannelModal
@@ -207,5 +207,5 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
     </>
   )
 }
- 
+
 export default KeyStatsComponent;

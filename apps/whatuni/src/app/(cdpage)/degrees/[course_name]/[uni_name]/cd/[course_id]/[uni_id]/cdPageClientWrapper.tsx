@@ -1,35 +1,26 @@
 'use client'
 import dynamic from 'next/dynamic'
-const UniInfoComponent =dynamic(()=>import("@packages/shared-components/course-details/uni-info/UniInfoComponent"),{ssr:false});
-import Courseoptionscomponents from '@packages/shared-components/course-details/course-options/courseoptionscomponents';
-import Courseinfocomponents from '@packages/shared-components/course-details/course-info/CourseInfoComponent';
-import Jumptocomponents from '@packages/shared-components/course-details/jump-to/jumptocomponents';
-import Modulescomponents from '@packages/shared-components/course-details/modules/ModulesComponent';
-import EntryrequirementsComponent from '@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent';
-import TutionFeesComponent from '@packages/shared-components/course-details/tuition-fees/TutionFeesComponent';
-import Popularalevelsubjectcomponents from '@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents';
-import Latestreviewscomponents from '@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent';
-// import UniInfoComponent from '@packages/shared-components/course-details/uni-info/UniInfoComponent';
-import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
-import SimilarCourseComponent from '@packages/shared-components/course-details/similar-course/SimilarCourseComponent';
-import Othercoursesmaylikecomponents from '@packages/shared-components/course-details/other-courses-you-may-like/othercoursesmaylikecomponents';
-// import Reviewfiltermodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewfiltermodalcomponents';
-// import Reviewgallerymodalcomponents from '@packages/shared-components/common-utilities/modal/review-lightbox/reviewgallerymodalcomponents';
+const UniInfoComponent = dynamic(() => import("@packages/shared-components/course-details/uni-info/UniInfoComponent" /* webpackChunkName:'uniinfo' */));
+const Courseoptionscomponents = dynamic(() => import('@packages/shared-components/course-details/course-options/courseoptionscomponents' /* webpackChunkName:"courseoptions" */));
+const JumpToComponents = dynamic(() => import('@packages/shared-components/course-details/jump-to/jumptocomponents' /* webpackChunkName:"jumptocomponents" */));
+const Modulescomponents = dynamic(() => import('@packages/shared-components/course-details/modules/ModulesComponent' /* webpackChunkName:"modules" */));
+const EntryrequirementsComponent = dynamic(() => import('@packages/shared-components/course-details/entery-requirements/EntryrequirementsComponent' /* webpackChunkName:"entryrequirements" */));
+const TutionFeesComponent = dynamic(() => import('@packages/shared-components/course-details/tuition-fees/TutionFeesComponent' /* webpackChunkName:"tutionfees" */));
+const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-components/course-details/popular-a-level-subjects/popularalevelsubjectcomponents' /*webpackChunkName:"popularsubject"*/));
+const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
+const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
+const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
+
 import { useState, useEffect } from 'react';
-// import Othercoursesmaylikecomponents from "@packages/shared-components/course-details/other-courses-you-may-like"
-export default function Cdpageclient({ children,courseContent, data, prams_slug }: any) {
+export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
+  const [fetcheddata, setFetcheddata] = useState({ ...data });
+  const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
+  const [startfetch, setStartfetch] = useState(false);
+  const [renderKey, setRenderKey] = useState(0);
 
-    //console.log("this is the cdpageclientwrapper")
-    const [fetcheddata, setFetcheddata] = useState({ ...data });
-    const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability[0]);
-    const [startfetch,setStartfetch]=useState(false);
-    const [renderKey, setRenderKey] = useState(0);
-
-    useEffect(() => {
-        setRenderKey(prev => prev + 1); // Force re-render
-    }, [fetcheddata]);
-
-    //console.log(fetcheddata, "fetcheddtafetcheddtafetcheddtafetcheddtafetcheddta")
+  useEffect(() => {
+    setRenderKey(prev => prev + 1);
+  }, [fetcheddata]);
 
   useEffect(() => {
     async function clientFetch() {
@@ -61,43 +52,50 @@ export default function Cdpageclient({ children,courseContent, data, prams_slug 
     else {
       setStartfetch(true)
     }
-
   }, [selectedavilability]);
+
 
   return (
 
     <div>
       <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-       <Jumptocomponents sectionsList={courseContent?.sectionsList} />
+      <JumpToComponents sectionsList={courseContent?.sectionsList} />
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {
           const { sectionId } = sectionContent;
           let componentToRender;
           switch (sectionId) {
             case 'course-info':
-              componentToRender = <div key={renderKey}>{children}</div>;
+              if (!data?.courseInfo) return null;
+              componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} />;
               break;
             case 'modules':
+              if (data?.modules?.length <= 0) return null;
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'entry-requirements':
+              if (!data?.entryRequirements) return null;
               componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'popular-a-level-subjects':
+              if (data?.popularALevelSubjects?.length <= 0) return null;
               componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'tuition-fees':
+              if (data?.tutionFees?.length <= 0) return null;
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latest-reviews':
+              if (data?.latest_reviews?.length <= 0) return null
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uni-info':
+              if (!data?.uniInfo) return null;
               componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             default:
               componentToRender = null;
-              return// Optional: Handle unknown cases
+              return;
           }
           return (
             <div id={sectionId} key={sectionId}>
@@ -107,7 +105,7 @@ export default function Cdpageclient({ children,courseContent, data, prams_slug 
         })}
       </>
 
-
+      {false && <ReviewPannelComponent />}
     </div>
   )
 }

@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}:any) => {   
  
-
    const [selectedCourse, setSelectedCourse] = useState(() =>
   data?.courseInfo?.availability?.length ? data.courseInfo.availability[0] : null
 );
@@ -13,8 +12,7 @@ const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}
       function handleApply(){
         setSelectedavailability(selectedCourse);
         onClose()
-
-     }
+ }
   return (
     
     <>
@@ -26,54 +24,55 @@ const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}
                    <Image className='block' src="/static/assets/icons/modal_close.svg" width="12" height="12"  alt='modal close'/>
                </div>
                <div className='select-subject-container flex flex-col gap-[16px]'>                    
-                   <div className='select-subject-card pr-[16px] custom-scrollbar-2 overflow-y-auto h-[calc(100vh_-_82px)]'>
-                
-                       <div className='flex flex-col gap-[16px] border-b border-b-grey400 pb-[24px] mb-[24px]'>
+                   <div className='select-subject-card pr-[16px] custom-scrollbar-2 overflow-y-auto h-[calc(100vh_-_82px)]'>                
+                       <div className='flex flex-col gap-[16px]'>
                            <div className='card-header flex flex-col gap-[4px]'>
                                <div className='h5 text-grey300'>Course info</div>
                                <p className='para-lg font-semibold text-grey300'>Select a course option</p>
                            </div>
-                           {data?.courseInfo?.availability?.map((val:any,index:any)=>(
-                           <div key={index}  className='option-list flex flex-col gap-[16px]'>
-                               <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Qualification</span>
-                                   <span className='small text-grey300'>{val?.qualification}
-                                   </span>
-                               </div>
-                               <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Location</span>
-                                   <span className='small text-grey300'>{val?.location}                                   </span>
-                               </div>
-                               <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Study mode</span>
-                                   <span className='small text-grey300'>{val?.studyModeDesc}
-                                   </span>
-                               </div>
-                               <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Start date testing</span>
-                                   <span className='small text-grey300'>{val?.startDate}
-                                   </span>
-                               </div>
-                               <div className='flex justify-start items-start gap-[8px]'>
-                                   <span className='small font-semibold text-grey300'>Duration</span>
-                                   <span className='small text-grey300'>{val?.durationDesc}
-                                   </span>
-                               </div>
-                               {/* ====================modified to below==================================== */}
-                               <div className='modal-select'>
-                                   <div className='form_check'>
-                                       <div className="col flex relative">
-                                           <input type="radio" name="yoe" className="form-checkbox rounded-[4px] outline-none absolute opacity-0 pointer-events-none" id={`select${index}`} checked={ selectedCourse?.availabilityId === val?.availabilityId} onChange={() => setSelectedCourse(val)} value={val} />
-                                           <label htmlFor={`select${index}`} className="check-label flex justify-center items-center w-full Group small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] hover:bg-primary-400 hover:text-white transition-all cursor-pointer px-[16px] py-[7px]">      <span className={selectedCourse?.availabilityId === val?.availabilityId ? "selected" : "select"}>
-                                            {selectedCourse?.availabilityId === val?.availabilityId ? "Selected" : "Select"}
-                                            </span>         
-                                           </label>             
-                                       </div>
-                                   </div>                                
-                               </div>
-                            
-                           </div>       
-                           ))}
+                           <div className='option-list-card flex flex-col'>
+                            {data?.courseInfo?.availability?.map((val:any,index:any)=>(
+                            <div key={index}  className='option-list flex flex-col gap-[16px] border-b border-b-grey400 pb-[24px] mb-[24px]'>
+                                <div className='flex justify-start items-start gap-[8px]'>
+                                    <span className='small font-semibold text-grey300'>Qualification</span>
+                                    <span className='small text-grey300'>{val?.qualification}
+                                    </span>
+                                </div>
+                                <div className='flex justify-start items-start gap-[8px]'>
+                                    <span className='small font-semibold text-grey300'>Location</span>
+                                    <span className='small text-grey300'>{val?.location}                                   </span>
+                                </div>
+                                <div className='flex justify-start items-start gap-[8px]'>
+                                    <span className='small font-semibold text-grey300'>Study mode</span>
+                                    <span className='small text-grey300'>{val?.studyModeDesc}
+                                    </span>
+                                </div>
+                                <div className='flex justify-start items-start gap-[8px]'>
+                                    <span className='small font-semibold text-grey300'>Start date testing</span>
+                                    <span className='small text-grey300'>{val?.startDate}
+                                    </span>
+                                </div>
+                                <div className='flex justify-start items-start gap-[8px]'>
+                                    <span className='small font-semibold text-grey300'>Duration</span>
+                                    <span className='small text-grey300'>{val?.durationDesc}
+                                    </span>
+                                </div>
+                                {/* ====================modified to below==================================== */}
+                                <div className='modal-select'>
+                                    <div className='form_check'>
+                                        <div className="col flex relative">
+                                            <input type="radio" name="yoe" className="form-checkbox rounded-[4px] outline-none absolute opacity-0 pointer-events-none" id={`select${index}`} checked={ selectedCourse?.availabilityId === val?.availabilityId} onChange={() => setSelectedCourse(val)} value={val} />
+                                            <label htmlFor={`select${index}`} className="check-label flex justify-center items-center w-full Group small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] hover:bg-primary-400 hover:text-white transition-all cursor-pointer px-[16px] py-[7px]">      <span className={selectedCourse?.availabilityId === val?.availabilityId ? "selected" : "select"}>
+                                                {selectedCourse?.availabilityId === val?.availabilityId ? "Selected" : "Select"}
+                                                </span>         
+                                            </label>             
+                                        </div>
+                                    </div>                                
+                                </div>
+                                
+                            </div>    
+                            ))}
+                           </div>
                        </div>                                      
                    </div>
                    <div className='apply-card flex p-[8px] absolute left-0 bottom-0 w-full gap-[8px] shadow-custom-10 z-4'>

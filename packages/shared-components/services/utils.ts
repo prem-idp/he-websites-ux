@@ -18,8 +18,8 @@ export function getSearchPayload(
   searchParams: any,
   filterCookieParam: any,
   qualification: any,
-  dynamicRandomNumber:any,
-  userIp :any,
+  dynamicRandomNumber: any,
+  userIp: any
 ) {
 let subjectArray="";
 if(searchParams?.subject)  
@@ -44,9 +44,7 @@ const score = searchParams?.score && !searchParams?.score?.includes(",") || filt
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
-        searchParams?.qualification ||
-        filterCookieParam?.qualification ||
-        "",
+      searchParams?.qualification || filterCookieParam?.qualification || "",
     searchCategoryCode: "",
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || "",
@@ -55,11 +53,14 @@ const searchPayload: any = {
     studyMode:
         searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode || "",
     studyMethod:
-        searchParams?.["study-method"] ||
-        filterCookieParam?.["study-method"] ||  searchParams?.study_method ||
-        filterCookieParam?.study_method ||
-        "",
+      searchParams?.["study-method"] ||
+      filterCookieParam?.["study-method"] ||
+      searchParams?.study_method ||
+      filterCookieParam?.study_method ||
+      "",
     collegeId: "",
+    collegeName:
+      searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType: locationType ? [locationType] : "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
@@ -75,13 +76,13 @@ const searchPayload: any = {
 return searchPayload;
 }
 
-export function getSEOSearchPayload(searchParams: any, qualification: string) {
-  const subjectArray =
-    searchParams?.subject?.split(",") || searchParams?.course?.split(",") || [];
-  const locationArray =
-    searchParams?.location?.split(",") ||
-    searchParams?.location?.split(",") ||
-    [];
+export function getSEOSearchPayload(
+  searchParams: any,
+  qualification: string
+) {
+  const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || undefined;
+  const regionArray = searchParams?.region?.split(" ") || undefined;
+  const cityArray  = searchParams?.city?.split(" ") || undefined;
   const searchPayload: any = {
     parentQualification: getQualCode(qualification),
     childQualification: searchParams?.qualification || undefined,
@@ -89,20 +90,22 @@ export function getSEOSearchPayload(searchParams: any, qualification: string) {
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || undefined,
     jacsCode: undefined,
-    location: locationArray,
-    studyMode:
-      searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
-    studyMethod: searchParams?.["study-method"] || undefined,
+    region: regionArray,
+    city: cityArray,
+    location: cityArray || regionArray,
+    studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
+    studyMethod: searchParams?.["study_mode"] || undefined,
     collegeId: undefined,
-    pageNo: searchParams?.pageno || searchParams?.page_no || undefined,
+    pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
     locationType: searchParams?.["location-type"] || undefined,
     intakeYear: searchParams?.year || undefined,
-    intakeMonth: searchParams?.month || undefined,
+    intakeMonth: searchParams?.month  || undefined,
     sortBy: searchParams?.sort || undefined,
     userCoordinates: undefined,
     distance: searchParams?.distance || undefined,
     ucasTariffRange: searchParams?.score || undefined,
     universityGroup: searchParams?.["russell-group"] || undefined,
+    university: searchParams?.university || undefined,
   };
   return searchPayload;
 }

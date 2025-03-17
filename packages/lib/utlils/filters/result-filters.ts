@@ -1,89 +1,60 @@
 "use client";
 import { getUserLocationInfo } from "@packages/lib/server-actions/server-action";
+import { KeyNames } from "./filterJson";
+const keyName = KeyNames();
 type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
-  const whatuniFilters = [
+  const whatunifilter = [
+    "university",
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
     "study-mode",
     "year",
-    "university",
     "month",
     "distance-from-home",
     "university-group",
+    "score",
     "location-type",
-    "pageno",
+  ];
+  const pgsFilter = [
+    "university",
+    "course",
+    "qualification",
+    "region",
+    "city",
+    "study_method",
+    "study_mode",
+    "year",
+    "month",
+    "distance_from_home",
+    "university_group",
+    "score",
+    "location_type",
+  ];
+  const whatuniSrFilters = [
+    ...whatunifilter,
     "russell-group",
     "sort",
+    "postcode",
   ];
-  const pgsFilters = [
-    "course",
-    "qualification",
-    "location",
-    "region",
-    "city",
-    "study_method",
-    "study_mode",
-    "year",
-    "university",
-    "month",
-    "distance_from_home",
-    "university_group",
-    "location_type",
-    "page_no",
-    "russell_group",
-    "sort",
-  ];
-  const whatuniPrFilters = [
-    "university",
-    "subject",
-    "qualification",
-    "location",
-    "region",
-    "city",
-    "study-method",
-    "study-mode",
-    "year",
-    "month",
-    "distance-from-home",
-    "university-group",
-    "location-type",
-    "pageno",
-    "sort",
-  ];
-  const pgsPrFilters = [
-    "university",
-    "course",
-    "qualification",
-    "location",
-    "region",
-    "city",
-    "study_method",
-    "study_mode",
-    "year",
-    "month",
-    "distance_from_home",
-    "university_group",
-    "location_type",
-    "page_no",
-    "sort",
-  ];
+  const whatuniPrFilters = [...whatunifilter, "sort", "postcode"];
+  const pgsSrFilters = [...pgsFilter, "russell_group", "sort", "postcode"];
+  const pgsPrFilters = [...pgsFilter, "sort", "postcode"];
   if (process.env.PROJECT === "Whatuni" && isQualification) {
     return [...whatuniPrFilters];
   } else if (process.env.PROJECT === "Whatuni" && !isQualification) {
-    return [...whatuniFilters];
+    return [...whatuniSrFilters];
   } else if (process.env.PROJECT === "Pgs" && isQualification) {
     return [...pgsPrFilters];
   } else {
-    return [...pgsFilters];
+    return [...pgsSrFilters];
   }
 };
 
-const extractUrlAndCookieValues = (
+const extractUrlAndSessionValues = (
   searchParams: URLSearchParams,
   key: string,
   value: string,
@@ -95,10 +66,12 @@ const extractUrlAndCookieValues = (
     acc[key] = decodeURIComponent(value);
     return acc;
   }, {});
-  const cookieObject: KeyValueObject = JSON.parse(
-    getDecodedCookie("filter_param") || "{}"
-  );
-  const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
+
+  const sessionObject: KeyValueObject =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("filter_param") || "{}")
+      : {};
+  const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
   if (crossSubject) {
     if (process.env.PROJECT === "Whatuni") {
       delete mergedObject?.subject;
@@ -106,11 +79,11 @@ const extractUrlAndCookieValues = (
       delete mergedObject?.course;
     }
   }
-  if (mergedObject[key]) {
+  if (mergedObject[key] && key != keyName?.region) {
     let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
-    } else if (key === "subject" || key === "location") {
+    } else if (key === keyName?.subject) {
       valuesSet.add(value);
     } else {
       valuesSet = new Set(`${value}`.split("+"));
@@ -133,12 +106,12 @@ const getDecodedCookie = (name: string) => {
 
 const mergeTwoObjects = (
   paramsObject: KeyValueObject,
-  cookieObject: KeyValueObject = {}
+  sessionObject: KeyValueObject = {}
 ): KeyValueObject => {
   return {
     ...paramsObject,
     ...Object.fromEntries(
-      Object.entries(cookieObject).map(([k, v]) => [
+      Object.entries(sessionObject).map(([k, v]) => [
         k,
         paramsObject[k]
           ? Array.from(
@@ -152,7 +125,6 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
-  console.log(entriesArray);
   for (const [key, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
     if (decodedValue.includes("+") || decodedValue.includes(" ")) {
@@ -163,41 +135,71 @@ const isSingleSelection = (searchParams: URLSearchParams): boolean => {
 };
 
 const locationMilesArray = [
-  { miles: "5 miles" },
-  { miles: "10 miles" },
-  { miles: "25 miles" },
-  { miles: "50 miles" },
+  { miles: "Any distance", distance: "" },
+  { miles: "20 miles", distance: "20" },
+  { miles: "50 miles", distance: "50" },
+  { miles: "100 miles", distance: "100" },
+  { miles: "200 miles", distance: "200" },
 ];
+
+const getFilterValue = (key: string, searchParams: URLSearchParams): string => {
+  const sessionFilter = JSON.parse(
+    sessionStorage.getItem("filter_param") || "{}"
+  );
+  return searchParams?.get(key) || sessionFilter?.[key] || "";
+};
+
+// const getParentSubject = (
+//   searchParams: any,
+//   jsondata: any,
+//   subjectTextKey?: any
+// ) => {
+//   if (searchParams) {
+//     const sub = searchParams?.get(keyName?.subject) || "";
+//     const arr = sub?.split(" ");
+//     const parents: any = arr?.map((selectedSub: string) => {
+//       const getParent = jsondata?.subjectFilterList?.map((items: any) => {
+//         if (selectedSub == items?.subjectTextKey) {
+//           return items?.parentSubject;
+//         }
+//       });
+//       return getParent?.filter(Boolean);
+//     });
+//     return parents?.flat()[0];
+//   } else if (subjectTextKey) {
+//     const parent = jsondata?.subjectFilterList
+//       ?.map((subjects: any) => {
+//         if (subjects?.subjectTextKey == subjectTextKey) {
+//           return subjects?.parentSubject;
+//         }
+//       })
+//       ?.filter(Boolean);
+//     return `${parent}`;
+//   }
+// };
 const getParentSubject = (
   searchParams: any,
   jsondata: any,
   subjectTextKey?: any
 ) => {
   if (searchParams) {
-    const sub =
-      searchParams?.get("subject") || searchParams?.get("course") || "";
-    const arr = sub?.split(" ");
-    const parents: any = arr?.map((selectedSub: string) => {
-      const getParent = jsondata?.subjectFilterList?.map((items: any) => {
-        if (selectedSub == items?.subjectTextKey) {
-          return items?.parentSubject;
-        }
-      });
-      return getParent?.filter(Boolean);
-    });
-    return parents?.flat()[0];
-  } else {
-    if (subjectTextKey) {
-      const parent = jsondata?.subjectFilterList
-        ?.map((subjects: any) => {
-          if (subjects?.subjectTextKey == subjectTextKey) {
-            return subjects?.parentSubject;
-          }
-        })
-        ?.filter(Boolean);
-      return `${parent}`;
+    const firstSubject = searchParams?.get(keyName?.subject)?.split(" ")?.[0];
+    if (firstSubject) {
+      return (
+        jsondata?.subjectFilterList?.find(
+          (item: any) => item?.subjectTextKey === firstSubject
+        )?.parentSubject || null
+      );
     }
   }
+  if (subjectTextKey) {
+    return (
+      jsondata?.subjectFilterList?.find(
+        (item: any) => item?.subjectTextKey === subjectTextKey
+      )?.parentSubject || null
+    );
+  }
+  return null;
 };
 
 function getUserLocation() {
@@ -218,13 +220,79 @@ function getUserLocation() {
   }
 }
 
+function hierarchicalLocation(regions: any) {
+  const regionMap = new Map();
+
+  regions.forEach((region: any) => {
+    regionMap.set(region.regionId, { ...region, children: [] });
+  });
+
+  const root: any = [];
+
+  regions.forEach((region: any) => {
+    if (region.parentRegionId) {
+      const parent = regionMap.get(region.parentRegionId);
+      if (parent) {
+        parent.children.push(regionMap.get(region.regionId));
+      }
+    } else {
+      return;
+    }
+  });
+  regions.forEach((region: any) => {
+    if (
+      region.parentRegionId &&
+      !regions.some((r: any) => r.regionId === region.parentRegionId)
+    ) {
+      root.push(regionMap.get(region.regionId));
+    }
+  });
+  return root;
+}
+
+const generatePathName = (
+  slug: string,
+  key?: string,
+  isUniversitySelected?: boolean
+) => {
+  const parts = slug?.split("/").filter(Boolean);
+  const basePath = `/${parts[0] || ""}`;
+  const currentPage = parts[1] || "";
+  if (basePath !== "/pgs") {
+    if (key === "university") {
+      if (
+        currentPage?.toLocaleLowerCase() === "csearch" &&
+        isUniversitySelected
+      ) {
+        return `${basePath}/search`;
+      }
+      if (
+        currentPage?.toLocaleLowerCase() === "search" &&
+        !isUniversitySelected
+      ) {
+        return `${basePath}/csearch`;
+      }
+      return `${basePath}/${currentPage || "csearch"}`;
+    }
+
+    if (currentPage?.toLocaleLowerCase() === "csearch") {
+      return `${basePath}/csearch`;
+    }
+    return key ? `${basePath}/search` : basePath;
+  }
+  return slug;
+};
+
 export {
   locationMilesArray,
+  getFilterValue,
+  generatePathName,
+  hierarchicalLocation,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,
   getDecodedCookie,
   getFilterPriority,
   getParentSubject,
-  extractUrlAndCookieValues,
+  extractUrlAndSessionValues,
 };

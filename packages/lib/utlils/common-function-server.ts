@@ -32,5 +32,11 @@ export function getMetaDetailsObject(metaData: MetaDataInterface): Metadata{
   }
   
   export function getCustomDomain(){
-    return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
+    const siteDomainName = process.env.PROJECT === "Whatuni" ? "whatuni" : "postgraduatesearch";
+    switch(process.env.NEXT_PUBLIC_ENVIRONMENT){
+      case "dev": return `https://mdev.dev.aws.${siteDomainName}.com`;
+      case "stg": return`https://mtest.test.aws.${siteDomainName}.com`;
+      case "prd": return`https://www.${siteDomainName}.com`;
+      default: return siteDomainName === "whatuni" ? "http://localhost:3000" : "http://localhost:3001";
+    }
   }

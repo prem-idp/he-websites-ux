@@ -1,17 +1,9 @@
-
 import Keystatscomponents from './KeyStatsComponent';
-import ReviewComponent from '../common-components/ReviewComponent';
+import ReviewComponent from '@packages/shared-components/course-details/common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
-import { CourseSection } from '../models/course.model';
-import Reviewscomponents from "@packages/shared-components/common-utilities/slider/reviews/reviewscomponents"
+import LazyLoadWrapper from '@packages/lib/utlils/lazyloadcomponent';
 
-interface CourseInfoComponentProps extends CourseSection {
 
-}
-interface CourseInfoComponentProps {
-  courseInfo: any,
-  keyStats: any
-}
 
 const CourseInfoComponent = ({ data, sectionInfo }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
@@ -22,10 +14,17 @@ const CourseInfoComponent = ({ data, sectionInfo }: any) => {
         <div className='courseinfo-card-container flex flex-col lg:flex-row justify-between gap-[20px] pb-[40px]'>
           <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>Course info</div>
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
-            <ReadMoreLessDesc text={courseInfo?.courseSummary} />
-            <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
-            <Reviewscomponents heading="What student say" />
-            {/* </div> */}
+            {data?.courseInfo?.courseSummary &&
+              <ReadMoreLessDesc text={courseInfo?.courseSummary} />
+            }
+            {data?.courseInfo?.keyStats &&
+              <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
+            }
+            <LazyLoadWrapper>
+              {data?.institution_reviews?.reviewDetail &&
+                <ReviewComponent heading="What student say" jsonResponse={data?.institution_reviews?.reviewDetail} />
+              }
+            </LazyLoadWrapper>
           </div>
         </div>
       </div>

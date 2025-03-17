@@ -15,7 +15,7 @@ import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 interface SrPageResultPodProps {
   searchResultsData: any[];
-  qualCode:string;
+  qualCode: string;
 }
 interface Favourite {
   fav_id: string;
@@ -65,7 +65,9 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
       : "Next Open day in " + differenceInDays + " day";
   };
   //
-  const getPRPageURL = (collegeTextKey: any) => {   
+  const getPRPageURL = (collegeTextKey: any) => {
+
+    // Create filtered params object
     const filteredParams = Array.from(searchParams.entries())
   .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
   .reduce((acc, [key, value]) => {
@@ -276,14 +278,14 @@ queryString ? `&${queryString}` : ''
                       />
                       {data?.wuscaBadges}
                     </div>
-                    {data?.wuscaBadges?.includes(",") ? 
-                    <div className="bg-primary-400 px-[8px] rounded-[4px]">
-                      + {data?.wuscaBadges?.split(",")?.length - 1} more
-                    </div> : <></>}
+                    {data?.wuscaBadges?.includes(",") ?
+                      <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                        + {data?.wuscaBadges?.split(",")?.length - 1} more
+                      </div> : <></>}
                   </div>
                 )}
                 {data?.openDayDetails?.openDate &&
-                process.env.PROJECT === "Whatuni" ? (
+                  process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       {calculateDaysBetween(data?.openDayDetails?.openDate)}
@@ -408,9 +410,9 @@ queryString ? `&${queryString}` : ''
                                   <path
                                     d="M9.66667 6.33333C9.66667 5.71968 9.16921 5.22222 8.55556 5.22222C7.94191 5.22222 7.44444 5.71968 7.44444 6.33333V9.11111C7.44444 9.72476 6.94698 10.2222 6.33333 10.2222H9.66667M6.33333 8H8.55556M13 8C13 10.7614 10.7614 13 8 13C5.23858 13 3 10.7614 3 8C3 5.23858 5.23858 3 8 3C10.7614 3 13 5.23858 13 8Z"
                                     stroke="#5C656E"
-                                    stroke-width="1.13"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="1.13"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                   />
                                 </svg> 
                                ) : (
@@ -452,7 +454,7 @@ queryString ? `&${queryString}` : ''
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
-                    courseData?.courseSummary ? (
+                      courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
                         <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
@@ -480,7 +482,7 @@ queryString ? `&${queryString}` : ''
                             {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
                                <li key={index}>{desc}</li>
                             ))}
-                           
+
                           </ul>
                           <Link
                             href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
@@ -545,7 +547,7 @@ queryString ? `&${queryString}` : ''
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={getPRPageURL(data?.collegeTextKey) }
+                href={getPRPageURL(data?.collegeTextKey)}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
@@ -570,7 +572,7 @@ queryString ? `&${queryString}` : ''
           </div>
         </div>
       ))}
-    
+
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}
