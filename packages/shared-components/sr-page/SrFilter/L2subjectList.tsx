@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import SubjectCheckBox from "./subjectcheckBox";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { useSearchParams } from "next/navigation";
@@ -16,24 +16,12 @@ const L2subjectList = React.memo(
     slug,
     subjectsArray,
   }: any) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     const searchParams = useSearchParams();
     const keyName = KeyNames();
     const subjectsSelected = extractUrlAndSessionValues(searchParams, "", "")?.[
       keyName?.subject
     ]?.split("+");
-    let showSubjectLabel;
-    if (subjectsSelected?.length > 0) {
-      showSubjectLabel =
-        subjectsArray?.subjects
-          ?.map((subjects: any) => {
-            if (subjects?.subjectTextKey == subjectsSelected[0]) {
-              return subjects;
-            }
-          })
-          ?.filter(Boolean)?.length > 0
-          ? true
-          : false;
-    }
 
     const subjectLable = subjectsSelected
       ?.map((subjectParam: any) => {
@@ -45,74 +33,81 @@ const L2subjectList = React.memo(
             return null;
           })
           ?.filter(Boolean);
-
         return subjectUrl;
       })
       ?.flat();
+
+    const visibleItems = isExpanded
+      ? subjectLable?.slice(1)
+      : subjectLable?.slice(1, 4);
     return (
       <div
         className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.parentSubject == subjectsArray?.parent ? "" : "hidden"}`}
       >
-        {showSubjectLabel && subjectLable?.length > 0 && (
+        {subjectLable?.length > 0 && (
           <ul className="flex flex-wrap gap-[8px] uppercase">
             <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
               {subjectLable[0]?.categoryDesc}
             </li>
-            {subjectLable?.length > 1 && (
+            {visibleItems?.length > 1 && (
               <>
-                {subjectLable
-                  ?.slice(1)
-                  ?.map((subjectNames: any, index: number) => (
-                    <li
-                      key={index + 1}
-                      className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+                {visibleItems?.map((subjectNames: any, index: number) => (
+                  <li
+                    key={index + 1}
+                    className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
+                  >
+                    {subjectNames?.categoryDesc}
+                    <svg
+                      onClick={() => {
+                        appendSearchParams(
+                          keyName?.subject,
+                          subjectNames?.subjectTextKey
+                        );
+                      }}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      {subjectNames?.categoryDesc}
-                      <svg
-                        onClick={() => {
-                          appendSearchParams(
-                            keyName?.subject,
-                            subjectNames?.subjectTextKey
-                          );
-                        }}
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 12L12 4M4 4L12 12"
-                          stroke="#3460DC"
-                          strokeWidth="1.13"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </li>
-                  ))}
+                      <path
+                        d="M4 12L12 4M4 4L12 12"
+                        stroke="#3460DC"
+                        strokeWidth="1.13"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </li>
+                ))}
               </>
             )}
-
-            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
-              <div aria-label="Back Arrow">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9 11L6 8L9 5"
-                    stroke="#3460DC"
-                    strokeWidth="1.13"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </li>
+            {visibleItems?.length > 2 && (
+              <li
+                onClick={() => {
+                  setIsExpanded(!isExpanded);
+                }}
+                className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]"
+              >
+                <div aria-label="Back Arrow">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 11L6 8L9 5"
+                      stroke="#3460DC"
+                      strokeWidth="1.13"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </li>
+            )}
           </ul>
         )}
         <div className="flex flex-col gap-[12px]">

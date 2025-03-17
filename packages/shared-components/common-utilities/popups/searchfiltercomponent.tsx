@@ -27,6 +27,7 @@ import {
 } from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
+import { getFilterValue } from "@packages/lib/utlils/filters/result-filters";
 type KeyValueObject = Record<string, string>;
 const FilterSpinner = dynamic(
   () =>
@@ -171,44 +172,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const subjectParam: any =
     searchParams?.get(keyName?.subject)?.split(",") || [];
+
   useEffect(() => {
-    const sessionFilter = JSON.parse(
-      sessionStorage.getItem("filter_param") || "{}"
-    );
     setPrepopulateFilter({
-      studyMethod:
-        searchParams?.get(keyName?.studyMethod) ||
-        sessionFilter?.[keyName?.studyMethod] ||
-        "",
-      studyMode:
-        searchParams?.get(keyName?.studyMode) ||
-        sessionFilter?.[keyName?.studyMode] ||
-        "",
-      year:
-        searchParams?.get(keyName?.year) ||
-        sessionFilter?.[keyName?.year] ||
-        "",
-      month:
-        searchParams?.get(keyName?.month) ||
-        sessionFilter?.[keyName?.month] ||
-        "",
-      region:
-        searchParams?.get(keyName?.region) ||
-        sessionFilter?.[keyName?.region] ||
-        "",
-      city:
-        searchParams?.get(keyName?.city) ||
-        sessionFilter?.[keyName?.city] ||
-        "",
-      russellGroup:
-        searchParams?.get(keyName?.russellGroup) ||
-        sessionFilter?.[keyName?.russellGroup] ||
-        "",
-      locationType:
-        searchParams?.get(keyName?.locationType) ||
-        sessionFilter?.[keyName?.locationType] ||
-        "",
+      studyMethod: getFilterValue(keyName?.studyMethod, searchParams),
+      studyMode: getFilterValue(keyName?.studyMode, searchParams),
+      year: getFilterValue(keyName?.year, searchParams),
+      month: getFilterValue(keyName?.month, searchParams),
+      region: getFilterValue(keyName?.region, searchParams),
+      city: getFilterValue(keyName?.city, searchParams),
+      russellGroup: getFilterValue(keyName?.russellGroup, searchParams),
+      locationType: getFilterValue(keyName?.locationType, searchParams),
     });
+
     const value = isSingleSelection(searchParams);
     setslug(path);
     setIsIndexed(value);
@@ -324,16 +300,19 @@ const SearchFilterComponent = ({ data, path }: any) => {
     const body = document.body;
     body.classList.remove("overflow-y-hidden");
   };
+
   useEffect(() => {
     if (filterState?.isFilterOpen && filterRef.current) {
       filterRef.current.scrollTop = filterRef.current.scrollHeight;
     }
   }, [filterState?.isFilterOpen]);
+
   const ShowResults = () => {
     const body = document.body;
     body?.classList?.remove("overflow-y-hidden");
     setFilterState((prev: any) => ({ ...prev, isFilterOpen: false }));
   };
+
   const postCodeChange = (value: string) => {
     const trimmedValue = value.trim().toUpperCase();
     const specialCharRegex = /[^a-zA-Z0-9 ]/;
@@ -347,13 +326,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   useEffect(() => {
     const dynamicFilter = async () => {
-      window.addEventListener("popstate", () => {
-        console.log("URL changed:", window.location.href);
-      });
       if (routerEnd) {
-        console.log(
-          filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
-        );
         const data = await getSrFilter(
           filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
         );
@@ -373,6 +346,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     };
     dynamicFilter();
   }, [routerEnd]);
+
   const clearFilter = () => {
     const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
       " "
@@ -382,6 +356,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     sessionStorage.setItem("filter_param", "{}");
     router.push(url);
   };
+
   const modifySearchParams = useCallback(
     (key: string, value: string, urlParams: any) => {
       const searchparamObject = Object?.fromEntries(urlParams?.entries());
@@ -391,6 +366,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     },
     []
   );
+
   const checkCrossL1Subject = useCallback(
     (
       key: string,
@@ -642,6 +618,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }));
     }
   };
+
   const universityKeywordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
       const filteredUni = jsondata?.universityFilterList?.filter((uni: any) =>
@@ -663,6 +640,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }));
     }
   };
+
   const toggleLocationMiles = (milesValue: string) => {
     setLocationState((prev: any) => ({
       ...prev,
@@ -700,6 +678,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
+
   return (
     <>
       <div>

@@ -141,6 +141,14 @@ const locationMilesArray = [
   { miles: "100 miles", distance: "100" },
   { miles: "200 miles", distance: "200" },
 ];
+
+const getFilterValue = (key: string, searchParams: URLSearchParams): string => {
+  const sessionFilter = JSON.parse(
+    sessionStorage.getItem("filter_param") || "{}"
+  );
+  return searchParams?.get(key) || sessionFilter?.[key] || "";
+};
+
 // const getParentSubject = (
 //   searchParams: any,
 //   jsondata: any,
@@ -277,6 +285,7 @@ const generatePathName = (
 
 export {
   locationMilesArray,
+  getFilterValue,
   generatePathName,
   hierarchicalLocation,
   getUserLocation,
