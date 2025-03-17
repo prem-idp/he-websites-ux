@@ -37,19 +37,17 @@ const L2subjectList = React.memo(
       })
       ?.flat();
 
-    const visibleItems = isExpanded
-      ? subjectLable?.slice(1)
-      : subjectLable?.slice(1, 4);
+    const visibleItems = isExpanded ? subjectLable : subjectLable?.slice(0, 4);
     return (
       <div
         className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.parentSubject == subjectsArray?.parent ? "" : "hidden"}`}
       >
         {subjectLable?.length > 0 && (
           <ul className="flex flex-wrap gap-[8px] uppercase">
-            <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
+            {/* <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
               {subjectLable[0]?.categoryDesc}
-            </li>
-            {visibleItems?.length > 1 && (
+            </li> */}
+            {visibleItems?.length > 0 && (
               <>
                 {visibleItems?.map((subjectNames: any, index: number) => (
                   <li
@@ -82,7 +80,7 @@ const L2subjectList = React.memo(
                 ))}
               </>
             )}
-            {visibleItems?.length > 2 && (
+            {visibleItems?.length > 3 && (
               <li
                 onClick={() => {
                   setIsExpanded(!isExpanded);

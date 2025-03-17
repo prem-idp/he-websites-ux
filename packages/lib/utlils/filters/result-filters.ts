@@ -61,34 +61,32 @@ const extractUrlAndSessionValues = (
   crossSubject?: boolean
 ): KeyValueObject => {
   const queryString = searchParams?.toString();
-  const paramsObject = queryString.split("&").reduce((acc: any, param: any) => {
-    const [key, value] = param.split("=");
-    acc[key] = decodeURIComponent(value);
-    return acc;
-  }, {});
+  const paramsObject = queryString
+    ?.split("&")
+    ?.reduce((acc: any, param: any) => {
+      const [key, value] = param?.split("=");
+      acc[key] = decodeURIComponent(value);
+      return acc;
+    }, {});
 
   const sessionObject: KeyValueObject =
     typeof window !== "undefined"
-      ? JSON.parse(sessionStorage.getItem("filter_param") || "{}")
+      ? JSON.parse(sessionStorage?.getItem("filter_param") || "{}")
       : {};
   const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
   if (crossSubject) {
-    if (process.env.PROJECT === "Whatuni") {
-      delete mergedObject?.subject;
-    } else {
-      delete mergedObject?.course;
-    }
+    delete mergedObject?.[keyName?.subject];
   }
   if (mergedObject[key] && key != keyName?.region) {
-    let valuesSet = new Set(mergedObject[key].split("+"));
+    let valuesSet = new Set(mergedObject[key]?.split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
     } else if (key === keyName?.subject) {
       valuesSet.add(value);
     } else {
-      valuesSet = new Set(`${value}`.split("+"));
+      valuesSet = new Set(`${value}`?.split("+"));
     }
-    mergedObject[key] = Array.from(valuesSet).join("+");
+    mergedObject[key] = Array.from(valuesSet)?.join("+");
     if (!mergedObject[key]) delete mergedObject[key];
   } else {
     mergedObject[key] = value;
@@ -100,8 +98,8 @@ const getDecodedCookie = (name: string) => {
   if (typeof document === "undefined") return null;
   const cookie = document?.cookie
     ?.split("; ")
-    ?.find((row) => row.startsWith(name + "="));
-  return cookie ? cookie.split("=")[1].trim() || null : null;
+    ?.find((row) => row?.startsWith(name + "="));
+  return cookie ? cookie.split("=")[1]?.trim() || null : null;
 };
 
 const mergeTwoObjects = (
@@ -116,7 +114,7 @@ const mergeTwoObjects = (
         paramsObject[k]
           ? Array.from(
               new Set([...paramsObject[k]?.split("+"), ...v?.split("+")])
-            ).join("+")
+            )?.join("+")
           : v,
       ])
     ),
@@ -125,7 +123,7 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
-  for (const [key, value] of entriesArray) {
+  for (const [_, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
     if (decodedValue.includes("+") || decodedValue.includes(" ")) {
       return false;
@@ -149,34 +147,6 @@ const getFilterValue = (key: string, searchParams: URLSearchParams): string => {
   return searchParams?.get(key) || sessionFilter?.[key] || "";
 };
 
-// const getParentSubject = (
-//   searchParams: any,
-//   jsondata: any,
-//   subjectTextKey?: any
-// ) => {
-//   if (searchParams) {
-//     const sub = searchParams?.get(keyName?.subject) || "";
-//     const arr = sub?.split(" ");
-//     const parents: any = arr?.map((selectedSub: string) => {
-//       const getParent = jsondata?.subjectFilterList?.map((items: any) => {
-//         if (selectedSub == items?.subjectTextKey) {
-//           return items?.parentSubject;
-//         }
-//       });
-//       return getParent?.filter(Boolean);
-//     });
-//     return parents?.flat()[0];
-//   } else if (subjectTextKey) {
-//     const parent = jsondata?.subjectFilterList
-//       ?.map((subjects: any) => {
-//         if (subjects?.subjectTextKey == subjectTextKey) {
-//           return subjects?.parentSubject;
-//         }
-//       })
-//       ?.filter(Boolean);
-//     return `${parent}`;
-//   }
-// };
 const getParentSubject = (
   searchParams: any,
   jsondata: any,
@@ -253,13 +223,22 @@ function hierarchicalLocation(regions: any) {
 const generatePathName = (
   slug: string,
   key?: string,
+  value?: string,
+  searchParams?: any,
   isUniversitySelected?: boolean
 ) => {
-  const parts = slug?.split("/").filter(Boolean);
+  const parts = slug?.split("/")?.filter(Boolean);
   const basePath = `/${parts[0] || ""}`;
   const currentPage = parts[1] || "";
+  const currentSubject = searchParams?.get(keyName?.subject)?.split(" ");
+  const singleSubject =
+    currentSubject?.length == 1 && currentSubject[0] == value;
+  if (singleSubject) {
+    console.log("entered in if", singleSubject, key, value);
+    return basePath;
+  }
   if (basePath !== "/pgs") {
-    if (key === "university") {
+    if (key === keyName?.university) {
       if (
         currentPage?.toLocaleLowerCase() === "csearch" &&
         isUniversitySelected
@@ -274,7 +253,6 @@ const generatePathName = (
       }
       return `${basePath}/${currentPage || "csearch"}`;
     }
-
     if (currentPage?.toLocaleLowerCase() === "csearch") {
       return `${basePath}/csearch`;
     }
