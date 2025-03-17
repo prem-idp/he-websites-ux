@@ -32,9 +32,15 @@ export function getMetaDetailsObject(metaData: MetaDataInterface): Metadata{
   }
   
   export function getCustomDomain(){
-    if(process.env.PROJECT == "Whatuni")
-      return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
-    else if(process.env.PROJECT == "PGS")
-      return `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : "http://localhost:3001"}`;
-    return "";
+    const siteENV = process.env.NEXT_PUBLIC_ENVIRONMENT;
+    const siteDomainName = process.env.PROJECT == "Whatuni" ? "whatuni" : "postgraduatesearch";
+    let domain;
+    switch(siteENV){
+      case "dev": {domain = `https://mdev.dev.aws.${siteDomainName}.com`; break;}
+      case "stg": {domain= `https://mtest.test.aws.${siteDomainName}.com`; break;}
+      case "prd": {domain = `https://www.${siteDomainName}.com`; break;}
+      default: {domain = siteDomainName == "whatuni" ? "http://localhost:3000" : "http://localhost:3001";}
+    }
+    console.log("domaon: ", domain);  
+    return domain;
   }
