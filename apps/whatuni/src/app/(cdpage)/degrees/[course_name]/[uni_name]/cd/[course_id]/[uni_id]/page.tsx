@@ -87,7 +87,7 @@ export default async function Cdpage({ params }: any) {
     </>
   )
 }
-export async function getCDMetaDetailsFromContentful(searchParams: any, slug: string) {
+async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):Promise<MetaDataInterface> {
   //1) bff API hit
   const displayNameReqBody = getRequestInputPayload(searchParams);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
@@ -126,7 +126,7 @@ export async function getCDMetaDetailsFromContentful(searchParams: any, slug: st
   return actualMetaData;
 }
 
-export function getRequestInputPayload(searchPayLoad: any) {
+function getRequestInputPayload(searchPayLoad: any) {
   let courseId = searchPayLoad?.get('courseId');
   courseId = +courseId;
   const displayNameReqBody = {

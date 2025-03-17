@@ -10,14 +10,15 @@ import BookEvent from '@packages/shared-components/common-utilities/cards/intera
 import { getMetaDetailsQueryForSRpage } from '@packages/lib/graphQL/search-results'
 import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actions/server-action'
 import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
-import { getRequestInputPayload} from '@whatuni/src/app/(cdpage)/degrees/[course_name]/[uni_name]/cd/[course_id]/[uni_id]/page'
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant'
 import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
 
 const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
   const prams_slug = await data;
   let h1h2Text: string[] = [];
-  const displayNameReqBody = getRequestInputPayload(searchPayload);
+  const displayNameReqBody = {
+    "courseId": searchPayload.get('courseId') ? +searchPayload.get('courseId') : ""
+  }
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   console.log("searchParams...", displayNameBFFEndPt)
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
