@@ -8,12 +8,12 @@ import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
-export async function getSRMetaDetailsFromContentful(searchParams: any, pathName: string, params: any, displayNameBFFEndPt: string, pageType: string) {
+export async function getSearchPageMetaDetailsFromContentful(searchParams: any, pathName: string, params: any) {
   
   //Initializing and Assigning values
   //const cookieStore = await cookies();
   // const pathName = cookieStore?.get("pathnamecookies")?.value ?? "";
-  // const qualInUrl = pathName?.split("/")[1] || "{}";
+  const qualInUrl = pathName?.split("/")[1] || "{}";
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
