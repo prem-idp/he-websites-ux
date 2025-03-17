@@ -5,6 +5,16 @@ const qualCode: any = {
   "access-foundation-courses": "T",
   "hnd-hnc-courses": "N",
 };
+const getLocationArray = (
+  inputObject: Record<string, any>,
+  keyName: Record<string, string>
+): string[] => {
+  const region = inputObject[keyName?.region] ?? "";
+  const city = inputObject[keyName?.city] ?? "";
+  const splitValues = (value: string) =>
+    value.includes("+") ? value.split("+") : value.split(" ");
+  return region || city ? [...splitValues(region), ...splitValues(city)] : [];
+};
 
 const KeyNames = () => {
   const sameNameObject = {
@@ -54,17 +64,7 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
       : inputObject?.[keyName?.subject]?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
-    location:
-      inputObject[keyName?.region] || inputObject[keyName?.city]
-        ? [
-            ...(inputObject[keyName?.region]?.includes("+")
-              ? inputObject[keyName?.region]?.split("+")
-              : inputObject[keyName?.region]?.split(" ")),
-            ...(inputObject[keyName?.city]?.includes("+")
-              ? inputObject[keyName?.city]?.split("+")
-              : inputObject[keyName?.city]?.split(" ")),
-          ]
-        : "",
+    location: getLocationArray(inputObject, keyName) || "",
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
     collegeId: "",

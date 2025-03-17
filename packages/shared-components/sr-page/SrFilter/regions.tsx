@@ -34,66 +34,93 @@ const Regions = React.memo(
       }
     }, [searchparams]);
 
-    const locationClicked = (regionTextKey: string) => {
-      const selectedRegion = regionListData?.find(
-        (region: any) => region?.regionTextKey == regionTextKey
+    const getSelectedRegion = (regionListData: any[], regionTextKey: string) =>
+      regionListData?.find((region) => region?.regionTextKey === regionTextKey);
+
+    const getParentRegion = (regionListData: any[], selectedRegion: any) =>
+      regionListData?.find(
+        (region) => region?.regionId === selectedRegion?.parentRegionId
       );
 
+    const isParentRegionSelected = (
+      regionListData: any[],
+      selectedRegion: any
+    ) =>
+      regionListData?.some(
+        (region) => region?.parentRegionId === selectedRegion?.regionId
+      );
+
+    const getSubRegions = (regionListData: any[], parentRegionId: string) =>
+      regionListData
+        ?.filter((region) => region?.parentRegionId === parentRegionId)
+        ?.map((region) => region?.regionTextKey);
+
+    const getAppliedRegions = (searchParams: any) =>
+      extractUrlAndSessionValues(searchParams, "", "")?.region?.split("+") ||
+      [];
+
+    const locationClicked = (regionTextKey: string) => {
+      const selectedRegion = getSelectedRegion(regionListData, regionTextKey);
       if (!selectedRegion) return;
-      const parentRegion = regionListData?.find(
-        (region: any) => region?.regionId === selectedRegion?.parentRegionId
-      );
-      let appliedRegions =
-        extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
-        [];
-      const isParentRegion = regionListData?.some(
-        (region: any) => region?.parentRegionId === selectedRegion?.regionId
-      );
-      if (isParentRegion) {
-        appliedRegions = appliedRegions?.filter((region) => {
-          const subregion = regionListData?.find(
-            (r: any) => r?.regionTextKey === region
-          );
+      const parentRegion = getParentRegion(regionListData, selectedRegion);
+      let appliedRegions = getAppliedRegions(searchparams);
+      if (isParentRegionSelected(regionListData, selectedRegion)) {
+        appliedRegions = appliedRegions.filter((region) => {
+          const subregion = getSelectedRegion(regionListData, region);
           return subregion?.parentRegionId !== selectedRegion?.regionId;
         });
-        appliedRegions?.push(regionTextKey);
+        appliedRegions.push(regionTextKey);
       } else if (parentRegion) {
-        if (appliedRegions.includes(parentRegion?.regionTextKey)) {
-          appliedRegions = appliedRegions.filter(
-            (region) => region !== parentRegion?.regionTextKey
-          );
-          const siblingRegions = regionListData
-            ?.filter(
-              (region: any) => region?.parentRegionId === parentRegion?.regionId
-            )
-            ?.map((region: any) => region?.regionTextKey)
-            ?.filter((region: any) => region !== regionTextKey);
-          appliedRegions.push(...siblingRegions);
-        } else {
-          if (appliedRegions?.includes(regionTextKey)) {
-            appliedRegions = appliedRegions?.filter(
-              (region) => region !== regionTextKey
-            );
-          } else {
-            appliedRegions?.push(regionTextKey);
-          }
-        }
-        const allSubregions = regionListData
-          ?.filter(
-            (region: any) => region?.parentRegionId === parentRegion?.regionId
-          )
-          ?.map((region: any) => region?.regionTextKey);
-        const allSelected = allSubregions?.every((subregion: any) =>
-          appliedRegions?.includes(subregion)
+        appliedRegions = handleParentRegionSelection(
+          appliedRegions,
+          parentRegion,
+          regionTextKey
         );
-        if (allSelected) {
-          appliedRegions = appliedRegions?.filter(
-            (region) => !allSubregions?.includes(region)
-          );
-          appliedRegions?.push(parentRegion?.regionTextKey);
-        }
       }
-      appendSearchParams(keyName?.region, appliedRegions?.join("+"));
+      appendSearchParams(keyName?.region, appliedRegions.join("+"));
+    };
+
+    const handleParentRegionSelection = (
+      appliedRegions: string[],
+      parentRegion: any,
+      regionTextKey: string
+    ) => {
+      if (appliedRegions.includes(parentRegion?.regionTextKey)) {
+        appliedRegions = appliedRegions.filter(
+          (region) => region !== parentRegion?.regionTextKey
+        );
+        const siblingRegions = getSubRegions(
+          regionListData,
+          parentRegion?.regionId
+        ).filter((region) => region !== regionTextKey);
+        appliedRegions.push(...siblingRegions);
+      } else {
+        appliedRegions = appliedRegions.includes(regionTextKey)
+          ? appliedRegions.filter((region) => region !== regionTextKey)
+          : [...appliedRegions, regionTextKey];
+      }
+
+      return handleAllSubregionsSelection(appliedRegions, parentRegion);
+    };
+
+    const handleAllSubregionsSelection = (
+      appliedRegions: string[],
+      parentRegion: any
+    ) => {
+      const allSubregions = getSubRegions(
+        regionListData,
+        parentRegion?.regionId
+      );
+      const allSelected = allSubregions.every((subregion) =>
+        appliedRegions.includes(subregion)
+      );
+      if (allSelected) {
+        appliedRegions = appliedRegions.filter(
+          (region) => !allSubregions.includes(region)
+        );
+        appliedRegions.push(parentRegion?.regionTextKey);
+      }
+      return appliedRegions;
     };
 
     return (

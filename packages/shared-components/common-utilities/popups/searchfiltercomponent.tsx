@@ -347,6 +347,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   useEffect(() => {
     const dynamicFilter = async () => {
+      window.addEventListener("popstate", () => {
+        console.log("URL changed:", window.location.href);
+      });
       if (routerEnd) {
         console.log(
           filterbodyJson(filterState?.filterOrder, slug?.split("/")[1])
@@ -381,14 +384,10 @@ const SearchFilterComponent = ({ data, path }: any) => {
   };
   const modifySearchParams = useCallback(
     (key: string, value: string, urlParams: any) => {
-      //const urlParentSubject = getParentSubject(searchParams, jsondata);
-      //const selectedParentSubject = getParentSubject(null, jsondata, value);
-      // if (urlParentSubject == selectedParentSubject) {
       const searchparamObject = Object?.fromEntries(urlParams?.entries());
       searchparamObject[key] = value;
       const modifiedParam = new URLSearchParams(searchparamObject);
       return `${modifiedParam}`;
-      // }
     },
     []
   );
@@ -514,12 +513,20 @@ const SearchFilterComponent = ({ data, path }: any) => {
       } else if (linkTagId && isIndexed && !multiSelect) {
         linkTagId.click();
       } else {
+        window.history.pushState(
+          {},
+          "",
+          `${domainPath ?? ""}?${urlParams.toString()}`
+            .replaceAll("%2B", "+")
+            .replaceAll("%2C", ",")
+        );
         router.push(
           `${domainPath ?? ""}?${urlParams.toString()}`
             .replaceAll("%2B", "+")
             .replaceAll("%2C", ",")
         );
       }
+
       setrouterEnd(true);
     },
     [searchParams, jsondata, slug, router, isIndexed]

@@ -252,27 +252,26 @@ const generatePathName = (
   const currentPage = parts[1] || "";
   if (basePath !== "/pgs") {
     if (key === "university") {
-      if (currentPage === "csearch" && isUniversitySelected) {
+      if (
+        currentPage?.toLocaleLowerCase() === "csearch" &&
+        isUniversitySelected
+      ) {
         return `${basePath}/search`;
       }
-      if (currentPage === "search" && !isUniversitySelected) {
+      if (
+        currentPage?.toLocaleLowerCase() === "search" &&
+        !isUniversitySelected
+      ) {
         return `${basePath}/csearch`;
       }
       return `${basePath}/${currentPage || "csearch"}`;
     }
 
-    if (currentPage === "csearch") {
+    if (currentPage?.toLocaleLowerCase() === "csearch") {
       return `${basePath}/csearch`;
     }
-
     return key ? `${basePath}/search` : basePath;
   }
-  // if (basePath === "/pgs") {
-  //   if (key === "subject" || key === "university") {
-  //     return `${basePath}/search`;
-  //   }
-  //   return slug;
-  // }
   return slug;
 };
 
