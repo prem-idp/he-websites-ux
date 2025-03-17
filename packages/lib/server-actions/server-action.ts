@@ -3,7 +3,6 @@
 import { fetchAuthSession } from "@aws-amplify/auth";
 import { API_END_POINTS } from "../utlils/API_END_POINTS";
 import { v4 as uuidv4 } from "uuid";
-import { currentAuthenticatedUser } from "../utlils/helper-function";
 
 type RequestType = "GET" | "POST";
 
@@ -37,6 +36,7 @@ export async function searchAjaxFecthFunction(payload: Record<string, any>) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
         "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
       },
       cache: "no-store",
@@ -57,6 +57,7 @@ export async function callClickstreamAPI(payload: any) {
     const tracksession_id = uuidv4().replace(/\D/g, "").slice(0, 8);
     const headers: any = {
       "Content-Type": "application/json",
+      "x-correlation-id": uuidv4(),
       "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
       tracksessionid: tracksession_id,
     };
@@ -99,8 +100,9 @@ export async function httpBFFRequest(
       headers: {
         ...customHeaders,
         "Content-Type": "application/json",
-        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
-        "x-api-key": xAPIKey,
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.SITE_CODE}`,
+        "x-api-key": xAPIKey
       },
       body: JSON.stringify(bodyPayload),
       cache: cacheType ? cacheType : "default",
@@ -116,14 +118,14 @@ export async function httpBFFRequest(
 }
 
 const searchResultsFetchFunction = async (searchPayload: any): Promise<any> => {
-  console.log("PAYLOAD", searchPayload)
   try {
     const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/searchResults`;
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        sitecode: `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "x-correlation-id": uuidv4(),
+        sitecode: `${process.env.SITE_CODE}`,
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
       },
       body: JSON.stringify(searchPayload),

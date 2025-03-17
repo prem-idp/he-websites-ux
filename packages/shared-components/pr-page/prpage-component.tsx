@@ -12,6 +12,7 @@ import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
 import { getSearchPayload } from "../services/utils";
 import { headers } from "next/headers";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Payload {
   parentQualification: string;
@@ -25,25 +26,16 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-const searchPRResults = async (searchparams: any) => {
-  const cookieStore = await cookies();
-  const headerList = await headers();
-  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
-  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-
-  const payloads = await getSearchPayload(searchparams,
-    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
-    headerList?.get("x-forwarded-for") || ""
-  );
-
-
+const searchPRResults = async (payloads: any) => {
   try {
+    const uuid = uuidv4();
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
       method: "POST",
       headers: {
         "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "Content-Type": "application/json",
-        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+        "x-correlation-id": uuid
       },
       body: JSON.stringify(payloads),
     });
@@ -72,11 +64,11 @@ const transformProviderListData = (data: any) => {
           collegeId: college?.collegeId,
           collegeName: college?.collegeTextKey,
           courseId: course?.courseId,
-          cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/${course?.courseId}/${college?.collegeId}`,
+          cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/cd/${course?.courseId}/${college?.collegeId}`,
           pageName: "coursesearchresult",
           title: course?.courseTitle || "Unknown Title",
           provideFav: false,
-          subOrderItemid: course?.enquiryDetails?.subOrderItemId,
+          subOrderItemId: course?.enquiryDetails?.subOrderItemId,
           sponsoredListingFlag: college?.sponsoredListingFlag,
           manualBoostingFlag: college?.manualBoostingFlag,
           orderItemId: course?.enquiryDetails?.orderItemId,
@@ -96,9 +88,18 @@ const transformProviderListData = (data: any) => {
 };
 
 const PrPageComponent = async ({ searchparams }: any) => {
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const data = await searchPRResults(searchparams); // Fetch earach the PR results
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+
+  const payloads = await getSearchPayload(searchparams,
+    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
+    headerList?.get("x-forwarded-for") || ""
+  );
+
+  const referer = headerList.get("referer");
+  const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
   const breadcrumbData = [
     {
@@ -124,7 +125,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
       </section>
       <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
-      <SearchLabels />
+      <SearchLabels searchPayLoad={payloads} />
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (

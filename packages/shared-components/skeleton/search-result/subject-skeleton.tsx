@@ -4,6 +4,7 @@ const SubjectSkeleton = () => {
   return (
     <>
       {/* skeleton */}
+      <div className="mx-[16px] py-[24px] border-t border-grey-300 md:mx-[32px]">
       <div className="flex flex-col gap-[24px] pt-[24px]">
         <div className="flex flex-col gap-[4px]">
           <div className="text-para-lg font-semibold">
@@ -92,6 +93,7 @@ const SubjectSkeleton = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       {/* skeleton */}
     </>

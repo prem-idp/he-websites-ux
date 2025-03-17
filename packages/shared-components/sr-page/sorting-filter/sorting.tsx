@@ -6,7 +6,7 @@ import {
   wuscaCategories,
   wuSortingFilter,
 } from "@packages/shared-components/services/constants";
-import React, { useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 interface SortingProps {
   sortParam?: any;
 }
@@ -14,6 +14,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   const filterCookieParam = sortParam?.filterCookieParam || {}
   const [isSortClicked, setIsSortClicked] = useState(false);
   const [sortValue, setSortValue] = useState(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
   };
@@ -35,10 +36,11 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
       } else {
         urlParams.delete("sort")
       }
+      urlParams.delete(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no")
       sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
     }
-    window.history.replaceState({}, '', sortUrl);
-    window.location.reload();
+   // window.history.replaceState({}, '', sortUrl);
+    window.location.href = sortUrl;
   };
 
   const getKeyForValue = (value: string) => {
@@ -53,9 +55,26 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
 
   const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
 
+  // Handle outside click to close the div
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setIsSortClicked(false);
+      }
+    };
+
+    // Attach the event listener when the component mounts
+    document.addEventListener('click', handleClickOutside);
+
+    // Cleanup event listener when the component unmounts
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="ml-auto w-fit relative">
-      <div
+      <div ref={divRef}
         onClick={sortClicked}
         className="flex items-center gap-[4px] px-[4px] py-[16px] small text-grey300 cursor-pointer hover:underline"
       >

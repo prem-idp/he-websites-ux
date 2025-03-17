@@ -103,12 +103,13 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
                           />
                         </svg>
                       </div> */}
-                      <UserFavourite {...{
+
+                      {/* <UserFavourite {...{
                         contentType: 'INSTITUTION',
                         contentId: courseInfo?.institutionId,
                         contentName: courseInfo?.institutionName,
                         exceedData: () => { }
-                      }} />
+                      }} /> */}
                     </div>
                     <p className='small text-grey300 line-clamp-3 md:line-clamp-2 w-full md:w-[calc(100%_-_58px)]'>Norwich University of the Arts was founded more than 175 years ago, and today provides students with excellent teaching that...</p>
                     <div className='flex flex flex-col md:flex-row gap-[8px] md:gap-[32px]'>

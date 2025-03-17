@@ -1,17 +1,15 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedSkeleton from "@packages/shared-components/skeleton/search-result/featured-skeleton";
 
 interface FeaturedProviderDetailsProps {
   featuredData: any;
-  url?: any;
 }
 
 const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
   featuredData,
-  url,
 }) => {
   const handleNavigation = (navigationUrl: any) => {
     try {
@@ -21,6 +19,21 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
     } catch (error) {
       console.error("Navigation failed:", error);
     }
+  };
+
+  const [isPlaying, setIsPlaying] = useState(false); // State to track if video is playing
+  const videoRef = useRef<HTMLVideoElement | null>(null); // Reference to the video element
+  const togglePlayPause = (event:React.FormEvent) => {
+    event.stopPropagation();
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true); 
+      }
+    }
+  };
+  const stopNavigating = (event:React.FormEvent) => {
+    event.stopPropagation();
   };
   return (
     <>
@@ -45,7 +58,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             Featured
           </div>
           {featuredData?.profileHeadlineUrl ? (
-            <Link href={featuredData?.profileHeadlineUrl}>
+            <Link href={featuredData?.profileHeadlineUrl} target="_blank" onClick={(event)=> stopNavigating(event)}>
               <div className="text-grey-50 h6">{featuredData?.headline}</div>
             </Link>
           ) : (
@@ -104,14 +117,17 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             <>
               <video
                 className="w-full hidden"
+                ref={videoRef}
                 src={
                   featuredData?.mediaPath
-                    ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.mediaPath}`
+                    ? `${featuredData?.mediaPath}`
                     : "/"
                 }
-                controls
+                onClick={(event) => stopNavigating(event)}
+                style={{ display: isPlaying ? 'block' : 'none' }}
+                controls = {true}
               ></video>
-              <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center">
+              <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center" style={{ display: isPlaying ? 'none' : 'block' }}>
                 <Image
                   src={
                     featuredData?.thumbnailPath
@@ -123,7 +139,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
                   height={200}
                 />
               </div>
-              <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer">
+              <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer" onClick={(event) => {togglePlayPause(event)}} style={{ display: isPlaying ? 'none' : 'block' }}>
                 <Image
                   alt="video_play_icon"
                   width="52"

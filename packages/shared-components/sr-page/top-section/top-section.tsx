@@ -1,12 +1,15 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
-import { getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
+import { form_PGS_SR_breadcrumb, getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
+import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
+import { cookies } from "next/headers";
+import SchemaTagLayoutComponent from "@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent";
 interface searchProps {
-  searchParam?: any;
+  searchParams?: any;
   params: any;
 }
 interface MetaFilterTypesReplace {
@@ -18,13 +21,16 @@ interface MetaFilterTypesReplace {
   courseCount?: any;
 }
 const TopSection: React.FC<searchProps> = async ({
-  searchParam,
+  searchParams,
   params
 }) => {
-  const displayNameReqBody = getDisplayNameReqBody(searchParam);
+  const cookieStore = await cookies();
+  const qualInUrl =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl)
+  const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
-  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchParam) : getPGS_SearchSEOFieldId(searchParam);
+  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchSEOPayload) : getPGS_SearchSEOFieldId(searchSEOPayload);
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   const domain = getCustomDomain();
@@ -34,42 +40,64 @@ const TopSection: React.FC<searchProps> = async ({
 
   const subjectDisplayName = displayNameResponse?.subjectName?.length >= 0 ? displayNameResponse?.subjectName[0] : ""; 
   
-  const  get_find_a_course_url = (qualCode: string) => {
-    let qualText = "/degrees/courses/"
+  const  get_find_a_course_url_label = (qualCode: string) => {
+    let qualUrl = "/degrees/courses/";
+    let qualLabel = "Courses";
     if ("M" === qualCode) {
-      qualText = "/degrees/courses/"
+      qualUrl = "/degrees/courses/"
+      qualLabel = "Courses";
     } else if ("L" === qualCode) {
-      qualText = "/postgraduate-courses/"
+      qualUrl = "/postgraduate-courses/";
+      qualLabel = "Postgraduate";
     } else if ("A" === qualCode) {
-      qualText = "/foundation-degree-courses/"
+      qualUrl = "/foundation-degree-courses/";
+      qualLabel = "Foundation Degree";
     } else if ("T" === qualCode) {
-      qualText = "/access-foundation-courses/"
+      qualUrl = "/access-foundation-courses/";
+      qualLabel = "Access Foundation";
     } else if ("N" === qualCode) {
-      qualText = "/hnd-hnc-courses/"
+      qualUrl = "/hnd-hnc-courses/";
+      qualLabel = "HND/HNC";
     }
-    return qualText;
+    return [qualUrl, qualLabel];
   }
 
-  const getBreadcrumb = () => {
+  const getBreadcrumb = (): any[] => {
     if(process.env.PROJECT == "Whatuni"){
-      const breadcrumb_courses = searchParam?.parentQualification ? [{url: get_find_a_course_url(searchParam?.parentQualification), label: "Courses"}] : [];
-      const breadCrumb_subject = searchParam?.searchSubject && searchParam?.searchSubject?.length >= 1 ? [{url: `/${params?.hero}/search?subject=${searchParam?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-      const breadCrumb_keyword = searchParam?.searchKeyword ? [{url: `/${params?.hero}/search?q=${searchParam?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
+      const [qualUrl, qualLabel] = get_find_a_course_url_label(searchSEOPayload?.parentQualification);
+      const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: qualUrl, label: qualLabel}] : [];
+      const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
+      const breadCrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/search?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
       return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
     } else if(process.env.PROJECT == "PGS"){
-      return [{url: "#", label: "Default breadcrumb"}];
+      return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, "/pgs/search");
     }
     return [];
   }
-  
-  const breadcrumbData = [
+  const breadcrumb = getBreadcrumb();const breadcrumbData = [
     {
       url: domain,
       Imgurl: "/static/assets/icons/breadcrumbs-home-icon.svg",
     },
-    ...getBreadcrumb(),
+    ...breadcrumb,
   ];
-  const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNameResponse);
+  const displayNames = {
+    ...displayNameResponse,
+    month: searchParams?.month?.toUpperCase(),
+    year: searchParams?.year,
+  }
+  const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
+  let schemaData: any[] = [];
+  breadcrumb?.map((data, index) => {
+    const obj: any = {
+      '@type': 'ListItem',
+      position: (index + 1),
+      item: {
+      '@id': data?.url,
+      "name": data?.label,
+    }}
+    schemaData.push(obj);
+  });
   return (
     <>
       {/* start breadcrumb and subject*/}
@@ -78,6 +106,7 @@ const TopSection: React.FC<searchProps> = async ({
           {/* breadcrumb  */}
           <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
             <Breadcrumblayoutcomponent data={breadcrumbData} />
+            <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{"itemListElement": schemaData}}/>
           </div>
           {/* breadcrumb  */}
           {/* start subject */}
@@ -86,9 +115,9 @@ const TopSection: React.FC<searchProps> = async ({
               {replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted)}
             </div>
             <p>
-            {searchParam?.ucasTariffRange && searchParam?.ucasTariffRange != 0 ? 
+            {searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
             replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
-            replaceSEOPlaceHolder(contentfulMetadata?.h2WithoutgradeText, metaFiltersOpted) }
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
             </p>
           </div>
           {/* end subject */}

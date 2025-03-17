@@ -683,13 +683,20 @@ export interface MetaDataInterface {
   twitter_description?: string,
 }
 
+export type MetaDataProps = {
+  params?: any;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 export interface MetaFilterTypesReplace{
-    searchSubject?: string[],
-    studylevel?: string,
-    studymode?: string,
-    location?: string[],
-    providerCount?: string,
-    courseCount?: string,
-    courseName?: string,
-    providerName?: string
+  searchSubject?: string[],
+  studylevel?: string,
+  studymode?: string,
+  location?: string[],
+  providerCount?: string,
+  courseCount?: string,
+  university?: string,
+  startYear?: string,
+  startMonth?: string,
+  parentSubjectDisplay?: string[],
+  parentSubjectUrl?: string[],
 }

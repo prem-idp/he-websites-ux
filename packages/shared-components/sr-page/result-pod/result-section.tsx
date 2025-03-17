@@ -11,27 +11,47 @@ import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-r
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import { useSearchParams } from "next/navigation";
+import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 interface SrPageResultPodProps {
   searchResultsData: any[];
+  qualCode: string;
+}
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
 }
 
-
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,
+  searchResultsData,qualCode
 }) => {
-  const [exceedMessage, setExceedMessage] = useState(false);
-  const universityPodClick = (navigationUrl: any) => {
-    typeof window !== "undefined" && window?.open(navigationUrl, "_self");
-  };
   const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
+  const [user, setUserData] = useState<AuthUser | null>(null);
+  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+ const universityPodClick = (navigationUrl: any) => {
+  typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+};
 
-  const handleExceedMessage = (data: any) => {
-    setExceedMessage(data); // Update state in parent
-  };
-  const onClose = (event: React.FormEvent) => {
-    event.stopPropagation()
-    setExceedMessage(false)
-  }
+     useEffect(() => {
+       // Getting favourites list when user logged in
+       async function checkUser() {
+         try {
+           const user: AuthUser = await getCurrentUser();
+           setUserData(user);
+           if (user && typeof window !== "undefined") {
+             const favList: Favourite[] = await getUserFavourites();
+             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+           }
+         } catch (error) {
+           setUserData(null);
+         }
+       }
+       checkUser();
+     }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -44,11 +64,50 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
       ? "Next Open day in " + differenceInDays + " days"
       : "Next Open day in " + differenceInDays + " day";
   };
-
   //
+  const getPRPageURL = (collegeTextKey: any) => {
+
+    // Create filtered params object
+    const filteredParams = Array.from(searchParams.entries())
+  .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
+  .reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+// Convert filtered params to URLSearchParams
+const queryString = new URLSearchParams(filteredParams).toString();
+const baseUrl = process.env.PROJECT === "Whatuni" 
+? "/degree-courses/csearch"
+: "/pgs/search";
+
+// Construct the final URL
+const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
+queryString ? `&${queryString}` : ''
+}`;    
+    return providerResultURL;
+
+  }
+  
+  const getEnquiryProps = (data:any,courseData:any) => {
+    const baseEnquiryProps = {
+      courseId: courseData?.courseId,
+      collegeId: data?.collegeId,
+      subOrderItemId: courseData?.enquiryDetails?.subOrderItemId,
+      sponsoredListingFlag: data?.sponsoredListingFlag,
+      manualBoostingFlag: data?.manualBoostingFlag,
+      orderItemId: courseData?.enquiryDetails?.orderItemId,
+      collegeName: data?.collegeTextKey,
+      pageName: "browsemoneypageresults",
+      qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode,
+      selectedSubject: selectedSubject
+    };
+    return baseEnquiryProps
+  }
+
   return (
     <>
       {searchResultsData?.map((data, index) => (
+        
         <div
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
@@ -96,7 +155,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     <></>
                   )}
                 </div>
-                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" exceedData={handleExceedMessage}></UserFavourite>
+                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -351,10 +410,10 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {courseData?.minUcasPoints ? (
+                          {((courseData?.minUcasPoints || courseData?.maxUcasPoints) && process.env.PROJECT === "Whatuni") || (courseData?.availabilityDetails?.fees && process.env.PROJECT === "PGS") ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" ? (
+                              {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
                                 <svg
                                   width="16"
                                   height="16"
@@ -369,22 +428,22 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   />
-                                </svg>
-                              ) : (
+                                </svg> 
+                               ) : (
                                 <>
-                                  {" "}
+                                 {process.env.PROJECT === "Whatuni" &&
                                   <Image
                                     className="hidden md:block"
                                     src="/static/assets/icons/search-result/calender-grey.svg"
                                     alt="Lecturers and Teaching"
                                     width={16}
                                     height={16}
-                                  />
+                                  />}
                                 </>
                               )}
                               {/* pgs euro icon */}
-                              {courseData?.minUcasPoints}-
-                              {courseData?.maxUcasPoints} ucas points
+                              {process.env.PROJECT === "PGS" ? courseData?.availabilityDetails?.fees : (courseData?.minUcasPoints && courseData?.maxUcasPoints ? courseData?.minUcasPoints +"-"+ courseData?.maxUcasPoints : courseData?.minUcasPoints ? courseData?.minUcasPoints : courseData?.maxUcasPoints) + " ucas points" }
+                              
                             </div>
                           ) : (
                             <></>
@@ -407,14 +466,14 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                           )}
                         </div>
                       </div>
-                      <UserFavourite contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" exceedData={handleExceedMessage}></UserFavourite>
+                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE"></UserFavourite>
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
                       courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
-                          courseData?.courseSummary
+                        <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
                         </div>
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
@@ -431,13 +490,13 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni" && courseData?.moduleDesc ? (
+                    {process.env.PROJECT === "Whatuni"  && courseData?.modulesDesc? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">{courseData?.moduleInfo}</div>
+                          <div className="font-semibold">{courseData?.modulesInfo}</div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
-                            {courseData?.moduleDesc?.split('###').map((desc: any, index: any) => (
-                              <li key={index}>{desc}</li>
+                            {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
+                               <li key={index}>{desc}</li>
                             ))}
 
                           </ul>
@@ -472,91 +531,37 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                      {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
-                        <ApplyNow
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
-                        />
+                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" ? (
+                          <ApplyNow
+                            enquiryProps={getEnquiryProps(data,courseData)}
+                          />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" ? (
                         <Getprospectus
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <Visitwebsite
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            pageName: "browsemoneypageresults",
-                          }}
+                          enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" ? (
                         <BookOpenDay
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
                       )}
                       {courseData?.enquiryDetails?.emailFlag === "Y" ? (
                         <RequestInfo
-                          enquiryProps={{
-                            courseId: courseData?.courseId,
-                            collegeId: data?.collegeId,
-                            subOrderItemid:
-                              courseData?.enquiryDetails?.subOrderItemId,
-                            sponsoredListingFlag: data?.sponsoredListingFlag,
-                            manualBoostingFlag: data?.manualBoostingFlag,
-                            orderItemId:
-                              courseData?.enquiryDetails?.orderItemId,
-                            collegeName: data?.collegeTextKey,
-                            pageName: "browsemoneypageresults",
-                          }}
+                        enquiryProps={getEnquiryProps(data,courseData)}
                         />
                       ) : (
                         <></>
@@ -568,7 +573,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
             </div>
             {data?.courseCount > 2 ? (
               <Link
-                href={process.env.PROJECT === "Whatuni" ? `/degree-courses/csearch?university=${data?.collegeTextKey}${searchParams?.toString() ? "&" + searchParams?.toString() : ""}` : `/pgs/search?university=${data?.collegeTextKey}${searchParams?.toString() ? "&" + searchParams?.toString() : ""}`}
+                href={getPRPageURL(data?.collegeTextKey)}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
                 View {data?.courseCount - 2} related courses
@@ -593,48 +598,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
           </div>
         </div>
       ))}
-      {exceedMessage ? (
-        <div className="modal modal-container relative top-0 right-0 bottom-0 z-[5]">
-          <div
-            onClick={onClose}
-            className="modal_close flex items-center justify-center absolute top-[16px] right-[16px] z-[1] cursor-pointer"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                className="stroke-grey-400"
-                d="M1 13L13 1M1 1L13 13"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className="review-modal-container flex flex-col gap-[16px]]">
-            <div className="mb-[4px] para-lg font-semibold">
-              Maximum number of favourites
-            </div>
-            <p className="small text-grey-500">
-              You can only favourite a max of 30 unis and courses. Remove a
-              selection to add another
-            </p>
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-primary w-fit mt-[24px] ml-auto"
-            >
-              Ok, got it
-            </button>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+
       {/* <ResultSectionSkeleton/> */}
 
       {/* {openModal && <SearchResultReviewLightBox onClose={handleCloseModal} />} */}

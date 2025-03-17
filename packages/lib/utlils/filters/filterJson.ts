@@ -5,6 +5,16 @@ const qualCode: any = {
   "access-foundation-courses": "T",
   "hnd-hnc-courses": "N",
 };
+const getLocationArray = (
+  inputObject: Record<string, any>,
+  keyName: Record<string, string>
+): string[] => {
+  const region = inputObject[keyName?.region] ?? "";
+  const city = inputObject[keyName?.city] ?? "";
+  const splitValues = (value: string) =>
+    value.includes("+") ? value.split("+") : value.split(" ");
+  return region || city ? [...splitValues(region), ...splitValues(city)] : [];
+};
 
 const KeyNames = () => {
   const sameNameObject = {
@@ -12,7 +22,10 @@ const KeyNames = () => {
     year: "year",
     region: "region",
     city: "city",
+    sort: "sort",
     university: "university",
+    postcode: "postcode",
+    score: "score",
   };
   if (process.env.PROJECT === "Whatuni") {
     return {
@@ -43,31 +56,30 @@ const KeyNames = () => {
 const keyName = KeyNames();
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
-    parentQualification: qualCode?.[parentQual] || "M",
+    parentQualification: qualCode?.[parentQual] || "L",
     childQualification: "",
-    searchCategoryCode: ["AK.", "AA.3", "A"],
-    searchSubject: inputObject?.[keyName?.subject]?.split(" ") || "",
+    searchCategoryCode: "",
+    searchSubject: inputObject?.[keyName?.subject]?.includes("+")
+      ? inputObject?.[keyName?.subject]?.split("+")
+      : inputObject?.[keyName?.subject]?.split(" ") || "",
     searchKeyword: inputObject?.q || "",
     jacsCode: inputObject?.jacs || "",
-    location: [
-      ...(inputObject?.region ? inputObject?.region?.split(" ") : []),
-      ...(inputObject?.city ? inputObject?.city?.split(" ") : []),
-    ],
+    location: getLocationArray(inputObject, keyName) || "",
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
     collegeId: "",
     pageNo: inputObject?.[keyName?.pageNumber] || "",
-    locationType: inputObject[keyName?.locationType] || "",
-    intakeYear: inputObject?.year || "",
+    locationType: inputObject[keyName?.locationType]?.split(" ") || "",
+    intakeYear: inputObject[keyName?.year] || "",
     intakeMonth: inputObject?.month?.toUpperCase() || "",
-    sortBy: "",
-    userCoordinates: "51.5072,-0.1276",
-    distance: "",
-    ucasTariffRange: "",
+    sortBy: inputObject[keyName?.sort] || "",
+    userCoordinates: "",
+    distance: inputObject[keyName?.distanceFromHome] || "",
+    ucasTariffRange: inputObject[keyName?.score] || "",
     userRegionArray: "",
     dynamicRandomNumber: "",
-    universityGroup: "",
-    postCode: "",
+    universityGroup: inputObject[keyName?.russellGroup]?.split(" ") || "",
+    postCode: inputObject[keyName?.postcode] || "",
   };
 };
 export { filterbodyJson, qualCode, KeyNames };
