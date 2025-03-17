@@ -1,5 +1,4 @@
 import React from 'react'
-import Reviewslidercomponents from '../slider/reviewslidercomponents'
 
 const Reviewsliderskeleton = () => {
   return (
