@@ -1,6 +1,8 @@
 "use client"
 import { v4 as uuidv4 } from "uuid";
 
+type RequestType = "GET" | "POST";
+
 export async function httpClientRequest(
     endpoint: string,
     bodyPayload: any,
