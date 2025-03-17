@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 //import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
@@ -7,15 +8,28 @@ import RequestInfo from "@packages/shared-components/common-utilities/cards/inte
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
-
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import Link from "next/link";
+import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
-  children: any
+  children?: any
+}
+
+interface Favourite {
+  fav_id: string;
+  fav_type: string;
+  fav_date?: string;
+  final_choice_id?: string | null;
+  choice_position?: number | null;
 }
 
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
 
+  const searchParams = useSearchParams();
+  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   // State to track which cards' modules are visible
   const [visibleModules, setVisibleModules] = useState<boolean[]>(
     new Array(searchResultlist.length).fill(false) // Initially, all are closed
@@ -28,19 +42,25 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     );
   };
 
-  // Provider card toggle function  END
+  const [user, setUserData] = useState<AuthUser | null>(null);
+  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
+  useEffect(() => {
+    // Getting favourites list when user logged in
+    async function checkUser() {
+      try {
+        const user: AuthUser = await getCurrentUser();
+        setUserData(user);
+        if (user && typeof window !== "undefined") {
+          const favList: Favourite[] = await getUserFavourites();
+          setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+        }
+      } catch (error) {
+        setUserData(null);
+      }
+    }
+    checkUser();
+  }, []);
 
-  // State to track favorited status for each item
-  const [favoritedItems, setFavoritedItems] = useState<boolean[]>(
-    new Array(searchResultlist.length).fill(false)
-  );
-
-  // Handler to toggle the favorited state for a specific item
-  const favoriteHandleClick = (index: number) => {
-    setFavoritedItems((prev) =>
-      prev.map((item, i) => (i === index ? !item : item))
-    );
-  };
 
   const providerCard = searchResultlist.map((items, index) => (
     <div
@@ -49,39 +69,15 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
       className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200"
     >
       <div className="flex justify-end p-[16px] bg-blue-100">
-        <span onClick={() => favoriteHandleClick(index)} className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100"> */}
-          <div
-            className={`heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 ${favoritedItems[index] ? 'bg-blue-100' : 'bg-white'
-              }`}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                stroke="#4664DC"
-                strokeWidth="1.67"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill={favoritedItems[index] ? "#4664DC" : "none"}
-              />
-            </svg>
-          </div>
+        <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+          <UserFavourite favourites={favourite} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
         <div className="flex flex-col gap-[16px] md:min-h-[240px]">
-          <a
-            href="#"
-            className="h6 hover:underline cursor-pointer text-blue-400"
-          >
+          <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
             {items.title}
-          </a>
+          </Link>
           <ul className="flex flex-wrap gap-[4px]">
             <li className="flex gap-[2px] bg-grey-100 text-grey-500 uppercase font-semibold xs-small px-[8px] rounded-[4px]">
               <Image
@@ -118,7 +114,8 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             <>
               <span
                 onClick={() => toggleModuleVisibility(index)}
-                className="text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] after:rotate-[90deg] after:transition-all after:delay-0 after:duration-300 after:ease-linear"
+                className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'
+                  } after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
               >
                 Modules
               </span>
@@ -137,7 +134,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           )}
           {visibleModules[index] && (
             <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
-              See all modules
+              <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
+                See all modules
+              </Link>
             </span>
           )}
         </div>
@@ -148,19 +147,20 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
                 collegeName: items?.collegeTextKey,
-                pageName: "browsemoneypageresults"
+                pageName: items?.pageName,
+                selectedSubject: { selectedSubject },
               }} />}
           {items.hasWebsite &&
             <Visitwebsite
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
@@ -171,7 +171,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid:
+                subOrderItemId:
                   items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
@@ -179,22 +179,24 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                   items?.orderItemId,
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
-              }} />} {/* Assuming a flag for this */}
+                selectedSubject: { selectedSubject },
+              }} />}
           {items.hasEmail &&
             <RequestInfo
               enquiryProps={{
                 courseId: items?.courseId,
                 collegeId: items?.collegeId,
-                subOrderItemid: items?.subOrderItemId,
+                subOrderItemId: items?.subOrderItemId,
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
+                selectedSubject: { selectedSubject },
               }} />}
         </div>
       </div>
-    </div>
+    </div >
   ));
   return (
     <>

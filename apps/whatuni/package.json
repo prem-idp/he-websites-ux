@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/whatuni"
+  ],
   "scripts": {
     "dev": "next dev --turbopack --port 3000",
     "build": "next build",
+    "lint": "eslint -f html -o ./reports/whatuni/eslint-report.html --color ./",
     "start": "next start -p 3000",
     "open-next": "open-next build",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage-whatuni": "jest --coverage",
     "analyze": "next build && next-bundle-analyzer"
   }
 }

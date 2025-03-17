@@ -1,29 +1,28 @@
 export const wuSortingFilter = {
-    "Recommended" : "R",
-    "Distance from home" : "crh",
-    "Employment rate" : "EMPA",
-    "Entry reqs - Highest" : "ENTD",
-    "Entry reqs - lowest" :"ENTA",
-    "Student Ranking" :"r-or",
+    "Recommended" : "r",
+    "Distance from home" : "dista",
+    "Employment rate" : "empa",
+    "Entry reqs - Highest" : "entd",
+    "Entry reqs - lowest" :"enta",
+    //"Student Ranking" :"r-or",
 };
  export const wuscaCategories = {
-    "WUSCA University of the Year ranking" : "WUOY",
-    "WUSCA Career Prospects ranking" : "WCP",
-    "WUSCA Employment rate ranking" : "",
-    "WUSCA Facilities ranking":"WF",
-    "WUSCA International ranking" : "WI",
-    "WUSCA Lecturers and Teaching Quality ranking" : "WLTQ",
-    "WUSCA Postgraduate ranking" :"WPG",
-    "WUSCA Student life ranking" : "WSL",
-    "WUSCA Student support ranking" : "WSS",
-    "WUSCA Student's Union ranking" : "WSU",
-    "WUSCA University Halls ranking" : "WUH",
+    "WUSCA University of the Year ranking" : "wuoy",
+    "WUSCA Career Prospects ranking" : "wcp",
+    "WUSCA Facilities ranking":"wf",
+    "WUSCA International ranking" : "wi",
+    "WUSCA Lecturers and Teaching Quality ranking" : "wltq",
+    "WUSCA Postgraduate ranking" :"wpg",
+    "WUSCA Student life ranking" : "wsl",
+    "WUSCA Student support ranking" : "wss",
+    "WUSCA Student's Union ranking" : "wsu",
+    "WUSCA University Halls ranking" : "wuh",
  };
 
 export const pgsSortingFilter = {
-    "Recommended (CPE logic)" : "R",
-    "Distance from home" : "",
-    "Employment rate" : "EMPA",
-    "WUSCA Postgraduate ranking" : "",
-    "Price (low to high)" : "PRICE_ASC"
+    "Recommended (CPE logic)" : "r",
+    "Distance from home" : "dista",
+    "Employment rate" : "empa",
+    "WUSCA Postgraduate ranking" : "wpg",
+    "Price (low to high)" : "price_asc"
 };

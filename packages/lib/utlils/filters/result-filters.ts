@@ -3,9 +3,9 @@ import { getUserLocationInfo } from "@packages/lib/server-actions/server-action"
 type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
   const whatuniFilters = [
+    "university",
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -15,15 +15,16 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance-from-home",
     "university-group",
+    "score",
     "location-type",
-    "pageno",
     "russell-group",
     "sort",
+    "postcode",
   ];
   const pgsFilters = [
+    "university",
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -33,16 +34,16 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance_from_home",
     "university_group",
+    "score",
     "location_type",
-    "page_no",
     "russell_group",
     "sort",
+    "postcode",
   ];
   const whatuniPrFilters = [
     "university",
     "subject",
     "qualification",
-    "location",
     "region",
     "city",
     "study-method",
@@ -51,15 +52,15 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance-from-home",
     "university-group",
+    "score",
     "location-type",
-    "pageno",
     "sort",
+    "postcode",
   ];
   const pgsPrFilters = [
     "university",
     "course",
     "qualification",
-    "location",
     "region",
     "city",
     "study_method",
@@ -68,9 +69,10 @@ const getFilterPriority = (isQualification?: boolean) => {
     "month",
     "distance_from_home",
     "university_group",
+    "score",
     "location_type",
-    "page_no",
     "sort",
+    "postcode",
   ];
   if (process.env.PROJECT === "Whatuni" && isQualification) {
     return [...whatuniPrFilters];
@@ -95,10 +97,12 @@ const extractUrlAndCookieValues = (
     acc[key] = decodeURIComponent(value);
     return acc;
   }, {});
-  const cookieObject: KeyValueObject = JSON.parse(
-    getDecodedCookie("filter_param") || "{}"
-  );
-  const mergedObject = mergeTwoObjects(paramsObject, cookieObject);
+
+  const sessionObject: KeyValueObject =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("filter_param") || "{}")
+      : {};
+  const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
   if (crossSubject) {
     if (process.env.PROJECT === "Whatuni") {
       delete mergedObject?.subject;
@@ -106,11 +110,11 @@ const extractUrlAndCookieValues = (
       delete mergedObject?.course;
     }
   }
-  if (mergedObject[key]) {
+  if (mergedObject[key] && key != "region") {
     let valuesSet = new Set(mergedObject[key].split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
-    } else if (key === "subject" || key === "location") {
+    } else if (key === "subject") {
       valuesSet.add(value);
     } else {
       valuesSet = new Set(`${value}`.split("+"));
@@ -133,12 +137,12 @@ const getDecodedCookie = (name: string) => {
 
 const mergeTwoObjects = (
   paramsObject: KeyValueObject,
-  cookieObject: KeyValueObject = {}
+  sessionObject: KeyValueObject = {}
 ): KeyValueObject => {
   return {
     ...paramsObject,
     ...Object.fromEntries(
-      Object.entries(cookieObject).map(([k, v]) => [
+      Object.entries(sessionObject).map(([k, v]) => [
         k,
         paramsObject[k]
           ? Array.from(
@@ -152,7 +156,6 @@ const mergeTwoObjects = (
 
 const isSingleSelection = (searchParams: URLSearchParams): boolean => {
   const entriesArray = Array.from(searchParams.entries());
-  console.log(entriesArray);
   for (const [key, value] of entriesArray) {
     const decodedValue = decodeURIComponent(value);
     if (decodedValue.includes("+") || decodedValue.includes(" ")) {
@@ -163,10 +166,11 @@ const isSingleSelection = (searchParams: URLSearchParams): boolean => {
 };
 
 const locationMilesArray = [
-  { miles: "5 miles" },
-  { miles: "10 miles" },
-  { miles: "25 miles" },
-  { miles: "50 miles" },
+  { miles: "Any distance", distance: "" },
+  { miles: "20 miles", distance: "20" },
+  { miles: "50 miles", distance: "50" },
+  { miles: "100 miles", distance: "100" },
+  { miles: "200 miles", distance: "200" },
 ];
 const getParentSubject = (
   searchParams: any,
@@ -218,8 +222,39 @@ function getUserLocation() {
   }
 }
 
+function hierarchicalLocation(regions: any) {
+  const regionMap = new Map();
+
+  regions.forEach((region: any) => {
+    regionMap.set(region.regionId, { ...region, children: [] });
+  });
+
+  const root: any = [];
+
+  regions.forEach((region: any) => {
+    if (region.parentRegionId) {
+      const parent = regionMap.get(region.parentRegionId);
+      if (parent) {
+        parent.children.push(regionMap.get(region.regionId));
+      }
+    } else {
+      return;
+    }
+  });
+  regions.forEach((region: any) => {
+    if (
+      region.parentRegionId &&
+      !regions.some((r: any) => r.regionId === region.parentRegionId)
+    ) {
+      root.push(regionMap.get(region.regionId));
+    }
+  });
+  return root;
+}
+
 export {
   locationMilesArray,
+  hierarchicalLocation,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,

@@ -1,42 +1,109 @@
 "use client";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import SearchLabelsSkeleton from "@packages/shared-components/skeleton/search-result/search-labels-skeleton";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import {  httpClientRequest} from "@packages/lib/utlils/clientapirequest";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import { useSearchParams } from "next/navigation";
+import { getSearchPayload } from "@packages/shared-components/services/utils";
 
-const SearchLabelsContent = ({searchLabel}:any) => {
+const SearchLabelsContent =  ({searchPayLoad}:any) => {
+  const router = useRouter();
+  const [filterList, setFilterList] = useState<any[]>([]);
+  const searchParams = useSearchParams();  
+  let searchLabel: any;
+    useEffect(() => {
+    async function getSearchLabels() {
+      
+  try {     
+    const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+    searchLabel = await httpClientRequest(displayNameBFFEndPt, 
+    searchPayLoad, 
+    "POST", 
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
+    "no-cache", 
+    0, 
+    {});
+  } catch (error) {
+    console.log("error", error);
+  }
+  const filters: any[] = [];
+  // Add filters only if they exist
+   searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
+  if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
+  if (searchLabel?.subjectName) {
+    if(searchLabel?.subjectName?.length === 1) {
+    filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
+    } else {
+      searchLabel?.subjectName?.forEach((value:any, index:any) => {
+        filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:value});
+      });
+    }
+  }
+  if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
+  if (searchLabel?.studyMethod) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-method' :'study_method'  , value:searchLabel?.studyMethod});
+  if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
+  if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
+  if(searchLabel?.locationName?.length === 1) {
+    filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+  } else {
+    searchLabel?.locationName?.forEach((value:any, index:any) => {
+      filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:value});
+    });
+  }
+  setFilterList(Array.from(new Set(filters)));
+         }
+getSearchLabels();
 
-  const [filterList, setFilterList] = useState<string[]>([]);
-
-  console.log("SearchLabels Search Params " + JSON.stringify(searchLabel));
-
-  const constructFilterList = () => {
-    const filters: string[] = [];
-    console.log("studylevel",searchLabel?.subjectName?.[0])
-    // Add filters only if they exist
-     searchLabel?.year ? filters.push(searchLabel?.year) : filters.push("2025");
-    if (searchLabel?.studyLevel) filters.push(searchLabel?.studyLevel);
-    if (searchLabel?.subjectName) filters.push(searchLabel?.subjectName?.[0]);
-    if (searchLabel?.studyMode) filters.push(searchLabel?.studyMode);
-    if (searchLabel?.locationName) filters.push(searchLabel?.locationName?.[0]);
-   
-
-    // Remove duplicates if any
-    return Array.from(new Set(filters));
-  };
-
-  useEffect(() => {
-    const newList = constructFilterList();
-    console.log("New List " + newList);
-    setFilterList(newList);
-  }, []); // Re-run when searchParams change
+}, [searchLabel]);
 
   const openFilterFunction = () => {
-    emitter.emit("isfilterOpen", null);
+    emitter.emit("isfilterOpen", "subject");
   };
+  const removeFilter = (filterKey: string,value:any) => {
+    const currentParams = new URLSearchParams(window.location.search);  
+    const filterCookie = JSON.parse(decodeURIComponent(
+      document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+    ));  
+    // Remove the specific filter from URL params
+    if(currentParams.has(filterKey)) {
+      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "region" || filterKey === "city")) {
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
+        const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
+        updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
+      } else {
+        
+       currentParams.delete(filterKey); 
+      } 
+    } 
+    // Remove from cookies if needed
+    if (document.cookie.includes('filter_param')) {
+      if (filterCookie[filterKey]) {
+        delete filterCookie[filterKey];
+        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
+      }
+         // Check if URL has fewer than 4 params
+      if (currentParams?.toString()?.split('&')?.length < 4) {
+      for (const [key] of Object.entries(filterCookie)) {
+        if (!currentParams.has(key)) {
+          currentParams.set(key, filterCookie[key]);
+          delete filterCookie[key];
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))} || "{}"; path=/`;
+          break;
+        }
+      }
+    }
+    }
+    const updatedUrl = `${window.location.pathname}${
+      currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
+    }`;
+   window.location.href = updatedUrl
+  };
+
   return (
     <>
-      <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[4]">
+      <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[8px] md:px-[20px] xl:px-0 md:sticky top-[69px] z-[3]">
         <div className="max-w-container mx-auto">
           <ul className="flex items-start gap-[8px] uppercase">
             {filterList?.map((items, index) => (
@@ -44,9 +111,9 @@ const SearchLabelsContent = ({searchLabel}:any) => {
                 className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
                 key={index + 1}
               >
-                {items}
+                {items?.value}
                 {index !== 0 && index !== 1 ?
-                <svg 
+                <svg onClick={()=> removeFilter(items?.key,items?.value)}
                   className="cursor-pointer"
                   width="16"
                   height="16"
@@ -94,10 +161,10 @@ const SearchLabelsContent = ({searchLabel}:any) => {
 };
 
 // Main component with Suspense boundary
-const SearchLabels = ({searchLabel}:any) => {
+const SearchLabels = ({searchPayLoad}:any) => {
   return (
     <Suspense fallback=''>
-      <SearchLabelsContent searchLabel={searchLabel}/>
+      <SearchLabelsContent searchPayLoad={searchPayLoad}/>
     </Suspense>
   );
 };

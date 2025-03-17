@@ -18,54 +18,60 @@ export function getSearchPayload(
   searchParams: any,
   filterCookieParam: any,
   qualification: any,
-  dynamicRandomNumber:any,
-  userIp :any,
+  dynamicRandomNumber: any,
+  userIp: any
 ) {
 let subjectArray="";
-if(searchParams?.subject) 
+if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
+subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject?.includes("+") ?filterCookieParam?.subject?.split("+") : filterCookieParam?.subject) : subjectArray;
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
-const locationArray = searchParams?.location?.includes(" ")
-    ? searchParams?.location?.split(" ")
-    : searchParams?.location
-      ? [searchParams?.location]
-      : ""      
+const regionArray:any[] = searchParams?.region?.includes(" ")
+    ? searchParams?.region?.split(" ")
+    : searchParams?.region
+      ? [searchParams?.region]
+      : "" 
+const cityArray:any[] = searchParams?.city?.includes(" ")
+    ? searchParams?.city?.split(" ")
+    : searchParams?.city
+      ? [searchParams?.city]
+      : "" 
+const locationArray = regionArray && cityArray ? regionArray.concat(cityArray) :  regionArray ? regionArray : cityArray
+const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
+const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
+const score = searchParams?.score && !searchParams?.score?.includes(",") || filterCookieParam?.score && !filterCookieParam?.score?.includes(",") ? "0," + (searchParams?.score || filterCookieParam?.score) : searchParams?.score
 const searchPayload: any = {
     parentQualification: process.env.PROJECT === "Whatuni" ? getQualCode(qualification) : "L",
     childQualification:
-        searchParams?.qualification ||
-        filterCookieParam?.qualification ||
-        "",
+      searchParams?.qualification || filterCookieParam?.qualification || "",
     searchCategoryCode: "",
     searchSubject: subjectArray,
     searchKeyword: searchParams?.q || searchParams?.keyword || "",
-    jacsCode: "",
+    jacsCode: searchParams?.jacs || "",
     location: locationArray,
     studyMode:
-        searchParams?.study_mode || searchParams?.["study-mode"] || "",
+        searchParams?.study_mode || searchParams?.["study-mode"] || filterCookieParam?.["study-mode"] || filterCookieParam?.study_mode || "",
     studyMethod:
-        searchParams?.["study-method"] ||
-        filterCookieParam?.["study-method"] ||
-        "",
+      searchParams?.["study-method"] ||
+      filterCookieParam?.["study-method"] ||
+      searchParams?.study_method ||
+      filterCookieParam?.study_method ||
+      "",
     collegeId: "",
+    collegeName:
+      searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
-    locationType:
-        searchParams?.["location-type"] ||
-        filterCookieParam?.["location-type"] ||
-        "",
+    locationType: locationType ? [locationType] : "",
     intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
-    intakeMonth: searchParams?.month || filterCookieParam?.month || "",
-    sortBy: searchParams?.sort || filterCookieParam?.sort || "",
+    intakeMonth: searchParams?.month?.toUpperCase() || filterCookieParam?.month?.toUpperCase()|| "",
+    sortBy: typeof searchParams?.sort === 'string' && searchParams?.sort?.toUpperCase() ||  typeof filterCookieParam?.sort === 'string' &&  filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",
-    distance: searchParams?.distance || filterCookieParam?.distance || "",
-    ucasTariffRange: searchParams?.score || filterCookieParam?.score || "",
+    distance: searchParams?.distance_from_home || filterCookieParam?.distance_from_home || searchParams?.["distance-from-home"] || filterCookieParam?.["distance-from-home"] || "",
+    ucasTariffRange: score || "",
     userRegionId:userIp,
     dynamicRandomNumber:dynamicRandomNumber,
-    universityGroup:
-        searchParams?.["russell-group"] ||
-        filterCookieParam?.["russell-group"] ||
-        "",
+    universityGroup: russellGroup ? [russellGroup] : ""
 }
 return searchPayload;
 }

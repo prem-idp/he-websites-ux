@@ -1,15 +1,11 @@
-
 import Keystatscomponents from './KeyStatsComponent';
-import ReviewComponent from '../common-components/ReviewComponent';
+import ReviewComponent from '@packages/shared-components/course-details/common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
-import { CourseSection } from '../models/course.model';
-interface CourseInfoComponentProps {
-  courseInfo: any,
-  keyStats: any,
-  sectionInfo: any
-}
+import LazyLoadWrapper from '@packages/lib/utlils/lazyloadcomponent';
 
-const CourseInfoComponent = ({ data, sectionInfo, jsonResponse }: any) => {
+
+
+const CourseInfoComponent = ({ data, sectionInfo }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
 
   return (
@@ -18,9 +14,17 @@ const CourseInfoComponent = ({ data, sectionInfo, jsonResponse }: any) => {
         <div className='courseinfo-card-container flex flex-col lg:flex-row justify-between gap-[20px] pb-[40px]'>
           <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>Course info</div>
           <div className='flex flex-col gap-[20px] w-full lg:w-[calc(100%_-_309px)]'>
-            <ReadMoreLessDesc text={courseInfo?.courseSummary} />
-            <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
-            <ReviewComponent heading="What student say" jsonResponse={jsonResponse} />
+            {data?.courseInfo?.courseSummary &&
+              <ReadMoreLessDesc text={courseInfo?.courseSummary} />
+            }
+            {data?.courseInfo?.keyStats &&
+              <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
+            }
+            <LazyLoadWrapper>
+              {data?.institution_reviews?.reviewDetail &&
+                <ReviewComponent heading="What student say" jsonResponse={data?.institution_reviews?.reviewDetail} />
+              }
+            </LazyLoadWrapper>
           </div>
         </div>
       </div>

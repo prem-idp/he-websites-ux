@@ -7,10 +7,12 @@ import ProviderResultsCard from "./provider-results-card/provider-results-card";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import SearchLabels from "@packages/shared-components/sr-page/search-labels/search-labels";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
-import {Paginations} from "@packages/shared-components/common-utilities/paginations/paginations";
+import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
+import { getSearchPayload } from "../services/utils";
 import { headers } from "next/headers";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Payload {
   parentQualification: string;
@@ -24,61 +26,26 @@ interface SearchParams {
   [key: string]: string | undefined;
 }
 
-export async function constructPayload(
-  searchparams: SearchParams = {}
-): Promise<Payload> {
-  //  const cookieStore = await cookies(); // Get cookies in App Router
-  //  const cookieMap = Object.fromEntries(cookieStore.getAll().map((c) => [c.name, c.value]));
-  const basePayload: Payload = {
-    parentQualification: "M",
-    pageNo: searchparams?.pageNo || "1", // Default to "1" if not in searchparams
-    userCoordinates: "51.5072,-0.1276",
-  };
-  // Start with the base payload
-  const payloads: Payload = { ...basePayload };
-
-  // Object.keys(cookieMap).forEach((key) => {
-  //   if (cookieMap[key] !== undefined && cookieMap[key] !== null) {
-  //     payloads[key] = cookieMap[key];
-  //   }
-  // });
-
-  Object.keys(searchparams).forEach((key) => {
-    if (searchparams[key] !== undefined && searchparams[key] !== null) {
-      // If the key is 'university', map it to 'collegeName' in payloads
-      if (key === "university") {
-        payloads["collegeName"] = searchparams[key];
-      } else {
-        payloads[key] = searchparams[key];
-      }
-    }
-  });
-
-  console.log("Construct Payload " + JSON.stringify(payloads));
-  return payloads;
-}
-
-const searchPRResults = async (searchparams: any) => {
-  const payloads = await constructPayload(searchparams);
+const searchPRResults = async (payloads: any) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`,
-      {
-        method: "POST",
-        headers: {
-          sitecode: "WU_WEB",
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
-        },
-        body: JSON.stringify(payloads),
-      }
-    );
+    const uuid = uuidv4();
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/providerResults`, {
+      method: "POST",
+      headers: {
+        "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
+        "Content-Type": "application/json",
+        "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+        "x-correlation-id": uuid
+      },
+      body: JSON.stringify(payloads),
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log("Data Response " + JSON.stringify(data));
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
@@ -94,35 +61,45 @@ const transformProviderListData = (data: any) => {
     (college: any) =>
       Array.isArray(college.bestMatchCoursesList)
         ? college.bestMatchCoursesList.map((course: any) => ({
-            collegeId: college.collegeId,
-            collegeName: college?.collegeTextKey,
-            courseId: course.courseId,
-            pageName: "PR",
-            title: course.courseTitle || "Unknown Title",
-            provideFav: false,
-            subOrderItemid: course?.enquiryDetails?.subOrderItemId,
-            sponsoredListingFlag: college?.sponsoredListingFlag,
-            manualBoostingFlag: college?.manualBoostingFlag,
-            orderItemId: course?.enquiryDetails?.orderItemId,
-            modulesList: course.modulesInfo || [], // Ensure modulesList is always an array
-            tagLocation: college.adminVenue || "Unknown Location",
-            points:
-              course.minUcasPoints && course.maxUcasPoints
-                ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-                : 0 - 0,
-            hasProspectus:
-              course.enquiryDetails?.prospectusFlag === "Y" || false,
-            hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
-            hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
-          }))
+          collegeId: college?.collegeId,
+          collegeName: college?.collegeTextKey,
+          courseId: course?.courseId,
+          cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/cd/${course?.courseId}/${college?.collegeId}`,
+          pageName: "coursesearchresult",
+          title: course?.courseTitle || "Unknown Title",
+          provideFav: false,
+          subOrderItemId: course?.enquiryDetails?.subOrderItemId,
+          sponsoredListingFlag: college?.sponsoredListingFlag,
+          manualBoostingFlag: college?.manualBoostingFlag,
+          orderItemId: course?.enquiryDetails?.orderItemId,
+          modulesList: course?.modulesInfo || [], // Ensure modulesList is always an array
+          tagLocation: college?.adminVenue || "Unknown Location",
+          points:
+            course.minUcasPoints && course.maxUcasPoints
+              ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
+              : 0 - 0,
+          hasProspectus:
+            course.enquiryDetails?.prospectusFlag === "Y" || false,
+          hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
+          hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
+        }))
         : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
 
 const PrPageComponent = async ({ searchparams }: any) => {
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  const data = await searchPRResults(searchparams); // Fetch earach the PR results
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+
+  const payloads = await getSearchPayload(searchparams,
+    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
+    headerList?.get("x-forwarded-for") || ""
+  );
+
+  const referer = headerList.get("referer");
+  const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
   const breadcrumbData = [
     {
@@ -148,14 +125,14 @@ const PrPageComponent = async ({ searchparams }: any) => {
       </section>
       <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
-      {/* <SearchLabels searchLabel={} /> */}
+      <SearchLabels searchPayLoad={payloads} />
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.collegeCount / 10)}
-            currentPage={searchparams?.pageNo || 1}
+            totalPages={Math.ceil(data?.totalCourseCount / 10)}
+            initialPage={searchparams?.pageNo || 1}
             searchParams={{ param: searchparams, currentPage: referer }}
           />
         </ProviderResultsCard>

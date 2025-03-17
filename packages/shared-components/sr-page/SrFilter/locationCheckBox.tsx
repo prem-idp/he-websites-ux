@@ -2,27 +2,35 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-const SubRegions = ({
+import { extractUrlAndCookieValues } from "@packages/lib/utlils/filters/result-filters";
+const LocationcheckBox = ({
   childItem,
-  isIndexed,
+  regionListData,
   slug,
   formUrl,
-  appendSearchParams,
-  isRegionSelected,
+  country,
+  locationClicked,
 }: any) => {
   const searchparams = useSearchParams();
-  const [isSubRegionSelected, setIsSubRegionSelected] =
-    useState<any>(!!isRegionSelected);
+  const [isChecked, setIsChecked] = useState<any>(false);
   useEffect(() => {
-    if (isRegionSelected) {
-      setIsSubRegionSelected(true);
+    const parentRegion_Id = childItem?.parentRegionId;
+    const parentRegion_Name = regionListData?.find(
+      (region: any) => region?.regionId === parentRegion_Id
+    )?.regionTextKey;
+    const appliedvalues =
+      extractUrlAndCookieValues(searchparams, "", "")?.region?.split("+") || [];
+    if (
+      appliedvalues?.includes(childItem?.regionTextKey) ||
+      appliedvalues?.includes(country?.regionTextKey) ||
+      appliedvalues?.includes(parentRegion_Name)
+    ) {
+      setIsChecked(true);
     } else {
-      const subregion = searchparams
-        .get("location")
-        ?.includes(childItem?.regionTextKey);
-      setIsSubRegionSelected(subregion);
+      setIsChecked(false);
     }
-  }, [isRegionSelected, searchparams]);
+  }, [searchparams]);
+
   return (
     <>
       {childItem && (
@@ -32,25 +40,28 @@ const SubRegions = ({
               <div
                 className="checkbox_card"
                 onClick={() => {
-                  appendSearchParams("location", childItem?.regionTextKey);
+                  locationClicked(childItem?.regionTextKey);
                 }}
               >
-                {isIndexed && !isSubRegionSelected && (
-                  <Link
-                    id={"location" + childItem?.regionTextKey}
-                    href={{
-                      pathname: `${slug}`,
-                      query: formUrl("location", childItem?.regionTextKey),
-                    }}
-                  ></Link>
-                )}
+                {
+                  // isIndexed &&
+                  !isChecked && (
+                    <Link
+                      id={"region" + childItem?.regionTextKey}
+                      href={{
+                        pathname: `${slug}`,
+                        query: formUrl("region", childItem?.regionTextKey),
+                      }}
+                    ></Link>
+                  )
+                }
                 <input
                   type="checkbox"
-                  checked={isSubRegionSelected || false}
+                  checked={isChecked}
                   className="form-checkbox hidden"
                   id={childItem?.regionName}
                   onChange={() => {
-                    setIsSubRegionSelected(!isSubRegionSelected);
+                    setIsChecked(!isChecked);
                   }}
                 />
                 <label
@@ -91,4 +102,4 @@ const SubRegions = ({
   );
 };
 
-export default SubRegions;
+export default LocationcheckBox;

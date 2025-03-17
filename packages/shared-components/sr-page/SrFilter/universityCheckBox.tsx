@@ -17,21 +17,24 @@ const UniversityCheckBox = ({
     if (uni) {
       setPageCategory("search");
       setIsUniSelected(true);
+    } else {
+      setPageCategory("csearch");
+      setIsUniSelected(false);
     }
   }, [searchparams]);
   return (
     <div className="form_check relative">
       <div className="flex items-start gap-[8px]">
         <div className="checkbox_card">
-          {isIndexed && (
-            <Link
-              id={"university" + item?.collegeTextKey}
-              href={{
-                pathname: `/${slug[1]}/${pageCategory}`,
-                query: formUrl("university", item?.collegeTextKey, true),
-              }}
-            ></Link>
-          )}
+          {/* {isIndexed && ( */}
+          <Link
+            id={"university" + item?.collegeTextKey}
+            href={{
+              pathname: `/${slug[1]}/${pageCategory}`,
+              query: formUrl("university", item?.collegeTextKey, true),
+            }}
+          ></Link>
+          {/* )} */}
           <input
             type="checkbox"
             checked={searchparams?.get("university") === item?.collegeTextKey}
