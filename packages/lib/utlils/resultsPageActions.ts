@@ -337,13 +337,6 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
       !searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = `subject + region`
-    } else if ( // subject + studyLevel + region (doubt contradiction)
-      ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-      locationSelected &&
-      searchPayLoad?.parentQualification &&
-      !searchPayLoad?.studyMode
-    ) {
-      seoMetaFeildId = `subject + studyLevel + region`;
     } else if ( // subject + more regions
       ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
       (locationSelected && searchPayLoad?.region?.length > 1) &&
@@ -427,6 +420,14 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
     ) {
       seoMetaFeildId = `subject + studyLevel(${searchPayLoad?.parentQualification}) + location`;
     } 
+    // else if ( // subject + studyLevel + region (doubt contradiction)
+    //   ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
+    //   locationSelected &&
+    //   searchPayLoad?.parentQualification &&
+    //   !searchPayLoad?.studyMode
+    // ) {
+    //   seoMetaFeildId = `subject + studyLevel + region`;
+    // }  
 
     seoMetaFeildId = `SR - ${seoMetaFeildId}`;
   } else if(universitySelected){  //PR page SEO's
