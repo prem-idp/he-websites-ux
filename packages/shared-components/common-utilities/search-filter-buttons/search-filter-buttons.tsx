@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
@@ -19,13 +19,9 @@ const filterCookie = JSON.parse(decodeURIComponent(
 const  getfilterCount = (url:any,excludeParam:any[]) => {
   const urlObj = new URL(url);  // Create a URL object
   const params = new URLSearchParams(urlObj.search); // Get query parameters
-  params?.delete(excludeParam[0]);
-  params?.delete(excludeParam[1]);
-  params?.delete(excludeParam[2]);
-  params?.delete(excludeParam[3]);  
-  
+  excludeParam.forEach(param => params.delete(param)); 
   if(filterCookie?.subject) delete filterCookie?.subject
-  const filterCount = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
+  const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
   return filterCount
 }
 
@@ -37,8 +33,17 @@ const SearchFilterButtons = () => {
     searchParams?.get("course")?.split(" ")
   )?.length;
   if(filterCookie?.subject)
-  subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
-  const filterCount = getfilterCount(typeof window !== "undefined" && window.location.href,["pageno","page_no","sort","q","keyword"])
+    subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
+  let url:any;
+  const [filterCount, setFilterCount] = useState(0)
+  const [gradeCount, setGradeCount] = useState("");
+  useEffect(() => { 
+  if (typeof window !== 'undefined') {
+     url = new URL(window.location.href);
+  }   
+   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword"]))
+   setGradeCount(searchParams?.has("score") ? "1" : "")
+  }, [filterCount]); 
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),
@@ -100,7 +105,7 @@ const SearchFilterButtons = () => {
                   fill="#F9FAFB"
                 />
               </svg>
-              Add my grades
+              Add my grades {gradeCount ? "("+{gradeCount}+")" : ""}
             </div>
           )}
           {isUcasPopupOpen && (

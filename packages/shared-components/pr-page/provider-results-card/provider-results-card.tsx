@@ -134,7 +134,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           )}
           {visibleModules[index] && (
             <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
-              <Link href={items?.cdpagesurl} className="h6 hover:underline cursor-pointer text-blue-400">
+              <Link href={items?.cdpagesurl}>
                 See all modules
               </Link>
             </span>

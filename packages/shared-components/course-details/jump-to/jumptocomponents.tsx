@@ -4,7 +4,7 @@ interface SectionsList {
   sectionName: string
 }
 
-const JumpToComponents = ({ sectionsList }: { sectionsList: SectionsList[] }) => {
+const JumpToComponents = ({ sectionsList, data }: any) => {
   // console.log(sectionsList);
   const handleScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -20,13 +20,29 @@ const JumpToComponents = ({ sectionsList }: { sectionsList: SectionsList[] }) =>
           <div className='h5 w-full md:w-[289px]'>Jump to</div>
           <div className='flex flex-col gap-[8px] w-full lg:w-[calc(100%_-_309px)]'>
             <div className='flex flex-col gap-[24px]'>
-              <ul className='flex flex-col gap-[4px]'>
-                {sectionsList?.map((val, index: any) => (
-                  <li key={index} className='flex items-center gap-[4px]'>
-                    <span className='text-grey para'>-</span>
-                    <button onClick={() => handleScroll(val?.sectionId)} className='small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{val?.sectionName}</button>
-                  </li>
-                ))}
+              <ul className="flex flex-col gap-[4px]">
+                {sectionsList?.map((val: any, index: any) => {
+                  const sectionData = data?.[val?.internalName];
+                //  console.log(sectionData,"secctionData")
+                  if (
+                    sectionData &&
+                    (Array.isArray(sectionData) ? sectionData.length > 0 : Object.keys(sectionData).length > 0)
+                  ) {
+                    return (
+                      <li key={index} className="flex items-center gap-[4px]">
+                        <span className="text-grey para">-</span>
+                        <button
+                          onClick={() => handleScroll(val?.sectionId)}
+                          className="small text-primary-400 hover:text-primary-500 hover:underline cursor-pointer"
+                        >
+                          {val?.sectionName}
+                        </button>
+                      </li>
+                    );
+                  }
+
+                  return null;
+                })}
               </ul>
             </div>
           </div>

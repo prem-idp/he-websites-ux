@@ -8,9 +8,13 @@ import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
-export async function getSearchPageMetaDetailsFromContentful(searchParams: any, qualInUrl: string, pathName: string) {
+export async function getSearchPageMetaDetailsFromContentful(searchParams: any, pathName: string, params: any) {
   
   //Initializing and Assigning values
+  //const cookieStore = await cookies();
+  // const pathName = cookieStore?.get("pathnamecookies")?.value ?? "";
+  const qualInUrl = pathName?.split("/")[1] || "{}";
+
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
@@ -140,6 +144,12 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
     if (inputText?.includes("[QUALIFICATION]")) {
       inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
+     if (inputText?.includes("[COURSE NAME]")) {
+      inputText = inputText.replace("[COURSE NAME]", metaFiltersOpted?.studylevel ?? "")
+    }
+    if (inputText?.includes("[UNIVERSITY]")) {
+      inputText = inputText.replace("[UNIVERSITY]", metaFiltersOpted?.studymode ?? "");
+    }
     if (inputText?.includes("[MONTH]")) {
       inputText = inputText.replace("[MONTH]", metaFiltersOpted?.startMonth ?? "");
     } 

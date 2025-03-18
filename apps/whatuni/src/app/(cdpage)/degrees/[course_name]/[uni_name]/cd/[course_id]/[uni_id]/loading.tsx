@@ -4,13 +4,17 @@ import Courseheaderinfoskeleton from "@packages/shared-components/skeleton/cours
 import Yearofentryskeleton from "@packages/shared-components/skeleton/yearofentryskeleton"
 import Courseoptionsskeleton from "@packages/shared-components/skeleton/courseoptionsskeleton"
 import Jumptoskeleton from "@packages/shared-components/skeleton/jumptoskeleton"
-export default function Loader(){
-    return(
+import Courseinfoskeleton from "@packages/shared-components/skeleton/courseinfoskeleton"
+import Reviewsliderskeleton from "@packages/shared-components/skeleton/reviewsliderskeleton"
+export default function Loader() {
+    return (
         <>
-        <Courseheaderinfoskeleton/>
-        <Yearofentryskeleton/>
-        <Courseoptionsskeleton/>
-        <Jumptoskeleton/>
+            <Courseheaderinfoskeleton />
+            <Yearofentryskeleton />
+            <Courseoptionsskeleton />
+            <Jumptoskeleton />
+            <Courseinfoskeleton />
+            <Reviewsliderskeleton />
         </>
 
     )

@@ -697,6 +697,8 @@ export interface MetaFilterTypesReplace{
   university?: string,
   startYear?: string,
   startMonth?: string,
+  providerName?: string,
+  courseName?: string,
   parentSubjectDisplay?: string[],
   parentSubjectUrl?: string[],
 }

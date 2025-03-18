@@ -1,11 +1,14 @@
 // fetchData.ts
+import { v4 as uuidv4 } from "uuid";
 export const cdfetchData = async (url: string): Promise<any> => {
     try {
         const response = await fetch(url, {
             method: "GET",
             headers: {
+
                 "Content-Type": "application/json",
-                "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
+                "x-correlation-id": uuidv4(),
+                 "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
             },
         });
 
