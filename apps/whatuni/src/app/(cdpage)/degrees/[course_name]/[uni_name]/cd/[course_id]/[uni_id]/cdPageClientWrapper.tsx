@@ -17,7 +17,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
   const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
- console.log("from  the cdpageclient")
+//  console.log("from  the cdpageclient")
   useEffect(() => {
     setRenderKey(prev => prev + 1);
   }, [fetcheddata]);
@@ -59,11 +59,11 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
     <div>
       <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-      <JumpToComponents sectionsList={courseContent?.sectionsList} />
+      <JumpToComponents sectionsList={courseContent?.sectionsList} data={fetcheddata}/>
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {
           const { sectionId } = sectionContent;
-          console.log(sectionId,"inside th map")
+          // console.log(sectionId,"inside th map")
           let componentToRender;
           switch (sectionId) {
             
@@ -85,11 +85,11 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
               componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'tutionfees':
-              // if (data?.tutionFees?.length <= 0) return null;
+              if (data?.tutionFees?.length <= 0) return null;
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latestreviews':
-              if (data?.latest_reviews?.length <= 0) return null
+              if (data?.latestReviews?.length <= 0) return null
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uniinfo':

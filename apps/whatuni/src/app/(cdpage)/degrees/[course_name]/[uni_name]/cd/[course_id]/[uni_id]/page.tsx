@@ -97,7 +97,7 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
     `${process.env.NEXT_PUBLIC_X_API_KEY}`,
     "no-cache", 0,
     {});
-  console.log(displayNameResponse, "displayNameResponse")
+  // console.log(displayNameResponse, "displayNameResponse")
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
