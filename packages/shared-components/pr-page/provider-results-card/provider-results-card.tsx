@@ -110,27 +110,27 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           {/* <p className="small text-grey500 line-clamp-3">Are you seeking to enter the criminal justice or community justice sectors Want to work with drug action teams or in the voluntary Are you seeking to enter the criminal justice or community justice sectors Want to work with drug action teams or in the voluntary </p> */}
           {/* PGS  END */}
 
-          {items.modulesList && (
-            <>
-              <span
-                onClick={() => toggleModuleVisibility(index)}
-                className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'
-                  } after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
-              >
-                Modules
-              </span>
-              <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
-                {visibleModules[index] && (
-                  <>
-                    {items.modulesList.map((list: any, index: any) => (
-                      <li className="text-grey300 small break-all" key={index}>
-                        {list}
-                      </li>
-                    ))}
-                  </>
-                )}
-              </ul>
-            </>
+          <>
+            <span
+              onClick={() => toggleModuleVisibility(index)}
+              className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'
+                } after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
+            >
+              Modules
+            </span>
+          </>
+          {Array.isArray(items.modulesList) && items.modulesList.length > 0 && (
+            <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
+              {visibleModules[index] && (
+                <>
+                  {items.modulesList.map((list: any, index: any) => (
+                    <li className="text-grey300 small break-all" key={index}>
+                      {list}
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
           )}
           {visibleModules[index] && (
             <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
