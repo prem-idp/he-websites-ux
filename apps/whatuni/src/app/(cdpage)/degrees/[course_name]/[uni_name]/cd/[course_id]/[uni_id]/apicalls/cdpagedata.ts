@@ -8,7 +8,7 @@ export const cdfetchData = async (url: string): Promise<any> => {
 
                 "Content-Type": "application/json",
                 "x-correlation-id": uuidv4(),
-                "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
+                 "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
             },
         });
 

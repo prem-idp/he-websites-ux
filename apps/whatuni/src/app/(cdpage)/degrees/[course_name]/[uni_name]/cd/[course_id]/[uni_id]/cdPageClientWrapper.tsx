@@ -17,7 +17,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
   const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
-
+//  console.log("from  the cdpageclient")
   useEffect(() => {
     setRenderKey(prev => prev + 1);
   }, [fetcheddata]);
@@ -59,13 +59,16 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
     <div>
       <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
-      <JumpToComponents sectionsList={courseContent?.sectionsList} />
+      <JumpToComponents sectionsList={courseContent?.sectionsList} data={fetcheddata}/>
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {
           const { sectionId } = sectionContent;
+          // console.log(sectionId,"inside th map")
           let componentToRender;
           switch (sectionId) {
-            case 'course-info':
+            
+            case "courseinfo":
+         
               if (!data?.courseInfo) return null;
               componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} />;
               break;
@@ -73,23 +76,23 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
               if (data?.modules?.length <= 0) return null;
               componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
               break;
-            case 'entry-requirements':
+            case 'entryrequirements':
               if (!data?.entryRequirements) return null;
               componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
-            case 'popular-a-level-subjects':
+            case 'popularalevelsubjects':
               if (data?.popularALevelSubjects?.length <= 0) return null;
               componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
-            case 'tuition-fees':
+            case 'tutionfees':
               if (data?.tutionFees?.length <= 0) return null;
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
-            case 'latest-reviews':
-              if (data?.latest_reviews?.length <= 0) return null
+            case 'latestreviews':
+              if (data?.latestReviews?.length <= 0) return null
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
-            case 'uni-info':
+            case 'uniinfo':
               if (!data?.uniInfo) return null;
               componentToRender = <UniInfoComponent sectionInfo={sectionContent} {...fetcheddata} />;
               break;

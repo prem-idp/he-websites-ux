@@ -35,7 +35,7 @@ export default async function Cdpage({ params }: any) {
     affiliateId: String(process.env.AFFILATE_ID || ""),
     collegeId: String(prams_slug?.uni_id || ""),
   });
-  const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchparams.toString()}`;
+  const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
   const [data, contents, othercourseData] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
     graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),
@@ -97,7 +97,7 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
     `${process.env.NEXT_PUBLIC_X_API_KEY}`,
     "no-cache", 0,
     {});
-  console.log(displayNameResponse, "displayNameResponse")
+  // console.log(displayNameResponse, "displayNameResponse")
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
