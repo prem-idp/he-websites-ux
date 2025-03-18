@@ -14,7 +14,7 @@ interface LatestReviewsComponentProps {
 }
 
 const LatestReviewsComponent = ({ fetcheddata, sectionInfo }: LatestReviewsComponentProps) => {
-
+   console.log("to check the rerendering")
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
 

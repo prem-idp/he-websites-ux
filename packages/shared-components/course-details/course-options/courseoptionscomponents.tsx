@@ -60,8 +60,8 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
                 <div className="course-highlight__option flex flex-col items-start gap-[16px]">
                   <Image src="/static/assets/icons/course-details/start_date_icon.svg" alt="academic-cap" width={32} height={32} />
                   <div className="flex flex-col gap-[4px] *:text-grey300">
-                    <div className="para font-semibold">Start date</div>
-                    <p className="para font-normal">{selectedavilability?.startDate}</p>
+                    <div className="para font-semibold">Start date </div>
+                    <p className="para font-normal">{selectedavilability?.startDateMonth}</p>
                   </div>
                 </div>
                 <div className="course-highlight__option flex flex-col items-start gap-[16px]">

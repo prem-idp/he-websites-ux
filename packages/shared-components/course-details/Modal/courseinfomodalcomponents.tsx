@@ -48,8 +48,8 @@ const Courseinfomodalcomponents = ({isOpen,onClose,data,setSelectedavailability}
                                     </span>
                                 </div>
                                 <div className='flex justify-start items-start gap-[8px]'>
-                                    <span className='small font-semibold text-grey300'>Start date testing</span>
-                                    <span className='small text-grey300'>{val?.startDate}
+                                    <span className='small font-semibold text-grey300'>Start date</span>
+                                    <span className='small text-grey300'>{val?.startDateMonth}
                                     </span>
                                 </div>
                                 <div className='flex justify-start items-start gap-[8px]'>
