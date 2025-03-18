@@ -68,8 +68,8 @@ getSearchLabels();
     ));  
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
-      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "region" || filterKey === "city")) {
-        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== value?.toLowerCase());
+      if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "location")) {
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== (value?.includes(" ") ? value?.replace(" ","-")?.toLowerCase() : value?.toLowerCase()));
         const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
         updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
       } else {
@@ -81,15 +81,15 @@ getSearchLabels();
     if (document.cookie.includes('filter_param')) {
       if (filterCookie[filterKey]) {
         delete filterCookie[filterKey];
-        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))}; path=/`;
+        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
       }
          // Check if URL has fewer than 4 params
-      if (currentParams?.toString()?.split('&')?.length < 4) {
+      if (currentParams?.toString()?.split('&')?.length < 4 && !(currentParams.has("subject") && currentParams?.toString()?.split("+").length === 4)) {
       for (const [key] of Object.entries(filterCookie)) {
         if (!currentParams.has(key)) {
           currentParams.set(key, filterCookie[key]);
           delete filterCookie[key];
-          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie))} || "{}"; path=/`;
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
           break;
         }
       }

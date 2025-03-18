@@ -21,6 +21,7 @@ export function getSearchPayload(
   dynamicRandomNumber: any,
   userIp: any
 ) {
+  const currentYear = new Date().getFullYear();
 let subjectArray="";
 if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
@@ -63,7 +64,7 @@ const searchPayload: any = {
       searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType: locationType ? [locationType] : "",
-    intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
+    intakeYear: searchParams?.year || filterCookieParam?.year || currentYear?.toString(),
     intakeMonth: searchParams?.month?.toUpperCase() || filterCookieParam?.month?.toUpperCase()|| "",
     sortBy: typeof searchParams?.sort === 'string' && searchParams?.sort?.toUpperCase() ||  typeof filterCookieParam?.sort === 'string' &&  filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",

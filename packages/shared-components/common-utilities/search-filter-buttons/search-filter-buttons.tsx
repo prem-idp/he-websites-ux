@@ -15,19 +15,11 @@ const UcasComponent = dynamic(
 const filterCookie = JSON.parse(decodeURIComponent(
   typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
 )); 
-// Function to get the size of query parameters excluding a specific one
-const  getfilterCount = (url:any,excludeParam:any[]) => {
-  const urlObj = new URL(url);  // Create a URL object
-  const params = new URLSearchParams(urlObj.search); // Get query parameters
-  excludeParam.forEach(param => params.delete(param)); 
-  if(filterCookie?.subject) delete filterCookie?.subject
-  const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
-  return filterCount
-}
+
 
 const SearchFilterButtons = () => {
   const searchParams = useSearchParams();
-  const locationFilterCount:any = searchParams?.get("region")?.split(" ")?.length || searchParams?.get("city")?.split(" ")?.length;
+  const locationFilterCount:any = searchParams?.get("location")?.split(" ")?.length;
   let subjectFilterCount = (
     searchParams?.get("subject")?.split(" ") ||
     searchParams?.get("course")?.split(" ")
@@ -38,11 +30,22 @@ const SearchFilterButtons = () => {
   const [filterCount, setFilterCount] = useState(0)
   const [gradeCount, setGradeCount] = useState("");
   useEffect(() => { 
+    // Function to get the size of query parameters excluding a specific one
+const  getfilterCount = (url:any,excludeParam:any[]) => {
+    const urlObj = new URL(url);  // Create a URL object
+    const params = new URLSearchParams(urlObj.search); // Get query parameters
+    excludeParam.forEach(param => params.delete(param)); 
+    if(filterCookie?.subject) delete filterCookie?.subject
+    if(typeof document !== "undefined" && !document.referrer && filterCookie?.score) delete filterCookie?.score
+    const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
+    return filterCount
+  }
   if (typeof window !== 'undefined') {
      url = new URL(window.location.href);
   }   
-   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword"]))
-   setGradeCount(searchParams?.has("score") ? "1" : "")
+   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword","score"]))
+   setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
+   console.log("gradeCount", gradeCount)
   }, [filterCount]); 
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
@@ -105,7 +108,7 @@ const SearchFilterButtons = () => {
                   fill="#F9FAFB"
                 />
               </svg>
-              Add my grades {gradeCount ? "("+{gradeCount}+")" : ""}
+              Add my grades {gradeCount ? "("+gradeCount+")" : ""}
             </div>
           )}
           {isUcasPopupOpen && (

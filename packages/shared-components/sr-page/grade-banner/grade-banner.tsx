@@ -14,8 +14,11 @@ const UcasComponent = dynamic(
 );
 const GradeBanner = () => {
   const searchparams = useSearchParams();
-  const location = searchparams?.get("region") || searchparams?.get("city");
-  const score = searchparams?.get("score");
+  const filterCookie = JSON.parse(decodeURIComponent(
+    typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+  )); 
+  const location = searchparams?.get("location");
+  const score = searchparams?.get("score") || (filterCookie?.score && document.referrer);
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
 
   const filterEvents = (eventName: string | null | undefined) => {
