@@ -88,7 +88,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
                   componentToRender = <Courseinfocomponents key={renderKey} data={data} sectionInfo={sectionContent} />;
                   break;
                 case 'modules':
-                  if (data?.modules?.length <= 0) return null;
+                  if (data?.modules?.length) return null;
                   componentToRender = <Modulescomponents sectionInfo={sectionContent} {...fetcheddata} />;
                   break;
                 case 'entryrequirements':
@@ -96,15 +96,15 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
                   componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
                   break;
                 case 'popularalevelsubjects':
-                  if (data?.popularALevelSubjects?.length <= 0) return null;
+                  if (data?.popularALevelSubjects?.length) return null;
                   componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
                   break;
                 case 'tutionfees':
-                  if (data?.tutionFees?.length <= 0) return null;
+                  if (data?.tutionFees?.length) return null;
                   componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
                   break;
                 case 'latestreviews':
-                  if (data?.latestReviews?.length <= 0) return null
+                  if (data?.latestReviews?.length) return null
                   componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
                   break;
                 case 'uniinfo':
