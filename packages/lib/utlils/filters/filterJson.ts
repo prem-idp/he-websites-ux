@@ -12,16 +12,15 @@ const getLocationArray = (
   const region = inputObject[keyName?.region] ?? "";
   const city = inputObject[keyName?.city] ?? "";
   const splitValues = (value: string) =>
-    value.includes("+") ? value.split("+") : value.split(" ");
-  return region || city ? [...splitValues(region), ...splitValues(city)] : [];
+    value ? (value?.includes("+") ? value?.split("+") : value?.split(" ")) : [];
+  return [...splitValues(region), ...splitValues(city)]?.filter(Boolean);
 };
 
 const KeyNames = () => {
   const sameNameObject = {
     month: "month",
     year: "year",
-    region: "region",
-    city: "city",
+    location: "location",
     sort: "sort",
     university: "university",
     postcode: "postcode",
@@ -67,7 +66,7 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     location: getLocationArray(inputObject, keyName) || "",
     studyMode: inputObject[keyName?.studyMode] || "",
     studyMethod: inputObject[keyName?.studyMethod] || "",
-    collegeId: "",
+    collegeName: inputObject[keyName?.university] || "",
     pageNo: inputObject?.[keyName?.pageNumber] || "",
     locationType: inputObject[keyName?.locationType]?.split(" ") || "",
     intakeYear: inputObject[keyName?.year] || "",
