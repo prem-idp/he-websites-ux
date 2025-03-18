@@ -25,7 +25,7 @@ const TopSection: React.FC<searchProps> = async ({
   params
 }) => {
   const cookieStore = await cookies();
-  const qualInUrl =cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const qualInUrl =cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
   const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl)
   const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
@@ -37,7 +37,6 @@ const TopSection: React.FC<searchProps> = async ({
   const defaultH1text = "Compare courses and degrees in the UK";
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
-  
   const getBreadcrumb = (): any[] => {
     switch(process.env.PROJECT){
       case "Whatuni": return get_WU_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
@@ -62,7 +61,7 @@ const TopSection: React.FC<searchProps> = async ({
   const h1Text = replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted);
   const h2Text = searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
             replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
-            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted)
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted);
   let schemaData: any[] = [];
   breadcrumb?.map((data, index) => {
     const obj: any = {
