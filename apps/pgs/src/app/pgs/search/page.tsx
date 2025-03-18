@@ -1,6 +1,8 @@
 "use server";
 import React from "react";
 import SrPageComponent from "@packages/shared-components/sr-page/srpage-component";
+import PrPageComponent from "@packages/shared-components/pr-page/prpage-component";
+
 import { Metadata } from "next";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
@@ -18,8 +20,18 @@ export async function generateMetadata({
 }
 
 const page = async ({ searchParams }: any) => {
+  // Check if 'University' exists in searchParams
   const searchparams = await searchParams;
-  return <SrPageComponent searchparams={searchparams} />;
+
+  console.log("University " + searchparams?.['university']);
+
+  const isUniversitySearch = searchparams?.['university'] !== undefined;
+
+  return isUniversitySearch ? (
+    <PrPageComponent searchparams={searchparams} />
+  ) : (
+    <SrPageComponent searchparams={searchparams} />
+  );
 };
 
 export default page;
