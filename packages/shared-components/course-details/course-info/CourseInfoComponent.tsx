@@ -2,10 +2,10 @@ import Keystatscomponents from './KeyStatsComponent';
 import ReviewComponent from '@packages/shared-components/course-details/common-components/ReviewComponent';
 import ReadMoreLessDesc from './ReadMoreLessDesc';
 import LazyLoadWrapper from '@packages/lib/utlils/lazyloadcomponent';
+import Keystatsskeleton from "@packages/shared-components/skeleton/keystatsskeleton"
 
 
-
-const CourseInfoComponent = ({ data, sectionInfo }: any) => {
+const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
 
   return (
@@ -17,9 +17,18 @@ const CourseInfoComponent = ({ data, sectionInfo }: any) => {
             {data?.courseInfo?.courseSummary &&
               <ReadMoreLessDesc text={courseInfo?.courseSummary} />
             }
-            {data?.courseInfo?.keyStats &&
-              <Keystatscomponents subjectArea={keyStats} uniRankings={uniRankings} tooltipList={sectionInfo?.mediaCardsCollection} dataSource={sectionInfo?.callToAction} />
-            }
+            {data?.courseInfo?.keyStats && (
+              loading ? (
+                <Keystatsskeleton />
+              ) : (
+                <Keystatscomponents
+                  subjectArea={keyStats}
+                  uniRankings={uniRankings}
+                  tooltipList={sectionInfo?.mediaCardsCollection}
+                  dataSource={sectionInfo?.callToAction}
+                />
+              )
+            )}
             <LazyLoadWrapper>
               {data?.institution_reviews?.reviewDetail &&
                 <ReviewComponent heading="What student say" jsonResponse={data?.institution_reviews?.reviewDetail} />

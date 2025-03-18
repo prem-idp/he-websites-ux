@@ -60,6 +60,7 @@ export default async function Cdpage({ params }: any) {
 
 
   const courseContent = courseContentExtractor(contents);
+  console.log(courseContent,"courseContentcourseContent")
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
 
 
@@ -87,6 +88,8 @@ export default async function Cdpage({ params }: any) {
     </>
   )
 }
+
+
 async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):Promise<MetaDataInterface> {
   //1) bff API hit
   const displayNameReqBody = getRequestInputPayload(searchParams);
