@@ -6,6 +6,7 @@ pageSeoFieldsCollection(
 {
   items
       {
+    seoFieldsName
     metaTite
     metaDescription
     metaDescription
