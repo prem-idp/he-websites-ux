@@ -5,7 +5,7 @@ interface SectionsList {
 }
 
 const JumpToComponents = ({ sectionsList, data }: any) => {
-  console.log(sectionsList);
+  // console.log(sectionsList);
   const handleScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {

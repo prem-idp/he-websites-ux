@@ -20,7 +20,7 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
     "courseId": searchPayload.get('courseId') ? +searchPayload.get('courseId') : ""
   }
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  console.log("searchParams...", displayNameBFFEndPt)
+  // console.log("searchParams...", displayNameBFFEndPt)
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
     displayNameReqBody, 
     "POST", 
