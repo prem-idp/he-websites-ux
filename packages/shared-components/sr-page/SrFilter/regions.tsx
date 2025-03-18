@@ -14,7 +14,6 @@ const Regions = React.memo(
     isIndexed,
     formUrl,
     appendSearchParams,
-    country,
   }: any) => {
     const searchparams = useSearchParams();
     const keyName = KeyNames();
@@ -23,10 +22,7 @@ const Regions = React.memo(
       const appliedvalues =
         extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
         [];
-      if (
-        appliedvalues?.includes(item?.regionTextKey) ||
-        appliedvalues?.includes(country?.regionTextKey)
-      ) {
+      if (appliedvalues?.includes(item?.regionTextKey)) {
         setIsRegionSelected(true);
       } else {
         setIsRegionSelected(false);
@@ -136,18 +132,15 @@ const Regions = React.memo(
                 locationClicked(item?.regionTextKey);
               }}
             >
-              {
-                // isIndexed &&
-                !isRegionSelected && (
-                  <Link
-                    id={keyName?.location + item?.regionTextKey}
-                    href={{
-                      pathname: generatePathName(slug, keyName?.location),
-                      query: formUrl(keyName?.location, item?.regionTextKey),
-                    }}
-                  ></Link>
-                )
-              }
+              {!isRegionSelected && (
+                <Link
+                  id={keyName?.location + item?.regionTextKey}
+                  href={{
+                    pathname: generatePathName(slug, keyName?.location),
+                    query: formUrl(keyName?.location, item?.regionTextKey),
+                  }}
+                ></Link>
+              )}
               <input
                 checked={isRegionSelected || false}
                 onChange={() => {
@@ -208,7 +201,6 @@ const Regions = React.memo(
                   regionListData={regionListData}
                   slug={slug}
                   formUrl={formUrl}
-                  country={country}
                   locationClicked={locationClicked}
                 />
               ))}
