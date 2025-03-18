@@ -26,7 +26,7 @@ interface TutionFeesComponentProps {
 }
 
 const TutionFeesComponent = ({ sectionInfo, tutionFees }: any) => {
-
+  console.log(tutionFees,"tutionFees")
   tutionFees = tutionFees?.length
     ? tutionFees.sort((a: any, b: any) => a.seq_no - b.seq_no).map((item: any, id: number) => ({ ...item, id }))
     : [];
