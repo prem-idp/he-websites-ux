@@ -34,6 +34,7 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
+  console.log("query: ", query);
   console.log("seoMetaFeildId: ", seoMetaFeildId);
   console.log("contentfulMetadata: ", contentfulMetadata);
 
@@ -282,12 +283,10 @@ function formSRPageURL(searchParams: any, pathName: string){
 
 export function getWU_SearchSEOFieldId(searchPayLoad: any){
 
+  const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
   const universitySelected = searchPayLoad?.university && searchPayLoad?.university?.trim() != "" ? true : false;
-  const regionSelected = searchPayLoad?.region?.length <= 0 ? false : (searchPayLoad?.region?.length >= 1 && searchPayLoad?.region?.[0] != "" ? true : false); 
-  const citySelected = searchPayLoad?.city?.length <= 0 ? false : (searchPayLoad?.city?.length >= 1 && searchPayLoad?.city?.[0] != "" ? true : false); 
-  const locationSelected = regionSelected || citySelected;
 
   let seoMetaFeildId = "Default";
 
@@ -301,32 +300,28 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
       seoMetaFeildId = `noFilters`
     } else if ( // region only
       !(subjectSelected || keywordSelected) &&
-      regionSelected &&
-      !citySelected &&
+      locationSelected &&
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = `region`;
     } else if ( // multiple subjects
       ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-      !regionSelected &&
-      !citySelected &&
+      !locationSelected &&
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = `subject(2+)`;
     } else if ( // multiple subjects + studymode
       ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-      !regionSelected &&
-      !citySelected &&
+      !locationSelected &&
       !searchPayLoad?.parentQualification &&
       searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = 'subject(2+) + studyMode';
     } else if ( // subject + region
       ((subjectSelected && searchPayLoad?.searchSubject?.length > 1) || keywordSelected) &&
-      regionSelected &&
-      !citySelected &&
+      locationSelected &&
       searchPayLoad?.location?.length == 1 &&
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
@@ -334,24 +329,21 @@ export function getWU_SearchSEOFieldId(searchPayLoad: any){
       seoMetaFeildId = `subject + region`
     } else if ( // subject + studyLevel + region (doubt contradiction)
       ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-      regionSelected &&
-      !citySelected &&
+      locationSelected &&
       searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = `subject + studyLevel + region`;
     } else if ( // subject + more regions
       ((subjectSelected && searchPayLoad?.searchSubject?.length == 1) || keywordSelected) &&
-      (regionSelected && searchPayLoad?.region?.length > 1) &&
-      !citySelected &&
+      (locationSelected && searchPayLoad?.region?.length > 1) &&
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
       seoMetaFeildId = `subject + region(2+)`;
     } else if ( // more region only
       !(subjectSelected || keywordSelected) &&
-      (regionSelected && searchPayLoad?.region?.length > 1) &&
-      !citySelected &&
+      (locationSelected && searchPayLoad?.region?.length > 1) &&
       !searchPayLoad?.parentQualification &&
       !searchPayLoad?.studyMode
     ) {
@@ -746,4 +738,23 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   }
 
   return [ ...qualBC, ...subBC, ...uniBC, ...locBC, ...studyModeBC ];
+}
+
+export function get_WU_SR_breadcrumb(searchSEOPayload: any, displayNameResponse: any, qualInUrl: string){
+  const subjectDisplayName = displayNameResponse?.subjectName?.length >= 0 ? displayNameResponse?.subjectName[0] : ""; 
+  const  get_find_a_course_url_label = (qualCode: string) => {
+    switch(qualCode){
+      case "M": return ["/degrees/courses/", "Courses"]
+      case "L": return ["/postgraduate-courses/", "Postgraduate"]
+      case "A": return ["/foundation-degree-courses/", "Foundation Degree"]
+      case "T": return ["/access-foundation-courses/", "Access Foundation"]
+      case "N": return ["/hnd-hnc-courses/", "HND/HNC"]
+      default: return ["/degrees/courses/", "Courses"];
+    }
+  }
+  const [qualUrl, qualLabel] = get_find_a_course_url_label(searchSEOPayload?.parentQualification);
+  const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: qualUrl, label: qualLabel}] : [];
+  const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
+  const breadCrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/searcch?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
+  return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
 }

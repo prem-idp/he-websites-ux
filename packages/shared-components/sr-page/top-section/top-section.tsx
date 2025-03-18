@@ -1,7 +1,7 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
-import { form_PGS_SR_breadcrumb, getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
+import { form_PGS_SR_breadcrumb, get_WU_SR_breadcrumb, getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
@@ -37,44 +37,16 @@ const TopSection: React.FC<searchProps> = async ({
   const defaultH1text = "Compare courses and degrees in the UK";
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
-
-  const subjectDisplayName = displayNameResponse?.subjectName?.length >= 0 ? displayNameResponse?.subjectName[0] : ""; 
   
-  const  get_find_a_course_url_label = (qualCode: string) => {
-    let qualUrl = "/degrees/courses/";
-    let qualLabel = "Courses";
-    if ("M" === qualCode) {
-      qualUrl = "/degrees/courses/"
-      qualLabel = "Courses";
-    } else if ("L" === qualCode) {
-      qualUrl = "/postgraduate-courses/";
-      qualLabel = "Postgraduate";
-    } else if ("A" === qualCode) {
-      qualUrl = "/foundation-degree-courses/";
-      qualLabel = "Foundation Degree";
-    } else if ("T" === qualCode) {
-      qualUrl = "/access-foundation-courses/";
-      qualLabel = "Access Foundation";
-    } else if ("N" === qualCode) {
-      qualUrl = "/hnd-hnc-courses/";
-      qualLabel = "HND/HNC";
-    }
-    return [qualUrl, qualLabel];
-  }
-
   const getBreadcrumb = (): any[] => {
-    if(process.env.PROJECT == "Whatuni"){
-      const [qualUrl, qualLabel] = get_find_a_course_url_label(searchSEOPayload?.parentQualification);
-      const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: qualUrl, label: qualLabel}] : [];
-      const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-      const breadCrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/search?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
-      return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
-    } else if(process.env.PROJECT == "PGS"){
-      return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, "/pgs/search");
+    switch(process.env.PROJECT){
+      case "Whatuni": return get_WU_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
+      case "PGS": return get_WU_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
+      default: return [];
     }
-    return [];
   }
-  const breadcrumb = getBreadcrumb();const breadcrumbData = [
+  const breadcrumb = getBreadcrumb();
+  const breadcrumbData = [
     {
       url: domain,
       Imgurl: "/static/assets/icons/breadcrumbs-home-icon.svg",
@@ -87,6 +59,10 @@ const TopSection: React.FC<searchProps> = async ({
     year: searchParams?.year,
   }
   const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
+  const h1Text = replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted);
+  const h2Text = searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
+            replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
+            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted)
   let schemaData: any[] = [];
   breadcrumb?.map((data, index) => {
     const obj: any = {
@@ -110,16 +86,11 @@ const TopSection: React.FC<searchProps> = async ({
           </div>
           {/* breadcrumb  */}
           {/* start subject */}
+          {(h1Text || h1Text) && 
           <div className="py-[16px]">
-            <div className="h5 mb-[4px]">
-              {replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted)}
-            </div>
-            <p>
-            {searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
-            replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
-            replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted) }
-            </p>
-          </div>
+            {h1Text && <div className="h5 mb-[4px]">{h1Text}</div>}
+            {h2Text && <p>{h2Text}</p>}
+          </div>}
           {/* end subject */}
           {/* <TopSectionSkeleton/> */}
         </div>
