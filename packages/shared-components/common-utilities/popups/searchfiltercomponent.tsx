@@ -9,10 +9,12 @@ import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "@aws-amplify/auth";
 import { useSearchParams, usePathname } from "next/navigation";
+import { uniSortingMockData } from "@packages/lib/utlils/filters/result-filters";
 import {
   getFilterPriority,
   isSingleSelection,
 } from "@packages/lib/utlils/filters/result-filters";
+import { determineLocationType } from "@packages/lib/utlils/filters/result-filters";
 import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
 import { locationMilesArray } from "@packages/lib/utlils/filters/result-filters";
@@ -44,7 +46,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
   const parentRegion = jsondata?.regionList?.filter((regionItem: any) => {
     return !regionItem?.parentRegionId;
   });
-
+  const [selectedLocationType, setSelectedLocationType] = useState<any>("");
   const [subjectState, setSubjectState] = useState({
     subjectkeyword: "",
     sortedSubjects: [],
@@ -66,18 +68,13 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [courseCount, setCourseCount] = useState<any>(0);
-  const [isAllUkChecked, setIsAllUkChecked] = useState<any>(
-    searchParams?.get(keyName?.region) == parentRegion[0]?.regionTextKey
-  );
   const [isIndexed, setIsIndexed] = useState(true);
-
   const [filterState, setFilterState] = useState({
     isFilterOpen: false,
     isFilterLoading: false,
     filterOrder: {},
     selectedFilter: "",
   });
-
   const [universityState, setUniversityState] = useState({
     universityKeyword: "",
     sortedUni: [],
@@ -94,50 +91,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
 
   const universitiesSortingList: any = () => {
     const listvalue: any[] = [];
-    [
-      {
-        id: "Uni1",
-        name: "Universities A - C",
-        sortingValue: "A-B-C",
-        displayHeading: "A - C",
-        unilist: [],
-      },
-      {
-        id: "Uni2",
-        name: "Universities D - H",
-        sortingValue: "D-E-F-G-H",
-        displayHeading: "D - H",
-        unilist: [],
-      },
-      {
-        id: "Uni3",
-        name: "Universities I - M",
-        sortingValue: "I-J-K-L-M",
-        displayHeading: "I - M",
-        unilist: [],
-      },
-      {
-        id: "Uni4",
-        name: "Universities N - P",
-        sortingValue: "N-O-P-Q-P",
-        displayHeading: "N - P",
-        unilist: [],
-      },
-      {
-        id: "Uni5",
-        name: "Universities Q - U",
-        sortingValue: "Q-R-S-T-U",
-        displayHeading: "Q - U",
-        unilist: [],
-      },
-      {
-        id: "Uni6",
-        name: "Universities V - Z",
-        sortingValue: "V-W-X-Y-Z",
-        displayHeading: "V - Z",
-        unilist: [],
-      },
-    ]?.map((item: any) => {
+    uniSortingMockData?.map((item: any) => {
       item.unilist = jsondata?.universityFilterList?.filter(
         (collegeItem: any) => {
           const regex = new RegExp(`^[${item.sortingValue}]`, "i");
@@ -162,32 +116,25 @@ const SearchFilterComponent = ({ data, path }: any) => {
     []
   );
 
-  const subjectParam: any =
-    searchParams?.get(keyName?.subject)?.split(",") || [];
-
+  // const subjectParam: any =
+  //   searchParams?.get(keyName?.subject)?.split(" ") || [];
   useEffect(() => {
     setPrepopulateFilter({
       studyMethod: getFilterValue(keyName?.studyMethod, searchParams),
       studyMode: getFilterValue(keyName?.studyMode, searchParams),
       year: getFilterValue(keyName?.year, searchParams),
       month: getFilterValue(keyName?.month, searchParams),
-      region: getFilterValue(keyName?.region, searchParams),
-      city: getFilterValue(keyName?.city, searchParams),
+      location: getFilterValue(keyName?.location, searchParams),
       russellGroup: getFilterValue(keyName?.russellGroup, searchParams),
       locationType: getFilterValue(keyName?.locationType, searchParams),
     });
-
     const value = isSingleSelection(searchParams);
     setslug(path);
     setIsIndexed(value);
     if (pathname) {
       setslug(pathname);
     }
-    const parentSubjectName = getParentSubject(
-      searchParams,
-      jsondata,
-      subjectParam[0]
-    );
+    const parentSubjectName = getParentSubject(searchParams, jsondata);
     if (parentSubjectName) {
       subjectClicked(parentSubjectName, true);
     } else {
@@ -199,7 +146,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
         subjectClicked(isUrlSubjectParent?.categoryDesc, true);
       }
     }
-
     const getCount = async () => {
       const bodyJson = extractUrlAndSessionValues(searchParams, "", "");
       const count = await getSrFilterCount(
@@ -209,24 +155,24 @@ const SearchFilterComponent = ({ data, path }: any) => {
     };
     getCount();
     const isUniversityAdded = searchParams?.get(keyName?.university) || null;
-    let selectedUniId: any = "";
     if (isUniversityAdded) {
       const sortedUni = universitiesList?.find((uni: any) =>
         uni?.sortingValue?.includes(isUniversityAdded.charAt(0)?.toUpperCase())
       );
-      selectedUniId = sortedUni || "";
-      if (selectedUniId) {
+      if (sortedUni) {
         setUniversityState((prev: any) => ({
           ...prev,
           isUniversityOpen: true,
         }));
-        universityClicked(
-          selectedUniId?.displayHeading,
-          selectedUniId?.id,
-          true
-        );
+        universityClicked(sortedUni?.displayHeading, sortedUni?.id, true);
       }
     }
+    const selectedLocation = determineLocationType(
+      jsondata?.regionList,
+      jsondata?.cityList,
+      searchParams
+    );
+    setSelectedLocationType(selectedLocation);
   }, [searchParams, filterState?.isFilterLoading, routerEnd]);
 
   useEffect(() => {
@@ -241,17 +187,14 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }
     };
     getYear();
-
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
         return "";
       }
-
       const element = document?.getElementById(`#${eventName}`);
       if (element) {
         element?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-
       setFilterState((prev: any) => ({
         ...prev,
         isFilterOpen: true,
@@ -475,7 +418,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
           ?.includes(value);
         domainPath = `/${slug?.split("/")?.[1]}/${uniSelected ? "search" : "csearch"}`;
       }
-
       const linkTagId = document?.getElementById(key + value);
       if (
         urlParams.toString() === searchParams.toString() &&
@@ -666,6 +608,22 @@ const SearchFilterComponent = ({ data, path }: any) => {
       setLocationState((prev) => ({ ...prev, locationMilesError: true }));
     }
   };
+
+  const cityCheckBoxClicked = (cityTextKey: string) => {
+    let appliedCities: any = getFilterValue(keyName?.location, searchParams);
+    if (!Array.isArray(appliedCities)) {
+      appliedCities = appliedCities ? [appliedCities] : [];
+    }
+    if (appliedCities.includes(cityTextKey)) {
+      appliedCities = appliedCities?.filter(
+        (cityItem: any) => cityItem !== cityTextKey
+      );
+    } else {
+      appliedCities?.push(cityTextKey);
+    }
+    appendSearchParams("location", appliedCities?.join("+"));
+  };
+
   return (
     <>
       <div>
@@ -1449,7 +1407,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               Choose one or more
                             </div>
                             <ul
-                              className={`pt-[12px] ${prepopulateFilter?.city ? "opacity-50" : ""}`}
+                              className={`pt-[12px] ${selectedLocationType?.type === "city" ? "opacity-50" : ""}`}
                             >
                               <li>
                                 <div className="form_check relative m-[0_0_12px]">
@@ -1553,7 +1511,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                               Choose one or more
                             </div>
                             <div
-                              className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${prepopulateFilter?.region ? "opacity-50" : ""}`}
+                              className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${selectedLocationType?.type === "region" ? "opacity-50" : ""}`}
                             >
                               {jsondata?.cityList?.map(
                                 (cityItem: any, index: number) => (
@@ -1566,16 +1524,16 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         {/* {isIndexed && ( */}
                                         <Link
                                           id={
-                                            keyName?.city +
+                                            keyName?.location +
                                             cityItem?.cityTextKey
                                           }
                                           href={{
                                             pathname: generatePathName(
                                               slug,
-                                              keyName?.city
+                                              keyName?.location
                                             ),
                                             query: formUrl(
-                                              "city",
+                                              keyName?.location,
                                               cityItem?.cityTextKey
                                             ),
                                           }}
@@ -1583,15 +1541,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                         {/* )} */}
                                         <input
                                           type="checkbox"
-                                          checked={
-                                            prepopulateFilter?.city ==
+                                          checked={prepopulateFilter?.location?.includes(
                                             cityItem?.cityTextKey
-                                              ? true
-                                              : false
-                                          }
+                                          )}
                                           onChange={() => {
-                                            appendSearchParams(
-                                              keyName?.city,
+                                            cityCheckBoxClicked(
                                               cityItem?.cityTextKey
                                             );
                                             setPrepopulateFilter(

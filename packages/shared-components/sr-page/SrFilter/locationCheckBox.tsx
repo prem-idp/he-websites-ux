@@ -52,11 +52,11 @@ const LocationcheckBox = React.memo(
                     // isIndexed &&
                     !isChecked && (
                       <Link
-                        id={keyName?.region + childItem?.regionTextKey}
+                        id={keyName?.location + childItem?.regionTextKey}
                         href={{
-                          pathname: generatePathName(slug, keyName?.region),
+                          pathname: generatePathName(slug, keyName?.location),
                           query: formUrl(
-                            keyName?.region,
+                            keyName?.location,
                             childItem?.regionTextKey
                           ),
                         }}
