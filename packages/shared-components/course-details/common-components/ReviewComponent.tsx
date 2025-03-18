@@ -12,9 +12,7 @@ interface ReviewComponentProps {
 const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponentProps) => {
     console.log(jsonResponse, "--------------")
     const [reviewjsondata, setReviewjsondata] = useState(jsonResponse);
-
-
-
+    
     return (
         <div className='latest-reviews flex flex-col gap-[16px]'>
             <div className='card-header flex flex-col gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
@@ -27,7 +25,6 @@ const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponent
                     </div>}
                 </div>
             </div>
-
             <Reviewslidercomponents
                 reviewData={jsonResponse}
                 pageName="cd"
@@ -36,7 +33,6 @@ const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponent
                 parent_category=""
                 sub_Category=""
             />
-
             <div className='flex justify-center mt-[4px]'>
                 <a href='#' className='flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]'>
                     Read all reviews

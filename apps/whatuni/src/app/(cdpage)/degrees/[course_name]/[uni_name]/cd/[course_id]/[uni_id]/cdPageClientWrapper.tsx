@@ -60,7 +60,8 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
   return (
     <div>
-      <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} />
+      
+      <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} courseContent={courseContent}/>
       <JumpToComponents sectionsList={courseContent?.sectionsList} data={fetcheddata} />
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {

@@ -8,7 +8,7 @@ export default function Keystatsskeleton(){
                       <div className='flex items-center gap-[8px]'>
                           <div className="skeleton skeleton-text-animated descrip !w-[20%]"></div> 
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" stroke-width="1.67" stroke-linecap="round" strokeLinejoin="round"/>
+                              <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" stroke-width="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                       </div>
                   </div>
