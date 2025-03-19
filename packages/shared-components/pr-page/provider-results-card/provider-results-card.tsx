@@ -61,9 +61,13 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     checkUser();
   }, []);
 
+  const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
+
+  const toggleReadMore = (idx: number) => {
+    setExpandedIndexes((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   const providerCard = searchResultlist.map((items, index) => (
-
     <div
       key={index}
       // className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200 w-full md:max-w-[calc(50%_-_10px)] xl:max-w-[385px]"
@@ -108,9 +112,18 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
           )}
 
           {items.siteCode === "PGS_WEB" ? (
-            <p className="small text-grey500 line-clamp-3">
-              {items?.courseSummary}
-            </p>
+            <>
+              {items?.courseSummary && items.courseSummary.trim() !== "" && (
+                <>
+                  <p className="small text-grey500 break-all">
+                    {expandedIndexes[index] ? items?.courseSummary : items?.courseSummary?.slice(0, 150) + "..."}
+                    <span className="cursor-pointer select-none small text-blue-500" onClick={() => toggleReadMore(index)}>
+                      {expandedIndexes[index] ? "Read less" : "Read more"}
+                    </span>
+                  </p>
+                </>
+              )}
+            </>
           ) : (
             <>
               <span
