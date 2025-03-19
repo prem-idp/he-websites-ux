@@ -42,7 +42,7 @@ export default async function Cdpage({ params }: any) {
       .catch(err => ({ error: err }))
   ]);
 
-  console.log(data, "data")
+  console.log(contents, "data")
 
   if(data.errorMessage){
     notFound();
@@ -80,7 +80,7 @@ export default async function Cdpage({ params }: any) {
       }
       {process.env.PROJECT === "Whatuni" &&
         <LazyLoadWrapper>
-          <Findacoursecomponents />
+          <Findacoursecomponents contents={contents} />
         </LazyLoadWrapper>
       }
     </>

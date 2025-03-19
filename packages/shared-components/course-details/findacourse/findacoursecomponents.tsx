@@ -5,10 +5,12 @@ import Link from 'next/link'
 // import React from 'react'
 import CourseTab from "@packages/shared-components/common-utilities/searchBar/search-input-pods/coursetab"
 import React, { useState, useEffect } from "react";
-import makeApiCall from "@packages/REST-API/rest-api";
+
 import getApiUrl from "@packages/REST-API/api-urls";
 import optimizedSearch from "@packages/REST-API/optimizedsearch"
-const Findacoursecomponents = () => {
+const Findacoursecomponents = ({contents}:any) => {
+  const imageurl=contents?.data?.pageTemplateDynamicPageCollection?.items[0]?.bottomZoneComponentsCollection?.items[0]?.linkPanelImage?.url;
+  const placeholder=contents?.data?.pageTemplateDynamicPageCollection?.items[0]?.bottomZoneComponentsCollection?.items[0]?.navigationElementsCollection?.items[0]?.navCtAlabel
   const [searchFormHandle, setsearchFormHandle] = useState({
       activeTab: "tab1",
       isCourseType: false,
@@ -66,7 +68,7 @@ const Findacoursecomponents = () => {
                   <div className="w-full lg:max-w-[680px]">
                               <div className="flex flex-col gap-[24px] min-h-[60px]">
                                 
-                                      <CourseTab placeholder="Enter Subject" searchFormHandle={searchFormHandle}
+                                      <CourseTab placeholder={`${placeholder}`} searchFormHandle={searchFormHandle}
                         setsearchFormHandle={setsearchFormHandle}
                         data={course_data} showlocation={false}/>
                                    
@@ -77,14 +79,16 @@ const Findacoursecomponents = () => {
                 </div>
                 <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
                   <div className="w-[108px] md:w-[205px]">
+                    {imageurl && 
                     <Image
-                      src="/static/assets/images/article/slice_1.png"
-                      className="w-full"
-                      width={205}
-                      height={260}
-                      priority
-                      alt="Colc Banner"
+                    src={imageurl}
+                    className="w-full"
+                    width={205}
+                    height={260}
+                    priority
+                    alt="Colc Banner"
                     />
+                  }
                   </div>
                 </div>
               </div>
