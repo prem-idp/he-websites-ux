@@ -26,7 +26,8 @@ const useFavourite = () => {
                 if (user && typeof window !== "undefined") {
                     const favList: Favourite[] = await getUserFavourites();
                     globalFavourites = favList?.map((fav) => +fav?.fav_id);
-                    setFavourites(() => globalFavourites);
+                    // setFavourites(() => [...globalFavourites]);
+                    emitter.emit('setFavourite');
                 }
             } catch (error) {
                 setFavourites([]);
@@ -36,6 +37,10 @@ const useFavourite = () => {
 
         if (!globalFavourites?.length && !isTriggered)
             getFavouritesList();
+
+        emitter.on('setFavourite', () => {
+            setFavourites(() => [...globalFavourites]);
+        });
 
         emitter.on('validateFavourites', () => {
             getFavouritesList();
@@ -53,7 +58,7 @@ const useFavourite = () => {
             });
         });
     }, []);
-    return favourites;
+    return [favourites];
 };
 
 export default useFavourite;
