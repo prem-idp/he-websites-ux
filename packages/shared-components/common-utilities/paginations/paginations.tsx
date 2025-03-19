@@ -23,6 +23,10 @@ const Paginations = ({ totalPages, initialPage }: any) => {
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
   }, [searchParams, validTotalPages]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Function to build URL with existing query params and updated pageno
   const buildUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
