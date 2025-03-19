@@ -32,7 +32,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   const searchParams = useSearchParams();
   const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+  // const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
 
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
@@ -43,19 +43,19 @@ const wuscaClick = (event:React.FormEvent) => {
 
      useEffect(() => {
        // Getting favourites list when user logged in
-       async function checkUser() {
-         try {
-           const user: AuthUser = await getCurrentUser();
-           setUserData(user);
-           if (user && typeof window !== "undefined") {
-             const favList: Favourite[] = await getUserFavourites();
-             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-           }
-         } catch (error) {
-           setUserData(null);
-         }
-       }
-       checkUser();
+      //  async function checkUser() {
+      //    try {
+      //      const user: AuthUser = await getCurrentUser();
+      //      setUserData(user);
+      //      if (user && typeof window !== "undefined") {
+      //        const favList: Favourite[] = await getUserFavourites();
+      //        setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+      //      }
+      //    } catch (error) {
+      //      setUserData(null);
+      //    }
+      //  }
+      //  checkUser();
      }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
@@ -152,7 +152,7 @@ queryString ? `&${queryString}` : ''
                     </div>
                   )}
                 </div>
-                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
+                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -449,7 +449,7 @@ queryString ? `&${queryString}` : ''
                           )}
                         </div>
                       </div>
-                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE"></UserFavourite>
+                      <UserFavourite contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" />
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&

@@ -39,6 +39,7 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
     e: React.FormEvent
   ) => {
     e.stopPropagation();
+    e.preventDefault();
     try {
       await getCurrentUser();
     } catch (error) {
@@ -55,6 +56,7 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
     try {
       emitFavouriteAction(isAdd, payload);
       const data = await addRemoveFavourites([payload]);
+      console.log(data)
       if (data?.message?.toLowerCase() === "added course" || data?.message?.toLowerCase() === "added institution") {
         setfavourtiteTooltip(contentId);
       } else if (
@@ -68,8 +70,8 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
         emitFavouriteAction(!isAdd, payload);
       }
     } catch (error) {
+      // console.error("Error while toggling favorite:", error);
       emitFavouriteAction(!isAdd, payload);
-      console.error("Error toggling favorite:", error);
     }
   };
 

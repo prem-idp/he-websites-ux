@@ -43,22 +43,22 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
   };
 
   const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
+  // const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
   useEffect(() => {
     // Getting favourites list when user logged in
-    async function checkUser() {
-      try {
-        const user: AuthUser = await getCurrentUser();
-        setUserData(user);
-        if (user && typeof window !== "undefined") {
-          const favList: Favourite[] = await getUserFavourites();
-          setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-        }
-      } catch (error) {
-        setUserData(null);
-      }
-    }
-    checkUser();
+    // async function checkUser() {
+    //   try {
+    //     const user: AuthUser = await getCurrentUser();
+    //     setUserData(user);
+    //     if (user && typeof window !== "undefined") {
+    //       const favList: Favourite[] = await getUserFavourites();
+    //       setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+    //     }
+    //   } catch (error) {
+    //     setUserData(null);
+    //   }
+    // }
+    // checkUser();
   }, []);
 
 
@@ -71,7 +71,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     >
       <div className={`flex justify-end p-[16px] ${items.siteCode === "PGS_WEB" ? "bg-positive-light" : "bg-blue-100"}`}>
         <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          <UserFavourite favourites={favourite} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
+          <UserFavourite contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
