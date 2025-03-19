@@ -76,6 +76,16 @@ export function getSEOSearchPayload(
   searchParams: any,
   qualification: string
 ) {
+  const getQualCode = (qualUrl: string) => {
+    switch(qualUrl){
+      case "degree-courses":            return "M"
+      case "postgraduate-courses":      return "L"
+      case "foundation-degree-courses": return "A"
+      case "access-foundation-courses": return "T"
+      case "hnd-hnc-courses":           return "N"
+      default:                          return "";
+    }
+  }
   const subjectArray = searchParams?.subject?.split(" ") || searchParams?.course?.split(" ") || undefined;
   const locationArray = searchParams?.location?.split(" ") || undefined;
   const searchPayload: any = {
