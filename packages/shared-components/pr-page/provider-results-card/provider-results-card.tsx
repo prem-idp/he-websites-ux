@@ -115,12 +115,12 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             <>
               {items?.courseSummary && items.courseSummary.trim() !== "" && (
                 <>
-                  <p className="small text-grey500 line-clamp-3">
+                  <p className="small text-grey500 break-all">
                     {expandedIndexes[index] ? items?.courseSummary : items?.courseSummary?.slice(0, 150) + "..."}
+                    <span className="cursor-pointer select-none small text-blue-500" onClick={() => toggleReadMore(index)}>
+                      {expandedIndexes[index] ? "Read less" : "Read more"}
+                    </span>
                   </p>
-                  <span className="cursor-pointer select-none small text-blue-500" onClick={() => toggleReadMore(index)}>
-                    {expandedIndexes[index] ? "Read less" : "Read more"}
-                  </span>
                 </>
               )}
             </>
