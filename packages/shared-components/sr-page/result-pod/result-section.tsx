@@ -231,7 +231,7 @@ queryString ? `&${queryString}` : ''
                 {data?.wuscaRanking && (
                   <div className="x-small underline w-fit relative group">
                     WUSCA ranking: {data?.wuscaRanking}
-                    <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                    <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
                         <span className="text-grey900 font-semibold">
                           WUSCA Student Ranking
@@ -310,7 +310,7 @@ queryString ? `&${queryString}` : ''
             /> )}
           </div>
           <div className="flex flex-col grow">
-            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
+            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 min-h-[400px] md:rounded-tr-[16px]">
               {data?.review1Text && (
                 <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
                   <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">

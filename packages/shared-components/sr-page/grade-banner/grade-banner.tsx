@@ -56,7 +56,7 @@ const GradeBanner = () => {
             </div>
           </div>
         </div>
-        <div  onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
+        <button type="button" onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
           <svg
             width="20"
             height="20"
@@ -72,7 +72,7 @@ const GradeBanner = () => {
             />
           </svg>
           Add my {score ? "location" : "grades"}
-        </div>
+        </button>
       </div>
       {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />

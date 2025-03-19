@@ -103,8 +103,8 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
   let contentfulMetadata = await graphQlFetchFunction(query);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    providerName: displayNameResponse?.collegeName ?? undefined,
-    courseName: displayNameResponse?.courseName ?? undefined,
+    //providerName: displayNameResponse?.collegeName ?? undefined,
+    //courseName: displayNameResponse?.courseName ?? undefined,
   }
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTite, metaFiltersOpted);
   const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);

@@ -3,7 +3,7 @@ import React from "react";
 import { cookies } from "next/headers";
 import { qualCode } from "@packages/lib/utlils/filters/filterJson";
 import SearchResultComponent from "@packages/shared-components/sr-page/srpage-component";
-import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
+import { getSRMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
@@ -15,11 +15,7 @@ export async function generateMetadata({
 }: MetaDataProps): Promise<Metadata> {
   const qulInUrl = (await params)?.hero;
   const pathname = `/${qulInUrl}/search`;
-  const metaData = await getSearchPageMetaDetailsFromContentful(
-    await searchParams,
-    qulInUrl,
-    pathname
-  );
+  const metaData = await getSRMetaDetailsFromContentful(await searchParams, pathname,"","","");
 
   return getMetaDetailsObject(metaData);
 }

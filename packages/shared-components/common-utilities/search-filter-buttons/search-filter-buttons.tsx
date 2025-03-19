@@ -90,7 +90,7 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
       <section className="bg-grey-600 px-[12px] py-[16px] sticky top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
-            <div
+            <button type="button"
               className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
               onClick={ucasClick}
             >
@@ -109,12 +109,12 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                 />
               </svg>
               Add my grades {gradeCount ? "("+gradeCount+")" : ""}
-            </div>
+            </button>
           )}
           {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
           )}
-          <div
+          <button type="button"
             onClick={() => filterEvents("all")}
             className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
@@ -134,9 +134,9 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
               />
             </svg>
             Filter ({filterCount})
-          </div>
+          </button>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            <div
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
@@ -156,8 +156,8 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
@@ -177,8 +177,8 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("year")}
             >
@@ -198,8 +198,8 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("university")}
             >
@@ -219,8 +219,8 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("location")}
             >
@@ -240,9 +240,9 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
-          <div
+          <button type="button"
             className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0"
             onClick={() => {
               router.push(`/degree-courses/search`);
@@ -263,7 +263,7 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
               />
             </svg>
             Reset
-          </div>
+          </button>
         </div>
       </section>
       {/* <SearchFilterButtonsSkeleton/> */}
