@@ -32,8 +32,12 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   const [user, setUserData] = useState<AuthUser | null>(null);
   const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+};
+const wuscaClick = (event:React.FormEvent) => {
+  event.stopPropagation();
 };
 
      useEffect(() => {
@@ -229,7 +233,7 @@ queryString ? `&${queryString}` : ''
                   )}
                 </div>
                 {data?.wuscaRanking && (
-                  <div className="x-small underline w-fit relative group">
+                  <div className="x-small underline w-fit relative group" onClick={(event) =>wuscaClick(event)}>
                     WUSCA ranking: {data?.wuscaRanking}
                     <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
@@ -550,7 +554,7 @@ queryString ? `&${queryString}` : ''
                 href={getPRPageURL(data?.collegeTextKey)}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
-                View {data?.courseCount - 2} related courses
+                View {data?.courseCount - 2} related {data?.courseCount - 2 > 1 ? "courses" : "course"}
                 <svg
                   width="16"
                   height="16"
