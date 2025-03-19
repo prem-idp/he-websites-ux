@@ -36,7 +36,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
         page.toString()
       );
     }
-    return `?${params.toString()}`;
+    return `?${decodeURIComponent(params.toString())}`;
   };
 
   const pageNumbers: (number | string)[] = [];
