@@ -12,8 +12,9 @@ describe("Applynow Component", () => {
         subOrderItemId: "12345",
         orderItemId: "67890",
         collegeId: "54321",
-        sponsoredListingFlag: true,
-        manualBoostingFlag: false,
+        qualCode: "M",
+        //sponsoredListingFlag: true,
+       // manualBoostingFlag: false,
       };
 
     test("renders the apply now button", () => {
@@ -42,8 +43,9 @@ describe("Applynow Component", () => {
           orderItemId: "67890",
           collegeId: "54321",
           affiliateId: 607022,
-          sponsoredListingFlag: true,
-          manualBoostingFlag: false,
+          qualCode: "M",
+          //sponsoredListingFlag: true,
+          //manualBoostingFlag: false,
         });
         expect(windowOpenSpy).toHaveBeenCalledWith("https://example.com", "_blank");
         

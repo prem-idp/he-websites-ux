@@ -12,9 +12,10 @@ const BookOpenDay  = ({ enquiryProps }: any) => {
          orderItemId: enquiryProps?.orderItemId,
          collegeId: enquiryProps?.collegeId,
          affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
-         sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
-         manualBoostingFlag: enquiryProps?.manualBoostingFlag,
          qualCode: enquiryProps?.qualCode,
+         //sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
+         //manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+        
        };
        console.log("bookOpenDayPayload", bookOpenDayPayload);
        const response = await fetchenquirydata(bookOpenDayPayload);
