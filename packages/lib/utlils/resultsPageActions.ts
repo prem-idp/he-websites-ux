@@ -748,24 +748,40 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   return [ ...qualBC, ...subBC, ...uniBC, ...locBC, ...studyModeBC ];
 }
 
-export function get_WU_SR_breadcrumb(searchSEOPayload: any, displayNameResponse: any, qualInUrl: string){
-  const subjectDisplayName = displayNameResponse?.subjectName?.length >= 0 ? displayNameResponse?.subjectName[0] : ""; 
-  const displayParentSubject = `${displayNameResponse?.parentSubjectName && displayNameResponse?.parentSubjectName?.length > 0 ? displayNameResponse?.parentSubjectName[0] : ""}`;
-  const urlParentSubject = `${displayNameResponse?.parentSubjectTextKey && displayNameResponse?.parentSubjectTextKey?.length > 0 ? displayNameResponse?.parentSubjectTextKey[0] : ""}`;
-  const  get_find_a_course_url_label = (qualCode: string) => {
-    switch(qualCode){
-      case "M": return ["/degrees/courses/", "Courses"]
-      case "L": return ["/postgraduate-courses/", "Postgraduate"]
-      case "A": return ["/foundation-degree-courses/", "Foundation Degree"]
-      case "T": return ["/access-foundation-courses/", "Access Foundation"]
-      case "N": return ["/hnd-hnc-courses/", "HND/HNC"]
-      default: return ["/degrees/courses/", "Courses"];
+export function get_WU_SR_PR_breadcrumb(searchparams: any, displayNameResponse: any, qualInUrl: string){
+  
+  const  get_find_a_course_url_label = (qualUrl: string) => {
+    switch(qualUrl){
+      case "degree-courses":            return ["/degrees/courses/", "Courses"]
+      case "postgraduate-courses":      return ["/postgraduate-courses/", "Postgraduate"]
+      case "foundation-degree-courses": return ["/foundation-degree-courses/", "Foundation Degree"]
+      case "access-foundation-courses": return ["/access-foundation-courses/", "Access Foundation"]
+      case "hnd-hnc-courses":           return ["/hnd-hnc-courses/", "HND/HNC"]
+      default:                          return ["", ""];
     }
   }
-  const [qualUrl, qualLabel] = get_find_a_course_url_label(searchSEOPayload?.parentQualification);
-  const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: qualUrl, label: qualLabel}] : [];
-  const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-  const breadcrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/searcch?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
-  const breadcrumb_parentSub = displayParentSubject && urlParentSubject && urlParentSubject != searchSEOPayload?.searchKeyword && urlParentSubject != searchSEOPayload?.searchSubject  ? [{url: urlParentSubject, label:`${displayParentSubject} Degrees`}] : [];
-  return [...breadcrumb_courses, ...breadcrumb_parentSub, ...breadCrumb_subject, ...breadcrumb_keyword];
+
+  const formatMultiSelctedDisplaynameSEO = (inputstringArr: string[]): string => {
+    console.log("inputstringArr: ", inputstringArr);
+    if(Array.isArray(inputstringArr)) return inputstringArr?.length > 0 ? inputstringArr.join(", ") : "";
+    return "";
+  }
+  //console.log("displayNameResponse BC: ", displayNameResponse)
+  const displaySubject  = displayNameResponse?.subjectName?.length > 0 ? formatMultiSelctedDisplaynameSEO(displayNameResponse?.subjectName) : ""; 
+  const displayParentSubject  = displayNameResponse?.parentSubjectName?.length > 0 ? formatMultiSelctedDisplaynameSEO(displayNameResponse?.parentSubjectName) : "";
+  const displayUniversity     = displayNameResponse?.collegeName ?? "";
+  
+  const urlSubject = searchparams?.subject ?? "";
+  const urlKeyword = searchparams?.q ?? "";
+  const urlParentSubject = displayNameResponse?.parentSubjectTextKey && displayNameResponse?.parentSubjectTextKey?.length > 0 ? displayNameResponse?.parentSubjectTextKey[0] : "";
+  const urlUniversity = searchparams?.university ?? "";
+  const [qualUrl, qualLabel] = get_find_a_course_url_label(qualInUrl);
+  const pathName = urlUniversity ? `/${qualInUrl}/csearch` : `/${qualInUrl}/search`;
+
+  const breadcrumb_courses = qualUrl && (urlSubject || urlKeyword)? [{url: qualUrl, label: qualLabel}] : [];
+  const breadCrumb_subject = qualUrl && displaySubject && urlSubject ? [{url: formSRPageURL({subject: urlSubject}, pathName), label: `${displaySubject} courses`}] : [];
+  const breadcrumb_keyword = qualUrl && displaySubject && urlKeyword ? [{url: formSRPageURL({subject: urlKeyword}, pathName), label: `${displaySubject} courses`}] : [];
+  const breadcrumb_parentSub = qualUrl && displayParentSubject && urlParentSubject && urlParentSubject != urlSubject && urlParentSubject != urlKeyword  ? [{url: formSRPageURL({subject: urlParentSubject}, pathName), label:`${displayParentSubject} Degrees`}] : [];
+  const breadcrumb_university = displayUniversity && urlUniversity ? [{url: formSRPageURL({university: urlUniversity}, pathName), label: `Courses at ${displayUniversity}`}] : [];
+  return [...breadcrumb_courses, ...breadcrumb_parentSub, ...breadCrumb_subject, ...breadcrumb_keyword, ...breadcrumb_university];
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import { graphQlFetchFunction, httpBFFRequest } from "@packages/lib/server-actions/server-action";
-import { form_PGS_SR_breadcrumb, get_WU_SR_breadcrumb, getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
+import { form_PGS_SR_breadcrumb, get_WU_SR_PR_breadcrumb, getDisplayNameReqBody, getMetaOptedDisplayNames, getPGS_SearchSEOFieldId, getWU_SearchSEOFieldId, replaceSEOPlaceHolder } from "@packages/lib/utlils/resultsPageActions"
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
@@ -39,8 +39,8 @@ const TopSection: React.FC<searchProps> = async ({
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   const getBreadcrumb = (): any[] => {
     switch(process.env.PROJECT){
-      case "Whatuni": return get_WU_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
-      case "PGS": return get_WU_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
+      case "Whatuni": return get_WU_SR_PR_breadcrumb(searchParams, displayNameResponse, qualInUrl);
+      case "PGS": return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
       default: return [];
     }
   }
@@ -68,8 +68,8 @@ const TopSection: React.FC<searchProps> = async ({
       '@type': 'ListItem',
       position: (index + 1),
       item: {
-      '@id': data?.url,
-      "name": data?.label,
+      '@id': data?.url?.trim()?.includes(" ") ? data?.url?.split(" ")?.[0] : data?.url,
+      "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0] : data?.label,
     }}
     schemaData.push(obj);
   });
@@ -80,7 +80,7 @@ const TopSection: React.FC<searchProps> = async ({
         <div className="max-w-container mx-auto">
           {/* breadcrumb  */}
           <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
-            <Breadcrumblayoutcomponent data={breadcrumbData} />
+            <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={false}/>
             <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{"itemListElement": schemaData}}/>
           </div>
           {/* breadcrumb  */}
