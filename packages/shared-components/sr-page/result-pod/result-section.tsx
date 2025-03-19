@@ -13,6 +13,7 @@ import UserFavourite from "@packages/shared-components/common-utilities/user-fav
 import { useSearchParams } from "next/navigation";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
+import { getOrdinalFor } from "@packages/shared-components/services/utils";
 interface SrPageResultPodProps {
   searchResultsData: any[];
   qualCode: string;
@@ -68,23 +69,17 @@ const wuscaClick = (event:React.FormEvent) => {
       ? "Next Open day in " + differenceInDays + " days"
       : "Next Open day in " + differenceInDays + " day";
   };
-  //
   const getPRPageURL = (collegeTextKey: any) => {
-
-    // Create filtered params object
     const filteredParams = Array.from(searchParams.entries())
   .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
   .reduce((acc, [key, value]) => {
     acc[key] = value;
     return acc;
   }, {} as Record<string, string>);
-// Convert filtered params to URLSearchParams
 const queryString = new URLSearchParams(filteredParams).toString();
 const baseUrl = process.env.PROJECT === "Whatuni" 
 ? "/degree-courses/csearch"
 : "/pgs/search";
-
-// Construct the final URL
 const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
 queryString ? `&${queryString}` : ''
 }`;    
@@ -234,7 +229,7 @@ queryString ? `&${queryString}` : ''
                 </div>
                 {data?.wuscaRanking && (
                   <div className="x-small underline w-fit relative group" onClick={(event) =>wuscaClick(event)}>
-                    WUSCA ranking: {data?.wuscaRanking}
+                    WUSCA ranking: {data?.wuscaRanking}{getOrdinalFor(data?.wuscaRanking)}
                     <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
                         <span className="text-grey900 font-semibold">
