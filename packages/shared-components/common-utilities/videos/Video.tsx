@@ -5,15 +5,18 @@ const Video = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const onClickPlay = () => {
+  const onClickPlay = (event:React.FormEvent) => {
+    event.stopPropagation();
     setIsPlaying(true);
   };
 
-  const onClickPause = () => {
+  const onClickPause = (event:React.FormEvent) => {
+    event.stopPropagation();
     setIsPlaying(false);
   };
 
-  const playVideo = () => {
+  const playVideo = (event:React.FormEvent) => {
+    event.stopPropagation();
     if (videoRef.current) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -26,8 +29,8 @@ const Video = () => {
         className="w-full"
         controls
         preload="none"
-        onPlay={onClickPlay}
-        onPause={onClickPause}
+        onPlay={(event)=>onClickPlay(event)}
+        onPause={(event)=>onClickPause(event)}
         poster="/static/assets/images/season-video-thumbnail.jpg"
       >
         <source
@@ -37,7 +40,7 @@ const Video = () => {
       </video>
       {!isPlaying && (
         <button
-          onClick={playVideo}
+          onClick={(event)=>playVideo(event)}
           className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer"
         >
           <Image
