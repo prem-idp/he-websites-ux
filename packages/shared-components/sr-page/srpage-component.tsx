@@ -21,6 +21,8 @@ import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndp
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
+  const refererURL = headerList.get("referer");
+  console.log("referer", refererURL)
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const filterCookieParam = JSON.parse(
@@ -30,7 +32,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   let displayNameResponse;
   const searchPayLoad = getSearchPayload(
     searchparams,
-    filterCookieParam,
+    refererURL ? filterCookieParam : "",
     pathname,
     cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
@@ -65,7 +67,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses" && (!searchparams?.location || !searchparams?.score) ?
               <GradeBanner /> : <></>
              }
-               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:filterCookieParam }} />
+               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:refererURL ? filterCookieParam : ""}} />
              
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (

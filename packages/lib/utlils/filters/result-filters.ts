@@ -8,8 +8,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university",
     "subject",
     "qualification",
-    "region",
-    "city",
+    "location",
     "study-method",
     "study-mode",
     "year",
@@ -23,8 +22,7 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university",
     "course",
     "qualification",
-    "region",
-    "city",
+    "location",
     "study_method",
     "study_mode",
     "year",
@@ -77,7 +75,7 @@ const extractUrlAndSessionValues = (
   if (crossSubject) {
     delete mergedObject?.[keyName?.subject];
   }
-  if (mergedObject[key] && key != keyName?.region) {
+  if (mergedObject[key] && key != keyName?.location) {
     let valuesSet = new Set(mergedObject[key]?.split("+"));
     if (valuesSet.has(value)) {
       valuesSet.delete(value);
@@ -140,11 +138,59 @@ const locationMilesArray = [
   { miles: "200 miles", distance: "200" },
 ];
 
+const uniSortingMockData = [
+  {
+    id: "Uni1",
+    name: "Universities A - C",
+    sortingValue: "A-B-C",
+    displayHeading: "A - C",
+    unilist: [],
+  },
+  {
+    id: "Uni2",
+    name: "Universities D - H",
+    sortingValue: "D-E-F-G-H",
+    displayHeading: "D - H",
+    unilist: [],
+  },
+  {
+    id: "Uni3",
+    name: "Universities I - M",
+    sortingValue: "I-J-K-L-M",
+    displayHeading: "I - M",
+    unilist: [],
+  },
+  {
+    id: "Uni4",
+    name: "Universities N - P",
+    sortingValue: "N-O-P-Q-P",
+    displayHeading: "N - P",
+    unilist: [],
+  },
+  {
+    id: "Uni5",
+    name: "Universities Q - U",
+    sortingValue: "Q-R-S-T-U",
+    displayHeading: "Q - U",
+    unilist: [],
+  },
+  {
+    id: "Uni6",
+    name: "Universities V - Z",
+    sortingValue: "V-W-X-Y-Z",
+    displayHeading: "V - Z",
+    unilist: [],
+  },
+];
+
 const getFilterValue = (key: string, searchParams: URLSearchParams): string => {
   const sessionFilter = JSON.parse(
     sessionStorage.getItem("filter_param") || "{}"
   );
-  return searchParams?.get(key) || sessionFilter?.[key] || "";
+  const searchValue: any = searchParams?.get(key)?.split(" ") || "";
+  const sessionValue: any = sessionFilter[key]?.split("+") || "";
+  const returnObject: any = [...searchValue, ...sessionValue]?.filter(Boolean);
+  return returnObject?.length === 1 ? returnObject?.[0] : returnObject;
 };
 
 const getParentSubject = (
@@ -234,7 +280,6 @@ const generatePathName = (
   const singleSubject =
     currentSubject?.length == 1 && currentSubject[0] == value;
   if (singleSubject) {
-    console.log("entered in if", singleSubject, key, value);
     return basePath;
   }
   if (basePath !== "/pgs") {
@@ -261,11 +306,39 @@ const generatePathName = (
   return slug;
 };
 
+function determineLocationType(regions: any, cities: any, searchParams: any) {
+  const location = searchParams?.get("location")?.split(" ")[0] || "";
+  if (!location) {
+    return { type: null, message: "No location parameter provided" };
+  }
+  const regionMatch = regions?.find(
+    (region: any) => region?.regionTextKey === location
+  );
+  if (regionMatch) {
+    return {
+      type: "region",
+      name: regionMatch?.regionName,
+      textKey: regionMatch?.regionTextKey,
+    };
+  }
+  const cityMatch = cities?.find((city: any) => city?.cityTextKey === location);
+  if (cityMatch) {
+    return {
+      type: "city",
+      name: cityMatch.cityName,
+      textKey: cityMatch.cityTextKey,
+    };
+  }
+
+  return { type: "unknown", name: location };
+}
 export {
   locationMilesArray,
+  uniSortingMockData,
   getFilterValue,
   generatePathName,
   hierarchicalLocation,
+  determineLocationType,
   getUserLocation,
   mergeTwoObjects,
   isSingleSelection,

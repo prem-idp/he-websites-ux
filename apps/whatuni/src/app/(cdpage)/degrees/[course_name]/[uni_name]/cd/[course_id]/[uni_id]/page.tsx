@@ -2,7 +2,6 @@ import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import { generateBreadcrumbData } from "@packages/lib/utlils/generateBreadcrumb"
 import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
-import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actions/server-action';
 import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/graphQL/course-details.graphql";
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
@@ -16,7 +15,7 @@ import { MetaDataInterface, MetaFilterTypesReplace } from '@packages/lib/types/i
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant';
 import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
 import { otherRecommendedCourse } from "./apicalls/othercourse";
-
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: any) {
   const prams_slug = await params;
@@ -35,7 +34,7 @@ export default async function Cdpage({ params }: any) {
     affiliateId: String(process.env.AFFILATE_ID || ""),
     collegeId: String(prams_slug?.uni_id || ""),
   });
-  const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
+  const url = `https://api.dev.dom-services.idp-connect.com/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
   const [data, contents, othercourseData] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
     graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),
@@ -44,9 +43,10 @@ export default async function Cdpage({ params }: any) {
   ]);
 
   console.log(data, "data")
-  console.log(contents, "contents")
-  console.log(othercourseData, "othercourseData")
 
+  if(data.errorMessage){
+    notFound();
+  }
 
 
   const customLabels = [
@@ -71,7 +71,6 @@ export default async function Cdpage({ params }: any) {
         </div>
       </section>
       <Courseheaderinfocomponents data={data} searchPayload={searchparams} />
-      <Yearofentrycomponents />
       <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
       {othercourseData?.length > 0 &&
         <Othercoursesmaylikecomponents othercourseData={othercourseData} />
@@ -87,6 +86,8 @@ export default async function Cdpage({ params }: any) {
     </>
   )
 }
+
+
 async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):Promise<MetaDataInterface> {
   //1) bff API hit
   const displayNameReqBody = getRequestInputPayload(searchParams);
@@ -97,7 +98,6 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
     `${process.env.NEXT_PUBLIC_X_API_KEY}`,
     "no-cache", 0,
     {});
-  // console.log(displayNameResponse, "displayNameResponse")
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);

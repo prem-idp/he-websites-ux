@@ -23,6 +23,10 @@ const Paginations = ({ totalPages, initialPage }: any) => {
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
   }, [searchParams, validTotalPages]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Function to build URL with existing query params and updated pageno
   const buildUrl = (page: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -32,7 +36,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
         page.toString()
       );
     }
-    return `?${params.toString()}`;
+    return `?${decodeURIComponent(params.toString())}`;
   };
 
   const pageNumbers: (number | string)[] = [];
@@ -75,7 +79,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
   return (
     <>
       {validTotalPages > 1 &&
-        <div className="pt-[24px] pb-[40px] md:pb-[64px]">
+        <div className="pt-[24px] pb-[8px] md:pt-[40px] md:pb-[24px]">
           <nav aria-label="navigation">
             <ul className="pagination flex justify-center items-center gap-[8px]">
               {currentPage > 1 &&

@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
-import UserFavouriteTopSection from "./UserFavouriteTopSection"; // Import the client component
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
@@ -24,8 +23,6 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
   const collegeTextKey = college?.collegeTextKey;
   const reviewsLinksrc = `/university-course-reviews/${collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
-  console.log(" College Name ", collegeTextKey);
-
   return (
     <section className="bg-white">
       <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
@@ -45,19 +42,22 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
               </div>
               <span className="para">{totalCourseCount} courses available </span>
               <div className="flex items-center gap-[8px] text-blue-400 small">
-                <span className="flex items-center">
-                  <Image
-                    alt="blue star icon"
-                    className="relative top-[-1px]"
-                    width="24"
-                    height="24"
-                    src="/static/assets/icons/blue-star-icon.svg"
-                  />
-                  {rating}
-                </span>
-                <Link href={reviewsLinksrc} className="underline ">
+                {rating > 0 &&
+                  <span className="flex items-center">
+                    <Image
+                      alt="blue star icon"
+                      className="relative top-[-1px]"
+                      width="24"
+                      height="24"
+                      src="/static/assets/icons/blue-star-icon.svg"
+                    />
+                    {rating}
+                  </span>
+                }
+                {reviewCount > 0 && <Link href={reviewsLinksrc} className="underline ">
                   {reviewCount} reviews
                 </Link>
+                }
               </div>
               <ul className="flex mt-[4px] flex-wrap gap-[8px]">
                 <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-grey-100 text-grey-500 xs-small">
@@ -98,26 +98,11 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
             </div>
           </div>
           <span className="favorite group mr-[0] lg:mr-[10px]  items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-            {/* <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                  stroke="#4664DC"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div> */}
-
-            <UserFavouriteTopSection collegeId={college?.collegeId} collegeName={collegeTextKey} />
-
+            <UserFavourite
+                contentId={college?.collegeId}
+                contentName={collegeTextKey}
+                contentType="INSTITUTION"
+            />
           </span>
         </div>
       </div>

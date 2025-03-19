@@ -8,17 +8,15 @@ export const cdfetchData = async (url: string): Promise<any> => {
 
                 "Content-Type": "application/json",
                 "x-correlation-id": uuidv4(),
-                 "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+                 "x-api-key": "YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc",
             },
         });
-
+        console.log(response);
         if (!response.ok) {
             console.error(`HTTP error! Status: ${response.status}`);
         }
-
         return await response.json();
     } catch (error) {
         console.error("Error fetching data:", error);
-        // Re-throw to handle it at the caller level if needed
     }
 };

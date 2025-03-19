@@ -6,11 +6,13 @@ import {
   wuscaCategories,
   wuSortingFilter,
 } from "@packages/shared-components/services/constants";
+import { useRouter } from "next/navigation";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 interface SortingProps {
   sortParam?: any;
 }
 const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
+  const router = useRouter();
   const filterCookieParam = sortParam?.filterCookieParam || {}
   const [isSortClicked, setIsSortClicked] = useState(false);
   const [sortValue, setSortValue] = useState(null);
@@ -24,7 +26,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     const currentUrl = new URL(window.location.href);
     const urlParams = new URLSearchParams(currentUrl.search);
     let sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
-    if (urlParams.size >= 4) { // If Query params > 4
+    if (urlParams.size > 4) { // If Query params > 4
       const updatedFilterParams = {
         ...filterCookieParam,
         sort:  value && value === "r" ? "" : value
@@ -37,10 +39,11 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         urlParams.delete("sort")
       }
       urlParams.delete(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no")
-      sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
+      console.log("urlparams", urlParams)
+      sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${decodeURIComponent(urlParams.toString())}`;
     }
    // window.history.replaceState({}, '', sortUrl);
-    window.location.href = sortUrl;
+   router.push(sortUrl);
   };
 
   const getKeyForValue = (value: string) => {
@@ -104,22 +107,20 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
               {Object.entries(sortingFilter).map(([label, value]) => (
                 <div
                   key={value}
-                  className="custom-radio flex items-center"
+                  className="custom-radio"
                   onClick={() => handleSort(value, label)}
                 >
                   <input
-                    className="rounded-md"
                     type="radio"
                     id={value}
-                    name="featured"
+                    name="sort by"
                     checked={
                       value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                         ? true
-                        : value === "r"
+                        : value === "r" && !sortParam?.param?.sort && !filterCookieParam?.sort
                           ? true
                           : false
                     }
-                    
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -130,7 +131,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             {process.env.PROJECT === "Whatuni" && (
               <>
                 <div className="font-semibold text-heading6 md:text-small">
-                  Wusca categories{" "}
+                  Wusca categories
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
                   {Object.entries(wuscaCategories).map(([label, value]) => (
@@ -141,14 +142,13 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                       onClick={() => handleSort(value, label)}
                     >
                       <input
-                        className="rounded-md"
                         type="radio"
                         id={value}
-                        name="featured"
+                        name="Wusca categories"
                         checked={
                           value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                             ? true
-                            : value === "r"
+                            : value === "r" && !sortParam?.param?.sort && !filterCookieParam?.sort
                               ? true
                               : false
                         }
