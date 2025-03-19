@@ -7,7 +7,7 @@ import Keystatsskeleton from "@packages/shared-components/skeleton/keystatsskele
 
 const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
-
+  // console.log(data)
   return (
     <div id={sectionInfo?.sectionId} className='courseinfo-container'>
       <div className="max-w-container mx-auto">
@@ -29,11 +29,9 @@ const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
                 />
               )
             )}
-            <LazyLoadWrapper>
-              {data?.institution_reviews?.reviewDetail &&
-                <ReviewComponent heading="What student say" jsonResponse={data?.institution_reviews?.reviewDetail} />
+              {data?.institutionReviews?.reviewDetail &&
+                <ReviewComponent heading="What student say" jsonResponse={data?.institutionReviews?.reviewDetail} />
               }
-            </LazyLoadWrapper>
           </div>
         </div>
       </div>

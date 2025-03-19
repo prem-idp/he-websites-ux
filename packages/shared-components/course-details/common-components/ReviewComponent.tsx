@@ -10,8 +10,8 @@ interface ReviewComponentProps {
 }
 
 const ReviewComponent = ({ heading, toggleModal, jsonResponse }: ReviewComponentProps) => {
-    console.log(jsonResponse, "--------------")
-    const [reviewjsondata, setReviewjsondata] = useState(jsonResponse);
+    // console.log(jsonResponse, "--------------")
+   
     
     return (
         <div className='latest-reviews flex flex-col gap-[16px]'>

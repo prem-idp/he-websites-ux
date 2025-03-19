@@ -12,6 +12,8 @@ const Courseinfocomponents = dynamic(() => import('@packages/shared-components/c
 const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
 import { useState, useEffect, useRef } from 'react';
 export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
+  // console.log(data, "data")
+
   const [fetcheddata, setFetcheddata] = useState({ ...data });
   const [selectedavilability, setSelectedavailability] = useState(data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : null);
   const [startfetch, setStartfetch] = useState(false);

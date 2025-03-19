@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState ,useEffect} from 'react';
 
 const Courseinfomodalcomponents = ({ isOpen, onClose, data, setSelectedavailability,selectedavilability }: any) => {
-  console.log(selectedavilability,"----------")
+//   console.log(selectedavilability,"----------")
     const [selectedCourse, setSelectedCourse] = useState(selectedavilability)
 
     function handleApply() {

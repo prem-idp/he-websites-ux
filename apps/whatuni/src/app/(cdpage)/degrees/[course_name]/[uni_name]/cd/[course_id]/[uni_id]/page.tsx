@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: any) {
   return getCDMetaDetailsFromContentful(searchparams, slug)
 }
 export default async function Cdpage({ params }: any) {
+  // console.log("=====================")
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
@@ -44,8 +45,8 @@ export default async function Cdpage({ params }: any) {
   ]);
 
   console.log(data, "data")
-  console.log(contents, "contents")
-  console.log(othercourseData, "othercourseData")
+  // console.log(contents, "contents")
+  // console.log(othercourseData, "othercourseData")
   if(data.errorMessage){
     notFound();
   }
@@ -62,7 +63,7 @@ export default async function Cdpage({ params }: any) {
 
 
   const courseContent = courseContentExtractor(contents);
-  console.log(courseContent,"courseContentcourseContent")
+  // console.log(courseContent,"courseContentcourseContent")
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
 
 

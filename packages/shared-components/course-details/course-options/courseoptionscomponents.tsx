@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Courseinfomodalcomponents from "@packages/shared-components/course-details/Modal/courseinfomodalcomponents"
 import { useState } from 'react'
 const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability, selectedavilability ,courseContent}: any) => {
-    console.log(courseContent,"1231")
+    // console.log(courseContent,"1231")
   const [isOpen, setIsOpen] = useState(false)
   function togglemodal() {
 
