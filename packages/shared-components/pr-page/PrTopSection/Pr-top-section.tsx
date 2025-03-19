@@ -43,19 +43,22 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
               </div>
               <span className="para">{totalCourseCount} courses available </span>
               <div className="flex items-center gap-[8px] text-blue-400 small">
-                <span className="flex items-center">
-                  <Image
-                    alt="blue star icon"
-                    className="relative top-[-1px]"
-                    width="24"
-                    height="24"
-                    src="/static/assets/icons/blue-star-icon.svg"
-                  />
-                  {rating}
-                </span>
-                <Link href={reviewsLinksrc} className="underline ">
+                {rating > 0 &&
+                  <span className="flex items-center">
+                    <Image
+                      alt="blue star icon"
+                      className="relative top-[-1px]"
+                      width="24"
+                      height="24"
+                      src="/static/assets/icons/blue-star-icon.svg"
+                    />
+                    {rating}
+                  </span>
+                }
+                {reviewCount > 0 && <Link href={reviewsLinksrc} className="underline ">
                   {reviewCount} reviews
                 </Link>
+                }
               </div>
               <ul className="flex mt-[4px] flex-wrap gap-[8px]">
                 <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-grey-100 text-grey-500 xs-small">
