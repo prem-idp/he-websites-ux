@@ -53,6 +53,7 @@ const searchPRResults = async (payloads: any) => {
 };
 
 const transformProviderListData = (data: any) => {
+  const sitecode = `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`
   if (!data || !Array.isArray(data.searchResultsList)) {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
@@ -64,6 +65,7 @@ const transformProviderListData = (data: any) => {
           collegeId: college?.collegeId,
           collegeName: college?.collegeTextKey,
           courseId: course?.courseId,
+          courseSummary: course?.courseSummary,
           cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/cd/${course?.courseId}/${college?.collegeId}`,
           pageName: "coursesearchresult",
           title: course?.courseTitle || "Unknown Title",
@@ -82,6 +84,7 @@ const transformProviderListData = (data: any) => {
             course.enquiryDetails?.prospectusFlag === "Y" || false,
           hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
           hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
+          siteCode: sitecode
         }))
         : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
