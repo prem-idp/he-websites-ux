@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import UserFavouriteTopSection from "./UserFavouriteTopSection"; // Import the client component
 
 interface ProviderTopCardProps {
