@@ -41,23 +41,6 @@ const wuscaClick = (event:React.FormEvent) => {
   event.stopPropagation();
 };
 
-     useEffect(() => {
-       // Getting favourites list when user logged in
-      //  async function checkUser() {
-      //    try {
-      //      const user: AuthUser = await getCurrentUser();
-      //      setUserData(user);
-      //      if (user && typeof window !== "undefined") {
-      //        const favList: Favourite[] = await getUserFavourites();
-      //        setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-      //      }
-      //    } catch (error) {
-      //      setUserData(null);
-      //    }
-      //  }
-      //  checkUser();
-     }, []);
-
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
     const specificDate: any = new Date(targetDate);
@@ -152,7 +135,7 @@ queryString ? `&${queryString}` : ''
                     </div>
                   )}
                 </div>
-                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
+                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" />
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link

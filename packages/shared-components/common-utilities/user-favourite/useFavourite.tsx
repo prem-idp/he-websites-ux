@@ -3,7 +3,6 @@ import emitter from '@packages/lib/eventEmitter/eventEmitter';
 import { getUserFavourites } from '@packages/lib/utlils/userfavourite';
 import { useState, useEffect } from 'react';
 
-
 interface Favourite {
     fav_id: string;
     fav_type: string;
@@ -45,20 +44,8 @@ const useFavourite = () => {
         emitter.on('validateFavourites', () => {
             getFavouritesList();
         });
-
-        emitter.on('favourite', (data) => {
-            setFavourites((prev) => {
-                return [...prev, data?.contentId];
-            });
-        });
-
-        emitter.on('unfavourite', (data) => {
-            setFavourites((prev: any[]) => {
-                return prev?.filter(ele => ele !== data?.contentId);
-            });
-        });
     }, []);
-    return [favourites];
+    return { favourites, setFavourites };
 };
 
 export default useFavourite;
