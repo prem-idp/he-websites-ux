@@ -12,31 +12,34 @@ import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actio
 import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant'
 import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
+import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore";
 import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite'
 
 const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
+
   const prams_slug = await data;
   let h1h2Text: string[] = [];
   const displayNameReqBody = {
-    "courseId": searchPayload.get('courseId') ? +searchPayload.get('courseId') : ""
+    "courseId": searchPayload?.get('courseId') ? +searchPayload?.get('courseId') : ""
   }
+
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  // console.log("searchParams...", displayNameBFFEndPt)
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, 
-    displayNameReqBody, 
-    "POST", 
-    `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
-    "no-cache",  0, 
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt,
+    displayNameReqBody,
+    "POST",
+    `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+    "no-cache", 0,
     {});
-  const query = getMetaDetailsQueryForSRpage("SEO - courseDetails"  + ` - ${process.env.PROJECT}`);
+  const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
   console.log("contentfulMetadata...", contentfulMetadata)
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
-  h1h2Text = contentfulMetadata.h1Title.includes("[SPLIT]") ? contentfulMetadata.h1Title.split("[SPLIT]"): null;
+  h1h2Text = contentfulMetadata.h1Title.includes("[SPLIT]") ? contentfulMetadata.h1Title.split("[SPLIT]") : null;
   const metaFiltersOpted: MetaFilterTypesReplace = {
-    providerName : displayNameResponse?.collegeName ?? undefined,
-    courseName : displayNameResponse?.courseName ?? undefined,
+    providerName: displayNameResponse?.collegeName ?? undefined,
+    courseName: displayNameResponse?.courseName ?? undefined,
   };
+
   return (
     <>
       <div className='cd-uni-info-container'>
@@ -79,7 +82,9 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                             <span className='small text-grey300'>({data?.courseInfo?.overallRatingExact})</span>
                           </div>
                         </div>
-                        <a href="#" className='reviewLink block small text-primary-400 hover:text-primary-500 hover:underline'>View reviews</a>
+                        {(data?.latestReviews?.length>0 || data?.reviewBreakdown.length >0 ) && 
+                          <Viewmore />
+                        }
                       </div>
                     </div>
                     <p className='small text-grey300'>{replaceSEOPlaceHolder(contentfulMetadata.h2Text, metaFiltersOpted)}</p>

@@ -26,8 +26,6 @@ export default function SignInPage() {
       const user = await signIn({ username, password });
       console.log("User signed in:", user);
       setSuccess(true);
-
-      // console.log("redirectUrl", redirectUrl);
       const origin: string =
         typeof window !== "undefined" ? window.location.origin : "";
       console.log("origin", origin);

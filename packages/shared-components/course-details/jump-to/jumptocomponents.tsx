@@ -5,7 +5,8 @@ interface SectionsList {
 }
 
 const JumpToComponents = ({ sectionsList, data }: any) => {
-  // console.log(sectionsList);
+  
+  console.log(sectionsList,"  sectionsList")
   const handleScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -22,8 +23,13 @@ const JumpToComponents = ({ sectionsList, data }: any) => {
             <div className='flex flex-col gap-[24px]'>
               <ul className="flex flex-col gap-[4px]">
                 {sectionsList?.map((val: any, index: any) => {
-                  const sectionData = data?.[val?.internalName];
-                //  console.log(sectionData,"secctionData")
+
+                  let sectionData = data?.[val?.internalName];
+                  if (val?.internalName ==="latestReviews") {
+                    console.log( data?.latestReviews, data?.reviewBreakdown)
+                    sectionData = data?.latestReviews?.length || data?.reviewBreakdown ;
+                  }
+              
                   if (
                     sectionData &&
                     (Array.isArray(sectionData) ? sectionData.length > 0 : Object.keys(sectionData).length > 0)

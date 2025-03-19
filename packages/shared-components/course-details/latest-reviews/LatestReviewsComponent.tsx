@@ -14,10 +14,9 @@ interface LatestReviewsComponentProps {
 }
 
 const LatestReviewsComponent = ({ fetcheddata, sectionInfo }: LatestReviewsComponentProps) => {
-   console.log("to check the rerendering")
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<any>();
-
   function toggleModal() {
     setIsOpen((prev) => !prev);
   }
@@ -27,6 +26,7 @@ const LatestReviewsComponent = ({ fetcheddata, sectionInfo }: LatestReviewsCompo
       return
     setSelectedSubject(() => item[0]);
   }
+
   return (
     <>
       {(isOpen) && <LeftPannelModal
@@ -44,7 +44,7 @@ const LatestReviewsComponent = ({ fetcheddata, sectionInfo }: LatestReviewsCompo
           <div className='latest-reviews-card-container flex flex-col lg:flex-row justify-between gap-[20px] py-[40px]'>
             <div className='h5 w-full md:w-[289px] px-[16px] md:px-[20px] xl:px-[0]'>{sectionInfo?.sectionName}</div>
             <div className='flex flex-col gap-[24px] w-full lg:w-[calc(100%_-_309px)]'>
-              <OverallRating />
+              <OverallRating fetcheddata={fetcheddata}/>
               {/* <ReviewComponent heading='Latest animation reviews' toggleModal={toggleModal} jsonResponse={jsonResponse} /> */}
 
             </div>

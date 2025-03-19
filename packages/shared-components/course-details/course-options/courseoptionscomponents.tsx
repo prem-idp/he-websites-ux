@@ -5,16 +5,24 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Courseinfomodalcomponents from "@packages/shared-components/course-details/Modal/courseinfomodalcomponents"
 import { useState } from 'react'
-const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability, selectedavilability }: any) => {
-
+const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability, selectedavilability ,courseContent}: any) => {
+    // console.log(courseContent,"1231")
   const [isOpen, setIsOpen] = useState(false)
   function togglemodal() {
+
     setIsOpen((prev) => !prev)
   }
-
+  
+  const getCourseInfoCTA = (courseContent: any) => {
+    const courseInfo = courseContent?.sectionsList?.find(
+      (item: any) => item.internalName === "courseInfo"
+    );
+    return courseInfo;
+  }
   return (
     <>
-      {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability} setFetcheddata={setFetcheddata} />}
+    
+      {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability}/>}
       <section className='bg-primary-50 border-b border-primary-100'>
         <div className="max-w-container mx-auto">
           <div className='card-container flex flex-col gap-[24px] py-[24px] px-[16px] md:px-[20px] lg:px-[0]'>
@@ -31,7 +39,8 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
               </div>
               <div className='flex items-center gap-[4px] *:text-x-small *:font-normal'>
                 <div className='text-grey300'>DATA SOURCE:</div>
-                <Link href='https://www.whatuni.com/degrees/jsp/search/kisdataStatic.jsp' className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>UNISTATS / UCAS / HESA</Link>
+                <Link target={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}
+            rel={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}  href={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaUrl} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>{getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaLabel}</Link>
               </div>
             </div>
             <div className='card-body'>

@@ -39,6 +39,7 @@ describe("RequestInfo Component", () => {
       courseId: "1011",
       collegeName: "Test College",
       selectedSubject: "Math",
+      qualCode: "M",
       pageName: "coursesearchresult",
     };
 
@@ -55,8 +56,9 @@ describe("RequestInfo Component", () => {
         orderItemId: "456",
         collegeId: "789",
         affiliateId: 607022,
-        sponsoredListingFlag: undefined,
-        manualBoostingFlag: undefined,
+        qualCode: "M",
+       // sponsoredListingFlag: undefined,
+        //manualBoostingFlag: undefined,
       });
     });
   });
