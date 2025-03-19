@@ -19,7 +19,6 @@ export function middleware(request: NextRequest, response: NextResponse) {
     }
     return response;
 
-    // console.log(request,"request headers logging from the middleware")
     // const response = NextResponse.next(); // Initialize response properly
     // const ip =request.headers.get("x-forwarded-for") || "unknown";
     // response.cookies.set("pathname", pathname, { path: "/" });

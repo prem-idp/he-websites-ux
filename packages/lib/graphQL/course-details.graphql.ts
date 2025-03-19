@@ -48,7 +48,7 @@ pageTemplateDynamicPageCollection(limit: 1,where: { pageName: "Course Details - 
             items
             {
               __typename
-      ... on PageComponentSectionTitle
+              ... on PageComponentSectionTitle
               {
                internalName
                 sectionTitle
@@ -67,14 +67,10 @@ pageTemplateDynamicPageCollection(limit: 1,where: { pageName: "Course Details - 
               ... on MultipleRichTextAndCta
               {
                 componentName
-
                 richTextComponent
-
                 {
-
                   componentType
                   componentName
-
                   richContent
                   {
                     json
