@@ -481,11 +481,10 @@ queryString ? `&${queryString}` : ''
                             {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
                                <li key={index}>{desc}</li>
                             ))}
-
                           </ul>
                           <Link
                             href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
-                            className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
+                            className="flex items-center gap-[4px] w-fit mt-[4px] text-primary-400 small font-semibold hover:underline"
                           >
                             View all modules
                             <svg

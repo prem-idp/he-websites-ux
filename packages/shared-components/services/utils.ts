@@ -66,7 +66,8 @@ const searchPayload: any = {
     ucasTariffRange: score || "",
     userRegionId:userIp,
     dynamicRandomNumber:dynamicRandomNumber,
-    universityGroup: russellGroup ? [russellGroup] : ""
+    universityGroup: russellGroup ? [russellGroup] : "",
+    postCode: searchParams?.postcode || filterCookieParam?.postcode
 }
 return searchPayload;
 }

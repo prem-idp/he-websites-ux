@@ -87,7 +87,7 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
   };
   return (
     <>
-      <section className="bg-grey-600 px-[12px] py-[16px] sticky top-0 z-[4]">
+      <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
             <button type="button"
