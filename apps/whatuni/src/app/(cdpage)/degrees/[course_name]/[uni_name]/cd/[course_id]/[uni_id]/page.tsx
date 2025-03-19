@@ -16,7 +16,7 @@ import { MetaDataInterface, MetaFilterTypesReplace } from '@packages/lib/types/i
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant';
 import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
 import { otherRecommendedCourse } from "./apicalls/othercourse";
-
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: any) {
   const prams_slug = await params;
@@ -46,7 +46,9 @@ export default async function Cdpage({ params }: any) {
   console.log(data, "data")
   console.log(contents, "contents")
   console.log(othercourseData, "othercourseData")
-
+  if(data.errorMessage){
+    notFound();
+  }
 
 
   const customLabels = [
