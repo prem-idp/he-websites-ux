@@ -28,17 +28,11 @@ if(searchParams?.subject)
 subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject?.includes("+") ?filterCookieParam?.subject?.split("+") : filterCookieParam?.subject) : subjectArray;
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
-const regionArray:any[] = searchParams?.region?.includes(" ")
-    ? searchParams?.region?.split(" ")
-    : searchParams?.region
-      ? [searchParams?.region]
-      : "" 
-const cityArray:any[] = searchParams?.city?.includes(" ")
-    ? searchParams?.city?.split(" ")
-    : searchParams?.city
-      ? [searchParams?.city]
-      : "" 
-const locationArray = regionArray && cityArray ? regionArray.concat(cityArray) :  regionArray ? regionArray : cityArray
+const locationArray = searchParams?.location?.includes(" ")
+? searchParams?.location?.split(" ")
+: searchParams?.location
+  ? [searchParams?.location]
+  : "" 
 const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
 const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
 const score = searchParams?.score && !searchParams?.score?.includes(",") || filterCookieParam?.score && !filterCookieParam?.score?.includes(",") ? "0," + (searchParams?.score || filterCookieParam?.score) : searchParams?.score

@@ -13,9 +13,9 @@ export async function getSRMetaDetailsFromContentful(searchParams: any, pathName
   //Initializing and Assigning values
   //const cookieStore = await cookies();
   // const pathName = cookieStore?.get("pathnamecookies")?.value ?? "";
-  //const qualInUrl = pathName?.split("/")[1] || "{}";
+  // const qualInUrl = pathName?.split("/")[1] || "{}";
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
 
   //1) bff API hit
