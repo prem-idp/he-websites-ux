@@ -12,7 +12,9 @@ import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actio
 import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant'
 import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
-import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore"
+import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore";
+import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite'
+
 const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
 
   const prams_slug = await data;
@@ -56,7 +58,12 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                 <div className='uni-info-card flex flex-col gap-[8px] md:gap-0'>
                   <div className='flex flex-col-reverse md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
                     <span>{replaceSEOPlaceHolder(h1h2Text?.[0], metaFiltersOpted)}</span>
-                    <Favbutton />
+                    {/* <Favbutton /> */}
+                    <UserFavourite {...{
+                        contentType: 'COURSE',
+                        contentId: data?.courseInfo?.courseId,
+                        contentName: data?.courseInfo?.courseTitle
+                      }} />
                   </div>
                   <div className='flex flex-col gap-[8px]'>
                     <a href={'/university-profile/' + data?.courseInfo?.institutionNameUrl + '/' + data?.courseInfo?.institutionId + '/'} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{replaceSEOPlaceHolder(h1h2Text?.[1], metaFiltersOpted)}</a>

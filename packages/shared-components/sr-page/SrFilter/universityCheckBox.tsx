@@ -9,16 +9,16 @@ const UniversityCheckBox = React.memo(
     const searchparams = useSearchParams();
     const keyName = KeyNames();
     const [isUniSelected, setIsUniSelected] = useState(false);
-    const [pageCategory, setPageCategory] = useState("csearch");
+    //const [pageCategory, setPageCategory] = useState("csearch");
     useEffect(() => {
       const uni = searchparams
         ?.get(keyName?.university)
         ?.includes(item?.collegeTextKey);
       if (uni) {
-        setPageCategory("search");
+        //setPageCategory("search");
         setIsUniSelected(true);
       } else {
-        setPageCategory("csearch");
+        //setPageCategory("csearch");
         setIsUniSelected(false);
       }
     }, [searchparams]);
@@ -33,6 +33,8 @@ const UniversityCheckBox = React.memo(
                 pathname: generatePathName(
                   slug,
                   keyName?.university,
+                  "",
+                  null,
                   searchparams
                     ?.get(keyName?.university)
                     ?.includes(item?.collegeTextKey)

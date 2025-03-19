@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedSkeleton from "@packages/shared-components/skeleton/search-result/featured-skeleton";
+import Video from "@packages/shared-components/common-utilities/videos/Video";
 
 interface FeaturedProviderDetailsProps {
   featuredData: any;
@@ -112,10 +113,10 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             </svg>
           </Link>
         </div>
-        <div className="w-full shrink-0 flex self-center  rounded-[8px] overflow-hidden relative order-1 md:w-[310px] md:h-[158px] lg:w-[391px] lg:h-[200px] lg:order-2">
+        <div className="w-full shrink-0 flex self-center  rounded-[8px] overflow-hidden relative order-1 md:w-[310px] md:min-h-[158px] lg:w-[391px] lg:min-h-[200px] lg:order-2">
           {featuredData?.mediaType?.toLowerCase() === "video" ? (
             <>
-              <video
+              {/* <video
                 className="w-full hidden"
                 ref={videoRef}
                 src={
@@ -146,7 +147,8 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
                   height="52"
                   src="/static/assets/icons/video_play_icon.svg"
                 />
-              </div>
+              </div> */}
+              <Video/>
             </>
           ) : (
             <>

@@ -61,6 +61,11 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     checkUser();
   }, []);
 
+  const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
+
+  const toggleReadMore = (idx: number) => {
+    setExpandedIndexes((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   const providerCard = searchResultlist.map((items, index) => (
     <div
@@ -68,7 +73,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
       // className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200 w-full md:max-w-[calc(50%_-_10px)] xl:max-w-[385px]"
       className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200"
     >
-      <div className="flex justify-end p-[16px] bg-blue-100">
+      <div className={`flex justify-end p-[16px] ${items.siteCode === "PGS_WEB" ? "bg-positive-light" : "bg-blue-100"}`}>
         <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
           <UserFavourite favourites={favourite} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
         </span>
@@ -96,7 +101,6 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 height="16"
                 src="../static/assets/icons/search-result/time-grey.svg"
               />
-
               {items.tagLocation}
             </li>
           </ul>
@@ -106,38 +110,48 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               {items.fullCourse}
             </span>
           )}
-          {/* PGS  */}
-          {/* <p className="small text-grey500 line-clamp-3">Are you seeking to enter the criminal justice or community justice sectors Want to work with drug action teams or in the voluntary Are you seeking to enter the criminal justice or community justice sectors Want to work with drug action teams or in the voluntary </p> */}
-          {/* PGS  END */}
 
-          {items.modulesList && (
+          {items.siteCode === "PGS_WEB" ? (
+            <>
+              {items?.courseSummary && items.courseSummary.trim() !== "" && (
+                <>
+                  <p className="small text-grey500 break-all">
+                    {expandedIndexes[index] ? items?.courseSummary : items?.courseSummary?.slice(0, 150) + "..."}
+                    <span className="cursor-pointer select-none small text-blue-500" onClick={() => toggleReadMore(index)}>
+                      {expandedIndexes[index] ? "Read less" : "Read more"}
+                    </span>
+                  </p>
+                </>
+              )}
+            </>
+          ) : (
             <>
               <span
                 onClick={() => toggleModuleVisibility(index)}
-                className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'
-                  } after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
+                className={`text-blue-400 select-none font-semibold small cursor-pointer transition-all delay-0 duration-300 ease-linear pl-[20px] relative before:absolute before:content-[''] before:w-[11px] before:h-[2px] before:bg-blue-400 before:rounded-[2px] before:left-[2px] before:top-[10px] after:absolute after:content-[''] after:w-[11px] after:h-[2px] after:bg-blue-400 after:rounded-[2px] after:left-[2px] after:top-[10px] ${visibleModules[index] ? '' : 'after:rotate-90'} after:transition-all after:delay-0 after:duration-300 after:ease-linear`}
               >
                 Modules
               </span>
-              <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
-                {visibleModules[index] && (
-                  <>
-                    {items.modulesList.map((list: any, index: any) => (
-                      <li className="text-grey300 small break-all" key={index}>
+
+              {/* Modules List */}
+              {Array.isArray(items.modulesList) && items.modulesList.length > 0 && (
+                <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
+                  {visibleModules[index] &&
+                    items.modulesList.map((list: any, listIndex: number) => (
+                      <li className="text-grey300 small break-all" key={listIndex}>
                         {list}
                       </li>
                     ))}
-                  </>
-                )}
-              </ul>
+                </ul>
+              )}
+
+              {/* "See all modules" Link */}
+              {visibleModules[index] && (
+                <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer">
+                  <Link href={items?.cdpagesurl}>See all modules</Link>
+                </span>
+              )}
             </>
-          )}
-          {visibleModules[index] && (
-            <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer ">
-              <Link href={items?.cdpagesurl}>
-                See all modules
-              </Link>
-            </span>
           )}
         </div>
 

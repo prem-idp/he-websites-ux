@@ -104,14 +104,13 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
               {Object.entries(sortingFilter).map(([label, value]) => (
                 <div
                   key={value}
-                  className="custom-radio flex items-center"
+                  className="custom-radio"
                   onClick={() => handleSort(value, label)}
                 >
                   <input
-                    className="rounded-md"
                     type="radio"
                     id={value}
-                    name="featured"
+                    name="sort by"
                     checked={
                       value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                         ? true
@@ -119,7 +118,6 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                           ? true
                           : false
                     }
-                    
                   />
                   <label htmlFor={label} className="flex items-center">
                     {label}
@@ -130,7 +128,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             {process.env.PROJECT === "Whatuni" && (
               <>
                 <div className="font-semibold text-heading6 md:text-small">
-                  Wusca categories{" "}
+                  Wusca categories
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
                   {Object.entries(wuscaCategories).map(([label, value]) => (
@@ -141,10 +139,9 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                       onClick={() => handleSort(value, label)}
                     >
                       <input
-                        className="rounded-md"
                         type="radio"
                         id={value}
-                        name="featured"
+                        name="Wusca categories"
                         checked={
                           value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
                             ? true

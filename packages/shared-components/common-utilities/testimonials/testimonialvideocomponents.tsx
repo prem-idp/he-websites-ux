@@ -54,7 +54,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
             quality={75}
           />
         ) : null}
-        <div
+        <button type="button"
           className="video-play-icon absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer"
           onClick={clickPlayIcon}
         >
@@ -65,7 +65,7 @@ const TestimonialVideo = ({ contentfullRightData }: any) => {
             alt="video_play_icon"
             data-src="/static/assets/icons/video_play_icon.svg"
           />
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const ApplyNow = ({ enquiryProps }: any) => {
         suborderItemId: enquiryProps?.subOrderItemId,
         orderItemId: enquiryProps?.orderItemId,
         collegeId: enquiryProps?.collegeId,
-        affiliateId: 220703,
+        affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
         sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
         manualBoostingFlag: enquiryProps?.manualBoostingFlag,
       };
@@ -26,8 +26,8 @@ const ApplyNow = ({ enquiryProps }: any) => {
   };
   return (
     <>
-        <button type="button" className="btn btn-negative-default w-full" onClick={handleApplyNow}>
-          Get Prospectus
+        <button type="button" className="btn btn-orange w-full" onClick={handleApplyNow}>
+        Apply now
         </button>
     </>
   );

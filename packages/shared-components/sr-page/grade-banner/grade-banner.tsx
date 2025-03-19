@@ -14,8 +14,11 @@ const UcasComponent = dynamic(
 );
 const GradeBanner = () => {
   const searchparams = useSearchParams();
-  const location = searchparams?.get("region") || searchparams?.get("city");
-  const score = searchparams?.get("score");
+  const filterCookie = JSON.parse(decodeURIComponent(
+    typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+  )); 
+  const location = searchparams?.get("location");
+  const score = searchparams?.get("score") || (filterCookie?.score && document.referrer);
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
 
   const filterEvents = (eventName: string | null | undefined) => {
@@ -53,7 +56,7 @@ const GradeBanner = () => {
             </div>
           </div>
         </div>
-        <div  onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
+        <button type="button" onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
           <svg
             width="20"
             height="20"
@@ -69,7 +72,7 @@ const GradeBanner = () => {
             />
           </svg>
           Add my {score ? "location" : "grades"}
-        </div>
+        </button>
       </div>
       {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />

@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
+import { useSearchParams } from "next/navigation";
 const SubjectCheckBox = React.memo(
   ({ item, appendSearchParams, state, formUrl, slug }: any) => {
+    const searchParams = useSearchParams();
     const [isChecked, setIsChecked] = useState<boolean>(state || false);
     useEffect(() => {
       setIsChecked(state);
@@ -16,7 +18,12 @@ const SubjectCheckBox = React.memo(
         <Link
           id={keyName?.subject + item?.subjectTextKey}
           href={{
-            pathname: generatePathName(slug, keyName?.subject),
+            pathname: generatePathName(
+              slug,
+              keyName?.subject,
+              item?.subjectTextKey,
+              searchParams
+            ),
             query: formUrl(keyName?.subject, item?.subjectTextKey),
           }}
         ></Link>
