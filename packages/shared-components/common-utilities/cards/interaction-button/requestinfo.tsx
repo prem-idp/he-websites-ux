@@ -22,8 +22,9 @@ const RequestInfo = ({ enquiryProps }: any) => {
         orderItemId: enquiryProps?.orderItemId,
         collegeId: enquiryProps?.collegeId,
         affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
-        sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
-        manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+        qualCode: enquiryProps?.qualCode,
+        //sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
+        //manualBoostingFlag: enquiryProps?.manualBoostingFlag,
       };
       console.log("requestInfoPayload", requestInfoPayload);
       const response = await fetchenquirydata(requestInfoPayload);

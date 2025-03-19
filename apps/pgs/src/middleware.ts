@@ -5,7 +5,6 @@ export function middleware(request: NextRequest, response: NextResponse) {
   const { pathname, search, searchParams } = request.nextUrl;
   const slugs = pathname?.split("/");
   const customDomain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.postgraduatesearch.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : "http://localhost:3001"}`;
-  console.log("===========================", slugs);
   if (slugs.length > 1) {
     const response = NextResponse.next();
     // Initialize response properly
