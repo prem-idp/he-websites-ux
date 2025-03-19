@@ -22,27 +22,27 @@ interface Favourite {
 export default function UserFavouriteTopSection({ collegeId, collegeName }: UserFavouriteTopSectionProps) {
 
     const [user, setUserData] = useState<AuthUser | null>(null);
-    const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
+    // const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
     useEffect(() => {
         // Getting favourites list when user logged in
-        async function checkUser() {
-            try {
-                const user: AuthUser = await getCurrentUser();
-                setUserData(user);
-                if (user && typeof window !== "undefined") {
-                    const favList: Favourite[] = await getUserFavourites();
-                    setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-                }
-            } catch (error) {
-                setUserData(null);
-            }
-        }
-        checkUser();
+        // async function checkUser() {
+        //     try {
+        //         const user: AuthUser = await getCurrentUser();
+        //         setUserData(user);
+        //         if (user && typeof window !== "undefined") {
+        //             const favList: Favourite[] = await getUserFavourites();
+        //             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
+        //         }
+        //     } catch (error) {
+        //         setUserData(null);
+        //     }
+        // }
+        // checkUser();
     }, []);
 
     return (
         <>
-            <UserFavourite favourites={favourite}
+            <UserFavourite
                 contentId={collegeId}
                 contentName={collegeName}
                 contentType="INSTITUTION"
