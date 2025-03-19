@@ -74,7 +74,7 @@ const GradeCounterButton = ({
           aria-label="decrement"
           onClick={() => decrement(btnValue)}
           className={`${
-            count ? "decrease cursor-pointer" : "cursor-not-allowed"
+            count ? "enable cursor-pointer" : "disable cursor-not-allowed"
           }`}
         >
           <svg
@@ -106,7 +106,7 @@ const GradeCounterButton = ({
         <button
           aria-label="increment"
           onClick={() => increment(btnValue)}
-          className={`${count >= qual[indexPosition]?.maxPoint || qual[indexPosition]?.maxTotalPoint <= qual[indexPosition]?.getmaxTotalPoint ? "increment cursor-not-allowed" : "cursor-pointer"}`}
+          className={`${count >= qual[indexPosition]?.maxPoint || qual[indexPosition]?.maxTotalPoint <= qual[indexPosition]?.getmaxTotalPoint ? "disable cursor-not-allowed" : "cursor-pointer"}`}
         >
           <svg
             width="40"
