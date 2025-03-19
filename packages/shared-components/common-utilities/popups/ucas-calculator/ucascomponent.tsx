@@ -6,6 +6,9 @@ import AddQualification from "./additional-qual";
 import makeApiCall from "@packages/REST-API/rest-api";
 import TopLevelMenu from "./toplevel-menu";
 import getApiUrl from "@packages/REST-API/api-urls";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   GradeFilterArrayInterface,
   Initialvalue,
@@ -34,6 +37,9 @@ interface QualInterface {
   name: string;
 }
 const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+  const router = useRouter();
   const [ucasGradeData, setUcasGradeData] = useState<
     GradeFilterArrayInterface[] | null
   >(null);
@@ -312,8 +318,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     );
   };
   const resetAll = () => {
-    document.cookie = "UCAS=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    document.cookie = "ucaspoint=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    setUCasInSessionAndCookie("", "", false);
     setQualifications([]);
     setUcasPoint(0);
     setResetid(Date.now());
@@ -329,6 +334,49 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
       };
       setQual([mappedQuals]);
       setQualCopy([mappedQuals]);
+    }
+  };
+
+  const setUCasInSessionAndCookie = (
+    qual: any,
+    ucasPoint: any,
+    flag: boolean
+  ) => {
+    const getSrFilterCookie = JSON.parse(getCookie("filter_param") || "{}");
+    const isUcasPresentInURL = searchParams?.get("score");
+    const getSrSessionCookie = JSON.parse(
+      sessionStorage?.getItem("filter_param") || "{}"
+    );
+    const param = new URLSearchParams(searchParams?.toString());
+    if (!flag) {
+      document.cookie = "min=; path=/; max-age=0; secure; samesite=lax";
+      document.cookie = "ucaspoint=; path=/; max-age=0; secure; samesite=lax";
+      document.cookie = "UCAS=; path=/; max-age=0; secure; samesite=lax";
+      delete getSrSessionCookie["score"];
+      delete getSrFilterCookie["score"];
+      if (isUcasPresentInURL) {
+        param.delete("score");
+      }
+    } else {
+      const minScore = !isNaN(Number(qual[0]?.min)) ? Number(qual[0]?.min) : 0;
+      getSrSessionCookie["score"] = `${minScore},${ucasPoint}`;
+      getSrFilterCookie["score"] = `${minScore},${ucasPoint}`;
+      document.cookie = `min=${minScore}; path=/; max-age=2592000; secure; samesite=lax`;
+      document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age=2592000; secure; samesite=lax`;
+      param.set("score", `${minScore},${ucasPoint}`);
+      router.refresh();
+    }
+    sessionStorage?.setItem("filter_param", JSON.stringify(getSrSessionCookie));
+    document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)}; path=/;`;
+    if (pathName != "/") {
+      window?.history?.pushState(
+        "",
+        "",
+        `?${param?.toString()}`?.replaceAll("%2C", ",").replaceAll("%2B", "+")
+      );
+      router.push(
+        `?${param?.toString()}`?.replaceAll("%2C", ",").replaceAll("%2B", "+")
+      );
     }
   };
 
@@ -433,33 +481,19 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
             saveUcas
           );
           if (jsonData == "updated") {
-            document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
-            document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
-            const getSrFilterCookie = JSON.parse(
-              getCookie("filter_param") || "{}"
-            );
-            getSrFilterCookie["score"] =
-              `${qual[0]?.min !== "" ? qual[0].min : 0},${ucasPoint}`;
-            document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)};  path=/;`;
+            setUCasInSessionAndCookie(qual, ucasPoint, true);
             setFirstTimeUser(false);
             setQualCopy(qual);
             onClose();
             setApplybtn("Apply");
           } else {
-            alert("failed");
+            console.error("failed to save ucas points");
             onClose();
             setApplybtn("Apply");
           }
         } else {
           setApplybtn("Apply");
-          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
-          document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
-          const getSrFilterCookie = JSON.parse(
-            getCookie("filter_param") || "{}"
-          );
-          getSrFilterCookie["score"] =
-            `${qual[0]?.min !== undefined ? qual[0]?.min : 0},${ucasPoint}`;
-          document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)};  path=/;`;
+          setUCasInSessionAndCookie(qual, ucasPoint, true);
           setFirstTimeUser(false);
           setQualCopy(qual);
         }
@@ -467,15 +501,8 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
         if (saveUcas) {
           const stringConvert = JSON.stringify(saveUcas);
           const encodeURI = encodeURIComponent(stringConvert);
-          document.cookie = `ucaspoint=${ucasPoint}; path=/; max-age= 2592000; secure; samesite=lax`;
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
-          document.cookie = `min=${qual[0]?.min}; path=/; max-age= 2592000; secure; samesite=lax`;
-          const getSrFilterCookie = JSON.parse(
-            getCookie("filter_param") || "{}"
-          );
-          getSrFilterCookie["score"] =
-            `${qual[0]?.min !== "" ? qual[0].min : 0},${ucasPoint}`;
-          document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)}; path=/;`;
+          setUCasInSessionAndCookie(qual, ucasPoint, true);
           if (getCookie("UCAS")) {
             onClose();
             setApplybtn("Apply");
@@ -640,14 +667,14 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
                 </div>
               )}
               <div className="flex items-center justify-between gap-[8px] min-h-[44px]">
-                <a
-                  href="#"
+                <div
+                  // href="#"
                   onClick={resetAll}
                   aria-label="reset filters"
                   className="text-primary-400 font-semibold py-[10px] px-[16px] grow text-center hover:underline"
                 >
                   Reset
-                </a>
+                </div>
                 <button
                   className={`inline-flex items-center justify-center small rounded-[24px] py-[10px] px-[16px] min-w-[200px] font-semibold ${
                     ((qual[0]?.SelectedLevel === "UCAS Tariff Points" &&

@@ -74,7 +74,7 @@ const GradeCounterButton = ({
           aria-label="decrement"
           onClick={() => decrement(btnValue)}
           className={`${
-            count ? "decrease cursor-pointer" : "cursor-not-allowed"
+            count ? "cursor-pointer" : "decrease cursor-not-allowed"
           }`}
         >
           <svg

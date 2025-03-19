@@ -316,7 +316,11 @@ const SearchFilterComponent = ({ data, path }: any) => {
       if (key === keyName?.subject) {
         const selectedParent = getParentSubject(null, jsondata, value);
         const currentParent = getParentSubject(searchParams, jsondata);
-        return selectedParent !== currentParent;
+        if (selectedParent && currentParent) {
+          return selectedParent !== currentParent;
+        } else {
+          return true;
+        }
       }
       return false;
     },
@@ -353,7 +357,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       const urlParams = new URLSearchParams();
       const cookieParams: KeyValueObject = {};
       let totalValues = 0;
-
+      console.log(orderedFilters);
       Object.entries(orderedFilters)?.forEach(([k, v]) => {
         const valuesArray = v?.split("+");
         if (totalValues + valuesArray?.length <= 4) {
@@ -371,7 +375,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
           }
         }
       });
-
+      console.log(urlParams.toString, cookieParams);
       return { urlParams, cookieParams };
     },
     []
@@ -472,7 +476,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
         }
       } else {
         const urlObject = Object.fromEntries(urlParams?.entries());
-        ["subject", "region", "city"].forEach((paramKey) => {
+        ["subject", "location"].forEach((paramKey) => {
           if (urlObject[paramKey]) {
             urlObject[keyName[paramKey as keyof typeof keyName]] =
               (urlObject[paramKey]?.split("+")[0] as string) || "";
@@ -601,6 +605,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
   );
 
   const postcodeSubmit = () => {
+    const ukPostCodeRegx = /^([A-Z]{1,2}[0-9][0-9A-Z]?)\s?([0-9][A-Z]{2})$/i;
+    const isValidPostcode = ukPostCodeRegx.test(locationState?.postCodeValue);
     if (locationState?.postCodeValue) {
       setLocationState((prev) => ({ ...prev, locationMilesError: false }));
       appendSearchParams("postcode", locationState?.postCodeValue);
@@ -1719,7 +1725,8 @@ const SearchFilterComponent = ({ data, path }: any) => {
                                       className="form-checkbox hidden"
                                       id={uniGroupListItem?.universityGroupDesc}
                                       checked={
-                                        prepopulateFilter?.russellGroup !== ""
+                                        prepopulateFilter?.russellGroup ===
+                                        uniGroupListItem?.universityGroupTextKey
                                       }
                                       onChange={() => {
                                         appendSearchParams(
