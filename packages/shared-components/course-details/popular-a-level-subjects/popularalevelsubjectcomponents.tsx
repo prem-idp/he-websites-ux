@@ -11,7 +11,7 @@ interface PopularALevelSubjectsComponentProps {
 }
 
 const Popularalevelsubjectcomponents = ({ sectionInfo, popularALevelSubjects }: any) => {
-  console.log(popularALevelSubjects,"popularSubjectspopularSubjects")
+  console.log(sectionInfo,"sectionInfo")
 
 
   return (
@@ -27,7 +27,7 @@ const Popularalevelsubjectcomponents = ({ sectionInfo, popularALevelSubjects }: 
                   <div className='h6 text-black'>{subjectGroup?.name}</div>
                   <p className='para text-black'>{subjectGroup?.description}</p>
                 </div>
-                {subjectGroup?.aLevelSubjects?.map((subject: any, idx: number) => <PercentageBar key={idx} {...subject} />)}
+                {subjectGroup?.aLevelSubjects?.map((subject: any, idx: number) => <PercentageBar key={idx} name={subject?.heldQualificationSubject} percentage={subject?.derivedHeldPercentage}/>)}
                 <div className='flex items-center gap-[4px] *:text-x-small'>
                   <div className='text-grey300'>DATA SOURCE:</div>
                   <a href={DATA_SOURCE_PAGE_PATH} className='uppercase text-primary-400 hover:underline'>{sectionInfo?.callToAction?.primaryCtaLabel}</a>

@@ -92,7 +92,6 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
               componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
               break;
             case 'latestreviews':
-              if (!data?.latestReviews?.length) return null;
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uniinfo':
