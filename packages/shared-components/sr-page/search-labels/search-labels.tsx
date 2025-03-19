@@ -10,8 +10,7 @@ import { getSearchPayload } from "@packages/shared-components/services/utils";
 
 const SearchLabelsContent =  ({searchPayLoad}:any) => {
   const router = useRouter();
-  const [filterList, setFilterList] = useState<any[]>([]);
-  const searchParams = useSearchParams();  
+  const [filterList, setFilterList] = useState<any[]>([]); 
   let searchLabel: any;
     useEffect(() => {
     async function getSearchLabels() {
@@ -46,17 +45,17 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
   if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
   if(searchLabel?.locationName?.length === 1) {
-    filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+    filters.push({key:'location' , value:searchLabel?.locationName});
   } else {
     searchLabel?.locationName?.forEach((value:any, index:any) => {
-      filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:value});
+      filters.push({key:'location' , value:value});
     });
   }
   setFilterList(Array.from(new Set(filters)));
          }
 getSearchLabels();
 
-}, [searchLabel]);
+}, [searchPayLoad]);
 
   const openFilterFunction = () => {
     emitter.emit("isfilterOpen", "subject");
