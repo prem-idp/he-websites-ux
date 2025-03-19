@@ -82,6 +82,41 @@ pageTemplateDynamicPageCollection(limit: 1,where: { pageName: "Course Details - 
           }
         }
       }
+        bottomZoneComponentsCollection
+      {
+        items
+        {
+          __typename
+      ... on PageLinkPanel
+          {
+            internalName
+            sectionTitle
+            shortDescription
+
+            navigationElementsCollection
+            {
+              items
+              {
+                ... on Navigation
+                {
+                  navTitle
+                  navName
+                  navCtAlabel
+ 
+                }
+              }
+            }
+            linkPanelImage
+            {
+              fileName
+              url
+
+            }
+
+          }
+        }
+
+      }
     }
   }
 }
