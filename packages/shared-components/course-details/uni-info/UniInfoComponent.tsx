@@ -86,24 +86,6 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
                   <div className='uni-info-card flex flex-col gap-[8px]'>
                     <div className='flex flex-row md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
                       <a href={`/university-profile/'+ ${courseInfo?.institutionNameUrl} +'/${courseInfo?.institutionId}/`} className='block w-fit h5  text-primary-400 hover:text-primary-500 hover:underline line-clamp-1'>{uniInfo?.institutionName}</a>
-                      {/* <div className={`heart ${uniInfo?.favoriteFlag ? 'active' : ''} min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
-                            stroke="#4664DC"
-                            strokeWidth="1.67"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div> */}
-
                       <UserFavourite {...{
                         contentType: 'INSTITUTION',
                         contentId: courseInfo?.institutionId,

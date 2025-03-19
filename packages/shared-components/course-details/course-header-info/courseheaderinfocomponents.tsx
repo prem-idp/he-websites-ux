@@ -58,7 +58,6 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                 <div className='uni-info-card flex flex-col gap-[8px] md:gap-0'>
                   <div className='flex flex-col-reverse md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
                     <span>{replaceSEOPlaceHolder(h1h2Text?.[0], metaFiltersOpted)}</span>
-                    {/* <Favbutton /> */}
                     <UserFavourite {...{
                         contentType: 'COURSE',
                         contentId: data?.courseInfo?.courseId,
