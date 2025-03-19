@@ -2,8 +2,7 @@
 
 import { getCurrentUser } from "@aws-amplify/auth";
 import { addRemoveFavourites } from "@packages/lib/utlils/userfavourite";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import useFavourite from "./useFavourite";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import FavouriteLimitExceeded from "./FavouriteLimitExceeded";
@@ -20,16 +19,22 @@ interface Favourite {
 interface UserFavouriteProps {
   contentType: 'INSTITUTION' | 'COURSE',
   contentId: number,
-  contentName: string
+  contentName: string,
+  test?: string
 }
 
-const UserFavourite = (favouriteProps: UserFavouriteProps) => {
+const UserFavourite = ({ contentId, contentType, contentName }: UserFavouriteProps) => {
 
   const [exceedMessage, setExceedMessage] = useState(false);
-  const favourites = useFavourite();
-  console.log(favourites, "favourites");
-
+  const [favourite] = useFavourite();
+  const [favourites, setFavourties] = useState<any>([])
   const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
+  // const [fav, setFav] = useState<any[]>([]);
+  console.log("log", +contentId, favourites?.includes(+contentId));
+
+  useEffect(() => {
+    setFavourties(favourite)
+  }, [favourite])
 
   //Handle Favourite
   const handleFavourite = async (
@@ -39,7 +44,7 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
     e: React.FormEvent
   ) => {
     e.stopPropagation();
-    e.preventDefault();
+    // e.preventDefault();
     try {
       await getCurrentUser();
     } catch (error) {
@@ -91,15 +96,16 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
   return (
     <>
       <div data-testid="favourite"
+      id={`fav${contentId + '-' + favourites?.includes(+contentId)}`}
         onClick={(event) =>
           handleFavourite(
-            favouriteProps?.contentId,
-            favouriteProps?.contentName,
-            favouriteProps?.contentType,
+            contentId,
+            contentName,
+            contentType,
             event
           )
         }
-        className={`${favourites?.includes(+favouriteProps?.contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+        className={`${favourites?.includes(+contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
       >
         <svg
           width="20"
@@ -116,7 +122,7 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
             strokeLinejoin="round"
           />
         </svg>
-        {+favourtiteTooltip === favouriteProps?.contentId && <FavouritedToolTip onClose={onClose} />}
+        {+favourtiteTooltip === contentId && <FavouritedToolTip onClose={onClose} />}
       </div>
       {exceedMessage && <FavouriteLimitExceeded onClose={onClose} />}
     </>

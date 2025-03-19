@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import UserFavouriteTopSection from "./UserFavouriteTopSection"; // Import the client component
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed
@@ -98,7 +98,11 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
             </div>
           </div>
           <span className="favorite group mr-[0] lg:mr-[10px]  items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-            <UserFavouriteTopSection collegeId={college?.collegeId} collegeName={collegeTextKey} />
+            <UserFavourite
+                contentId={college?.collegeId}
+                contentName={collegeTextKey}
+                contentType="INSTITUTION"
+            />
           </span>
         </div>
       </div>
