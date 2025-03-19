@@ -2,7 +2,6 @@ import Cdpageclient from './cdPageClientWrapper';
 import Breadcrumblayoutcomponent from '@packages/shared-components/article-details/breadcrumb-layout/breadcrumblayoutcomponent';
 import { generateBreadcrumbData } from "@packages/lib/utlils/generateBreadcrumb"
 import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
-import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
 import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actions/server-action';
 import { COURSE_DETAILS_QUERY, courseContentExtractor } from "@packages/lib/graphQL/course-details.graphql";
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
@@ -27,7 +26,6 @@ export async function generateMetadata({ params }: any) {
   return getCDMetaDetailsFromContentful(searchparams, slug)
 }
 export default async function Cdpage({ params }: any) {
-  // console.log("=====================")
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
@@ -45,8 +43,7 @@ export default async function Cdpage({ params }: any) {
   ]);
 
   console.log(data, "data")
-  // console.log(contents, "contents")
-  // console.log(othercourseData, "othercourseData")
+
   if(data.errorMessage){
     notFound();
   }
@@ -63,7 +60,6 @@ export default async function Cdpage({ params }: any) {
 
 
   const courseContent = courseContentExtractor(contents);
-  // console.log(courseContent,"courseContentcourseContent")
   const breadcrumbData = generateBreadcrumbData(slug, customLabels);
 
 
@@ -75,7 +71,6 @@ export default async function Cdpage({ params }: any) {
         </div>
       </section>
       <Courseheaderinfocomponents data={data} searchPayload={searchparams} />
-      <Yearofentrycomponents />
       <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
       {othercourseData?.length > 0 &&
         <Othercoursesmaylikecomponents othercourseData={othercourseData} />
@@ -103,7 +98,6 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
     `${process.env.NEXT_PUBLIC_X_API_KEY}`,
     "no-cache", 0,
     {});
-  // console.log(displayNameResponse, "displayNameResponse")
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
