@@ -750,6 +750,8 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
 
 export function get_WU_SR_breadcrumb(searchSEOPayload: any, displayNameResponse: any, qualInUrl: string){
   const subjectDisplayName = displayNameResponse?.subjectName?.length >= 0 ? displayNameResponse?.subjectName[0] : ""; 
+  const displayParentSubject = `${displayNameResponse?.parentSubjectName && displayNameResponse?.parentSubjectName?.length > 0 ? displayNameResponse?.parentSubjectName[0] : ""}`;
+  const urlParentSubject = `${displayNameResponse?.parentSubjectTextKey && displayNameResponse?.parentSubjectTextKey?.length > 0 ? displayNameResponse?.parentSubjectTextKey[0] : ""}`;
   const  get_find_a_course_url_label = (qualCode: string) => {
     switch(qualCode){
       case "M": return ["/degrees/courses/", "Courses"]
@@ -763,6 +765,7 @@ export function get_WU_SR_breadcrumb(searchSEOPayload: any, displayNameResponse:
   const [qualUrl, qualLabel] = get_find_a_course_url_label(searchSEOPayload?.parentQualification);
   const breadcrumb_courses = searchSEOPayload?.parentQualification ? [{url: qualUrl, label: qualLabel}] : [];
   const breadCrumb_subject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length >= 1 ? [{url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject?.[0]}`, label: `${subjectDisplayName} courses`}] : [];
-  const breadCrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/searcch?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
-  return [...breadcrumb_courses, ...breadCrumb_subject, ...breadCrumb_keyword];
+  const breadcrumb_keyword = searchSEOPayload?.searchKeyword ? [{url: `/${qualInUrl}/searcch?q=${searchSEOPayload?.searchKeyword}`, label: `${subjectDisplayName} Courses`}] : [];
+  const breadcrumb_parentSub = displayParentSubject && urlParentSubject && urlParentSubject != searchSEOPayload?.searchKeyword && urlParentSubject != searchSEOPayload?.searchSubject  ? [{url: urlParentSubject, label:`${displayParentSubject} Degrees`}] : [];
+  return [...breadcrumb_courses, ...breadcrumb_parentSub, ...breadCrumb_subject, ...breadcrumb_keyword];
 }
