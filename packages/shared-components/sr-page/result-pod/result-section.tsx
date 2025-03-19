@@ -13,6 +13,7 @@ import UserFavourite from "@packages/shared-components/common-utilities/user-fav
 import { useSearchParams } from "next/navigation";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
+import { getOrdinalFor } from "@packages/shared-components/services/utils";
 interface SrPageResultPodProps {
   searchResultsData: any[];
   qualCode: string;
@@ -32,8 +33,12 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
   const [user, setUserData] = useState<AuthUser | null>(null);
   const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
+};
+const wuscaClick = (event:React.FormEvent) => {
+  event.stopPropagation();
 };
 
      useEffect(() => {
@@ -64,23 +69,17 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
       ? "Next Open day in " + differenceInDays + " days"
       : "Next Open day in " + differenceInDays + " day";
   };
-  //
   const getPRPageURL = (collegeTextKey: any) => {
-
-    // Create filtered params object
     const filteredParams = Array.from(searchParams.entries())
   .filter(([key]) => !['sort', 'pageno', 'page_no', 'region', 'city','russell-group'].includes(key))
   .reduce((acc, [key, value]) => {
     acc[key] = value;
     return acc;
   }, {} as Record<string, string>);
-// Convert filtered params to URLSearchParams
 const queryString = new URLSearchParams(filteredParams).toString();
 const baseUrl = process.env.PROJECT === "Whatuni" 
 ? "/degree-courses/csearch"
 : "/pgs/search";
-
-// Construct the final URL
 const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
 queryString ? `&${queryString}` : ''
 }`;    
@@ -229,9 +228,9 @@ queryString ? `&${queryString}` : ''
                   )}
                 </div>
                 {data?.wuscaRanking && (
-                  <div className="x-small underline w-fit relative group">
-                    WUSCA rank: {data?.wuscaRanking}
-                    <div className="absolute z-0 select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
+                  <div className="x-small underline w-fit relative group" onClick={(event) =>wuscaClick(event)}>
+                    WUSCA ranking: {data?.wuscaRanking}{getOrdinalFor(data?.wuscaRanking)}
+                    <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                       <div className="flex items-center justify-between">
                         <span className="text-grey900 font-semibold">
                           WUSCA Student Ranking
@@ -276,7 +275,7 @@ queryString ? `&${queryString}` : ''
                         width={12}
                         height={12}
                       />
-                      {data?.wuscaBadges}
+                      {data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}
                     </div>
                     {data?.wuscaBadges?.includes(",") ?
                       <div className="bg-primary-400 px-[8px] rounded-[4px]">
@@ -310,7 +309,7 @@ queryString ? `&${queryString}` : ''
             /> )}
           </div>
           <div className="flex flex-col grow">
-            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
+            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 min-h-[400px] md:rounded-tr-[16px]">
               {data?.review1Text && (
                 <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
                   <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
@@ -550,7 +549,7 @@ queryString ? `&${queryString}` : ''
                 href={getPRPageURL(data?.collegeTextKey)}
                 className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] hover:underline"
               >
-                View {data?.courseCount - 2} related courses
+                View {data?.courseCount - 2} related {data?.courseCount - 2 > 1 ? "courses" : "course"}
                 <svg
                   width="16"
                   height="16"
