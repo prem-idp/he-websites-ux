@@ -912,7 +912,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             }}
                           />
                           {subjectState?.isSujectDropdownOpen && (
-                            <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                            <div className="flex flex-col w-[calc(100%+21px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-22px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto">
                               {subjectState?.sortedSubjects?.length > 0 ? (
                                 <ul>
                                   {subjectState?.sortedSubjects?.map(
@@ -1152,9 +1152,9 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           }}
                           value={universityState?.universityKeyword}
                         />
-                        {universityState?.isUniversityDropdownOpen && (
-                          <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
-                            {universityState?.sortedUni?.length > 0 ? (
+                        {searchedUniversity?.isUniversityDropdownOpen && (
+                          <div className="flex flex-col w-[calc(100%+21px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-22px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto">
+                            {searchedUniversity?.sortedUni?.length > 0 ? (
                               <ul>
                                 {universityState?.sortedUni?.map(
                                   (sortedUniItem: any, index: number) => (

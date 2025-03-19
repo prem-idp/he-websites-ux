@@ -21,23 +21,18 @@ export function getSearchPayload(
   dynamicRandomNumber: any,
   userIp: any
 ) {
+  const currentYear = new Date().getFullYear();
 let subjectArray="";
 if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
 subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject?.includes("+") ?filterCookieParam?.subject?.split("+") : filterCookieParam?.subject) : subjectArray;
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
-const regionArray:any[] = searchParams?.region?.includes(" ")
-    ? searchParams?.region?.split(" ")
-    : searchParams?.region
-      ? [searchParams?.region]
-      : "" 
-const cityArray:any[] = searchParams?.city?.includes(" ")
-    ? searchParams?.city?.split(" ")
-    : searchParams?.city
-      ? [searchParams?.city]
-      : "" 
-const locationArray = regionArray && cityArray ? regionArray.concat(cityArray) :  regionArray ? regionArray : cityArray
+const locationArray = searchParams?.location?.includes(" ")
+? searchParams?.location?.split(" ")
+: searchParams?.location
+  ? [searchParams?.location]
+  : "" 
 const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
 const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
 const score = searchParams?.score && !searchParams?.score?.includes(",") || filterCookieParam?.score && !filterCookieParam?.score?.includes(",") ? "0," + (searchParams?.score || filterCookieParam?.score) : searchParams?.score
@@ -63,7 +58,7 @@ const searchPayload: any = {
       searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType: locationType ? [locationType] : "",
-    intakeYear: searchParams?.year || filterCookieParam?.year || "2025",
+    intakeYear: searchParams?.year || filterCookieParam?.year || currentYear?.toString(),
     intakeMonth: searchParams?.month?.toUpperCase() || filterCookieParam?.month?.toUpperCase()|| "",
     sortBy: typeof searchParams?.sort === 'string' && searchParams?.sort?.toUpperCase() ||  typeof filterCookieParam?.sort === 'string' &&  filterCookieParam?.sort?.toUpperCase() || "",
     userCoordinates: "",
@@ -105,4 +100,25 @@ export function getSEOSearchPayload(
     university: searchParams?.university || undefined,
   };
   return searchPayload;
+}
+
+
+export const getOrdinalFor = (value:any) => {
+  const hundredRemainder = value % 100;
+  const tenRemainder = value % 10;
+
+  if (hundredRemainder - tenRemainder === 10) {
+    return "th";
+  }
+
+  switch (tenRemainder) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
 }

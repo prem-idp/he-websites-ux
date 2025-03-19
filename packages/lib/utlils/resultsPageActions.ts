@@ -16,7 +16,7 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   const qualInUrl = pathName?.split("/")[1] || "{}";
 
   const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
 
   //1) bff API hit

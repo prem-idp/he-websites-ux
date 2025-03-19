@@ -3,8 +3,7 @@ import React from "react";
 import { cookies } from "next/headers";
 import { qualCode } from "@packages/lib/utlils/filters/filterJson";
 import SearchResultComponent from "@packages/shared-components/sr-page/srpage-component";
-import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";
-import { Metadata } from "next";
+import { getSearchPageMetaDetailsFromContentful } from "@packages/lib/utlils/resultsPageActions";import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMetaDetailsObject } from "@packages/lib/utlils/common-function-server";
 import { MetaDataProps } from "@packages/lib/types/interfaces";
@@ -20,7 +19,6 @@ export async function generateMetadata({
     qulInUrl,
     pathname
   );
-
   return getMetaDetailsObject(metaData);
 }
 

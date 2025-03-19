@@ -15,19 +15,11 @@ const UcasComponent = dynamic(
 const filterCookie = JSON.parse(decodeURIComponent(
   typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
 )); 
-// Function to get the size of query parameters excluding a specific one
-const  getfilterCount = (url:any,excludeParam:any[]) => {
-  const urlObj = new URL(url);  // Create a URL object
-  const params = new URLSearchParams(urlObj.search); // Get query parameters
-  excludeParam.forEach(param => params.delete(param)); 
-  if(filterCookie?.subject) delete filterCookie?.subject
-  const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
-  return filterCount
-}
+
 
 const SearchFilterButtons = () => {
   const searchParams = useSearchParams();
-  const locationFilterCount:any = searchParams?.get("region")?.split(" ")?.length || searchParams?.get("city")?.split(" ")?.length;
+  const locationFilterCount:any = searchParams?.get("location")?.split(" ")?.length;
   let subjectFilterCount = (
     searchParams?.get("subject")?.split(" ") ||
     searchParams?.get("course")?.split(" ")
@@ -38,11 +30,22 @@ const SearchFilterButtons = () => {
   const [filterCount, setFilterCount] = useState(0)
   const [gradeCount, setGradeCount] = useState("");
   useEffect(() => { 
+    // Function to get the size of query parameters excluding a specific one
+const  getfilterCount = (url:any,excludeParam:any[]) => {
+    const urlObj = new URL(url);  // Create a URL object
+    const params = new URLSearchParams(urlObj.search); // Get query parameters
+    excludeParam.forEach(param => params.delete(param)); 
+    if(filterCookie?.subject) delete filterCookie?.subject
+    if(typeof document !== "undefined" && !document.referrer && filterCookie?.score) delete filterCookie?.score
+    const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
+    return filterCount
+  }
   if (typeof window !== 'undefined') {
      url = new URL(window.location.href);
   }   
-   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword"]))
-   setGradeCount(searchParams?.has("score") ? "1" : "")
+   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword","score"]))
+   setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
+   console.log("gradeCount", gradeCount)
   }, [filterCount]); 
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
@@ -87,7 +90,7 @@ const SearchFilterButtons = () => {
       <section className="bg-grey-600 px-[12px] py-[16px] sticky top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
-            <div
+            <button type="button"
               className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
               onClick={ucasClick}
             >
@@ -105,13 +108,13 @@ const SearchFilterButtons = () => {
                   fill="#F9FAFB"
                 />
               </svg>
-              Add my grades {gradeCount ? "("+{gradeCount}+")" : ""}
-            </div>
+              Add my grades {gradeCount ? "("+gradeCount+")" : ""}
+            </button>
           )}
           {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
           )}
-          <div
+          <button type="button"
             onClick={() => filterEvents("all")}
             className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
@@ -131,9 +134,9 @@ const SearchFilterButtons = () => {
               />
             </svg>
             Filter ({filterCount})
-          </div>
+          </button>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            <div
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
@@ -153,8 +156,8 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
@@ -174,8 +177,8 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("year")}
             >
@@ -195,8 +198,8 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("university")}
             >
@@ -216,8 +219,8 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-            <div
+            </button>
+            <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("location")}
             >
@@ -237,9 +240,9 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
-          <div
+          <button type="button"
             className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0"
             onClick={() => {
               router.push(`/degree-courses/search`);
@@ -260,7 +263,7 @@ const SearchFilterButtons = () => {
               />
             </svg>
             Reset
-          </div>
+          </button>
         </div>
       </section>
       {/* <SearchFilterButtonsSkeleton/> */}
