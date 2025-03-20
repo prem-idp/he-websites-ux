@@ -34,7 +34,7 @@ export default async function Cdpage({ params }: any) {
     affiliateId: String(process.env.AFFILATE_ID || ""),
     collegeId: String(prams_slug?.uni_id || ""),
   });
-  const url = `https://api.dev.dom-services.idp-connect.com/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
+  const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
   const [data, contents, othercourseData] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
     graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),
