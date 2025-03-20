@@ -99,6 +99,10 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           )}
         </div>
       </section>
+      {searchResultsData?.searchResultsList?.length === 0 &&
+     (
+      <Findacoursecomponents />
+      )}
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
         <>
