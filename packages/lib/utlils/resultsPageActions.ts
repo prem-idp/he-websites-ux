@@ -681,16 +681,16 @@ export function form_PGS_SR_breadcrumb(searchSEOPayload: any, displayNames: any,
   const keywordSelected = searchSEOPayload?.searchKeyword && searchSEOPayload?.searchKeyword?.trim() != "" ? true : false;
   const locationSelectd = searchSEOPayload?.location?.length <= 0 ? false : (searchSEOPayload?.location?.length >= 1 && searchSEOPayload?.location?.[0] != "" ? true : false);
   
-  const displaySubject = `${displayNames?.subjectName && displayNames?.subjectName?.length > 0 ? displayNames?.subjectName[0] : ""}`;
-  const displayLocation = `${displayNames?.locationName && displayNames?.locationName?.length > 0 ? displayNames?.locationName[0] : ""}`;
+  const displaySubject = `${displayNames?.subjectName && displayNames?.subjectName?.length > 0 ? displayNames?.subjectName?.join(", ") : ""}`;
+  const displayLocation = `${displayNames?.locationName && displayNames?.locationName?.length > 0 ? displayNames?.locationName?.join(", ") : ""}`;
   const displayParentSubject = `${displayNames?.parentSubjectName && displayNames?.parentSubjectName?.length > 0 ? displayNames?.parentSubjectName[0] : ""}`;
   const displayUniversity = displayNames?.collegeName ?? "";
   const displayStudyMethod = displayNames?.studyMode ?? "";
 
-  const urlSubject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length > 0 ? searchSEOPayload?.searchSubject[0] : "";
+  const urlSubject = searchSEOPayload?.searchSubject && searchSEOPayload?.searchSubject?.length > 0 ? searchSEOPayload?.searchSubject?.join("+") : "";
   const urlKeyword = searchSEOPayload?.searchKeyword ?? "";
   const urlParentSubject = `${displayNames?.parentSubjectTextKey && displayNames?.parentSubjectTextKey?.length > 0 ? displayNames?.parentSubjectTextKey[0] : ""}`;
-  const urlLocation = searchSEOPayload?.location && searchSEOPayload?.location?.length > 0 ? searchSEOPayload?.location[0] : undefined;
+  const urlLocation = searchSEOPayload?.location && searchSEOPayload?.location?.length > 0 ? searchSEOPayload?.location?.join("+") : undefined;
   const urlUniversity = searchSEOPayload?.univresity ?? "";
   const urlStudymethod = searchSEOPayload?.studyMethod?? "";
 
