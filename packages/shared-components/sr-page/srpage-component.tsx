@@ -17,7 +17,7 @@ import { cookies, headers } from "next/headers";
 import { getSearchPayload, getSEOSearchPayload, getQualCode} from "../services/utils";
 import { searchResultsFetchFunction , httpBFFRequest} from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
-
+import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
