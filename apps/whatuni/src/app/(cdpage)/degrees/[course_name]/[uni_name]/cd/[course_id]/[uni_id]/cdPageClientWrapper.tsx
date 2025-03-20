@@ -32,13 +32,13 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
           affiliateId: String(process.env.AFFILATE_ID || ""),
           collegeId: String(prams_slug?.uni_id || ""),
         });
-        const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
+        const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
 
             "Content-Type": "application/json",
-            "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
+           "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
           },
           cache: "force-cache",
         });
@@ -61,8 +61,8 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
   return (
     <div>
-      
-      <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} courseContent={courseContent}/>
+
+      <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} courseContent={courseContent} />
       <JumpToComponents sectionsList={courseContent?.sectionsList} data={fetcheddata} />
       <>
         {courseContent?.sectionsList?.map((sectionContent: any) => {
@@ -80,18 +80,31 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
               break;
             case 'entryrequirements':
               if (!data?.entryRequirements) return null;
-              componentToRender = <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              componentToRender = <>
+                {loading ? <p> EntryrequirementsComponent Loading...</p> :
+                  <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
+                }
+              </>
               break;
             case 'popularalevelsubjects':
               if (!data?.popularALevelSubjects?.length) return null;
-              componentToRender = <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              componentToRender = <>
+                {loading ? <p> Popularalevelsubjectcomponents Loading...</p> :
+                  <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
+                }
+              </>
               break;
+
             case 'tutionfees':
               if (!data?.tutionFees?.length) return null;
-              componentToRender = <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />;
+              componentToRender = <>
+                {loading ? <p> TutionFeesComponent Loading...</p> :
+                  <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
+                }
+              </>
               break;
             case 'latestreviews':
-              if(!data?.latestReviews?.length && !data?.reviewBreakdown?.length) return null
+              if (!data?.latestReviews?.length && !data?.reviewBreakdown?.length) return null
               componentToRender = <Latestreviewscomponents sectionInfo={sectionContent} fetcheddata={fetcheddata} />;
               break;
             case 'uniinfo':
@@ -102,6 +115,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
               componentToRender = null;
               return;
           }
+
           return (
             <div id={sectionId} key={sectionId}>
               {componentToRender}
@@ -109,7 +123,6 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
           );
         })}
       </>
-
       {false && <ReviewPannelComponent />}
     </div>
   )

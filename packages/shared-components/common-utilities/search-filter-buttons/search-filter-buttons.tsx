@@ -25,10 +25,14 @@ const SearchFilterButtons = () => {
     searchParams?.get("subject")?.split(" ") ||
     searchParams?.get("course")?.split(" ")
   )?.length;
-  if(filterCookie?.subject)
-    subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
-  let url:any;
-  const [filterCount, setFilterCount] = useState(0)
+  if (filterCookie?.subject)
+    subjectFilterCount =
+      subjectFilterCount +
+      (filterCookie?.subject?.includes("+")
+        ? filterCookie?.subject?.split("+").length
+        : 1);
+  let url: any;
+  const [filterCount, setFilterCount] = useState(0);
   const [gradeCount, setGradeCount] = useState("");
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),

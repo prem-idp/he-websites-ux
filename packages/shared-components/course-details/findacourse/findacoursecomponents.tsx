@@ -5,7 +5,7 @@ import Link from "next/link";
 // import React from 'react'
 import CourseTab from "@packages/shared-components/common-utilities/searchBar/search-input-pods/coursetab";
 import React, { useState, useEffect } from "react";
-import makeApiCall from "@packages/REST-API/rest-api";
+
 import getApiUrl from "@packages/REST-API/api-urls";
 import optimizedSearch from "@packages/REST-API/optimizedsearch";
 const Findacoursecomponents = ({h1value,subheading}:any) => {

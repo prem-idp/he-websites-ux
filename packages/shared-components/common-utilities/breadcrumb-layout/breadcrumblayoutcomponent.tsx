@@ -3,10 +3,13 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const Breadcrumblayoutcomponent = ({ data }: { data: any }) => {
+const Breadcrumblayoutcomponent = ({ data, disableLast=false }: { data: any, disableLast?: boolean}) => {
+  const bcLen = data?.length ?? 1;
   const breadcrumbList = data.map((breadcrumbData: any, index: number) => (
     <li className="small" key={index + 1}>
-      {breadcrumbData.url && !breadcrumbData.Imgurl ? (
+      {disableLast && index === (bcLen-1) ? (
+        <span className="text-grey300">{breadcrumbData.label}</span>
+      ) : breadcrumbData.url && !breadcrumbData.Imgurl ? (
         <Link
           className='text-primary-400 hover:underline after:absolute after:content-["/"] after:w-[20px] after:h-[20px] after:text-center after:text-grey-300'
           href={breadcrumbData.url}

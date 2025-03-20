@@ -49,7 +49,7 @@ const LeftPannelModal = ({ isOpen, onClose, onApply, heading, subHeading, itemLi
             <div className={`${anmate ? "translate-x-0 opacity-[1]" : "-translate-x-full opacity-0"} transition-all duration-300 modal modal-container shadow-custom-6 w-full md:w-[375px] fixed top-0 left-0 z-[8]`}>
                 <div className={`modal-box p-[16px_0_16px_16px] bg-white overflow-hidden h-[100vh]`}>
                     <div onClick={onClose} className='modal_close absolute top-[16px] right-[16px] z-[1] cursor-pointer'>
-                        <Image className='block' src="/assets/icons/modal_close.svg" width="12" height="12" alt='modal close' />
+                        <Image className='block' src="/static/assets/icons/modal_close.svg" width="12" height="12" alt='modal close' />
                     </div>
                     <div className='select-subject-container flex flex-col gap-[16px]'>
                         <div className='card-header flex flex-col gap-[4px]'>

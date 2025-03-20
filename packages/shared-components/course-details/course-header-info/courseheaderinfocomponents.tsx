@@ -58,7 +58,6 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                 <div className='uni-info-card flex flex-col gap-[8px] md:gap-0'>
                   <div className='flex flex-col-reverse md:flex-row gap-[16px] md:gap-0  justify-between items-start h5 text-grey300'>
                     <span>{replaceSEOPlaceHolder(h1h2Text?.[0], metaFiltersOpted)}</span>
-                    {/* <Favbutton /> */}
                     <UserFavourite {...{
                         contentType: 'COURSE',
                         contentId: data?.courseInfo?.courseId,
@@ -92,10 +91,19 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                 </div>
                 <div className='uniresults-content-right flex items-end'>
                   <div className='btn-pod w-full grid grid-col-1 md:grid-cols-2 lg:flex lg:grid-cols-none gap-[8px]'>
-                    <Getprospectus pageName={"courseDetails"} />
-                    <Visitwebsite />
-                    <BookEvent />
+                    {data?.enquiryDetails?.institutionDetails?.emailFlag?.toLowerCase() === "y" &&
                     <RequestInfo />
+                    }
+                    {data?.enquiryDetails?.institutionDetails?.prospectusFlag?.toLowerCase() === "y" &&
+                    <Getprospectus pageName={"courseDetails"} />
+                    }
+                      {data?.enquiryDetails?.institutionDetails?.opendayFlag?.toLowerCase() === "y" &&
+                    <Visitwebsite />
+                    }
+                       {data?.enquiryDetails?.institutionDetails?.websiteFlag?.toLowerCase() === "y" &&
+                    <BookEvent />
+                    }
+
                   </div>
                 </div>
               </div>

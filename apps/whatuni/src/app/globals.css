@@ -40,8 +40,7 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-Regular.woff2") format("woff2"),
-      url("./fonts/Inter-Regular.woff") format("woff");
+      url("./fonts/Inter-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
@@ -50,8 +49,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
-      url("/assets/fonts/Inter-SemiBold.woff") format("woff");
+      url("./fonts/Inter-SemiBold.woff2") format("woff2"),
+      url("./fonts/Inter-SemiBold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 600;
@@ -91,7 +90,7 @@
   }
 
   .btn-orange {
-    @apply bg-orange-600 hover:bg-orange-700;
+    @apply bg-negative-default hover:bg-negative-dark;
   }
 
   .btn-grey {
@@ -99,7 +98,7 @@
   }
 
   .btn-green {
-    @apply bg-positive-default hover:bg-positive-dark;
+    @apply bg-positive-dark hover:bg-success-800;
   }
 
   .btn-blue {
@@ -159,6 +158,10 @@
     @apply bg-grey-200 rounded-[4px]
   }
 
+  .review-modal-card.custom-scrollbar-2::-webkit-scrollbar-track,.review-gallery-scroll.custom-scrollbar-2::-webkit-scrollbar-track,.oneclick-container.custom-scrollbar-2::-webkit-scrollbar-track {
+    @apply mt-[30px]
+  }
+
   .custom-scrollbar-2::-webkit-scrollbar-thumb {
     @apply bg-grey-300 rounded-[4px]
   }
@@ -169,12 +172,14 @@
 }
 
 html {
-  font-size: 62.5%
+  font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply font-inter font-normal text-para text-grey300;
 }
+a:focus,button:focus{@apply outline-[3px] outline-gray-900 outline-offset-0}
 
 /* typograpy */
 h1,
@@ -312,7 +317,6 @@ p, .para {
 .descrip {
   @apply h-[10px]
 }
-
 .skeleton-text-animated {
   background: linear-gradient(to right, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 8%, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.135) 18%, rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.065) 33%);
   @apply relative bg-[length:800px_104px];
@@ -348,7 +352,6 @@ p, .para {
 .discover-card-container .swiper {
   @apply !pt-[2px]
 }
-
 .MultiSwiper {
   @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px]
 }
@@ -385,7 +388,20 @@ p, .para {
 .MultiSwiper .swiper-pagination-bullet-active {
   @apply !bg-blue-300
 }
+.reviewMainSwiper{@apply md:!p-[0_0_8px_0] !hidden md:!flex }
+.reviewMainSwiper .swiper-button-prev, .reviewMainSwiper .swiper-button-next{@apply md:!block !w-[40px] !h-[40px] !top-[50%] translate-y-[-50%]}
+.MultiSwiper .swiper-button-prev {
+  @apply !left-[0]
+}
 
+.MultiSwiper .swiper-button-next {
+  @apply !right-[0]
+}
+.thumbSwiper{@apply !px-[16px] md:!px-[0]}
+/* .thumbSwiper .swiper-wrapper{@apply lg:grid lg:grid-cols-3 lg:gap-[8px] lg:!translate-x-0} */
+.thumbSwiper .swiper-wrapper .swiper-slide{@apply rounded-[4px] } 
+/* .thumbSwiper .swiper-wrapper .swiper-slide img{@apply lg:w-full max-w-[100%]} */
+.thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-medium-yellow md:border-[3px]}
 /* Swiper Styles */
 /* Backgrop shadow */
 .backdrop-shadow {
@@ -393,11 +409,9 @@ p, .para {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-
-.backdrop-shadow {
+/* .backdrop-shadow {
   @apply backdrop-blur-sm bg-grey-600/80;
-}
-
+} */
 .backdrop-shadow-white {
   @apply backdrop-blur-sm bg-white/50
 }
@@ -510,12 +524,12 @@ p, .para {
   stroke: white
 }
 
-.decrease svg path {
-  stroke: #4664DC
+.enable svg path {
+  @apply stroke-blue-400;
 }
-
-.increment svg path {
-  stroke: #adb2b6;
+ 
+.disable svg path {
+  @apply stroke-grey-300;
 }
 
 /* Registeration */
@@ -536,7 +550,6 @@ p, .para {
 .err_msg {
   display: none
 }
-
 .error .err_msg {
   display: block
 }
@@ -565,8 +578,6 @@ p, .para {
   height: 100%;
 }
 
-
-
 .skiplinkoption .burger-menu span {
   transition: all 0.3s linear 0s;
 }
@@ -586,13 +597,13 @@ p, .para {
 /* skiplink hamburger menu END */
 @media only screen and (min-width: 992px) and (max-width: 1169px) {
   .article-details-aside {
-    width: calc(100% - 321px);
+    @apply w-[calc(100%_-_321px)];
   }
 }
 
 @media only screen and (min-width: 1170px) {
   .article-details-aside {
-    width: 804px;
+    @apply w-[804px];
   }
 }
 
@@ -623,37 +634,21 @@ h6 {
 }
 
 .rtf-innerstyle a {
-  @apply text-blue-400 underline;
+  @apply text-blue-400 hover:underline;
 }
 
 .rtf-innerstyle a.rtfcustom-link {
-  color: #fff;
-}
-
-.rtf-innerstyle a.rtfcustom-link:hover {
-  text-decoration: none;
+  @apply text-white hover:decoration-0;
 }
 
 .rtf-innerstyle figure {
-  border: 1px solid #d6d9da;
-  padding: 10px;
-  border-radius: 3px;
-  display: inline-block;
-  background-color: #f2f2f2;
-  margin-bottom: 15px;
+  @apply bg-grey-100 mb-[15px] inline-block rounded-[3px] p-[10px] border-grey-200 border;
 }
 
 .rtf-innerstyle ul,
 .rtf-innerstyle ol {
   list-style: unset;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-inline-start: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  @apply flex flex-col gap-[8px] pl-[40px]
 }
 
 .rtf-innerstyle iframe {
@@ -661,33 +656,21 @@ h6 {
 }
 
 .rtf-innerstyle table {
-  border: 1px solid #d6d9da !important;
-  border-bottom: 0;
-  border-left: 0;
-  border-collapse: collapse;
-  overflow: auto;
-  max-width: 100%;
-  display: block;
-  @apply w-full;
+  @apply border overflow-auto w-full block border-grey-200 border-collapse;
 }
 
 .rtf-innerstyle table th {
-  background: #f2f2f2;
-  @apply w-full;
+  @apply w-full bg-grey-100;
 }
 
 .rtf-innerstyle table td,
 .rtf-innerstyle table th {
-  padding: 10px;
-  border-left: 1px solid #d6d9da !important;
-  border-bottom: 1px solid #d6d9da !important;
-  vertical-align: top;
-  @apply w-full;
+  @apply w-full p-[10px] border-l-[1px] border-b-[1px] border-grey-200 align-top;
 }
 
 .rtf-innerstyle table ul li {
-  list-style: inside disc;
-  font-size: 14px;
+
+  @apply small list-inside list-disc;
 }
 
 .rtf-innerstyle>div:has([id])>div:not([class])>ul,
@@ -705,8 +688,40 @@ h6 {
 
 /* RTF END */
 
+.form_radio .form-check-input:checked+label,
+.form_radio .form-check-input:hover+label {
+  @apply text-white bg-primary-500 border-primary-500 cursor-pointer
+}
+
+.form_check .form-checkbox:checked+label, .form_radio .form-radio:checked+label {
+  @apply text-white bg-primary-400 border-primary-400 cursor-pointer
+}
+
+/* Course Details */
+.year-of-entry .form-check-input:checked+label, .year-of-entry .form-check-input:hover+label {
+  @apply text-grey300 bg-white border-white
+}
+
+.uniresults-inner .favorite.active svg path {
+  @apply fill-primary-400 stroke-primary-400
+}
+
+.uniresults-inner .favorite.active a span {
+  @apply text-primary-400 underline
+}
+
+.modal-select .form-checkbox+label .select, .modal-select .form-checkbox:checked+label .selected {
+  @apply flex
+}
+
+.modal-select .form-checkbox+label .selected, .modal-select .form-checkbox:checked+label .select {
+  @apply hidden
+}
+
+/* Course Details */
+
 /* sr */
-.heart:hover svg,.heart.active svg {
+.heart:hover svg, .heart.active svg {
   @apply fill-primary-200
   }
   .heart.active{
@@ -716,14 +731,6 @@ h6 {
   .form-black input[type="radio"]:checked+label,
   .form-black input[type="checkbox"]:checked+label {
     @apply text-white bg-grey300 border-grey300 cursor-pointer
-  }
-  
-  .decrease svg path {
-    @apply stroke-blue-400; 
-  }
-  
-  .increment svg path {
-    @apply stroke-gray-300; 
   }
   
   .sort-active path {
@@ -737,17 +744,16 @@ h6 {
     @apply relative inline-block pl-[28px] cursor-pointer 
   }
   
-  .custom-radio input[type="radio"] + label:before
-  {
-    @apply absolute top-[3px] left-0 w-[17px] h-[17px] text-center rounded-full content-[''] border-2 border-grey500 
-  }
-  
-  .custom-radio input[type="radio"]:checked + label:before {
-    @apply transition-all duration-300 ease-in-out shadow-[inset_0_0_0_0.2em_white,inset_0_0_0_1em_#4664dc] 
-    border-2 border-primary-400
-  } 
-  /* sr */
-  .ripple-circle:active{
+.custom-radio input[type="radio"] + label:before {
+  @apply absolute top-[3px] left-0 w-[17px] h-[17px] text-center rounded-full content-[''] border-2 border-grey500
+}
+
+.custom-radio input[type="radio"]:checked + label:before {
+  @apply transition-all duration-300 ease-in-out shadow-[inset_0_0_0_0.2em_white,inset_0_0_0_1em_#4664dc] 
+  border-2 border-primary-400
+} 
+/* sr */
+.ripple-circle:active{
   animation-name: ripple-circle;
   animation-duration: 1s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);

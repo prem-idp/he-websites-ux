@@ -12,6 +12,7 @@ interface ReviewCardProps {
   article_subCat?: string;
 }
 const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_category, article_subCat}) => {
+    console.log(reviewData,"2222222222222222222222222222222222222222222222222")
   return (
     <ClickTrackerWrapper
       gaData={{

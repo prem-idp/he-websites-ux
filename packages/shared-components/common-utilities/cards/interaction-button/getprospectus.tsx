@@ -27,21 +27,23 @@ const Getprospectus = ({ enquiryProps }: any) => {
         window.open(response.requestProspectusWebform, '_blank');
         return
       }
-      let url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus` : ""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}` : ""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}` : ""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}` : "0"}`
-      if (enquiryProps?.pageName === "browsemoneypageresults" && response?.requestProspectusEmail) {
-        if (enquiryProps?.subOrderItemId)
-          url = `${url}/n-${enquiryProps?.subOrderItemId}/order-prospectus.html?${getSponsorOrderItemId()}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr`;
-        else
-          url = `${url}/n-/order-prospectus.html?${getSponsorOrderItemId()}&pageName=sr&nonAdvertiserFlag=Y`;
+      if(response?.requestProspectusEmail){
+        let url = `/degrees/prospectus${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-prospectus` : ""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}` : ""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}` : ""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}` : "0"}`
+        if (enquiryProps?.pageName === "browsemoneypageresults") {
+          if (enquiryProps?.subOrderItemId)
+            url = `${url}/n-${enquiryProps?.subOrderItemId}/order-prospectus.html?${getSponsorOrderItemId()}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr`;
+          else
+            url = `${url}/n-/order-prospectus.html?${getSponsorOrderItemId()}&pageName=sr&nonAdvertiserFlag=Y`;
+        }
+        else if (enquiryProps?.pageName === "coursesearchresult") {
+          if (enquiryProps?.subOrderItemId)
+            url = `${url}/n-${enquiryProps?.subOrderItemId}/order-prospectus.html?${getSponsorOrderItemId()}&pageName=${enquiryProps?.pageName}`;
+          else
+            url = `${url}/n-/order-prospectus.html?${getSponsorOrderItemId()}&pageName=${enquiryProps?.pageName}&nonAdvertiserFlag=Y`;
+        }
+        console.log("URL Printing", url);
+        router.push(url);
       }
-      else if (enquiryProps?.pageName === "coursesearchresult" && response?.requestProspectusEmail) {
-        if (enquiryProps?.subOrderItemId)
-          url = `${url}/n-${enquiryProps?.subOrderItemId}/order-prospectus.html?${getSponsorOrderItemId()}&pageName=${enquiryProps?.pageName}`;
-        else
-          url = `${url}/n-/order-prospectus.html?${getSponsorOrderItemId()}&pageName=${enquiryProps?.pageName}&nonAdvertiserFlag=Y`;
-      }
-      console.log("URL Printing", url);
-      router.push(url);
     } catch (error) {
       console.error('Error fetching enquiry data:', error);
     }

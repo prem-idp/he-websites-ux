@@ -4,7 +4,6 @@ import { getCurrentUser } from "@aws-amplify/auth";
 import { addRemoveFavourites } from "@packages/lib/utlils/userfavourite";
 import React, { useEffect, useMemo, useState } from "react";
 import useFavourite from "./useFavourite";
-import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import FavouriteLimitExceeded from "./FavouriteLimitExceeded";
 import FavouritedToolTip from "./FavouritedToolTip";
 
@@ -19,32 +18,25 @@ interface Favourite {
 interface UserFavouriteProps {
   contentType: 'INSTITUTION' | 'COURSE',
   contentId: number,
-  contentName: string,
-  test?: string
+  contentName: string
 }
 
 const UserFavourite = ({ contentId, contentType, contentName }: UserFavouriteProps) => {
 
   const [exceedMessage, setExceedMessage] = useState(false);
-  const [favourite] = useFavourite();
-  const [favourites, setFavourties] = useState<any>([])
+  const { favourites, setFavourites } = useFavourite();
   const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
-  // const [fav, setFav] = useState<any[]>([]);
   console.log("log", +contentId, favourites?.includes(+contentId));
-
-  useEffect(() => {
-    setFavourties(favourite)
-  }, [favourite])
 
   //Handle Favourite
   const handleFavourite = async (
-    contentId: any,
-    contentName: any,
-    contentType: any,
+    contentId: number,
+    contentName: string,
+    contentType: 'INSTITUTION' | 'COURSE',
     e: React.FormEvent
   ) => {
     e.stopPropagation();
-    // e.preventDefault();
+    e.preventDefault();
     try {
       await getCurrentUser();
     } catch (error) {
@@ -59,32 +51,31 @@ const UserFavourite = ({ contentId, contentType, contentName }: UserFavouritePro
       inputFlag: isAdd,
     };
     try {
-      emitFavouriteAction(isAdd, payload);
+      updateAction(isAdd, payload);
       const data = await addRemoveFavourites([payload]);
-      console.log(data)
       if (data?.message?.toLowerCase() === "added course" || data?.message?.toLowerCase() === "added institution") {
-        setfavourtiteTooltip(contentId);
-      } else if (
-        data?.message?.toLowerCase() === "removed institution" ||
-        data?.message?.toLowerCase() === "removed course"
-      ) {
+        setfavourtiteTooltip(contentId.toString());
+      } else if (data?.message?.toLowerCase() === "removed institution" || data?.message?.toLowerCase() === "removed course") {
         setfavourtiteTooltip("");
       } else if (data?.message?.toLowerCase() === "limit exceeded") {
         setfavourtiteTooltip("");
         setExceedMessage(true);
-        emitFavouriteAction(!isAdd, payload);
+        updateAction(!isAdd, payload);
       }
     } catch (error) {
-      // console.error("Error while toggling favorite:", error);
-      emitFavouriteAction(!isAdd, payload);
+      updateAction(!isAdd, payload);
     }
   };
 
-  function emitFavouriteAction(isAdd: boolean, payload: any) {
+  function updateAction(isAdd: boolean, payload: any) {
     if (isAdd)
-      emitter.emit('favourite', payload);
+      setFavourites((prev: any[]) => {
+        return [...prev, payload?.contentId];
+      });
     else
-      emitter.emit('unfavourite', payload);
+      setFavourites((prev: any[]) => {
+        return prev?.filter(ele => ele !== payload?.contentId);
+      });
   }
 
   const onClose = (event: React.FormEvent) => {
@@ -96,7 +87,7 @@ const UserFavourite = ({ contentId, contentType, contentName }: UserFavouritePro
   return (
     <>
       <div data-testid="favourite"
-      id={`fav${contentId + '-' + favourites?.includes(+contentId)}`}
+        id={`fav${contentId + '-' + favourites?.includes(+contentId)}`}
         onClick={(event) =>
           handleFavourite(
             contentId,
