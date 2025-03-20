@@ -41,15 +41,15 @@ const tooltipsMapper = [
 ];
 
 interface KeyStatsComponentProps {
-  subjectArea: any,
+  keyStats: any,
   uniRankings: any,
   tooltipList: any,
   dataSource: any
 }
 
-const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
-  console.log(uniRankings,"uniRankingsuniRankings")
-  const [selectedSubject, setSelectedSubject] = useState(subjectArea?.[0] || null);
+const KeyStatsComponent = ({ keyStats, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
+  console.log(keyStats,"uniRankingsuniRankings")
+  const [selectedSubject, setSelectedSubject] = useState(keyStats?.[0] || null);
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
 
@@ -103,11 +103,11 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
 
   return (
     <>
-      {(isOpen && !!subjectArea) && <LeftPannelModal
+      {(isOpen && !!keyStats.length) && <LeftPannelModal
         matchKey='subjectName'
         heading='Subjects'
         subHeading='Select a subject'
-        itemList={subjectArea}
+        itemList={keyStats}
         selectedItems={[selectedSubject]}
         isOpen={isOpen}
         onClose={toggleModal}
@@ -118,11 +118,11 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
           <div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col md:flex-row items-start md:items-center justify-between  gap-[16px] md:gap-[8px]'>
               <div className='h4 text-white'>Key stats</div>
-              <div onClick={() => toggleModal()} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>{selectedSubject?.subjectName}
+              {!!keyStats?.length && <div onClick={() => toggleModal()} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>{selectedSubject?.subjectName}
                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </div>
+              </div>}
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
               {uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
@@ -137,7 +137,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               </div>)}
             </div>
           </div>
-          <div className='keystats-inner-row flex flex-col gap-[8px]'>
+          {selectedSubject &&<div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col gap-[16px] md:gap-[8px]'>
               <div className='h4 text-white'>{selectedSubject?.subjectName}</div>
               <div className='flex flex-col md:flex-row justify-between gap-[16px] w-full *:text-small *:text-white'>
@@ -170,7 +170,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
                 </div>}
               </div>
             </div>
-          </div>
+          </div>}
           {!!(selectedSubject?.salary6Months || selectedSubject?.salary6MonthsAtUni) && <div className='keystats-inner-row flex flex-col gap-[8px]'>
             <div className='keystats-inner-header flex flex-col gap-[16px] md:gap-[8px]'>
               <div className='h4 text-white'>Average salary</div>
