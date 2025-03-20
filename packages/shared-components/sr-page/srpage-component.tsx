@@ -14,15 +14,22 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
-import { getSearchPayload, getSEOSearchPayload, getQualCode} from "../services/utils";
-import { searchResultsFetchFunction , httpBFFRequest} from "@packages/lib/server-actions/server-action";
+import {
+  getSearchPayload,
+  getSEOSearchPayload,
+  getQualCode,
+} from "../services/utils";
+import {
+  searchResultsFetchFunction,
+  httpBFFRequest,
+} from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
   const refererURL = headerList.get("referer");
-  console.log("referer", refererURL)
+  console.log("referer", refererURL);
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const filterCookieParam = JSON.parse(
@@ -36,7 +43,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     pathname,
     cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
-  )
+  );
   const paramsAwaited = await params;
   try {
     searchResultsData = await searchResultsFetchFunction(searchPayLoad);
@@ -45,29 +52,41 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   }
   return (
     <>
-      
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
-        <><TopSection
+        <>
+          <TopSection
             searchParams={await searchparams}
-            params={paramsAwaited} /><Suspense>
-              <SearchFilterButtons/>
-              <SearchLabels searchPayLoad={searchPayLoad} />
-            </Suspense></>
+            params={paramsAwaited}
+          />
+          <Suspense>
+            <SearchFilterButtons />
+            <SearchLabels searchPayLoad={searchPayLoad} />
+          </Suspense>
+        </>
       ) : (
         <></>
       )}
 
-      <section className="p-[16px] md:px-[20px] lg:pt-[16px] xl:px-0">
+      <section className="px-[16px] md:px-[20px] xl:px-0">
         <div className="max-w-container mx-auto">
           {searchResultsData?.searchResultsList?.length > 0 &&
           searchResultsData?.status != 404 ? (
             <>
-            {process.env.PROJECT === "Whatuni" && pathname !== "postgraduate-courses" && (!searchparams?.location || !searchparams?.score) ?
-              <GradeBanner /> : <></>
-             }
-               <SortingFilter sortParam={{ param: searchparams,filterCookieParam:refererURL ? filterCookieParam : ""}} />
-             
+              {process.env.PROJECT === "Whatuni" &&
+              pathname !== "postgraduate-courses" &&
+              (!searchparams?.location || !searchparams?.score) ? (
+                <GradeBanner />
+              ) : (
+                <></>
+              )}
+              <SortingFilter
+                sortParam={{
+                  param: searchparams,
+                  filterCookieParam: refererURL ? filterCookieParam : "",
+                }}
+              />
+
               {searchResultsData?.featuredProviderDetails &&
               searchResultsData?.featuredProviderDetails?.collegeId !== 0 ? (
                 <FeaturedVideoSection
@@ -77,8 +96,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 <></>
               )}
               <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList} 
-                qualCode={getQualCode(pathname)}                   
+                searchResultsData={searchResultsData?.searchResultsList}
+                qualCode={getQualCode(pathname)}
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <>
@@ -99,9 +118,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           )}
         </div>
       </section>
-      {searchResultsData?.searchResultsList?.length === 0 &&
-     (
-      <Findacoursecomponents />
+      {searchResultsData?.searchResultsList?.length === 0 && (
+        <Findacoursecomponents h1value="Your uni search made easier" subheading={true}/>
       )}
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
