@@ -103,7 +103,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
     return listvalue;
   };
   const universitiesList = universitiesSortingList();
-
+  console.log(universitiesList);
   const universityClicked = useCallback(
     (displayHeading: string, id: string, isUniOpen?: boolean) => {
       setUniversityState((prev: any) => ({
@@ -552,7 +552,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
       }));
     }
   };
-
+  console.log(jsondata);
   const universityKeywordSearch = (keyword: string) => {
     if (keyword?.length >= 3) {
       const filteredUni = jsondata?.universityFilterList?.filter((uni: any) =>
