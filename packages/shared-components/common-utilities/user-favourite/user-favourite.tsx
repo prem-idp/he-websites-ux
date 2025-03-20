@@ -96,7 +96,7 @@ const UserFavourite = ({ contentId, contentType, contentName }: UserFavouritePro
             event
           )
         }
-        className={`${favourites?.includes(+contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+        className={`ripple-circle-blue ${favourites?.includes(+contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
       >
         <svg
           width="20"
