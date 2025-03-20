@@ -20,8 +20,9 @@ const Regions = React.memo(
     const [isRegionSelected, setIsRegionSelected] = useState<any>(false);
     useEffect(() => {
       const appliedvalues =
-        extractUrlAndSessionValues(searchparams, "", "")?.region?.split("+") ||
-        [];
+        extractUrlAndSessionValues(searchparams, "", "")?.location?.split(
+          "+"
+        ) || [];
       if (appliedvalues?.includes(item?.regionTextKey)) {
         setIsRegionSelected(true);
       } else {
@@ -51,20 +52,22 @@ const Regions = React.memo(
         ?.map((region) => region?.regionTextKey);
 
     const getAppliedRegions = (searchParams: any) =>
-      extractUrlAndSessionValues(searchParams, "", "")?.region?.split("+") ||
+      extractUrlAndSessionValues(searchParams, "", "")?.location?.split("+") ||
       [];
-
     const locationClicked = (regionTextKey: string) => {
-      console.log(regionTextKey);
       const selectedRegion = getSelectedRegion(regionListData, regionTextKey);
-      console.log(selectedRegion);
       if (!selectedRegion) return;
+
       const parentRegion = getParentRegion(regionListData, selectedRegion);
-      console.log(parentRegion);
+
       let appliedRegions = getAppliedRegions(searchparams);
+
       if (isParentRegionSelected(regionListData, selectedRegion)) {
+        // Remove all subregions if a parent is selected
         appliedRegions = appliedRegions.filter((region) => {
+          console.log("entered for", region);
           const subregion = getSelectedRegion(regionListData, region);
+          console.log(subregion);
           return subregion?.parentRegionId !== selectedRegion?.regionId;
         });
         appliedRegions.push(regionTextKey);
@@ -74,7 +77,14 @@ const Regions = React.memo(
           parentRegion,
           regionTextKey
         );
+      } else {
+        //if (!appliedRegions.includes(regionTextKey)) {
+        appliedRegions.push(regionTextKey);
+        // } else {
+        //   appliedRegions?.filter((region) => region !== regionTextKey);
+        // }
       }
+
       console.log(appliedRegions?.join("+"));
       appendSearchParams(keyName?.location, appliedRegions?.join("+"));
     };
@@ -84,21 +94,26 @@ const Regions = React.memo(
       parentRegion: any,
       regionTextKey: string
     ) => {
+      console.log({ appliedRegions, parentRegion, regionTextKey });
       if (appliedRegions.includes(parentRegion?.regionTextKey)) {
+        console.log("Entered in first if");
         appliedRegions = appliedRegions.filter(
           (region) => region !== parentRegion?.regionTextKey
         );
         const siblingRegions = getSubRegions(
           regionListData,
           parentRegion?.regionId
-        ).filter((region) => region !== regionTextKey);
+        )?.filter((region) => region !== regionTextKey);
+        console.log("before", appliedRegions, "==", siblingRegions);
         appliedRegions.push(...siblingRegions);
+        console.log("after", appliedRegions, "++", siblingRegions);
       } else {
+        console.log("entered in else");
         appliedRegions = appliedRegions.includes(regionTextKey)
           ? appliedRegions.filter((region) => region !== regionTextKey)
           : [...appliedRegions, regionTextKey];
       }
-
+      console.log({ appliedRegions });
       return handleAllSubregionsSelection(appliedRegions, parentRegion);
     };
 

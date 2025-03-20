@@ -102,7 +102,7 @@ export async function httpBFFRequest(
         "Content-Type": "application/json",
         "x-correlation-id": uuidv4(),
         sitecode: `${process.env.SITE_CODE}`,
-        "x-api-key": xAPIKey
+        "x-api-key": xAPIKey,
       },
       body: JSON.stringify(bodyPayload),
       cache: cacheType ? cacheType : "default",
