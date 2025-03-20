@@ -12,10 +12,9 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   const router = useRouter();
   const [filterList, setFilterList] = useState<any[]>([]); 
   let searchLabel: any;
-    useEffect(() => {
-    async function getSearchLabels() {
-      
-  try {     
+  useEffect(() => {
+    async function getSearchLabels() {     
+    try {     
     const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
     searchLabel = await httpClientRequest(displayNameBFFEndPt, 
     searchPayLoad, 
@@ -28,7 +27,6 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
     console.log("error", error);
   }
   const filters: any[] = [];
-  console.log("searchPayLoad", searchPayLoad)
   // Add filters only if they exist
    searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
   if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
@@ -54,7 +52,7 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   }
   if(searchPayLoad?.intakeMonth) filters.push({key:'month' , value:searchPayLoad?.intakeMonth?.toString()?.toUpperCase()});
   setFilterList(Array.from(new Set(filters)));
-         }
+}
 getSearchLabels();
 
 }, [searchPayLoad]);
