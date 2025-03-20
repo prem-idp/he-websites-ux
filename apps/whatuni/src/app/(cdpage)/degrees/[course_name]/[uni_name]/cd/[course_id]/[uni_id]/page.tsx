@@ -43,6 +43,8 @@ export default async function Cdpage({ params }: any) {
   ]);
 
   console.log(contents, "data")
+  console.log(othercourseData, "othercourseData")
+
 
   if(data.errorMessage){
     notFound();
