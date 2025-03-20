@@ -25,7 +25,7 @@ const UniInfoComponent = ({ sectionInfo, uniInfo, courseInfo }: UniInfoComponent
   // console.log(uniInfo, courseInfo, 'uniInfo')
   useEffect(() => {
     function loadMabBox() {
-      mapboxgl.accessToken = "pk.eyJ1IjoiaG90Y291cnNlc2ludGwiLCJhIjoiY2s2MjFkeHlxMDhwMDN0cXd2cTlqb3dlZiJ9.L-TXEMvZMFKb5WfkuFfMEA";
+      mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_BOX_TOKEN;
       if (mapContainerRef.current) {
         mapRef.current = new mapboxgl.Map({
           container: mapContainerRef.current,
