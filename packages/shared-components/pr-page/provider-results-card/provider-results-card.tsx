@@ -11,7 +11,6 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import Link from "next/link";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
-import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
@@ -43,24 +42,6 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
   };
 
   const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{ favouritedList: any[] }>({ favouritedList: [] });
-  useEffect(() => {
-    // Getting favourites list when user logged in
-    async function checkUser() {
-      try {
-        const user: AuthUser = await getCurrentUser();
-        setUserData(user);
-        if (user && typeof window !== "undefined") {
-          const favList: Favourite[] = await getUserFavourites();
-          setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-        }
-      } catch (error) {
-        setUserData(null);
-      }
-    }
-    checkUser();
-  }, []);
-
   const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
 
   const toggleReadMore = (idx: number) => {
@@ -74,9 +55,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
       className="flex flex-col rounded-[16px] overflow-hidden bg-white shadow-custom-3 border border-grey-200"
     >
       <div className={`flex justify-end p-[16px] ${items.siteCode === "PGS_WEB" ? "bg-positive-light" : "bg-blue-100"}`}>
-        <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
-          <UserFavourite favourites={favourite} contentId={items?.courseId} contentName={items?.title} contentType="COURSE"></UserFavourite>
-        </span>
+        {/* <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer"> */}
+          <UserFavourite contentId={+items?.courseId} contentName={items?.title} contentType="COURSE" />
+        {/* </span> */}
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
         <div className="flex flex-col gap-[16px] md:min-h-[240px]">

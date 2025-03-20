@@ -18,56 +18,54 @@ const filterCookie = JSON.parse(decodeURIComponent(
 
 
 const SearchFilterButtons = () => {
+  
   const searchParams = useSearchParams();
   const locationFilterCount:any = searchParams?.get("location")?.split(" ")?.length;
   let subjectFilterCount = (
     searchParams?.get("subject")?.split(" ") ||
     searchParams?.get("course")?.split(" ")
   )?.length;
-  if(filterCookie?.subject)
-    subjectFilterCount = subjectFilterCount + (filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
-  let url:any;
-  const [filterCount, setFilterCount] = useState(0)
+  if (filterCookie?.subject)
+    subjectFilterCount =
+      subjectFilterCount +
+      (filterCookie?.subject?.includes("+")
+        ? filterCookie?.subject?.split("+").length
+        : 1);
+  let url: any;
+  const [filterCount, setFilterCount] = useState(0);
   const [gradeCount, setGradeCount] = useState("");
-  useEffect(() => { 
-    // Function to get the size of query parameters excluding a specific one
-const  getfilterCount = (url:any,excludeParam:any[]) => {
-    const urlObj = new URL(url);  // Create a URL object
-    const params = new URLSearchParams(urlObj.search); // Get query parameters
-    excludeParam.forEach(param => params.delete(param)); 
-    if(filterCookie?.subject) delete filterCookie?.subject
-    if(typeof document !== "undefined" && !document.referrer && filterCookie?.score) delete filterCookie?.score
-    const filterCount:number = params.toString().split('&').filter(param => param).length + 2 + Object.keys(filterCookie).length;  // Count remaining params
-    return filterCount
-  }
-  if (typeof window !== 'undefined') {
-     url = new URL(window.location.href);
-  }   
-   setFilterCount(getfilterCount(url,["pageno","page_no","sort","q","keyword","score"]))
-   setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
-   console.log("gradeCount", gradeCount)
-  }, [filterCount]); 
   const appliedFilters = {
     year: searchParams?.get("year")?.split(","),
     month: searchParams?.get("month")?.split(","),
     location: searchParams?.get("location")?.split(","),
-    ucasDcore: searchParams?.get("score")?.split(","),
     university: searchParams?.get("university")?.split(","),
-    campusType: searchParams?.get("campus-type")?.split(","),
     qualification: searchParams?.get("qualification")?.split(","),
     studyMethod: searchParams?.get("study-method")?.split(","),
     locationType: searchParams?.get("location-type")?.split(","),
     russellGroup: searchParams?.get("russell-group")?.split(","),
-    employmentRateMin: searchParams?.get("employment-rate-min")?.split(","),
-    employmentRateMax: searchParams?.get("employment-rate-max")?.split(","),
     studyMode:
       searchParams?.get("study-mode")?.split(",") ||
       searchParams?.get("study_mode")?.split(","),
-    pageNo:
-      searchParams?.get("pageno")?.split(",") || searchParams?.get("page_no"),
     subject:
       searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
+    distance : searchParams?.get("distance_from_home")?.split(",")|| searchParams?.get("distance-from-home")?.split(","),
   };
+  const getSelectedFiltersCount = (appliedFilters: any) => {
+    let totalCount = 0;
+    Object.entries(appliedFilters).forEach(([key, value]) => {
+      if (Array.isArray(value) && value?.filter(Boolean).length > 0) {
+        totalCount += value.filter(Boolean).length;
+      }
+    });
+    if(filterCookie?.subject) delete filterCookie?.subject
+    if(typeof document !== "undefined" && !document.referrer && filterCookie?.score) delete filterCookie?.score
+    return totalCount + 2 + Object.keys(filterCookie).length;  
+  };
+  useEffect(() => {
+    const totalCount = getSelectedFiltersCount(appliedFilters);
+    setFilterCount(totalCount);
+    setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
+  }, [searchParams]);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
 
@@ -87,7 +85,7 @@ const  getfilterCount = (url:any,excludeParam:any[]) => {
   };
   return (
     <>
-      <section className="bg-grey-600 px-[12px] py-[16px] sticky top-0 z-[4]">
+      <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
             <button type="button"

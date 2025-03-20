@@ -10,8 +10,9 @@ const ApplyNow = ({ enquiryProps }: any) => {
         orderItemId: enquiryProps?.orderItemId,
         collegeId: enquiryProps?.collegeId,
         affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
-        sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
-        manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+        qualCode: enquiryProps?.qualCode,
+        //sponsoredListingFlag: enquiryProps?.sponsoredListingFlag || null,
+       // manualBoostingFlag: enquiryProps?.manualBoostingFlag,
       };
       console.log("applyNowPayload", applyNowPayload);
       const response = await fetchenquirydata(applyNowPayload);

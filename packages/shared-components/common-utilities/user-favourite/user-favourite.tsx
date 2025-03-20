@@ -2,10 +2,8 @@
 
 import { getCurrentUser } from "@aws-amplify/auth";
 import { addRemoveFavourites } from "@packages/lib/utlils/userfavourite";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import useFavourite from "./useFavourite";
-import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import FavouriteLimitExceeded from "./FavouriteLimitExceeded";
 import FavouritedToolTip from "./FavouritedToolTip";
 
@@ -23,20 +21,22 @@ interface UserFavouriteProps {
   contentName: string
 }
 
-const UserFavourite = (favouriteProps: UserFavouriteProps) => {
+const UserFavourite = ({ contentId, contentType, contentName }: UserFavouriteProps) => {
 
   const [exceedMessage, setExceedMessage] = useState(false);
-  const favourites = useFavourite();
+  const { favourites, setFavourites } = useFavourite();
   const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
+  console.log("log", +contentId, favourites?.includes(+contentId));
 
   //Handle Favourite
   const handleFavourite = async (
-    contentId: any,
-    contentName: any,
-    contentType: any,
+    contentId: number,
+    contentName: string,
+    contentType: 'INSTITUTION' | 'COURSE',
     e: React.FormEvent
   ) => {
     e.stopPropagation();
+    e.preventDefault();
     try {
       await getCurrentUser();
     } catch (error) {
@@ -51,31 +51,31 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
       inputFlag: isAdd,
     };
     try {
-      emitFavouriteAction(isAdd, payload);
+      updateAction(isAdd, payload);
       const data = await addRemoveFavourites([payload]);
       if (data?.message?.toLowerCase() === "added course" || data?.message?.toLowerCase() === "added institution") {
-        setfavourtiteTooltip(contentId);
-      } else if (
-        data?.message?.toLowerCase() === "removed institution" ||
-        data?.message?.toLowerCase() === "removed course"
-      ) {
+        setfavourtiteTooltip(contentId.toString());
+      } else if (data?.message?.toLowerCase() === "removed institution" || data?.message?.toLowerCase() === "removed course") {
         setfavourtiteTooltip("");
       } else if (data?.message?.toLowerCase() === "limit exceeded") {
         setfavourtiteTooltip("");
         setExceedMessage(true);
-        emitFavouriteAction(!isAdd, payload);
+        updateAction(!isAdd, payload);
       }
     } catch (error) {
-      emitFavouriteAction(!isAdd, payload);
-      console.error("Error toggling favorite:", error);
+      updateAction(!isAdd, payload);
     }
   };
 
-  function emitFavouriteAction(isAdd: boolean, payload: any) {
+  function updateAction(isAdd: boolean, payload: any) {
     if (isAdd)
-      emitter.emit('favourite', payload);
+      setFavourites((prev: any[]) => {
+        return [...prev, payload?.contentId];
+      });
     else
-      emitter.emit('unfavourite', payload);
+      setFavourites((prev: any[]) => {
+        return prev?.filter(ele => ele !== payload?.contentId);
+      });
   }
 
   const onClose = (event: React.FormEvent) => {
@@ -87,15 +87,16 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
   return (
     <>
       <div data-testid="favourite"
+        id={`fav${contentId + '-' + favourites?.includes(+contentId)}`}
         onClick={(event) =>
           handleFavourite(
-            favouriteProps?.contentId,
-            favouriteProps?.contentName,
-            favouriteProps?.contentType,
+            contentId,
+            contentName,
+            contentType,
             event
           )
         }
-        className={`${favourites?.includes(+favouriteProps?.contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
+        className={`ripple-circle-blue ${favourites?.includes(+contentId) ? "heart active" : ""} min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative`}
       >
         <svg
           width="20"
@@ -112,7 +113,7 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
             strokeLinejoin="round"
           />
         </svg>
-        {+favourtiteTooltip === favouriteProps?.contentId && <FavouritedToolTip onClose={onClose} />}
+        {+favourtiteTooltip === contentId && <FavouritedToolTip onClose={onClose} />}
       </div>
       {exceedMessage && <FavouriteLimitExceeded onClose={onClose} />}
     </>

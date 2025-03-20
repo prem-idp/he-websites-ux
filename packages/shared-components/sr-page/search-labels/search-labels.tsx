@@ -10,13 +10,11 @@ import { getSearchPayload } from "@packages/shared-components/services/utils";
 
 const SearchLabelsContent =  ({searchPayLoad}:any) => {
   const router = useRouter();
-  const [filterList, setFilterList] = useState<any[]>([]);
-  const searchParams = useSearchParams();  
+  const [filterList, setFilterList] = useState<any[]>([]); 
   let searchLabel: any;
-    useEffect(() => {
-    async function getSearchLabels() {
-      
-  try {     
+  useEffect(() => {
+    async function getSearchLabels() {     
+    try {     
     const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
     searchLabel = await httpClientRequest(displayNameBFFEndPt, 
     searchPayLoad, 
@@ -46,17 +44,18 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
   if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
   if(searchLabel?.locationName?.length === 1) {
-    filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:searchLabel?.locationName});
+    filters.push({key:'location' , value:searchLabel?.locationName});
   } else {
     searchLabel?.locationName?.forEach((value:any, index:any) => {
-      filters.push({key:searchParams?.has('region') ? 'region' : 'city' , value:value});
+      filters.push({key:'location' , value:value});
     });
   }
+  if(searchPayLoad?.intakeMonth) filters.push({key:'month' , value:searchPayLoad?.intakeMonth?.toString()?.toUpperCase()});
   setFilterList(Array.from(new Set(filters)));
-         }
+}
 getSearchLabels();
 
-}, [searchLabel]);
+}, [searchPayLoad]);
 
   const openFilterFunction = () => {
     emitter.emit("isfilterOpen", "subject");
@@ -112,7 +111,7 @@ getSearchLabels();
                 key={index + 1}
               >
                 {items?.value}
-                {index !== 0 && index !== 1 ?
+                {index !== 0 && (index !== 1 || (process.env.PROJECT === "PGS" && index === 1)) ?
                 <svg onClick={()=> removeFilter(items?.key,items?.value)}
                   className="cursor-pointer"
                   width="16"

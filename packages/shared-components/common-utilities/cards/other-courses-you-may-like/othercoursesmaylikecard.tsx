@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Getprospectus from '@packages/shared-components/common-utilities/cards/interaction-button/getprospectus'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
+import Clearingvisitewebsite from '../interaction-button/clearingvisitewebsite'
+import Callnowbutton from '../interaction-button/callnow'
+import UserFavourite from '../../user-favourite/user-favourite'
 
 const Othercoursesmaylikecard = ({ val }: any) => {
     return (
@@ -17,7 +20,7 @@ const Othercoursesmaylikecard = ({ val }: any) => {
                     }
                 </div>
                 <div className='absolute top-[16px] right-[16px] z-[1]'>
-                    <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+                    {/* <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                         <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
                             >
@@ -30,7 +33,8 @@ const Othercoursesmaylikecard = ({ val }: any) => {
                                 />
                             </svg>
                         </div>
-                    </span>
+                    </span> */}
+                     <UserFavourite contentId={val?.courseId} contentName={val?.courseName} contentType="COURSE" />
                 </div>
                 <div className='absolute top-0 left-0 right-0 bottom-0 bg-black/50 z-0'></div>
             </div>

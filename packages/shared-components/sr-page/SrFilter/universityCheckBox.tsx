@@ -22,6 +22,7 @@ const UniversityCheckBox = React.memo(
         setIsUniSelected(false);
       }
     }, [searchparams]);
+
     return (
       <div className="form_check relative">
         <div className="flex items-start gap-[8px]">
@@ -84,10 +85,10 @@ const UniversityCheckBox = React.memo(
             </label>
           </div>
           <label
-            htmlFor={item?.collegeName}
+            htmlFor={item?.collegeNameDisplay}
             className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
           >
-            {item?.collegeName}
+            {item?.collegeNameDisplay}
           </label>
         </div>
       </div>

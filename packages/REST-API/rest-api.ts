@@ -25,7 +25,7 @@ const makeApiCall = async (
 
     if (!response.ok) {
       const errorResponse = await response.json().catch(() => ({}));
-      console.error({
+      console.warn({
         error: errorResponse,
         endpoint: apiUrl,
         status: response?.status,
@@ -36,11 +36,9 @@ const makeApiCall = async (
     return await response.json();
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error(`API call failed: ${error.message}`, { endpoint: apiUrl });
-      throw error;
+      console.warn(`API call failed: ${error.message}`, { endpoint: apiUrl });
     } else {
-      console.error("Unknown error occurred", { endpoint: apiUrl, error });
-      throw new Error("An unknown error occurred during the API call.");
+      console.warn("Unknown error occurred", { endpoint: apiUrl, error });
     }
   }
 };
@@ -73,8 +71,8 @@ const getSrFilter = async (bodyjson: any): Promise<any> => {
     }
     return await response.json();
   } catch (error: unknown) {
-    console.error(`API call failed: ${error}`, { endpoint: apiUrl });
-    console.error("Unknown error occurred", { endpoint: apiUrl, error });
+    console.log(`API call failed: ${error}`, { endpoint: apiUrl });
+    console.log("Unknown error occurred", { endpoint: apiUrl, error });
   }
 };
 

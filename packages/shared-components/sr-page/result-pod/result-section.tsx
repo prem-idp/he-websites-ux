@@ -27,12 +27,15 @@ interface Favourite {
 }
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
-  searchResultsData,qualCode
+  searchResultsData,
+  qualCode,
 }) => {
   const searchParams = useSearchParams();
-  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
+  const selectedSubject = searchParams?.has("subject")
+    ? searchParams?.get("subject")
+    : "";
   const [user, setUserData] = useState<AuthUser | null>(null);
-  const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
+  // const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
 
  const universityPodClick = (navigationUrl: any) => {
   typeof window !== "undefined" && window?.open(navigationUrl, "_self");
@@ -40,23 +43,6 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
 const wuscaClick = (event:React.FormEvent) => {
   event.stopPropagation();
 };
-
-     useEffect(() => {
-       // Getting favourites list when user logged in
-       async function checkUser() {
-         try {
-           const user: AuthUser = await getCurrentUser();
-           setUserData(user);
-           if (user && typeof window !== "undefined") {
-             const favList: Favourite[] = await getUserFavourites();
-             setFavourite({ favouritedList: favList?.map((fav) => fav?.fav_id) });
-           }
-         } catch (error) {
-           setUserData(null);
-         }
-       }
-       checkUser();
-     }, []);
 
   const calculateDaysBetween = (targetDate: any) => {
     const currentDate: any = new Date();
@@ -84,10 +70,9 @@ const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTex
 queryString ? `&${queryString}` : ''
 }`;    
     return providerResultURL;
+  };
 
-  }
-  
-  const getEnquiryProps = (data:any,courseData:any) => {
+  const getEnquiryProps = (data: any, courseData: any) => {
     const baseEnquiryProps = {
       courseId: courseData?.courseId,
       collegeId: data?.collegeId,
@@ -98,15 +83,15 @@ queryString ? `&${queryString}` : ''
       collegeName: data?.collegeTextKey,
       pageName: "browsemoneypageresults",
       qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode,
-      selectedSubject: selectedSubject
+      selectedSubject: selectedSubject,
     };
-    return baseEnquiryProps
-  }
+    return baseEnquiryProps;
+  };
 
+  console.log(searchResultsData);
   return (
     <>
       {searchResultsData?.map((data, index) => (
-        
         <div
           className="flex flex-col mt-[8px] md:mt-[24px] md:flex-row"
           key={index}
@@ -124,35 +109,33 @@ queryString ? `&${queryString}` : ''
             <div className="absolute top-0 left-0 p-[16px] bg-gradient11 w-full h-full lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
               <div className="flex justify-between">
                 <div className="flex items-start gap-[8px]">
-                {data?.collegeMedia?.ipCollegeLogo && (
-                  <Link
-                    href={
-                      process.env.PROJECT === "Whatuni"
-                        ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
-                        : `/universities/${data?.collegeTextKey}}`
-                    }
-                    className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
-                  >
-                    
-                    <Image
-                      src={
-                        data?.collegeMedia?.ipCollegeLogo
-                          ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
-                          : "/static/assets/icons/search-result/kent.png"
+                  {data?.collegeMedia?.ipCollegeLogo && (
+                    <Link
+                      href={
+                        process.env.PROJECT === "Whatuni"
+                          ? `/university-profile/${data?.collegeTextKey}/${data?.collegeId}`
+                          : `/universities/${data?.collegeTextKey}}`
                       }
-                      alt="University logo"
-                      width={56}
-                      height={56}
-                      id="uni_img"
-                    /> 
-                  </Link> )}
+                      className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
+                    >
+                      {data?.collegeMedia?.ipCollegeImage && (
+                        <Image
+                          src={data?.collegeMedia?.ipCollegeLogo}
+                          alt="University logo"
+                          width={56}
+                          height={56}
+                          id="uni_img"
+                        />
+                      )}
+                    </Link>
+                  )}
                   {data?.sponsoredListingFlag === "Y" && (
                     <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
                       sponsored
                     </div>
                   )}
                 </div>
-                <UserFavourite favourites={favourite} contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION"></UserFavourite>
+                <UserFavourite contentId={data?.collegeId} contentName={data?.collegeDisplayName} contentType="INSTITUTION" />
               </div>
               <div className="flex flex-col gap-[4px] text-white">
                 <Link
@@ -185,12 +168,13 @@ queryString ? `&${queryString}` : ''
                       </svg>
                       {data?.exactRating}
                     </div>
+                    {process.env.PROJECT === "Whatuni" && (
                     <Link
                       href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
                       className="underline"
                     >
                       {data?.reviewCount} reviews
-                    </Link>
+                    </Link> )}
                   </div>
                 )}
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
@@ -227,7 +211,7 @@ queryString ? `&${queryString}` : ''
                     </div>
                   )}
                 </div>
-                {data?.wuscaRanking && (
+                {process.env.PROJECT === "Whatuni" && data?.wuscaRanking && (
                   <div className="x-small underline w-fit relative group" onClick={(event) =>wuscaClick(event)}>
                     WUSCA ranking: {data?.wuscaRanking}{getOrdinalFor(data?.wuscaRanking)}
                     <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
@@ -277,14 +261,17 @@ queryString ? `&${queryString}` : ''
                       />
                       {data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}
                     </div>
-                    {data?.wuscaBadges?.includes(",") ?
+                    {data?.wuscaBadges?.includes(",") ? (
                       <div className="bg-primary-400 px-[8px] rounded-[4px]">
                         + {data?.wuscaBadges?.split(",")?.length - 1} more
-                      </div> : <></>}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 )}
                 {data?.openDayDetails?.openDate &&
-                  process.env.PROJECT === "Whatuni" ? (
+                process.env.PROJECT === "Whatuni" ? (
                   <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
                     <div className="flex items-center gap-[2px] bg-positive-light text-positive-default px-[8px] rounded-[4px]">
                       {calculateDaysBetween(data?.openDayDetails?.openDate)}
@@ -296,17 +283,18 @@ queryString ? `&${queryString}` : ''
               </div>
             </div>
             {data?.collegeMedia?.ipCollegeImage && (
-            <Image
-              src={
-                data?.collegeMedia?.ipCollegeImage
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  : "/static/assets/images/search-results/university.jpg"
-              }
-              alt="University"
-              width={500}
-              height={376}
-              className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
-            /> )}
+              <Image
+                src={
+                  data?.collegeMedia?.ipCollegeImage
+                  // ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                  // : "/static/assets/images/search-results/university.jpg"
+                }
+                alt="University"
+                width={500}
+                height={376}
+                className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
+              />
+            )}
           </div>
           <div className="flex flex-col grow">
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 min-h-[400px] md:rounded-tr-[16px]">
@@ -395,10 +383,15 @@ queryString ? `&${queryString}` : ''
                           </div>
                         </Link>
                         <div className="flex gap-[4px] text-grey-500">
-                          {((courseData?.minUcasPoints || courseData?.maxUcasPoints) && process.env.PROJECT === "Whatuni") || (courseData?.availabilityDetails?.fees && process.env.PROJECT === "PGS") ? (
+                          {((courseData?.minUcasPoints ||
+                            courseData?.maxUcasPoints) &&
+                            process.env.PROJECT === "Whatuni") ||
+                          (courseData?.availabilityDetails?.fees &&
+                            process.env.PROJECT === "PGS") ? (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" && courseData?.availabilityDetails?.fees ?(
+                              {process.env.PROJECT === "PGS" &&
+                              courseData?.availabilityDetails?.fees ? (
                                 <svg
                                   width="16"
                                   height="16"
@@ -413,28 +406,38 @@ queryString ? `&${queryString}` : ''
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   />
-                                </svg> 
-                               ) : (
+                                </svg>
+                              ) : (
                                 <>
-                                 {process.env.PROJECT === "Whatuni" &&
-                                  <Image
-                                    className="hidden md:block"
-                                    src="/static/assets/icons/search-result/calender-grey.svg"
-                                    alt="Lecturers and Teaching"
-                                    width={16}
-                                    height={16}
-                                  />}
+                                  {process.env.PROJECT === "Whatuni" && (
+                                    <Image
+                                      className="hidden md:block"
+                                      src="/static/assets/icons/search-result/calender-grey.svg"
+                                      alt="Lecturers and Teaching"
+                                      width={16}
+                                      height={16}
+                                    />
+                                  )}
                                 </>
                               )}
                               {/* pgs euro icon */}
-                              {process.env.PROJECT === "PGS" ? courseData?.availabilityDetails?.fees : (courseData?.minUcasPoints && courseData?.maxUcasPoints ? courseData?.minUcasPoints +"-"+ courseData?.maxUcasPoints : courseData?.minUcasPoints ? courseData?.minUcasPoints : courseData?.maxUcasPoints) + " ucas points" }
-                              
+                              {process.env.PROJECT === "PGS"
+                                ? courseData?.availabilityDetails?.fees
+                                : (courseData?.minUcasPoints &&
+                                  courseData?.maxUcasPoints
+                                    ? courseData?.minUcasPoints +
+                                      "-" +
+                                      courseData?.maxUcasPoints
+                                    : courseData?.minUcasPoints
+                                      ? courseData?.minUcasPoints
+                                      : courseData?.maxUcasPoints) +
+                                  " ucas points"}
                             </div>
                           ) : (
                             <></>
                           )}
                           {(courseData?.availabilityDetails?.duration ||
-                          courseData?.availabilityDetails?.studyMode) && (
+                            courseData?.availabilityDetails?.studyMode) && (
                             <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
                               <Image
                                 className="hidden md:block"
@@ -449,14 +452,18 @@ queryString ? `&${queryString}` : ''
                           )}
                         </div>
                       </div>
-                      <UserFavourite favourites={favourite} contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE"></UserFavourite>
+                      <UserFavourite contentId={courseData?.courseId} contentName={data?.collegeDisplayName} contentType="COURSE" />
                     </div>
                     {/* pgs descrption */}
                     {process.env.PROJECT === "PGS" &&
-                      courseData?.courseSummary ? (
+                    courseData?.courseSummary ? (
                       <div className="relative small text-grey500">
                         <div className="line-clamp-2">
-                        <div dangerouslySetInnerHTML={{ __html:courseData?.courseSummary || '' }} />
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: courseData?.courseSummary || "",
+                            }}
+                          />
                         </div>
                         <div className="absolute bg-gradient13 bg-white bottom-0 right-0 sm:left-[210px]">
                           <span>... </span>
@@ -473,19 +480,21 @@ queryString ? `&${queryString}` : ''
                     )}
                     {/* pgs descrption */}
 
-                    {process.env.PROJECT === "Whatuni"  && courseData?.modulesDesc? (
+                    {process.env.PROJECT === "Whatuni" &&
+                    courseData?.modulesDesc ? (
                       <ClickAndShow>
                         <div className="text-black x-small">
-                          <div className="font-semibold">{courseData?.modulesInfo}</div>
+                          <div className="font-semibold">
+                            {courseData?.modulesInfo}
+                          </div>
                           <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
                             {courseData?.modulesDesc?.split('###').map((desc:any,index:any) => (
                                <li key={index}>{desc}</li>
                             ))}
-
                           </ul>
                           <Link
                             href={`/degrees/${courseData?.courseTitleTextKey}/${data?.collegeTextKey}/cd/${courseData?.courseId}/${data?.collegeId}`}
-                            className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
+                            className="flex items-center gap-[4px] w-fit mt-[4px] text-primary-400 small font-semibold hover:underline"
                           >
                             View all modules
                             <svg
@@ -514,29 +523,30 @@ queryString ? `&${queryString}` : ''
                         md:grid-cols-1 md:grid-flow-row"
                       }`}
                     >
-                        {process.env.PROJECT === "PGS" && courseData?.enquiryDetails?.applyNowFlag === "Y" && (
+                      {process.env.PROJECT === "PGS" &&
+                        courseData?.enquiryDetails?.applyNowFlag === "Y" && (
                           <ApplyNow
-                            enquiryProps={getEnquiryProps(data,courseData)}
+                            enquiryProps={getEnquiryProps(data, courseData)}
                           />
-                      )}
+                        )}
                       {courseData?.enquiryDetails?.prospectusFlag === "Y" && (
                         <Getprospectus
-                          enquiryProps={getEnquiryProps(data,courseData)}
+                          enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
                       {courseData?.enquiryDetails?.websiteFlag === "Y" && (
                         <Visitwebsite
-                          enquiryProps={getEnquiryProps(data,courseData)}
+                          enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" && (
+                      {courseData?.openDayDetails?.opendayFlag === "Y" && (
                         <BookOpenDay
-                        enquiryProps={getEnquiryProps(data,courseData)}
+                          enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
                       {courseData?.enquiryDetails?.emailFlag === "Y" && (
                         <RequestInfo
-                        enquiryProps={getEnquiryProps(data,courseData)}
+                          enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
                     </div>

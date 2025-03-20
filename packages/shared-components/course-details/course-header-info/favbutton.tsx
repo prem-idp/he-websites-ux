@@ -3,7 +3,8 @@ import { useState } from "react"
 export default function Favbutton(){
     const [favorities,setFavorities]=useState(false)
 
-    return( <span onClick={()=>setFavorities((prev)=>!prev)} className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+    return( 
+    <button onClick={()=>setFavorities((prev)=>!prev)} className="ripple-circle-blue favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
     <div className={`heart ${favorities ? "active":""}   min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100`}>
       <svg
         width="20"
@@ -21,5 +22,6 @@ export default function Favbutton(){
         />
       </svg>
     </div>                                  
-  </span>)
+  </button>
+  )
 }

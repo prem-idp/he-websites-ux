@@ -45,16 +45,15 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   }
   return (
     <>
-      <TopSection
-        searchParams={await searchparams}
-        params={paramsAwaited}
-      />
+      
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
-        <Suspense>
-          <SearchFilterButtons />
-          <SearchLabels searchPayLoad={searchPayLoad}/>
-        </Suspense>
+        <><TopSection
+            searchParams={await searchparams}
+            params={paramsAwaited} /><Suspense>
+              <SearchFilterButtons/>
+              <SearchLabels searchPayLoad={searchPayLoad} />
+            </Suspense></>
       ) : (
         <></>
       )}
