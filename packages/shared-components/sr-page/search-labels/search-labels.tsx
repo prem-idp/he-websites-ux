@@ -68,7 +68,7 @@ getSearchLabels();
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
       if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "location")) {
-        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== (value?.includes(" ") ? value?.replace(" ","-")?.toLowerCase() : value?.toLowerCase()));
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== (value?.includes(" ") ? value?.replaceAll(" ","-")?.toLowerCase() : value?.toLowerCase()));
         const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
         updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
       } else {

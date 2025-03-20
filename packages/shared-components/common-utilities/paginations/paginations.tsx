@@ -79,7 +79,7 @@ const Paginations = ({ totalPages, initialPage }: any) => {
   return (
     <>
       {validTotalPages > 1 &&
-        <div className="pt-[24px] pb-[8px] md:pt-[40px] md:pb-[24px]">
+        <div className="py-[24px] md:py-[40px]">
           <nav aria-label="navigation">
             <ul className="pagination flex justify-center items-center gap-[8px]">
               {currentPage > 1 &&

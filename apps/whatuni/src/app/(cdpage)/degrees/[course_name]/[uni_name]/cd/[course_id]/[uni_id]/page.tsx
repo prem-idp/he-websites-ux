@@ -82,7 +82,7 @@ export default async function Cdpage({ params }: any) {
       }
       {process.env.PROJECT === "Whatuni" &&
         <LazyLoadWrapper>
-          <Findacoursecomponents contents={contents} />
+          <Findacoursecomponents h1value="Find a course" subheading={false}/>
         </LazyLoadWrapper>
       }
     </>
