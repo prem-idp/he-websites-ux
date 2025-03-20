@@ -947,23 +947,28 @@ const SearchFilterComponent = ({ data, path }: any) => {
                             }}
                           />
                           {subjectState?.isSujectDropdownOpen && (
-                            <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                            <div className="flex flex-col w-[calc(100%_+_26px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-13px] top-[33px] custom-scrollbar-2 max-h-[213px] overflow-y-auto">
+                              <div className="px-[16px] py-[12px] cursor-pointer">
+                                <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
+                                  Keyword search for
+                                </p>
+                                <p className="small text-primary-400">'bus'</p>
+                              </div>
                               {subjectState?.sortedSubjects?.length > 0 ? (
                                 <ul>
                                   {subjectState?.sortedSubjects?.map(
                                     (subjects: any, index: number) => (
-                                      <li key={index + 1}>
-                                        <div
-                                          onClick={() => {
-                                            appendSearchParams(
-                                              keyName?.subject,
-                                              subjects?.subjectTextKey
-                                            );
-                                          }}
-                                          className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                                        >
-                                          {subjects?.categoryDesc}
-                                        </div>
+                                      <li
+                                        key={index + 1}
+                                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                                        onClick={() => {
+                                          appendSearchParams(
+                                            keyName?.subject,
+                                            subjects?.subjectTextKey
+                                          );
+                                        }}
+                                      >
+                                        {subjects?.categoryDesc}
                                       </li>
                                     )
                                   )}
@@ -975,7 +980,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           )}
                         </div>
                       </div>
-                      <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
+                      <div className="max-h-[200px] overflow-y-auto custom-scrollbar-2">
                         <div
                           className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out $
                       ${subjectState?.isSubjectOpen ? "-translate-x-full h-0 hidden" : "translate-x-0 h-auto"}
@@ -1188,42 +1193,50 @@ const SearchFilterComponent = ({ data, path }: any) => {
                           value={universityState?.universityKeyword}
                         />
                         {universityState?.isUniversityDropdownOpen && (
-                          <div className="flex flex-col w-[calc(100%+16px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-8px] top-[33px] custom-scrollbar-2 max-h-[205px] overflow-y-auto mr-[4px]">
+                          <div className="flex flex-col w-[calc(100%_+_26px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-13px] top-[33px] custom-scrollbar-2 max-h-[213px] overflow-y-auto">
+                            <div className="px-[16px] py-[12px] cursor-pointer">
+                              <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
+                                Keyword search for
+                              </p>
+                              <p className="small text-primary-400">'bus'</p>
+                            </div>
+                            <div className="w-fit x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-grey-100">
+                              University
+                            </div>
                             {universityState?.sortedUni?.length > 0 ? (
                               <ul>
                                 {universityState?.sortedUni?.map(
                                   (sortedUniItem: any, index: number) => (
-                                    <li key={index + 1}>
-                                      <div
-                                        onClick={() => {
-                                          appendSearchParams(
-                                            keyName?.university,
-                                            sortedUniItem?.collegeTextKey
-                                          );
-                                          // const selectedItem =
-                                          //   universitiesList
-                                          //     ?.flatMap(
-                                          //       (universityArray: any) =>
-                                          //         universityArray?.unilist
-                                          //           ?.filter(
-                                          //             (university: any) =>
-                                          //               university?.collegeNameDisplay ===
-                                          //               sortedUniItem?.collegeNameDisplay
-                                          //           )
-                                          //           ?.map(
-                                          //             () => universityArray
-                                          //           ) || []
-                                          //     )
-                                          //     ?.filter(Boolean)[0];
-                                          // universityClicked(
-                                          //   selectedItem?.displayHeading,
-                                          //   selectedItem?.id
-                                          // );
-                                        }}
-                                        className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
-                                      >
-                                        {sortedUniItem?.collegeNameDisplay}
-                                      </div>
+                                    <li
+                                      key={index + 1}
+                                      className="px-[16px] py-[10px] block small hover:bg-blue-50 hover:underline cursor-pointer"
+                                      onClick={() => {
+                                        appendSearchParams(
+                                          keyName?.university,
+                                          sortedUniItem?.collegeTextKey
+                                        );
+                                        // const selectedItem =
+                                        //   universitiesList
+                                        //     ?.flatMap(
+                                        //       (universityArray: any) =>
+                                        //         universityArray?.unilist
+                                        //           ?.filter(
+                                        //             (university: any) =>
+                                        //               university?.collegeNameDisplay ===
+                                        //               sortedUniItem?.collegeNameDisplay
+                                        //           )
+                                        //           ?.map(
+                                        //             () => universityArray
+                                        //           ) || []
+                                        //     )
+                                        //     ?.filter(Boolean)[0];
+                                        // universityClicked(
+                                        //   selectedItem?.displayHeading,
+                                        //   selectedItem?.id
+                                        // );
+                                      }}
+                                    >
+                                      {sortedUniItem?.collegeNameDisplay}
                                     </li>
                                   )
                                 )}
@@ -1235,7 +1248,7 @@ const SearchFilterComponent = ({ data, path }: any) => {
                         )}
                       </div>
                     </div>
-                    <div className="max-h-[250px] overflow-y-auto custom-scrollbar-2">
+                    <div className="max-h-[200px] overflow-y-auto custom-scrollbar-2">
                       <div
                         className={`flex flex-col gap-[12px] transition-all duration-300 ease-in-out ${
                           universityState?.isUniversityOpen
