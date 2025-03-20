@@ -1,7 +1,7 @@
 "use server";
 import React from "react";
 import Image from "next/image";
-import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
+
 const SrPageNoResults = () => {
   return (
     <>
@@ -29,7 +29,7 @@ const SrPageNoResults = () => {
         </div>
       </div>
 
-      <Findacoursecomponents />
+     
     </>
   );
 };
