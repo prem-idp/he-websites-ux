@@ -36,8 +36,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   // console.log("query: ", query);
-  // console.log("seoMetaFeildId: ", seoMetaFeildId);
-  // console.log("contentfulMetadata: ", contentfulMetadata);
+  console.log("seoMetaFeildId: ", seoMetaFeildId);
+  console.log("contentfulMetadata: ", contentfulMetadata);
 
   //
   const displayNames = {
@@ -259,6 +259,7 @@ function getselectedCount(filterValueString: string|undefined) : number{
 }
 
 function formSRPageURL(searchParams: any, pathName: string){
+  const PROJECT = process.env.PROJECT;
   let filterCount: number = 0;
   let formURL = getCustomDomain();
   formURL = formURL + pathName;
@@ -278,7 +279,7 @@ function formSRPageURL(searchParams: any, pathName: string){
   if(filterCount < 4 && searchParams?.['study-mode']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("study-mode=" + searchParams?.['study-mode']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-year']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-year=" + searchParams?.['intake-year']); filterCount++;}
   if(filterCount < 4 && searchParams?.['intake-month']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("intake-month=" + searchParams?.['intake-month']); filterCount = filterCount + getselectedCount(searchParams?.['intake-month']);}
-  if(filterCount < 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("distance=" + searchParams?.distance); filterCount++;}
+  if(filterCount < 4 && searchParams?.distance) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + `${PROJECT == "whatuni" ? "distance-from-home=" : "distance_from_home="}${searchParams?.distance}`; filterCount++;}
   if(filterCount < 4 && searchParams?.universityGroup) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("universityGroup=" + searchParams?.universityGroup); filterCount++;}
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
   if(filterCount < 4 && searchParams?.['location-type']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location-type=" + searchParams?.['location-type']); filterCount++;}
@@ -759,7 +760,6 @@ export function get_WU_SR_PR_breadcrumb(searchparams: any, displayNameResponse: 
       default:                          return ["", ""];
     }
   }
-
   const formatMultiSelctedDisplaynameSEO = (inputstringArr: string[]): string => {
     if(Array.isArray(inputstringArr)) return inputstringArr?.length > 0 ? inputstringArr.join(", ") : "";
     return "";
@@ -773,12 +773,13 @@ export function get_WU_SR_PR_breadcrumb(searchparams: any, displayNameResponse: 
   const urlParentSubject = displayNameResponse?.parentSubjectTextKey && displayNameResponse?.parentSubjectTextKey?.length > 0 ? displayNameResponse?.parentSubjectTextKey[0] : "";
   const urlUniversity = searchparams?.university ?? "";
   const [qualUrl, qualLabel] = get_find_a_course_url_label(qualInUrl);
-  const pathName = urlUniversity ? `/${qualInUrl}/csearch` : `/${qualInUrl}/search`;
+  const srPathName = `/${qualInUrl}/search`;
+  const prPathName = `/${qualInUrl}/csearch`;
 
   const breadcrumb_courses = qualUrl && (urlSubject || urlKeyword)? [{url: qualUrl, label: qualLabel}] : [];
-  const breadCrumb_subject = qualUrl && displaySubject && urlSubject ? [{url: formSRPageURL({subject: urlSubject}, pathName), label: `${displaySubject} courses`}] : [];
-  const breadcrumb_keyword = qualUrl && displaySubject && urlKeyword ? [{url: formSRPageURL({subject: urlKeyword}, pathName), label: `${displaySubject} courses`}] : [];
-  const breadcrumb_parentSub = qualUrl && displayParentSubject && urlParentSubject && urlParentSubject != urlSubject && urlParentSubject != urlKeyword  ? [{url: formSRPageURL({subject: urlParentSubject}, pathName), label:`${displayParentSubject} Degrees`}] : [];
-  const breadcrumb_university = displayUniversity && urlUniversity ? [{url: formSRPageURL({university: urlUniversity}, pathName), label: `Courses at ${displayUniversity}`}] : [];
+  const breadCrumb_subject = qualUrl && displaySubject && urlSubject ? [{url: formSRPageURL({subject: urlSubject}, srPathName), label: `${displaySubject} courses`}] : [];
+  const breadcrumb_keyword = qualUrl && displaySubject && urlKeyword ? [{url: formSRPageURL({subject: urlKeyword}, srPathName), label: `${displaySubject} courses`}] : [];
+  const breadcrumb_parentSub = qualUrl && displayParentSubject && urlParentSubject && urlParentSubject != urlSubject && urlParentSubject != urlKeyword  ? [{url: formSRPageURL({subject: urlParentSubject}, srPathName), label:`${displayParentSubject} Degrees`}] : [];
+  const breadcrumb_university = displayUniversity && urlUniversity ? [{url: formSRPageURL({university: urlUniversity}, prPathName), label: `Courses at ${displayUniversity}`}] : [];
   return [...breadcrumb_courses, ...breadcrumb_parentSub, ...breadCrumb_subject, ...breadcrumb_keyword, ...breadcrumb_university];
 }
