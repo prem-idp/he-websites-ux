@@ -68,11 +68,12 @@ const TopSection: React.FC<searchProps> = async ({
       '@type': 'ListItem',
       position: (index + 1),
       item: {
-      '@id': data?.url?.trim()?.includes(" ") ? data?.url?.split(" ")?.[0] : data?.url,
-      "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0] : data?.label,
+      '@id': data?.url?.trim()?.includes("+") ? data?.url?.split("+")?.[0] : data?.url,
+      "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0]?.trim() : data?.label,
     }}
     schemaData.push(obj);
   });
+  
   return (
     <>
       {/* start breadcrumb and subject*/}
@@ -80,7 +81,7 @@ const TopSection: React.FC<searchProps> = async ({
         <div className="max-w-container mx-auto">
           {/* breadcrumb  */}
           <div className="px-[16px] xl:px-[0] md:p-[24px_0_8px] hidden md:block">
-            <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={false}/>
+            <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={true}/>
             <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{"itemListElement": schemaData}}/>
           </div>
           {/* breadcrumb  */}
