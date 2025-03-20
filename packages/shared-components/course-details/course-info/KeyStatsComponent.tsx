@@ -129,7 +129,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
                 <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width={32} height={32} />
                 <div className="flex flex-col gap-[4px] *:text-white">
-                  <div className="para-lg font-semibold">{rank?.ranking}</div>
+                  <div className="para-lg font-semibold line-line-clamp-2">{rank?.ranking}</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">
                     {rank?.totalRank ? (rank?.rank + "/" + rank?.totalRank) : ordinarySuffix(rank?.rank)}
                     <Tooltip heading={getStatsImgPath(rank?.ranking)?.heading} desc={getStatsImgPath(rank?.ranking)?.desc} />
@@ -179,7 +179,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
             <div className='keystats-body grid grid-cols-1 md:grid-cols-2 gap-[16px]'>
               {!!selectedSubject?.salary6MonthsAtUni && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
-                  <div className="para-lg font-semibold">{selectedSubject?.subjectName} graduate salary at this uni</div>
+                  <div className="para-lg font-semibold line-line-clamp-2">{selectedSubject?.subjectName} graduate salary at this uni</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6MonthsAtUni)}
                     <Tooltip heading={tooltipContent?.averageSalary?.sectionTitle} desc={tooltipContent?.averageSalary?.shortDescription} />
                   </div>
@@ -187,7 +187,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               </div>}
               {!!selectedSubject?.salary6Months && <div className="course-highlight__option flex items-start">
                 <div className="flex flex-col gap-[4px] *:text-white">
-                  <div className="para-lg font-semibold">UK {selectedSubject?.subjectName} graduate salary</div>
+                  <div className="para-lg font-semibold line-line-clamp-2">UK {selectedSubject?.subjectName} graduate salary</div>
                   <div className="tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]">£{poundCostCommaSeparation(selectedSubject?.salary6Months)}
                     <Tooltip heading={tooltipContent?.ukAverageSalary?.sectionTitle} desc={tooltipContent?.ukAverageSalary?.shortDescription} />
                   </div>
