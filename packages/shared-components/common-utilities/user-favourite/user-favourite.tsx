@@ -27,8 +27,6 @@ const UserFavourite = (favouriteProps: UserFavouriteProps) => {
 
   const [exceedMessage, setExceedMessage] = useState(false);
   const favourites = useFavourite();
-  console.log(favourites, "favourites");
-
   const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
 
   //Handle Favourite
