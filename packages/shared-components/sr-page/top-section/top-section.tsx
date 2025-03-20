@@ -40,7 +40,7 @@ const TopSection: React.FC<searchProps> = async ({
   const getBreadcrumb = (): any[] => {
     switch(process.env.PROJECT){
       case "Whatuni": return get_WU_SR_PR_breadcrumb(searchParams, displayNameResponse, qualInUrl);
-      case "PGS": return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, qualInUrl);
+      case "PGS": return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, "/pgs/search");
       default: return [];
     }
   }
