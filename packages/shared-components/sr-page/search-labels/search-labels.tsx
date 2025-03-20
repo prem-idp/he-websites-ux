@@ -111,7 +111,7 @@ getSearchLabels();
                 key={index + 1}
               >
                 {items?.value}
-                {index !== 0 && index !== 1 ?
+                {index !== 0 && (index !== 1 || (process.env.PROJECT === "PGS" && index === 1)) ?
                 <svg onClick={()=> removeFilter(items?.key,items?.value)}
                   className="cursor-pointer"
                   width="16"
