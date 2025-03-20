@@ -60,6 +60,7 @@ const SearchFilterButtons = () => {
   useEffect(() => {
     const totalCount = getSelectedFiltersCount(appliedFilters);
     setFilterCount(totalCount);
+    setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
   }, [searchParams]);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
