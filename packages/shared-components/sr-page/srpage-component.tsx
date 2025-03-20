@@ -119,7 +119,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
         </div>
       </section>
       {searchResultsData?.searchResultsList?.length === 0 && (
-        <Findacoursecomponents />
+        <Findacoursecomponents h1value="Your uni search made easier" subheading={true}/>
       )}
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (

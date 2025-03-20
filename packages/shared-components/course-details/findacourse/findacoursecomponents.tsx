@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 import optimizedSearch from "@packages/REST-API/optimizedsearch";
-const Findacoursecomponents = () => {
+const Findacoursecomponents = ({h1value,subheading}:any) => {
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -59,14 +59,18 @@ const Findacoursecomponents = () => {
         <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[0_20px_26px_20px] lg:py-0 xl:px-0 min-h-[194px]">
           <div className="w-full flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
             <div className="flex flex-col gap-[4px]">
+              {h1value &&
               <h1 className="text-heading1 md:text-heading-xl">
-                Find a course
+                {h1value}
               </h1>
+              }
+              {subheading && 
               <div>
                 Find <span className="font-semibold"> courses, </span>
                 read <span className="font-semibold"> honest reviews, </span>
                 get <span className="font-semibold">expert advice </span>
               </div>
+              }
             </div>
             <div className="w-full lg:min-w-[680px] lg:max-w-[825px]">
               <div className="flex flex-col gap-[24px] min-h-[60px]">

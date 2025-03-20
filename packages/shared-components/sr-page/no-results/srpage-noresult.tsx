@@ -5,7 +5,7 @@ import Image from "next/image";
 const SrPageNoResults = () => {
   return (
     <>
-      <div className="bg-grey-50 md:py-[56px]">
+      <div className="md:py-[56px]">
         <div className="flex gap-[16px]">
           <div className="flex flex-col gap-[4px]">
             <div className="para-lg font-bold font-farro">
