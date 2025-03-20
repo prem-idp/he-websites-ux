@@ -47,7 +47,7 @@ interface KeyStatsComponentProps {
   dataSource: any
 }
 
-const KeyStatsComponent = ({ keyStats, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
+const KeyStatsComponent = ({ keyStats, uniRankings, tooltipList, dataSource }: any) => {
   console.log(keyStats,"uniRankingsuniRankings")
   const [selectedSubject, setSelectedSubject] = useState(keyStats?.[0] || null);
   const [isOpen, setIsOpen] = useState(false);
