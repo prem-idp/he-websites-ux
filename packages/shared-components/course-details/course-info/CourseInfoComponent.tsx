@@ -8,6 +8,7 @@ import Keystatsskeleton from "@packages/shared-components/skeleton/keystatsskele
 const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
   console.log(data?.courseInfo?.uniRankings?.length > 0,"------------------------------------------")
+  const heading= "What student say"
   return (
     <div id={sectionInfo?.sectionId} className='courseinfo-container'>
       <div className="max-w-container mx-auto">
@@ -30,7 +31,7 @@ const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
               )
             )}
             {data?.institutionReviews?.reviewDetail &&
-              <ReviewComponent heading="What student say" jsonResponse={data?.institutionReviews?.reviewDetail} />
+              <ReviewComponent heading={heading} jsonResponse={data?.institutionReviews?.reviewDetail} />
             }
           </div>
         </div>
