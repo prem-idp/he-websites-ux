@@ -1,15 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-export function middleware(request: NextRequest, response: NextResponse) {
-  const { pathname, search, searchParams } = request.nextUrl;
-  const slugs = pathname?.split("/");
-  const customDomain = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "dev" ? "https://mdev.dev.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "stg" ? "https://mtest.test.aws.whatuni.com" : process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.whatuni.com" : "http://localhost:3000"}`;
 
-  if (slugs.length > 1) {
-    const response = NextResponse.next(); // Initialize response properly
-    response.cookies.set("pathnamecookies", pathname.toString());
-    response.cookies.set("searchParamscookies", searchParams.toString());
+export function middleware(request: NextRequest) {
+  const { pathname, search, searchParams } = request.nextUrl;
+  const slugs = pathname.split("/");
+  
+  // Define domain mapping
+  const domainMap: Record<string, string> = {
+    dev: "https://mdev.dev.aws.whatuni.com",
+    stg: "https://mtest.test.aws.whatuni.com",
+    prd: "https://www.whatuni.com",
+  };
+
+  const customDomain = domainMap[process.env.NEXT_PUBLIC_ENVIRONMENT!] || "http://localhost:3000";
+  const response = NextResponse.next();
+  
+  // Dynamic path check
+  if (/^\/degrees\/[^/]+\/[^/]+\/cd\/[^/]+\/[^/]+$/.test(pathname)) {
     if (response.cookies.get("dynamic_random_number")?.value === "") {
       response.cookies.set(
         "dynamic_random_number",
@@ -18,37 +26,43 @@ export function middleware(request: NextRequest, response: NextResponse) {
       );
     }
     return response;
-
-    // const response = NextResponse.next(); // Initialize response properly
-    // const ip =request.headers.get("x-forwarded-for") || "unknown";
-    // response.cookies.set("pathname", pathname, { path: "/" });
-    // response.cookies.set("searchParams", searchParams.toString(), { path: "/" });
-    // response.cookies.set("user-ip", ip, { path: "/" });
-    // return response;
-    // return NextResponse.next();
   }
 
-  const trailingSlashes = pathname.match(/\/+$/)?.[0].length || 0;
-  if (trailingSlashes > 1) {
-    const cleanedUrl = pathname.replace(/([^:]\/)\/+/g, "$1");
-    return NextResponse.redirect(new URL(`${cleanedUrl}`, customDomain));
+  if (slugs.length > 1) {
+    response.cookies.set("pathnamecookies", pathname);
+    response.cookies.set("searchParamscookies", searchParams.toString());
+
+    
+    if (response.cookies.get("dynamic_random_number")?.value === "") {
+      response.cookies.set(
+        "dynamic_random_number",
+        uuidv4().replace(/\D/g, "").slice(0, 8),
+        { path: "/" }
+      );
+    }
+    return response;
+  }
+
+  // Handle URL corrections
+  if (pathname.match(/\/{2,}$/)) {
+    return NextResponse.redirect(new URL(pathname.replace(/\/{2,}$/, "/"), customDomain));
   }
 
   if (search && pathname.endsWith("/")) {
-    const newUrl = pathname.slice(0, -1) + search;
-    return NextResponse.redirect(new URL(newUrl, customDomain));
+    return NextResponse.redirect(new URL(pathname.slice(0, -1) + search, customDomain));
   }
+
   if (!search && !pathname.endsWith("/")) {
     return NextResponse.redirect(new URL(`${pathname}/`, customDomain));
   }
 
-  // const trailingSlashes = pathname.match(/\/+$/)?.[0].length || 0;
-  // if(trailingSlashes > 1  ){
-  //   const cleanedUrl = pathname.replace(/([^:]\/)\/+/g, '$1');
-  //   return NextResponse.redirect(new URL(`${cleanedUrl}`, customDomain));
-  // }
-  return NextResponse.next();
+  return response;
 }
+
+function generateRandomNumber() {
+  return uuidv4().replace(/\D/g, "").slice(0, 8);
+}
+
 export const config = {
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|fonts|images|icons|static|assets).*)",

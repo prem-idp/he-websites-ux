@@ -91,10 +91,19 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                 </div>
                 <div className='uniresults-content-right flex items-end'>
                   <div className='btn-pod w-full grid grid-col-1 md:grid-cols-2 lg:flex lg:grid-cols-none gap-[8px]'>
-                    <Getprospectus pageName={"courseDetails"} />
-                    <Visitwebsite />
-                    <BookEvent />
+                    {data?.enquiryDetails?.institutionDetails?.emailFlag?.toLowerCase() === "y" &&
                     <RequestInfo />
+                    }
+                    {data?.enquiryDetails?.institutionDetails?.prospectusFlag?.toLowerCase() === "y" &&
+                    <Getprospectus pageName={"courseDetails"} />
+                    }
+                      {data?.enquiryDetails?.institutionDetails?.opendayFlag?.toLowerCase() === "y" &&
+                    <Visitwebsite />
+                    }
+                       {data?.enquiryDetails?.institutionDetails?.websiteFlag?.toLowerCase() === "y" &&
+                    <BookEvent />
+                    }
+
                   </div>
                 </div>
               </div>

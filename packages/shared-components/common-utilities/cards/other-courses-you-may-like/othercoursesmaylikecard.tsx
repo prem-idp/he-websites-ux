@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import Getprospectus from '@packages/shared-components/common-utilities/cards/interaction-button/getprospectus'
+import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import Clearingvisitewebsite from '../interaction-button/clearingvisitewebsite'
 import Callnowbutton from '../interaction-button/callnow'
 import UserFavourite from '../../user-favourite/user-favourite'
@@ -42,7 +44,7 @@ const Othercoursesmaylikecard = ({ val }: any) => {
                     <div className='para small font-semibold line-clamp-1'>{val?.collegeName}</div>
                     <div className='rating-pod flex items-center gap-[8px]'>
                         <div className='rating-card flex items-center gap-[4px]'>
-                            <Image src="/assets/icons/blue-star-icon.svg" width="24" height="24" alt="Rating icon" />
+                            <Image src="/static/assets/icons/blue-star-icon.svg" width="24" height="24" alt="Rating icon" />
                             <span className='font-normal small text-grey300'>{val?.exactRating}</span>
                         </div>
                         <span className='reviewLink block font-normal small text-primary-400 hover:text-primary-500 hover:underline'>{val?.reviewCount}</span>
@@ -50,10 +52,10 @@ const Othercoursesmaylikecard = ({ val }: any) => {
                 </div>
                 <div className='flex flex-col md:flex-row gap-[8px] w-full'>
                     {val?.ReqInfoFlag === "Y" &&
-                        <Callnowbutton />
+                         <Getprospectus pageName={"courseDetails"} />
                     }
                     {val?.visitWebsiteFlag === "Y" &&
-                        <Clearingvisitewebsite />
+                     <Visitwebsite />
                     }
                 </div>
             </div>

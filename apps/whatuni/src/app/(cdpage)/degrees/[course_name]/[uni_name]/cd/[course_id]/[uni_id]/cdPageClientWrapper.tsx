@@ -32,13 +32,13 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
           affiliateId: String(process.env.AFFILATE_ID || ""),
           collegeId: String(prams_slug?.uni_id || ""),
         });
-        const url = `https://p5bgb22g76.execute-api.eu-west-2.amazonaws.com/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
+        const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
 
             "Content-Type": "application/json",
-            "x-api-key": 'YVT9Di0P4s36MgrXWjIjZ34JgOyQgljN3nNtL9nc',
+           "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
           },
           cache: "force-cache",
         });

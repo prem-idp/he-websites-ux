@@ -6,11 +6,11 @@ export const otherRecommendedCourse = async (
 ): Promise<any> => {
     try {
         const response = await fetch(
-            `https://api.he-websites.dm.dev.idp.com/hewebsites/v1/recommended/recom-course`,
+            `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/recommended/recom-course`,
             {
                 method: "POST",
                 headers: {
-                    "x-api-key": "vrlwDbRFMn4pcfGFqaFjR8JGreMibYxJ9mO72PFy", // API Key
+                    "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`, // API Key
                     "Content-Type": "application/json",
                     "x-correlation-id": uuidv4(),
                     "siteCode": String(process.env.SITE_CODE), // Sending siteCode in headers

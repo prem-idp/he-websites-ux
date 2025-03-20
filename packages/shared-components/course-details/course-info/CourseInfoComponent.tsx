@@ -7,7 +7,8 @@ import Keystatsskeleton from "@packages/shared-components/skeleton/keystatsskele
 
 const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
   const { courseInfo, keyStats, uniRankings } = data;
-  // console.log(data)
+  console.log(data?.courseInfo?.uniRankings?.length > 0,"------------------------------------------")
+  const heading= "What student say"
   return (
     <div id={sectionInfo?.sectionId} className='courseinfo-container'>
       <div className="max-w-container mx-auto">
@@ -17,21 +18,21 @@ const CourseInfoComponent = ({ data, sectionInfo, loading }: any) => {
             {data?.courseInfo?.courseSummary &&
               <ReadMoreLessDesc text={courseInfo?.courseSummary} />
             }
-            {data?.courseInfo?.keyStats && (
+            {(data?.courseInfo?.keyStats?.length > 0 || data?.uniRankings?.length > 0) && (
               loading ? (
                 <Keystatsskeleton />
               ) : (
                 <Keystatscomponents
-                  subjectArea={keyStats}
-                  uniRankings={uniRankings}
+                  subjectArea={data?.courseInfo?.keyStats}
+                  uniRankings={data?.uniRankings}
                   tooltipList={sectionInfo?.mediaCardsCollection}
                   dataSource={sectionInfo?.callToAction}
                 />
               )
             )}
-              {data?.institutionReviews?.reviewDetail &&
-                <ReviewComponent heading="What student say" jsonResponse={data?.institutionReviews?.reviewDetail} />
-              }
+            {data?.institutionReviews?.reviewDetail &&
+              <ReviewComponent heading={heading} jsonResponse={data?.institutionReviews?.reviewDetail} />
+            }
           </div>
         </div>
       </div>

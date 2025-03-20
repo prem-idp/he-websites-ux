@@ -27,7 +27,7 @@ const JumpToComponents = ({ sectionsList, data }: any) => {
                   let sectionData = data?.[val?.internalName];
                   if (val?.internalName ==="latestReviews") {
                     console.log( data?.latestReviews, data?.reviewBreakdown)
-                    sectionData = data?.latestReviews?.length || data?.reviewBreakdown ;
+                    sectionData = data?.latestReviews?.length ?  data?.latestReviews : data?.reviewBreakdown ;
                   }
               
                   if (
