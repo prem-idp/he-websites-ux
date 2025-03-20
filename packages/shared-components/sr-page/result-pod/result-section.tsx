@@ -168,12 +168,13 @@ queryString ? `&${queryString}` : ''
                       </svg>
                       {data?.exactRating}
                     </div>
+                    {process.env.PROJECT === "Whatuni" && (
                     <Link
                       href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
                       className="underline"
                     >
                       {data?.reviewCount} reviews
-                    </Link>
+                    </Link> )}
                   </div>
                 )}
                 <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
@@ -210,7 +211,7 @@ queryString ? `&${queryString}` : ''
                     </div>
                   )}
                 </div>
-                {data?.wuscaRanking && (
+                {process.env.PROJECT === "Whatuni" && data?.wuscaRanking && (
                   <div className="x-small underline w-fit relative group" onClick={(event) =>wuscaClick(event)}>
                     WUSCA ranking: {data?.wuscaRanking}{getOrdinalFor(data?.wuscaRanking)}
                     <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
@@ -538,7 +539,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
-                      {courseData?.enquiryDetails?.websiteFlag === "Y" && (
+                      {courseData?.openDayDetails?.opendayFlag === "Y" && (
                         <BookOpenDay
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />

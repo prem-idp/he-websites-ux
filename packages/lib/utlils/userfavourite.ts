@@ -14,7 +14,7 @@ const getUserFavourites = async (): Promise<any> => {
           "x-correlation-id": uuidv4(),
           "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
         };
-        let apiUrl = `https://4oov0t9iqk.execute-api.eu-west-2.amazonaws.com/dev-hewebsites-bff/v1/favourites/get-favourite`;
+        let apiUrl = `${NEXT_PUBLIC_VIEW_FAVOURITES_API}/v1/favourites/get-favourite`;
         if (session.tokens?.idToken) {
           
           headers.Authorization = `${session.tokens.idToken}`;
