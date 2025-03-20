@@ -1,9 +1,9 @@
 const qualCode: any = {
   "degree-courses": "M",
-  "postgraduate-courses": "L",
+  "hnd-hnc-courses": "N",
   "foundation-degree-courses": "A",
   "access-foundation-courses": "T",
-  "hnd-hnc-courses": "N",
+  "postgraduate-courses": "L",
 };
 // const getLocationArray = (
 //   inputObject: Record<string, any>,
