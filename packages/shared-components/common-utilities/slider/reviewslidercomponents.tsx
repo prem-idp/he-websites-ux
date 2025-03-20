@@ -48,7 +48,7 @@ const Reviewslidercomponents: React.FC<ReviewSliderProps> = ({
           modules={[FreeMode, Pagination, Navigation]}
           className="MultiSwiper"
         >
-          {reviewData?.map((review, index) => (
+          { reviewData && reviewData?.map((review, index) => (
             <SwiperSlide key={index}>
               <Reviewscard
                 reviewData={review}
