@@ -117,7 +117,12 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             </div>
           </section>
           <Faqcomponents />
-          <ContentfulPreviewProvider
+          
+        </>
+      ) : (
+        <></>
+      )}
+      <ContentfulPreviewProvider
             locale="en-GB"
             enableInspectorMode={false}
             enableLiveUpdates={false}
@@ -125,10 +130,6 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           >
             <Subscribecomponents iscontentPreview={false} />
           </ContentfulPreviewProvider>
-        </>
-      ) : (
-        <></>
-      )}
     </>
   );
 };
