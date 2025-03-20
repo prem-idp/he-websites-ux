@@ -48,9 +48,8 @@ interface KeyStatsComponentProps {
 }
 
 const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }: KeyStatsComponentProps) => {
-
+  console.log(uniRankings,"uniRankingsuniRankings")
   const [selectedSubject, setSelectedSubject] = useState(subjectArea?.[0] || null);
-
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipContent, setTooltipContent] = useState<any>(tooltipList);
 
@@ -126,7 +125,7 @@ const KeyStatsComponent = ({ subjectArea, uniRankings, tooltipList, dataSource }
               </div>
             </div>
             <div className='keystats-body grid grid-cols-1 md:grid-cols-3 gap-[16px]'>
-              {!!uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
+              {uniRankings?.length && uniRankings.map((rank: any, idx: number) => <div key={idx} className="course-highlight__option flex items-start gap-[8px]">
                 <Image src={getStatsImgPath(rank?.ranking)?.imgUrl} alt="academic-cap" width={32} height={32} />
                 <div className="flex flex-col gap-[4px] *:text-white">
                   <div className="para-lg font-semibold line-line-clamp-2">{rank?.ranking}</div>
