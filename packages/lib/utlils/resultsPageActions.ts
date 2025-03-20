@@ -284,7 +284,7 @@ function formSRPageURL(searchParams: any, pathName: string){
   if(filterCount < 4 && searchParams?.score) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("score=" + searchParams?.score); filterCount++;}
   if(filterCount < 4 && searchParams?.['location-type']) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("location-type=" + searchParams?.['location-type']); filterCount++;}
   if(filterCount < 4 && searchParams?.sort) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("sort=" + searchParams?.sort); filterCount++;}
-  if(filterCount < 5 && searchParams?.pageno) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + ("pageno=" + searchParams?.pageno); filterCount++;} //if pageno applied then atmost 5 query params can contain
+  if(filterCount < 5 && searchParams?.pageno) {formURL = formURL + (formURL.includes("?") ? "&" : "?") + `${PROJECT == "whatuni" ? "pageno=" : "page_no="}${searchParams?.pageno}`; filterCount++;} //if pageno applied then atmost 5 query params can contain
 
   return formURL;
 }
