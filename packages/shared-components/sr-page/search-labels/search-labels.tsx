@@ -28,6 +28,7 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
     console.log("error", error);
   }
   const filters: any[] = [];
+  console.log("searchPayLoad", searchPayLoad)
   // Add filters only if they exist
    searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
   if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
@@ -51,6 +52,7 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
       filters.push({key:'location' , value:value});
     });
   }
+  if(searchPayLoad?.intakeMonth) filters.push({key:'month' , value:searchPayLoad?.intakeMonth?.toString()?.toUpperCase()});
   setFilterList(Array.from(new Set(filters)));
          }
 getSearchLabels();
