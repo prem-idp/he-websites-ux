@@ -10,9 +10,13 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
-import { getSearchPayload } from "../services/utils";
+import { getSearchPayload, getSEOSearchPayload } from "../services/utils";
 import { headers } from "next/headers";
 import { v4 as uuidv4 } from 'uuid';
+import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
+import { get_WU_SR_PR_breadcrumb, getDisplayNameReqBody } from "@packages/lib/utlils/resultsPageActions";
+import { SRDisplayNameEndPt } from "../services/bffEndpoitConstant";
+import { httpBFFRequest } from "@packages/lib/server-actions/server-action";
 
 interface Payload {
   parentQualification: string;
@@ -93,8 +97,13 @@ const transformProviderListData = (data: any) => {
 const PrPageComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
+  const domain = getCustomDomain();
   const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
-  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
+  const searchSEOPayload = getSEOSearchPayload(searchparams, pathname)
+  const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
 
   const payloads = await getSearchPayload(searchparams,
     filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
@@ -104,26 +113,21 @@ const PrPageComponent = async ({ searchparams }: any) => {
   const referer = headerList.get("referer");
   const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data); // transform Provider List Data results
+  const breadcrumbJson: any[] = get_WU_SR_PR_breadcrumb(searchparams, displayNameResponse, pathname);
   const breadcrumbData = [
     {
-      url: "#",
-      label: "Home",
+      url: domain,
+      Imgurl: "/static/assets/icons/breadcrumbs-home-icon.svg",
     },
-    {
-      url: "#",
-      label: "Scholarships",
-    },
-    {
-      url: "",
-      label: "Search results",
-    },
+    ...breadcrumbJson
+
   ];
 
   return (
     <>
       <section className="bg-white hidden lg:block">
         <div className="max-w-container mx-auto pt-[24px] pb-[8px]">
-          <Breadcrumblayoutcomponent data={breadcrumbData} />
+          <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={true}/>
         </div>
       </section>
       <PrPageTopSection searchResultlist={data} />
