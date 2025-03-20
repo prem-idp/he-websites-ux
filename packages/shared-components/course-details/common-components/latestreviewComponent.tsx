@@ -45,7 +45,7 @@ const LatestReviewComponent = ({ heading, jsonResponse }: ReviewComponentProps) 
                 <div className='card-header flex flex-col gap-[8px] px-[16px] md:px-[20px] xl:px-[0]'>
                     <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-[8px]'>
                         <div className='h5 text-grey300'>{heading}</div>
-                        {toggleModal && <div onClick={toggleModal} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>Art & Design
+                        {toggleModal && <div onClick={toggleModal} className='flex items-center gap-[8px] para font-semibold text-primary-400 hover:text-primary-500 hover:underline cursor-pointer'>{selectedReview?.subjectname}
                             <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#4664DC" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
