@@ -6,7 +6,6 @@ type KeyValueObject = Record<string, string>;
 const getFilterPriority = (isQualification?: boolean) => {
   const whatunifilter = [
     "university",
-    "q",
     "subject",
     "qualification",
     "location",
@@ -21,7 +20,6 @@ const getFilterPriority = (isQualification?: boolean) => {
   ];
   const pgsFilter = [
     "university",
-    "q",
     "course",
     "qualification",
     "location",
@@ -74,8 +72,7 @@ const extractUrlAndSessionValues = (
       ? JSON.parse(sessionStorage?.getItem("filter_param") || "{}")
       : {};
   const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
-
-  if (crossSubject || key == "q") {
+  if (crossSubject) {
     delete mergedObject?.[keyName?.subject];
   }
   if (mergedObject[key] && key != keyName?.location) {
