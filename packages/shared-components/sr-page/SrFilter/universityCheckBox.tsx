@@ -24,44 +24,38 @@ const UniversityCheckBox = React.memo(
     }, [searchparams]);
 
     return (
-      <div className="form_check relative">
-        <div className="flex items-start gap-[8px]">
-          <div className="checkbox_card">
-            {/* {isIndexed && ( */}
-            <Link
-              id={keyName?.university + item?.collegeTextKey}
-              href={{
-                pathname: generatePathName(
-                  slug,
-                  keyName?.university,
-                  "",
-                  null,
-                  searchparams
-                    ?.get(keyName?.university)
-                    ?.includes(item?.collegeTextKey)
-                ),
-                query: formUrl(keyName?.university, item?.collegeTextKey, true),
-              }}
-            ></Link>
-            {/* )} */}
-            <input
-              type="checkbox"
-              checked={
-                searchparams?.get(keyName?.university) === item?.collegeTextKey
-              }
-              className="form-checkbox hidden"
-              id={item?.collegeName}
-              onChange={() => {
-                appendSearchParams(
-                  keyName?.university,
-                  item?.collegeTextKey,
-                  true
-                );
-                setIsUniSelected(!isUniSelected);
-              }}
-            />
-            <label
-              htmlFor={item?.collegeName}
+      <div className="custom-radio">
+        {/* {isIndexed && ( */}
+        <Link
+          id={keyName?.university + item?.collegeTextKey}
+          href={{
+            pathname: generatePathName(
+              slug,
+              keyName?.university,
+              "",
+              null,
+              searchparams
+                ?.get(keyName?.university)
+                ?.includes(item?.collegeTextKey)
+            ),
+            query: formUrl(keyName?.university, item?.collegeTextKey, true),
+          }}
+        ></Link>
+        {/* )} */}
+        <input
+          type="radio"
+          checked={
+            searchparams?.get(keyName?.university) === item?.collegeTextKey
+          }
+          id={item?.collegeName}
+          name="university"
+          onChange={() => {
+            appendSearchParams(keyName?.university, item?.collegeTextKey, true);
+            setIsUniSelected(!isUniSelected);
+          }}
+        />
+        {/* <label
+              htmlFor={item?.collegeNameDisplay}
               className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
             >
               <svg
@@ -82,15 +76,10 @@ const UniversityCheckBox = React.memo(
                   strokeLinejoin="round"
                 />
               </svg>
-            </label>
-          </div>
-          <label
-            htmlFor={item?.collegeNameDisplay}
-            className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-          >
-            {item?.collegeNameDisplay}
-          </label>
-        </div>
+            </label> */}
+        <label htmlFor={item?.collegeNameDisplay} className="flex items-center">
+          {item?.collegeNameDisplay}
+        </label>
       </div>
     );
   }

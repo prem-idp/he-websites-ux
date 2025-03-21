@@ -36,7 +36,7 @@ const SelectedUniversity = React.memo(
             </li>
           </ul>
         )}
-        <div className="flex flex-col gap-[12px] h-[246px] overflow-y-auto custom-scrollbar-2">
+        <div className="flex flex-col gap-[12px]">
           <div
             onClick={() => {
               universityClicked("");
