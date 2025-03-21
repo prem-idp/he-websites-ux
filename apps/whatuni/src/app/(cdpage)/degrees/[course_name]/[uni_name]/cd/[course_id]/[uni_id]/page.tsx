@@ -16,16 +16,35 @@ import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndp
 import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
 import { otherRecommendedCourse } from "./apicalls/othercourse";
 import { notFound } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { getQualCode } from '@packages/shared-components/services/utils';
+import SchemaTagLayoutComponent from '@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent';
 
+let breadcrumbData : any;
+const domain = getCustomDomain();
+let schemaData: any[] = [];
 export async function generateMetadata({ params }: any) {
+  const cookieStore = await cookies();
+  const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const cookieparams = cookieStore?.get("searchParamscookies")?.value || "{}";
+  const urlparams = new URLSearchParams(cookieparams);
+  const cookieObject = Object.fromEntries(urlparams?.entries());
+  const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject;
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   const searchparams = new URLSearchParams({
     courseId: String(prams_slug?.course_id || ""),
+    qualCode: getQualCode(qualCode),
   });
-  return getCDMetaDetailsFromContentful(searchparams, slug)
+  return getCDMetaDetailsFromContentful(searchparams, slug, subjectNameParam)
 }
 export default async function Cdpage({ params }: any) {
+  const cookieStore = await cookies();
+const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+const cookieparams = cookieStore?.get("searchParamscookies")?.value || "{}";
+const urlparams = new URLSearchParams(cookieparams);
+const cookieObject = Object.fromEntries(urlparams?.entries());
+const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
@@ -41,37 +60,20 @@ export default async function Cdpage({ params }: any) {
     otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
       .catch(err => ({ error: err }))
   ]);
-
-  console.log(contents, "data")
-  console.log(othercourseData, "othercourseData")
-
-
   if(data.errorMessage){
     notFound();
   }
-
-
-  const customLabels = [
-    "degrees",
-    "",
-    "",
-    "cd",
-    "",
-    ""
-  ];
-
-
   const courseContent = courseContentExtractor(contents);
-  const breadcrumbData = generateBreadcrumbData(slug, customLabels);
-
-
   return (
     <>
+      {breadcrumbData.length > 1 && (
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
         <div className="max-w-container mx-auto">
           <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
+          <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{"itemListElement": schemaData}}/>
         </div>
       </section>
+      )}
       <Courseheaderinfocomponents data={data} searchPayload={searchparams} />
       <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
       {othercourseData?.length > 0 &&
@@ -90,16 +92,12 @@ export default async function Cdpage({ params }: any) {
 }
 
 
-async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):Promise<MetaDataInterface> {
+async function getCDMetaDetailsFromContentful(searchParams: any, slug: string, subjectNameParam: any):Promise<MetaDataInterface> {
+  
   //1) bff API hit
-  const displayNameReqBody = getRequestInputPayload(searchParams);
+  const displayNameReqBody = getRequestInputPayload(searchParams,subjectNameParam);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt,
-    displayNameReqBody,
-    "POST",
-    `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-    "no-cache", 0,
-    {});
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
   //2) contentful API hit
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
@@ -125,14 +123,96 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string):P
     twitter_titile: metaTitle,
     twitter_description: metaDesc,
   }
+  const cookieStore = await cookies();
+  const getBreadcrumb = (): any => {
+    const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+    switch(process.env.PROJECT){
+      case "Whatuni": return get_WU_CD_breadcrumb(searchParams, displayNameResponse, qualCode,subjectNameParam);
+      case "PGS": return get_WU_CD_breadcrumb(searchParams, displayNameResponse, qualCode, subjectNameParam);
+      default: return [];
+    }
+  }
+  const breadcrumb = (subjectNameParam != "" && subjectNameParam != undefined) ? getBreadcrumb() : "";
+  breadcrumbData = [
+    {
+      url: domain,
+      Imgurl: "/static/assets/icons/breadcrumbs-home-icon.svg",
+    },
+    ...await breadcrumb,
+  ];
+  breadcrumb?.map((data: { url: string; label: string; }, index: number) => {
+    const obj: any = {
+      '@type': 'ListItem',
+      position: (index + 1),
+      item: {
+      '@id': data?.url?.trim()?.includes("+") ? data?.url?.split("+")?.[0] : data?.url,
+      "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0]?.trim() : data?.label,
+    }}
+    schemaData.push(obj);
+  });
   return actualMetaData;
 }
 
-function getRequestInputPayload(searchPayLoad: any) {
+function getRequestInputPayload(searchPayLoad: any, subjectNameParam: any) {
   let courseId = searchPayLoad?.get('courseId');
+  let qualCode = searchPayLoad?.get('qualCode');
   courseId = +courseId;
   const displayNameReqBody = {
     "courseId": courseId ?? "",
+    "parentQualification": qualCode,
+    "searchSubject": subjectNameParam,
   }
   return displayNameReqBody;
+}
+
+export function get_WU_CD_breadcrumb(
+  searchSEOPayload: any,
+  displayNameResponse: any,
+  qualInUrl: string,
+  subjectNameParam:any
+) {
+      const  get_find_a_course_url_label = (qualInUrl: string) => {
+        switch(qualInUrl){
+          case "degree-courses":            return ["/degrees/courses/", "Courses"]
+          case "postgraduate-courses":      return ["/postgraduate-courses/", "Courses"]
+          case "foundation-degree-courses": return ["/foundation-degree-courses/", "Courses"]
+          case "access-foundation-courses": return ["/access-foundation-courses/", "Courses"]
+          case "hnd-hnc-courses":           return ["/hnd-hnc-courses/", "Courses/HNC"]
+          default:                          return ["", ""];
+        }
+      }
+      const formatMultiSelctedDisplaynameSEO = (inputstringArr: string[]): string => {
+        if(Array.isArray(inputstringArr)) return inputstringArr?.length > 0 ? inputstringArr.join(", ") : "";
+        return inputstringArr;
+      }
+      const displaySubject  = displayNameResponse?.subjectName?.length > 0 ? formatMultiSelctedDisplaynameSEO(displayNameResponse?.subjectName) : displayNameResponse?.subjectName; 
+      const displayParentSubject  = displayNameResponse?.parentSubjectName;
+      const [qualUrl, qualLabel] = get_find_a_course_url_label(
+       qualInUrl
+      );
+  const breadcrumb_courses = qualInUrl
+    ? [{ url: qualUrl, label: qualLabel }]
+    : [];
+  const breadCrumb_subjectl2 =
+  displayNameResponse?.subjectName &&
+  displayNameResponse?.subjectName?.length > 0
+      ? [
+          {
+            url: `/${qualInUrl}/search?subject=${subjectNameParam?.[0]}+${subjectNameParam?.[1]}`,
+            label: `${displaySubject} courses`,
+          },
+        ]
+      : [{
+        url: `/${qualInUrl}/search?subject=${searchSEOPayload?.searchSubject}`,
+        label: `${displaySubject} courses`,
+      },];
+  const breadCrumb_subjectl1 = displayNameResponse?.parentSubjectName
+    ? [
+        {
+          url: `/${qualInUrl}/search?subject=${displayNameResponse?.parentSubjectTextKey}`,
+          label: `${displayParentSubject}`,
+        },
+      ]
+    : [];
+  return [...breadcrumb_courses, ...breadCrumb_subjectl1, ...breadCrumb_subjectl2];
 }

@@ -142,10 +142,10 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
       inputText = inputText.replace("[QUALIFICATION]", metaFiltersOpted?.studylevel ?? "");
     } 
      if (inputText?.includes("[COURSE NAME]")) {
-      inputText = inputText.replace("[COURSE NAME]", metaFiltersOpted?.studylevel ?? "")
+      inputText = inputText.replace("[COURSE NAME]", metaFiltersOpted?.courseName ?? "")
     }
     if (inputText?.includes("[UNIVERSITY]")) {
-      inputText = inputText.replace("[UNIVERSITY]", metaFiltersOpted?.studymode ?? "");
+      inputText = inputText.replace("[UNIVERSITY]", metaFiltersOpted?.providerName ?? "");
     }
     if (inputText?.includes("[MONTH]")) {
       inputText = inputText.replace("[MONTH]", metaFiltersOpted?.startMonth ?? "");
