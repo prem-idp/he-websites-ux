@@ -10,7 +10,7 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
-import { getSearchPayload, getSEOSearchPayload } from "../services/utils";
+import { getSearchPayload, getSEOSearchPayload, getQualCode } from "../services/utils";
 import { headers } from "next/headers";
 import { v4 as uuidv4 } from 'uuid';
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
@@ -57,8 +57,9 @@ const searchPRResults = async (payloads: any) => {
   }
 };
 
-const transformProviderListData = (data: any) => {
+const transformProviderListData = (data: any, pathname: any) => {
   const sitecode = `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`
+  const qualCode = getQualCode(pathname);
   if (!data || !Array.isArray(data.searchResultsList)) {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
@@ -89,7 +90,9 @@ const transformProviderListData = (data: any) => {
             course.enquiryDetails?.prospectusFlag === "Y" || false,
           hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
           hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
-          siteCode: sitecode
+          hasOpendayFlag: college?.openDayDetails?.opendayFlag === "Y" || false,
+          siteCode: sitecode,
+          qualCode: qualCode
         }))
         : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
@@ -113,7 +116,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
 
   const referer = headerList.get("referer");
   const data = await searchPRResults(payloads); // Fetch earach the PR results
-  const providerList = transformProviderListData(data); // transform Provider List Data results
+  const providerList = transformProviderListData(data, pathname); // transform Provider List Data results
   const breadcrumbJson: any[] = get_WU_SR_PR_breadcrumb(searchparams, displayNameResponse, pathname);
   const breadcrumbData = [
     {

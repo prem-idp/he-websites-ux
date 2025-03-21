@@ -152,6 +152,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
                 selectedSubject: { selectedSubject },
+                qualCode: items?.qualCode
               }} />}
           {items.hasWebsite &&
             <Visitwebsite
@@ -163,8 +164,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
                 pageName: items?.pageName,
+                qualCode: items?.qualCode,
               }} />}
-          {items.hasWebsite &&
+          {items.hasOpendayFlag &&
             <BookOpenDay
               enquiryProps={{
                 courseId: items?.courseId,
@@ -178,6 +180,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
                 selectedSubject: { selectedSubject },
+                qualCode: items?.qualCode,
               }} />}
           {items.hasEmail &&
             <RequestInfo
@@ -191,6 +194,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 collegeName: items?.collegeTextKey,
                 pageName: items?.pageName,
                 selectedSubject: { selectedSubject },
+                qualCode: items?.qualCode,
               }} />}
         </div>
       </div>
