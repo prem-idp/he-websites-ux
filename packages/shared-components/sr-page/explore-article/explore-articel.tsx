@@ -2,14 +2,19 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Explorearticelskeleton from "@packages/shared-components/skeleton/search-result/explore-articel-skeleton";
-const ExploreArticles = () => {
+
+const ExploreArticles = async ({ exploreSectionProps } : any) => {
+  const subjectComponentData = exploreSectionProps?.subjectComponentData
+  const cityComponentData = exploreSectionProps?.cityComponentData
+  const richContentTitle = subjectComponentData?.moduleComponentsCollection?.items?.[0]?.fieldComponentsCollection?.items?.[0]?.richContentTitle || cityComponentData?.pageTitle
+  const richContent = subjectComponentData?.moduleComponentsCollection?.items?.[0]?.fieldComponentsCollection?.items?.[0]?.richContent?.json?.content?.[0]?.content?.[0]?.value || cityComponentData?.shortDescription
+  const imageUrl = subjectComponentData?.moduleComponentsCollection?.items?.[0]?.fieldComponentsCollection?.items?.[0]?.homeMediaCollection?.items[0]?.image?.url  || cityComponentData?.bannerImageCollection?.items?.[0]?.imgUpload?.url
   return (
     <>
       <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] lg:flex-row">
         <div className="w-full md:h-[193px] lg:h-[221px] lg:w-[392px] shrink-0">
           <Image
-            src="/static/assets/images/search-results/article2.jpg"
+            src={imageUrl}
             width={392}
             height={221}
             alt="Article"
@@ -17,18 +22,12 @@ const ExploreArticles = () => {
           />
         </div>
         <div className="p-[16px] shadow-custom-2 flex flex-col gap-[8px] text-grey300 lg:px-[24px] lg:py-[32px]">
-          <div className="h4">Studying in London</div>
+          <div className="h4">{richContentTitle}</div>
           <div className="small line-clamp-4">
-            A Law degree will teach students about issues that relate to
-            different areas of society; from business and the environment, to
-            human rights and trade. Students will develop key skills like
-            research, critical analysis and presentation, which will prepare
-            them to practice law. There are different strands of law such as
-            LLB, BA and BSc Law first-degree courses. Graduates have the option
-            of pursuing careers within law or in other areas such as academia...
+           {richContent}
           </div>
           <Link
-            href=""
+            href={subjectComponentData?.pageUrl || cityComponentData?.urlSlug || ""}
             className="flex items-center gap-[4px] w-fit text-primary-400 small font-semibold hover:underline"
           >
             View full guide
