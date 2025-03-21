@@ -165,7 +165,7 @@ function getRequestInputPayload(searchPayLoad: any, subjectNameParam: any) {
   return displayNameReqBody;
 }
 
-export function get_WU_CD_breadcrumb(
+function get_WU_CD_breadcrumb(
   searchSEOPayload: any,
   displayNameResponse: any,
   qualInUrl: string,
