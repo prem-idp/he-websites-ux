@@ -72,25 +72,30 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                   />
                   {distanceInMiles} Miles from you
                 </li>
-                <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
-                  <span>
-                    WUSCA ranking: {college?.wuscaRanking}
-                    <div
-                      className="absolute select-none z-[5] hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"
-                    >
-                      <span className="x-small text-grey900 font-semibold">
-                        Why should you trust our uni reviews?
-                      </span>
-                      <p className="x-small text-grey300">
-                        All our reviews are from real students, submitted using
-                        their verified university email address.
-                      </p>
-                    </div>
-                  </span>
-                </li>
-                <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
-                  {college?.wuscaBadges}
-                </li>
+                {college?.wuscaRanking &&
+                  <li className="relative group text-nowrap uppercase underline text-blue-400 x-small">
+                    <span>
+                      WUSCA ranking: {college?.wuscaRanking}
+                      <div
+                        className="absolute select-none z-[5] hidden group-hover:flex border border-grey-200 top-[20px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] md:min-w-[320px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"
+                      >
+                        <span className="x-small text-grey900 font-semibold">
+                          Why should you trust our uni reviews?
+                        </span>
+                        <p className="x-small text-grey300">
+                          All our reviews are from real students, submitted using
+                          their verified university email address.
+                        </p>
+                      </div>
+                    </span>
+                  </li>
+                }
+
+                {college?.wuscaBadges &&
+                  <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
+                    {college?.wuscaBadges}
+                  </li>
+                }
                 <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
                   + 2 more
                 </li>

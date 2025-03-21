@@ -99,10 +99,19 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             <>
               {items?.courseSummary && items.courseSummary.trim() !== "" && (
                 <>
-                  <p className="small text-grey500 break-all">
-                    {expandedIndexes[index] ? items?.courseSummary : items?.courseSummary?.slice(0, 150) + "..."}
-                    <span className="cursor-pointer select-none small text-blue-500" onClick={() => toggleReadMore(index)}>
-                      {expandedIndexes[index] ? "Read less" : "Read more"}
+                  <p className="small text-grey500">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: expandedIndexes[index]
+                          ? items.courseSummary // Full HTML when expanded
+                          : items.courseSummary.split(" ").slice(0, 20).join(" ") + "...", // Truncated HTML (approx. 150 chars)
+                      }}
+                    />
+                    <span
+                      className="cursor-pointer select-none small text-blue-500"
+                      onClick={() => toggleReadMore(index)}
+                    >
+                      {expandedIndexes[index] ? " Read less" : " Read more"}
                     </span>
                   </p>
                 </>
