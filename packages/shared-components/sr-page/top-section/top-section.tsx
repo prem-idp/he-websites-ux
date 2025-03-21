@@ -63,7 +63,7 @@ const TopSection: React.FC<searchProps> = async ({
             replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
             replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted);
   let schemaData: any[] = [];
-  breadcrumb?.map((data, index) => {
+  breadcrumb?.forEach((data, index) => {
     const obj: any = {
       '@type': 'ListItem',
       position: (index + 1),
@@ -86,7 +86,7 @@ const TopSection: React.FC<searchProps> = async ({
           </div>
           {/* breadcrumb  */}
           {/* start subject */}
-          {(h1Text || h1Text) && 
+          {(h1Text || h2Text) && 
           <div className="py-[16px]">
             {h1Text && <div className="h5 mb-[4px]">{h1Text}</div>}
             {h2Text && <p>{h2Text}</p>}
