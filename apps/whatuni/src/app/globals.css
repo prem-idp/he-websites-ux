@@ -545,7 +545,7 @@ p,
 }
  
 .disable svg path {
-  @apply stroke-grey-300;
+  @apply stroke-grey-200;
 }
 
 /* Registeration */
