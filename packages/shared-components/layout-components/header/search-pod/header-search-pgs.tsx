@@ -13,9 +13,9 @@ export default function HeaderPgsSearch({
 
   return (
     <>
-      <div className="bg-white absolute top-0 left-0 right-0 z-10 lg:min-h-[222px]">
-        <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
-          <div className="flex self-end relative">
+      <div className="bg-white absolute top-0 left-0 right-0 z-10 lg:min-h-[168px]">
+        <div className="max-w-container w-full mx-auto flex flex-col px-[0] pt-[8px] md:pt-[16px] pb-[32px]">
+          <button type="button" className="flex self-end relative pr-[16px] pt-[10px]">
             <svg
               aria-label="close-button"
               className="cursor-pointer"
@@ -34,9 +34,11 @@ export default function HeaderPgsSearch({
                 strokeLinejoin="round"
               />
             </svg>
+          </button>        
+          <div className="w-full mt-[0] md:mt-[32px] lg:w-[92%]">
+            <PgsSearch pgs_search_data={pgs_search_data} />
           </div>
         </div>
-      <PgsSearch pgs_search_data={pgs_search_data} />
       </div>
     </>
   );
