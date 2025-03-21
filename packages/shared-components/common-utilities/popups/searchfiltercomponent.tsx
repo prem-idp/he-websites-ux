@@ -36,12 +36,13 @@ const FilterSpinner = dynamic(
     import("@packages/shared-components/skeleton/search-result/filter-spinner"),
   { ssr: false }
 );
-const SearchFilterComponent = ({ data, path }: any) => {
+const SearchFilterComponent = ({ data, path, count }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [jsondata, setJsondata] = useState(data);
+  const [courseCount, setCourseCount] = useState<any>(count);
   const keyName = KeyNames();
   const parentRegion = jsondata?.regionList?.filter((regionItem: any) => {
     return !regionItem?.parentRegionId;
@@ -67,7 +68,6 @@ const SearchFilterComponent = ({ data, path }: any) => {
   });
 
   const [slug, setslug] = useState(path || "degree-courses/search");
-  const [courseCount, setCourseCount] = useState<any>(0);
   const [isIndexed, setIsIndexed] = useState(true);
   const [filterState, setFilterState] = useState({
     isFilterOpen: false,
@@ -266,27 +266,30 @@ const SearchFilterComponent = ({ data, path }: any) => {
     }
   };
 
-  useEffect(() => {
-    const getCount = async () => {
-      const bodyJson = extractUrlAndSessionValues(searchParams, "", "");
-      const count = await getSrFilterCount(
-        filterbodyJson(bodyJson, prepopulateFilter?.studyLevel)
-      );
-      setCourseCount(count);
-    };
-    getCount();
-  }, [filterState?.filterOrder]);
+  // useEffect(() => {
+  //   const getCount = async () => {
+  //     const bodyJson = extractUrlAndSessionValues(searchParams, "", "");
+  //     console.log(filterbodyJson(bodyJson, prepopulateFilter?.studyLevel));
+  //     const count = await getSrFilterCount(
+  //       filterbodyJson(bodyJson, prepopulateFilter?.studyLevel)
+  //     );
+  //     setCourseCount(count);
+  //   };
+  //   getCount();
+  // }, [filterState?.filterOrder]);
 
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
-        const data = await getSrFilter(
-          filterbodyJson(
-            filterState?.filterOrder,
-            prepopulateFilter?.studyLevel
-          )
+        const body = filterbodyJson(
+          filterState?.filterOrder,
+          prepopulateFilter?.studyLevel
         );
+        console.log("body", body);
+        const data = await getSrFilter(body);
+        const count = await getSrFilterCount(body);
         setJsondata(data);
+        setCourseCount(count);
         setSubjectState((prev: any) => ({
           ...prev,
           subjectkeyword: "",

@@ -1,7 +1,7 @@
 "use server";
 import React from "react";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
-import { getSrFilter } from "@packages/REST-API/rest-api";
+import { getSrFilter, getSrFilterCount } from "@packages/REST-API/rest-api";
 import { cookies } from "next/headers";
 import dynamic from "next/dynamic";
 const SearchFilterComponent = dynamic(
@@ -26,11 +26,16 @@ const FilterWrapper = async () => {
   const searchparams = cookieStore?.get("searchParamscookies")?.value || "{}";
   const urlparams = new URLSearchParams(searchparams || "?default=value");
   const paramObject = Object?.fromEntries(urlparams?.entries());
-  console.log(filterbodyJson(paramObject, fullPath?.split("/")[1]));
-  const data = await getSrFilter(
-    filterbodyJson(paramObject, fullPath?.split("/")[1])
+  const body = filterbodyJson(paramObject, fullPath?.split("/")[1]);
+  const data = await getSrFilter(body);
+  const count = await getSrFilterCount(body);
+  return (
+    <>
+      {data && (
+        <SearchFilterComponent data={data} path={fullPath} count={count} />
+      )}
+    </>
   );
-  return <>{data && <SearchFilterComponent data={data} path={fullPath} />}</>;
 };
 
 export default FilterWrapper;
