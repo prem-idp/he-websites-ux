@@ -19,7 +19,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
   const collegeName = college?.collegeDisplayName;
   const totalCourseCount = searchResultlist?.totalCourseCount;
   const reviewCount = college?.reviewCount ?? 0; // Default to 0 if null
-  const rating = college?.rating ?? 0; // Default to 0 if null
+  const rating = college?.exactRating ?? 0; // Default to 0 if null
   const collegeTextKey = college?.collegeTextKey;
   const reviewsLinksrc = `/university-course-reviews/${collegeTextKey?.toLowerCase().replace(/\s+/g, "-")}/${college?.collegeId}`;
 
@@ -89,7 +89,7 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
                   </span>
                 </li>
                 <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
-                  Lecturers and Teaching
+                  {college?.wuscaBadges}
                 </li>
                 <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
                   + 2 more
@@ -99,9 +99,9 @@ export default async function PrPageTopSection({ searchResultlist }: ProviderTop
           </div>
           <span className="favorite group mr-[0] lg:mr-[10px]  items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
             <UserFavourite
-                contentId={college?.collegeId}
-                contentName={collegeTextKey}
-                contentType="INSTITUTION"
+              contentId={college?.collegeId}
+              contentName={collegeTextKey}
+              contentType="INSTITUTION"
             />
           </span>
         </div>

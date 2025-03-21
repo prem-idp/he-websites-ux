@@ -64,10 +64,15 @@ const transformProviderListData = (data: any, pathname: any) => {
     console.error("❌ searchResultsList is missing or not an array", data);
     return [];
   }
-  return data.searchResultsList.flatMap(
-    (college: any) =>
-      Array.isArray(college.bestMatchCoursesList)
-        ? college.bestMatchCoursesList.map((course: any) => ({
+  return data.searchResultsList.flatMap((college: any) =>
+    Array.isArray(college.bestMatchCoursesList)
+      ? college.bestMatchCoursesList.map((course: any) => {
+        // Ensure correct UCAS points formatting
+        const points = [course.minUcasPoints, course.maxUcasPoints]
+          .filter(Boolean)
+          .join("-");
+
+        return {
           collegeId: college?.collegeId,
           collegeName: college?.collegeDisplayName,
           courseId: course?.courseId,
@@ -80,21 +85,18 @@ const transformProviderListData = (data: any, pathname: any) => {
           sponsoredListingFlag: college?.sponsoredListingFlag,
           manualBoostingFlag: college?.manualBoostingFlag,
           orderItemId: course?.enquiryDetails?.orderItemId,
-          modulesList: course?.modulesDesc,// Ensure modulesList is always an array
-          tagLocation: college?.adminVenue || "",
-          points:
-            course.minUcasPoints && course.maxUcasPoints
-              ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-              : "",
-          hasProspectus:
-            course.enquiryDetails?.prospectusFlag === "Y" || false,
+          modulesList: course?.modulesDesc, // Ensure modulesList is always an array
+          tagLocation: course?.availabilityDetails?.studyMode || "",
+          points: points, // Updated points logic
+          hasProspectus: course.enquiryDetails?.prospectusFlag === "Y" || false,
           hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
           hasEmail: course.enquiryDetails?.emailFlag === "Y" || false,
           hasOpendayFlag: college?.openDayDetails?.opendayFlag === "Y" || false,
           siteCode: sitecode,
-          qualCode: qualCode
-        }))
-        : [] // Ensure an empty array if bestMatchCoursesList is missing
+          qualCode: qualCode,
+        };
+      })
+      : [] // Ensure an empty array if bestMatchCoursesList is missing
   );
 };
 
@@ -155,7 +157,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
       ) : (
         <ProviderResultsCard searchResultlist={providerList}>
           <Paginations
-            totalPages={Math.ceil(data?.totalCourseCount / 10)}
+            totalPages={Math.ceil(data?.totalCourseCount / 9)}
             initialPage={searchparams?.pageNo || 1}
             searchParams={{ param: searchparams, currentPage: referer }}
           />
