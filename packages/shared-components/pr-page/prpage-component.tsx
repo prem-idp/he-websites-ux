@@ -17,6 +17,7 @@ import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
 import { get_WU_SR_PR_breadcrumb, getDisplayNameReqBody } from "@packages/lib/utlils/resultsPageActions";
 import { SRDisplayNameEndPt } from "../services/bffEndpoitConstant";
 import { httpBFFRequest } from "@packages/lib/server-actions/server-action";
+import SchemaTagLayoutComponent from "../common-utilities/schematag-layout/SchemaTagLayoutComponent";
 
 interface Payload {
   parentQualification: string;
@@ -122,12 +123,25 @@ const PrPageComponent = async ({ searchparams }: any) => {
     ...breadcrumbJson
 
   ];
+  let schemaData: any[] = [];
+  breadcrumbJson?.map((data, index) => {
+    const obj: any = {
+      '@type': 'ListItem',
+      position: (index + 1),
+      item: {
+        '@id': data?.url?.trim()?.includes("+") ? data?.url?.split("+")?.[0] : data?.url,
+        "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0]?.trim() : data?.label,
+      }
+    }
+    schemaData.push(obj);
+  });
 
   return (
     <>
       <section className="bg-white hidden lg:block">
         <div className="max-w-container mx-auto pt-[24px] pb-[8px]">
           <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={true} />
+          <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{ "itemListElement": schemaData }} />
         </div>
       </section>
       <PrPageTopSection searchResultlist={data} />
