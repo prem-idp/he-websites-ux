@@ -66,7 +66,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     locationMilesError: false,
     postCodeValue: "",
   });
-
+  console.log(jsondata);
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [isIndexed, setIsIndexed] = useState(true);
   const [filterState, setFilterState] = useState({
@@ -955,7 +955,21 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                 <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
                                   Keyword search for
                                 </p>
-                                <p className="small text-primary-400">'bus'</p>
+                                <p
+                                  className="small text-primary-400"
+                                  onClick={() => {
+                                    appendSearchParams(
+                                      "q",
+                                      subjectState?.subjectkeyword
+                                    );
+                                    setSubjectState((prev: any) => ({
+                                      ...prev,
+                                      isSujectDropdownOpen: false,
+                                    }));
+                                  }}
+                                >
+                                  '{subjectState?.subjectkeyword}'
+                                </p>
                               </div>
                               {subjectState?.sortedSubjects?.length > 0 ? (
                                 <ul>

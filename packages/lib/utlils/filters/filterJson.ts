@@ -19,6 +19,7 @@ const qualCode: any = {
 const KeyNames = () => {
   const sameNameObject = {
     month: "month",
+    qualification: "qualification",
     year: "year",
     location: "location",
     sort: "sort",
@@ -56,7 +57,7 @@ const keyName = KeyNames();
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
     parentQualification: qualCode?.[parentQual] || "L",
-    childQualification: "",
+    childQualification: inputObject?.[keyName?.qualification] || "",
     searchCategoryCode: "",
     searchSubject: inputObject?.[keyName?.subject]?.includes("+")
       ? inputObject?.[keyName?.subject]?.split("+")
