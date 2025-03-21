@@ -25,11 +25,11 @@ const domain = getCustomDomain();
 let schemaData: any[] = [];
 export async function generateMetadata({ params }: any) {
   const cookieStore = await cookies();
-const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-const cookieparams = cookieStore?.get("searchParamscookies")?.value || "{}";
-const urlparams = new URLSearchParams(cookieparams);
-const cookieObject = Object.fromEntries(urlparams?.entries());
-const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject
+  const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const cookieparams = cookieStore?.get("searchParamscookies")?.value || "{}";
+  const urlparams = new URLSearchParams(cookieparams);
+  const cookieObject = Object.fromEntries(urlparams?.entries());
+  const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject;
   const prams_slug = await params;
   const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
   const searchparams = new URLSearchParams({
@@ -209,7 +209,7 @@ export function get_WU_CD_breadcrumb(
   const breadCrumb_subjectl1 = displayNameResponse?.parentSubjectName
     ? [
         {
-          url: `/${qualInUrl}/search?subject=${displayNameResponse?.parentSubjectName}}`,
+          url: `/${qualInUrl}/search?subject=${displayNameResponse?.parentSubjectTextKey}`,
           label: `${displayParentSubject}`,
         },
       ]
