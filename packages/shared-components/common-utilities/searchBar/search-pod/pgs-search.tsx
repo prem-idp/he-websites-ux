@@ -8,6 +8,7 @@ import {
   currentAuthenticatedUser,
   GADataLayerFn,
 } from "@packages/lib/utlils/helper-function";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 export default function PgsSearch({ pgs_search_data }: any) {
   // console.log(pgs_search_data,"pgs_search_datapgs_search_datapgs_search_datapgs_search_data")
   const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
@@ -42,6 +43,12 @@ export default function PgsSearch({ pgs_search_data }: any) {
       setIsPgsSearched(!isPgsSearched);
     }
   };
+  function navigateTo(newUrl: string) {
+      router.prefetch(newUrl);
+      window.history.pushState(null, "", newUrl);
+      setTimeout(() => router.push(newUrl), 0);
+      setTimeout(() => emitter.emit("rightMenuActionclose", "closesearch"), 100);
+   }
 
   useEffect(() => {
     const { description } = searchValue || {};
@@ -214,7 +221,8 @@ export default function PgsSearch({ pgs_search_data }: any) {
           "NA",
           "NA"
         );
-        return (window.location.href = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com/" : ""}${qualification.qualUrl}`);
+        const newUrl= `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com/" : ""}${qualification.qualUrl}`
+        return navigateTo(newUrl);
       }
       if (searchValue?.description?.trim() && !qualification?.qualDesc) {
         GADataLayerFn(
@@ -246,7 +254,8 @@ export default function PgsSearch({ pgs_search_data }: any) {
           "NA",
           "NA"
         );
-        return (window.location.href = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}/pgs/search?keyword=${sanitizedDescription}`);
+        const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}/pgs/search?keyword=${sanitizedDescription}`
+        return navigateTo(newUrl);
       }
       if (searchValue?.description?.trim() && qualification?.qualDesc) {
         GADataLayerFn(
@@ -278,13 +287,15 @@ export default function PgsSearch({ pgs_search_data }: any) {
           "NA",
           "NA"
         );
-        return (window.location.href = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}/pgs/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`);
+        const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}/pgs/search?keyword=${sanitizedDescription}&qualification=${qualification.qualUrl}`
+        return navigateTo(newUrl);
       }
     }
   };
 
   const courseLink = (e: any) => {
-    return (window.location.href = `${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}${e?.url}`);
+    const newUrl=`${process.env.NEXT_PUBLIC_ENVIRONMENT === "prd" ? "https://www.postgraduatesearch.com" : ""}${e?.url}`
+    return navigateTo(newUrl);
   };
 
   return (
