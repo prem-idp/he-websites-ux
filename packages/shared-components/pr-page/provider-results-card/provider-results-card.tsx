@@ -56,7 +56,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
     >
       <div className={`flex justify-end p-[16px] ${items.siteCode === "PGS_WEB" ? "bg-positive-light" : "bg-blue-100"}`}>
         {/* <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer"> */}
-          <UserFavourite contentId={+items?.courseId} contentName={items?.title} contentType="COURSE" />
+        <UserFavourite contentId={+items?.courseId} contentName={items?.title} contentType="COURSE" />
         {/* </span> */}
       </div>
       <div className="flex p-[16px] flex-col gap-[16px] h-full justify-between">
@@ -65,25 +65,28 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
             {items.title}
           </Link>
           <ul className="flex flex-wrap gap-[4px]">
-            <li className="flex gap-[2px] bg-grey-100 text-grey-500 uppercase font-semibold xs-small px-[8px] rounded-[4px]">
-              <Image
-                alt="calender icon"
-                width="16"
-                height="16"
-                src="../static/assets/icons/search-result/calender-grey.svg"
-              />
-
-              {items.points}
-            </li>
-            <li className="flex gap-[2px] bg-grey-100 text-grey-500 font-semibold uppercase xs-small px-[8px] rounded-[4px]">
-              <Image
-                alt="timer icon"
-                width="16"
-                height="16"
-                src="../static/assets/icons/search-result/time-grey.svg"
-              />
-              {items.tagLocation}
-            </li>
+            {items.points && (
+              <li className="flex gap-[2px] bg-grey-100 text-grey-500 uppercase font-semibold xs-small px-[8px] rounded-[4px]">
+                <Image
+                  alt="calender icon"
+                  width="16"
+                  height="16"
+                  src="../static/assets/icons/search-result/calender-grey.svg"
+                />
+                {items.points}
+              </li>
+            )}
+            {items.tagLocation && (
+              < li className="flex gap-[2px] bg-grey-100 text-grey-500 font-semibold uppercase xs-small px-[8px] rounded-[4px]">
+                <Image
+                  alt="timer icon"
+                  width="16"
+                  height="16"
+                  src="../static/assets/icons/search-result/time-grey.svg"
+                />
+                {items.tagLocation}
+              </li>
+            )}
           </ul>
 
           {items.fullCourse && (
@@ -115,12 +118,12 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               </span>
 
               {/* Modules List */}
-              {Array.isArray(items.modulesList) && items.modulesList.length > 0 && (
+              {items?.modulesList && (
                 <ul className="p-[0_16px_0_18px] flex flex-col gap-[8px] list-disc">
                   {visibleModules[index] &&
-                    items.modulesList.map((list: any, listIndex: number) => (
+                    items.modulesList.split("###").map((desc: any, listIndex: number) => (
                       <li className="text-grey300 small break-all" key={listIndex}>
-                        {list}
+                        {desc}
                       </li>
                     ))}
                 </ul>

@@ -68,23 +68,23 @@ const transformProviderListData = (data: any) => {
       Array.isArray(college.bestMatchCoursesList)
         ? college.bestMatchCoursesList.map((course: any) => ({
           collegeId: college?.collegeId,
-          collegeName: college?.collegeTextKey,
+          collegeName: college?.collegeDisplayName,
           courseId: course?.courseId,
           courseSummary: course?.courseSummary,
           cdpagesurl: `/degrees/${course?.courseTitleTextKey}/${college?.collegeTextKey}/cd/${course?.courseId}/${college?.collegeId}`,
           pageName: "coursesearchresult",
-          title: course?.courseTitle || "Unknown Title",
+          title: course?.courseTitle || "",
           provideFav: false,
           subOrderItemId: course?.enquiryDetails?.subOrderItemId,
           sponsoredListingFlag: college?.sponsoredListingFlag,
           manualBoostingFlag: college?.manualBoostingFlag,
           orderItemId: course?.enquiryDetails?.orderItemId,
-          modulesList: course?.modulesInfo || [], // Ensure modulesList is always an array
-          tagLocation: college?.adminVenue || "Unknown Location",
+          modulesList: course?.modulesDesc,// Ensure modulesList is always an array
+          tagLocation: college?.adminVenue || "",
           points:
             course.minUcasPoints && course.maxUcasPoints
               ? `${course.minUcasPoints}-${course.maxUcasPoints} UCAS points`
-              : 0 - 0,
+              : "",
           hasProspectus:
             course.enquiryDetails?.prospectusFlag === "Y" || false,
           hasWebsite: course.enquiryDetails?.websiteFlag === "Y" || false,
@@ -129,9 +129,10 @@ const PrPageComponent = async ({ searchparams }: any) => {
       '@type': 'ListItem',
       position: (index + 1),
       item: {
-      '@id': data?.url?.trim()?.includes("+") ? data?.url?.split("+")?.[0] : data?.url,
-      "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0]?.trim() : data?.label,
-    }}
+        '@id': data?.url?.trim()?.includes("+") ? data?.url?.split("+")?.[0] : data?.url,
+        "name": data?.label?.trim()?.includes(",") ? data?.label?.split(",")?.[0]?.trim() : data?.label,
+      }
+    }
     schemaData.push(obj);
   });
 
@@ -139,8 +140,8 @@ const PrPageComponent = async ({ searchparams }: any) => {
     <>
       <section className="bg-white hidden lg:block">
         <div className="max-w-container mx-auto pt-[24px] pb-[8px]">
-          <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={true}/>
-          <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{"itemListElement": schemaData}}/>
+          <Breadcrumblayoutcomponent data={breadcrumbData} disableLast={true} />
+          <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{ "itemListElement": schemaData }} />
         </div>
       </section>
       <PrPageTopSection searchResultlist={data} />
