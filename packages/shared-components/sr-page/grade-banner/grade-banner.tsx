@@ -49,14 +49,14 @@ const GradeBanner = () => {
             />
           </div>
           <div className="flex flex-col gap-[4px]">
-            <div className="para-lg font-bold font-farro">Add your {score ? "location" : "grades"}</div>
+            <div className="para-lg font-bold font-farro">Add your {score || (process.env.PROJECT === "PGS"&& !location)  ? "location" : "grades"}</div>
             <div className="small">
             {score ? "Add your location to discover universities nearby or in regions you're interested in" : "Add your UCAS points to help tailor your search to find the right uni for you"}
              
             </div>
           </div>
         </div>
-        <button type="button" onClick={() => score ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
+        <button type="button" onClick={() => score || (process.env.PROJECT === "PGS" && !location) ? filterEvents("location") : ucasClick("ucas")} className="flex items-center justify-center self-center gap-[8px] btn btn-primary px-[20px] py-[10px] w-full lg:w-fit">
           <svg
             width="20"
             height="20"
@@ -71,7 +71,7 @@ const GradeBanner = () => {
               fill="#F9FAFB"
             />
           </svg>
-          Add my {score ? "location" : "grades"}
+          Add my {score || (process.env.PROJECT === "PGS" && !location) ? "location" : "grades"}
         </button>
       </div>
       {isUcasPopupOpen && (

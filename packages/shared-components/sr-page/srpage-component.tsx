@@ -22,21 +22,22 @@ import {
 import {
   searchResultsFetchFunction,
   httpBFFRequest,
+  graphQlFetchFunction,
 } from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
+import { SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
   const refererURL = headerList.get("referer");
-  console.log("referer", refererURL);
+  let cityGuideResponse:any;let subjectGuideResponse:any;
   const pathname =
     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const filterCookieParam = JSON.parse(
     cookieStore?.get("filter_param")?.value || "{}"
   );
   let searchResultsData;
-  let displayNameResponse;
   const searchPayLoad = getSearchPayload(
     searchparams,
     refererURL ? filterCookieParam : "",
@@ -50,6 +51,12 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   } catch (error) {
     console.log("error", error);
   }
+  if(searchparams?.subject && !searchparams?.subject?.includes(" ")) {subjectGuideResponse = await graphQlFetchFunction(SRSubjectGuideQuery(searchparams?.subject));}
+  if(searchparams?.location && !searchparams?.location?.includes(" ")) {cityGuideResponse = await graphQlFetchFunction(SRCityGuideQuery(searchparams?.location
+    .split(' ')
+    .map((word: string)=> word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')));}
+  
   return (
     <>
       {searchResultsData?.searchResultsList?.length > 0 &&
@@ -60,7 +67,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             params={paramsAwaited}
           />
           <Suspense>
-            <SearchFilterButtons />
+            <SearchFilterButtons frompage="browsemoneypage" />
             <SearchLabels searchPayLoad={searchPayLoad} />
           </Suspense>
         </>
@@ -73,9 +80,9 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
           {searchResultsData?.searchResultsList?.length > 0 &&
           searchResultsData?.status != 404 ? (
             <>
-              {process.env.PROJECT === "Whatuni" &&
+              {
               pathname !== "postgraduate-courses" &&
-              (!searchparams?.location || !searchparams?.score) ? (
+              (!searchparams?.location || (!searchparams?.score && process.env.PROJECT === "Whatuni")) ? (
                 <GradeBanner />
               ) : (
                 <></>
@@ -124,16 +131,18 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
         <>
+        {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) &&
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">
-              <div className="h1 pt-[40px]">Explore more about law</div>
+              <div className="h1 pt-[40px]">Explore more about {searchparams?.subject}</div>
               <div className="flex flex-col gap-[40px] md:gap-[80px] py-[40px]">
-                <ExploreArticles />
-                <ExploreArticles />
+              {subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 &&
+                <ExploreArticles exploreSectionProps = {{subjectComponentData:subjectGuideResponse?.data?.appPageComponentCollection?.items?.[0]}}/>}
+                {cityGuideResponse?.data?.articleCollection?.items?.length > 0 && <ExploreArticles exploreSectionProps = {{cityComponentData:cityGuideResponse?.data?.articleCollection?.items?.[0]}}/>}
                 {/* <Explorearticelskeleton/> */}
               </div>
             </div>
-          </section>
+          </section>}
           <Faqcomponents />
           
         </>

@@ -552,3 +552,89 @@ export const searchPanelQuery = `{
     }
   }
 }`;
+export const SRSubjectGuideQuery = (subject:string)=>`{ appPageComponentCollection(limit:1,where:{pageName_contains:"${subject}"})
+  {
+     items
+    {
+      pageName
+      pageUrl
+
+      moduleComponentsCollection(limit:1,skip:3)
+      {
+
+        items
+        {
+
+          ... on AppModuleComponent
+          {
+            componentName
+            fieldComponentsCollection
+            {
+              items
+              {
+                ... on RichTextAndImage
+                {
+                  richContent
+                  {
+                    json
+                  }
+                  richContentTitle
+                  homeMediaCollection(limit:1)
+                  {
+                    items
+                    {
+                      imageName
+                      image
+                      {
+                        url
+                      }
+                    }
+
+                  }
+                }
+              }
+            }
+
+
+          }
+
+        }
+      }
+
+
+     }
+    }}`
+
+
+    export const SRCityGuideQuery = (city:string)=>
+  `{
+  articleCollection(limit : 1,where:{metaTagSubTopics:{title:"City guides"} , pageTitle: "Student guide to ${city}"})
+  {
+   items
+   {
+     pageTitle
+     urlSlug
+     shortDescription
+     bannerImageCollection
+     {
+       items
+       {   
+         ... on PageImage
+         {
+           imageTitle
+           imgIntName
+           imgUpload
+           {
+             url
+           }
+
+         }
+
+       }
+
+     }
+
+     }
+   }
+  }
+ `

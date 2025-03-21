@@ -148,7 +148,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
                   src="/static/assets/icons/video_play_icon.svg"
                 />
               </div> */}
-              <Video/>
+              <Video featuredData={featuredData}/>
             </>
           ) : (
             <>
