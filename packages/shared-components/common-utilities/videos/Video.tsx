@@ -41,7 +41,7 @@ const Video = () => {
       {!isPlaying && (
         <button
           onClick={(event)=>playVideo(event)}
-          className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer"
+          className="ripple-circle absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer"
         >
           <Image
             alt="video_play_icon"

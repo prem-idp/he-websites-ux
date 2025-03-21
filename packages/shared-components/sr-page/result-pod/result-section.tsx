@@ -297,7 +297,7 @@ queryString ? `&${queryString}` : ''
             )}
           </div>
           <div className="flex flex-col grow">
-            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 min-h-[400px] md:rounded-tr-[16px]">
+            <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:min-h-[350px] lg:min-h-[400px] md:rounded-tr-[16px]">
               {data?.review1Text && (
                 <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
                   <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
