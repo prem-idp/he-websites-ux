@@ -151,7 +151,7 @@ queryString ? `&${queryString}` : ''
                   {data?.courseCount} engineering{" "}
                   {data?.courseCount === 1 ? "course" : "courses"}
                 </div>
-                {data?.reviewCount && (
+                {data?.reviewCount > 0 &&  (
                   <div className="flex items-center gap-[8px] text-grey-50 small">
                     <div className="flex items-center gap-[2px]">
                       <svg
