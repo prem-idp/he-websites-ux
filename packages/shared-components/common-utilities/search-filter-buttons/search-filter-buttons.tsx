@@ -25,12 +25,7 @@ const SearchFilterButtons = (frompage?:any) => {
     searchParams?.get("course")?.split(" ")
   )?.length;
   if (filterCookie?.subject)
-    subjectFilterCount =
-      subjectFilterCount +
-      (filterCookie?.subject?.includes("+")
-        ? filterCookie?.subject?.split("+").length
-        : 1);
-  let url: any;
+  subjectFilterCount = subjectFilterCount +(filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
   const [filterCount, setFilterCount] = useState(0);
   const [gradeCount, setGradeCount] = useState("");
   const appliedFilters = {
