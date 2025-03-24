@@ -34,7 +34,7 @@ const Video = ({featuredData}:any) => {
         className="w-full"
         controls
         preload="none"
-        onClick={(event) = handleVideoClick(event)} 
+        onClick={(event) => handleVideoClick(event)} 
         onPlay={(event)=>onClickPlay(event)}
         onPause={(event)=>onClickPause(event)}
         poster={
