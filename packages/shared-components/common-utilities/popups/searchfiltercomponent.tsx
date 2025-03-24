@@ -1475,9 +1475,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               Choose one or more
                             </div>
                             <ul
-                              className={`pt-[12px] ${selectedLocationType?.type === "city" ? "opacity-50" : ""}`}
+                              className={`pt-[12px] ${selectedLocationType?.type === "city" ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
-                              <li>
                                 {/* <div className="form_check relative m-[0_0_12px]">
                                   <div className="flex items-start gap-[8px]">
                                     <div className="checkbox_card">
@@ -1543,7 +1542,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                     </label>
                                   </div>
                                 </div> */}
-                                <ul>
                                   <li>
                                     {FirstLevelRegion?.map(
                                       (regionItem: any, index: number) => (
@@ -1565,8 +1563,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                       )
                                     )}
                                   </li>
-                                </ul>
-                              </li>
                             </ul>
                           </div>
                         )}
@@ -1579,7 +1575,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               Choose one or more
                             </div>
                             <div
-                              className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${selectedLocationType?.type === "region" ? "opacity-50" : ""}`}
+                              className={`grid grid-cols-1 gap-[12px] sm:grid-cols-2 ${selectedLocationType?.type === "region" ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
                               {jsondata?.cityList?.map(
                                 (cityItem: any, index: number) => (

@@ -36,8 +36,7 @@ const LocationcheckBox = ({
   return (
     <>
       {childItem && (
-        <div>
-          <div className="form_check relative m-[0_0_12px_40px]">
+          <div className="form_check relative m-[0_0_12px_24px]">
             <div className="flex items-start gap-[8px]">
               <div className="checkbox_card">
                 {!isChecked && (
@@ -93,7 +92,6 @@ const LocationcheckBox = ({
               </label>
             </div>
           </div>
-        </div>
       )}
     </>
   );
