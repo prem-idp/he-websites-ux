@@ -60,13 +60,14 @@ const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.sub
     otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
       .catch(err => ({ error: err }))
   ]);
+  console.log(data)
   if(data.errorMessage){
     notFound();
   }
   const courseContent = courseContentExtractor(contents);
   return (
     <>
-      {breadcrumbData.length > 1 && (
+      {breadcrumbData?.length > 1 && (
       <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
         <div className="max-w-container mx-auto">
           <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
@@ -106,6 +107,7 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string, s
     providerName: displayNameResponse?.collegeName ?? undefined,
     courseName: displayNameResponse?.courseName ?? undefined,
   }
+
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTite, metaFiltersOpted);
   const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
   const index = contentfulMetadata?.robots;
@@ -132,6 +134,7 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string, s
       default: return [];
     }
   }
+
   const breadcrumb = (subjectNameParam != "" && subjectNameParam != undefined) ? getBreadcrumb() : "";
   breadcrumbData = [
     {

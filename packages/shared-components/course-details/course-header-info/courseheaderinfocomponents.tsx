@@ -81,7 +81,7 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                             <span className='small text-grey300'>({data?.courseInfo?.overallRatingExact})</span>
                           </div>
                         </div>
-                        {(data?.latestReviews?.length>0 || data?.reviewBreakdown.length >0 ) && 
+                        {(data?.latestReviews?.length>0 || data?.reviewBreakdown?.length >0 ) && 
                           <Viewmore />
                         }
                       </div>

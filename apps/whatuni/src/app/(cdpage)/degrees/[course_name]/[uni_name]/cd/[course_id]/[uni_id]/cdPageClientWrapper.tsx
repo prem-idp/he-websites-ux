@@ -10,6 +10,8 @@ const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-co
 const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
 const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
 const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
+import Popularalevelsubjectskeleton  from "@packages/shared-components/skeleton/popularalevelsubjectskeleton"
+import Entryrequirementsskeleton from "@packages/shared-components/skeleton/entryrequirementsskeleton"
 import { useState, useEffect, useRef } from 'react';
 export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
@@ -61,7 +63,6 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
 
   return (
     <div>
-
       <Courseoptionscomponents data={fetcheddata} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability} setSelectedavailability={setSelectedavailability} courseContent={courseContent} />
       <JumpToComponents sectionsList={courseContent?.sectionsList} data={fetcheddata} />
       <>
@@ -81,7 +82,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
             case 'entryrequirements':
               if (!data?.entryRequirements) return null;
               componentToRender = <>
-                {loading ? <p> EntryrequirementsComponent Loading...</p> :
+                {loading ? <Entryrequirementsskeleton/>:
                   <EntryrequirementsComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
                 }
               </>
@@ -89,7 +90,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
             case 'popularalevelsubjects':
               if (!data?.popularALevelSubjects?.length) return null;
               componentToRender = <>
-                {loading ? <p> Popularalevelsubjectcomponents Loading...</p> :
+                {loading ? <Popularalevelsubjectskeleton/>:
                   <Popularalevelsubjectcomponents key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
                 }
               </>
@@ -98,7 +99,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
             case 'tutionfees':
               if (!data?.tutionFees?.length) return null;
               componentToRender = <>
-                {loading ? <p> TutionFeesComponent Loading...</p> :
+                {loading ? <Entryrequirementsskeleton/> :
                   <TutionFeesComponent key={renderKey} sectionInfo={sectionContent} {...fetcheddata} />
                 }
               </>
