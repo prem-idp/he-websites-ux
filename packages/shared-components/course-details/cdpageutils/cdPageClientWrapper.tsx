@@ -24,22 +24,27 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
     setRenderKey(prev => prev + 1);
   }, [fetcheddata]);
 
-
   useEffect(() => {
     async function clientFetch() {
       setLoading(true)
       try {
-        const searchParams = new URLSearchParams({
-          courseId: String(prams_slug?.course_id || ""),
-          affiliateId: String(process.env.AFFILATE_ID || ""),
-          collegeId: String(prams_slug?.uni_id || ""),
-          opportunityId:String(selectedavilability?.availabilityId || "")
-        });
+        const searchParams = new URLSearchParams();
+        if (prams_slug?.course_id) {
+          searchParams.append("courseId", String(prams_slug.course_id));
+        }
+        if (process.env.AFFILATE_ID) {
+          searchParams.append("affiliateId", String(process.env.AFFILATE_ID));
+        }
+        if (prams_slug?.uni_id) {
+          searchParams.append("collegeId", String(prams_slug.uni_id));
+        }
+        if (selectedavilability?.availabilityId) {
+          searchParams.append("opportunityId", String(selectedavilability.availabilityId));
+        }
         const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
-
             "Content-Type": "application/json",
            "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
           },

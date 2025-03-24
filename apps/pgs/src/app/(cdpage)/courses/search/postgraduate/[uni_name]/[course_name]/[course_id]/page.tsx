@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: any) {
   const cookieObject = Object.fromEntries(urlparams?.entries());
   const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject;
   const prams_slug = await params;
-  const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
+  const slug = `/courses/search/postgraduate/${prams_slug.uni_name}/${prams_slug.course_name}/${prams_slug.course_id}/`
   const searchparams = new URLSearchParams({
     courseId: String(prams_slug?.course_id || ""),
     qualCode: getQualCode(qualCode),
@@ -48,13 +48,23 @@ export default async function Cdpage({ params }: any) {
   const cookieObject = Object.fromEntries(urlparams?.entries());
   const subjectNameParam = cookieObject?.subject?.includes(" ") ? cookieObject.subject?.split(" ") : cookieObject.subject
   const prams_slug = await params;
-  const slug = `/degrees/${prams_slug.course_name}/${prams_slug.uni_name}/cd/${prams_slug.course_id}/${prams_slug.uni_id}/`
+  const slug = `/courses/search/postgraduate/${prams_slug.uni_name}/${prams_slug.course_name}/${prams_slug.course_id}/`
   // ------------------------------------------------------initial fetch ----------------------------------------------------------------
-  const searchparams = new URLSearchParams({
-    courseId: String(prams_slug?.course_id || ""),
-    affiliateId: String(process.env.AFFILATE_ID || ""),
-    collegeId: String(prams_slug?.uni_id || ""),
-  });
+  const searchparams = new URLSearchParams();
+
+  if (prams_slug?.course_id) {
+    searchparams.append("courseId", String(prams_slug.course_id));
+  }
+
+  if (process.env.AFFILATE_ID) {
+    searchparams.append("affiliateId", String(process.env.AFFILATE_ID));
+  }
+
+  if (prams_slug?.uni_id) {
+    searchparams.append("collegeId", String(prams_slug.uni_id));
+  }
+
+
   const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
   const [data, contents, othercourseData] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
