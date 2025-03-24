@@ -21,6 +21,10 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
       console.error("Navigation failed:", error);
     }
   };
+
+  const stopNavigating = (event:React.FormEvent) => {
+    event.stopPropagation();
+  };
   return (
     <>
       <div
