@@ -59,7 +59,7 @@ const getUserFavourites = async (): Promise<any> => {
             const newFavourite = data?.count || 0;
             setNewCookie(`USER_FAV_BASKET_COUNT=${newFavourite}; Path=/;secure`);
             eventEmitter.emit("favouriteCookieUpdated", newFavourite);
-          } else if(data?.status == 500) {
+          } else if(data?.status == 500 || data?.status == 401) {
             throw new Error('Error while favouriting: Internal server error');
           }
           console.log("fav data", data);
