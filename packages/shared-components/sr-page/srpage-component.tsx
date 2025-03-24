@@ -109,7 +109,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               )}
               <SrPageResultPod
                 searchResultsData={searchResultsData?.searchResultsList}
-                qualCode={getQualCode(pathname)}
+                qualName={pathname}
               />
               {searchResultsData?.collegeCount > 10 ? (
                 <>
@@ -134,7 +134,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
         <Findacoursecomponents h1value="Your uni search made easier" subheading={true}/>
       )}
       {searchResultsData?.searchResultsList?.length > 0 &&
-      searchResultsData?.status != 404 ? (
+      searchResultsData?.status != 404 && (
         <>
         {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) && process.env.PROJECT === "Whatuni" &&
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
@@ -148,11 +148,9 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-         
+          {/* <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items}/> */}
           
         </>
-      ) : (
-        <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items}/>
       )}
       <ContentfulPreviewProvider
             locale="en-GB"
