@@ -5,10 +5,10 @@ import Link from "next/link";
 // import React from 'react'
 import CourseTab from "@packages/shared-components/common-utilities/searchBar/search-input-pods/coursetab";
 import React, { useState, useEffect } from "react";
-
+import PgsSearch from "@packages/shared-components/common-utilities/searchBar/search-pod/pgs-search"
 import getApiUrl from "@packages/REST-API/api-urls";
 import optimizedSearch from "@packages/REST-API/optimizedsearch";
-const Findacoursecomponents = ({h1value,subheading}:any) => {
+const Findacoursecomponents = ({ h1value, subheading ,pgs_search_data}: any) => {
   const [searchFormHandle, setsearchFormHandle] = useState({
     activeTab: "tab1",
     isCourseType: false,
@@ -60,27 +60,30 @@ const Findacoursecomponents = ({h1value,subheading}:any) => {
           <div className="w-full flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
             <div className="flex flex-col gap-[4px]">
               {h1value &&
-              <h1 className="text-heading1 md:text-heading-xl">
-                {h1value}
-              </h1>
+                <h1 className="text-heading1 md:text-heading-xl">
+                  {h1value}
+                </h1>
               }
-              {subheading && 
-              <div>
-                Find <span className="font-semibold"> courses, </span>
-                read <span className="font-semibold"> honest reviews, </span>
-                get <span className="font-semibold">expert advice </span>
-              </div>
+              {subheading &&
+                <div>
+                  Find <span className="font-semibold"> courses, </span>
+                  read <span className="font-semibold"> honest reviews, </span>
+                  get <span className="font-semibold">expert advice </span>
+                </div>
               }
             </div>
             <div className="w-full lg:min-w-[680px] lg:max-w-[825px]">
               <div className="flex flex-col gap-[24px] min-h-[60px]">
-                <CourseTab
-                  placeholder="Enter Subject"
-                  searchFormHandle={searchFormHandle}
-                  setsearchFormHandle={setsearchFormHandle}
-                  data={course_data}
-                  showlocation={false}
-                />
+                {process.env.PROJECT === "Whatuni" ?
+                  <CourseTab
+                    placeholder="Enter Subject"
+                    searchFormHandle={searchFormHandle}
+                    setsearchFormHandle={setsearchFormHandle}
+                    data={course_data}
+                    showlocation={false}
+                  /> :
+                  <PgsSearch pgs_search_data={pgs_search_data} />
+                }
               </div>
             </div>
           </div>

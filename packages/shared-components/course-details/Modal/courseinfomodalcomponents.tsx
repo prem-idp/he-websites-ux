@@ -18,7 +18,7 @@ const Courseinfomodalcomponents = ({ isOpen, onClose, data, setSelectedavailabil
 
     return (
 
-        <>
+         <>
             <div onClick={() => onClose()} className={`${isOpen ? "animate-fadeIn block" : "hidden"} backdrop-shadow fixed top-0 right-0 left-0 bottom-0 bg-white z-[7]`}>
             </div>
             <div className={`${isOpen ? "translate-x-0 opacity-[1]" : "-translate-x-full opacity-0"} transition-all duration-300 modal modal-container shadow-custom-6 w-full md:w-[375px] fixed top-0 left-0 z-[8]`}>
@@ -43,7 +43,7 @@ const Courseinfomodalcomponents = ({ isOpen, onClose, data, setSelectedavailabil
                                             </div>
                                             <div className='flex justify-start items-start gap-[8px]'>
                                                 <span className='small font-semibold text-grey300'>Location</span>
-                                                <span className='small text-grey300'>{val?.location}                                   </span>
+                                                <span className='small text-grey300'>{val?.venueName}                                   </span>
                                             </div>
                                             <div className='flex justify-start items-start gap-[8px]'>
                                                 <span className='small font-semibold text-grey300'>Study mode</span>

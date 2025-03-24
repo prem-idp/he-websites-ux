@@ -21,7 +21,6 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
   }
   return (
     <>
-    
       {<Courseinfomodalcomponents isOpen={isOpen} onClose={togglemodal} data={data} setSelectedavailability={setSelectedavailability} setFetcheddata={setFetcheddata} selectedavilability={selectedavilability}/>}
       <section className='bg-primary-50 border-b border-primary-100'>
         <div className="max-w-container mx-auto">
@@ -40,7 +39,7 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
               <div className='flex items-center gap-[4px] *:text-x-small *:font-normal'>
                 <div className='text-grey300'>DATA SOURCE:</div>
                 <Link target={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}
-            rel={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}  href={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaUrl} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>{getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaLabel}</Link>
+            rel={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}  href={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaUrl || "#"} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>{getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaLabel}</Link>
               </div>
             </div>
             <div className='card-body'>
@@ -56,7 +55,7 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
                   <Image src="/static/assets/icons/course-details/location_icon.svg" alt="academic-cap" width={32} height={32} />
                   <div className="flex flex-col gap-[4px] *:text-grey300">
                     <div className="para font-semibold">Location</div>
-                    <p className="para font-normal">{selectedavilability?.location}</p>
+                    <p className="para font-normal">{selectedavilability?.venueName}</p>
                   </div>
                 </div>
                 <div className="course-highlight__option flex flex-col items-start gap-[16px]">

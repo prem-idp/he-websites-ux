@@ -5,7 +5,13 @@ pageTemplateDynamicPageCollection(limit: 1,where: { pageName: "Course Details - 
       pageName
       pageTitle
       urlSlug
-      website
+      websiteCollection
+      {
+        items
+        {
+          websiteName
+        }
+      }
       seoFieldsCollection
       {
         items
