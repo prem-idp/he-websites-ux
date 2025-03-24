@@ -23,10 +23,11 @@ import {
   searchResultsFetchFunction,
   httpBFFRequest,
   graphQlFetchFunction,
+  getUserRegionId,
 } from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
-import { SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
+import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
@@ -37,8 +38,10 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   const filterCookieParam = JSON.parse(
     cookieStore?.get("filter_param")?.value || "{}"
   );
+  console.log("REGION," , headerList.get("cloudfront-viewer-city"));
+  console.log("CITY," , headerList.get("cloudfront-viewer-country-region"));
   let searchResultsData;
-  const searchPayLoad = getSearchPayload(
+  let searchPayLoad = getSearchPayload(
     searchparams,
     refererURL ? filterCookieParam : "",
     pathname,
@@ -56,6 +59,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     .split(' ')
     .map((word: string)=> word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')));}
+  //FAQ
+   const faqResponse = await graphQlFetchFunction(FAQsQuery("Search Result"));
   
   return (
     <>
@@ -131,7 +136,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 ? (
         <>
-        {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) &&
+        {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) && process.env.PROJECT === "Whatuni" &&
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">
               <div className="h1 pt-[40px]">Explore more about {searchparams?.subject}</div>
@@ -143,11 +148,11 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-          <Faqcomponents />
+         
           
         </>
       ) : (
-        <></>
+        <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items}/>
       )}
       <ContentfulPreviewProvider
             locale="en-GB"

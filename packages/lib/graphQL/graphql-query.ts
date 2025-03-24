@@ -606,7 +606,7 @@ export const SRSubjectGuideQuery = (subject:string)=>`{ appPageComponentCollecti
     }}`
 
 
-    export const SRCityGuideQuery = (city:string)=>
+export const SRCityGuideQuery = (city:string)=>
   `{
   articleCollection(limit : 1,where:{metaTagSubTopics:{title:"City guides"} , pageTitle: "Student guide to ${city}"})
   {
@@ -637,4 +637,34 @@ export const SRSubjectGuideQuery = (subject:string)=>`{ appPageComponentCollecti
      }
    }
   }
+ `
+ export const FAQsQuery = (pageTitle:string)=>
+  `{
+  pageTemplateDynamicPageCollection(limit:1,where:{pageTitle_contains:"Search Result"})
+  {
+    items
+    {
+      pageTitle
+      urlSlug
+      bottomZoneComponentsCollection
+      {
+        items
+        {
+          ... on PageComponentFaq
+          {
+            faqComponentTitle
+            faqEntriesCollection
+            {
+              items
+              {
+                question
+                answer
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
  `
