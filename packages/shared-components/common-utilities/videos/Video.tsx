@@ -22,6 +22,11 @@ const Video = ({featuredData}:any) => {
       setIsPlaying(true);
     }
   };
+
+  const handleVideoClick = (e) => {
+    e.stopPropagation(); // Prevents the parent onClick from being triggered
+    console.log('Video clicked!');
+  };
   return (
     <>
       <video
@@ -29,6 +34,7 @@ const Video = ({featuredData}:any) => {
         className="w-full"
         controls
         preload="none"
+        onClick={handleVideoClick} 
         onPlay={(event)=>onClickPlay(event)}
         onPause={(event)=>onClickPause(event)}
         poster={

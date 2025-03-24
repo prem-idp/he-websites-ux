@@ -1,17 +1,13 @@
-export function getQualCode(qualText: any) {
-  let qualCode = "M";
-  if ("degree-courses" === qualText) {
-    qualCode = "M";
-  } else if ("postgraduate-courses" === qualText) {
-    qualCode = "L";
-  } else if ("foundation-degree-courses" === qualText) {
-    qualCode = "A";
-  } else if ("access-foundation-courses" === qualText) {
-    qualCode = "T";
-  } else if ("hnd-hnc-courses" === qualText) {
-    qualCode = "N";
-  }
-  return qualCode;
+const qualCode: Record<string, string> = {
+  'degree-courses': 'M',
+  'postgraduate-courses': 'L',
+  'foundation-degree-courses': 'A',
+  'access-foundation-courses': 'T',
+  'hnd-hnc-courses': 'N'
+} as const;
+
+export function getQualCode(qualText: string): string {
+  return qualCode[qualText] || 'M';
 }
 
 export function getSearchPayload(
@@ -19,9 +15,9 @@ export function getSearchPayload(
   filterCookieParam: any,
   qualification: any,
   dynamicRandomNumber: any,
-  userIp: any
+  userRegion: any
 ) {
-  const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
 let subjectArray="";
 if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
@@ -54,8 +50,7 @@ const searchPayload: any = {
       filterCookieParam?.study_method ||
       "",
     collegeId: "",
-    collegeName:
-      searchParams?.["university"] || filterCookieParam?.["university"] || "",
+    collegeName: searchParams?.["university"] || filterCookieParam?.["university"] || "",
     pageNo: searchParams?.pageno || searchParams?.page_no || "1",
     locationType: locationType ? [locationType] : "",
     intakeYear: searchParams?.year || filterCookieParam?.year || currentYear?.toString(),
@@ -64,7 +59,7 @@ const searchPayload: any = {
     userCoordinates: "",
     distance: searchParams?.distance_from_home || filterCookieParam?.distance_from_home || searchParams?.["distance-from-home"] || filterCookieParam?.["distance-from-home"] || "",
     ucasTariffRange: score || "",
-    userRegionId:userIp,
+    userRegionId:userRegion?.userRegionId || "",
     dynamicRandomNumber:dynamicRandomNumber,
     universityGroup: russellGroup ? [russellGroup] : "",
     postCode: searchParams?.postcode || filterCookieParam?.postcode
@@ -113,23 +108,15 @@ export function getSEOSearchPayload(
   return searchPayload;
 }
 
+export const getOrdinalFor = (value: number): string => {
+  const suffixes: Record<number, string> = {
+    1: 'st',
+    2: 'nd',
+    3: 'rd'
+  };  
+  if (value % 100 >= 11 && value % 100 <= 13) {
+    return 'th';
+  } 
+  return suffixes[value % 10] || 'th';
+};
 
-export const getOrdinalFor = (value:any) => {
-  const hundredRemainder = value % 100;
-  const tenRemainder = value % 10;
-
-  if (hundredRemainder - tenRemainder === 10) {
-    return "th";
-  }
-
-  switch (tenRemainder) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
-}

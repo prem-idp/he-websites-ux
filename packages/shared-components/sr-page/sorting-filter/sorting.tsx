@@ -6,6 +6,7 @@ import {
   wuscaCategories,
   wuSortingFilter,
 } from "@packages/shared-components/services/constants";
+import FilterSpinner from "@packages/shared-components/skeleton/search-result/filter-spinner";
 import { useRouter } from "next/navigation";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 interface SortingProps {
@@ -39,10 +40,8 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         urlParams.delete("sort")
       }
       urlParams.delete(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no")
-      console.log("urlparams", urlParams)
       sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${decodeURIComponent(urlParams.toString())}`;
     }
-   // window.history.replaceState({}, '', sortUrl);
    router.push(sortUrl);
   };
 
@@ -55,9 +54,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     );
     return entry ? entry[0] : wuscaentry ? wuscaentry[0] : "Recommendded";
   };
-
   const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
-
   // Handle outside click to close the div
   useEffect(() => {
     const handleClickOutside = (event:any) => {
@@ -65,17 +62,15 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         setIsSortClicked(false);
       }
     };
-
-    // Attach the event listener when the component mounts
     document.addEventListener('click', handleClickOutside);
-
-    // Cleanup event listener when the component unmounts
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
   return (
+    <>
+    <FilterSpinner/>
     <div className="ml-auto w-fit relative">
       <div ref={divRef}
         onClick={sortClicked}
@@ -165,6 +160,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

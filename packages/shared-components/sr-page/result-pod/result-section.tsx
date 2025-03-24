@@ -151,7 +151,7 @@ queryString ? `&${queryString}` : ''
                   {data?.courseCount} engineering{" "}
                   {data?.courseCount === 1 ? "course" : "courses"}
                 </div>
-                {data?.reviewCount && (
+                {data?.reviewCount > 0 &&  (
                   <div className="flex items-center gap-[8px] text-grey-50 small">
                     <div className="flex items-center gap-[2px]">
                       <svg
@@ -259,10 +259,10 @@ queryString ? `&${queryString}` : ''
                         width={12}
                         height={12}
                       />
-                      {data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}
+                 <span className="line-clamp-1">{data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}</span>
                     </div>
                     {data?.wuscaBadges?.includes(",") ? (
-                      <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                      <div className="bg-primary-400 px-[8px] rounded-[4px] shrink-0">
                         + {data?.wuscaBadges?.split(",")?.length - 1} more
                       </div>
                     ) : (
@@ -300,14 +300,10 @@ queryString ? `&${queryString}` : ''
             <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 min-h-[400px] md:rounded-tr-[16px]">
               {process.env.PROJECT === "Whatuni" && data?.review1Text && (
                 <div className="border-b-[1px] border-grey-200 p-[16px] lg:p-[20px]">
-                  <div className="bg-grey-100 p-[12px] rounded-[8px] flex gap-[4px]">
-                    <div className="text-heading1 relative top-[20px] font-farro font-normal">
-                      “
-                    </div>
-                    <div className="flex flex-col gap-[4px]">
+                  <div className="bg-grey-100 p-[12px] rounded-[8px]">
                       <div className="relative group x-small">
-                        <span className="text-primary-400 underline font-semibold">
-                          What students think
+                      <span className="text-primary-400 underline font-semibold pl-[24px]">
+                      What students think
                         </span>
                         <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[22px] shadow-custom-1 whitespace-normal rounded-[8px] w-[320px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0">
                           <div className="flex items-center justify-between">
@@ -344,11 +340,14 @@ queryString ? `&${queryString}` : ''
                           </p>
                         </div>
                       </div>
-                      <div className="relative x-small">
-                        <div className="text-grey300 line-clamp-2">
+                      <div className="relative x-small flex gap-[4px] min-h-[20px]">
+                        <div className="text-heading1 absolute top-[24px] font-farro font-normal !leading-[0]">
+                          “
+                        </div>
+                        <div className="text-grey300 line-clamp-2 break-words pl-[24px]">
                           {data?.review1Text}
                         </div>
-                        <div className="absolute bottom-0 right-0 text-right w-[126px] bg-gradient12">
+                        <div className="absolute bottom-0 right-0 text-right w-[113px] bg-gradient12">
                           <span>... </span>
                           <Link
                             href={`/university-course-reviews/${data?.collegeTextKey}/${data?.collegeId}`}
@@ -358,7 +357,6 @@ queryString ? `&${queryString}` : ''
                           </Link>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
               )}
