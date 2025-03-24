@@ -259,10 +259,10 @@ queryString ? `&${queryString}` : ''
                         width={12}
                         height={12}
                       />
-                      {data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}
+                 <span className="line-clamp-1">{data?.wuscaBadges ?.includes(",") ? data?.wuscaBadges?.split(",")?.[0] : data?.wuscaBadges}</span>
                     </div>
                     {data?.wuscaBadges?.includes(",") ? (
-                      <div className="bg-primary-400 px-[8px] rounded-[4px]">
+                      <div className="bg-primary-400 px-[8px] rounded-[4px] shrink-0">
                         + {data?.wuscaBadges?.split(",")?.length - 1} more
                       </div>
                     ) : (

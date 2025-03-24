@@ -6,6 +6,7 @@ import {
   wuscaCategories,
   wuSortingFilter,
 } from "@packages/shared-components/services/constants";
+import FilterSpinner from "@packages/shared-components/skeleton/search-result/filter-spinner";
 import { useRouter } from "next/navigation";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 interface SortingProps {
@@ -68,6 +69,8 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   }, []);
 
   return (
+    <>
+    <FilterSpinner/>
     <div className="ml-auto w-fit relative">
       <div ref={divRef}
         onClick={sortClicked}
@@ -157,6 +160,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
