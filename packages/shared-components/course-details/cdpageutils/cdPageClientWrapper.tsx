@@ -33,6 +33,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
           courseId: String(prams_slug?.course_id || ""),
           affiliateId: String(process.env.AFFILATE_ID || ""),
           collegeId: String(prams_slug?.uni_id || ""),
+          opportunityId:String(selectedavilability?.availabilityId || "")
         });
         const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
         const response = await fetch(url, {

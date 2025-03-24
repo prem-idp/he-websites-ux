@@ -62,6 +62,7 @@ export default async function Cdpage({ params }: any) {
     otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
       .catch(err => ({ error: err }))
   ]);
+
   if (data.errorMessage) {
     notFound();
   }
