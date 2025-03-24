@@ -1323,7 +1323,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                           (university: any, index: number) => (
                             <SelectedUniversity
                               key={index + 1}
-                              isIndexed={isIndexed}
                               isUniversityOpen={
                                 universityState?.isUniversityOpen
                               }
@@ -1354,7 +1353,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                         filterState?.selectedFilter === "location"
                       }
                     >
-                      {/* location */}
                       <div className="flex flex-col gap-[24px]">
                         <div className="flex flex-col gap-[8px] pt-[24px]">
                           <div className="font-semibold">
@@ -1477,7 +1475,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                             <ul
                               className={`pt-[12px] ${selectedLocationType?.type === "city" ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
-                                {/* <div className="form_check relative m-[0_0_12px]">
+                              {/* <div className="form_check relative m-[0_0_12px]">
                                   <div className="flex items-start gap-[8px]">
                                     <div className="checkbox_card">
                                       <Link
@@ -1542,27 +1540,24 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                     </label>
                                   </div>
                                 </div> */}
-                                  <li>
-                                    {FirstLevelRegion?.map(
-                                      (regionItem: any, index: number) => (
-                                        <Regions
-                                          containsSearchParam={
-                                            containsSearchParam
-                                          }
-                                          country={parentRegion[0]}
-                                          key={index + 1}
-                                          item={regionItem}
-                                          regionListData={jsondata?.regionList}
-                                          slug={slug}
-                                          isIndexed={isIndexed}
-                                          formUrl={formUrl}
-                                          appendSearchParams={
-                                            appendSearchParams
-                                          }
-                                        />
-                                      )
-                                    )}
-                                  </li>
+                              <li>
+                                {FirstLevelRegion?.map(
+                                  (regionItem: any, index: number) => (
+                                    <Regions
+                                      containsSearchParam={containsSearchParam}
+                                      selectedLocationType={
+                                        selectedLocationType
+                                      }
+                                      key={index + 1}
+                                      item={regionItem}
+                                      regionListData={jsondata?.regionList}
+                                      slug={slug}
+                                      formUrl={formUrl}
+                                      appendSearchParams={appendSearchParams}
+                                    />
+                                  )
+                                )}
+                              </li>
                             </ul>
                           </div>
                         )}
@@ -1585,7 +1580,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                   >
                                     <div className="flex items-start gap-[8px]">
                                       <div className="checkbox_card">
-                                        {/* {isIndexed && ( */}
                                         <Link
                                           id={
                                             keyName?.location +
@@ -1602,8 +1596,11 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                             ),
                                           }}
                                         ></Link>
-                                        {/* )} */}
                                         <input
+                                          disabled={
+                                            selectedLocationType?.type ===
+                                            "region"
+                                          }
                                           type="checkbox"
                                           checked={
                                             prepopulateFilter?.location?.includes(
@@ -1681,7 +1678,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                     className="form-black flex relative"
                                     key={index}
                                   >
-                                    {/* {isIndexed && ( */}
                                     <Link
                                       id={
                                         keyName?.locationType +
@@ -1698,7 +1694,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                         ),
                                       }}
                                     ></Link>
-                                    {/* )} */}
                                     <input
                                       type="checkbox"
                                       checked={
@@ -1779,7 +1774,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                         ),
                                       }}
                                     ></Link>
-                                    {/* )} */}
                                     <input
                                       type="checkbox"
                                       className="form-checkbox hidden"

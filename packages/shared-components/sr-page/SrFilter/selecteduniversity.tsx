@@ -14,7 +14,6 @@ const SelectedUniversity = React.memo(
     slug,
     formUrl,
     appendSearchParams,
-    isIndexed,
   }: any) => {
     const searchParams = useSearchParams();
     const keyName = KeyNames();
@@ -69,7 +68,6 @@ const SelectedUniversity = React.memo(
                   <UniversityCheckBox
                     key={index + 1}
                     slug={slug}
-                    isIndexed={isIndexed}
                     formUrl={formUrl}
                     appendSearchParams={appendSearchParams}
                     item={item}

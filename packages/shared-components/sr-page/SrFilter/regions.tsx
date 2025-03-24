@@ -11,9 +11,10 @@ const Regions = React.memo(
     item,
     regionListData,
     slug,
-    isIndexed,
+
     formUrl,
     appendSearchParams,
+    selectedLocationType,
   }: any) => {
     const searchparams = useSearchParams();
     const keyName = KeyNames();
@@ -85,7 +86,6 @@ const Regions = React.memo(
         // }
       }
 
-      console.log(appliedRegions?.join("+"));
       appendSearchParams(keyName?.location, appliedRegions?.join("+"));
     };
 
@@ -157,6 +157,7 @@ const Regions = React.memo(
                 ></Link>
               )}
               <input
+                disabled={selectedLocationType?.type === "city"}
                 checked={isRegionSelected || false}
                 onChange={() => {
                   setIsRegionSelected(!isRegionSelected);
@@ -212,11 +213,11 @@ const Regions = React.memo(
                 <LocationCheckBox
                   key={index + 1}
                   childItem={childItem}
-                  isIndexed={isIndexed}
                   regionListData={regionListData}
                   slug={slug}
                   formUrl={formUrl}
                   locationClicked={locationClicked}
+                  selectedLocationType={selectedLocationType}
                 />
               ))}
           </li>
