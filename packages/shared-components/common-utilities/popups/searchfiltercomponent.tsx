@@ -1216,7 +1216,12 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               <p className="x-small font-semibold text-black tracking-[1px] leading-[18px] uppercase">
                                 Keyword search for
                               </p>
-                              <p className="small text-primary-400">'bus'</p>
+                              <p
+                                className="small text-primary-400"
+                                onClick={() => {}}
+                              >
+                                '{universityState?.universityKeyword}'
+                              </p>
                             </div>
                             <div className="w-fit x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-grey-100">
                               University

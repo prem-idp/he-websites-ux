@@ -76,7 +76,9 @@ const extractUrlAndSessionValues = (
   const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
 
   if (crossSubject || key == "q") {
-    delete mergedObject?.[keyName?.subject];
+    if (typeof mergedObject === "object" && mergedObject !== null) {
+      delete mergedObject[keyName?.subject];
+    }
   }
   if (mergedObject[key] && key != keyName?.location) {
     let valuesSet = new Set(mergedObject[key]?.split("+"));
