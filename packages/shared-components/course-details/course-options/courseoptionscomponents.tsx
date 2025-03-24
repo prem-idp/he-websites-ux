@@ -39,7 +39,7 @@ const Courseoptionscomponents = ({ data, setFetcheddata, setSelectedavailability
               <div className='flex items-center gap-[4px] *:text-x-small *:font-normal'>
                 <div className='text-grey300'>DATA SOURCE:</div>
                 <Link target={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}
-            rel={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}  href={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaUrl} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>{getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaLabel}</Link>
+            rel={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaTarget.toLowerCase() === "open in new tab" ? "_blank" : " _self"}  href={getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaUrl || "#"} className='text-primary-400 uppercase hover:text-primary-500 hover:underline'>{getCourseInfoCTA(courseContent)?.callToAction?.primaryCtaLabel}</Link>
               </div>
             </div>
             <div className='card-body'>
