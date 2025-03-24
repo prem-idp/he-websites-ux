@@ -3,48 +3,40 @@
 import Header from "./headercomponents";
 import { graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
 import { Headerquery } from "@packages/lib/graphQL/graphql-query";
+import makeApiCall from "@packages/REST-API/rest-api";
+import getApiUrl from "@packages/REST-API/api-urls";
+
 export default async function HeaderWrapper() {
-  //header search fetching data is here not required for the current sprint
-  // const body = {
-  //   affiliateId: 220703,
-  //   actionType: "subject",
-  //   keyword: "",
-  //   qualCode: "",
-  //   networkId: 2,
-  // };
-  // const unibody = {
-  //   affiliateId: 220703,
-  //   actionType: "institution",
-  //   keyword: "",
-  //   qualCode: "",
-  //   networkId: 2,
-  // };
-  let course_data = null,
-    uni_data = null,
-    topnav_data = null;
-  // try {
-  //   const results = await Promise.allSettled([
-  //     searchAjaxFecthFunction(body),
-  //     searchAjaxFecthFunction(unibody),
-  //     graphQlFetchFunction(Headerquery),
-  //   ]);
-  //   course_data = results[0].status === "fulfilled" ? results[0].value : null;
-  //   uni_data = results[1].status === "fulfilled" ? results[1].value : null;
-  //   topnav_data = results[2].status === "fulfilled" ? results[2].value : null;
-  // } catch (error) {
-  //   console.error("Unexpected error:", error);
-  // }
+  let topnav_data = null;
+  let pgs_search_data = null;
+
   try {
-    const results = await graphQlFetchFunction(Headerquery);
-    course_data = null;
-    uni_data = null;
-    topnav_data = results;
+    if (process.env.PROJECT === "PGS") {
+      const pgsbody:any = {
+        affiliateId: 607022,
+        actionType: "subject",
+        keyword: "",
+        qualCode: "",
+        networkId: 2,
+      };
+
+      const queryParams = new URLSearchParams(pgsbody).toString();
+
+      // Execute both API calls in parallel for better performance
+      const [pgsResponse, topnavResponse] = await Promise.all([
+        makeApiCall(getApiUrl?.subjectAjax, "GET", null, queryParams, null),
+        graphQlFetchFunction(Headerquery),
+      ]);
+
+      pgs_search_data = pgsResponse;
+      topnav_data = topnavResponse;
+    } else {
+      // Only fetch GraphQL data when PROJECT is not PGS
+      topnav_data = await graphQlFetchFunction(Headerquery);
+    }
   } catch (error) {
     console.error("Unexpected error:", error);
   }
-  return (
-    <>
-      <Header topnav_data={topnav_data} />
-    </>
-  );
+
+  return <Header topnav_data={topnav_data} pgs_search_data={pgs_search_data} />;
 }

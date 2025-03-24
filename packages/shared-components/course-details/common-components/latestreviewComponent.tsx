@@ -11,11 +11,12 @@ interface ReviewComponentProps {
 }
 
 const LatestReviewComponent = ({ heading, jsonResponse }: ReviewComponentProps) => {
+    console.log(jsonResponse,"jsonResponse")
     const latestReviews = jsonResponse?.latestReviews?.length ? jsonResponse?.latestReviews?.map((item: any) => item.review) : [];
     console.log(latestReviews, "--------------")
     const [selectedReview, setSelectedreview] = useState(latestReviews?.[0])
     const [isOpen, setIsOpen] = useState(false);
-
+    
     if (!latestReviews?.length)
         return <></>;
 

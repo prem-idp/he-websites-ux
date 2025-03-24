@@ -10,6 +10,8 @@ import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
 // ==========================================don't want for the current sprint =======================================================
 import Search from "@packages/shared-components/layout-components/header/search-pod/header-search";
+import HeaderPgsSearch from "@packages/shared-components/layout-components/header/search-pod/header-search-pgs";
+
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 // import Shortlisted from "@packages/shared-components/common-utilities/header/shortlisted/shortlisted";
@@ -18,10 +20,8 @@ import { signOut } from "aws-amplify/auth";
 import { getCookieValue } from "@packages/lib/utlils/commonFunction";
 import eventEmitter from "@packages/lib/eventEmitter/eventEmitter";
 
-interface props {
-  topnav_data: any;
-}
-const Header = ({ topnav_data }: props) => {
+
+const Header = ({ topnav_data ,pgs_search_data}: any) => {
   const router = useRouter();
   const [initial, setInitial] = useState<any>("");
 
@@ -59,7 +59,7 @@ const Header = ({ topnav_data }: props) => {
   const [favouriteCookie, setfavouriteCookie] = useState(getCookieValue("USER_FAV_BASKET_COUNT") || 0);
 
   useEffect(() => {
-    const updateFavourite = (newValue:any) => {
+    const updateFavourite = (newValue: any) => {
       console.log("from fav", newValue)
       setfavouriteCookie(newValue);
     };
@@ -68,7 +68,7 @@ const Header = ({ topnav_data }: props) => {
     return () => {
       eventEmitter.off("favouriteCookieUpdated", updateFavourite);
     };
-   
+
   }, []);
   // =============================================================initial fetch===============================================================================
   useEffect(() => {
@@ -131,7 +131,7 @@ const Header = ({ topnav_data }: props) => {
       fetchData();
     }
   }, [startfetch]);
-  
+
   // =======================use effect for the adding eventlisterner and  fetching cookies and checking authentication=====================================================
   useEffect(() => {
     // -------check the user authentication----------------------------
@@ -300,7 +300,7 @@ const Header = ({ topnav_data }: props) => {
             className={`order-2 md:grow lg:order-1 lg:grow-0 ${process.env.PROJECT === "PGS" ? "basis-[146px] md:basis-[187px]" : "lg:basis-[54px]"}   py-[4px] lg:py-[8px]`}
           >
             <Link
-            
+
               href="/"
               className={`block ${process.env.PROJECT === "PGS" ? "w-[146px] md:w-[187px]" : "w-[54px]"}`}
             >
@@ -345,15 +345,13 @@ const Header = ({ topnav_data }: props) => {
               <>
                 <div
                   onClick={mobileToggleOpen}
-                  className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${
-                    isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
-                  } lg:bg-transparent`}
+                  className={`fixed top-0 left-0 right-0 bottom-0 z-[5] ${isOpen ? "animate-fadeIn backdrop-shadow block" : "hidden"
+                    } lg:bg-transparent`}
                 ></div>
 
                 <div
-                  className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${
-                    isOpen ? "" : "-translate-x-full duration-300"
-                  } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
+                  className={`fixed top-0 left-0 z-[6] w-full h-full transition-all duration-300 ease-in-out ${isOpen ? "" : "-translate-x-full duration-300"
+                    } ${isMobileView ? "w-[376px] h-[100vh]" : ""}`}
                 >
                   <div className="relative z-[6] w-fit">
                     <div
@@ -402,7 +400,7 @@ const Header = ({ topnav_data }: props) => {
 
           <div className="order-3 basis-[100%] md:grow lg:grow-0 lg:basis-0">
             <ul className="flex items-center justify-end gap-[10px] rightmenu py-[4px] lg:py-[8px]">
-              {pathname !== "/" && process.env.PROJECT === "Whatuni" && (
+              {pathname !== "/"  && (
                 <li>
                   <span
                     onClick={() => rightMenuAction("SEARCH")}
@@ -430,15 +428,23 @@ const Header = ({ topnav_data }: props) => {
                         className={`backdrop-shadow fixed top-0 left-0 right-0 bottom-0 z-[5]`}
                       ></div>
                       <div ref={containerRef}>
-                        <Search
-                          course_data={course_data}
-                          uni_data={uni_data}
-                          universalSearchPanel={
-                            topnav_data?.data?.contentData?.items[0]
-                              ?.universalSearchPanel
-                              ?.navigationElementsCollection?.items
-                          }
-                        />
+                        { 
+                        process.env.PROJECT === "Whatuni" ?
+                          <Search
+                            course_data={course_data}
+                            uni_data={uni_data}
+                            universalSearchPanel={
+                              topnav_data?.data?.contentData?.items[0]
+                                ?.universalSearchPanel
+                                ?.navigationElementsCollection?.items
+                            }
+                          />
+                          :
+                          <HeaderPgsSearch
+                            pgs_search_data={pgs_search_data}
+                          />
+                        }
+
                       </div>
                     </>
                   )}
@@ -499,7 +505,7 @@ const Header = ({ topnav_data }: props) => {
                   href={`${process.env.PROJECT === "Whatuni" ? "/degrees/comparison" : "/pgs/mypgs_compare_pkg.customise_basket_prc"}`}
                   title="Shortlist"
                   className="cursor-pointer"
-                  // onClick={() => rightMenuAction("SHORTLIST")}
+                // onClick={() => rightMenuAction("SHORTLIST")}
                 >
                   <span
                     ref={shortlistref}

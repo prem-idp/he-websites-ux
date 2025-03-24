@@ -50,10 +50,6 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({
     pgs_search_data = null;
 
   if (process.env.PROJECT === "Whatuni") {
-    // [course_data, uni_data] = await Promise.all([
-    //   searchAjaxFecthFunction(body),
-    //   searchAjaxFecthFunction(unibody),
-    // ]);
     pgs_search_data = null;
   } else if (process.env.PROJECT === "PGS") {
     const queryParams = new URLSearchParams(pgsbody).toString();
