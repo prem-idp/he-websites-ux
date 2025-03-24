@@ -13,10 +13,10 @@ import UserFavourite from "@packages/shared-components/common-utilities/user-fav
 import { useSearchParams } from "next/navigation";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
-import { getOrdinalFor } from "@packages/shared-components/services/utils";
+import { getOrdinalFor, getQualCode } from "@packages/shared-components/services/utils";
 interface SrPageResultPodProps {
   searchResultsData: any[];
-  qualCode: string;
+  qualName: string;
 }
 interface Favourite {
   fav_id: string;
@@ -28,7 +28,7 @@ interface Favourite {
 
 const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   searchResultsData,
-  qualCode,
+  qualName,
 }) => {
   const searchParams = useSearchParams();
   const selectedSubject = searchParams?.has("subject")
@@ -64,7 +64,7 @@ const wuscaClick = (event:React.FormEvent) => {
   }, {} as Record<string, string>);
 const queryString = new URLSearchParams(filteredParams).toString();
 const baseUrl = process.env.PROJECT === "Whatuni" 
-? "/degree-courses/csearch"
+? "/"+ qualName +"/csearch"
 : "/pgs/search";
 const providerResultURL = `${baseUrl}?university=${encodeURIComponent(collegeTextKey)}${
 queryString ? `&${queryString}` : ''
@@ -82,7 +82,7 @@ queryString ? `&${queryString}` : ''
       orderItemId: courseData?.enquiryDetails?.orderItemId,
       collegeName: data?.collegeTextKey,
       pageName: "browsemoneypageresults",
-      qualCode: process.env.PROJECT === "PGS" ? "L" : qualCode,
+      qualCode: process.env.PROJECT === "PGS" ? "L" : getQualCode(qualName),
       selectedSubject: selectedSubject,
     };
     return baseEnquiryProps;
@@ -542,11 +542,9 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
-                      {courseData?.enquiryDetails?.emailFlag === "Y" && (
                         <RequestInfo
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />
-                      )}
                     </div>
                   </div>
                 )
