@@ -41,7 +41,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
         if (selectedavilability?.availabilityId) {
           searchParams.append("opportunityId", String(selectedavilability.availabilityId));
         }
-        const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dev-dom-search-bff/v1/search/getCourseDetails?${searchParams.toString()}`;
+        const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchParams.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
