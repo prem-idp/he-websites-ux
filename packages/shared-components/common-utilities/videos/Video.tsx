@@ -23,8 +23,8 @@ const Video = ({featuredData}:any) => {
     }
   };
 
-  const handleVideoClick = (e) => {
-    e.stopPropagation(); // Prevents the parent onClick from being triggered
+  const handleVideoClick = (event:React.FormEvent) => {
+    event.stopPropagation(); // Prevents the parent onClick from being triggered
     console.log('Video clicked!');
   };
   return (
@@ -34,7 +34,7 @@ const Video = ({featuredData}:any) => {
         className="w-full"
         controls
         preload="none"
-        onClick={handleVideoClick} 
+        onClick={(event) = handleVideoClick(event)} 
         onPlay={(event)=>onClickPlay(event)}
         onPause={(event)=>onClickPause(event)}
         poster={
