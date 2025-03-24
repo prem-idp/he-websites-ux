@@ -29,7 +29,7 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   const filters: any[] = [];
   // Add filters only if they exist
    searchLabel?.year ? filters.push({key:'year' , value:searchLabel?.year}) : filters.push({key:'year' , value:"2025"});
-  if (searchLabel?.studyLevel) filters.push({key:'study-level' , value:searchLabel?.studyLevel});
+  if (searchLabel?.studyLevel) filters.push({key: process.env.PROJECT === "Whatuni" ? 'study-level' :'qualification'  , value:searchLabel?.studyLevel});
   if (searchLabel?.subjectName) {
     if(searchLabel?.subjectName?.length === 1) {
     filters.push({key: process.env.PROJECT === "Whatuni" ? 'subject' :'course' , value:searchLabel?.subjectName?.[0]});
@@ -39,10 +39,7 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
       });
     }
   }
-  if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
-  if (searchLabel?.studyMethod) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-method' :'study_method'  , value:searchLabel?.studyMethod});
-  if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
-  if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
+  if (searchLabel?.collegeName) filters.push({key:'university', value:searchLabel?.collegeName});
   if(searchLabel?.locationName?.length === 1) {
     filters.push({key:'location' , value:searchLabel?.locationName});
   } else {
@@ -50,6 +47,10 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
       filters.push({key:'location' , value:value});
     });
   }
+  if (searchLabel?.studyMode) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-mode' :'study_mode'  , value:searchLabel?.studyMode});
+  if (searchLabel?.studyMethod) filters.push({key:process.env.PROJECT === "Whatuni" ? 'study-method' :'study_method'  , value:searchLabel?.studyMethod});
+  if (searchLabel?.locationType) filters.push({key:'location-type'  , value:searchLabel?.locationType});
+  if (searchLabel?.universityGroup) filters.push({key:'russell-group'  , value:searchLabel?.universityGroup});
   if(searchPayLoad?.intakeMonth) filters.push({key:'month' , value:searchPayLoad?.intakeMonth?.toString()?.toUpperCase()});
   setFilterList(Array.from(new Set(filters)));
 }
@@ -94,6 +95,8 @@ getSearchLabels();
       }
     }
     }
+    if(currentParams.has("pageno")) currentParams.delete("pageno")
+    if(currentParams.has("page_no")) currentParams.delete("page_no")
     const updatedUrl = `${window.location.pathname}${
       currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;

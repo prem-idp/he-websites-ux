@@ -456,12 +456,13 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         linkTagId.click();
       } else {
         window.history.pushState(
-          "",
+          null,
           "",
           `${domainPath ?? ""}?${urlParams.toString()}`
             .replaceAll("%2B", "+")
             .replaceAll("%2C", ",")
         );
+
         router.push(
           `${domainPath ?? ""}?${urlParams.toString()}`
             .replaceAll("%2B", "+")
