@@ -6,27 +6,46 @@ import {
   wuscaCategories,
   wuSortingFilter,
 } from "@packages/shared-components/services/constants";
-import FilterSpinner from "@packages/shared-components/skeleton/search-result/filter-spinner";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 interface SortingProps {
   sortParam?: any;
 }
+
+const FilterSpinner = dynamic(
+  () =>
+    import("@packages/shared-components/skeleton/search-result/filter-spinner"),
+  { ssr: false }
+);
 const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   const router = useRouter();
   const filterCookieParam = sortParam?.filterCookieParam || {}
   const [isSortClicked, setIsSortClicked] = useState(false);
+ const [filterState, setFilterState] = useState({
+    isFilterLoading: false,
+  });
   const [sortValue, setSortValue] = useState(null);
   const divRef = useRef<HTMLDivElement | null>(null);
   const sortClicked = () => {
     setIsSortClicked(!isSortClicked);
   };
-
+  const getFilteredSortingOptions = (sortingFilter: any) => 
+    sortParam?.param?.postcode || sortParam?.param?.distance_from_home
+      ? sortingFilter
+      : Object.fromEntries(
+          Object.entries(sortingFilter).filter(([key]) => key !== "Distance from home")
+        );
+  
+  const wuSortingFilters = getFilteredSortingOptions(wuSortingFilter);
+  const pgsSortingFilters = getFilteredSortingOptions(pgsSortingFilter);
+  let sortUrl;
   const handleSort = (value: any, label: any) => {
-    setSortValue(value)
     const currentUrl = new URL(window.location.href);
     const urlParams = new URLSearchParams(currentUrl.search);
-    let sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
+    setSortValue(value)
+    setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
+    sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
     if (urlParams.size > 4) { // If Query params > 4
       const updatedFilterParams = {
         ...filterCookieParam,
@@ -42,9 +61,8 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
       urlParams.delete(process.env.PROJECT === "Whatuni" ? "pageno" : "page_no")
       sortUrl = `${currentUrl.origin}${currentUrl.pathname}?${decodeURIComponent(urlParams.toString())}`;
     }
-   router.push(sortUrl);
-  };
-
+    router.push(sortUrl)
+  }
   const getKeyForValue = (value: string) => {
     const entry = Object.entries(sortingFilter).find(
       ([key, val]) => val === value
@@ -54,9 +72,11 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     );
     return entry ? entry[0] : wuscaentry ? wuscaentry[0] : "Recommendded";
   };
-  const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilter : pgsSortingFilter;
+ 
+  const sortingFilter = process.env.PROJECT === "Whatuni" ? wuSortingFilters : pgsSortingFilters;
   // Handle outside click to close the div
   useEffect(() => {
+    setFilterState((prev: any) => ({ ...prev, isFilterLoading: false }));
     const handleClickOutside = (event:any) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
         setIsSortClicked(false);
@@ -66,11 +86,10 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [sortParam]);
 
   return (
-    <>
-    <FilterSpinner/>
+    <>{filterState?.isFilterLoading && <FilterSpinner/>}
     <div className="ml-auto w-fit relative">
       <div ref={divRef}
         onClick={sortClicked}
@@ -101,13 +120,13 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]">
               {Object.entries(sortingFilter).map(([label, value]) => (
                 <div
-                  key={value}
+                  key={String(value)}
                   className="custom-radio"
                   onClick={() => handleSort(value, label)}
                 >
                   <input
                     type="radio"
-                    id={value}
+                    id={String(value)}
                     name="sort by"
                     checked={
                       value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
@@ -132,13 +151,13 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                   {Object.entries(wuscaCategories).map(([label, value]) => (
                     
                     <div
-                      key={value}
+                      key={String(value)}
                       className="custom-radio"
                       onClick={() => handleSort(value, label)}
                     >
                       <input
                         type="radio"
-                        id={value}
+                        id={String(value)}
                         name="Wusca categories"
                         checked={
                           value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort

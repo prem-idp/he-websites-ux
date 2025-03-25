@@ -148,7 +148,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-          {/* <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items}/> */}
+          <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]}/>
           
         </>
       )}
