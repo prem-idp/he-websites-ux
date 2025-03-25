@@ -15,7 +15,7 @@ import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
 import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore";
 import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite'
 
-const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
+const Courseheaderinfocomponents = async ({ data, searchPayload, institutionUrl}: any) => {
 
   const prams_slug = await data;
   let h1h2Text: string[] = [];
@@ -32,7 +32,6 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
     {});
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
-  console.log("contentfulMetadata...", contentfulMetadata)
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   h1h2Text = contentfulMetadata.h1Title.includes("[SPLIT]") ? contentfulMetadata.h1Title.split("[SPLIT]") : null;
   const metaFiltersOpted: MetaFilterTypesReplace = {
@@ -65,7 +64,7 @@ const Courseheaderinfocomponents = async ({ data, searchPayload }: any) => {
                       }} />
                   </div>
                   <div className='flex flex-col gap-[8px]'>
-                    <a href={'/university-profile/' + data?.courseInfo?.institutionNameUrl + '/' + data?.courseInfo?.institutionId + '/'} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{replaceSEOPlaceHolder(h1h2Text?.[1], metaFiltersOpted)}</a>
+                    <a href={institutionUrl? institutionUrl : ""} className='block w-fit para-lg font-semibold text-primary-400 hover:text-primary-500 hover:underline'>{replaceSEOPlaceHolder(h1h2Text?.[1], metaFiltersOpted)}</a>
                     <div className='flex'>
                       <div className='rating-pod flex items-center gap-[8px]'>
                         <div className='rating-card flex items-center gap-[8px]'>

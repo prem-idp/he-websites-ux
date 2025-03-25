@@ -11,20 +11,26 @@ import LazyLoadWrapper from "@packages/lib/utlils/lazyloadcomponent"
 import { cdfetchData } from "@packages/shared-components/course-details/cdpageutils/apicalls/cdpagedata"
 import { getMetaDetailsQueryForSRpage } from '@packages/lib/graphQL/search-results';
 import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions';
-import { MetaDataInterface, MetaFilterTypesReplace } from '@packages/lib/types/interfaces';
+import { MetaDataInterface, MetaDataProps, MetaFilterTypesReplace } from '@packages/lib/types/interfaces';
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant';
-import { getCustomDomain } from '@packages/lib/utlils/common-function-server';
+import { getCustomDomain, getMetaDetailsObject } from '@packages/lib/utlils/common-function-server';
 import { otherRecommendedCourse } from "@packages/shared-components/course-details/cdpageutils/apicalls/othercourse";
 import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { getQualCode } from '@packages/shared-components/services/utils';
 import SchemaTagLayoutComponent from '@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent';
+import { Metadata } from 'next';
 
 let breadcrumbData: any;
 const domain = getCustomDomain();
 let schemaData: any[] = [];
-
-export async function generateMetadata({ params }: any) {
+let courseName: string;
+let providerName: string;
+let providerNameUrl: string;
+let providerIdUrl: string;
+let institutionUrl: string;
+let currentPageUrl: string;
+export async function generateMetadata({ params }: MetaDataProps): Promise<Metadata> {
   const cookieStore = await cookies();
   const qualCode = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const cookieparams = cookieStore?.get("searchParamscookies")?.value || "{}";
@@ -37,7 +43,13 @@ export async function generateMetadata({ params }: any) {
     courseId: String(prams_slug?.course_id || ""),
     qualCode: getQualCode(qualCode),
   });
-  return getCDMetaDetailsFromContentful(searchparams, slug, subjectNameParam)
+  providerNameUrl = `${prams_slug.uni_name}`;
+  providerIdUrl =  `${prams_slug.uni_id}`;
+  const domain = getCustomDomain();
+  institutionUrl = domain + "/university-profile/" + providerNameUrl + "/" + providerIdUrl +"/";
+  currentPageUrl = domain + slug;
+  const metaData =  await getCDMetaDetailsFromContentful(searchparams, slug, subjectNameParam);
+  return getMetaDetailsObject(metaData); 
 }
 
 export default async function Cdpage({ params }: any) {
@@ -75,6 +87,51 @@ export default async function Cdpage({ params }: any) {
     notFound();
   }
   const courseContent = courseContentExtractor(contents);
+  const location  = data?.uniInfo?.location;
+  const tutionfees  = data?.tutionfees?.length > 0 ? data?.tutionfees[0] : "";
+  const availability = data?.courseInfo?.availability?.length > 0 ? data?.courseInfo?.availability[0] : "";
+  const collegeOrUniversitySchemaTag = {
+    "name": location?.venueName,
+    ...(location?.length > 0 && {
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": location.town,
+        "addressRegion": location.countyState,
+        "postalCode": location.postCode,
+        "streetAddress": location.addLine1 + (location.addLine2 ? ", " + location.addLine2 : "")
+
+  },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": data?.uniInfo?.overallRating,
+      "reviewCount": data?.uniInfo?.reviewCount
+    }
+  })
+  }
+  const courseSchema = {
+     "url":currentPageUrl,
+     "name": courseName,
+     "description": data?.courseInfo?.courseSummary,
+     "provider": {
+       "@type": "CollegeOrUniversity",
+       "name": providerName, 
+       "url": institutionUrl
+     },
+   "hasCourseInstance": [
+       {
+         "@type": "CourseInstance",
+         "courseMode": [availability?.studyModeDesc],
+         "courseWorkload": availability.durationDesc,
+         "startDate": availability.startDateMonth
+       } 
+   ],
+     "offers": {
+           "@type": "Offer",
+           "Category": "Paid",
+           "price": tutionfees?.currency + tutionfees?.fees ,
+           "priceCurrency": "GBP"
+         }
+   }
   return (
     <>
       {breadcrumbData.length > 1 && (
@@ -82,10 +139,12 @@ export default async function Cdpage({ params }: any) {
           <div className="max-w-container mx-auto">
             <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
             <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{ "itemListElement": schemaData }} />
+            <SchemaTagLayoutComponent schemaType="CollegeOrUniversity" schemaData={{ "itemListElement": collegeOrUniversitySchemaTag }} />
+            <SchemaTagLayoutComponent schemaType="Course" schemaData={{ "itemListElement": courseSchema }} />
           </div>
         </section>
       )}
-      <Courseheaderinfocomponents data={data} searchPayload={searchparams} />
+      <Courseheaderinfocomponents data={data} searchPayload={searchparams} institutionUrl = {institutionUrl} />
       <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
       {othercourseData?.length > 0 &&
         <Othercoursesmaylikecomponents othercourseData={othercourseData} />
@@ -115,7 +174,8 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string, s
     providerName: displayNameResponse?.collegeName ?? undefined,
     courseName: displayNameResponse?.courseName ?? undefined,
   }
-
+  providerName = metaFiltersOpted.providerName ? metaFiltersOpted.providerName : "";
+  courseName = metaFiltersOpted.courseName ? metaFiltersOpted.courseName : "";
   const metaTitle = replaceSEOPlaceHolder(contentfulMetadata?.metaTite, metaFiltersOpted);
   const metaDesc = replaceSEOPlaceHolder(contentfulMetadata?.metaDescription, metaFiltersOpted);
   const index = contentfulMetadata?.robots;
