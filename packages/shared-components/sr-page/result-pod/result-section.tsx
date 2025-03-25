@@ -222,7 +222,7 @@ queryString ? `&${queryString}` : ''
                         <span className="text-grey900 font-semibold">
                           WUSCA Student Ranking
                         </span>
-                        <svg
+                        {/* <svg
                           className="cursor-pointer"
                           width="16"
                           height="16"
@@ -244,7 +244,7 @@ queryString ? `&${queryString}` : ''
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
-                        </svg>
+                        </svg> */}
                       </div>
                       <p className="x-small text-grey300 font-normal">
                         These are the 2024 ranking, based on rating given by
@@ -313,7 +313,7 @@ queryString ? `&${queryString}` : ''
                             <span className="text-grey900 font-semibold">
                               Why should you trust our uni reviews?
                             </span>
-                            <svg
+                            {/* <svg
                               className="cursor-pointer"
                               width="16"
                               height="16"
@@ -335,7 +335,7 @@ queryString ? `&${queryString}` : ''
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                               />
-                            </svg>
+                            </svg> */}
                           </div>
                           <p className="x-small text-grey300 font-normal">
                             All our reviews are from real students, submitted
