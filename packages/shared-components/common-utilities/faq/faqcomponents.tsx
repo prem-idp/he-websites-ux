@@ -59,7 +59,7 @@ const Faqcomponents = async ({faqData}:any) => {
                         opacity: 0,
                         transition: { duration: 0.25, ease: "easeInOut" },
                       }}
-                      className={`accordion-body ${openIndex === index ? "expanded flex" : "collapsed hidden"}`}
+                      className={`accordion-body`}
                     >
                       <div className="mt-[16px]">{item.answer}</div>
                     </motion.div>

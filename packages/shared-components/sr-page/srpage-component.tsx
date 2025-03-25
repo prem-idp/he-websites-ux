@@ -125,7 +125,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             </>
           ) : (
             <>
-              <SrPageNoResults />
+              <SrPageNoResults searchedSubject = {searchparams?.subject}/>
             </>
           )}
         </div>
