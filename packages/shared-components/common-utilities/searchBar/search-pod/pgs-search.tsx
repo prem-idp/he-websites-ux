@@ -331,7 +331,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 placeholder="Subject, qualification or university"
               />
               {isPgsUniversityClicked && showDropdown && qualdropdown && (
-                <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[52px] overflow-hidden md:w-[345px]">
+                <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[52px] overflow-hidden md:w-[345px] custom-scrollbar-2 max-h-[250px] md:max-h-none overflow-y-auto">
                   <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                     QUALIFICATION
                   </div>

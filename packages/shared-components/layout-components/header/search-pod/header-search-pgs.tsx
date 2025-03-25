@@ -35,7 +35,7 @@ export default function HeaderPgsSearch({
               />
             </svg>
           </button>
-          <div className="flex flex-col items-center justify-center lg:min-h-[150px] gap-y-[16px] mt-[16px] md:mt-[-16px]">
+          <div className="flex flex-col items-center justify-center lg:min-h-[150px] gap-y-[16px] mt-[16px]">
             <div className="w-full lg:max-w-[800px]">
               <PgsSearch pgs_search_data={pgs_search_data} />
             </div>
