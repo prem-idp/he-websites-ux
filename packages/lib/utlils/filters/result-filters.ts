@@ -14,14 +14,15 @@ const getFilterPriority = (isQualification?: boolean) => {
     "study-mode",
     "year",
     "month",
-    "distance-from-home",
+    "distance",
+    "postcode",
     "university-group",
     "score",
     "location-type",
   ];
   const pgsFilter = [
     "university",
-    "q",
+    "keyword",
     "course",
     "qualification",
     "location",
@@ -29,7 +30,8 @@ const getFilterPriority = (isQualification?: boolean) => {
     "study_mode",
     "year",
     "month",
-    "distance_from_home",
+    "distance",
+    "postcode",
     "university_group",
     "score",
     "location_type",
@@ -136,7 +138,7 @@ const isSingleSelection = (searchParams: URLSearchParams): boolean => {
 };
 
 const locationMilesArray = [
-  { miles: "Any distance", distance: "" },
+  { miles: "Any distance", distance: "any" },
   { miles: "20 miles", distance: "20" },
   { miles: "50 miles", distance: "50" },
   { miles: "100 miles", distance: "100" },

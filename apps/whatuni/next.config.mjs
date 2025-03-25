@@ -22,14 +22,14 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization.splitChunks = {
-        chunks: 'all',
+        chunks: "all",
         cacheGroups: {
           default: false,
           vendors: false,
           // Group common dependencies into a separate chunk
           commons: {
-            name: 'commons',
-            chunks: 'all',
+            name: "commons",
+            chunks: "all",
             minChunks: 2,
           },
         },
@@ -105,8 +105,7 @@ const nextConfig = {
       { protocol: "https", hostname: "videos.ctfassets.net" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: getImageDomain() },
-      { protocol: "https", hostname: 'images-intl.prod.aws.idp-connect.com' },
-
+      { protocol: "https", hostname: "images-intl.prod.aws.idp-connect.com" },
     ],
   },
 };
