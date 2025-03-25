@@ -16,15 +16,11 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import { cookies, headers } from "next/headers";
 import {
   getSearchPayload,
-  getSEOSearchPayload,
-  getQualCode,
 } from "../services/utils";
 import {
   searchResultsFetchFunction,
-  httpBFFRequest,
   graphQlFetchFunction
 } from "@packages/lib/server-actions/server-action";
-import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
