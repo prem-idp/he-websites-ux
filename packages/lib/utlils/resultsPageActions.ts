@@ -36,8 +36,6 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   // console.log("query: ", query);
-  console.log("seoMetaFeildId: ", seoMetaFeildId);
-  console.log("contentfulMetadata: ", contentfulMetadata);
 
   //
   const displayNames = {
@@ -78,7 +76,7 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
 export function getMetaOptedDisplayNames(displayNameResponse: any): MetaFilterTypesReplace{
   return {
     courseCount: displayNameResponse?.courseCount ?? undefined,
-    location:  displayNameResponse?.locationName ?? undefined,
+    location:  displayNameResponse?.locationName ?? "UK",
     searchSubject: displayNameResponse?.subjectName ?? undefined,
     studylevel: displayNameResponse?.studyLevel ?? undefined,
     studymode: displayNameResponse?.studyMode ?? undefined,
@@ -157,13 +155,17 @@ export function replaceSEOPlaceHolder(inputText: string, metaFiltersOpted: MetaF
     return inputText;
 }
 
-function replaceMultiplePlaceholder(pattern: string, inputText: string, selectedOptionList: string[] | undefined){
+function replaceMultiplePlaceholder(pattern: string, inputText: string, selectedOptionList: any | undefined){
   let index = 0;
 
   while(inputText?.includes(pattern)){
+    if (Array.isArray(selectedOptionList)) {
     const displayText = selectedOptionList?.length && selectedOptionList?.length > 0  ? selectedOptionList[index] : "";
     inputText = inputText.replace(pattern, displayText);
     index++;
+    } else {
+      inputText = inputText.replace(pattern, selectedOptionList); 
+    }
   } 
   return inputText;
 }
@@ -291,7 +293,6 @@ function formSRPageURL(searchParams: any, pathName: string){
 }
 
 export function getWU_SearchSEOFieldId(searchPayLoad: any){
-
   const locationSelected = searchPayLoad?.location?.length <= 0 ? false : (searchPayLoad?.location?.length >= 1 && searchPayLoad?.location?.[0] != "" ? true : false); 
   const subjectSelected = searchPayLoad?.searchSubject?.length <= 0 ? false : (searchPayLoad?.searchSubject?.length >= 1 && searchPayLoad?.searchSubject?.[0] != "" ? true : false);
   const keywordSelected = searchPayLoad?.searchKeyword && searchPayLoad?.searchKeyword?.trim() != "" ? true : false;
