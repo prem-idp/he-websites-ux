@@ -10,6 +10,7 @@ const Popularalevelsubjectcomponents = dynamic(() => import('@packages/shared-co
 const Latestreviewscomponents = dynamic(() => import('@packages/shared-components/course-details/latest-reviews/LatestReviewsComponent'/* webpackChunkName:"latestreview" */));
 const Courseinfocomponents = dynamic(() => import('@packages/shared-components/course-details/course-info/CourseInfoComponent' /* webpackChunkName:"CourseInfoComponent" */));
 const ReviewPannelComponent = dynamic(() => import('@packages/shared-components/common-utilities/modal/review-lightbox/ReviewPannel' /* webpackChunkName:"CourseInfoComponent" */));
+import { v4 as uuidv4 } from "uuid";
 import Popularalevelsubjectskeleton  from "@packages/shared-components/skeleton/popularalevelsubjectskeleton"
 import Entryrequirementsskeleton from "@packages/shared-components/skeleton/entryrequirementsskeleton"
 import { useState, useEffect, useRef } from 'react';
@@ -47,6 +48,8 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
           headers: {
             "Content-Type": "application/json",
            "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
+           "x-correlation-id": uuidv4(),
+           "siteCode": String(process.env.SITE_CODE),
           },
           cache: "force-cache",
         });
