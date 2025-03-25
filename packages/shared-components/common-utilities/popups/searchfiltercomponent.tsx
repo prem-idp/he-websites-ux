@@ -56,9 +56,10 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     },
   });
 
-  const [locationState, setLocationState] = useState({
+  const [locationState, setLocationState] = useState<any>({
     isdropDownOpen: false,
-    selectedMile: "50 miles",
+    mileDisplayName: "Any distance",
+    selectedMile: "any",
     locationMilesArray: locationMilesArray,
     locationMilesError: false,
     postCodeValue: "",
@@ -118,6 +119,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       location: filterState?.filterOrder?.[keyName?.location] || "",
       russellGroup: filterState?.filterOrder?.[keyName?.russellGroup] || "",
       locationType: filterState?.filterOrder?.[keyName?.locationType] || "",
+      university: filterState?.filterOrder?.[keyName?.university] || "",
       studyLevel: pathname?.split("/")[1] || "",
     });
     setslug(path);
@@ -236,16 +238,17 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     setFilterState((prev: any) => ({ ...prev, isFilterOpen: false }));
   };
   const postCodeChange = (value: string) => {
-    const trimmedValue = value.trim().toUpperCase();
-    const specialCharRegex = /[^a-zA-Z0-9 ]/;
-    if (!specialCharRegex.test(trimmedValue) && trimmedValue.length <= 8) {
+    console.log({ value });
+    // const trimmedValue = value?.toUpperCase();
+    const specialCharRegex = /[^a-zA-Z0-9\s]/;
+    if (!specialCharRegex.test(value) && value?.length <= 8) {
       setLocationState((prev: any) => ({
         ...prev,
-        postCodeValue: trimmedValue,
+        postCodeValue: value?.toUpperCase(),
       }));
     }
   };
-
+  //console.log(locationState);
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
@@ -253,6 +256,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           filterState?.filterOrder,
           prepopulateFilter?.studyLevel
         );
+        console.log(filterState?.filterOrder);
+        console.log(body);
         const data = await getSrFilter(body);
         const count = await getSrFilterCount(body);
         setJsondata(data);
@@ -378,6 +383,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       isUniversitySelected?: boolean,
       isQualificationChanged?: boolean
     ) => {
+      alert(key + value);
       if (key === "study-level") {
         setPrepopulateFilter((prev: any) => ({
           ...prev,
@@ -398,6 +404,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         isUniversitySelected,
         crossL1Subject
       );
+      console.log({ orderedFilters });
       setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
       const { urlParams, cookieParams } = constructSearchParams(orderedFilters);
       handleCookiesAndSession(cookieParams);
@@ -586,11 +593,12 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
   };
 
-  const toggleLocationMiles = (milesValue: string) => {
+  const toggleLocationMiles = (milesDisplayName: string, distance: string) => {
     setLocationState((prev: any) => ({
       ...prev,
       isdropDownOpen: !prev?.isdropDownOpen,
-      selectedMile: milesValue,
+      selectedMile: distance,
+      mileDisplayName: milesDisplayName,
     }));
   };
 
@@ -614,15 +622,16 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     },
     [jsondata]
   );
-
+  console.log(jsondata);
   const postcodeSubmit = () => {
     const ukPostCodeRegx = /^([A-Z]{1,2}[0-9][0-9A-Z]?)\s?([0-9][A-Z]{2})$/i;
-    //const isValidPostcode = ukPostCodeRegx.test(locationState?.postCodeValue);
-    if (locationState?.postCodeValue) {
-      setLocationState((prev) => ({ ...prev, locationMilesError: false }));
-      appendSearchParams("postcode", locationState?.postCodeValue);
+    const isValidPostcode = ukPostCodeRegx.test(locationState?.postCodeValue);
+    if (locationState?.postCodeValue && isValidPostcode) {
+      setLocationState((prev: any) => ({ ...prev, locationMilesError: false }));
+      //appendSearchParams("postcode", locationState?.postCodeValue);
+      appendSearchParams("distance", locationState?.selectedMile);
     } else {
-      setLocationState((prev) => ({ ...prev, locationMilesError: true }));
+      setLocationState((prev: any) => ({ ...prev, locationMilesError: true }));
     }
   };
 
@@ -1108,7 +1117,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                       {jsondata?.intakeYearDetails?.intakeMonthList?.map(
                         (monthItem: any, index: any) => (
                           <div className="form-black flex relative" key={index}>
-                            {/* {isIndexed && ( */}
                             <Link
                               id={keyName?.month + monthItem?.month}
                               href={{
@@ -1122,7 +1130,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                 ),
                               }}
                             ></Link>
-                            {/* )} */}
                             <input
                               checked={
                                 prepopulateFilter?.month == monthItem?.month
@@ -1312,6 +1319,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               isUniversityOpen={
                                 universityState?.isUniversityOpen
                               }
+                              prepopulateFilter={prepopulateFilter}
+                              setPrepopulateFilter={setPrepopulateFilter}
                               universityClicked={universityClicked}
                               id={university?.id}
                               appendSearchParams={appendSearchParams}
@@ -1350,12 +1359,15 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                 <div className="relative shrink-0">
                                   <button
                                     onClick={() => {
-                                      toggleLocationMiles("50 miles");
+                                      toggleLocationMiles(
+                                        locationState?.mileDisplayName,
+                                        locationState?.selectedMile
+                                      );
                                     }}
                                     className="relative shrink-0 w-full flex items-center justify-between gap-[4px] pr-0 text-black md:w-[146px] md:pr-[16  px]"
                                     type="button"
                                   >
-                                    Range: {locationState?.selectedMile}
+                                    Range: {locationState?.mileDisplayName}
                                     <Image
                                       src="/static/assets/icons/arrow_down_black.svg"
                                       width="20"
@@ -1372,7 +1384,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                               key={index + 1}
                                               onClick={() => {
                                                 toggleLocationMiles(
-                                                  mileItem?.miles
+                                                  mileItem?.miles,
+                                                  mileItem?.distance
                                                 );
                                               }}
                                               className="block small px-[16px] py-[12px] hover:bg-blue-50 hover:underline cursor-pointer"
@@ -1414,7 +1427,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                             </div>
                             {locationState?.locationMilesError && (
                               <p className="small text-negative-default">
-                                Please enter postcode
+                                Please enter valid postcode
                               </p>
                             )}
                           </div>
