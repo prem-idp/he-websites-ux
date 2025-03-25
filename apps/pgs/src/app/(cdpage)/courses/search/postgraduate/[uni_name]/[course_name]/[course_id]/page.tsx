@@ -19,6 +19,8 @@ import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { getQualCode } from '@packages/shared-components/services/utils';
 import SchemaTagLayoutComponent from '@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent';
+import makeApiCall from "@packages/REST-API/rest-api";
+import getApiUrl from "@packages/REST-API/api-urls";
 
 let breadcrumbData: any;
 const domain = getCustomDomain();
@@ -66,11 +68,24 @@ export default async function Cdpage({ params }: any) {
 
 
   const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
-  const [data, contents, othercourseData] = await Promise.all([
+
+  const pgsbody:any = {
+    affiliateId: 607022,
+    actionType: "subject",
+    keyword: "",
+    qualCode: "",
+    networkId: 2,
+  };
+
+  const queryParams = new URLSearchParams(pgsbody).toString();
+
+ 
+  const [data, contents, othercourseData,pgs_search_data] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
     graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),
     otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
-      .catch(err => ({ error: err }))
+      .catch(err => ({ error: err })),
+      makeApiCall(getApiUrl?.subjectAjax, "GET", null, queryParams, null)
   ]);
 
   if (data.errorMessage) {
@@ -97,7 +112,7 @@ export default async function Cdpage({ params }: any) {
       }
       {process.env.PROJECT === "Whatuni" &&
         <LazyLoadWrapper>
-          <Findacoursecomponents h1value="Find a course" subheading={false} />
+          <Findacoursecomponents h1value="Find a course" subheading={false} pgs_search_data={pgs_search_data}/>
         </LazyLoadWrapper>
       }
     </>

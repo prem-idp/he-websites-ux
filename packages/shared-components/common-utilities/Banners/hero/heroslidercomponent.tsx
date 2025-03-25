@@ -1,6 +1,7 @@
 "use server";
+
+import Searchboxwrapper  from  "@packages/shared-components/common-utilities/searchBar/search-pod/searchboxwrapper"
 import React, { Suspense } from "react";
-import SearchBox from "../../searchBar/search-pod/searchbox";
 import { searchAjaxFecthFunction } from "@packages/lib/server-actions/server-action";
 import HeroSlider from "./slider-pod/heroSlider";
 import { SliderBannerCollection } from "@packages/lib/types/interfaces";
@@ -76,7 +77,7 @@ const HeroSliderComponent: React.FC<PropjectProps> = async ({
               <HeroSlider data={data} pageName={pageName} />
             </div>
           </div>
-          <SearchBox
+          <Searchboxwrapper
             // course_data={course_data}
             // uni_data={uni_data}
             pgs_search_data={pgs_search_data}

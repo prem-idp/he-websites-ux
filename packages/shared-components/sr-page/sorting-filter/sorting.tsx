@@ -70,7 +70,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
 
   return (
     <>
-    <FilterSpinner/>
+    {/* <FilterSpinner/> */}
     <div className="ml-auto w-fit relative">
       <div ref={divRef}
         onClick={sortClicked}
