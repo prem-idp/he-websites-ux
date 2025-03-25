@@ -57,9 +57,9 @@ export default function Search({
   };
   return (
     <>
-      <div className="bg-white absolute top-0 left-0 right-0 z-10 lg:min-h-[222px]">
-        <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
-          <div className="flex self-end relative">
+      <div className="bg-white absolute top-0 left-0 right-0 z-10">
+        <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px] xl:px-0">
+        <button type="button" className="flex self-end relative">
             <svg
               aria-label="close-button"
               className="cursor-pointer"
@@ -78,8 +78,8 @@ export default function Search({
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-y-[16px] mt-[16px] md:mt-[-16px]">
+          </button>
+          <div className="flex flex-col items-center justify-center lg:min-h-[150px] gap-y-[16px] mt-[16px] md:mt-[-16px]">
             <ul className="flex items-center gap-[4px] cursor-pointer">
               {/* <li
                 className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block hover:bg-black hover:text-white border border-grey-500 ${

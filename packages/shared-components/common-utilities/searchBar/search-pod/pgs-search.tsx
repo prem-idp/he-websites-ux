@@ -299,12 +299,13 @@ export default function PgsSearch({ pgs_search_data }: any) {
   };
 
   return (
-    <div className="max-w-container mx-auto">
+    
       <div
         ref={containerRef}
-        className="px-[16px] py-[16px] xl:p-0 flex flex-col gap-[16px]"
+        className="flex flex-col gap-[16px]"
       >
-        <div className="bg-white rounded-[24px] p-[16px] relative z-3 border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:mt-[-28px] md:pl-[24px] md:p-[10px]">
+        <div className="bg-white rounded-[24px] p-[16px] border border-grey-200 hover:border-primary-500 shadow-custom-1 md:rounded-[32px] md:pl-[24px] md:p-[10px]
+">
           <div className="flex flex-col gap-[16px] small md:flex-row">
             <Form action={keywordSearch} className="relative grow">
               <input
@@ -330,7 +331,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
                 placeholder="Subject, qualification or university"
               />
               {isPgsUniversityClicked && showDropdown && qualdropdown && (
-                <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[53px] md:w-[345px]">
+                <div className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[52px] overflow-hidden md:w-[345px]">
                   <div className="x-small font-semibold uppercase px-[16px] py-[10px] text-neutral-700 bg-neutral-50">
                     QUALIFICATION
                   </div>
@@ -355,8 +356,7 @@ export default function PgsSearch({ pgs_search_data }: any) {
               {showDropdown && searchValue?.description?.length > 2 && (
                 <div
                   //   ref={containerRef}
-                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px]  left-[-16px] top-[53px] custom-scrollbar-2 min-h-[285px]
-                  max-h-[297px] overflow-y-auto mr-[4px]"
+                  className="flex flex-col w-[calc(100%+32px)] absolute z-[1] bg-white shadow-custom-3 rounded-[8px] left-[-16px] top-[52px] overflow-hidden custom-scrollbar-2 max-h-[250px] overflow-y-auto"
                 >
                   {searchValue?.description?.length > 2 && (
                     <div onClick={() => keywordSearch()}>
@@ -539,6 +539,6 @@ export default function PgsSearch({ pgs_search_data }: any) {
           </p>
         )}
       </div>
-    </div>
+    
   );
 }
