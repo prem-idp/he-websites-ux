@@ -4,13 +4,14 @@ import { ReviewDetails } from "@packages/lib/types/interfaces";
 import ClickTrackerWrapper from "@packages/lib/utlils/clicktrackerwrapper";
 import { DataLayerGA4AttrType } from "@packages/lib/types/datalayerGA";
 interface ReviewCardProps {
-  reviewData: ReviewDetails;
+  reviewData: any;
   index: any;
   ratings: any;
   pageName?: any;
   article_category?: string;
   article_subCat?: string;
 }
+
 const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_category, article_subCat}) => {
     console.log(reviewData,"2222222222222222222222222222222222222222222222222")
   return (
@@ -20,7 +21,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_
         eventName: "university_reviews",
         data_label: article_subCat, 
         cta_name: "NA",
-        cta_url: `/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`,
+        cta_url: `/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`,
         page_name: pageName,
         article_category: article_category,
         college_id: reviewData?.collegeId,
@@ -29,7 +30,7 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_
       }}
     >
       <a
-        href={`/university-course-reviews/${reviewData?.collegetextkey}/${reviewData?.collegeId}`}
+        href={`/university-course-reviews/${reviewData?.collegeTextKey}/${reviewData?.collegeId}`}
         className="reviews-card group  flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2 min-h-[267px]"
       >
         <div
@@ -70,9 +71,9 @@ const Reviewscard: React.FC<ReviewCardProps> = ({ reviewData, pageName, article_
           </div>
         </div>
         <div className="review-card-footer flex flex-col gap-[4px] pt-[12px]">
-          {reviewData?.to_char && (
+          {reviewData?.reviewDate && (
             <div className="reviewed__date x-small text-grey-500">
-              {`Reviewed: ${reviewData?.to_char}`}
+              {`Reviewed: ${reviewData?.reviewDate}`}
             </div>
           )}
           <div className="reviewed__dat e font-semibold para line-clamp-1">
