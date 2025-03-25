@@ -26,7 +26,6 @@ const UserFavourite = ({ contentId, contentType, contentName }: UserFavouritePro
   const [exceedMessage, setExceedMessage] = useState(false);
   const { favourites, setFavourites } = useFavourite();
   const [favourtiteTooltip, setfavourtiteTooltip] = useState("");
-  console.log("log", +contentId, favourites?.includes(+contentId));
 
   //Handle Favourite
   const handleFavourite = async (
@@ -53,16 +52,36 @@ const UserFavourite = ({ contentId, contentType, contentName }: UserFavouritePro
     try {
       updateAction(isAdd, payload);
       const data = await addRemoveFavourites([payload]);
-      if (data?.message?.toLowerCase() === "added course" || data?.message?.toLowerCase() === "added institution") {
-        setfavourtiteTooltip(contentId.toString());
-      } else if (data?.message?.toLowerCase() === "removed institution" || data?.message?.toLowerCase() === "removed course") {
-        setfavourtiteTooltip("");
-      } else if (data?.message?.toLowerCase() === "limit exceeded") {
-        setfavourtiteTooltip("");
-        setExceedMessage(true);
-        updateAction(!isAdd, payload);
+      switch (data?.message?.toLowerCase()) {
+        case 'added course':
+        case 'added institution':
+          setfavourtiteTooltip(contentId.toString());
+          break;
+        case 'removed course':
+        case 'removed institution':
+          setfavourtiteTooltip("");
+          break;
+        case 'limit exceeded':
+          setfavourtiteTooltip("");
+          setExceedMessage(true);
+          updateAction(!isAdd, payload);
+          break;
+        default:
+          updateAction(!isAdd, payload);
       }
+      // if (data?.message?.toLowerCase() === "added course" || data?.message?.toLowerCase() === "added institution") {
+      //   setfavourtiteTooltip(contentId.toString());
+      // } else if (data?.message?.toLowerCase() === "removed institution" || data?.message?.toLowerCase() === "removed course") {
+      //   setfavourtiteTooltip("");
+      // } else if (data?.message?.toLowerCase() === "limit exceeded") {
+      //   setfavourtiteTooltip("");
+      //   setExceedMessage(true);
+      //   updateAction(!isAdd, payload);
+      // } else {
+      //   updateAction(!isAdd, payload);
+      // }
     } catch (error) {
+      console.log('error', error)
       updateAction(!isAdd, payload);
     }
   };

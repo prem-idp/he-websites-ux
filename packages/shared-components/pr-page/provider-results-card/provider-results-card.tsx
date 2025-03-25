@@ -28,7 +28,8 @@ interface Favourite {
 const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
 
   const searchParams = useSearchParams();
-  const selectedSubject = searchParams?.has("subject") ? searchParams?.get("subject") : "";
+  const selectedSubject = searchParams?.has("subject") ? (searchParams?.get("subject")?.includes(' ') ? searchParams?.get("subject")?.split(' ')[0] : searchParams?.get("subject")) : "";
+  const collegeNameKeyText = searchParams?.has("university") ? searchParams?.get("university") : "";
   // State to track which cards' modules are visible
   const [visibleModules, setVisibleModules] = useState<boolean[]>(
     new Array(searchResultlist.length).fill(false) // Initially, all are closed
@@ -139,7 +140,7 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
               )}
 
               {/* "See all modules" Link */}
-              {visibleModules[index] && (
+              {(visibleModules[index] && items?.modulesList.length) && (
                 <span className="text-blue-400 hover:underline select-none font-semibold small cursor-pointer">
                   <Link href={items?.cdpagesurl}>See all modules</Link>
                 </span>
@@ -158,9 +159,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
-                collegeName: items?.collegeTextKey,
+                collegeName: collegeNameKeyText,
                 pageName: items?.pageName,
-                selectedSubject: { selectedSubject },
+                selectedSubject: selectedSubject,
                 qualCode: items?.qualCode
               }} />}
           {items.hasWebsite &&
@@ -186,9 +187,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId:
                   items?.orderItemId,
-                collegeName: items?.collegeTextKey,
+                collegeName: collegeNameKeyText,
                 pageName: items?.pageName,
-                selectedSubject: { selectedSubject },
+                selectedSubject: selectedSubject,
                 qualCode: items?.qualCode,
               }} />}
           {items.hasEmail &&
@@ -200,9 +201,9 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
                 sponsoredListingFlag: items?.sponsoredListingFlag,
                 manualBoostingFlag: items?.manualBoostingFlag,
                 orderItemId: items?.orderItemId,
-                collegeName: items?.collegeTextKey,
+                collegeName: collegeNameKeyText,
                 pageName: items?.pageName,
-                selectedSubject: { selectedSubject },
+                selectedSubject: selectedSubject,
                 qualCode: items?.qualCode,
               }} />}
         </div>
