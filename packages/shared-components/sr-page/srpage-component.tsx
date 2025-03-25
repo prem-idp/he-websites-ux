@@ -21,9 +21,9 @@ import {
 } from "../services/utils";
 import {
   searchResultsFetchFunction,
-  httpBFFRequest,
+
   graphQlFetchFunction,
-  getUserRegionId,
+
 } from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
