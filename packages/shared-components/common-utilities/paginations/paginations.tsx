@@ -21,11 +21,8 @@ const Paginations = ({ totalPages, initialPage }: any) => {
       1;
     // Ensure currentPage doesn’t exceed totalPages or go below 1
     setCurrentPage(Math.min(Math.max(1, pageFromQuery), validTotalPages));
-  }, [searchParams, validTotalPages]);
-
-  useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  }, [searchParams, validTotalPages]);
 
   // Function to build URL with existing query params and updated pageno
   const buildUrl = (page: number | string) => {
