@@ -33,7 +33,7 @@ const FavouritedToolTip: React.FC<any> = ({ onClose }) => {
                 </svg>
             </div>
             <Link
-                href=""
+                href="/degrees/comparison"
                 className="flex items-center gap-[4px] w-fit text-primary-400 hover:underline"
             >
                 View all comparison

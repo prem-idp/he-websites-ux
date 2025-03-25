@@ -118,9 +118,12 @@ queryString ? `&${queryString}` : ''
                       }
                       className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                     >
-                      {data?.collegeMedia?.ipCollegeImage && (
+                      {data?.collegeMedia?.ipCollegeLogo && (
                         <Image
-                          src={data?.collegeMedia?.ipCollegeLogo}
+                          src={
+                            data?.collegeMedia?.ipCollegeLogo
+                             ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
+                            : ""}
                           alt="University logo"
                           width={56}
                           height={56}
@@ -219,7 +222,7 @@ queryString ? `&${queryString}` : ''
                         <span className="text-grey900 font-semibold">
                           WUSCA Student Ranking
                         </span>
-                        <svg
+                        {/* <svg
                           className="cursor-pointer"
                           width="16"
                           height="16"
@@ -241,7 +244,7 @@ queryString ? `&${queryString}` : ''
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
-                        </svg>
+                        </svg> */}
                       </div>
                       <p className="x-small text-grey300 font-normal">
                         These are the 2024 ranking, based on rating given by
@@ -286,8 +289,8 @@ queryString ? `&${queryString}` : ''
               <Image
                 src={
                   data?.collegeMedia?.ipCollegeImage
-                  // ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  // : "/static/assets/images/search-results/university.jpg"
+                   ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                  : "/static/assets/images/search-results/university.jpg"
                 }
                 alt="University"
                 width={500}
@@ -310,7 +313,7 @@ queryString ? `&${queryString}` : ''
                             <span className="text-grey900 font-semibold">
                               Why should you trust our uni reviews?
                             </span>
-                            <svg
+                            {/* <svg
                               className="cursor-pointer"
                               width="16"
                               height="16"
@@ -332,7 +335,7 @@ queryString ? `&${queryString}` : ''
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                               />
-                            </svg>
+                            </svg> */}
                           </div>
                           <p className="x-small text-grey300 font-normal">
                             All our reviews are from real students, submitted
