@@ -11,9 +11,9 @@ interface ReviewComponentProps {
 }
 
 const LatestReviewComponent = ({ heading, jsonResponse }: ReviewComponentProps) => {
-    console.log(jsonResponse,"jsonResponse")
+    // console.log(jsonResponse,"jsonResponse")
     const latestReviews = jsonResponse?.latestReviews?.length ? jsonResponse?.latestReviews?.map((item: any) => item.review) : [];
-    console.log(latestReviews, "--------------")
+    // console.log(latestReviews, "--------------")
     const [selectedReview, setSelectedreview] = useState(latestReviews?.[0])
     const [isOpen, setIsOpen] = useState(false);
     
@@ -62,7 +62,7 @@ const LatestReviewComponent = ({ heading, jsonResponse }: ReviewComponentProps) 
                     sub_Category=""
                 />
                 <div className='flex justify-center mt-[4px]'>
-                    <a href='#' className='flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]'>
+                    <a href='/university-course-reviews/' className='flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]'>
                         Read all reviews
                         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.4814 0.814819L14.6666 6M14.6666 6L9.4814 11.1852M14.6666 6L1.33325 6" stroke="#3460DC" strokeWidth="1.48148" strokeLinecap="round" strokeLinejoin="round" />
