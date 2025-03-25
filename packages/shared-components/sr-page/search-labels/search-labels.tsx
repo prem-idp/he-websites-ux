@@ -64,7 +64,7 @@ getSearchLabels();
     const regex = /[()/]/g;
     const currentParams = new URLSearchParams(window.location.search);  
     const filterCookie = JSON.parse(decodeURIComponent(
-      document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+      sessionStorage.getItem("filter_param") || '{}'
     ));  
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
@@ -77,9 +77,9 @@ getSearchLabels();
       } 
     } 
     // Remove from cookies if needed
-    if (document.cookie.includes('filter_param')) {
+    if (sessionStorage.getItem("filter_param")) {
       if (filterCookie[filterKey]) {
-        if(filterKey === "subject") {
+        if(filterKey === "subject" || filterKey === "location") {
           const updatedSubjects = filterCookie[filterKey]?.split("+")?.filter((val:any) => val !== (value?.replaceAll(regex,"")?.replaceAll?.(" ","-")?.replaceAll?.("--","-")?.toLowerCase()));
           const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
           filterCookie[filterKey] = updatedSubParam || delete filterCookie[filterKey];
@@ -89,7 +89,8 @@ getSearchLabels();
         if(currentParams.get(filterKey)?.includes(" ") && (currentParams.get(filterKey) ?? "").split(" ").length < 4) {
           currentParams?.set(filterKey,currentParams?.get(filterKey)+"+" +filterCookie?.[filterKey] || "");
           delete filterCookie?.[filterKey];}
-        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+          sessionStorage?.setItem("filter_param", JSON.stringify(filterCookie));
       }
       // Check if URL has fewer than 4 params
       if (currentParams?.toString()?.split('&')?.length < 4 && !(currentParams.has("subject") && currentParams?.toString()?.split("+").length === 4)) {
@@ -98,6 +99,7 @@ getSearchLabels();
           currentParams.set(key, filterCookie[key]);
           delete filterCookie[key];
           document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+          sessionStorage?.setItem("filter_param", JSON.stringify(filterCookie));
           break;
         }
       }
