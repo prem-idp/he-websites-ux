@@ -118,9 +118,12 @@ queryString ? `&${queryString}` : ''
                       }
                       className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
                     >
-                      {data?.collegeMedia?.ipCollegeImage && (
+                      {data?.collegeMedia?.ipCollegeLogo && (
                         <Image
-                          src={data?.collegeMedia?.ipCollegeLogo}
+                          src={
+                            data?.collegeMedia?.ipCollegeLogo
+                             ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeLogo}`
+                            : ""}
                           alt="University logo"
                           width={56}
                           height={56}
@@ -286,8 +289,8 @@ queryString ? `&${queryString}` : ''
               <Image
                 src={
                   data?.collegeMedia?.ipCollegeImage
-                  // ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  // : "/static/assets/images/search-results/university.jpg"
+                   ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
+                  : "/static/assets/images/search-results/university.jpg"
                 }
                 alt="University"
                 width={500}
