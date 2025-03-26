@@ -107,15 +107,3 @@ export const options = [
   "عربي",
 ];
 
-export const logoImgArray = [
-  "/static/assets/images/our-partner/partner1.png",
-  "/static/assets/images/our-partner/partner2.png",
-  "/static/assets/images/our-partner/partner3.png",
-  "/static/assets/images/our-partner/partner4.png",
-  "/static/assets/images/our-partner/partner5.png",
-  "/static/assets/images/our-partner/partner6.png",
-  "/static/assets/images/our-partner/partner7.png",
-  "/static/assets/images/our-partner/partner8.png",
-  "/static/assets/images/our-partner/partner9.png",
-  "/static/assets/images/our-partner/partner10.png",
-];
