@@ -60,7 +60,7 @@ const searchPayload: any = {
     userCoordinates: "",
     distance: searchParams?.distance_from_home || filterCookieParam?.distance_from_home || searchParams?.["distance-from-home"] || filterCookieParam?.["distance-from-home"] || "",
     ucasTariffRange: score || "",
-    userRegionId:userRegion?.userRegionId || "",
+    userRegionId:userRegion || "",
     dynamicRandomNumber:dynamicRandomNumber,
     universityGroup: russellGroup ? [russellGroup] : "",
     postCode: searchParams?.postcode || filterCookieParam?.postcode
