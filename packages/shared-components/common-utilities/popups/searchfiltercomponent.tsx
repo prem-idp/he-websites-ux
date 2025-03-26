@@ -171,6 +171,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           affiliateId: process.env.AFFILATED_ID,
         });
         console.log(year);
+      } else {
+        console.log("aws");
       }
     };
     getYear();
