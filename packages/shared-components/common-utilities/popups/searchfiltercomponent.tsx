@@ -30,12 +30,12 @@ import {
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
 import { getFilterValue } from "@packages/lib/utlils/filters/result-filters";
-type KeyValueObject = Record<string, string>;
 const FilterSpinner = dynamic(
   () =>
     import("@packages/shared-components/skeleton/search-result/filter-spinner"),
   { ssr: false }
 );
+type KeyValueObject = Record<string, string>;
 const SearchFilterComponent = ({ data, path, count }: any) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -120,6 +120,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       russellGroup: filterState?.filterOrder?.[keyName?.russellGroup] || "",
       locationType: filterState?.filterOrder?.[keyName?.locationType] || "",
       university: filterState?.filterOrder?.[keyName?.university] || "",
+      qualication: filterState?.filterOrder?.[keyName?.studyLevel] || "",
       studyLevel: pathname?.split("/")[1] || "",
     });
     setslug(path);
@@ -383,75 +384,79 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       isUniversitySelected?: boolean,
       isQualificationChanged?: boolean
     ) => {
-      alert(key + value);
-      if (key === "study-level") {
-        setPrepopulateFilter((prev: any) => ({
+      if (!routerEnd) {
+        if (key === keyName?.studyLevel) {
+          setPrepopulateFilter((prev: any) => ({
+            ...prev,
+            studyLevel: `${value}-courses`,
+          }));
+        }
+        setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
+        const crossL1Subject = checkCrossL1Subject(
+          key,
+          value,
+          jsondata,
+          searchParams
+        );
+        const orderedFilters = extractAndOrderFilters(
+          searchParams,
+          key,
+          value,
+          isUniversitySelected,
+          crossL1Subject
+        );
+        console.log({ orderedFilters });
+        setFilterState((prev: any) => ({
           ...prev,
-          studyLevel: `${value}-courses`,
+          filterOrder: orderedFilters,
         }));
-      }
-      setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
-      const crossL1Subject = checkCrossL1Subject(
-        key,
-        value,
-        jsondata,
-        searchParams
-      );
-      const orderedFilters = extractAndOrderFilters(
-        searchParams,
-        key,
-        value,
-        isUniversitySelected,
-        crossL1Subject
-      );
-      console.log({ orderedFilters });
-      setFilterState((prev: any) => ({ ...prev, filterOrder: orderedFilters }));
-      const { urlParams, cookieParams } = constructSearchParams(orderedFilters);
-      handleCookiesAndSession(cookieParams);
-      const multiSelect =
-        urlParams.toString().includes("+") ||
-        urlParams.toString().includes("%2B");
-      let domainPath = null;
-      if (isQualificationChanged && !slug?.includes(value)) {
-        domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
-      } else if (key === keyName?.university) {
-        const uniSelected = searchParams
-          ?.get(keyName?.university)
-          ?.includes(value);
-        domainPath = `/${slug?.split("/")?.[1]}/${uniSelected ? "search" : "csearch"}`;
-      }
-      const linkTagId = document?.getElementById(key + value);
-      if (
-        urlParams.toString() === searchParams.toString() &&
-        !isQualificationChanged
-      ) {
-        router.refresh();
-      } else if (linkTagId && isIndexed && !multiSelect) {
-        console.log(linkTagId);
-        window.history.pushState(
-          null,
-          "",
-          `${linkTagId?.getAttribute("href")}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
-        );
-        linkTagId.click();
-      } else {
-        window.history.pushState(
-          null,
-          "",
-          `${domainPath ?? ""}?${urlParams.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
-        );
+        const { urlParams, cookieParams } =
+          constructSearchParams(orderedFilters);
+        handleCookiesAndSession(cookieParams);
+        const multiSelect =
+          urlParams.toString()?.includes("+") ||
+          urlParams.toString()?.includes("%2B");
+        let domainPath = null;
+        if (isQualificationChanged && !slug?.includes(value)) {
+          domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
+        } else if (key === keyName?.university) {
+          const uniSelected = searchParams
+            ?.get(keyName?.university)
+            ?.includes(value);
+          domainPath = `/${slug?.split("/")?.[1]}/${uniSelected ? "search" : "csearch"}`;
+        }
+        const linkTagId = document?.getElementById(key + value);
+        if (
+          urlParams.toString() === searchParams.toString() &&
+          !isQualificationChanged
+        ) {
+          router.refresh();
+        } else if (linkTagId && isIndexed && !multiSelect) {
+          console.log(linkTagId);
+          window.history.pushState(
+            null,
+            "",
+            `${linkTagId?.getAttribute("href")}`
+              .replaceAll("%2B", "+")
+              .replaceAll("%2C", ",")
+          );
+          linkTagId.click();
+        } else {
+          window.history.pushState(
+            null,
+            "",
+            `${domainPath ?? ""}?${urlParams.toString()}`
+              .replaceAll("%2B", "+")
+              .replaceAll("%2C", ",")
+          );
 
-        router.push(
-          `${domainPath ?? ""}?${urlParams.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
-        );
+          router.push(
+            `${domainPath ?? ""}?${urlParams.toString()}`
+              .replaceAll("%2B", "+")
+              .replaceAll("%2C", ",")
+          );
+        }
       }
-
       setrouterEnd(true);
     },
     [searchParams, jsondata, slug, isIndexed]
@@ -628,7 +633,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     const isValidPostcode = ukPostCodeRegx.test(locationState?.postCodeValue);
     if (locationState?.postCodeValue && isValidPostcode) {
       setLocationState((prev: any) => ({ ...prev, locationMilesError: false }));
-      //appendSearchParams("postcode", locationState?.postCodeValue);
+      appendSearchParams("postcode", locationState?.postCodeValue);
       appendSearchParams("distance", locationState?.selectedMile);
     } else {
       setLocationState((prev: any) => ({ ...prev, locationMilesError: true }));
@@ -649,7 +654,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
     appendSearchParams("location", appliedCities?.join("+"));
   };
-  console.log(jsondata);
   return (
     <>
       <div>
@@ -841,78 +845,82 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                       </div>
                     </div>
                   )}
-                  {process.env.PROJECT === "Whatuni" && (
-                    <>
-                      {jsondata?.qualificationList?.length > 0 && (
-                        <div className="flex flex-col gap-[4px]">
-                          <div className="text-para-lg font-semibold">
-                            Study level
-                          </div>
-                          <div className="x-small font-semibold text-black uppercase">
-                            Choose one
-                          </div>
-                          <div className="flex flex-wrap gap-[8px]">
-                            {jsondata?.qualificationList?.map(
-                              (qualChild: any, index: number) => (
-                                <div
-                                  className="form-black flex relative"
-                                  key={index}
-                                >
-                                  {slug?.split("/")[1] !==
-                                    `${qualChild?.qualTextKey}-courses` && (
-                                    <Link
-                                      id={
-                                        "study-level" + qualChild?.qualTextKey
-                                      }
-                                      href={{
-                                        pathname: `/${qualChild?.qualTextKey}-courses/${slug?.split("/")[2]}`,
-                                        query: formUrl(
-                                          "study-level",
-                                          qualChild?.qualTextKey
-                                        ),
-                                      }}
-                                    ></Link>
-                                  )}
-                                  <input
-                                    checked={
-                                      slug?.split("/")[1] ===
+                  {jsondata?.qualificationList?.length > 0 && (
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="text-para-lg font-semibold">
+                        Study level
+                      </div>
+                      <div className="x-small font-semibold text-black uppercase">
+                        Choose one
+                      </div>
+                      <div className="flex flex-wrap gap-[8px]">
+                        {jsondata?.qualificationList?.map(
+                          (qualChild: any, index: number) => (
+                            <div
+                              className="form-black flex relative"
+                              key={index}
+                            >
+                              {slug?.split("/")[1] !==
+                                `${qualChild?.qualTextKey}-courses` && (
+                                <Link
+                                  id={
+                                    keyName?.studyLevel + qualChild?.qualTextKey
+                                  }
+                                  href={{
+                                    pathname: `${process.env.PROJECT === "Whatuni" ? `/${qualChild?.qualTextKey}-courses/${slug?.split("/")[2]}` : "/pgs/search"}`,
+                                    query: formUrl(
+                                      keyName?.studyLevel,
+                                      qualChild?.qualTextKey
+                                    ),
+                                  }}
+                                ></Link>
+                              )}
+                              <input
+                                checked={
+                                  process.env.PROJECT === "Whatuni"
+                                    ? slug?.split("/")[1] ===
                                       `${qualChild?.qualTextKey}-courses`
-                                    }
-                                    type="radio"
-                                    name="studylevel"
-                                    id={qualChild?.qualDisplayDesc}
-                                    value={qualChild?.qualDisplayDesc}
-                                    onChange={() => {
-                                      appendSearchParams(
-                                        "study-level",
-                                        qualChild?.qualTextKey,
-                                        false,
-                                        true
-                                      );
-                                      appendSearchParams(
-                                        "subject",
-                                        qualChild?.subjectTextKey?.replace(
-                                          ",",
-                                          "+"
+                                    : filterState?.filterOrder?.qualification ==
+                                      qualChild?.qualTextKey
+                                }
+                                type="radio"
+                                name="studylevel"
+                                id={qualChild?.qualDisplayDesc}
+                                value={qualChild?.qualDisplayDesc}
+                                onChange={() => {
+                                  appendSearchParams(
+                                    keyName?.studyLevel,
+                                    qualChild?.qualTextKey,
+                                    false,
+                                    true
+                                  );
+                                  {
+                                    process.env.PROJECT === "Whatuni"
+                                      ? appendSearchParams(
+                                          keyName?.subject,
+                                          qualChild?.subjectTextKey?.replaceAll(
+                                            ",",
+                                            "+"
+                                          )
                                         )
-                                      );
-                                    }}
-                                    className="rounded-[4px] outline-none absolute opacity-0"
-                                  />
-                                  <label
-                                    htmlFor={qualChild?.qualDisplayDesc}
-                                    className="btn btn-black-outline"
-                                  >
-                                    {qualChild?.qualDisplayDesc}
-                                  </label>
-                                </div>
-                              )
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </>
+                                      : "";
+                                  }
+                                }}
+                                className="rounded-[4px] outline-none absolute opacity-0"
+                              />
+                              <label
+                                htmlFor={qualChild?.qualDisplayDesc}
+                                className="btn btn-black-outline"
+                              >
+                                {qualChild?.qualDisplayDesc}
+                              </label>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
                   )}
+
                   {jsondata?.subjectFilterList?.length > 0 && (
                     <div className="flex flex-col gap-[16px]">
                       <div className="flex flex-col gap-[4px]">

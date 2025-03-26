@@ -19,7 +19,6 @@ const qualCode: any = {
 const KeyNames = () => {
   const sameNameObject = {
     month: "month",
-    qualification: "qualification",
     year: "year",
     location: "location",
     sort: "sort",
@@ -39,6 +38,7 @@ const KeyNames = () => {
       locationType: "location-type",
       pageNumber: "pageno",
       russellGroup: "russell-group",
+      studyLevel: "study-level",
     };
   } else {
     return {
@@ -51,6 +51,7 @@ const KeyNames = () => {
       locationType: "location_type",
       pageNumber: "page_no",
       russellGroup: "russell_group",
+      studyLevel: "qualification",
     };
   }
 };
@@ -58,7 +59,7 @@ const keyName = KeyNames();
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
     parentQualification: qualCode?.[parentQual] || "L",
-    childQualification: inputObject?.[keyName?.qualification] || "",
+    childQualification: inputObject?.[keyName?.studyLevel] || "",
     searchCategoryCode: "",
     searchSubject: inputObject?.[keyName?.subject]?.includes("+")
       ? inputObject?.[keyName?.subject]?.split("+")

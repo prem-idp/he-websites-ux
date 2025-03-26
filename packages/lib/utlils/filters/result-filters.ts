@@ -8,7 +8,6 @@ const getFilterPriority = (isQualification?: boolean) => {
     "university",
     "q",
     "subject",
-    "qualification",
     "location",
     "study-method",
     "study-mode",
@@ -77,14 +76,18 @@ const extractUrlAndSessionValues = (
       : {};
   const mergedObject = mergeTwoObjects(paramsObject, sessionObject);
 
-  if (crossSubject || key == "q") {
-    if (typeof mergedObject === "object" && mergedObject !== null) {
+  if (crossSubject || key == keyName?.keyword) {
+    if (typeof mergedObject === "object" && mergedObject) {
       delete mergedObject[keyName?.subject];
     }
   }
   if (mergedObject[key] && key != keyName?.location) {
     let valuesSet = new Set(mergedObject[key]?.split("+"));
-    if (valuesSet.has(value)) {
+    if (
+      valuesSet.has(value) &&
+      key !== keyName?.postcode &&
+      key !== keyName?.distance
+    ) {
       valuesSet.delete(value);
     } else if (key === keyName?.subject) {
       valuesSet.add(value);
