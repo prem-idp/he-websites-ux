@@ -5,8 +5,8 @@ import { form_PGS_SR_breadcrumb, get_WU_SR_PR_breadcrumb, getDisplayNameReqBody,
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
-import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
-import { cookies } from "next/headers";
+import { getSearchPayload, getSEOSearchPayload } from "@packages/shared-components/services/utils";
+import { cookies, headers } from "next/headers";
 import SchemaTagLayoutComponent from "@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent";
 interface searchProps {
   searchParams?: any;
@@ -25,13 +25,18 @@ const TopSection: React.FC<searchProps> = async ({
   params
 }) => {
   const cookieStore = await cookies();
+  const headerList = await headers();
   const qualInUrl = cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
   const ucasCookie = cookieStore?.get("ucaspoint")?.value;
-  const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl);
-  const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
+  const refererURL = headerList.get("referer");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const randomNumber = cookieStore?.get("dynamic_random_number")?.value || "";
+  const userRegion = headerList?.get("x-forwarded-for") || "";
+  const searchPayLoad = getSearchPayload(searchParams, refererURL ? filterCookieParam : "", pathname, randomNumber, userRegion);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
-  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchSEOPayload) : getPGS_SearchSEOFieldId(searchSEOPayload);
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, searchPayLoad, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
+  const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchPayLoad) : getPGS_SearchSEOFieldId(searchPayLoad);
   const customParams = {cache: "no-cache", next: {revalidate: 300}};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   const domain = getCustomDomain();
@@ -41,7 +46,7 @@ const TopSection: React.FC<searchProps> = async ({
   const getBreadcrumb = (): any[] => {
     switch(process.env.PROJECT){
       case "Whatuni": return get_WU_SR_PR_breadcrumb(searchParams, displayNameResponse, qualInUrl);
-      case "PGS": return form_PGS_SR_breadcrumb(searchSEOPayload, displayNameResponse, "/pgs/search");
+      case "PGS": return form_PGS_SR_breadcrumb(searchPayLoad, displayNameResponse, "/pgs/search");
       default: return [];
     }
   }

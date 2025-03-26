@@ -14,7 +14,7 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
-import { getSearchPayload, getSEOSearchPayload, getQualCode} from "../services/utils";
+import { getSearchPayload, getQualCode} from "../services/utils";
 import { searchResultsFetchFunction , httpBFFRequest} from "@packages/lib/server-actions/server-action";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
@@ -23,10 +23,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   const headerList = await headers();
   const refererURL = headerList.get("referer");
   console.log("referer", refererURL)
-  const pathname =
-    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  const filterCookieParam = JSON.parse(
-    cookieStore?.get("filter_param")?.value || "{}"
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}"
   );
   let searchResultsData;
   let displayNameResponse;
