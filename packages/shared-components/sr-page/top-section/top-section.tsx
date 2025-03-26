@@ -5,7 +5,7 @@ import { form_PGS_SR_breadcrumb, get_WU_SR_PR_breadcrumb, getDisplayNameReqBody,
 import { getMetaDetailsQueryForSRpage } from "@packages/lib/graphQL/search-results";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
-import { getSearchPayload, getSEOSearchPayload } from "@packages/shared-components/services/utils";
+import { getSearchPayload } from "@packages/shared-components/services/utils";
 import { cookies, headers } from "next/headers";
 import SchemaTagLayoutComponent from "@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent";
 interface searchProps {

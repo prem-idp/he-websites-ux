@@ -34,6 +34,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
     0, 
     {}
   );
+  const subDisplayName = displayNameResponse?.subjectName;
+  cookieStore.set("sujectDisplayName", Array.isArray(subDisplayName) ? subDisplayName?.join(",") : subDisplayName);
     
 
   //2) contentful API hit
