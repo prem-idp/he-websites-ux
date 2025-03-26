@@ -27,6 +27,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
     0, 
     {}
   );
+  console.log("displayNameReqBody: ", displayNameReqBody);
+  console.log("displayNameResponse: ", displayNameResponse);
     
 
   //2) contentful API hit
@@ -36,6 +38,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   // console.log("query: ", query);
+  // console.log("seoMetaFeildId: ", seoMetaFeildId);
+  // console.log("contentfulMetadata: ", contentfulMetadata);
 
   //
   const displayNames = {
@@ -75,17 +79,17 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
 
 export function getMetaOptedDisplayNames(displayNameResponse: any): MetaFilterTypesReplace{
   return {
-    courseCount: displayNameResponse?.courseCount ?? undefined,
+    courseCount: displayNameResponse?.courseCount ?? "",
     location:  displayNameResponse?.locationName ?? "UK",
-    searchSubject: displayNameResponse?.subjectName ?? undefined,
-    studylevel: displayNameResponse?.studyLevel ?? undefined,
-    studymode: displayNameResponse?.studyMode ?? undefined,
-    providerCount: displayNameResponse?.collegeCount ?? undefined,
-    university: displayNameResponse?.collegeName ?? undefined,
-    startMonth: displayNameResponse?.month ?? undefined,
-    startYear: displayNameResponse?.year ?? undefined,
-    parentSubjectDisplay: displayNameResponse?.parentSubjectName ?? undefined,
-    parentSubjectUrl: displayNameResponse?.parentSubjectTextKey ?? undefined,
+    searchSubject: displayNameResponse?.subjectName ?? "",
+    studylevel: displayNameResponse?.studyLevel ?? "",
+    studymode: displayNameResponse?.studyMode ?? "",
+    providerCount: displayNameResponse?.collegeCount ?? "",
+    university: displayNameResponse?.collegeName ?? "",
+    startMonth: displayNameResponse?.month ?? "",
+    startYear: displayNameResponse?.year ?? "",
+    parentSubjectDisplay: displayNameResponse?.parentSubjectName ?? "",
+    parentSubjectUrl: displayNameResponse?.parentSubjectTextKey ?? "",
   }
 }
 
