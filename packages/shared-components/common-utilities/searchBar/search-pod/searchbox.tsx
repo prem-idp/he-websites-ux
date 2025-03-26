@@ -152,10 +152,11 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                   {universalSearchPanel?.map((items: any, index: number) => (
                     <li
                       key={index + 1}
-                      className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${searchFormHandle?.activeTab === `tab${index + 1}`
-                        ? "bg-neutral-900 text-white"
-                        : "bg-white text-neutral-900"
-                        }`}
+                      className={`rounded-[20px] px-[12px] py-[8px] small font-semibold inline-block border border-neutral-900 hover:bg-neutral-900 hover:text-white cursor-pointer ${
+                        searchFormHandle?.activeTab === `tab${index + 1}`
+                          ? "bg-neutral-900 text-white"
+                          : "bg-white text-neutral-900"
+                      }`}
                       onClick={() => searchTabClick(`tab${index + 1}`)}
                     >
                       {items?.navTitle}
@@ -291,7 +292,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
 
                 <div className="row-start-2 md:col-span-2 mt-[16px]">
                   {searchFormHandle?.activeTab === "tab1" &&
-                    Object.keys(course_data).length > 0 ? (
+                  Object.keys(course_data).length > 0 ? (
                     <>
                       <CourseTab
                         placeholder={universalSearchPanel[0]?.navCtAlabel}
@@ -313,7 +314,7 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
                     )
                   )}
                   {searchFormHandle?.activeTab === "tab2" &&
-                    Object.keys(uni_data).length > 0 ? (
+                  Object.keys(uni_data).length > 0 ? (
                     <>
                       <UniversityTab
                         placeholder={universalSearchPanel[1]?.navCtAlabel}
@@ -368,10 +369,16 @@ const SearchBox = ({ pgs_search_data, universalSearchPanel }: any) => {
         </>
       )}
       {/* PGS SEARCH */}
-      {process.env.PROJECT == "PGS" && (
-        <PgsSearch pgs_search_data={pgs_search_data} />
-        // <p> aswdsdsd</p>
-      )}
+      <div className="max-w-container mx-auto">
+        <div className="px-[16px] py-[16px] xl:p-0 flex flex-col gap-[16px]">
+          <div className="relative z-3 md:mt-[-28px] ">
+            {process.env.PROJECT == "PGS" && (
+              <PgsSearch pgs_search_data={pgs_search_data} />
+              // <p> aswdsdsd</p>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
