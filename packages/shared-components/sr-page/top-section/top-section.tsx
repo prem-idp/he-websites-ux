@@ -25,8 +25,9 @@ const TopSection: React.FC<searchProps> = async ({
   params
 }) => {
   const cookieStore = await cookies();
-  const qualInUrl =cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
-  const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl)
+  const qualInUrl = cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
+  const ucasCookie = cookieStore?.get("ucaspoint")?.value;
+  const searchSEOPayload = getSEOSearchPayload(searchParams, qualInUrl);
   const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
@@ -59,7 +60,7 @@ const TopSection: React.FC<searchProps> = async ({
   }
   const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
   const h1Text = replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted);
-  const h2Text = searchSEOPayload?.ucasTariffRange && searchSEOPayload?.ucasTariffRange != 0 ? 
+  const h2Text = ucasCookie && ucasCookie != "0" ? 
             replaceSEOPlaceHolder(contentfulMetadata?.h2WithgradeText, metaFiltersOpted) : 
             replaceSEOPlaceHolder(contentfulMetadata?.h2Text, metaFiltersOpted);
   let schemaData: any[] = [];
