@@ -88,7 +88,7 @@ export default async function Cdpage({ params }: any) {
       makeApiCall(getApiUrl?.subjectAjax, "GET", null, queryParams, null)
   ]);
 
-  if (data.errorMessage) {
+  if (data?.errorMessage) {
     notFound();
   }
   const courseContent = courseContentExtractor(contents);
