@@ -25,6 +25,8 @@ import {
 } from "@packages/lib/server-actions/server-action";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
+import FaqClient from "../common-utilities/faq/faq-clientwrap";
+import Faqskeleton from "../skeleton/faqskeleton";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
@@ -157,7 +159,26 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-          <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]}/>
+
+          <Suspense fallback={<Faqskeleton />}>
+        <div className="faq-container bg-white">
+          <div className="max-w-container mx-auto">
+            <div className="faq-card-container flex flex-col gap-[32px] px-[16px] py-[40px] md:py-[64px] md:px-[20px] xl:px-[0]">
+              <div className="faq-header flex flex-col gap-[4px]">
+                <div className="h2 font-bold" id="fqa_heading">
+                  FAQs
+                </div>
+                <p className="font-normal small" id="fqa_subheading">
+                {faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.pageTitle}
+                </p>
+              </div>
+              <FaqClient jsondata={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]}/>
+            </div>
+          </div>
+        </div>
+      </Suspense>
+
+          
           
         </>
       )}
