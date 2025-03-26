@@ -14,6 +14,8 @@ import ExploreArticles from "@packages/shared-components/sr-page/explore-article
 import Subscribecomponents from "@packages/shared-components/common-utilities/newsletter-and-subscription/subscribe-newsletter/subscribecomponents";
 import ContentfulPreviewProvider from "@packages/lib/contentful-preview/ContentfulLivePreviewProvider";
 import { cookies, headers } from "next/headers";
+import makeApiCall from "@packages/REST-API/rest-api";
+import getApiUrl from "@packages/REST-API/api-urls";
 import {
   getSearchPayload,
 } from "../services/utils";
@@ -56,7 +58,19 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
     .join(' ')));}
   //FAQ
    const faqResponse = await graphQlFetchFunction(FAQsQuery("Search Result"));
-  
+   let pgs_search_data;
+   if (process.env.PROJECT === "PGS") {
+    console.log("insinde the noresult  fetch in pgs")
+    const pgsBody: any = {
+      affiliateId: 607022,
+      actionType: "subject",
+      keyword: "",
+      qualCode: "",
+      networkId: 2,
+    };
+    const queryParams = new URLSearchParams(pgsBody).toString();
+    pgs_search_data = await makeApiCall(getApiUrl?.subjectAjax, "GET", null, queryParams, null);
+  }
   return (
     <>
       {searchResultsData?.searchResultsList?.length > 0 &&
@@ -126,7 +140,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
         </div>
       </section>
       {searchResultsData?.searchResultsList?.length === 0 && (
-        <Findacoursecomponents h1value="Your uni search made easier" subheading={true}/>
+        <Findacoursecomponents h1value="Your uni search made easier" subheading={true} pgs_search_data={pgs_search_data}/>
       )}
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 && (
