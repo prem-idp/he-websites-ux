@@ -40,7 +40,7 @@ default:
     - npm run open-next:${PROJECT_NAME}
   artifacts:
     paths:
-      - ./
+      - ./apps/${PROJECT_NAME}/.open-next
 
 .deploy_job:
   stage: deploy
