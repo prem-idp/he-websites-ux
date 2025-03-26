@@ -89,7 +89,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   }, [sortParam]);
 
   return (
-    <>{filterState?.isFilterLoading && <FilterSpinner/>}
+    <>{filterState?.isFilterLoading && <FilterSpinner loadingFrom="sorting"/>}
     <div className="ml-auto w-fit relative">
       <div ref={divRef}
         onClick={sortClicked}

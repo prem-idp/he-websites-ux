@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-const FilterSpinner = () => {
+
+const FilterSpinner = ({loadingFrom}:any) => {
   return (
     <>
       <div className="backdrop-shadow-white fixed top-0 left-0 w-full h-full z-10"></div>
@@ -22,7 +23,7 @@ const FilterSpinner = () => {
             fill="#0086F8"
           />
         </svg>
-        <p> Filtering Result</p>
+        <p> {loadingFrom ? "Loading" :"Filtering Result"}</p>
       </div>
     </>
   );

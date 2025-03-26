@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,9 +11,7 @@ const ExploreArticles = async ({ exploreSectionProps } : any) => {
   const imageUrl = subjectComponentData?.moduleComponentsCollection?.items?.[0]?.fieldComponentsCollection?.items?.[0]?.homeMediaCollection?.items[0]?.image?.url  || cityComponentData?.bannerImageCollection?.items?.[0]?.imgUpload?.url
   return (
     <>
-      <Link
-            href={subjectComponentData?.pageUrl || cityComponentData?.urlSlug || ""}>
-      <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] lg:flex-row">
+      <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] lg:flex-row cursor-pointer" onClick={()=> window.open(subjectComponentData?.pageUrl || cityComponentData?.urlSlug,"_self")}>
         <div className="w-full md:h-[193px] lg:h-[221px] lg:w-[392px] shrink-0">
           <Image
             src={imageUrl}
@@ -51,7 +49,6 @@ const ExploreArticles = async ({ exploreSectionProps } : any) => {
           </Link>
         </div>
       </div>
-      </Link>
     </>
   );
 };

@@ -2,14 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-const Faqcomponents = async ({faqData}:any) => {
-  const faqDatas = faqData?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items
+const Faqcomponents = ({ faqData }: any) => {
+  const faqDatas =
+    faqData?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection
+      ?.items;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleAccordion = (index: number) => {
-    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
-  if(!faqDatas) return<></>
+  if (!faqDatas) return <></>;
   return (
     <div className="faq-container bg-white">
       <div className="max-w-container mx-auto">
@@ -19,52 +17,39 @@ const Faqcomponents = async ({faqData}:any) => {
             <p className="font-normal small">{faqData?.pageTitle}</p>
           </div>
           <div className="accordion flex flex-col rounded-[6px] border border-grey-200 px-[16px]">
-            {faqDatas?.map((item:any, index:any) => (
+            {faqDatas?.map((item: any, index: any) => (
               <div
                 className="accordion-item flex flex-col gap-[8px] py-[16px] border-b border-b-grey-200 last:border-b-0 cursor-pointer"
                 key={index}
               >
                 <div
                   className="accordion-header flex items-center justify-between gap-[48px] para font-semibold text-grey-600"
-                  onClick={() => toggleAccordion(index)}
+                  onClick={() => setOpenIndex((prevIndex) => (prevIndex === index ? null : index))}
                 >
                   {item.question}
-                  <motion.span
-                    animate={{ rotate: openIndex === index ? 180 : 0 }}
+                  <svg
+                    className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
+                    width="12"
+                    height="7"
+                    viewBox="0 0 12 7"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      width="12"
-                      height="7"
-                      viewBox="0 0 12 7"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M11 1L6 6L1 1"
-                        stroke="#82898F"
-                        strokeWidth="1.67"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </motion.span>
+                    <path
+                      d="M11 1L6 6L1 1"
+                      stroke="#82898F"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </div>
-                <AnimatePresence>
-                  {openIndex === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{
-                        height: 0,
-                        opacity: 0,
-                        transition: { duration: 0.25, ease: "easeInOut" },
-                      }}
-                      className={`accordion-body`}
-                    >
-                      <div className="mt-[16px]">{item.answer}</div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div
+                  className={`transition-all duration-300 overflow-hidden 
+              ${openIndex === index ? "max-h-screen" : "max-h-0"}`}
+                >
+                  <div className="mt-[16px]">{item.answer}</div>
+                </div>
               </div>
             ))}
           </div>
