@@ -29,6 +29,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (slugs.length > 1) {
+    console.log(request,"request1234");
     response.cookies.set("pathnamecookies", pathname);
     response.cookies.set("searchParamscookies", searchParams.toString());
 
