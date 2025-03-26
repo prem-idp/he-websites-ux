@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-const Faqcomponents = async ({ faqData }: any) => {
+const Faqcomponents = ({ faqData }: any) => {
   const faqDatas =
     faqData?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection
       ?.items;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggleAccordion = (index: number) => {
+  const handleAccordion = (index: number,event:React.FormEvent) => {
+    event.preventDefault()
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
   if (!faqDatas) return <></>;
@@ -28,7 +29,7 @@ const Faqcomponents = async ({ faqData }: any) => {
               >
                 <div
                   className="accordion-header flex items-center justify-between gap-[48px] para font-semibold text-grey-600"
-                  onClick={() => toggleAccordion(index)}
+                  onClick={(event) => handleAccordion(index,event)}
                 >
                   {item.question}
                   <svg
