@@ -7,11 +7,6 @@ const Faqcomponents = ({ faqData }: any) => {
     faqData?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection
       ?.items;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const handleAccordion = (index: number,event:React.FormEvent) => {
-    event.preventDefault()
-    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
   if (!faqDatas) return <></>;
   return (
     <div className="faq-container bg-white">
@@ -29,7 +24,7 @@ const Faqcomponents = ({ faqData }: any) => {
               >
                 <div
                   className="accordion-header flex items-center justify-between gap-[48px] para font-semibold text-grey-600"
-                  onClick={(event) => handleAccordion(index,event)}
+                  onClick={() => setOpenIndex((prevIndex) => (prevIndex === index ? null : index))}
                 >
                   {item.question}
                   <svg
