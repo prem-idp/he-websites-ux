@@ -37,11 +37,7 @@ const Video = ({featuredData}:any) => {
         onClick={(event) => handleVideoClick(event)} 
         onPlay={(event)=>onClickPlay(event)}
         onPause={(event)=>onClickPause(event)}
-        poster={
-          featuredData?.thumbnailPath
-            ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.thumbnailPath}`
-            : "/static/assets/images/search-results/thumbnail.png"
-        }
+        poster={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.thumbnailPath}`}
       >
         <source
           src={

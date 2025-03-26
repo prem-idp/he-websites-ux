@@ -83,10 +83,7 @@ const AdviceCourseCard = ({
               {data?.bannerImageCollection?.items[0]?.imgUpload?.url && (
                 <Image
                   id={`advice_carosoul_image${index}${data?.sys?.id}`}
-                  src={
-                    data?.bannerImageCollection?.items[0]?.imgUpload?.url ||
-                    `${process.env.SUBDOMAIN}/static/assets/images/article_image1.jpg`
-                  }
+                  src={data?.bannerImageCollection?.items[0]?.imgUpload?.url}
                   width="392"
                   height="221"
                   className="block w-full h-auto min-h-[185px]"

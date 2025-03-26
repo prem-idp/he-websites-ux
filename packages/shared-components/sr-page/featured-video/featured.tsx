@@ -111,11 +111,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
             <>
               <div className="w-full relative rounded-[8px] overflow-hidden flex justify-center">
                 <Image
-                  src={
-                    featuredData?.mediaPath
-                      ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.mediaPath}`
-                      : "/static/assets/images/search-results/thumbnail.png"
-                  }
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.mediaPath}`}
                   alt="Image"
                   width={391}
                   height={200}

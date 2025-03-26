@@ -287,11 +287,7 @@ queryString ? `&${queryString}` : ''
             </div>
             {data?.collegeMedia?.ipCollegeImage && (
               <Image
-                src={
-                  data?.collegeMedia?.ipCollegeImage
-                   ? `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`
-                  : "/static/assets/images/search-results/university.jpg"
-                }
+                src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${data?.collegeMedia?.ipCollegeImage}`}
                 alt="University"
                 width={500}
                 height={376}

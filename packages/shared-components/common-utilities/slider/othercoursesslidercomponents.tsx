@@ -6,7 +6,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { FreeMode, Navigation, Pagination } from 'swiper/modules';
-import Scholarshipunicard from '../cards/scholarshipuniversities/scholarshipunicard';
 import Othercoursesmaylikecard from '../cards/other-courses-you-may-like/othercoursesmaylikecard';
 const Othercoursesslidercomponents = ({ othercourseData }: any) => {
   console.log(othercourseData)
