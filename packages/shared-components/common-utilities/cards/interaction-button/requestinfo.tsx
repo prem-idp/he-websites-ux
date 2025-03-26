@@ -38,19 +38,24 @@ const RequestInfo = ({ enquiryProps }: any) => {
         return
       }
       if(response?.requestInfoEmail){
-      let url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}`;
-       if(enquiryProps?.pageName === "browsemoneypageresults"){
-        if(enquiryProps?.subOrderItemId)
-           url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId || "0"}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
-        else
-           url = getNonAdvertUrl();
-      }
-      else if(enquiryProps?.pageName === "coursesearchresult"){
-        if(enquiryProps?.subOrderItemId)
-           url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
-        else
-           url = getNonAdvertUrl();
-      }
+        let url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}`;
+       if(enquiryProps?.subOrderItemId){
+        if(process.env.PROJECT === "PGS"){
+          url = `/pgs/pgs_interactive.get_request_info_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}${enquiryProps?.orderItemId ? `&p_order_item_id=${enquiryProps?.orderItemId}`:""}`;
+        }else{
+          if(enquiryProps?.pageName === "browsemoneypageresults"){
+            url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId || "0"}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
+          } else if(enquiryProps?.pageName === "coursesearchresult"){
+            url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
+          }
+        }
+       }else{
+        if(process.env.PROJECT === "PGS"){
+          url = `/pgs/pgs_user.signup_frm_lbx_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}&p_from_type=pdf`;
+        }else{
+          url = getNonAdvertUrl();
+        }
+       }
       console.log("URL Printing", url);
       router.push(url);
       }
