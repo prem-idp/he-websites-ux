@@ -18,17 +18,18 @@ export function getSearchPayload(
   userRegion: any
 ) {
 const currentYear = new Date().getFullYear();
-let subjectArray="";
+let subjectArray="";let locationArray;
 if(searchParams?.subject)  
    subjectArray=searchParams?.subject?.includes(" ") ? searchParams?.subject?.split(" ") :  [searchParams?.subject];
 subjectArray = filterCookieParam?.subject ? subjectArray.concat(filterCookieParam?.subject?.includes("+") ?filterCookieParam?.subject?.split("+") : filterCookieParam?.subject) : subjectArray;
 if(searchParams?.course)
   subjectArray= searchParams?.course?.includes(" ") ? searchParams?.course?.split(" ") : [searchParams?.course]
-const locationArray = searchParams?.location?.includes(" ")
+ locationArray = searchParams?.location?.includes(" ")
 ? searchParams?.location?.split(" ")
 : searchParams?.location
   ? [searchParams?.location]
   : "" 
+  locationArray = filterCookieParam?.location ? locationArray.concat(filterCookieParam?.location?.includes("+") ?filterCookieParam?.location?.split("+") : filterCookieParam?.location) : locationArray;
 const locationType= searchParams?.["location-type"] || filterCookieParam?.["location-type"]
 const russellGroup=searchParams?.["russell-group"] || filterCookieParam?.["russell-group"]
 const score = searchParams?.score && !searchParams?.score?.includes(",") || filterCookieParam?.score && !filterCookieParam?.score?.includes(",") ? "0," + (searchParams?.score || filterCookieParam?.score) : searchParams?.score
@@ -92,7 +93,7 @@ export function getSEOSearchPayload(
     jacsCode: searchParams?.jacs || undefined,
     location: locationArray,
     studyMode: searchParams?.study_mode || searchParams?.["study-mode"] || undefined,
-    studyMethod: searchParams?.["study_mode"] || undefined,
+    studyMethod: searchParams?.["study-method"] || searchParams?.["study_method"] || undefined,
     collegeId: undefined,
     pageNo:  searchParams?.pageno || searchParams?.page_no || undefined,
     locationType: searchParams?.["location-type"] || undefined,

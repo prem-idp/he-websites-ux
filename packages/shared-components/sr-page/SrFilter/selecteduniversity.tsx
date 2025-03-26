@@ -14,6 +14,8 @@ const SelectedUniversity = React.memo(
     slug,
     formUrl,
     appendSearchParams,
+    prepopulateFilter,
+    setPrepopulateFilter,
   }: any) => {
     const searchParams = useSearchParams();
     const keyName = KeyNames();
@@ -71,6 +73,8 @@ const SelectedUniversity = React.memo(
                     formUrl={formUrl}
                     appendSearchParams={appendSearchParams}
                     item={item}
+                    prepopulateFilter={prepopulateFilter}
+                    setPrepopulateFilter={setPrepopulateFilter}
                   />
                 ))
               ) : (

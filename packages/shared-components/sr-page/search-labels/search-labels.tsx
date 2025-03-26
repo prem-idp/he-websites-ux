@@ -55,41 +55,51 @@ const SearchLabelsContent =  ({searchPayLoad}:any) => {
   setFilterList(Array.from(new Set(filters)));
 }
 getSearchLabels();
-
 }, [searchPayLoad]);
 
   const openFilterFunction = () => {
     emitter.emit("isfilterOpen", "subject");
   };
   const removeFilter = (filterKey: string,value:any) => {
+    const regex = /[()/]/g;
     const currentParams = new URLSearchParams(window.location.search);  
     const filterCookie = JSON.parse(decodeURIComponent(
-      document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
+      sessionStorage.getItem("filter_param") || '{}'
     ));  
     // Remove the specific filter from URL params
     if(currentParams.has(filterKey)) {
       if(currentParams.get(filterKey)?.includes(" ") && (filterKey === "subject" || filterKey === "course" || filterKey === "location")) {
-        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== (value?.includes(" ") ? value?.replaceAll(" ","-")?.toLowerCase() : value?.toLowerCase()));
+        const updatedSubjects = currentParams.get(filterKey)?.split(" ")?.filter(val => val !== (value?.replaceAll(regex,"")?.replaceAll?.(" ","-")?.replaceAll?.("--","-")?.toLowerCase()));
         const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
         updatedSubParam && currentParams.set(filterKey, updatedSubParam || "");
-      } else {
-        
+      } else {       
        currentParams.delete(filterKey); 
       } 
     } 
     // Remove from cookies if needed
-    if (document.cookie.includes('filter_param')) {
+    if (sessionStorage.getItem("filter_param")) {
       if (filterCookie[filterKey]) {
-        delete filterCookie[filterKey];
-        document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+        if(filterKey === "subject" || filterKey === "location") {
+          const updatedSubjects = filterCookie[filterKey]?.split("+")?.filter((val:any) => val !== (value?.replaceAll(regex,"")?.replaceAll?.(" ","-")?.replaceAll?.("--","-")?.toLowerCase()));
+          const updatedSubParam = updatedSubjects && updatedSubjects?.length > 0 ? updatedSubjects?.join('+') : undefined;
+          filterCookie[filterKey] = updatedSubParam || delete filterCookie[filterKey];
+        }else {          
+         delete filterCookie[filterKey];
+        }
+        if(currentParams.get(filterKey)?.includes(" ") && (currentParams.get(filterKey) ?? "").split(" ").length < 4) {
+          currentParams?.set(filterKey,currentParams?.get(filterKey)+"+" +filterCookie?.[filterKey] || "");
+          delete filterCookie?.[filterKey];}
+          document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+          sessionStorage?.setItem("filter_param", JSON.stringify(filterCookie));
       }
-         // Check if URL has fewer than 4 params
+      // Check if URL has fewer than 4 params
       if (currentParams?.toString()?.split('&')?.length < 4 && !(currentParams.has("subject") && currentParams?.toString()?.split("+").length === 4)) {
       for (const [key] of Object.entries(filterCookie)) {
         if (!currentParams.has(key)) {
           currentParams.set(key, filterCookie[key]);
           delete filterCookie[key];
           document.cookie = `filter_param=${encodeURIComponent(JSON.stringify(filterCookie)) || "{}"} ; path=/`;
+          sessionStorage?.setItem("filter_param", JSON.stringify(filterCookie));
           break;
         }
       }
@@ -97,7 +107,7 @@ getSearchLabels();
     }
     if(currentParams.has("pageno")) currentParams.delete("pageno")
     if(currentParams.has("page_no")) currentParams.delete("page_no")
-    const updatedUrl = `${window.location.pathname}${
+    const updatedUrl = `${filterKey === "university" ? window.location.pathname?.replace?.("csearch","search") :  window.location.pathname}${
       currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;
    window.location.href = updatedUrl

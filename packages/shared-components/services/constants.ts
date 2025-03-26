@@ -1,7 +1,7 @@
 export const wuSortingFilter = {
     "Recommended" : "r",
     "Distance from home" : "dista",
-    "Employment rate" : "empa",
+    "Employment rate" : "empd",
     "Entry reqs - Highest" : "entd",
     "Entry reqs - lowest" :"enta",
     //"Student Ranking" :"r-or",
@@ -22,7 +22,7 @@ export const wuSortingFilter = {
 export const pgsSortingFilter = {
     "Recommended (CPE logic)" : "r",
     "Distance from home" : "dista",
-    "Employment rate" : "empa",
+    "Employment rate" : "empd",
     "WUSCA Postgraduate ranking" : "wpg",
     "Price (low to high)" : "price_asc"
 };

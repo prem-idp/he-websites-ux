@@ -128,7 +128,7 @@ const SearchFilterButtons = (frompage?:any) => {
             Filter ({filterCount})
           </button>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            {process.env.PROJECT === "Whatuni" && <button type="button"
+            {process.env.PROJECT === "Whatuni" || (searchParams?.get("qualification") && process.env.PROJECT === "PGS") && <button type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >

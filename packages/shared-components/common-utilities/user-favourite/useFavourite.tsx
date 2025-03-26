@@ -37,13 +37,19 @@ const useFavourite = () => {
         if (!globalFavourites?.length && !isTriggered)
             getFavouritesList();
 
-        emitter.on('setFavourite', () => {
+        const setFavourite = () => {
             setFavourites(() => [...globalFavourites]);
-        });
+        };
 
-        emitter.on('validateFavourites', () => {
-            getFavouritesList();
-        });
+        emitter.on('setFavourite', setFavourite);
+
+        // emitter.on('validateFavourites', () => {
+        //     getFavouritesList();
+        // });
+
+        return () => {
+            emitter.removeListener('setFavourite', setFavourite);
+        }
     }, []);
     return { favourites, setFavourites };
 };

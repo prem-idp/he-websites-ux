@@ -18,16 +18,11 @@ import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 import {
   getSearchPayload,
-  getSEOSearchPayload,
-  getQualCode,
 } from "../services/utils";
 import {
   searchResultsFetchFunction,
-  httpBFFRequest,
-  graphQlFetchFunction,
-  getUserRegionId,
+  graphQlFetchFunction
 } from "@packages/lib/server-actions/server-action";
-import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
 const SearchResultComponent = async ({ searchparams, params }: any) => {
@@ -139,7 +134,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             </>
           ) : (
             <>
-              <SrPageNoResults />
+              <SrPageNoResults/>
             </>
           )}
         </div>
@@ -150,7 +145,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
       {searchResultsData?.searchResultsList?.length > 0 &&
       searchResultsData?.status != 404 && (
         <>
-        {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) && process.env.PROJECT === "Whatuni" &&
+        {(subjectGuideResponse?.data?.appPageComponentCollection?.items?.length > 0 || cityGuideResponse?.data?.articleCollection?.items?.length > 0) &&
           <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
             <div className="max-w-container mx-auto">
               <div className="h1 pt-[40px]">Explore more about {searchparams?.subject}</div>
@@ -162,7 +157,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-          {/* <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]?.faqEntriesCollection?.items}/> */}
+          <Faqcomponents faqData={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]}/>
           
         </>
       )}

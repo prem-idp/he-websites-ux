@@ -25,15 +25,16 @@ const KeyNames = () => {
     sort: "sort",
     university: "university",
     postcode: "postcode",
+    distance: "distance",
     score: "score",
   };
   if (process.env.PROJECT === "Whatuni") {
     return {
       ...sameNameObject,
       subject: "subject",
+      keyword: "q",
       studyMethod: "study-method",
       studyMode: "study-mode",
-      distanceFromHome: "distance-from-home",
       universityGroup: "university-group",
       locationType: "location-type",
       pageNumber: "pageno",
@@ -43,9 +44,9 @@ const KeyNames = () => {
     return {
       ...sameNameObject,
       subject: "course",
+      keyword: "keyword",
       studyMethod: "study_method",
       studyMode: "study_mode",
-      distanceFromHome: "distance_from_home",
       universityGroup: "university_group",
       locationType: "location_type",
       pageNumber: "page_no",
@@ -62,7 +63,7 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     searchSubject: inputObject?.[keyName?.subject]?.includes("+")
       ? inputObject?.[keyName?.subject]?.split("+")
       : inputObject?.[keyName?.subject]?.split(" ") || "",
-    searchKeyword: inputObject?.q || "",
+    searchKeyword: inputObject?.[keyName?.keyword] || "",
     jacsCode: inputObject?.jacs || "",
     location: inputObject?.[keyName?.location]?.includes("+")
       ? inputObject?.[keyName?.location]?.split("+")
@@ -76,12 +77,15 @@ const filterbodyJson = (inputObject: any, parentQual: string) => {
     intakeMonth: inputObject?.month?.toUpperCase() || "",
     sortBy: inputObject[keyName?.sort] || "",
     userCoordinates: "",
-    distance: inputObject[keyName?.distanceFromHome] || "",
+    distance:
+      inputObject[keyName?.distance] === "any"
+        ? ""
+        : inputObject[keyName?.distance] || "",
     ucasTariffRange: inputObject[keyName?.score] || "",
     userRegionArray: "",
     dynamicRandomNumber: "",
     universityGroup: inputObject[keyName?.russellGroup]?.split(" ") || "",
-    postCode: inputObject[keyName?.postcode] || "",
+    postCode: inputObject[keyName?.postcode]?.replaceAll("+", " ") || "",
   };
 };
 export { filterbodyJson, qualCode, KeyNames };

@@ -4,25 +4,33 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
+import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
 const UniversityCheckBox = React.memo(
-  ({ slug, formUrl, appendSearchParams, item }: any) => {
+  ({
+    slug,
+    formUrl,
+    appendSearchParams,
+    item,
+    prepopulateFilter,
+    setPrepopulateFilter,
+  }: any) => {
     const searchparams = useSearchParams();
     const keyName = KeyNames();
     const [isUniSelected, setIsUniSelected] = useState(false);
-    //const [pageCategory, setPageCategory] = useState("csearch");
+    // const [urlUniveristy, setUrlUniversity] = useState("");
     useEffect(() => {
+      // setUrlUniversity(
+      //   extractUrlAndSessionValues(searchparams, "", "")?.university
+      // );
       const uni = searchparams
         ?.get(keyName?.university)
         ?.includes(item?.collegeTextKey);
       if (uni) {
-        //setPageCategory("search");
         setIsUniSelected(true);
       } else {
-        //setPageCategory("csearch");
         setIsUniSelected(false);
       }
     }, [searchparams]);
-
     return (
       <div className="custom-radio">
         <Link
@@ -44,13 +52,14 @@ const UniversityCheckBox = React.memo(
           type="radio"
           id={item?.collegeNameDisplay}
           value={item?.collegeNameDisplay}
-          checked={
-            searchparams?.get(keyName?.university) === item?.collegeTextKey
-          }
+          checked={prepopulateFilter?.university === item?.collegeTextKey}
           name="university"
-          onChange={(event) => {
-            console.log("triggered", event.target);
+          onChange={() => {
             appendSearchParams(keyName?.university, item?.collegeTextKey, true);
+            setPrepopulateFilter((prev: any) => ({
+              ...prev,
+              university: prev?.university ? "" : item?.collegeTextKey,
+            }));
             setIsUniSelected(!isUniSelected);
           }}
         />
