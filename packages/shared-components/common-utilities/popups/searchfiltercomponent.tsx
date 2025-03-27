@@ -113,56 +113,69 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     []
   );
   useEffect(() => {
-    setPrepopulateFilter({
-      studyMethod: filterState?.filterOrder?.[keyName?.studyMethod] || "",
-      studyMode: filterState?.filterOrder?.[keyName?.studyMode] || "",
-      year: filterState?.filterOrder?.[keyName?.year] || "",
-      month: filterState?.filterOrder?.[keyName?.month] || "",
-      location: filterState?.filterOrder?.[keyName?.location] || "",
-      russellGroup: filterState?.filterOrder?.[keyName?.russellGroup] || "",
-      locationType: filterState?.filterOrder?.[keyName?.locationType] || "",
-      university: filterState?.filterOrder?.[keyName?.university] || "",
-      qualication: filterState?.filterOrder?.[keyName?.studyLevel] || "",
-      studyLevel: pathname?.split("/")[1] || "",
-    });
-    setslug(path);
-    setIsIndexed(isSingleSelection(searchParams));
-    if (pathname) {
-      setslug(pathname);
-    }
-    const parentSubjectName = getParentSubject(searchParams, jsondata);
-    if (parentSubjectName) {
-      subjectClicked(parentSubjectName, true);
-    } else {
-      const subject = searchParams?.get(keyName?.subject)?.split(" ")[0];
-      const isUrlSubjectParent = jsondata?.subjectFilterList?.find(
-        (subjects: any) => subjects?.subjectTextKey == subject
-      );
-      if (isUrlSubjectParent) {
-        subjectClicked(isUrlSubjectParent?.categoryDesc, true);
-      }
-    }
+    const handleRefreshFilters = () => {
+      setPrepopulateFilter({
+        studyMethod: filterState?.filterOrder?.[keyName?.studyMethod] || "",
+        studyMode: filterState?.filterOrder?.[keyName?.studyMode] || "",
+        year: filterState?.filterOrder?.[keyName?.year] || "",
+        month: filterState?.filterOrder?.[keyName?.month] || "",
+        location: filterState?.filterOrder?.[keyName?.location] || "",
+        russellGroup: filterState?.filterOrder?.[keyName?.russellGroup] || "",
+        locationType: filterState?.filterOrder?.[keyName?.locationType] || "",
+        university: filterState?.filterOrder?.[keyName?.university] || "",
+        qualication: filterState?.filterOrder?.[keyName?.studyLevel] || "",
+        studyLevel: pathname?.split("/")[1] || "",
+      });
 
-    const isUniversityAdded = searchParams?.get(keyName?.university) || null;
-    if (isUniversityAdded) {
-      const sortedUni = universitiesList?.find((uni: any) =>
-        uni?.sortingValue?.includes(isUniversityAdded.charAt(0)?.toUpperCase())
-      );
-      if (sortedUni) {
-        setUniversityState((prev: any) => ({
-          ...prev,
-          isUniversityOpen: true,
-        }));
-        universityClicked(sortedUni?.displayHeading, sortedUni?.id, true);
+      setslug(path);
+      setIsIndexed(isSingleSelection(searchParams));
+
+      if (pathname) {
+        setslug(pathname);
       }
-    }
-    const selectedLocation = determineLocationType(
-      jsondata?.regionList,
-      jsondata?.cityList,
-      searchParams
-    );
-    setSelectedLocationType(selectedLocation);
-    setUrlAndSession(extractUrlAndSessionValues(searchParams, "", ""));
+
+      const parentSubjectName = getParentSubject(searchParams, jsondata);
+      if (parentSubjectName) {
+        subjectClicked(parentSubjectName, true);
+      } else {
+        const subject = searchParams?.get(keyName?.subject)?.split(" ")[0];
+        const isUrlSubjectParent = jsondata?.subjectFilterList?.find(
+          (subjects: any) => subjects?.subjectTextKey == subject
+        );
+        if (isUrlSubjectParent) {
+          subjectClicked(isUrlSubjectParent?.categoryDesc, true);
+        }
+      }
+
+      const isUniversityAdded = searchParams?.get(keyName?.university) || null;
+      if (isUniversityAdded) {
+        const sortedUni = universitiesList?.find((uni: any) =>
+          uni?.sortingValue?.includes(
+            isUniversityAdded.charAt(0)?.toUpperCase()
+          )
+        );
+        if (sortedUni) {
+          setUniversityState((prev: any) => ({
+            ...prev,
+            isUniversityOpen: true,
+          }));
+          universityClicked(sortedUni?.displayHeading, sortedUni?.id, true);
+        }
+      }
+
+      const selectedLocation = determineLocationType(
+        jsondata?.regionList,
+        jsondata?.cityList,
+        searchParams
+      );
+      setSelectedLocationType(selectedLocation);
+      setUrlAndSession(extractUrlAndSessionValues(searchParams, "", ""));
+    };
+    handleRefreshFilters();
+    emitter.on("refreshFilters", handleRefreshFilters);
+    return () => {
+      emitter.off("refreshFilters", handleRefreshFilters);
+    };
   }, [searchParams, routerEnd]);
 
   useEffect(() => {
