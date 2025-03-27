@@ -1,8 +1,5 @@
 import { getSearchPayload } from "@packages/shared-components/services/utils";
-import {
-  graphQlFetchFunction,
-  httpBFFRequest,
-} from "../server-actions/server-action";
+import {graphQlFetchFunction, httpBFFRequest} from "../server-actions/server-action";
 import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
 import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
@@ -10,7 +7,6 @@ import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndp
 import { cookies, headers } from "next/headers";
 
 export async function getSearchPageMetaDetailsFromContentful(searchParams: any, qualInUrl: string, pathName: string) {
-  
   //Initializing and Assigning values
 
   const cookieStore = await cookies();
@@ -34,8 +30,6 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
     0, 
     {}
   );
-  const subDisplayName = displayNameResponse?.subjectName;
-  cookieStore.set("sujectDisplayName", Array.isArray(subDisplayName) ? subDisplayName?.join(",") : subDisplayName);
     
 
   //2) contentful API hit
