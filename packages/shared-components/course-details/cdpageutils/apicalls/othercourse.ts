@@ -25,12 +25,12 @@ export const otherRecommendedCourse = async (
         );
 
         if (!response.ok) {
-            console.error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error("Error fetching recommended courses:", error);
+        throw new Error("Error fetching recommended courses: " + error);
         // throw error; // Re-throw to handle it at the caller level if needed
     }
 };

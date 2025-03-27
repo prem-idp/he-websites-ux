@@ -62,11 +62,6 @@ export default async function Cdpage({ params }: any) {
     searchparams.append("affiliateId", String(process.env.AFFILATE_ID));
   }
 
-  if (prams_slug?.uni_id) {
-    searchparams.append("collegeId", String(prams_slug.uni_id));
-  }
-
-
   const url = `${process.env.NEXT_PUBLIC_DOMSERVICE_API_DOMAIN}/dom-search/v1/search/getCourseDetails?${searchparams.toString()}`;
 
   const pgsbody:any = {
@@ -87,8 +82,14 @@ export default async function Cdpage({ params }: any) {
       .catch(err => ({ error: err })),
       makeApiCall(getApiUrl?.subjectAjax, "GET", null, queryParams, null)
   ]);
-
-  if (data.errorMessage) {
+  console.log("----------------------------------------------------------------------")
+  console.log(data,"data")
+  console.log("----------------------------------------------------------------------")
+  console.log(contents,"contents")
+  console.log("----------------------------------------------------------------------")
+  console.log(othercourseData,"othercourseData")
+  console.log("----------------------------------------------------------------------")
+  if (!data?.courseInfo?.collegeId && !data?.courseInfo?.courseId) {
     notFound();
   }
   const courseContent = courseContentExtractor(contents);
@@ -110,11 +111,9 @@ export default async function Cdpage({ params }: any) {
       {data?.similarCourses?.courses?.length > 0 &&
         <SimilarCourseComponent data={data} />
       }
-      {process.env.PROJECT === "Whatuni" &&
         <LazyLoadWrapper>
           <Findacoursecomponents h1value="Find a course" subheading={false} pgs_search_data={pgs_search_data}/>
         </LazyLoadWrapper>
-      }
     </>
   )
 }
