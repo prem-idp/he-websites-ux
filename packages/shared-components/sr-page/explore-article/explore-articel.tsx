@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ExploreArticles = async ({ exploreSectionProps } : any) => {
+const ExploreArticles =  ({ exploreSectionProps } : any) => {
   const subjectComponentData = exploreSectionProps?.subjectComponentData
   const cityComponentData = exploreSectionProps?.cityComponentData
   const richContentTitle = subjectComponentData?.moduleComponentsCollection?.items?.[0]?.fieldComponentsCollection?.items?.[0]?.richContentTitle || cityComponentData?.pageTitle

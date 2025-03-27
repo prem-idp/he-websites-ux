@@ -161,11 +161,9 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                         id={String(value)}
                         name="Wusca categories"
                         checked={
-                          value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
-                            ? true
-                            : value === "r" && !sortParam?.param?.sort && !filterCookieParam?.sort
-                              ? true
-                              : false
+                          value === sortParam?.param?.sort ||
+                          value === sortValue ||
+                          value === filterCookieParam?.sort
                         }
                       />
                       <label htmlFor={label} className="flex items-center">
