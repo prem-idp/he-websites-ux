@@ -10,14 +10,19 @@ import ContentfulPreviewProvider from "@packages/lib/contentful-preview/Contentf
 import Paginations from "@packages/shared-components/common-utilities/paginations/paginations";
 import PrPageTopSection from "./PrTopSection/Pr-top-section";
 import SrPageNoResults from "../sr-page/no-results/srpage-noresult";
-import { getSearchPayload, getSEOSearchPayload, getQualCode } from "../services/utils";
+import { getSearchPayload, getQualCode } from "../services/utils";
 import { headers } from "next/headers";
 import { v4 as uuidv4 } from 'uuid';
 import { getCustomDomain } from "@packages/lib/utlils/common-function-server";
-import { get_WU_SR_PR_breadcrumb, getDisplayNameReqBody } from "@packages/lib/utlils/resultsPageActions";
+import { get_WU_SR_PR_breadcrumb } from "@packages/lib/utlils/resultsPageActions";
 import { SRDisplayNameEndPt } from "../services/bffEndpoitConstant";
 import { httpBFFRequest } from "@packages/lib/server-actions/server-action";
 import SchemaTagLayoutComponent from "../common-utilities/schematag-layout/SchemaTagLayoutComponent";
+import SortingFilterGen from "../sr-page/sorting-filter/sortingFilter";
+import {
+  prSortingFilter,
+  wuscaCategories
+} from "@packages/shared-components/services/constants";
 
 interface Payload {
   parentQualification: string;
@@ -106,17 +111,15 @@ const PrPageComponent = async ({ searchparams }: any) => {
   const domain = getCustomDomain();
   const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
   const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
-  const searchSEOPayload = getSEOSearchPayload(searchparams, pathname)
-  const displayNameReqBody = getDisplayNameReqBody(searchSEOPayload);
-  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
-  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, displayNameReqBody, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
 
   const payloads = await getSearchPayload(searchparams,
     filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
   );
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, payloads, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
 
-  const referer = headerList.get("referer");
+  const refererURL = headerList.get("referer");
   const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data, pathname); // transform Provider List Data results
   const breadcrumbJson: any[] = get_WU_SR_PR_breadcrumb(searchparams, displayNameResponse, pathname);
@@ -155,14 +158,28 @@ const PrPageComponent = async ({ searchparams }: any) => {
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (
-        <ProviderResultsCard searchResultlist={providerList}>
-          <Paginations
-            totalPages={Math.ceil(data?.totalCourseCount / 9)}
-            initialPage={searchparams?.pageNo || 1}
-            searchParams={{ param: searchparams, currentPage: referer }}
-          />
-        </ProviderResultsCard>
-      )}
+        <>
+          <ProviderResultsCard searchResultlist={providerList} sortingFilter={
+            <SortingFilterGen
+              sortParam={{
+                param: searchparams,
+                filterCookieParam: refererURL ? filterCookieParam : "",
+              }}
+              filters={{
+                "Sort by": prSortingFilter,
+              }}
+              projectName='${process.env.PROJECT}'
+            />
+          }>
+            <Paginations
+              totalPages={Math.ceil(data?.totalCourseCount / 9)}
+              initialPage={searchparams?.pageNo || 1}
+              searchParams={{ param: searchparams, currentPage: refererURL }}
+            />
+          </ProviderResultsCard>
+        </>
+      )
+      }
 
       <ContentfulPreviewProvider
         locale="en-GB"

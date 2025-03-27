@@ -11,9 +11,11 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
 import Link from "next/link";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
+import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";
 
 interface ProviderResultsCardProps {
   searchResultlist: any[]; // Adjust type as needed
+  sortingFilter?: any
   children?: any
 }
 
@@ -25,7 +27,7 @@ interface Favourite {
   choice_position?: number | null;
 }
 
-const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], children }) => {
+const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultlist = [], sortingFilter, children }) => {
 
   const searchParams = useSearchParams();
   const selectedSubject = searchParams?.has("subject") ? (searchParams?.get("subject")?.includes(' ') ? searchParams?.get("subject")?.split(' ')[0] : searchParams?.get("subject")) : "";
@@ -213,13 +215,15 @@ const ProviderResultsCard: React.FC<ProviderResultsCardProps> = ({ searchResultl
   return (
     <>
       {/* Provider Result card list  */}
+
       <section className="bg-grey-50">
+
         <div className="max-w-container px-[6px] md:px-[24px] xl:px-[0] mx-auto">
+          {sortingFilter}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-[24px] px-[10px] gap-[20px]">
             {providerCard}
           </div>
           <div className="py-[40px]">
-            {/* <Paginations /> */}
             {children}
           </div>
         </div>
