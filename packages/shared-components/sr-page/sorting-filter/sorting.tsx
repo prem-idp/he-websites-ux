@@ -22,7 +22,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
   const router = useRouter();
   const filterCookieParam = sortParam?.filterCookieParam || {}
   const [isSortClicked, setIsSortClicked] = useState(false);
- const [filterState, setFilterState] = useState({
+  const [filterState, setFilterState] = useState({
     isFilterLoading: false,
   });
   const [sortValue, setSortValue] = useState(null);
@@ -52,6 +52,7 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
         sort:  value && value === "r" ? "" : value
       };  
       setNewCookie(`filter_param=${JSON.stringify(updatedFilterParams)}; path=/; secure`);    
+      sessionStorage.setItem("filter_param", JSON.stringify(updatedFilterParams))
     } else {
       if(value && value !== "r") {
       urlParams.set("sort", value && value === "r" ? "" : value);
@@ -160,11 +161,9 @@ const SortingFilter: React.FC<SortingProps> = ({ sortParam }) => {
                         id={String(value)}
                         name="Wusca categories"
                         checked={
-                          value === sortParam?.param?.sort || value === sortValue || value === filterCookieParam?.sort
-                            ? true
-                            : value === "r" && !sortParam?.param?.sort && !filterCookieParam?.sort
-                              ? true
-                              : false
+                          value === sortParam?.param?.sort ||
+                          value === sortValue ||
+                          value === filterCookieParam?.sort
                         }
                       />
                       <label htmlFor={label} className="flex items-center">

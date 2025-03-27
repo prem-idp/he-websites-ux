@@ -12,12 +12,11 @@ const getUserFavourites = async (): Promise<any> => {
         const headers: any = {
           "Content-Type": "application/json",
           "x-correlation-id": uuidv4(),
-          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
-          'host':'cn8r15hbz4.execute-api.eu-west-2.amazonaws.com'
+          "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`
+          //"host":`${process.env.NEXT_PUBLIC_BFF_HOST_KEY}`
         };
         let apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/hewebsites/v1/favourites/get-favourite`;
-        if (session.tokens?.idToken) {
-          
+        if (session.tokens?.idToken) {         
           headers.Authorization = `${session.tokens.idToken}`;
         }
         const respone = await fetch(apiUrl, {
