@@ -14,7 +14,6 @@ const SubjectCheckBox = React.memo(
     const keyName = KeyNames();
     return (
       <div>
-        {/* {isIndexed && ( */}
         <Link
           id={keyName?.subject + item?.subjectTextKey}
           href={{
@@ -27,7 +26,6 @@ const SubjectCheckBox = React.memo(
             query: formUrl(keyName?.subject, item?.subjectTextKey),
           }}
         ></Link>
-        {/* )} */}
 
         <div className="form_check relative">
           <div className={`flex items-start gap-[8px] form_check`}>
@@ -35,7 +33,7 @@ const SubjectCheckBox = React.memo(
               <input
                 type="checkbox"
                 id={item?.categoryDesc}
-                checked={isChecked || false}
+                checked={state || false}
                 onChange={() => {
                   appendSearchParams(keyName?.subject, item?.subjectTextKey);
                   setIsChecked(!isChecked);

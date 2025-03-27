@@ -17,11 +17,7 @@ const UniversityCheckBox = React.memo(
     const searchparams = useSearchParams();
     const keyName = KeyNames();
     const [isUniSelected, setIsUniSelected] = useState(false);
-    // const [urlUniveristy, setUrlUniversity] = useState("");
     useEffect(() => {
-      // setUrlUniversity(
-      //   extractUrlAndSessionValues(searchparams, "", "")?.university
-      // );
       const uni = searchparams
         ?.get(keyName?.university)
         ?.includes(item?.collegeTextKey);

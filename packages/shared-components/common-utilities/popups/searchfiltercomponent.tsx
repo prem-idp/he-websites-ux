@@ -53,8 +53,13 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
 
   const [locationState, setLocationState] = useState<any>({
     isdropDownOpen: false,
-    mileDisplayName: "Any distance",
-    selectedMile: "any",
+    mileDisplayName:
+      searchParams?.get("distance") === "any"
+        ? "Any distance"
+        : searchParams?.get("distance") || "Any distance",
+    selectedMile: searchParams?.get("distance")
+      ? searchParams?.get("distance")
+      : "any",
     locationMilesArray: locationMilesArray,
     locationMilesError: false,
     postCodeValue: "",
@@ -226,8 +231,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     setFilterState((prev: any) => ({ ...prev, isFilterOpen: false }));
   };
   const postCodeChange = (value: string) => {
-    console.log({ value });
-    // const trimmedValue = value?.toUpperCase();
     const specialCharRegex = /[^a-zA-Z0-9\s]/;
     if (!specialCharRegex.test(value) && value?.length <= 8) {
       setLocationState((prev: any) => ({
@@ -236,7 +239,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       }));
     }
   };
-  //console.log(locationState);
   useEffect(() => {
     const dynamicFilter = async () => {
       if (routerEnd) {
@@ -244,8 +246,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           filterState?.filterOrder,
           prepopulateFilter?.studyLevel
         );
-        console.log(filterState?.filterOrder);
-        console.log(body);
+
         const data = await getSrFilter(body);
         const count = await getSrFilterCount(body);
         setJsondata(data);
@@ -377,14 +378,13 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       isQualificationChanged?: boolean
     ) => {
       if (!routerEnd) {
+        setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
         if (key === keyName?.studyLevel) {
           setPrepopulateFilter((prev: any) => ({
             ...prev,
             studyLevel: `${value}-courses`,
           }));
         }
-
-        setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
 
         const crossL1Subject = checkCrossL1Subject(
           key,
@@ -400,7 +400,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           isUniversitySelected,
           crossL1Subject
         );
-
         setFilterState((prev: any) => ({
           ...prev,
           filterOrder: orderedFilters,
@@ -409,7 +408,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         const { urlParams, cookieParams } =
           constructSearchParams(orderedFilters);
         handleCookiesAndSession(cookieParams);
-
         const multiSelect =
           urlParams.toString()?.includes("+") ||
           urlParams.toString()?.includes("%2B");
@@ -433,8 +431,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         ) {
           router.refresh();
         } else if (linkTagId && isIndexed && !multiSelect) {
-          console.log(linkTagId);
-          window.history.pushState(
+          window?.history?.pushState(
             null,
             "",
             `${linkTagId?.getAttribute("href")}`
@@ -443,7 +440,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           );
           linkTagId.click();
         } else {
-          window.history.pushState(
+          window?.history?.pushState(
             null,
             "",
             `${domainPath ?? ""}?${urlParams.toString()}`
@@ -480,9 +477,10 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       );
       const urlParams = new URLSearchParams();
       let totalValues = 0;
+
       Object.entries(orderedFilters)?.forEach(([k, v]) => {
         if (totalValues + v?.split("+")?.length <= 4 && k !== "study-level") {
-          urlParams.set(k, v);
+          urlParams?.set(k, v);
           totalValues += v?.split("+")?.length;
         }
       });
@@ -637,6 +635,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       if (urlAndSession?.postcode !== locationState?.postCodeValue) {
         appendSearchParams("postcode", locationState?.postCodeValue);
       } else {
+        alert("entered in else condition");
         appendSearchParams("distance", locationState?.selectedMile);
       }
     } else {
@@ -658,16 +657,17 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
     appendSearchParams("location", appliedCities?.join("+"));
   };
-  console.log({ locationState });
   return (
     <>
       <div>
         <div
-          className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
-            filterState?.isFilterOpen
-              ? "animate-fadeIn block"
-              : "animate-fadeOut hidden"
-          }`}
+          className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10 
+             ${
+               filterState?.isFilterOpen
+                 ? "animate-fadeIn block"
+                 : "animate-fadeOut hidden"
+             }
+          `}
         ></div>
 
         <div
@@ -721,7 +721,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                   filterState?.selectedFilter === "subject"
                 }
               >
-                {/* subject */}
                 <div className="flex flex-col gap-[24px] pt-[24px]">
                   {jsondata?.studyMethodList?.length > 0 && (
                     <div className="flex flex-col gap-[4px]">
@@ -1081,39 +1080,17 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                       {jsondata?.intakeYearDetails?.intakeYearList?.map(
                         (yearItem: any, index: number) => (
                           <div className="form-black flex relative" key={index}>
-                            <Link
-                              id={keyName?.year + yearItem?.year}
-                              href={{
-                                pathname: generatePathName(slug, keyName?.year),
-                                query: formUrl(
-                                  keyName?.year,
-                                  `${yearItem?.year}`
-                                ),
-                              }}
-                            ></Link>
                             <input
                               checked={true}
-                              //onChange={() => {
-                              // setPrepopulateFilter((prev: any) => ({
-                              //   ...prev,
-                              //   year:
-                              //     `${prev?.year}` == `${yearItem?.year}`
-                              //       ? ""
-                              //       : `${yearItem?.year}`,
-                              // }));
-                              // appendSearchParams(
-                              //   keyName?.year,
-                              //   `${yearItem?.year}`
-                              // );
-                              //}}
+                              onChange={() => {}}
                               readOnly={true}
                               type="checkbox"
-                              name={`${yearItem?.year}`}
+                              name={yearItem?.year}
                               className="rounded-[4px] outline-none absolute opacity-0"
-                              id={`${yearItem?.year}`}
+                              id={yearItem?.year}
                             />
                             <label
-                              htmlFor={`${yearItem?.year}`}
+                              htmlFor={yearItem?.year}
                               className="btn btn-black-outline"
                             >
                               {yearItem?.year}
@@ -1238,25 +1215,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                           keyName?.university,
                                           sortedUniItem?.collegeTextKey
                                         );
-                                        // const selectedItem =
-                                        //   universitiesList
-                                        //     ?.flatMap(
-                                        //       (universityArray: any) =>
-                                        //         universityArray?.unilist
-                                        //           ?.filter(
-                                        //             (university: any) =>
-                                        //               university?.collegeNameDisplay ===
-                                        //               sortedUniItem?.collegeNameDisplay
-                                        //           )
-                                        //           ?.map(
-                                        //             () => universityArray
-                                        //           ) || []
-                                        //     )
-                                        //     ?.filter(Boolean)[0];
-                                        // universityClicked(
-                                        //   selectedItem?.displayHeading,
-                                        //   selectedItem?.id
-                                        // );
                                       }}
                                     >
                                       {sortedUniItem?.collegeNameDisplay}
@@ -1483,71 +1441,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                             <ul
                               className={`pt-[12px] ${selectedLocationType?.type === "city" ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
-                              {/* <div className="form_check relative m-[0_0_12px]">
-                                  <div className="flex items-start gap-[8px]">
-                                    <div className="checkbox_card">
-                                      <Link
-                                        id={
-                                          "region" +
-                                          parentRegion[0]?.regionTextKey
-                                        }
-                                        href={{
-                                          pathname: `${slug}`,
-                                          query: formUrl(
-                                            "region",
-                                            parentRegion[0]?.regionTextKey
-                                          ),
-                                        }}
-                                      ></Link>
-                                      <input
-                                        type="checkbox"
-                                        checked={
-                                          searchParams?.get("region") ==
-                                          parentRegion[0]?.regionTextKey
-                                        }
-                                        className="form-checkbox hidden"
-                                        id={parentRegion[0]?.regionName}
-                                        name={parentRegion[0]?.regionName}
-                                        onChange={() => {
-                                          setIsAllUkChecked(!isAllUkChecked);
-                                          appendSearchParams(
-                                            "region",
-                                            parentRegion[0]?.regionTextKey
-                                          );
-                                        }}
-                                      />
-                                      <label
-                                        htmlFor={parentRegion[0]?.regionName}
-                                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
-                                      >
-                                        <svg
-                                          width="10"
-                                          height="8"
-                                          viewBox="0 0 10 8"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                            fill="white"
-                                            stroke="white"
-                                            strokeWidth="0.666667"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                      </label>
-                                    </div>
-                                    <label
-                                      htmlFor="All Uk"
-                                      className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                    >
-                                      {parentRegion[0]?.regionName}
-                                    </label>
-                                  </div>
-                                </div> */}
                               <li>
                                 {FirstLevelRegion?.map(
                                   (regionItem: any, index: number) => (
@@ -1707,22 +1600,23 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                       checked={
                                         prepopulateFilter?.locationType ==
                                         uniLocationTypeItem?.locTypeTextKey
-                                          ? true
-                                          : false
                                       }
                                       onChange={() => {
                                         appendSearchParams(
                                           keyName?.locationType,
                                           uniLocationTypeItem?.locTypeTextKey
                                         );
-                                        setPrepopulateFilter((prev: any) => ({
-                                          ...prev,
-                                          locationType:
-                                            prev?.locationType ==
-                                            uniLocationTypeItem?.locTypeTextKey
+                                        setPrepopulateFilter((prev: any) => {
+                                          const isSelected =
+                                            prev?.locationType ===
+                                            uniLocationTypeItem?.locTypeTextKey;
+                                          return {
+                                            ...prev,
+                                            locationType: isSelected
                                               ? ""
                                               : uniLocationTypeItem?.locTypeTextKey,
-                                        }));
+                                          };
+                                        });
                                       }}
                                       name={uniLocationTypeItem?.locTypeDesc}
                                       className="rounded-[4px] outline-none absolute opacity-0"
@@ -1765,7 +1659,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               <div className="form_check relative" key={index}>
                                 <div className="flex items-start gap-[8px]">
                                   <div className="checkbox_card">
-                                    {/* {isIndexed && ( */}
                                     <Link
                                       id={
                                         keyName?.russellGroup +

@@ -11,24 +11,36 @@ const SearchFilterComponent = dynamic(
     )
 );
 
+// export async function getFiltersInparamReqBody(cookieStore: any) {
+//   const pathname =
+//     cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "";
+//   const params = cookieStore?.get("searchParamscookies")?.value || "";
+//   const urlparams = new URLSearchParams(params);
+//   const cookieObject = Object.fromEntries(urlparams?.entries());
+//   return filterbodyJson(cookieObject, pathname);
+// }
 export async function getFiltersInparamReqBody(cookieStore: any) {
   const pathname =
-    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  const params = cookieStore?.get("searchParamscookies")?.value || "{}";
-  const urlparams = new URLSearchParams(params);
-  const cookieObject = Object.fromEntries(urlparams?.entries());
-  return filterbodyJson(cookieObject, pathname);
+    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "";
+  const searchParams = cookieStore?.get("searchParamscookies")?.value || "";
+  const paramObject = Object.fromEntries(
+    new URLSearchParams(searchParams).entries()
+  );
+
+  return filterbodyJson(paramObject, pathname);
 }
 
 const FilterWrapper = async () => {
   const cookieStore = await cookies();
-  const fullPath = cookieStore?.get("pathnamecookies")?.value || "{}";
-  const searchparams = cookieStore?.get("searchParamscookies")?.value || "{}";
-  const urlparams = new URLSearchParams(searchparams || "?default=value");
+  const fullPath = cookieStore?.get("pathnamecookies")?.value || "";
+  const searchparams = cookieStore?.get("searchParamscookies")?.value || "";
+  const urlparams = new URLSearchParams(searchparams || "");
   const paramObject = Object?.fromEntries(urlparams?.entries());
   const body = filterbodyJson(paramObject, fullPath?.split("/")[1]);
-  const data = await getSrFilter(body);
-  const count = await getSrFilterCount(body);
+  const [data, count] = await Promise.all([
+    getSrFilter(body),
+    getSrFilterCount(body),
+  ]);
   return (
     <>
       {data && (
