@@ -131,5 +131,38 @@ async function fetchenquirydata(enquiryPayload: any) {
   }
 }
 
+const getUserYearOfEntry = async (bodyjson: any): Promise<any> => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}/dev-hewebsites-bff/v1/users/details`;
+  const response = await fetchAuthSession({ forceRefresh: true });
+  const { idToken } = response?.tokens ?? {};
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-correlation-id": uuidv4(),
+        Authorization: `${idToken}`,
+        sitecode: `${process.env.SITE_CODE}`,
+        "x-api-key": `${process.env.NEXT_PUBLIC_X_API_KEY}`,
+      },
+      body: JSON.stringify(bodyjson),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json().catch(() => ({}));
+      console.error({
+        error: errorResponse,
+        endpoint: apiUrl,
+        status: response?.status,
+        statusText: response?.statusText,
+      });
+      return null;
+    }
+    return await response.json();
+  } catch (error: unknown) {
+    console.error(`API call failed: ${error}`, { endpoint: apiUrl });
+    console.error("Unknown error occurred", { endpoint: apiUrl, error });
+  }
+};
+
 export default makeApiCall;
-export { getSrFilter, getSrFilterCount, fetchenquirydata };
+export { getSrFilter, getSrFilterCount, getUserYearOfEntry, fetchenquirydata };

@@ -7,6 +7,7 @@ import Link from "next/link";
 import Accordion from "../accordion/accordion";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
+import { fetchAuthSession } from "@aws-amplify/auth";
 import { useSearchParams, usePathname } from "next/navigation";
 import { uniSortingMockData } from "@packages/lib/utlils/filters/result-filters";
 import {
@@ -21,7 +22,11 @@ import L2subjectList from "@packages/shared-components/sr-page/SrFilter/L2subjec
 import SelectedUniversity from "@packages/shared-components/sr-page/SrFilter/selecteduniversity";
 import Regions from "@packages/shared-components/sr-page/SrFilter/regions";
 import { getParentSubject } from "@packages/lib/utlils/filters/result-filters";
-import { getSrFilter, getSrFilterCount } from "@packages/REST-API/rest-api";
+import {
+  getSrFilter,
+  getSrFilterCount,
+  getUserYearOfEntry,
+} from "@packages/REST-API/rest-api";
 import { filterbodyJson } from "@packages/lib/utlils/filters/filterJson";
 import { getUserLocation } from "@packages/lib/utlils/filters/result-filters";
 import { getFilterValue } from "@packages/lib/utlils/filters/result-filters";
@@ -61,9 +66,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
   });
   const [slug, setslug] = useState(path || "degree-courses/search");
   const [isIndexed, setIsIndexed] = useState(true);
-  const [urlAndSession, setUrlAndSession] = useState(
-    extractUrlAndSessionValues(searchParams, "", "")
-  );
   const [filterState, setFilterState] = useState({
     isFilterOpen: false,
     isFilterLoading: false,
@@ -107,6 +109,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     },
     []
   );
+  console.log(filterState?.filterOrder);
   useEffect(() => {
     setPrepopulateFilter({
       studyMethod: filterState?.filterOrder?.[keyName?.studyMethod] || "",
@@ -157,10 +160,22 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       searchParams
     );
     setSelectedLocationType(selectedLocation);
-    setUrlAndSession(extractUrlAndSessionValues(searchParams, "", ""));
   }, [searchParams, routerEnd]);
 
   useEffect(() => {
+    const getYear = async () => {
+      const response = await fetchAuthSession({ forceRefresh: true });
+      const { idToken } = response?.tokens ?? {};
+      if (idToken) {
+        const year = await getUserYearOfEntry({
+          affiliateId: process.env.AFFILATED_ID,
+        });
+        console.log(year);
+      } else {
+        console.log("aws");
+      }
+    };
+    getYear();
     const handleTogglePopup = (eventName: string | null | undefined) => {
       if (typeof document === "undefined") {
         return "";
@@ -321,11 +336,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         value,
         crossL1Subject
       );
-      if (key == keyName?.postcode) {
-        filters[keyName?.distance] = locationState?.selectedMile;
-      } else if (key == keyName?.distance) {
-        filters[keyName?.postcode] = locationState?.postCodeValue;
-      }
       return getFilterPriority(isUniversitySelected)?.reduce(
         (acc, priorityKey) => {
           if (filters[priorityKey]) acc[priorityKey] = filters[priorityKey];
@@ -383,16 +393,13 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
             studyLevel: `${value}-courses`,
           }));
         }
-
         setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
-
         const crossL1Subject = checkCrossL1Subject(
           key,
           value,
           jsondata,
           searchParams
         );
-
         const orderedFilters = extractAndOrderFilters(
           searchParams,
           key,
@@ -400,22 +407,18 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
           isUniversitySelected,
           crossL1Subject
         );
-
+        console.log({ orderedFilters });
         setFilterState((prev: any) => ({
           ...prev,
           filterOrder: orderedFilters,
         }));
-
         const { urlParams, cookieParams } =
           constructSearchParams(orderedFilters);
         handleCookiesAndSession(cookieParams);
-
         const multiSelect =
           urlParams.toString()?.includes("+") ||
           urlParams.toString()?.includes("%2B");
-
         let domainPath = null;
-
         if (isQualificationChanged && !slug?.includes(value)) {
           domainPath = `/${value}-courses/${slug?.split("/")[2]}`;
         } else if (key === keyName?.university) {
@@ -424,9 +427,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
             ?.includes(value);
           domainPath = `/${slug?.split("/")?.[1]}/${uniSelected ? "search" : "csearch"}`;
         }
-
         const linkTagId = document?.getElementById(key + value);
-
         if (
           urlParams.toString() === searchParams.toString() &&
           !isQualificationChanged
@@ -460,9 +461,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       }
       setrouterEnd(true);
     },
-    []
+    [searchParams, jsondata, slug, isIndexed]
   );
-
   const formUrl = useCallback(
     (key: string, value: string, isQualification?: boolean) => {
       const crossL1Subject = checkCrossL1Subject(
@@ -629,16 +629,14 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     },
     [jsondata]
   );
+  console.log(jsondata);
   const postcodeSubmit = () => {
     const ukPostCodeRegx = /^([A-Z]{1,2}[0-9][0-9A-Z]?)\s?([0-9][A-Z]{2})$/i;
     const isValidPostcode = ukPostCodeRegx.test(locationState?.postCodeValue);
     if (locationState?.postCodeValue && isValidPostcode) {
       setLocationState((prev: any) => ({ ...prev, locationMilesError: false }));
-      if (urlAndSession?.postcode !== locationState?.postCodeValue) {
-        appendSearchParams("postcode", locationState?.postCodeValue);
-      } else {
-        appendSearchParams("distance", locationState?.selectedMile);
-      }
+      appendSearchParams("postcode", locationState?.postCodeValue);
+      appendSearchParams("distance", locationState?.selectedMile);
     } else {
       setLocationState((prev: any) => ({ ...prev, locationMilesError: true }));
     }
@@ -658,7 +656,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
     appendSearchParams("location", appliedCities?.join("+"));
   };
-  console.log({ locationState });
   return (
     <>
       <div>
@@ -1081,6 +1078,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                       {jsondata?.intakeYearDetails?.intakeYearList?.map(
                         (yearItem: any, index: number) => (
                           <div className="form-black flex relative" key={index}>
+                            {/* {isIndexed && ( */}
                             <Link
                               id={keyName?.year + yearItem?.year}
                               href={{
@@ -1091,22 +1089,25 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                 ),
                               }}
                             ></Link>
+                            {/* )} */}
                             <input
-                              checked={true}
-                              //onChange={() => {
-                              // setPrepopulateFilter((prev: any) => ({
-                              //   ...prev,
-                              //   year:
-                              //     `${prev?.year}` == `${yearItem?.year}`
-                              //       ? ""
-                              //       : `${yearItem?.year}`,
-                              // }));
-                              // appendSearchParams(
-                              //   keyName?.year,
-                              //   `${yearItem?.year}`
-                              // );
-                              //}}
-                              readOnly={true}
+                              checked={
+                                `${prepopulateFilter?.year}` ==
+                                `${yearItem?.year}`
+                              }
+                              onChange={() => {
+                                setPrepopulateFilter((prev: any) => ({
+                                  ...prev,
+                                  year:
+                                    `${prev?.year}` == `${yearItem?.year}`
+                                      ? ""
+                                      : `${yearItem?.year}`,
+                                }));
+                                appendSearchParams(
+                                  keyName?.year,
+                                  `${yearItem?.year}`
+                                );
+                              }}
                               type="checkbox"
                               name={`${yearItem?.year}`}
                               className="rounded-[4px] outline-none absolute opacity-0"

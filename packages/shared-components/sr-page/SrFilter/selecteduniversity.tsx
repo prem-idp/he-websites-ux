@@ -22,9 +22,9 @@ const SelectedUniversity = React.memo(
     const uniParam = searchParams?.get(keyName?.university) || null;
     let displayUniName = null;
     if (uniParam) {
-      displayUniName = universityList?.find(
-        (unis: any) => unis?.collegeTextKey === uniParam
-      );
+      displayUniName =
+        universityList?.find((unis: any) => unis?.collegeTextKey === uniParam)
+          ?.collegeNameDisplay || null;
     }
     return (
       <div
@@ -33,29 +33,7 @@ const SelectedUniversity = React.memo(
         {displayUniName && (
           <ul className="flex flex-wrap gap-[8px] uppercase">
             <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-              {displayUniName?.collegeNameDisplay}
-              <svg
-                onClick={() => {
-                  appendSearchParams(
-                    keyName?.university,
-                    displayUniName?.collegeTextKey,
-                    true
-                  );
-                }}
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 12L12 4M4 4L12 12"
-                  stroke="#3460DC"
-                  strokeWidth="1.13"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {displayUniName}
             </li>
           </ul>
         )}
