@@ -16,8 +16,10 @@ export const cdfetchData = async (url: string): Promise<any> => {
         if (!response.ok) {
             console.error(`HTTP error! Status: ${response.status}`);
         }
+        console.log(response,"responce of the cd page")
         return await response.json();
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 };
+
