@@ -5,7 +5,7 @@ import React from 'react'
 import Image from 'next/image'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import RequestInfo from '@packages/shared-components/common-utilities/cards/interaction-button/requestinfo'
-import BookEvent from '@packages/shared-components/common-utilities/cards/interaction-button/bookevent'
+import ApplyNow from '@packages/shared-components/common-utilities/cards/interaction-button/applynow'
 import { getMetaDetailsQueryForSRpage } from '@packages/lib/graphQL/search-results'
 import { graphQlFetchFunction, httpBFFRequest } from '@packages/lib/server-actions/server-action'
 import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
@@ -13,9 +13,14 @@ import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndp
 import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
 import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore";
 import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite'
-
+import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday"
 const Courseheaderinfocomponents = async ({ data, searchPayload, institutionUrl}: any) => {
-
+  const enquiryProps={
+    subOrderItemId:data?.enquiryDetails?.institutionDetails?.subOrderItemId,
+    orderItemId:data?.enquiryDetails?.institutionDetails?.orderItem,
+    collegeId:data?.courseInfo?.collegeId,
+    qualCode:data?.enquiryDetails?.QualCode,
+  }
   const prams_slug = await data;
   let h1h2Text: string[] = [];
   const displayNameReqBody = {
@@ -89,17 +94,21 @@ const Courseheaderinfocomponents = async ({ data, searchPayload, institutionUrl}
                 </div>
                 <div className='uniresults-content-right flex items-end'>
                   <div className='btn-pod w-full grid grid-col-1 md:grid-cols-2 lg:flex lg:grid-cols-none gap-[8px]'>
+                    {process.env.PROJECT === "PGS" &&
+                    data?.enquiryDetails?.institutionDetails?.applyNow?.toLowerCase() === "y" &&
+                      <ApplyNow enquiryProps={enquiryProps}/>
+                    }
                     {data?.enquiryDetails?.institutionDetails?.emailFlag?.toLowerCase() === "y" &&
-                    <RequestInfo />
+                    <RequestInfo enquiryProps={enquiryProps}/>
                     }
                     {data?.enquiryDetails?.institutionDetails?.prospectusFlag?.toLowerCase() === "y" &&
-                    <Getprospectus pageName={"courseDetails"} />
+                    <Getprospectus enquiryProps={enquiryProps}/>
                     }
                       {data?.enquiryDetails?.institutionDetails?.opendayFlag?.toLowerCase() === "y" &&
-                    <Visitwebsite />
+                    <BookOpenDay enquiryProps={enquiryProps}/>
                     }
                        {data?.enquiryDetails?.institutionDetails?.websiteFlag?.toLowerCase() === "y" &&
-                    <BookEvent />
+                    <Visitwebsite enquiryProps={enquiryProps}/>
                     }
 
                   </div>

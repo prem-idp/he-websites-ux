@@ -91,10 +91,7 @@ export async function httpBFFRequest(
 ): Promise<any> {
   try {
     const url = endpoint;
-    const cacheparam =
-      cacheType?.toString() != "no-store"
-        ? { next: { revalidate: cacheTime } }
-        : {};
+    const cacheparam = cacheType?.toString() != "no-store" ? { next: { revalidate: cacheTime } } : {};
     const res = await fetch(url, {
       method: reqtype,
       headers: {
