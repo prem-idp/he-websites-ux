@@ -74,7 +74,7 @@ const FeaturedVideoSection: React.FC<FeaturedProviderDetailsProps> = ({
               {featuredData?.exactRating}
             </div>
             <Link onClick={(event) => stopNavigating(event)}
-              href={`/university-course-reviews/${featuredData?.collegeName}/${featuredData?.collegeId}`}
+              href={`/university-course-reviews/${featuredData?.collegeTextKey}/${featuredData?.collegeId}`}
               className="hover:underline"
             >
               {featuredData?.reviewCount} reviews
