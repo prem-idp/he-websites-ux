@@ -18,6 +18,11 @@ import { get_WU_SR_PR_breadcrumb, getDisplayNameReqBody } from "@packages/lib/ut
 import { SRDisplayNameEndPt } from "../services/bffEndpoitConstant";
 import { httpBFFRequest } from "@packages/lib/server-actions/server-action";
 import SchemaTagLayoutComponent from "../common-utilities/schematag-layout/SchemaTagLayoutComponent";
+import SortingFilterGen from "../sr-page/sorting-filter/sortingFilter";
+import {
+  prSortingFilter,
+  wuscaCategories
+} from "@packages/shared-components/services/constants";
 
 interface Payload {
   parentQualification: string;
@@ -116,7 +121,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
     headerList?.get("x-forwarded-for") || ""
   );
 
-  const referer = headerList.get("referer");
+  const refererURL = headerList.get("referer");
   const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data, pathname); // transform Provider List Data results
   const breadcrumbJson: any[] = get_WU_SR_PR_breadcrumb(searchparams, displayNameResponse, pathname);
@@ -155,14 +160,28 @@ const PrPageComponent = async ({ searchparams }: any) => {
       {!providerList.length ? (
         <SrPageNoResults />
       ) : (
-        <ProviderResultsCard searchResultlist={providerList}>
-          <Paginations
-            totalPages={Math.ceil(data?.totalCourseCount / 9)}
-            initialPage={searchparams?.pageNo || 1}
-            searchParams={{ param: searchparams, currentPage: referer }}
-          />
-        </ProviderResultsCard>
-      )}
+        <>
+          <ProviderResultsCard searchResultlist={providerList} sortingFilter={
+            <SortingFilterGen
+              sortParam={{
+                param: searchparams,
+                filterCookieParam: refererURL ? filterCookieParam : "",
+              }}
+              filters={{
+                "Sort by": prSortingFilter,
+              }}
+              projectName='${process.env.PROJECT}'
+            />
+          }>
+            <Paginations
+              totalPages={Math.ceil(data?.totalCourseCount / 9)}
+              initialPage={searchparams?.pageNo || 1}
+              searchParams={{ param: searchparams, currentPage: refererURL }}
+            />
+          </ProviderResultsCard>
+        </>
+      )
+      }
 
       <ContentfulPreviewProvider
         locale="en-GB"
