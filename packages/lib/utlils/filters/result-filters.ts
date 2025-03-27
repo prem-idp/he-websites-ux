@@ -194,9 +194,10 @@ const uniSortingMockData = [
 ];
 
 const getFilterValue = (key: string, searchParams: URLSearchParams): string => {
-  const sessionFilter = JSON.parse(
-    sessionStorage.getItem("filter_param") || "{}"
-  );
+  let sessionFilter: any = {};
+  if (typeof window !== "undefined") {
+    sessionFilter = JSON.parse(sessionStorage?.getItem("filter_param") || "{}");
+  }
   const searchValue: any = searchParams?.get(key)?.split(" ") || "";
   const sessionValue: any = sessionFilter[key]?.split("+") || "";
   const returnObject: any = [...searchValue, ...sessionValue]?.filter(Boolean);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { extractUrlAndSessionValues } from "@packages/lib/utlils/filters/result-filters";
@@ -16,23 +16,26 @@ const LocationcheckBox = ({
   const keyName = KeyNames();
   const searchparams = useSearchParams();
   const [isChecked, setIsChecked] = useState<any>(false);
-  const appliedvalues =
-    extractUrlAndSessionValues(searchparams, "", "")?.location?.split("+") ||
-    [];
+  // const appliedvalues =
+  //   extractUrlAndSessionValues(searchparams, "", "")?.location?.split("+") ||
+  //   [];
+  const appliedValues = useMemo(
+    () =>
+      extractUrlAndSessionValues(searchparams, "", "")?.location?.split("+") ||
+      [],
+    [searchparams]
+  );
+
   useEffect(() => {
     const parentRegion_Id = childItem?.parentRegionId;
-    const parentRegion_Name = regionListData?.find(
+    const parentRegionName = regionListData?.find(
       (region: any) => region?.regionId === parentRegion_Id
     )?.regionTextKey;
-    if (
-      appliedvalues?.includes(childItem?.regionTextKey) ||
-      appliedvalues?.includes(parentRegion_Name)
-    ) {
-      setIsChecked(true);
-    } else {
-      setIsChecked(false);
-    }
-  }, [searchparams, appliedvalues]);
+    setIsChecked(
+      appliedValues.includes(childItem?.regionTextKey) ||
+        appliedValues.includes(parentRegionName)
+    );
+  }, [searchparams]);
 
   return (
     <>

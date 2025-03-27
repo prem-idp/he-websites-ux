@@ -46,7 +46,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   const [isUcasPopupOpen, SetIsUcasPopupOpen] = useState<boolean>(true);
   const [qualifications, setQualifications] = useState<QualInterface[]>([]);
   const [ucasPoint, setUcasPoint] = useState<number>(0);
-  const [resetid, setResetid] = useState<number>(Date.now());
+  const [resetid, setResetid] = useState<number>(0);
   const [applybtn, setApplybtn] = useState<string>("Apply");
   const [qualCopy, setQualCopy] = useState<Initialvalue[]>([]);
   const [firstTimeUser, setFirstTimeUser] = useState<boolean>(false);
@@ -69,6 +69,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
   };
   useEffect(() => {
     setLoading(true);
+    setResetid(Date.now());
     const fetchUcasData = async () => {
       const response = await fetchAuthSession({ forceRefresh: true });
       const { idToken } = response?.tokens ?? {};
@@ -370,7 +371,7 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
     document.cookie = `filter_param=${JSON.stringify(getSrFilterCookie)}; path=/;`;
     if (pathName != "/") {
       window?.history?.pushState(
-        "",
+        null,
         "",
         `?${param?.toString()}`?.replaceAll("%2C", ",").replaceAll("%2B", "+")
       );
@@ -503,11 +504,9 @@ const UcasComponent = ({ onClose, isUcasOpen }: PropsInterface) => {
           const encodeURI = encodeURIComponent(stringConvert);
           document.cookie = `UCAS=${encodeURI}; path=/; max-age= 2592000; SameSite=Strict`;
           setUCasInSessionAndCookie(qual, ucasPoint, true);
-          if (getCookie("UCAS")) {
-            onClose();
-            setApplybtn("Apply");
-            setQualCopy(qual);
-          }
+          onClose();
+          setApplybtn("Apply");
+          setQualCopy(qual);
         } else {
           console.error("saveUcas is not a valid value");
         }

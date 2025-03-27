@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import SubjectCheckBox from "./subjectcheckBox";
 import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { useSearchParams } from "next/navigation";
@@ -19,30 +19,53 @@ const L2subjectList = React.memo(
     const [isExpanded, setIsExpanded] = useState(false);
     const searchParams = useSearchParams();
     const keyName = KeyNames();
-    const subjectsSelected = extractUrlAndSessionValues(searchParams, "", "")?.[
-      keyName?.subject
-    ]?.split("+");
+    // const subjectsSelected = extractUrlAndSessionValues(searchParams, "", "")?.[
+    //   keyName?.subject
+    // ]?.split("+");
 
-    const subjectLable = subjectsSelected
-      ?.map((subjectParam: any) => {
-        const subjectUrl = subjectsArray?.subjects
-          ?.map((subjects: any) => {
-            if (subjects?.subjectTextKey == subjectParam) {
-              return subjects;
-            }
-            return null;
-          })
-          ?.filter(Boolean);
-        return subjectUrl;
-      })
-      ?.flat();
+    const subjectsSelected = useMemo(
+      () =>
+        extractUrlAndSessionValues(searchParams, "", "")?.[
+          keyName?.subject
+        ]?.split("+"),
+      [searchParams, keyName?.subject]
+    );
+    // const subjectLable = subjectsSelected
+    //   ?.map((subjectParam: any) => {
+    //     const subjectUrl = subjectsArray?.subjects
+    //       ?.map((subjects: any) => {
+    //         if (subjects?.subjectTextKey == subjectParam) {
+    //           return subjects;
+    //         }
+    //         return null;
+    //       })
+    //       ?.filter(Boolean);
+    //     return subjectUrl;
+    //   })
+    //   ?.flat();
 
-    const visibleItems = isExpanded ? subjectLable : subjectLable?.slice(0, 4);
+    // const visibleItems = isExpanded ? subjectLable : subjectLable?.slice(0, 4);
+
+    const subjectLabels = useMemo(() => {
+      if (!subjectsSelected || !subjectsArray?.subjects) return [];
+
+      return subjectsSelected
+        .map((subjectParam) =>
+          subjectsArray.subjects.find(
+            (subject: any) => subject.subjectTextKey === subjectParam
+          )
+        )
+        .filter(Boolean); // Remove any `null` values
+    }, [subjectsSelected, subjectsArray?.subjects]);
+
+    const visibleItems = isExpanded
+      ? subjectLabels
+      : subjectLabels?.slice(0, 4);
     return (
       <div
         className={`flex flex-col gap-[16px] ${isSubjectOpen && selectedSubject?.parentSubject == subjectsArray?.parent ? "" : "hidden"}`}
       >
-        {subjectLable?.length > 0 && (
+        {subjectLabels?.length > 0 && (
           <ul className="flex flex-wrap gap-[8px] uppercase">
             {/* <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
               {subjectLable[0]?.categoryDesc}
