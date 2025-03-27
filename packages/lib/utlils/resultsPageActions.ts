@@ -1,34 +1,35 @@
-import { getSEOSearchPayload } from "@packages/shared-components/services/utils";
-import {
-  graphQlFetchFunction,
-  httpBFFRequest,
-} from "../server-actions/server-action";
+import { getSearchPayload } from "@packages/shared-components/services/utils";
+import {graphQlFetchFunction, httpBFFRequest} from "../server-actions/server-action";
 import { getMetaDetailsQueryForSRpage } from "../graphQL/search-results";
 import { MetaDataInterface, MetaFilterTypesReplace } from "../types/interfaces";
 import { getCustomDomain } from "./common-function-server";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import { cookies, headers } from "next/headers";
 
 export async function getSearchPageMetaDetailsFromContentful(searchParams: any, qualInUrl: string, pathName: string) {
-  
   //Initializing and Assigning values
 
-  const searchPayLoad = getSEOSearchPayload(searchParams, qualInUrl);
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const refererURL = headerList.get("referer");
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
+  const randomNumber = cookieStore?.get("dynamic_random_number")?.value || "";
+  const userRegion = headerList?.get("x-forwarded-for") || "";
+  const searchPayLoad = getSearchPayload(searchParams, refererURL ? filterCookieParam : "", pathname, randomNumber, userRegion);
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   let metaTitle, metaDesc, index, canonical;
 
   //1) bff API hit
-  const displayNameReqBody = getDisplayNameReqBody(searchPayLoad);
   const displayNameResponse = await httpBFFRequest(
     displayNameBFFEndPt, 
-    displayNameReqBody, 
+    searchPayLoad, 
     "POST", 
     `${process.env.NEXT_PUBLIC_X_API_KEY}`, 
     "no-store", 
     0, 
     {}
   );
-  console.log("displayNameReqBody: ", displayNameReqBody);
-  console.log("displayNameResponse: ", displayNameResponse);
     
 
   //2) contentful API hit
@@ -98,7 +99,7 @@ export function getDisplayNameReqBody(searchPayLoad: any){
 
     "parentQualification": searchPayLoad?.parentQualification ?? "",
     "childQualification": searchPayLoad?.childQualification ?? "",
-    "searchSubject": searchPayLoad?.searchSubject ?? "",
+    "searchSubject": searchPayLoad?.searchSubject ?? [],
     "searchKeyword": searchPayLoad?.searchKeyword ?? "",
     "jacsCode": searchPayLoad?.jacsCode ?? "",
     "location": searchPayLoad?.location ?? [],

@@ -3,6 +3,7 @@ import React from "react";
 import { fetchenquirydata } from '@packages/REST-API/rest-api';
 import { useRouter } from "next/navigation";
 const Getprospectus = ({ enquiryProps }: any) => {
+  console.log(enquiryProps,"enqu123iryProps")
   const router = useRouter()
   const handleGetProspectus = async () => {
     console.log("Enter Props", enquiryProps);

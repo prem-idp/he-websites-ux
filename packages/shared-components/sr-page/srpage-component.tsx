@@ -17,25 +17,27 @@ import { cookies, headers } from "next/headers";
 import makeApiCall from "@packages/REST-API/rest-api";
 import getApiUrl from "@packages/REST-API/api-urls";
 import {
-  getSearchPayload,
+  getSearchPayload,getQualCode
 } from "../services/utils";
 import {
   searchResultsFetchFunction,
-  graphQlFetchFunction
+  graphQlFetchFunction,
+  httpBFFRequest
 } from "@packages/lib/server-actions/server-action";
 import Findacoursecomponents from "@packages/shared-components/course-details/findacourse/findacoursecomponents";
 import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/graphQL/graphql-query";
 import FaqClient from "../common-utilities/faq/faq-clientwrap";
 import Faqskeleton from "../skeleton/faqskeleton";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
   const refererURL = headerList.get("referer");
   let cityGuideResponse:any;let subjectGuideResponse:any;
-  const pathname =
-    cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
-  const filterCookieParam = JSON.parse(
-    cookieStore?.get("filter_param")?.value || "{}"
+
+  const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
+  const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}"
   );
   console.log("REGION," , headerList.get("cloudfront-viewer-city"));
   console.log("CITY," , headerList.get("cloudfront-viewer-country-region"));
