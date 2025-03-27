@@ -3,7 +3,6 @@ import Getprospectus from '@packages/shared-components/common-utilities/cards/in
 import Favbutton from "@packages/shared-components/course-details/course-header-info/favbutton"
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import RequestInfo from '@packages/shared-components/common-utilities/cards/interaction-button/requestinfo'
 import ApplyNow from '@packages/shared-components/common-utilities/cards/interaction-button/applynow'
@@ -38,7 +37,7 @@ const Courseheaderinfocomponents = async ({ data, searchPayload, institutionUrl}
   const query = getMetaDetailsQueryForSRpage("SEO - courseDetails" + ` - ${process.env.PROJECT}`);
   let contentfulMetadata = await graphQlFetchFunction(query);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
-  h1h2Text = contentfulMetadata?.h1Title?.includes("[SPLIT]") ? contentfulMetadata.h1Title.split("[SPLIT]") : null;
+  h1h2Text = contentfulMetadata?.h1Title?.includes("[SPLIT]") ? contentfulMetadata?.h1Title?.split("[SPLIT]") : null;
   const metaFiltersOpted: MetaFilterTypesReplace = {
     providerName: displayNameResponse?.collegeName ?? undefined,
     courseName: displayNameResponse?.courseName ?? undefined,

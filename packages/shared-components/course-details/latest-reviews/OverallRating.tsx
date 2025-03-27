@@ -5,7 +5,7 @@ import { DropDown } from "./DropDown";
 import Image from 'next/image';
 
 const OverallRating = ({fetcheddata}:any) => {
-    console.log(fetcheddata,"fetcheddatafetcheddatafetcheddata")
+    // console.log(fetcheddata,"fetcheddatafetcheddatafetcheddata")
    const [selectedValue,setSelectedval] =useState(fetcheddata?.reviewBreakdown[0]);
     return (
         <div className='px-[16px] md:px-[20px] xl:px-[0]'>

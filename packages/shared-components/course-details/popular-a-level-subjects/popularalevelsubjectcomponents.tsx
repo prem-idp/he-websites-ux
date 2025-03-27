@@ -11,7 +11,7 @@ interface PopularALevelSubjectsComponentProps {
 }
 
 const Popularalevelsubjectcomponents = ({ sectionInfo, popularALevelSubjects }: any) => {
-  console.log(sectionInfo,"sectionInfo")
+  // console.log(sectionInfo,"sectionInfo")
 
 
   return (

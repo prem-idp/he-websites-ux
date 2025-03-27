@@ -6,7 +6,7 @@ interface SectionsList {
 
 const JumpToComponents = ({ sectionsList, data }: any) => {
   
-  console.log(sectionsList,"  sectionsList")
+  // console.log(sectionsList,"  sectionsList")
   const handleScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -26,7 +26,7 @@ const JumpToComponents = ({ sectionsList, data }: any) => {
 
                   let sectionData = data?.[val?.internalName];
                   if (val?.internalName ==="latestReviews") {
-                    console.log( data?.latestReviews, data?.reviewBreakdown)
+                    // console.log( data?.latestReviews, data?.reviewBreakdown)
                     sectionData = data?.latestReviews?.length ?  data?.latestReviews : data?.reviewBreakdown ;
                   }
               

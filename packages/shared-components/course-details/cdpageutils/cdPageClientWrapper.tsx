@@ -57,7 +57,7 @@ export default function Cdpageclient({ courseContent, data, prams_slug }: any) {
         const clientfetcheddata = await response.json();
         setFetcheddata((prevData: any) => ({ ...prevData, ...clientfetcheddata }));
       } catch (error) {
-        console.error("Error fetching data:", error);
+        throw new Error("Error fetching data:"+ error);
       }
       setLoading(false)
     }

@@ -83,7 +83,16 @@ export default async function Cdpage({ params }: any) {
     otherRecommendedCourse(prams_slug.course_id, prams_slug.uni_id)
       .catch(err => ({ error: err }))
   ]);
-  if (data.errorMessage) {
+  console.log("----------------------------------------------------------------------")
+  console.log(data,"data")
+  console.log("----------------------------------------------------------------------")
+  console.log(contents,"contents")
+  console.log("----------------------------------------------------------------------")
+  console.log(othercourseData,"othercourseData")
+  console.log("----------------------------------------------------------------------")
+
+  if (!data?.courseInfo?.collegeId && !data?.courseInfo?.courseId
+  ) {
     notFound();
   }
   const courseContent = courseContentExtractor(contents);
@@ -134,7 +143,7 @@ export default async function Cdpage({ params }: any) {
    }
   return (
     <>
-      {breadcrumbData.length > 1 && (
+      {breadcrumbData?.length > 1 && (
         <section className="px-[16px] md:px-[20px] xl:px-[0] pt-[22px] hidden lg:block">
           <div className="max-w-container mx-auto">
             <Breadcrumblayoutcomponent propsdata={breadcrumbData} preview={false} />
@@ -152,11 +161,9 @@ export default async function Cdpage({ params }: any) {
       {data?.similarCourses?.courses?.length > 0 &&
         <SimilarCourseComponent data={data} />
       }
-      {process.env.PROJECT === "Whatuni" &&
         <LazyLoadWrapper>
           <Findacoursecomponents h1value="Find a course" subheading={false} />
         </LazyLoadWrapper>
-      }
     </>
   )
 }
@@ -210,7 +217,7 @@ async function getCDMetaDetailsFromContentful(searchParams: any, slug: string, s
     },
     ...breadcrumb,
   ];
-  if (breadcrumb.length)
+  if (breadcrumb?.length)
     breadcrumb?.map((data: { url: string; label: string; }, index: number) => {
       const obj: any = {
         '@type': 'ListItem',
