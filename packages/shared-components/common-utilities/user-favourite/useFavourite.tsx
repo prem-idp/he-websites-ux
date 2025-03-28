@@ -27,7 +27,6 @@ const useFavourite = () => {
                     if (favList?.length) {
                         globalFavourites = favList?.map((fav) => +fav?.fav_id);
                         setFavourites(() => [...globalFavourites]);
-                        console.log(favourites, 'favList')
                     }
                     emitter.emit('setFavourite');
                 }
