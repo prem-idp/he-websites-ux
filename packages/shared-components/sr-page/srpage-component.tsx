@@ -136,7 +136,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             </>
           ) : (
             <>
-              <SrPageNoResults/>
+              <SrPageNoResults searchPayLoad={searchPayLoad}/>
             </>
           )}
         </div>
