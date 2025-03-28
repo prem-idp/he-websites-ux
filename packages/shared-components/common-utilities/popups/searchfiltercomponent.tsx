@@ -284,13 +284,20 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
 
   const clearFilter = () => {
     setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
-    const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
+    const subjectList = (searchParams?.get(keyName?.subject) || "")?.split(
       " "
-    );
-    const url = `${firstSubject[0] ? `${slug}?${keyName?.subject}=${firstSubject[0]}` : `${slug?.split("/")[1]}`}`;
+    )?.[0];
+    const university = searchParams?.get(keyName?.university) || "";
+    let urlparam = "";
+    urlparam =
+      `?${university ? `${keyName?.university}=${university}${subjectList ? "&" : ""}` : ""}` +
+      `${subjectList ? `${keyName?.subject}=${subjectList}` : ""}`;
+    alert(urlparam);
     document.cookie = `filter_param={}; path=/;`;
     sessionStorage.setItem("filter_param", "{}");
-    router.push(url);
+    router.prefetch(urlparam);
+    window.history.pushState(null, "", urlparam);
+    router.push(urlparam);
     setFilterState((prev: any) => ({ ...prev, isFilterLoading: false }));
   };
 
@@ -445,11 +452,11 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         );
         linkTagId.click();
       } else {
-        console.log(
-          `${domainPath ?? ""}?${urlParams.toString()}`
-            .replaceAll("%2B", "+")
-            .replaceAll("%2C", ",")
-        );
+        // console.log(
+        //   `${domainPath ?? ""}?${urlParams.toString()}`
+        //     .replaceAll("%2B", "+")
+        //     .replaceAll("%2C", ",")
+        // );
         window?.history?.pushState(
           null,
           "",
@@ -655,7 +662,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
     appendSearchParams("location", appliedCities?.join("+"));
   };
-  console.log("search", searchParams?.toString());
   return (
     <>
       <div>

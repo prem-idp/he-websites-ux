@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
+import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import SearchFilterButtonsSkeleton from "@packages/shared-components/skeleton/search-result/search-filter-buttons-skeleton";
 const UcasComponent = dynamic(
   () =>
@@ -12,37 +13,41 @@ const UcasComponent = dynamic(
     ),
   { ssr: false }
 );
-const filterCookie = JSON.parse(decodeURIComponent(
-  typeof document !== "undefined" && document.cookie.split('filter_param=')[1]?.split(';')[0] || '{}'
-)); 
+const filterCookie = JSON.parse(
+  decodeURIComponent(
+    (typeof document !== "undefined" &&
+      document.cookie.split("filter_param=")[1]?.split(";")[0]) ||
+      "{}"
+  )
+);
 
-
-const SearchFilterButtons = (frompage?:any) => {
+const SearchFilterButtons = (frompage?: any) => {
   const searchParams = useSearchParams();
-  const locationFilterCount:any = searchParams?.get("location")?.split(" ")?.length;
-  let subjectFilterCount = (
-    searchParams?.get("subject")?.split(" ") ||
-    searchParams?.get("course")?.split(" ")
-  )?.length;
+  const slug = usePathname();
+  const keyName = KeyNames();
+  const locationFilterCount: any = searchParams
+    ?.get(keyName?.location)
+    ?.split(" ")?.length;
+  let subjectFilterCount = searchParams
+    ?.get(keyName?.subject)
+    ?.split(" ")?.length;
   if (filterCookie?.subject)
-  subjectFilterCount = subjectFilterCount +(filterCookie?.subject?.includes("+") ? filterCookie?.subject?.split("+").length : 1);
+    subjectFilterCount =
+      subjectFilterCount + filterCookie?.subject?.split("+").length;
   const [filterCount, setFilterCount] = useState(0);
   const [gradeCount, setGradeCount] = useState("");
   const appliedFilters = {
-    year: searchParams?.get("year")?.split(","),
-    month: searchParams?.get("month")?.split(","),
-    location: searchParams?.get("location")?.split(","),
-    university: searchParams?.get("university")?.split(","),
+    year: searchParams?.get(keyName?.year)?.split(","),
+    month: searchParams?.get(keyName?.month)?.split(","),
+    location: searchParams?.get(keyName?.location)?.split(","),
+    university: searchParams?.get(keyName?.university)?.split(","),
     qualification: searchParams?.get("qualification")?.split(","),
-    studyMethod: searchParams?.get("study-method")?.split(","),
-    locationType: searchParams?.get("location-type")?.split(","),
-    russellGroup: searchParams?.get("russell-group")?.split(","),
-    studyMode:
-      searchParams?.get("study-mode")?.split(",") ||
-      searchParams?.get("study_mode")?.split(","),
-    subject:
-      searchParams?.get("subject")?.split(",") || searchParams?.get("course"),
-    distance : searchParams?.get("distance_from_home")?.split(",")|| searchParams?.get("distance-from-home")?.split(","),
+    studyMethod: searchParams?.get(keyName?.studyMethod)?.split(","),
+    locationType: searchParams?.get(keyName?.locationType)?.split(","),
+    russellGroup: searchParams?.get(keyName?.russellGroup)?.split(","),
+    studyMode: searchParams?.get(keyName?.studyMode)?.split(","),
+    subject: searchParams?.get(keyName?.subject)?.split(","),
+    distance: searchParams?.get(keyName?.distance)?.split(","),
   };
   const getSelectedFiltersCount = (appliedFilters: any) => {
     let totalCount = 0;
@@ -51,14 +56,26 @@ const SearchFilterButtons = (frompage?:any) => {
         totalCount += value.filter(Boolean).length;
       }
     });
-    if(filterCookie?.subject) delete filterCookie?.subject
-    if(typeof document !== "undefined" && !document.referrer && filterCookie?.score) delete filterCookie?.score
-    return totalCount + 2 + Object.keys(filterCookie).length;  
+    if (filterCookie?.subject) delete filterCookie?.subject;
+    if (
+      typeof document !== "undefined" &&
+      !document.referrer &&
+      filterCookie?.score
+    )
+      delete filterCookie?.score;
+    return totalCount + 2 + Object.keys(filterCookie).length;
   };
   useEffect(() => {
     const totalCount = getSelectedFiltersCount(appliedFilters);
     setFilterCount(totalCount);
-    setGradeCount(searchParams?.has("score") || (typeof document !== "undefined" && document.referrer && filterCookie?.score) ? "1" : "")
+    setGradeCount(
+      searchParams?.has("score") ||
+        (typeof document !== "undefined" &&
+          document.referrer &&
+          filterCookie?.score)
+        ? "1"
+        : ""
+    );
   }, [searchParams]);
   const router = useRouter();
   const [isUcasPopupOpen, setUcasPopupOpen] = useState(false);
@@ -77,12 +94,31 @@ const SearchFilterButtons = (frompage?:any) => {
     setUcasPopupOpen(false);
     body.classList.remove("overflow-y-hidden");
   };
+
+  const resetFilter = () => {
+    emitter.emit("refreshFilters");
+    const subjectList = (searchParams?.get(keyName?.subject) || "")?.split(
+      " "
+    )?.[0];
+    const university = searchParams?.get(keyName?.university) || "";
+    let urlparam = "";
+    urlparam =
+      `?${university ? `${keyName?.university}=${university}${subjectList ? "&" : ""}` : ""}` +
+      `${subjectList ? `${keyName?.subject}=${subjectList}` : ""}`;
+    alert(urlparam);
+    document.cookie = `filter_param={}; path=/;`;
+    sessionStorage.setItem("filter_param", "{}");
+    router.prefetch(urlparam);
+    window.history.pushState(null, "", urlparam);
+    router.push(urlparam);
+  };
   return (
     <>
       <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           {process.env.PROJECT === "Whatuni" && (
-            <button type="button"
+            <button
+              type="button"
               className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0"
               onClick={ucasClick}
             >
@@ -100,13 +136,14 @@ const SearchFilterButtons = (frompage?:any) => {
                   fill="#F9FAFB"
                 />
               </svg>
-              Add my grades {gradeCount ? "("+gradeCount+")" : ""}
+              Add my grades {gradeCount ? "(" + gradeCount + ")" : ""}
             </button>
           )}
           {isUcasPopupOpen && (
             <UcasComponent onClose={ucasClose} isUcasOpen={isUcasPopupOpen} />
           )}
-          <button type="button"
+          <button
+            type="button"
             onClick={() => filterEvents("all")}
             className="flex items-center justify-center gap-[8px] btn grow w-fit px-[12px] bg-primary-100 hover:bg-primary-200 text-grey300 lg:grow-0 lg:shrink-0"
           >
@@ -128,28 +165,34 @@ const SearchFilterButtons = (frompage?:any) => {
             Filter ({filterCount})
           </button>
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
-            {(process.env.PROJECT === "Whatuni" || (searchParams?.get("qualification") && process.env.PROJECT === "PGS")) && <button type="button"
-              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
-              onClick={() => filterEvents("subject")}
-            >
-              Study level
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {(process.env.PROJECT === "Whatuni" ||
+              (searchParams?.get("qualification") &&
+                process.env.PROJECT === "PGS")) && (
+              <button
+                type="button"
+                className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
+                onClick={() => filterEvents("subject")}
               >
-                <path
-                  d="M15 8L10 13L5 8"
-                  stroke="#333F48"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>}
-            <button type="button"
+                Study level
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 8L10 13L5 8"
+                    stroke="#333F48"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            )}
+            <button
+              type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("subject")}
             >
@@ -170,7 +213,8 @@ const SearchFilterButtons = (frompage?:any) => {
                 />
               </svg>
             </button>
-            <button type="button"
+            <button
+              type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("year")}
             >
@@ -191,7 +235,8 @@ const SearchFilterButtons = (frompage?:any) => {
                 />
               </svg>
             </button>
-            <button type="button"
+            <button
+              type="button"
               className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
               onClick={() => filterEvents("university")}
             >
@@ -212,33 +257,35 @@ const SearchFilterButtons = (frompage?:any) => {
                 />
               </svg>
             </button>
-            {frompage?.frompage && <button type="button"
-              className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
-              onClick={() => filterEvents("location")}
-            >
-              Location {locationFilterCount && `(${locationFilterCount})`}
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {frompage?.frompage && (
+              <button
+                type="button"
+                className="flex items-center gap-[8px] btn w-fit bg-grey-100 hover:bg-grey-200 text-grey300"
+                onClick={() => filterEvents("location")}
               >
-                <path
-                  d="M15 8L10 13L5 8"
-                  stroke="#333F48"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>}
+                Location {locationFilterCount && `(${locationFilterCount})`}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 8L10 13L5 8"
+                    stroke="#333F48"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
-          <button type="button"
+          <button
+            type="button"
             className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0"
-            onClick={() => {
-              router.push(`/degree-courses/search`);
-            }}
+            onClick={resetFilter}
           >
             <svg
               width="16"
