@@ -6,7 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { ordinarySuffix } from '@packages/lib/utlils/commonFunction';
 import mapboxgl from 'mapbox-gl';
 import { CourseSection } from '../models/course.model';
-import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite';
+import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/UserFavourite';
 
 interface UniInfoComponentProps {
   uniInfo: any,

@@ -1,19 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect} from "react";
 import Image from "next/image";
+import emitter from "@packages/lib/eventEmitter/eventEmitter";
 
 const Video = ({featuredData}:any) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const onClickPlay = (event:React.FormEvent) => {
-    event.stopPropagation();
-    setIsPlaying(true);
-  };
-
-  const onClickPause = (event:React.FormEvent) => {
-    event.stopPropagation();
-    setIsPlaying(false);
-  };
 
   const playVideo = (event:React.FormEvent) => {
     event.stopPropagation();
@@ -23,10 +14,24 @@ const Video = ({featuredData}:any) => {
     }
   };
 
+  const onClickPause = (event:React.FormEvent) => {
+    if (videoRef.current) {
+      videoRef.current.pause(); // Pause the video
+      videoRef.current.currentTime = 0; // Reset video position (optional)
+      setIsPlaying(false);
+    }
+  };
+
   const handleVideoClick = (event:React.FormEvent) => {
     event.stopPropagation(); // Prevents the parent onClick from being triggered
-    console.log('Video clicked!');
   };
+
+  useEffect(() => {
+    emitter.on("pauseVideo", onClickPause); // while click the filter button
+    return () => {
+      emitter.off("pauseVideo", onClickPause);
+    };
+  }, [isPlaying]);
   return (
     <>
       <video
@@ -35,7 +40,7 @@ const Video = ({featuredData}:any) => {
         controls
         preload="none"
         onClick={(event) => handleVideoClick(event)} 
-        onPlay={(event)=>onClickPlay(event)}
+        onPlay={(event)=>playVideo(event)}
         onPause={(event)=>onClickPause(event)}
         poster={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${featuredData?.thumbnailPath}`}
       >

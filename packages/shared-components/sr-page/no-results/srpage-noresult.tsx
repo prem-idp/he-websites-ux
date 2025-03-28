@@ -1,8 +1,11 @@
 "use server";
 import React from "react";
-import Image from "next/image";
+import { httpBFFRequest,graphQlFetchFunction } from "@packages/lib/server-actions/server-action";
+import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
 
-const SrPageNoResults = () => {
+const SrPageNoResults = async ({searchPayLoad}: any) => {
+  const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
+  const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, searchPayLoad, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
   return (
     <>
       <div className="md:py-[56px]">
@@ -12,7 +15,7 @@ const SrPageNoResults = () => {
               Well, that's unexpected!
             </div>
             <div className="small">
-              We couldn’t find any matches for[search terms] Not what you
+              We couldn’t find any matches for {displayNameResponse?.subjectName?.join(", ")} Not what you
               expected? Try a new search term or check for typos. Let's find
               what you're looking for!
             </div>

@@ -5,9 +5,10 @@ import Getprospectus from '@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import Clearingvisitewebsite from '../interaction-button/clearingvisitewebsite'
 import Callnowbutton from '../interaction-button/callnow'
-import UserFavourite from '../../user-favourite/user-favourite'
+import UserFavourite from '../../user-favourite/UserFavourite'
 
 const Othercoursesmaylikecard = ({ val }: any) => {
+    console.log(val, "val")
     return (
         <Link href={val?.courseUrl} className='card flex flex-col bg-white border border-grey-200 lg:hover:border-primary-400 rounded-[8px] shadow-custom-2 overflow-hidden'>
             <div className='card-header relative min-h-[190px] bg-grey-200'>
@@ -34,7 +35,7 @@ const Othercoursesmaylikecard = ({ val }: any) => {
                             </svg>
                         </div>
                     </span> */}
-                     <UserFavourite contentId={val?.courseId} contentName={val?.courseName} contentType="COURSE" />
+                     <UserFavourite contentId={val?.courseId} contentName={val?.collegeName} contentType="COURSE" />
                 </div>
                 <div className='absolute top-0 left-0 right-0 bottom-0 bg-black/50 z-0'></div>
             </div>

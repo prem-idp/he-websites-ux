@@ -82,6 +82,7 @@ const SearchFilterButtons = (frompage?: any) => {
 
   const filterEvents = (eventName: string | null | undefined) => {
     emitter.emit("isfilterOpen", eventName);
+    emitter.emit("pauseVideo");
   };
 
   const ucasClick = () => {

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite"
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/UserFavourite"
 import { getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites, addRemoveFavourites } from "@packages/lib/utlils/userfavourite";
 import '@testing-library/jest-dom';

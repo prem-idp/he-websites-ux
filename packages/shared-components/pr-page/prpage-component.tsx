@@ -23,6 +23,7 @@ import {
   prSortingFilter,
   wuscaCategories
 } from "@packages/shared-components/services/constants";
+import FavFunctionalityWrapper from "../common-utilities/user-favourite/FavFunctionalityWrapper";
 
 interface Payload {
   parentQualification: string;
@@ -156,6 +157,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
           <SchemaTagLayoutComponent schemaType="BreadcrumbList" schemaData={{ "itemListElement": schemaData }} />
         </div>
       </section>
+      <FavFunctionalityWrapper>
       <PrPageTopSection searchResultlist={data} />
       <SearchFilterButtons />
       <SearchLabels searchPayLoad={payloads} />
@@ -184,7 +186,7 @@ const PrPageComponent = async ({ searchparams }: any) => {
         </>
       )
       }
-
+      </FavFunctionalityWrapper>
       <ContentfulPreviewProvider
         locale="en-GB"
         enableInspectorMode={false}

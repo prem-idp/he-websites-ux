@@ -29,6 +29,7 @@ import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/
 import FaqClient from "../common-utilities/faq/faq-clientwrap";
 import Faqskeleton from "../skeleton/faqskeleton";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import FavFunctionalityWrapper from "../common-utilities/user-favourite/FavFunctionalityWrapper";
 
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
@@ -39,8 +40,6 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
   const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1] || "{}";
   const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}"
   );
-  console.log("REGION," , headerList.get("cloudfront-viewer-city"));
-  console.log("CITY," , headerList.get("cloudfront-viewer-country-region"));
   let searchResultsData;
   let searchPayLoad = getSearchPayload(
     searchparams,
@@ -120,10 +119,13 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               ) : (
                 <></>
               )}
-              <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}
-                qualName={pathname}
-              />
+              <FavFunctionalityWrapper>
+                <SrPageResultPod
+                  searchResultsData={searchResultsData?.searchResultsList}
+                  qualName={pathname}
+                />
+              </FavFunctionalityWrapper>
+
               {searchResultsData?.collegeCount > 10 ? (
                 <>
                   <Paginations
@@ -138,7 +140,7 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
             </>
           ) : (
             <>
-              <SrPageNoResults/>
+              <SrPageNoResults searchPayLoad={searchPayLoad}/>
             </>
           )}
         </div>
@@ -161,8 +163,8 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               </div>
             </div>
           </section>}
-
-          <Suspense fallback={<Faqskeleton />}>
+    {faqResponse?.data?.pageTemplateDynamicPageCollection?.items.length > 0 &&
+      <Suspense fallback={<Faqskeleton />}>
         <div className="faq-container bg-white">
           <div className="max-w-container mx-auto">
             <div className="faq-card-container flex flex-col gap-[32px] px-[16px] py-[40px] md:py-[64px] md:px-[20px] xl:px-[0]">
@@ -174,15 +176,11 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
                 {faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.pageTitle}
                 </p>
               </div>
-              <FaqClient jsondata={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.bottomZoneComponentsCollection?.items?.[0]}/>
+              <FaqClient jsondata={faqResponse?.data?.pageTemplateDynamicPageCollection?.items?.[0]?.faqList}/>
             </div>
           </div>
         </div>
-      </Suspense>
-
-          
-          
-        </>
+      </Suspense>}</>
       )}
       <ContentfulPreviewProvider
             locale="en-GB"

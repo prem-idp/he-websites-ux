@@ -639,31 +639,36 @@ export const SRCityGuideQuery = (city:string)=>
   }
  `
  export const FAQsQuery = (pageTitle:string)=>
-  `{
-  pageTemplateDynamicPageCollection(limit:1,where:{pageTitle_contains:"Search Result"})
+`
+{
+  pageTemplateDynamicPageCollection(limit:1,where:{pageTitle_contains:"${pageTitle}",faqList:{faqComponentName_contains:"${process.env.PROJECT}"}})
   {
     items
     {
       pageTitle
       urlSlug
-      bottomZoneComponentsCollection
+      websiteCollection
       {
         items
         {
-          ... on PageComponentFaq
+          websiteName
+        }
+      }
+      faqList
+      {
+        faqComponentTitle
+        faqComponentName
+        faqEntriesCollection
+        {
+          items
           {
-            faqComponentTitle
-            faqEntriesCollection
-            {
-              items
-              {
-                question
-                answer
-              }
-            }
+            internalName
+            question
+            answer
           }
         }
       }
+
     }
   }
 }

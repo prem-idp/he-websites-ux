@@ -45,8 +45,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   //
   const displayNames = {
     ...displayNameResponse,
-    month: searchParams?.month?.toUpperCase(),
-    year: searchParams?.year,
+    month: searchPayLoad?.month?.toUpperCase(),
+    year: searchPayLoad?.year,
   }
   const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
 
