@@ -9,7 +9,7 @@ type RequestType = "GET" | "POST";
 export async function graphQlFetchFunction(
   payload: string,
   isContentPreview?: boolean,
-  customParams?: any
+  
 ) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API}`, {
@@ -19,7 +19,7 @@ export async function graphQlFetchFunction(
         Authorization: `Bearer ${isContentPreview ? process.env.NEXT_PUBLIC_PREVIEW_GRAPHQL_AUTH : process.env.NEXT_PUBLIC_GRAPHQL_AUTH}`,
       },
       body: JSON.stringify({ query: payload }),
-      ...customParams,
+      cache: "no-store",
     });
 
     const data = await res.json();
