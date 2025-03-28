@@ -58,7 +58,7 @@ const KeyNames = () => {
 const keyName = KeyNames();
 const filterbodyJson = (inputObject: any, parentQual: string) => {
   return {
-    parentQualification: qualCode?.[parentQual] || "L",
+    parentQualification: qualCode?.[parentQual] || "",
     childQualification: inputObject?.[keyName?.studyLevel] || "",
     searchCategoryCode: "",
     searchSubject: inputObject?.[keyName?.subject]?.includes("+")
