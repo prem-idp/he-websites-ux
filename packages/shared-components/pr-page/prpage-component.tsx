@@ -45,7 +45,8 @@ const searchPRResults = async (payloads: any) => {
         "sitecode": `${process.env.PROJECT === "Whatuni" ? "WU_WEB" : "PGS_WEB"}`,
         "Content-Type": "application/json",
         "x-api-key": `${process.env.NEXT_PUBLIC_DOMSERVICE_X_API_KEY}`,
-        "x-correlation-id": uuid
+        "x-correlation-id": uuid,
+        "cache": "no-store"
       },
       body: JSON.stringify(payloads),
     });
