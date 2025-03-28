@@ -60,8 +60,8 @@ const TopSection: React.FC<searchProps> = async ({
   ];
   const displayNames = {
     ...displayNameResponse,
-    month: searchParams?.month?.toUpperCase(),
-    year: searchParams?.year,
+    month: searchPayLoad?.month?.toUpperCase(),
+    year: searchPayLoad?.year,
   }
   const metaFiltersOpted: MetaFilterTypesReplace = getMetaOptedDisplayNames(displayNames);
   const h1Text = replaceSEOPlaceHolder(contentfulMetadata?.h1Title || defaultH1text , metaFiltersOpted);
