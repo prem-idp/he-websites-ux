@@ -81,8 +81,9 @@ const FavouriteIcon: React.FC<any> = ({ contentId, contentType, contentName, fav
             });
     }
 
-    const onClose = (event: React.FormEvent) => {
-        event.stopPropagation();
+    const onClose = (e: React.FormEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
         setfavourtiteTooltip("");
         setExceedMessage(false);
     };

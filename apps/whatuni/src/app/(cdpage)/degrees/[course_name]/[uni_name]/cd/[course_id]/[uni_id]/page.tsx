@@ -157,13 +157,14 @@ export default async function Cdpage({ params }: any) {
        <FavFunctionalityWrapper>
         <Courseheaderinfocomponents data={data} searchPayload={searchparams} institutionUrl = {institutionUrl} />
         <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
-      </FavFunctionalityWrapper>
+     
       {othercourseData?.length > 0 &&
         <Othercoursesmaylikecomponents othercourseData={othercourseData} />
       }
       {data?.similarCourses?.courses?.length > 0 &&
         <SimilarCourseComponent data={data} />
       }
+       </FavFunctionalityWrapper>
         <LazyLoadWrapper>
           <Findacoursecomponents h1value="Find a course" subheading={false} />
         </LazyLoadWrapper>
