@@ -110,7 +110,7 @@ getSearchLabels();
     const updatedUrl = `${filterKey === "university" ? window.location.pathname?.replace?.("csearch","search") :  window.location.pathname}${
       currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;
-    eventEmitter.emit("refreshFilters");
+    emitter.emit("refreshFilters");
    window.location.href = updatedUrl
   };
 
