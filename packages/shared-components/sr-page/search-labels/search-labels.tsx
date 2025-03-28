@@ -61,6 +61,7 @@ getSearchLabels();
     emitter.emit("isfilterOpen", "subject");
   };
   const removeFilter = (filterKey: string,value:any) => {
+    emitter.emit("refreshFilters");
     const regex = /[()/]/g;
     const currentParams = new URLSearchParams(window.location.search);  
     const filterCookie = JSON.parse(decodeURIComponent(
@@ -110,7 +111,6 @@ getSearchLabels();
     const updatedUrl = `${filterKey === "university" ? window.location.pathname?.replace?.("csearch","search") :  window.location.pathname}${
       currentParams.toString() ? `?${decodeURIComponent(currentParams.toString())}` : ''
     }`;
-    emitter.emit("refreshFilters");
    window.location.href = updatedUrl
   };
 
