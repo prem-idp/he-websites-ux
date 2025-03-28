@@ -292,7 +292,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     urlparam =
       `?${university ? `${keyName?.university}=${university}${subjectList ? "&" : ""}` : ""}` +
       `${subjectList ? `${keyName?.subject}=${subjectList}` : ""}`;
-    alert(urlparam);
     sessionStorage.setItem("filter_param", "{}");
     document.cookie = `filter_param={}; path=/;`;
     document.cookie = "min=; path=/; max-age=0; secure; samesite=lax";
@@ -643,7 +642,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       if (urlAndSession?.postcode !== locationState?.postCodeValue) {
         appendSearchParams("postcode", locationState?.postCodeValue);
       } else {
-        alert("entered in else condition");
         appendSearchParams("distance", locationState?.selectedMile);
       }
     } else {
