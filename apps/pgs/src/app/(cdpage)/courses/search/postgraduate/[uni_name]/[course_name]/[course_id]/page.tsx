@@ -73,8 +73,6 @@ export default async function Cdpage({ params }: any) {
   };
 
   const queryParams = new URLSearchParams(pgsbody).toString();
-
- 
   const [data, contents, othercourseData,pgs_search_data] = await Promise.all([
     cdfetchData(url).catch(err => ({ error: err })),
     graphQlFetchFunction(COURSE_DETAILS_QUERY).catch(err => ({ error: err })),

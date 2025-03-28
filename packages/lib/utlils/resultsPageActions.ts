@@ -35,8 +35,8 @@ export async function getSearchPageMetaDetailsFromContentful(searchParams: any, 
   //2) contentful API hit
   const seoMetaFeildId: string  = process.env.PROJECT === "Whatuni" ? getWU_SearchSEOFieldId(searchPayLoad) : getPGS_SearchSEOFieldId(searchPayLoad); 
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
-  const customParams = {cache: "no-cache", next: {revalidate: 300}};
-  let contentfulMetadata = await graphQlFetchFunction(query, false, customParams);
+  // const customParams = {cache: "no-cache", next: {revalidate: 300}};
+  let contentfulMetadata = await graphQlFetchFunction(query, false);
   contentfulMetadata = contentfulMetadata?.data?.pageSeoFieldsCollection?.items[0];
   // console.log("query: ", query);
   // console.log("seoMetaFeildId: ", seoMetaFeildId);
