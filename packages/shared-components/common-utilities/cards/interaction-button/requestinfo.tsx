@@ -17,47 +17,50 @@ const RequestInfo = ({ enquiryProps }: any) => {
   const handleRequestInfo = async () => {
     console.log("Enter Props", enquiryProps);
      try {
-      const requestInfoPayload = {
-        suborderItemId: enquiryProps?.subOrderItemId,
-        orderItemId: enquiryProps?.orderItemId,
-        collegeId: enquiryProps?.collegeId,
-        affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
-        qualCode: enquiryProps?.qualCode,
-        //sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
-        //manualBoostingFlag: enquiryProps?.manualBoostingFlag,
-      };
-      console.log("requestInfoPayload", requestInfoPayload);
-      const response = await fetchenquirydata(requestInfoPayload);
-      console.log("response printing", response);
-      if(response?.requestInfoWebform){
-        // const url = `/degrees/navigation-url.html?id=${enquiryProps?.subOrderItemid || ""}&cta-button-name=email_webform`;
-        // console.log("URL Printing", url);
-        // router.push(url);
-        console.log("REQUESTINFO_WEBFORMURL", response?.requestInfoWebform);
-        window.open(response.requestInfoWebform, '_blank');
-        return
-      }
-      if(response?.requestInfoEmail){
-        let url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}`;
-       if(enquiryProps?.subOrderItemId){
-        if(process.env.PROJECT === "PGS"){
-          url = `/pgs/pgs_interactive.get_request_info_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}${enquiryProps?.orderItemId ? `&p_order_item_id=${enquiryProps?.orderItemId}`:""}`;
-        }else{
-          if(enquiryProps?.pageName === "browsemoneypageresults"){
-            url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId || "0"}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
-          } else if(enquiryProps?.pageName === "coursesearchresult"){
-            url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
-          }
+      if(enquiryProps?.subOrderItemId){
+        const requestInfoPayload = {
+          suborderItemId: enquiryProps?.subOrderItemId,
+          orderItemId: enquiryProps?.orderItemId,
+          collegeId: enquiryProps?.collegeId,
+          affiliateId: process.env.PROJECT === "Whatuni" ? 220703 : 607022,
+          qualCode: enquiryProps?.qualCode,
+          //sponsoredListingFlag: enquiryProps?.sponsoredListingFlag,
+          //manualBoostingFlag: enquiryProps?.manualBoostingFlag,
+        };
+        console.log("requestInfoPayload", requestInfoPayload);
+        const response = await fetchenquirydata(requestInfoPayload);
+        console.log("response printing", response);
+        if(response?.requestInfoWebform){
+          // const url = `/degrees/navigation-url.html?id=${enquiryProps?.subOrderItemid || ""}&cta-button-name=email_webform`;
+          // console.log("URL Printing", url);
+          // router.push(url);
+          console.log("REQUESTINFO_WEBFORMURL", response?.requestInfoWebform);
+          window.open(response.requestInfoWebform, '_blank');
+          return
         }
-       }else{
+        if(response?.requestInfoEmail){
+          let url = `/degrees/email${enquiryProps?.collegeName ? `/${enquiryProps?.collegeName}-email`:""}${enquiryProps?.collegeId ? `/${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `/${enquiryProps?.courseId}`:""}${enquiryProps?.selectedSubject ? `/${enquiryProps?.selectedSubject}`:"0"}`;
+          if(process.env.PROJECT === "PGS"){
+            url = `/pgs/pgs_interactive.get_request_info_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}${response?.orderItemId ? `&p_order_item_id=${response?.orderItemId}`:""}`;
+          }else{
+            if(enquiryProps?.pageName === "browsemoneypageresults"){
+              url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?${enquiryProps?.sponsoredListingFlag === "Y"? `sponsoredOrderItemId=${enquiryProps?.orderItemId || "0"}` : `sponsoredOrderItemId=0`}&manualBoostingFlag=${enquiryProps?.manualBoostingFlag || "N"}&pageName=sr&fromPage=${enquiryProps?.pageName}`;
+            } else if(enquiryProps?.pageName === "coursesearchresult"){
+              url = `${url}${enquiryProps?.subOrderItemId ? `/n-${enquiryProps?.subOrderItemId}`:""}/send-college-email.html?fromPage=${enquiryProps?.pageName}`;
+            }
+          }
+        console.log("URL Printing", url);
+        router.push(url);
+        }
+      }else{
+        let url = "";
         if(process.env.PROJECT === "PGS"){
-          url = `/pgs/pgs_user.signup_frm_lbx_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}&p_from_type=pdf`;
+          url = `/pgs/pgs_user.get_non_adv_form_prc?${enquiryProps?.collegeId ? `z=${enquiryProps?.collegeId}`:""}${enquiryProps?.courseId ? `&w=${enquiryProps?.courseId}`:""}&p_from_type=pdf`;
         }else{
           url = getNonAdvertUrl();
         }
-       }
-      console.log("URL Printing", url);
-      router.push(url);
+        console.log("URL Printing", url);
+        router.push(url);
       }
      } 
      catch(error){
