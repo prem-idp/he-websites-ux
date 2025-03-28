@@ -24,8 +24,10 @@ const useFavourite = () => {
                 const user: AuthUser = await getCurrentUser();
                 if (user && typeof window !== "undefined") {
                     const favList: Favourite[] = await getUserFavourites();
-                    globalFavourites = favList?.map((fav) => +fav?.fav_id);
-                    // setFavourites(() => [...globalFavourites]);
+                    if (favList?.length) {
+                        globalFavourites = favList?.map((fav) => +fav?.fav_id);
+                        setFavourites(() => [...globalFavourites]);
+                    }
                     emitter.emit('setFavourite');
                 }
             } catch (error) {
