@@ -9,7 +9,7 @@ interface UserFavouriteProps {
     contentId: number,
     contentName: string,
     favouritedContentsId?: any[]
-}
+}  
 
 const FavouriteIcon: React.FC<any> = ({ contentId, contentType, contentName, favouritedContentsId = [] }: UserFavouriteProps) => {
 

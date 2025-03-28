@@ -4,6 +4,14 @@ import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 import { useEffect, useState } from "react";
 import { createContext } from 'react';
 
+interface Favourite {
+    fav_id: string;
+    fav_type: string;
+    fav_date?: string;
+    final_choice_id?: string | null;
+    choice_position?: number | null;
+}
+
 export const FavouriteContext = createContext<any[]>([]);
 
 const FavFunctionalityWrapper = ({ children }: any) => {
@@ -15,7 +23,7 @@ const FavFunctionalityWrapper = ({ children }: any) => {
             try {
                 const user: AuthUser = await getCurrentUser();
                 if (user && typeof window !== "undefined") {
-                    const favList: any[] = await getUserFavourites();
+                    const favList: Favourite[] = await getUserFavourites();
                     if (favList?.length) {
                         let formattedList = favList?.map((fav) => +fav?.fav_id);
                         setFavourites(() => [...formattedList]);

@@ -9,14 +9,6 @@ const FavouriteIcon = dynamic(() => import('./FavouriteHeartIcon'), {
   ssr: false,
 });
 
-interface Favourite {
-  fav_id: string;
-  fav_type: string;
-  fav_date?: string;
-  final_choice_id?: string | null;
-  choice_position?: number | null;
-}
-
 interface UserFavouriteProps {
   contentType: 'INSTITUTION' | 'COURSE',
   contentId: number,
