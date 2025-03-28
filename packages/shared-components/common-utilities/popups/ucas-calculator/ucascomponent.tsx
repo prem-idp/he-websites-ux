@@ -1,7 +1,7 @@
 "use client";
 import { v4 as uuidv4 } from "uuid";
 import { fetchAuthSession } from "aws-amplify/auth";
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AddQualification from "./additional-qual";
 import makeApiCall from "@packages/REST-API/rest-api";
 import TopLevelMenu from "./toplevel-menu";
