@@ -29,6 +29,7 @@ import { FAQsQuery, SRCityGuideQuery, SRSubjectGuideQuery } from "@packages/lib/
 import FaqClient from "../common-utilities/faq/faq-clientwrap";
 import Faqskeleton from "../skeleton/faqskeleton";
 import { SRDisplayNameEndPt } from "@packages/shared-components/services/bffEndpoitConstant";
+import FavFunctionalityWrapper from "../common-utilities/user-favourite/FavFunctionalityWrapper";
 
 const SearchResultComponent = async ({ searchparams, params }: any) => {
   const cookieStore = await cookies();
@@ -118,10 +119,13 @@ const SearchResultComponent = async ({ searchparams, params }: any) => {
               ) : (
                 <></>
               )}
-              <SrPageResultPod
-                searchResultsData={searchResultsData?.searchResultsList}
-                qualName={pathname}
-              />
+              <FavFunctionalityWrapper>
+                <SrPageResultPod
+                  searchResultsData={searchResultsData?.searchResultsList}
+                  qualName={pathname}
+                />
+              </FavFunctionalityWrapper>
+
               {searchResultsData?.collegeCount > 10 ? (
                 <>
                   <Paginations
