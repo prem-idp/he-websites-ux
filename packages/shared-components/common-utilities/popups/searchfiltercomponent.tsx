@@ -293,8 +293,11 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       `?${university ? `${keyName?.university}=${university}${subjectList ? "&" : ""}` : ""}` +
       `${subjectList ? `${keyName?.subject}=${subjectList}` : ""}`;
     alert(urlparam);
-    document.cookie = `filter_param={}; path=/;`;
     sessionStorage.setItem("filter_param", "{}");
+    document.cookie = `filter_param={}; path=/;`;
+    document.cookie = "min=; path=/; max-age=0; secure; samesite=lax";
+    document.cookie = "ucaspoint=; path=/; max-age=0; secure; samesite=lax";
+    document.cookie = "UCAS=; path=/; max-age=0; secure; samesite=lax";
     router.prefetch(urlparam);
     window.history.pushState(null, "", urlparam);
     router.push(urlparam);
