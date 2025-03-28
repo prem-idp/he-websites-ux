@@ -23,6 +23,7 @@ const getUserFavourites = async (): Promise<any> => {
           method: "POST",
           headers,
           body: payload ?  JSON.stringify(payload) : undefined,
+          cache: "no-store",
         });
         const data = await respone.json();       
         return data?.favourites;
@@ -52,6 +53,7 @@ const getUserFavourites = async (): Promise<any> => {
             method: "POST",
             headers,
             body: payload ?  JSON.stringify(favpayload) : undefined,
+            cache: "no-store",
           });
           const data = await respone.json();
           if(data?.status == 200) {

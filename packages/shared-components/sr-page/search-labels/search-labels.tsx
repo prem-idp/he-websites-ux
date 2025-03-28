@@ -61,6 +61,7 @@ getSearchLabels();
     emitter.emit("isfilterOpen", "subject");
   };
   const removeFilter = (filterKey: string,value:any) => {
+    emitter.emit("refreshFilters");
     const regex = /[()/]/g;
     const currentParams = new URLSearchParams(window.location.search);  
     const filterCookie = JSON.parse(decodeURIComponent(
