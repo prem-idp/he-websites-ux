@@ -115,8 +115,17 @@ export class PgsHeCdkStack extends cdk.Stack {
     new s3deploy.BucketDeployment(this, "DeployNextjsAssets", {
       sources: [s3deploy.Source.asset("../.open-next/assets")],
       destinationBucket: myBucket,
+      destinationKeyPrefix: "assets",
       vpc: vpcConfig,
     });
+    // Upload files to the S3 bucket
+    new s3deploy.BucketDeployment(this, "DeployNextjsCache", {
+      sources: [s3deploy.Source.asset("../.open-next/cache")],
+      destinationBucket: myBucket,
+      destinationKeyPrefix: "cache",
+      vpc: vpcConfig,
+    });
+
     const serverFunctionName = process.env.PGS_SERVER_FN_LAMBDA_NAME || "";
     // const logGroupArn = `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/lambda/${serverFunctionName}:*`;
     // const cloudwatchPolicyStatement = new PolicyStatement({
@@ -157,10 +166,20 @@ export class PgsHeCdkStack extends cdk.Stack {
       resources: ["*"],
     });
 
+
+    const s3CacheStatement = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject", "s3:PutObject", "s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::${process.env.AWS_PGS_S3_BUCKET_NAME}`,
+        `arn:aws:s3:::${process.env.AWS_PGS_S3_BUCKET_NAME}/*`,
+      ],
+    });
+    
     // Create the IAM policy
     const myPolicy = new Policy(this, "MyPolicy", {
       policyName: `${serverFunctionName}-permission`,
-      statements: [cloudwatchPolicyStatement, ec2XrayPolicyStatement],
+      statements: [cloudwatchPolicyStatement, ec2XrayPolicyStatement,s3CacheStatement,],
     });
 
     cdk.Tags.of(myPolicy).add("ApplicationService", "CS Channel: HE websites");

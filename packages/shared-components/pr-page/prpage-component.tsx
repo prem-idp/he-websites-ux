@@ -110,17 +110,20 @@ const PrPageComponent = async ({ searchparams }: any) => {
   const cookieStore = await cookies();
   const headerList = await headers();
   const domain = getCustomDomain();
+  const refererURL = headerList.get("referer");
   const filterCookieParam = JSON.parse(cookieStore?.get("filter_param")?.value || "{}");
   const pathname = cookieStore?.get("pathnamecookies")?.value?.split("/")[1]?.trim() || "{}";
 
-  const payloads = await getSearchPayload(searchparams,
-    filterCookieParam, pathname, cookieStore?.get("dynamic_random_number")?.value || "",
+  const payloads = await getSearchPayload(
+    searchparams,
+    refererURL ? filterCookieParam : "",
+    pathname,
+    cookieStore?.get("dynamic_random_number")?.value || "",
     headerList?.get("x-forwarded-for") || ""
   );
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, payloads, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
 
-  const refererURL = headerList.get("referer");
   const data = await searchPRResults(payloads); // Fetch earach the PR results
   const providerList = transformProviderListData(data, pathname); // transform Provider List Data results
   const breadcrumbJson: any[] = get_WU_SR_PR_breadcrumb(searchparams, displayNameResponse, pathname);
