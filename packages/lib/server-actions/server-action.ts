@@ -21,6 +21,7 @@ export async function graphQlFetchFunction(
       body: JSON.stringify({ query: payload }),
       ...customParams,
     });
+
     const data = await res.json();
     return data;
   } catch (error) {
