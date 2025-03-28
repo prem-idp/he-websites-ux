@@ -12,6 +12,7 @@ import {
 import emitter from "@packages/lib/eventEmitter/eventEmitter";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { getCookie } from "@packages/lib/utlils/helper-function";
+import Spinner from "@packages/shared-components/skeleton/spinner/spinner";
 interface CourseTabProps {
   searchFormHandle: any;
   setsearchFormHandle: any;
@@ -34,6 +35,7 @@ const CourseTab: React.FC<CourseTabProps> = ({
   const [subjectlist, setSubjectlist] = useState(data?.courseDetails);
   const [locationlist, setLocationlist] = useState(data?.locationList);
   const [studymodelist, setStudymodelist] = useState(data?.studyLevelList);
+  const [buttonName, setButtonName] = useState("search");
   const [dropdownIndex, setdropdownIndex] = useState<number>(0);
   const [dropdownIndexQual, setdropdownIndexQual] = useState<number>(0);
   const [filteredsubject, setFilteredsubject] = useState<
@@ -839,14 +841,21 @@ const CourseTab: React.FC<CourseTabProps> = ({
           <button
             type="submit"
             className="btn btn-primary flex items-center justify-center gap-[6px] px-[24px] py-[10px] md:min-w-[114px] md:w-[130px]"
+            onClick={() => {
+              setButtonName("searching");
+            }}
           >
-            <Image
-              src="/static/assets/icons/search_icon.svg"
-              width="18"
-              height="18"
-              alt="Search icon"
-            />
-            Search
+            {buttonName === "search" && (
+              <Image
+                src="/static/assets/icons/search_icon.svg"
+                width="18"
+                height="18"
+                alt="Search icon"
+              />
+            )}
+
+            {buttonName}
+            {buttonName !== "search" && <Spinner />}
           </button>
         </Form>
       </div>

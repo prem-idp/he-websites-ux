@@ -2,11 +2,11 @@ import React from "react";
 
 const Spinner = () => {
   return (
-    <div className="max-w-container mx-auto w-full h-[500px] flex items-center justify-center">
+    <div className="max-w-container mx-auto w-full  flex items-center justify-center">
       <svg
         className="animate-spin"
-        width="65"
-        height="64"
+        width="17"
+        height="16"
         viewBox="0 0 65 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
