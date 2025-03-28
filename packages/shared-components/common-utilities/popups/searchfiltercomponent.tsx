@@ -283,6 +283,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
   }, [routerEnd, searchParams]);
 
   const clearFilter = () => {
+    setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
     const firstSubject = (searchParams?.get(keyName?.subject) || "")?.split(
       " "
     );
@@ -290,6 +291,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     document.cookie = `filter_param={}; path=/;`;
     sessionStorage.setItem("filter_param", "{}");
     router.push(url);
+    setFilterState((prev: any) => ({ ...prev, isFilterLoading: false }));
   };
 
   const modifySearchParams = (key: string, value: string, urlParams: any) => {
