@@ -42,16 +42,16 @@ const GradeBanner = () => {
         <div className="flex gap-[16px]">
           <div className="bg-blue-200 text-grey900 rounded-tl-[24px] rounded-br-[24px] p-[8px] w-[48px] h-[48px] flex items-center justify-center shrink-0">
             <Image
-              src={!score ? "/static/assets/icons/search-result/calender-blue.svg" : "/static/assets/icons/search-result/location-home-blue.svg"}
-              alt="Calender"
+              src={!score && process.env.PROJECT === "Whatuni"  ? "/static/assets/icons/search-result/calender-blue.svg" : "/static/assets/icons/search-result/location-home-blue.svg"}
+              alt="Banner"
               width={32}
               height={32}
             />
           </div>
           <div className="flex flex-col gap-[4px]">
-            <div className="para-lg font-bold font-farro">Add your {score || (process.env.PROJECT === "PGS"&& !location)  ? "location" : "grades"}</div>
+            <div className="para-lg font-bold font-farro">Add your {score || (process.env.PROJECT === "PGS" && !location)  ? "location" : "grades"}</div>
             <div className="small">
-            {score ? "Add your location to discover universities nearby or in regions you're interested in" : "Add your UCAS points to help tailor your search to find the right uni for you"}
+            {score || (process.env.PROJECT === "PGS" && !location) ? "Add your location to discover universities nearby or in regions you're interested in" : "Add your UCAS points to help tailor your search to find the right uni for you"}
              
             </div>
           </div>

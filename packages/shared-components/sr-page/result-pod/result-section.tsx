@@ -31,9 +31,7 @@ const SrPageResultPod: React.FC<SrPageResultPodProps> = ({
   qualName,
 }) => {
   const searchParams = useSearchParams();
-  const selectedSubject = searchParams?.has("subject")
-    ? searchParams?.get("subject")
-    : "";
+  const selectedSubject = searchParams?.get("subject")?.split(' ')[0] ?? searchParams?.get("subject");
   const [user, setUserData] = useState<AuthUser | null>(null);
   // const [favourite, setFavourite] = useState<{favouritedList: any[] }>({favouritedList: [] });
 
