@@ -20,6 +20,7 @@ import { cookies } from 'next/headers';
 import { getQualCode } from '@packages/shared-components/services/utils';
 import SchemaTagLayoutComponent from '@packages/shared-components/common-utilities/schematag-layout/SchemaTagLayoutComponent';
 import { Metadata } from 'next';
+import FavFunctionalityWrapper from '@packages/shared-components/common-utilities/user-favourite/FavFunctionalityWrapper';
 
 let breadcrumbData: any;
 const domain = getCustomDomain();
@@ -153,8 +154,10 @@ export default async function Cdpage({ params }: any) {
           </div>
         </section>
       )}
-      <Courseheaderinfocomponents data={data} searchPayload={searchparams} institutionUrl = {institutionUrl} />
-      <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
+       <FavFunctionalityWrapper>
+        <Courseheaderinfocomponents data={data} searchPayload={searchparams} institutionUrl = {institutionUrl} />
+        <Cdpageclient data={data} courseContent={courseContent} prams_slug={prams_slug} />
+      </FavFunctionalityWrapper>
       {othercourseData?.length > 0 &&
         <Othercoursesmaylikecomponents othercourseData={othercourseData} />
       }
