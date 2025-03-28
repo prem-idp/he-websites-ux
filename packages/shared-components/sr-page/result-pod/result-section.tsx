@@ -540,7 +540,7 @@ queryString ? `&${queryString}` : ''
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />
                       )}
-                      {courseData?.openDayDetails?.opendayFlag === "Y" && (
+                      {data?.openDayDetails?.opendayFlag === "Y" && (
                         <BookOpenDay
                           enquiryProps={getEnquiryProps(data, courseData)}
                         />
