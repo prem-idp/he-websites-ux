@@ -69,7 +69,6 @@ const extractUrlAndSessionValues = (
       acc[key] = decodeURIComponent(value);
       return acc;
     }, {});
-
   const sessionObject: KeyValueObject =
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage?.getItem("filter_param") || "{}")
