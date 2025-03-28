@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/UserFavourite";
 
 interface ProviderTopCardProps {
   searchResultlist: any; // Adjust type as needed

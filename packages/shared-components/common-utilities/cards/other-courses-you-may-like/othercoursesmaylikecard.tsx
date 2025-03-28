@@ -5,7 +5,7 @@ import Getprospectus from '@packages/shared-components/common-utilities/cards/in
 import Visitwebsite from '@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite'
 import Clearingvisitewebsite from '../interaction-button/clearingvisitewebsite'
 import Callnowbutton from '../interaction-button/callnow'
-import UserFavourite from '../../user-favourite/user-favourite'
+import UserFavourite from '../../user-favourite/UserFavourite'
 
 const Othercoursesmaylikecard = ({ val }: any) => {
     console.log(val, "val")

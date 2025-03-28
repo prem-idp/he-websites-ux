@@ -9,11 +9,12 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import ResultSectionSkeleton from "@packages/shared-components/skeleton/search-result/result-section-skeleton";
 import ApplyNow from "@packages/shared-components/common-utilities/cards/interaction-button/applynow";
-import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/UserFavourite";
 import { useSearchParams } from "next/navigation";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import { getUserFavourites } from "@packages/lib/utlils/userfavourite";
 import { getOrdinalFor, getQualCode } from "@packages/shared-components/services/utils";
+
 interface SrPageResultPodProps {
   searchResultsData: any[];
   qualName: string;

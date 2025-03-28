@@ -12,8 +12,10 @@ import { replaceSEOPlaceHolder } from '@packages/lib/utlils/resultsPageActions'
 import { SRDisplayNameEndPt } from '@packages/shared-components/services/bffEndpoitConstant'
 import { MetaFilterTypesReplace } from '@packages/lib/types/interfaces'
 import Viewmore from "@packages/shared-components/course-details/course-header-info/viewmore";
-import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/user-favourite'
+import UserFavourite from '@packages/shared-components/common-utilities/user-favourite/UserFavourite'
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday"
+
+
 const Courseheaderinfocomponents = async ({ data, searchPayload, institutionUrl}: any) => {
   const enquiryProps={
     subOrderItemId:data?.enquiryDetails?.institutionDetails?.subOrderItemId,

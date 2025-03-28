@@ -8,7 +8,7 @@ import RequestInfo from "@packages/shared-components/common-utilities/cards/inte
 import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
 import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
-import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/user-favourite";
+import UserFavourite from "@packages/shared-components/common-utilities/user-favourite/UserFavourite";
 import Link from "next/link";
 import { AuthUser, getCurrentUser } from "@aws-amplify/auth";
 import SortingFilter from "@packages/shared-components/sr-page/sorting-filter/sorting";

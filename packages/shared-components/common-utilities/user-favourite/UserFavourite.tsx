@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext } from "react";
 
-import FavouriteIcon from './FavouriteHeartIcon';
+// import FavouriteIcon from './FavouriteHeartIcon';
 import { FavouriteContext } from "./FavFunctionalityWrapper";
+import dynamic from 'next/dynamic';
+const FavouriteIcon = dynamic(() => import('./FavouriteHeartIcon'), {
+  ssr: false,
+});
 
 interface Favourite {
   fav_id: string;
