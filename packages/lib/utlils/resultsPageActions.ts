@@ -532,6 +532,14 @@ export function getPGS_SearchSEOFieldId(searchPayLoad: any){
       startDateSelected
     ) {
         seoMetaFeildId = `subject + startDate + location + courseType`;
+    } else if( // subject + startDate + location + qualification
+      (subjectSelected || keywordSelected) &&
+      locationSelected &&
+      searchPayLoad?.childQualification &&
+      !searchPayLoad?.studyMode &&
+      startDateSelected
+    ) {
+        seoMetaFeildId = `subject + startDate + location + qualification`;
     } else if( // qualification
       !(subjectSelected || keywordSelected) &&
       !locationSelected &&

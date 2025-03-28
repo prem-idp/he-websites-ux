@@ -37,7 +37,7 @@ const TopSection: React.FC<searchProps> = async ({
   const displayNameBFFEndPt = `${process.env.NEXT_PUBLIC_BFF_API_DOMAIN}${SRDisplayNameEndPt}`;
   const displayNameResponse = await httpBFFRequest(displayNameBFFEndPt, searchPayLoad, "POST", `${process.env.NEXT_PUBLIC_X_API_KEY}`, "no-cache", 0, {});
   const seoMetaFeildId: string = process.env.PROJECT == "Whatuni" ? getWU_SearchSEOFieldId(searchPayLoad) : getPGS_SearchSEOFieldId(searchPayLoad);
-  // const customParams = {cache: "no-cache", next: {revalidate: 300}};
+  const customParams = {cache: "no-store"};
   const query = getMetaDetailsQueryForSRpage(seoMetaFeildId);
   const domain = getCustomDomain();
   const defaultH1text = "Compare courses and degrees in the UK";
