@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["jest", "node"],
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,25 +18,11 @@
         "name": "next"
       }
     ],
-    
     "paths": {
       "@/*": ["./src/*"],
       "@packages/*": ["../../packages/*"] // Path alias for common components
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src/**/*",
-    "packages/**/*",
-    "public/main.js",
-    "configs/amplifyconfiguration.ts",
-    "../../packages/lib/types/onetrust.d.ts",
-    "../../packages/lib/types/global.d.ts",
-    "../../packages/lib/contentful-preview/ContentfulInspector.tsx"
-, "../../packages/lib/utlils/loadgtm.tsx"  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-

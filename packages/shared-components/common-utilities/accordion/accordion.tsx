@@ -1,21 +1,16 @@
-"use client";
-import React, { useState, useEffect } from "react";
-const Accordion = ({ title, defaultOpenStatus, id, children }: any) => {
-  const [isOpen, setIsOpen] = useState(defaultOpenStatus);
-  useEffect(() => {
-    setIsOpen(defaultOpenStatus);
-  }, [defaultOpenStatus]);
+import React, { useState } from "react";
+
+const Accordion = ({ title, children }: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div
-      className="mx-[16px] py-[24px] border-t border-grey-300 md:mx-[32px]"
-      id={id}
-    >
+    <div className="mx-[16px] py-[24px] border-t border-grey-300 md:mx-[32px]">
       <button
         type="button"
         className="flex items-center justify-between w-full font-semibold small"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="h5 text-blue-400">{title}</span>
+        <span className="h5 text-blue-400 hover:underline">{title}</span>
         {isOpen ? (
           <svg
             className="transition-all duration-300"
@@ -51,9 +46,9 @@ const Accordion = ({ title, defaultOpenStatus, id, children }: any) => {
         )}
       </button>
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`transition-all duration-300 ease-in-out ${
           isOpen ? "" : "max-h-0"
-        }`}
+        }  ${ isOpen && title === 'Nationality' ? "" : "overflow-hidden"}`}
       >
         {children}
       </div>

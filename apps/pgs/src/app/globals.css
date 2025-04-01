@@ -35,14 +35,14 @@
     font-weight: 400;
   }
 
-  /* @font-face {
+  @font-face {
     font-family: "Inter";
     src:
       url("./fonts/Inter-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
-  } */
+  }
 
   @font-face {
     font-family: "Inter";
@@ -562,7 +562,7 @@ p, .para {
 }
 
 .pull-quotes {
-  quotes: '"' "”";
+  quotes: '"' "�";
 }
 
 /* skiplink hamburger menu  */

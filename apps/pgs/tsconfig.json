@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["jest", "node"],
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -24,14 +23,6 @@
       "@packages/*": ["../../packages/*"] // Path alias for common components
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src/**/*",
-    "packages/**/*",
-    "public/main.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
