@@ -245,7 +245,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     const body = document.body;
     body.classList.remove("overflow-y-hidden");
   };
-  console.log({ prepopulateFilter });
   const ShowResults = () => {
     const body = document.body;
     body?.classList?.remove("overflow-y-hidden");
@@ -488,11 +487,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     isQualification?: boolean,
     changeSubject?: string
   ) => {
-    if (changeSubject) {
-      console.log({ changeSubject });
-    } else {
-      console.log("no change subjevct is present");
-    }
     const crossL1Subject = checkCrossL1Subject(
       key,
       value,
@@ -678,7 +672,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     }
     appendSearchParams("location", appliedCities?.join("+"));
   };
-  console.log(prepopulateFilter);
   return (
     <>
       <div>

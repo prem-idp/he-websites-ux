@@ -63,13 +63,13 @@ const L2subjectList = React.memo(
                     {visibleItems?.length > 1 && (
                       <svg
                         onClick={() => {
-                          // appendSearchParams(
-                          //   keyName?.subject,
-                          //   subjectNames?.subjectTextKey
-                          // );
-                          subjectLabels.filter(
-                            (item) => item !== subjectNames?.subjectTextKey
+                          appendSearchParams(
+                            keyName?.subject,
+                            subjectNames?.subjectTextKey
                           );
+                          // subjectLabels.filter(
+                          //   (item) => item !== subjectNames?.subjectTextKey
+                          // );
                         }}
                         width="16"
                         height="16"

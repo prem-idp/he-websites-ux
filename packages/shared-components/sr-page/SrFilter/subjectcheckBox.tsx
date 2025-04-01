@@ -14,7 +14,7 @@ const SubjectCheckBox = React.memo(
       setIsChecked(
         prepopulateFilter?.subject?.split("+")?.includes(item?.subjectTextKey)
       );
-    }, [prepopulateFilter?.subject]);
+    }, [prepopulateFilter]);
     const keyName = KeyNames();
     return (
       <div>
@@ -39,8 +39,8 @@ const SubjectCheckBox = React.memo(
                 id={item?.categoryDesc}
                 checked={isChecked}
                 onChange={() => {
-                  appendSearchParams(keyName?.subject, item?.subjectTextKey);
                   setIsChecked(!isChecked);
+                  appendSearchParams(keyName?.subject, item?.subjectTextKey);
                 }}
                 className="form-checkbox hidden"
               />
