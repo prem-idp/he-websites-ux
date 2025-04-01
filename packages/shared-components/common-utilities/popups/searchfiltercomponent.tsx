@@ -1423,7 +1423,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               </p>
                             )}
                           </div>
-                          <div className="flex items-center gap-[4px]">
+                          {/* <div className="flex items-center gap-[4px]">
                             <svg
                               width="16"
                               height="18"
@@ -1452,7 +1452,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                             >
                               Use current location
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                         {(jsondata?.regionList?.length > 0 ||
                           jsondata?.cityList?.length > 0) && (
