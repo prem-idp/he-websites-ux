@@ -40,6 +40,11 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
   const [courseCount, setCourseCount] = useState<any>(count);
   const keyName = KeyNames();
   const [selectedLocationType, setSelectedLocationType] = useState<any>("");
+  // const [studyLevelChecked, setStudyLevelChecked] = useState(
+  //   process.env.PROJECT === "Whatuni"
+  //     ? prepopulateFilter?.studyLevel === `${qualChild?.qualTextKey}-courses`
+  //     : filterState?.filterOrder?.qualification == qualChild?.qualTextKey
+  // );
   const [subjectState, setSubjectState] = useState({
     subjectkeyword: "",
     sortedSubjects: [],
@@ -126,6 +131,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         locationType: filterState?.filterOrder?.[keyName?.locationType] || "",
         university: filterState?.filterOrder?.[keyName?.university] || "",
         qualication: filterState?.filterOrder?.[keyName?.studyLevel] || "",
+        subject: filterState?.filterOrder?.[keyName?.subject] || "",
         studyLevel: pathname?.split("/")[1] || "",
       });
 
@@ -239,7 +245,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     const body = document.body;
     body.classList.remove("overflow-y-hidden");
   };
-
   const ShowResults = () => {
     const body = document.body;
     body?.classList?.remove("overflow-y-hidden");
@@ -280,7 +285,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       }
     };
     dynamicFilter();
-  }, [routerEnd, searchParams]);
+  }, [routerEnd]);
 
   const clearFilter = () => {
     setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
@@ -333,7 +338,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     key: string,
     value: string,
     isUniversitySelected: boolean = false,
-    crossL1Subject: boolean = false
+    crossL1Subject: boolean = false,
+    changeSubject?: string
   ) => {
     const filters = extractUrlAndSessionValues(
       searchParams,
@@ -341,6 +347,9 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       value,
       crossL1Subject
     );
+    if (changeSubject && process.env.PROJECT === "Whatuni") {
+      filters[keyName?.subject] = changeSubject;
+    }
     if (key == keyName?.postcode) {
       filters[keyName?.distance] = locationState?.selectedMile;
     } else if (key == keyName?.distance) {
@@ -389,11 +398,11 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     key: string,
     value: string,
     isUniversitySelected?: boolean,
-    isQualificationChanged?: boolean
+    isQualificationChanged?: boolean,
+    changeSubject?: string
   ) => {
     if (!routerEnd) {
       setFilterState((prev: any) => ({ ...prev, isFilterLoading: true }));
-
       if (key === keyName?.studyLevel) {
         setPrepopulateFilter((prev: any) => ({
           ...prev,
@@ -412,9 +421,9 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         key,
         value,
         isUniversitySelected,
-        crossL1Subject
+        crossL1Subject,
+        changeSubject
       );
-
       setFilterState((prev: any) => ({
         ...prev,
         filterOrder: orderedFilters,
@@ -454,11 +463,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
         );
         linkTagId.click();
       } else {
-        // console.log(
-        //   `${domainPath ?? ""}?${urlParams.toString()}`
-        //     .replaceAll("%2B", "+")
-        //     .replaceAll("%2C", ",")
-        // );
         window?.history?.pushState(
           null,
           "",
@@ -477,7 +481,12 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     setrouterEnd(true);
   };
 
-  const formUrl = (key: string, value: string, isQualification?: boolean) => {
+  const formUrl = (
+    key: string,
+    value: string,
+    isQualification?: boolean,
+    changeSubject?: string
+  ) => {
     const crossL1Subject = checkCrossL1Subject(
       key,
       value,
@@ -489,7 +498,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
       key,
       value,
       isQualification,
-      crossL1Subject
+      crossL1Subject,
+      changeSubject
     );
     const urlParams = new URLSearchParams();
     let totalValues = 0;
@@ -539,7 +549,6 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
     );
     return temp?.includes(value) ?? false;
   };
-
   const parentSubjectList: any = Array.from(
     new Set(
       jsondata?.subjectFilterList
@@ -880,18 +889,22 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                     pathname: `${process.env.PROJECT === "Whatuni" ? `/${qualChild?.qualTextKey}-courses/${slug?.split("/")[2]}` : "/pgs/search"}`,
                                     query: formUrl(
                                       keyName?.studyLevel,
-                                      qualChild?.qualTextKey
+                                      qualChild?.qualTextKey,
+                                      false,
+                                      qualChild?.subjectTextKey?.replaceAll(
+                                        ",",
+                                        "+"
+                                      )
                                     ),
                                   }}
                                 ></Link>
                               )}
                               <input
                                 checked={
-                                  process.env.PROJECT === "Whatuni"
-                                    ? slug?.split("/")[1] ===
-                                      `${qualChild?.qualTextKey}-courses`
-                                    : filterState?.filterOrder?.qualification ==
-                                      qualChild?.qualTextKey
+                                  prepopulateFilter?.studyLevel ===
+                                    `${qualChild?.qualTextKey}-courses` ||
+                                  filterState?.filterOrder?.qualification ==
+                                    qualChild?.qualTextKey
                                 }
                                 type="radio"
                                 name="studylevel"
@@ -902,19 +915,23 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                                     keyName?.studyLevel,
                                     qualChild?.qualTextKey,
                                     false,
-                                    true
+                                    true,
+                                    qualChild?.subjectTextKey?.replaceAll(
+                                      ",",
+                                      "+"
+                                    )
                                   );
-                                  {
-                                    process.env.PROJECT === "Whatuni"
-                                      ? appendSearchParams(
-                                          keyName?.subject,
-                                          qualChild?.subjectTextKey?.replaceAll(
-                                            ",",
-                                            "+"
-                                          )
-                                        )
-                                      : "";
-                                  }
+                                  // {
+                                  //   process.env.PROJECT === "Whatuni"
+                                  //     ? appendSearchParams(
+                                  //         keyName?.subject,
+                                  //         qualChild?.subjectTextKey?.replaceAll(
+                                  //           ",",
+                                  //           "+"
+                                  //         )
+                                  //       )
+                                  //     : "";
+                                  // }
                                 }}
                                 className="rounded-[4px] outline-none absolute opacity-0"
                               />
@@ -1060,6 +1077,8 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                               appendSearchParams={appendSearchParams}
                               containsSearchParam={containsSearchParam}
                               jsondata={jsondata?.subjectFilterList}
+                              prepopulateFilter={prepopulateFilter}
+                              setPrepopulateFilter={setPrepopulateFilter}
                             />
                           ))}
                         </div>
@@ -1080,7 +1099,7 @@ const SearchFilterComponent = ({ data, path, count }: any) => {
                 >
                   <div className="flex flex-col gap-[8px] p-[8px_0_0]">
                     <div className="x-small font-semibold text-black uppercase">
-                      Choose YEAR & MONTH
+                      Choose MONTH
                     </div>
                     <div className="flex flex-wrap gap-x-[4px] gap-y-[8px]">
                       {jsondata?.intakeYearDetails?.intakeYearList?.map(

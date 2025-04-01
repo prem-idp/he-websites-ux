@@ -5,12 +5,16 @@ import { KeyNames } from "@packages/lib/utlils/filters/filterJson";
 import { generatePathName } from "@packages/lib/utlils/filters/result-filters";
 import { useSearchParams } from "next/navigation";
 const SubjectCheckBox = React.memo(
-  ({ item, appendSearchParams, state, formUrl, slug }: any) => {
+  ({ item, appendSearchParams, formUrl, slug, prepopulateFilter }: any) => {
     const searchParams = useSearchParams();
-    const [isChecked, setIsChecked] = useState<boolean>(state || false);
+    const [isChecked, setIsChecked] = useState<boolean>(
+      prepopulateFilter?.subject?.split("+")?.includes(item?.subjectTextKey)
+    );
     useEffect(() => {
-      setIsChecked(state);
-    }, [state]);
+      setIsChecked(
+        prepopulateFilter?.subject?.split("+")?.includes(item?.subjectTextKey)
+      );
+    }, [prepopulateFilter]);
     const keyName = KeyNames();
     return (
       <div>
@@ -33,10 +37,10 @@ const SubjectCheckBox = React.memo(
               <input
                 type="checkbox"
                 id={item?.categoryDesc}
-                checked={state || false}
+                checked={isChecked}
                 onChange={() => {
-                  appendSearchParams(keyName?.subject, item?.subjectTextKey);
                   setIsChecked(!isChecked);
+                  appendSearchParams(keyName?.subject, item?.subjectTextKey);
                 }}
                 className="form-checkbox hidden"
               />

@@ -12,16 +12,13 @@ const L2subjectList = React.memo(
     subjectClicked,
     formUrl,
     appendSearchParams,
-    containsSearchParam,
     slug,
     subjectsArray,
+    prepopulateFilter,
   }: any) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const searchParams = useSearchParams();
     const keyName = KeyNames();
-    // const subjectsSelected = extractUrlAndSessionValues(searchParams, "", "")?.[
-    //   keyName?.subject
-    // ]?.split("+");
 
     const subjectsSelected = useMemo(
       () =>
@@ -30,21 +27,6 @@ const L2subjectList = React.memo(
         ]?.split("+"),
       [searchParams, keyName?.subject]
     );
-    // const subjectLable = subjectsSelected
-    //   ?.map((subjectParam: any) => {
-    //     const subjectUrl = subjectsArray?.subjects
-    //       ?.map((subjects: any) => {
-    //         if (subjects?.subjectTextKey == subjectParam) {
-    //           return subjects;
-    //         }
-    //         return null;
-    //       })
-    //       ?.filter(Boolean);
-    //     return subjectUrl;
-    //   })
-    //   ?.flat();
-
-    // const visibleItems = isExpanded ? subjectLable : subjectLable?.slice(0, 4);
 
     const subjectLabels = useMemo(() => {
       if (!subjectsSelected || !subjectsArray?.subjects) return [];
@@ -55,7 +37,7 @@ const L2subjectList = React.memo(
             (subject: any) => subject.subjectTextKey === subjectParam
           )
         )
-        .filter(Boolean); // Remove any `null` values
+        .filter(Boolean);
     }, [subjectsSelected, subjectsArray?.subjects]);
 
     const visibleItems = isExpanded
@@ -78,40 +60,43 @@ const L2subjectList = React.memo(
                     className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]"
                   >
                     {subjectNames?.categoryDesc}
-                    <svg
-                      onClick={() => {
-                        appendSearchParams(
-                          keyName?.subject,
-                          subjectNames?.subjectTextKey
-                        );
-                      }}
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4 12L12 4M4 4L12 12"
-                        stroke="#3460DC"
-                        strokeWidth="1.13"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    {visibleItems?.length > 1 && (
+                      <svg
+                        onClick={() => {
+                          appendSearchParams(
+                            keyName?.subject,
+                            subjectNames?.subjectTextKey
+                          );
+                          // subjectLabels.filter(
+                          //   (item) => item !== subjectNames?.subjectTextKey
+                          // );
+                        }}
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4 12L12 4M4 4L12 12"
+                          stroke="#3460DC"
+                          strokeWidth="1.13"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
                   </li>
                 ))}
               </>
             )}
             {visibleItems?.length > 3 && (
-              <li
-                onClick={() => {
-                  setIsExpanded(!isExpanded);
-                }}
-                className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]"
-              >
+              <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[4px]  font-semibold x-small flex items-center gap-[2px]">
                 <div aria-label="Back Arrow">
                   <svg
+                    onClick={() => {
+                      setIsExpanded(!isExpanded);
+                    }}
                     width="16"
                     height="16"
                     viewBox="0 0 16 16"
@@ -167,12 +152,9 @@ const L2subjectList = React.memo(
                   formUrl={formUrl}
                   isIndexed={isIndexed}
                   appendSearchParams={appendSearchParams}
-                  state={containsSearchParam(
-                    keyName?.subject,
-                    item?.subjectTextKey
-                  )}
                   slug={slug}
                   parent={selectedSubject?.parentSubject}
+                  prepopulateFilter={prepopulateFilter}
                 />
               ))}
             </div>
