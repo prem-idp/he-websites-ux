@@ -1,0 +1,26 @@
+/* [project]/apps/whatuni/src/app/interbold_cf1814.module.css [app-client] (css) */
+@font-face {
+  font-family: interBold;
+  src: url("../media/Inter_Bold-s.p.399674db.woff") format("woff");
+  font-display: swap;
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: interBold Fallback;
+  src: local(Arial);
+  ascent-override: 87.0%;
+  descent-override: 21.69%;
+  line-gap-override: 0.0%;
+  size-adjust: 111.35%;
+}
+
+.interbold_cf1814-module__JIRtCG__className {
+  font-family: interBold, interBold Fallback;
+}
+
+.interbold_cf1814-module__JIRtCG__variable {
+  --font-geist-mono: "interBold", "interBold Fallback";
+}
+
+/*# sourceMappingURL=apps_whatuni_src_app_interbold_cf1814_module_b52d8e88.css.map*/

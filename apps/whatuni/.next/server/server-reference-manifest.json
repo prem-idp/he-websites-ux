@@ -1,1 +1,61 @@
-{"node":{"7fcd566048a15cf3d0c71f0694ec2a07df9c505b06":{"workers":{"app/page":{"moduleId":"4245","async":false}},"layer":{"app/page":"rsc"}},"7f096386f7d8e42d9ebd8f995077d2a3b2978ef1c5":{"workers":{"app/page":{"moduleId":"4245","async":false},"app/article-landing/page":{"moduleId":"9189","async":false}},"layer":{"app/page":"rsc","app/article-landing/page":"rsc"}},"7f22578db22531668fa057d1c153691709ee6762e9":{"workers":{"app/page":{"moduleId":"4245","async":false}},"layer":{"app/page":"rsc"}},"7f7cced5417a5bf505adb820670822c52c8b7b2e82":{"workers":{"app/page":{"moduleId":"4245","async":false}},"layer":{"app/page":"rsc"}},"7f4ca46afda8c4c7154564deafc8ea95780ac650da":{"workers":{"app/page":{"moduleId":"4245","async":false}},"layer":{"app/page":"rsc"}}},"edge":{},"encryptionKey":"gEb3IiAlnx6mBEIrPyOwZpQ15XEjqu0g21zHpKgaFo8="}
+{
+  "node": {
+    "7f01db8433a9def28543414d291ac779f2c53f61c5": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/apps/whatuni/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/whatuni/src/app/page.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/packages/shared-components/home/advice/advicecomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/packages/shared-components/home/discover/discovercomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/packages/shared-components/home/wuscas/wuscascomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/packages/shared-components/home/tag-cloud/tagcloudcomponents.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      }
+    },
+    "7ff34f99d8972c035a8704a36d7f79ccecc67ae3d5": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/apps/whatuni/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/whatuni/src/app/page.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/packages/shared-components/home/advice/advicecomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/packages/shared-components/home/discover/discovercomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/packages/shared-components/home/wuscas/wuscascomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/packages/shared-components/home/tag-cloud/tagcloudcomponents.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      }
+    },
+    "7f492295fbe2b7eafc76bdc5424d30366c766d3c03": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/apps/whatuni/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/whatuni/src/app/page.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/packages/shared-components/home/advice/advicecomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/packages/shared-components/home/discover/discovercomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/packages/shared-components/home/wuscas/wuscascomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/packages/shared-components/home/tag-cloud/tagcloudcomponents.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      }
+    },
+    "7f2c75f96a886a04983f7b7b70233d6ddefa061f56": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/apps/whatuni/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/whatuni/src/app/page.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/packages/shared-components/home/advice/advicecomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/packages/shared-components/home/discover/discovercomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/packages/shared-components/home/wuscas/wuscascomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/packages/shared-components/home/tag-cloud/tagcloudcomponents.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      }
+    },
+    "7fb19cbc3ee7096c0a19e699eab9986988bf4290a1": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/apps/whatuni/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/whatuni/src/app/page.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/packages/shared-components/home/advice/advicecomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/packages/shared-components/home/discover/discovercomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/packages/shared-components/home/wuscas/wuscascomponents.tsx [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/packages/shared-components/home/tag-cloud/tagcloudcomponents.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "gEb3IiAlnx6mBEIrPyOwZpQ15XEjqu0g21zHpKgaFo8="
+}
