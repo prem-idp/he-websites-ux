@@ -1,4 +1,4 @@
-// File: D:\HE_WEBSITES\Whatuni_Site_New\he-websites-ux\apps\whatuni\src\app\page.tsx
+// File: E:\My Projects\HE\Whatuni - Website\he-websites-ux\apps\whatuni\src\app\page.tsx
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

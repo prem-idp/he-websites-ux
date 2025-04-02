@@ -1,4 +1,10 @@
 {
+  "/UG-Advertiser/page": "app/UG-Advertiser/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/outcomes/page": "app/outcomes/page.js",
+  "/page": "app/page.js",
+  "/university-details/page": "app/university-details/page.js",
+  "/university-life/page": "app/university-life/page.js",
+  "/why-study-here/page": "app/why-study-here/page.js"
 }
