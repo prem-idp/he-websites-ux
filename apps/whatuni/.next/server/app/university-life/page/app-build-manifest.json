@@ -1,0 +1,22 @@
+{
+  "pages": {
+    "/university-life/page": [
+      "static/chunks/node_modules_next_dist_1a6ee436._.js",
+      "static/chunks/apps_whatuni_src_app_favicon_ico_mjs_77481bef._.js",
+      "static/chunks/apps_whatuni_src_app_1bf6d3e9._.css",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_088d17d8._.js",
+      "static/chunks/packages_shared-components_common-utilities_5f413458._.js",
+      "static/chunks/node_modules_next_2992067f._.js",
+      "static/chunks/apps_whatuni_src_app_layout_tsx_f0e4c1a2._.js",
+      "static/chunks/_b51723b2._.js",
+      "static/chunks/apps_whatuni_src_app_university-life_page_tsx_ec798c68._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_49a6ea35._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_43e3ffb8._.js",
+      "static/chunks/node_modules_next_dist_3bfaed20._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/apps_whatuni_e69f0d32._.js",
+      "static/chunks/apps_whatuni_be317ff2._.js"
+    ]
+  }
+}

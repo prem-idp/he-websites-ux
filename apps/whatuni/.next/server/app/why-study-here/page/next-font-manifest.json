@@ -1,0 +1,11 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/apps/whatuni/src/app/why-study-here/page": [
+      "static/media/Farro_Bold-s.p.3bbf97e3.woff",
+      "static/media/Inter_Bold-s.p.399674db.woff"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}
