@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 
-const Redirectlinkcomponent = () => {
+const Redirectlinkcomponent = ({activeLink}: {activeLink: string}) => {
         // Toggle function
         const [modelOpen, setModalOpen] = useState(false);
         const toggleFunc = () => {
@@ -11,17 +11,17 @@ const Redirectlinkcomponent = () => {
         const skiplinkLabel = [
           {
             "key": 1,
-            "pageName": "Why study hereeeee?",
+            "pageName": "Why study here?",
             "pageURL": "/why-study-here?"
           },
           {
             "key": 2,
-            "pageName": "University detailss",
+            "pageName": "University details",
             "pageURL": "/university-details"
           },
           {
             "key": 3,
-            "pageName": "University lifee",
+            "pageName": "University life",
             "pageURL": "/university-life"
           },
           {
@@ -33,7 +33,7 @@ const Redirectlinkcomponent = () => {
         const skiplinklabellisting = skiplinkLabel.map((items, index) => (
           <li
             className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal hover:text-grey300 hover:underline hover:border-blue-400 ${
-              index == 2
+              activeLink == items.pageName
                 ? "border-blue-400 text-blue-400"
                 : "border-grey-300 text-grey300"
             }`}
