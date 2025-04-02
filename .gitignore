@@ -23,12 +23,16 @@ coverage
 
 # Build Outputs
 .next/
+# next.js
+/.next/
+/out/
 out/
 build
 dist
 
 # But do NOT ignore the routes-manifest.json file
 !.next/routes-manifest.json
+!/.next/routes-manifest.json
 
 # Debug
 npm-debug.log*
