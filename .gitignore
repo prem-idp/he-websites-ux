@@ -23,12 +23,7 @@ coverage
 
 # Build Outputs
 #.next/
-.next/build
-.next/cache
-.next/diagnostics
-.next/server
-.next/static
-.next/types
+.next
 out/
 build
 dist

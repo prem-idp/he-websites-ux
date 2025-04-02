@@ -11,17 +11,17 @@ const Redirectlinkcomponent = () => {
         const skiplinkLabel = [
           {
             "key": 1,
-            "pageName": "Why study here?",
+            "pageName": "Why study hereeeee?",
             "pageURL": "/why-study-here?"
           },
           {
             "key": 2,
-            "pageName": "University details",
+            "pageName": "University detailss",
             "pageURL": "/university-details"
           },
           {
             "key": 3,
-            "pageName": "University life",
+            "pageName": "University lifee",
             "pageURL": "/university-life"
           },
           {
