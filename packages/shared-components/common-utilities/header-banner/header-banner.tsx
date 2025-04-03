@@ -46,7 +46,7 @@ const HeaderBanner = () => {
                     <div className="text-white flex flex-col gap-[4px]">
                       <div className="h3">Middlesex University</div>
 
-                      <div className="flex items-center gap-[8px] small">
+                      <div className="flex flex-wrap items-center gap-[8px] small">
                         <span className="flex items-center">
                           <Image
                             alt="blue star icon"
@@ -57,10 +57,10 @@ const HeaderBanner = () => {
                           />
                           4.3
                         </span>
-                        <Link href="#" className="underline ">
+                        <Link href="#" className="underline whitespace-nowrap ">
                           400 student reviews
                         </Link>
-                        <Link href="#" className="underline ">
+                        <Link href="#" className="underline whitespace-nowrap ">
                           Whatuni student ranking: 77th
                         </Link>
                       </div>
