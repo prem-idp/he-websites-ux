@@ -12,7 +12,7 @@ const HeaderBanner = () => {
       <section>
         <div className="relative">
           <Image
-            className="w-full max-h-[320px] object-cover object-cente"
+            className="w-full max-h-[330px] md:max-h-[380px] xl:max-h-[320px] object-cover object-cente"
             loading="lazy"
             width={800}
             height={320}
@@ -33,10 +33,11 @@ const HeaderBanner = () => {
                     Show gallery
                   </button>
                 </div>
-                <div className="flex justify-between">
-                  <div className="flex gap-[16px]">
-                    <span className="p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[100px] h-[100px]">
-                      <Image className="h-full"
+                <div className="flex flex-col xl:flex-row justify-between">
+                  <div className="flex items-start flex-col xl:flex-row gap-[16px]">
+                    <span className="p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px]">
+                      <Image
+                        className="h-full"
                         src="/static/assets/icons/ip/uni.svg"
                         alt="University logo"
                         width={100}
@@ -74,9 +75,14 @@ const HeaderBanner = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end justify-between gap-[8px]">
-                                      
-                    <span className="favorite group mr-[0] lg:mr-[10px]  items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+                  <div className="flex items-end gap-[8px]">
+                    <div className="flex items-end gap-[8px]">
+                      <Getprospectus />
+                      <Visitwebsite />
+                      <BookOpenDay />
+                      <RequestInfo />
+                    </div>
+                    <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                       <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                         <svg
                           width="20"
@@ -95,14 +101,6 @@ const HeaderBanner = () => {
                         </svg>
                       </div>
                     </span>
-                    <div className="flex  gap-[8px]">
-                                          <Getprospectus />
-                                          <Visitwebsite />
-                                          <BookOpenDay />
-                                          <RequestInfo />
-
-                                          
-                    </div>
                   </div>
                 </div>
               </div>
