@@ -78,7 +78,7 @@
 
 @layer components {
   .btn {
-    @apply font-semibold small text-white rounded-[24px] px-[16px] py-[8px] cursor-pointer;
+    @apply font-semibold small text-white rounded-[24px] px-[20px] py-[10px] cursor-pointer;
   }
 
   .btn-primary {
@@ -93,12 +93,16 @@
     @apply bg-negative-default hover:bg-negative-dark;
   }
 
+  .btn-tertiary-700 {
+    @apply bg-tertiary-700 hover:bg-tertiary-800;
+  }
+
   .btn-grey {
     @apply bg-grey-500 hover:bg-grey-600;
   }
 
   .btn-green {
-    @apply bg-positive-dark hover:bg-success-800;
+    @apply bg-positive-default hover:bg-positive-dark;
   }
 
   .btn-blue {

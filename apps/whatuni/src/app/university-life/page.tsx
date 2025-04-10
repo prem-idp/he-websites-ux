@@ -12,7 +12,7 @@ const page = () => {
       <section>
     <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
-          <div className="min-w-[289px] hidden lg:flex flex-col  relative max-w-[100%]">
+          <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
             <Redirectlinkcomponent activeLink={"University details"}/>
           </div>
         <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">          
