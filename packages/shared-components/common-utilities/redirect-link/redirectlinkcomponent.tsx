@@ -81,7 +81,7 @@ const Redirectlinkcomponent = ({activeLink}: {activeLink: string}) => {
       </div>
       {/* only for Mobile END */}
         {/* Left skip link option  */}
-          <div className="sticky lg:flex flex-col lg:gap-[8px] top-[40px]">
+          <div className="sticky hidden lg:flex flex-col lg:gap-[8px] top-[40px]">
             <h2 className="text-black para font-semibold font-inter">
               On this page
             </h2>
