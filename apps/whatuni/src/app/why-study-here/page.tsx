@@ -2,6 +2,9 @@
 import React from "react";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
+import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
+import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
+import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 
 const page = () => {
   return (
@@ -15,8 +18,11 @@ const page = () => {
               <Redirectlinkcomponent activeLink={"Why study here?"} />
             </div>
             <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">
-              {/* page start from here      */}
+              {/* page start from here */}
               <h1>Test why study here</h1>
+              <Ctabanner />
+              <Findoutmore />
+              <Pullquote />
               <div className="flex flex-col">
                 <p className="mb-[14px]">
                   Lorem Ipsum is simply dummy text of the printing and

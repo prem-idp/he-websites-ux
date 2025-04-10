@@ -112,7 +112,9 @@ const HeaderBanner = () => {
                 </div>
                 <div className="flex md:flex-col xl:flex-row justify-between">
                   <div className="flex items-start flex-col xl:flex-row gap-[16px]">
-                    <span className="p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px]">
+                    <span
+                      className={`${scrolled && "xl:hidden"} p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px]`}
+                    >
                       <Image
                         className="h-full"
                         src="/static/assets/icons/ip/uni.svg"
@@ -124,7 +126,9 @@ const HeaderBanner = () => {
                     <div className="text-white flex flex-col gap-[4px]">
                       <div className="h3">Middlesex University</div>
 
-                      <div className="flex flex-wrap items-center gap-[8px] small">
+                      <div
+                        className={`${scrolled && "xl:hidden"} flex flex-wrap items-center gap-[8px] small`}
+                      >
                         <span className="flex items-center">
                           <Image
                             alt="blue star icon"
@@ -153,12 +157,12 @@ const HeaderBanner = () => {
                     </div>
                   </div>
                   <div
-                    className={`${scrolled ? "md:fixed md:bottom-[0px] md:left-[0px] md:px-[20px] md:py-[10px] md:w-full md:bg-grey300" : "md:pt-[12px]"} flex items-end xl:pt-[0] gap-[8px]`}
+                    className={`${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] md:py-[10px] md:w-full md:bg-grey300" : "md:pt-[12px]"} flex items-end xl:pt-[0] gap-[8px]`}
                   >
                     <div
                       className={`${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 " : "left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"} w-full bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px]`}
                     >
-                      {scrolled && (
+                      {scrolled && isMobile && (
                         <div className="absolute flex justify-center top-[-27px] w-full md:hidden">
                           {btnHandler ? (
                             <span
