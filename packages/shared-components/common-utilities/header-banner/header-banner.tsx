@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Visitwebsite from "../cards/interaction-button/visitwebsite";
@@ -11,95 +11,84 @@ const HeaderBanner = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   // Get a value on scroll
-  const handleScroll = () => {
-    // Mobile
-    if (window.innerWidth <= 767) {
-      if (window.scrollY > 200) {
-        setScrolled(true);
-        console.log("scrolled");
-      } else {
-        setScrolled(false);
-        // Optionally reset the button handler if needed
-        // setBtnHandler(false);
-      }
-    } // Tablet
-    else if (window.innerWidth <= 1200) {
-      if (window.scrollY > 500) {
-        setScrolled(true);
-        setIsMobile(true);
-        console.log("scrolled bbb");
-      } else {
-        setScrolled(false);
-        setBtnHandler(false);
-        // Optionally reset the button handler if needed
-        // setBtnHandler(false);
-      }
-    } // Desktop
-    else {
-      if (window.scrollY > 450) {
-        setScrolled(true);
-        console.log("scrolled ccc");
-      } else {
-        setScrolled(false);
-        // Optionally reset the button handler if needed
-        // setBtnHandler(false);
-      }
-    }
-  };
-  if (btnHandler === false) {
-    document.body.classList.remove("mb-[112px]");
-    document.body.classList.add("mb-[72px]");
-  }
-  const handleResize = () => {
-    if (window.innerWidth <= 767) {
-      setIsMobile(true);
-    } else {
+  const handleScroll = useCallback(() => {
+    const width = window.innerWidth;
+    const y = window.scrollY;
+
+    if (width <= 767) {
+      // Mobile
+      setScrolled(y > 200);
+    } else if (width > 767 && width < 1200) {
+      // Tablet
+      setScrolled(y > 500);
       setIsMobile(false);
-    }
-  };
-  const handleBodyClass = () => {
-    if (isMobile && scrolled && !btnHandler) {
-      document.body.classList.add("mb-[72px]");
-      console.log("1");
-    } else if (isMobile && scrolled && btnHandler) {
-      document.body.classList.add("mb-[112px]");
-      document.body.classList.remove("mb-[72px]");
-      console.log("2");
+      if (y > 500) {
+        document.body.classList.add("mb-[65px]");
+      } else {
+        document.body.classList.remove("mb-[65px]");
+      }
     } else {
-      document.body.classList.remove("mb-[112px]", "mb-[72px]");
-      console.log("3");
+      // Desktop
+      setScrolled(y > 450);
     }
-  };
+  }, []);
+
+  const handleResize = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    }
+  }, []);
   useEffect(() => {
     // Initial check on mount
     handleScroll();
     handleResize();
-    handleBodyClass();
 
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("scroll", handleResize);
+    window.addEventListener("resize", handleResize);
+
     // Cleanup event listeners on component unmount
     return () => {
       window.addEventListener("scroll", handleScroll);
-      window.addEventListener("scroll", handleResize);
+      window.addEventListener("resize", handleResize);
     };
+  }, [handleResize, handleScroll]);
+
+  useEffect(() => {
+    if (isMobile && scrolled) {
+      if (btnHandler) {
+        document.body.classList.add("mb-[112px]");
+        document.body.classList.remove("mb-[72px]");
+      } else {
+        document.body.classList.add("mb-[72px]");
+        document.body.classList.remove("mb-[112px]");
+      }
+    } else {
+      document.body.classList.remove("mb-[112px]", "mb-[72px]");
+    }
   }, [isMobile, scrolled, btnHandler]);
+
   return (
     <>
       <section>
-        <div className="relative mt-[120px] md:mt-[0px]">
+        <div
+          className={`${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} relative mt-[120px] md:mt-[0px]`}
+        >
           <Image
-            className="w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente"
+            className={`${scrolled && "xl:hidden"} w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente`}
             loading="lazy"
             width={800}
             height={320}
             src="/static/assets/images/ip/header-banner.jpg"
             alt="header-banner"
           />
-          <div className="bg-gradient14 absolute top-[0] w-full h-full py-[16px] md:py-[24px]">
+          <div
+            className={`${scrolled ? "bg-grey300 xl:h-fit xl:py-[10px]" : "h-full bg-gradient14"} absolute top-[0] w-full py-[16px] md:py-[24px]`}
+          >
             <div className="max-w-container mx-auto h-full px-[16px] md:px-[24px] xl:px-[0]">
               <div className="flex flex-col h-full w-full justify-between">
-                <div className="flex justify-end w-full">
+                <div
+                  className={`${scrolled && "xl:hidden"} flex justify-end w-full`}
+                >
                   <button className="small font-semibold hover:underline flex gap-[6px] px-[10px] py-[6px] rounded-[16px] bg-grey-100 text-grey-500">
                     <Image
                       src="/static/assets/icons/ip/show-gallery.svg"
@@ -124,7 +113,11 @@ const HeaderBanner = () => {
                       />
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
-                      <div className="h3">Middlesex University</div>
+                      <div
+                        className={`${scrolled && "small font-semibold"} h3`}
+                      >
+                        Middlesex University
+                      </div>
 
                       <div
                         className={`${scrolled && "xl:hidden"} flex flex-wrap items-center gap-[8px] small`}
@@ -146,7 +139,9 @@ const HeaderBanner = () => {
                           Whatuni student ranking: 77th
                         </Link>
                       </div>
-                      <ul className="flex mt-[4px] flex-wrap gap-[8px]">
+                      <ul
+                        className={`${scrolled ? "xl:mt-[0px]" : "mt-[4px]"} flex flex-wrap gap-[8px]`}
+                      >
                         <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small">
                           clearing
                         </li>
@@ -157,10 +152,10 @@ const HeaderBanner = () => {
                     </div>
                   </div>
                   <div
-                    className={`${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] md:py-[10px] md:w-full md:bg-grey300" : "md:pt-[12px]"} flex items-end xl:pt-[0] gap-[8px]`}
+                    className={`${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"} flex xl:pt-[0] gap-[8px]`}
                   >
                     <div
-                      className={`${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 " : "left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"} w-full bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px]`}
+                      className={`${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 w-full xl:w-fit" : "w-full left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"} bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px]`}
                     >
                       {scrolled && isMobile && (
                         <div className="absolute flex justify-center top-[-27px] w-full md:hidden">
@@ -195,34 +190,10 @@ const HeaderBanner = () => {
                       <div>
                         <Visitwebsite />
                       </div>
-                      {!isMobile && (
+                      {(!isMobile || !scrolled || btnHandler) && (
                         <>
-                          <div>
-                            <BookOpenDay />
-                          </div>
-                          <div>
-                            <RequestInfo />
-                          </div>
-                        </>
-                      )}
-                      {!scrolled && isMobile && (
-                        <>
-                          <div>
-                            <BookOpenDay />
-                          </div>
-                          <div>
-                            <RequestInfo />
-                          </div>
-                        </>
-                      )}
-                      {btnHandler && scrolled && isMobile && (
-                        <>
-                          <div>
-                            <BookOpenDay />
-                          </div>
-                          <div>
-                            <RequestInfo />
-                          </div>
+                          <BookOpenDay />
+                          <RequestInfo />
                         </>
                       )}
                     </div>
