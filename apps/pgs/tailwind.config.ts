@@ -87,6 +87,7 @@ const config: Config = {
         //"blue-200": "#0FBEFD",
         //"blue-300": "#0086F8",
         //"blue-500": "#3460DC",
+        grey200:'#C4C4C4',
         grey300: '#333',
         grey400: '#707070',
         grey500: '#767676',
@@ -162,6 +163,8 @@ const config: Config = {
           400: '#FF8300',
           500: '#973A14',
           600: '#BC5B00',
+          700: '#B45309',
+          800: '#92400E',
         },
         positive: {
           default: '#168721',
@@ -198,6 +201,8 @@ const config: Config = {
           'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)',
         gradient12: 'linear-gradient(to right, #ffffff00, #f2f2f2 10%)',
         gradient13: 'linear-gradient(to right, #ffffff00, #fff 10%)',
+        gradient14:
+        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)',
       },
       boxShadow: {
         'custom-1':

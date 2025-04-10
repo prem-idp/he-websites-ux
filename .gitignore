@@ -19,21 +19,17 @@ coverage
 .turbo
 
 # Vercel
-#.vercel
+.vercel
 
 # Build Outputs
-#.next/
-.next/build
-.next/cache
-.next/diagnostics
-.next/server
-.next/static
-.next/types
+.next/
 out/
 build
 dist
 
-
+# Un-ignore
+!.next/routes-manifest.json
+ 
 # Debug
 npm-debug.log*
 yarn-debug.log*

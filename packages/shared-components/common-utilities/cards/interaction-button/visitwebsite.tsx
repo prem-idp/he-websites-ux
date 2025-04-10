@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const Visitwebsite = () => {
+const Visitwebsite = ({ showCount }: any) => {
   return (
-    <div>visitwebsite</div>
-  )
-}
+    <button
+      type="button" className={`btn btn-grey w-full ${ showCount == 4 ? "md:col-start-2" : "" }`}
+    >
+      Visit website
+    </button>
+  );
+};
 
-export default Visitwebsite
+export default Visitwebsite;
