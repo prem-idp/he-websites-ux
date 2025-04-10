@@ -17,7 +17,7 @@ const HeaderBanner = () => {
 
     if (width <= 767) {
       // Mobile
-      setScrolled(y > 200);
+      setScrolled(y > 520);
     } else if (width > 767 && width < 1200) {
       // Tablet
       setScrolled(y > 500);
@@ -71,10 +71,10 @@ const HeaderBanner = () => {
     <>
       <section>
         <div
-          className={`${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} relative mt-[120px] md:mt-[0px]`}
+          className={`relative mt-[120px] md:mt-[0px] ${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
         >
           <Image
-            className={`${scrolled && "xl:hidden"} w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente`}
+            className={`w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente ${scrolled && "xl:hidden"}`}
             loading="lazy"
             width={800}
             height={320}
@@ -82,12 +82,12 @@ const HeaderBanner = () => {
             alt="header-banner"
           />
           <div
-            className={`${scrolled ? "bg-grey300 xl:h-fit xl:py-[10px]" : "h-full bg-gradient14"} absolute top-[0] w-full py-[16px] md:py-[24px]`}
+            className={`absolute top-[0] w-full py-[16px] md:py-[24px] ${scrolled ? "bg-grey300 xl:h-fit xl:py-[10px]" : "h-full bg-gradient14"}`}
           >
             <div className="max-w-container mx-auto h-full px-[16px] md:px-[24px] xl:px-[0]">
               <div className="flex flex-col h-full w-full justify-between">
                 <div
-                  className={`${scrolled && "xl:hidden"} flex justify-end w-full`}
+                  className={`flex justify-end w-full ${scrolled && "xl:hidden"}`}
                 >
                   <button className="small font-semibold hover:underline flex gap-[6px] px-[10px] py-[6px] rounded-[16px] bg-grey-100 text-grey-500">
                     <Image
@@ -102,7 +102,7 @@ const HeaderBanner = () => {
                 <div className="flex md:flex-col xl:flex-row justify-between">
                   <div className="flex items-start flex-col xl:flex-row gap-[16px]">
                     <span
-                      className={`${scrolled && "xl:hidden"} p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px]`}
+                      className={`p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px] ${scrolled && "xl:hidden"}`}
                     >
                       <Image
                         className="h-full"
@@ -114,13 +114,13 @@ const HeaderBanner = () => {
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
                       <div
-                        className={`${scrolled && "small font-semibold"} h3`}
+                        className={`h3 ${scrolled && "small font-semibold"}`}
                       >
                         Middlesex University
                       </div>
 
                       <div
-                        className={`${scrolled && "xl:hidden"} flex flex-wrap items-center gap-[8px] small`}
+                        className={`flex flex-wrap items-center gap-[8px] small ${scrolled && "xl:hidden"}`}
                       >
                         <span className="flex items-center">
                           <Image
@@ -140,7 +140,7 @@ const HeaderBanner = () => {
                         </Link>
                       </div>
                       <ul
-                        className={`${scrolled ? "xl:mt-[0px]" : "mt-[4px]"} flex flex-wrap gap-[8px]`}
+                        className={`flex flex-wrap gap-[8px] ${scrolled ? "xl:mt-[0px]" : "mt-[4px]"}`}
                       >
                         <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small">
                           clearing
@@ -152,10 +152,10 @@ const HeaderBanner = () => {
                     </div>
                   </div>
                   <div
-                    className={`${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"} flex xl:pt-[0] gap-[8px]`}
+                    className={`flex xl:pt-[0] gap-[8px] ${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"}`}
                   >
                     <div
-                      className={`${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 w-full xl:w-fit" : "w-full left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"} bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px]`}
+                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 w-full xl:w-fit" : "w-full left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"}`}
                     >
                       {scrolled && isMobile && (
                         <div className="absolute flex justify-center top-[-27px] w-full md:hidden">
