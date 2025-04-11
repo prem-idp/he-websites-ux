@@ -29,7 +29,7 @@ const HeaderBanner = () => {
       }
     } else {
       // Desktop
-      setScrolled(y > 450);
+      setScrolled(y > 400);
     }
   }, []);
 
@@ -69,7 +69,7 @@ const HeaderBanner = () => {
 
   return (
     <>
-      <section>
+      <section className={`${scrolled ? "xl:pt-[380px]" : ""}`}>
         <div
           className={`relative mt-[120px] md:mt-[0px] ${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
         >

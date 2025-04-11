@@ -24,12 +24,13 @@ const Ctabanner = ({ key, propsdata, preview, urlParams }: any) => {
             Calculate my budget now
           </Link>
         </div>
-        <span className="md:min-w-[219px] w-full md:w-auto  h-[187px] flex justify-center !m-0">
-          {/* <Image
-            width="100"
+        <span className="md:min-w-[219px] w-full md:w-auto h-[187px] flex justify-center !m-0">
+          <Image
+            width="219"
+            height="187"
             alt="banner"
-            src="https://mtest.test.aws.whatuni.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Fszez98lehkfm%2F7ItYEhMyZowMlrmrEK5qmL%2Fd2cf4daa83e23d926ee96034bfe30d17%2FCOLCLead.png&w=384&q=75"
-          /> */}
+            src="/static/assets/images/ip/budget-colc.png"
+          />
         </span>
       </div>
     </div>
