@@ -5,11 +5,16 @@ import Redirectlinkcomponent from "@packages/shared-components/common-utilities/
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
+import Interested from "@packages/shared-components/common-utilities/interested/interested";
+import ButtontabSection from "@packages/shared-components/common-utilities/buttontab-section/buttontab-section";
 
 const page = () => {
   return (
     <>
+      <Interested />
       <HeaderBanner />
+      <ButtontabSection />
+
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
