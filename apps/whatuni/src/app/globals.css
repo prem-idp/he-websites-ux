@@ -78,7 +78,7 @@
 
 @layer components {
   .btn {
-    @apply font-semibold small text-white rounded-[24px] px-[20px] py-[10px] cursor-pointer;
+    @apply font-semibold small text-white rounded-[20px] px-[20px] py-[10px] cursor-pointer;
   }
 
   .btn-primary {
@@ -128,7 +128,9 @@
   .btn-secondary-outline {
     @apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold;
   }
-
+  .btn-white {
+    @apply bg-white text-primary-400 hover:bg-primary-400 hover:text-white;
+  }
   /* scrollbar styles */
   .scrollbar-hidden {
     scrollbar-width: none;

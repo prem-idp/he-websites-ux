@@ -5,6 +5,7 @@ import Visitwebsite from "../cards/interaction-button/visitwebsite";
 import Getprospectus from "../cards/interaction-button/getprospectus";
 import RequestInfo from "../cards/interaction-button/requestinfo";
 import BookOpenDay from "../cards/interaction-button/bookopenday";
+import RecommendedUnis from "../cards/interaction-button/recommendedunis";
 
 const HeaderBanner = () => {
   const [btnHandler, setBtnHandler] = useState(false);
@@ -56,14 +57,14 @@ const HeaderBanner = () => {
   useEffect(() => {
     if (isMobile && scrolled) {
       if (btnHandler) {
-        document.body.classList.add("mb-[112px]");
+        document.body.classList.add("mb-[220px]");
         document.body.classList.remove("mb-[72px]");
       } else {
         document.body.classList.add("mb-[72px]");
-        document.body.classList.remove("mb-[112px]");
+        document.body.classList.remove("mb-[220px]");
       }
     } else {
-      document.body.classList.remove("mb-[112px]", "mb-[72px]");
+      document.body.classList.remove("mb-[220px]", "mb-[72px]");
     }
   }, [isMobile, scrolled, btnHandler]);
 
@@ -155,10 +156,10 @@ const HeaderBanner = () => {
                     className={`flex xl:pt-[0] gap-[8px] ${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"}`}
                   >
                     <div
-                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled && "grid-rows-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] grid-cols-2 md:grid-cols-4 w-full xl:w-fit" : "w-full left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:grid-cols-4"}`}
+                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled ? "grid-rows-4 grid-cols-1" : "grid-cols-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-fit left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:[grid-template-columns:repeat(4,minmax(0,auto))]"}`}
                     >
                       {scrolled && isMobile && (
-                        <div className="absolute flex justify-center top-[-27px] w-full md:hidden">
+                        <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
                           {btnHandler ? (
                             <span
                               onClick={() => setBtnHandler(false)}
@@ -183,13 +184,9 @@ const HeaderBanner = () => {
                           )}
                         </div>
                       )}
-
-                      <div>
-                        <Getprospectus />
-                      </div>
-                      <div>
-                        <Visitwebsite />
-                      </div>
+                      <Getprospectus />
+                      {/* <Visitwebsite /> */}
+                      <RecommendedUnis />
                       {(!isMobile || !scrolled || btnHandler) && (
                         <>
                           <BookOpenDay />
