@@ -156,7 +156,7 @@ const HeaderBanner = () => {
                     className={`flex xl:pt-[0] gap-[8px] ${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"}`}
                   >
                     <div
-                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled ? "grid-rows-4 grid-cols-1" : "grid-cols-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-fit left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:[grid-template-columns:repeat(4,minmax(0,auto))]"}`}
+                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled ? "grid-rows-4 grid-cols-1" : "grid-cols-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full md:w-fit left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:[grid-template-columns:repeat(4,minmax(0,auto))]"}`}
                     >
                       {scrolled && isMobile && (
                         <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
