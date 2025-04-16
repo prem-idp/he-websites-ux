@@ -2,11 +2,16 @@
 import React from "react";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
+import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
+import Interested from "@packages/shared-components/common-utilities/interested/interested";
 
 const page = () => {
   return (
     <>
+      <Interested />
       <HeaderBanner />
+      <TabSwtichButton />
+
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">

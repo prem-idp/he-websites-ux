@@ -6,15 +6,14 @@ import Ctabanner from "@packages/shared-components/article-details/cta-banner/ct
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
-import ButtontabSection from "@packages/shared-components/common-utilities/buttontab-section/buttontab-section";
-import ReviewSection from "@packages/shared-components/common-utilities/review-section/review-section";
+import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
 
 const page = () => {
   return (
     <>
       <Interested />
       <HeaderBanner />
-      <ButtontabSection />
+      <TabSwtichButton />
 
       {/* Skip links  */}
       <section>
