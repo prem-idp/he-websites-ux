@@ -5,6 +5,8 @@ import Redirectlinkcomponent from "@packages/shared-components/common-utilities/
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
+import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents"
+
 
 const page = () => {
   return (
@@ -21,6 +23,7 @@ const page = () => {
               {/* page start from here */}
               <h1>Test why study here</h1>
               <Ctabanner />
+              <Reviewthumbgalleryslidercomponents />
               <Findoutmore />
               <Pullquote />
               <div className="flex flex-col">
