@@ -24,9 +24,9 @@ const HeaderBanner = () => {
       setScrolled(y > 500);
       setIsMobile(false);
       if (y > 500) {
-        document.body.classList.add("mb-[65px]");
+        document.body.classList.add("mb-[61px]");
       } else {
-        document.body.classList.remove("mb-[65px]");
+        document.body.classList.remove("mb-[61px]");
       }
     } else {
       // Desktop
@@ -185,8 +185,8 @@ const HeaderBanner = () => {
                         </div>
                       )}
                       <Getprospectus />
-                      {/* <Visitwebsite /> */}
-                      <RecommendedUnis />
+                      <Visitwebsite />
+                      {/* <RecommendedUnis /> */}
                       {(!isMobile || !scrolled || btnHandler) && (
                         <>
                           <BookOpenDay />
