@@ -1,6 +1,6 @@
 import React from "react";
 
-const TabSwtichButton = () => {
+const TabSwitchButton = () => {
   return (
     <section className="bg-white border-b border-grey-200 overflow-x-auto snap-x snap-mandatory px-[16px] py-[8px] md:px-[20px] xl:px-0">
       <div className="max-w-container mx-auto">
@@ -32,4 +32,4 @@ const TabSwtichButton = () => {
   );
 };
 
-export default TabSwtichButton;
+export default TabSwitchButton;
