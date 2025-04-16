@@ -7,6 +7,7 @@ import Findoutmore from "@packages/shared-components/article-details/findoutmore
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import ButtontabSection from "@packages/shared-components/common-utilities/buttontab-section/buttontab-section";
+import ReviewSection from "@packages/shared-components/common-utilities/review-section/review-section";
 
 const page = () => {
   return (
@@ -25,6 +26,15 @@ const page = () => {
             <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">
               {/* page start from here */}
               <h1>Test why study here</h1>
+              <div className="flex flex-col gap-[16px]">
+                <div className="flex flex-col gap-[8px]">
+                  <div className="text-heading5 font-farro font-bold">
+                    Is [University name] a good place to study?
+                  </div>
+                  <p>Read honest reviews from real students at this uni</p>
+                </div>
+                <ReviewSection />
+              </div>
               <Ctabanner />
               <Findoutmore />
               <Pullquote />
