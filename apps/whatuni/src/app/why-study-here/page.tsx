@@ -25,9 +25,45 @@ const page = () => {
             <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">
               {/* page start from here */}
               <h1>Test why study here</h1>
-              <Ctabanner />
+              <Ctabanner
+                title={"Student Cost of Living Calculator"}
+                description={
+                  "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
+                }
+                buttonName={"Calculate my budget now"}
+                bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
+                bgColor={"bg-blue-200"}
+              />
+              <Ctabanner
+                title={"Get prospectus"}
+                description={
+                  "Interested? Order a prospectus to find out more about the uni and the courses on offer."
+                }
+                buttonName={"Get prospectus"}
+                bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
+                bgColor={"bg-grey-200"}
+              />
+              <Ctabanner
+                title={"Find a scholarship"}
+                description={
+                  "Find out more about the accommodation and facilities in person at the uni"
+                }
+                buttonName={"Find a scholarship"}
+                bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
+                bgColor={"bg-green-200"}
+              />
+              <Ctabanner
+                title={"See your future with your own eyes"}
+                description={
+                  "Visit a university on a free open day and find out if it's the right place for you and your plans."
+                }
+                buttonName={"Book my spot now"}
+                bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
+                bgColor={"bg-orange-200"}
+              />
               <Findoutmore />
               <Pullquote />
+
               <div className="flex flex-col">
                 <p className="mb-[14px]">
                   Lorem Ipsum is simply dummy text of the printing and
