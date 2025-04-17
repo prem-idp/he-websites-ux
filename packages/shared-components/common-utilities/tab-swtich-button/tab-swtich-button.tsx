@@ -1,13 +1,13 @@
 import React from "react";
 
-const TabSwtichButton = () => {
+const TabSwitchButton = () => {
   return (
     <section className="bg-white border-b border-grey-200 overflow-x-auto snap-x snap-mandatory px-[16px] py-[8px] md:px-[20px] xl:px-0">
       <div className="max-w-container mx-auto">
         <div className="flex gap-[8px] whitespace-nowrap">
           <button
             type="button"
-            className="btn btn-black-outline bg-grey300 text-white"
+            className="btn btn-black-outline active:bg-grey300 active:text-white"
           >
             University info
           </button>
@@ -32,4 +32,4 @@ const TabSwtichButton = () => {
   );
 };
 
-export default TabSwtichButton;
+export default TabSwitchButton;
