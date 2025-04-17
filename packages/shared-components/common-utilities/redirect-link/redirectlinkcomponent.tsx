@@ -1,55 +1,55 @@
-import React, { useState } from 'react'
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
 
-const Redirectlinkcomponent = ({activeLink}: {activeLink: string}) => {
-        // Toggle function
-        const [modelOpen, setModalOpen] = useState(false);
-        const toggleFunc = () => {
-          setModalOpen(!modelOpen);
-        };
-      
-        const skiplinkLabel = [
-          {
-            "key": 1,
-            "pageName": "Why study here?",
-            "pageURL": "/why-study-here?"
-          },
-          {
-            "key": 2,
-            "pageName": "University details",
-            "pageURL": "/university-details"
-          },
-          {
-            "key": 3,
-            "pageName": "University life",
-            "pageURL": "/university-life"
-          },
-          {
-            "key": 4,
-            "pageName":  "Outcomes",
-            "pageURL": "/outcomes"
-          },
-        ];
-        const skiplinklabellisting = skiplinkLabel.map((items, index) => (
-          <li
-            className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal hover:text-grey300 hover:underline hover:border-blue-400 ${
-              activeLink == items.pageName
-                ? "border-blue-400 text-blue-400"
-                : "border-grey-300 text-grey300"
-            }`}
-            key={items.key}
-          >
-            <Link href={ items.pageURL}>{items.pageName}</Link>
-          </li>
-        ));
-        const skiplinkmobilelisting = skiplinkLabel.map((items, index) => (
-          <li
-            className="border-s-[2px]  py-[10px] px-[16px] text-white border-white small font-inter font-normal"
-            key={`${items}-${index + 1}`}
-          >
-            <Link href={items.pageURL}>{items.pageName}</Link>
-          </li>
-        ));
+const Redirectlinkcomponent = ({ activeLink }: { activeLink: string }) => {
+  // Toggle function
+  const [modelOpen, setModalOpen] = useState(false);
+  const toggleFunc = () => {
+    setModalOpen(!modelOpen);
+  };
+
+  const skiplinkLabel = [
+    {
+      key: 1,
+      pageName: "Why study here?",
+      pageURL: "/why-study-here?",
+    },
+    {
+      key: 2,
+      pageName: "University details",
+      pageURL: "/university-details",
+    },
+    {
+      key: 3,
+      pageName: "University life",
+      pageURL: "/university-life",
+    },
+    {
+      key: 4,
+      pageName: "Outcomes",
+      pageURL: "/outcomes",
+    },
+  ];
+  const skiplinklabellisting = skiplinkLabel.map((items, index) => (
+    <li
+      className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal hover:text-grey300 hover:underline hover:border-blue-400 ${
+        activeLink == items.pageName
+          ? "border-blue-400 text-blue-400"
+          : "border-grey-300 text-grey300"
+      }`}
+      key={items.key}
+    >
+      <Link href={items.pageURL}>{items.pageName}</Link>
+    </li>
+  ));
+  const skiplinkmobilelisting = skiplinkLabel.map((items, index) => (
+    <li
+      className="border-s-[2px]  py-[10px] px-[16px] text-white border-white small font-inter font-normal"
+      key={`${items}-${index + 1}`}
+    >
+      <Link href={items.pageURL}>{items.pageName}</Link>
+    </li>
+  ));
   return (
     <>
       {/* only for Mobile */}
@@ -73,26 +73,21 @@ const Redirectlinkcomponent = ({activeLink}: {activeLink: string}) => {
                 <span className="bg-white w-[18px] h-[2px] rounded-[4px] flex"></span>
               </div>
             </div>
-            {modelOpen && (
-              <ul className="p-[16px]">{skiplinkmobilelisting}</ul>
-            )}
+            {modelOpen && <ul className="p-[16px]">{skiplinkmobilelisting}</ul>}
           </div>
         </div>
       </div>
       {/* only for Mobile END */}
-        {/* Left skip link option  */}
-          <div className="sticky hidden lg:flex flex-col lg:gap-[8px] top-[40px]">
-            <h2 className="text-black para font-semibold font-inter">
-              On this page
-            </h2>
-            <ul>{skiplinklabellisting}</ul>
-          </div>
-        {/* Left skip link option ENd */}      
-  
-  </>
-  )
-}
+      {/* Left skip link option  */}
+      <div className="sticky hidden lg:flex flex-col lg:gap-[8px] xl:top-[85px]">
+        <h2 className="text-black para font-semibold font-inter">
+          On this page
+        </h2>
+        <ul>{skiplinklabellisting}</ul>
+      </div>
+      {/* Left skip link option ENd */}
+    </>
+  );
+};
 
 export default Redirectlinkcomponent;
-
-
