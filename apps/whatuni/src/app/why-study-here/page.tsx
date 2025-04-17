@@ -41,7 +41,7 @@ const page = () => {
                 <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                   <WuscaBadge />
                   <StudentRating />
-                  <StudentReviews />
+                  {/* <StudentReviews /> */}
                 </div>
               </div>
               {/* reviews */}
