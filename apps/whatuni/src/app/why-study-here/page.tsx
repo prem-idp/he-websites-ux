@@ -12,6 +12,8 @@ import StudentRating from "@packages/shared-components/common-utilities/student-
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
+import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents"
+
 
 const page = () => {
   return (
@@ -82,6 +84,8 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
                 bgColor={"bg-orange-200"}
               />
+              <Ctabanner />
+              <Reviewthumbgalleryslidercomponents />
               <Findoutmore />
               <Pullquote />
 
