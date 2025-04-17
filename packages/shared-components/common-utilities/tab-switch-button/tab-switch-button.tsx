@@ -2,9 +2,9 @@ import React from "react";
 
 const TabSwitchButton = () => {
   return (
-    <section className="bg-white border-b border-grey-200 overflow-x-auto snap-x snap-mandatory px-[16px] py-[8px] md:px-[20px] xl:px-0">
+    <section className="bg-white border-b border-grey-200 overflow-x-auto snap-x snap-mandatory px-[16px] py-[8px] md:px-[20px] xl:px-0 lg:overflow-hidden">
       <div className="max-w-container mx-auto">
-        <div className="flex gap-[8px] whitespace-nowrap">
+        <div className="flex gap-[8px] whitespace-nowrap lg:flex-wrap">
           <button
             type="button"
             className="btn btn-black-outline active:bg-grey300 active:text-white"

@@ -32,24 +32,26 @@ const StudentReviews = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto snap-x snap-mandatory flex px-[16px] scroll-mx-[8px] space-x-[8px] md:scroll-mx-[16px] md:space-x-[16px] md:overflow-hidden">
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard/>
-        </div>
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard />
-        </div>
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard />
-        </div>
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard />
-        </div>
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard />
-        </div>
-        <div className="flex-shrink-0 w-[310px] md:w-[340px] lg:w-[428px] snap-center">
-          <Reviewscard />
+      <div className="lg:w-[650px] xl:w-[907px]">
+        <div className="overflow-x-auto snap-x snap-mandatory flex px-[16px] scroll-mx-[8px] space-x-[8px] md:scroll-mx-[16px] md:space-x-[16px] md:overflow-hidden">
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
+          <div className="flex-shrink-0 w-[310px] md:w-[335px] lg:w-[308px] xl:w-[430px] snap-center">
+            <Reviewscard />
+          </div>
         </div>
       </div>
 
