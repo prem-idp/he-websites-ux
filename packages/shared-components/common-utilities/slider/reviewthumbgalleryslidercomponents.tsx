@@ -36,7 +36,7 @@ const ReviewThumbGallerySliderComponents = () => {
   }, []);
 
   return (
-    <div className="max-w-lg lg:w-full mx-auto">
+    <div className="max-w-lg w-full lg:w-[907px] mx-auto">
       {/* Main Swiper */}
       <Swiper
         spaceBetween={8}
