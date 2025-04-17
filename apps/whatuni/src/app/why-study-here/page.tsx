@@ -7,6 +7,7 @@ import Findoutmore from "@packages/shared-components/article-details/findoutmore
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
+import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 
 const page = () => {
   return (
@@ -22,9 +23,10 @@ const page = () => {
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent activeLink={"Why study here?"} />
             </div>
-            <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">
+            <div className="w-full xl:w-full flex flex-col gap-[40px]">
               {/* page start from here */}
               <h1>Test why study here</h1>
+              <RedirectionButton />
               <Ctabanner
                 title={"Student Cost of Living Calculator"}
                 description={

@@ -19,7 +19,7 @@ const page = () => {
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent activeLink={"University life"} />
             </div>
-            <div className="w-full xl:w-[804px] flex flex-col gap-[40px]">
+            <div className="w-full xl:w-full flex flex-col gap-[40px]">
               {/* page start from here      */}
               <h1>Test univesity details</h1>
             </div>
