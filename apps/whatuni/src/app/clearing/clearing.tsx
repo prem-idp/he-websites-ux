@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
@@ -9,8 +8,7 @@ import Pullquote from "@packages/shared-components/article-details/pull-quote/pu
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge/wusca-badge";
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
-import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
-import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
+import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 
@@ -18,30 +16,55 @@ const page = () => {
   const skiplinkLabel = [
     {
       key: 1,
-      pageName: "Why study here?",
-      pageURL: "/why-study-here?",
+      pageName: "Virtual visits",
+      pageURL: "#",
     },
     {
       key: 2,
-      pageName: "University details",
-      pageURL: "/university-details",
+      pageName: "What do students think?",
+      pageURL: "#",
     },
     {
       key: 3,
-      pageName: "University life",
-      pageURL: "/university-life",
+      pageName: "Key stats",
+      pageURL: "#",
     },
     {
       key: 4,
-      pageName: "Outcomes",
-      pageURL: "/outcomes",
+      pageName: "Clearing USPs",
+      pageURL: "#",
+    },
+    {
+      key: 5,
+      pageName: "Overview",
+      pageURL: "#",
+    },
+    {
+      key: 6,
+      pageName: "Our Clearing guide",
+      pageURL: "#",
+    },
+    {
+      key: 7,
+      pageName: "What happens next?",
+      pageURL: "#",
+    },
+    {
+      key: 8,
+      pageName: "A day in the life",
+      pageURL: "#",
+    },
+    {
+      key: 8,
+      pageName: "Campus",
+      pageURL: "#",
     },
   ];
   return (
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwitchButton />
+      <TabSwtichButton />
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
@@ -49,7 +72,7 @@ const page = () => {
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
-                activeLink={"Why study here?"}
+                activeLink={"Virtual visits"}
               />
             </div>
             <div className="w-full flex flex-col gap-[40px]">
@@ -67,7 +90,7 @@ const page = () => {
                 <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                   <WuscaBadge />
                   <StudentRating />
-                  <StudentReviews />
+                  {/* <StudentReviews /> */}
                 </div>
               </div>
               {/* reviews */}
@@ -109,7 +132,7 @@ const page = () => {
                 bgColor={"bg-orange-200"}
               />
               <Ctabanner />
-              {/* <Reviewthumbgalleryslidercomponents /> */}
+              <Reviewthumbgalleryslidercomponents />
               <Findoutmore />
               <Pullquote />
 
