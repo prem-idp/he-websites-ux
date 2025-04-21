@@ -1,36 +1,20 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-const Redirectlinkcomponent = ({ activeLink }: { activeLink: string }) => {
+const Redirectlinkcomponent = ({
+  data,
+  activeLink,
+}: {
+  data: any;
+  activeLink: string;
+}) => {
   // Toggle function
   const [modelOpen, setModalOpen] = useState(false);
   const toggleFunc = () => {
     setModalOpen(!modelOpen);
   };
 
-  const skiplinkLabel = [
-    {
-      key: 1,
-      pageName: "Why study here?",
-      pageURL: "/why-study-here?",
-    },
-    {
-      key: 2,
-      pageName: "University details",
-      pageURL: "/university-details",
-    },
-    {
-      key: 3,
-      pageName: "University life",
-      pageURL: "/university-life",
-    },
-    {
-      key: 4,
-      pageName: "Outcomes",
-      pageURL: "/outcomes",
-    },
-  ];
-  const skiplinklabellisting = skiplinkLabel.map((items, index) => (
+  const skiplinklabellisting = data.map((items: any) => (
     <li
       className={`border-s-[4px]  py-[10px] px-[16px] small font-inter font-normal hover:text-grey300 hover:underline hover:border-blue-400 ${
         activeLink == items.pageName
@@ -42,7 +26,7 @@ const Redirectlinkcomponent = ({ activeLink }: { activeLink: string }) => {
       <Link href={items.pageURL}>{items.pageName}</Link>
     </li>
   ));
-  const skiplinkmobilelisting = skiplinkLabel.map((items, index) => (
+  const skiplinkmobilelisting = data.map((items: any, index: number) => (
     <li
       className="border-s-[2px]  py-[10px] px-[16px] text-white border-white small font-inter font-normal"
       key={`${items}-${index + 1}`}
