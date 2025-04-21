@@ -13,6 +13,7 @@ import StudentReviews from "@packages/shared-components/common-utilities/student
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
+import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
 
 const page = () => {
   const skiplinkLabel = [
@@ -109,6 +110,8 @@ const page = () => {
                 bgColor={"bg-orange-200"}
               />
               <Ctabanner />
+              <Reviewthumbgalleryslidercomponents />
+              <Keystatscomponents />
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
               <Pullquote />
