@@ -17,13 +17,24 @@ const PopularSubjectSlider = () => {
     <>
       <div className="lg:w-[650px] xl:w-[907px] ">
         <Swiper
-          slidesPerView={5}
+          slidesPerView={1}
           spaceBetween={8}
           freeMode={true}
+          navigation={true}
           pagination={{
             clickable: true,
           }}
-          navigation={true}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 4,
+            },
+            1024: {
+              slidesPerView: 5,
+            },
+          }}
           modules={[FreeMode, Pagination, Navigation]}
           className="MultiSwiper popular"
         >
