@@ -12,8 +12,8 @@ import StudentRating from "@packages/shared-components/common-utilities/student-
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
-import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents"
-
+import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
+import PopularSubjectSlider from "@packages/shared-components/common-utilities/popular-subject-slider/popular-subject-slider";
 
 const page = () => {
   return (
@@ -88,6 +88,7 @@ const page = () => {
               <Reviewthumbgalleryslidercomponents />
               <Findoutmore />
               <Pullquote />
+              <PopularSubjectSlider />
 
               <div className="flex flex-col">
                 <p className="mb-[14px]">
