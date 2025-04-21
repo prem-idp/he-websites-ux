@@ -10,7 +10,7 @@ import Interested from "@packages/shared-components/common-utilities/interested/
 import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge/wusca-badge";
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
-import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
+import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 
@@ -41,7 +41,7 @@ const page = () => {
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwtichButton />
+      <TabSwitchButton />
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
@@ -67,7 +67,7 @@ const page = () => {
                 <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                   <WuscaBadge />
                   <StudentRating />
-                  {/* <StudentReviews /> */}
+                  <StudentReviews />
                 </div>
               </div>
               {/* reviews */}

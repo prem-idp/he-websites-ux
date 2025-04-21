@@ -2,7 +2,7 @@
 import React from "react";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
-import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
+import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 
 const page = () => {
@@ -32,7 +32,7 @@ const page = () => {
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwtichButton />
+      <TabSwitchButton />
 
       {/* Skip links  */}
       <section>

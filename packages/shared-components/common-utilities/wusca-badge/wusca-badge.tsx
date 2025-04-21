@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 const WuscaBadge = () => {
+  const wuscabadge = Number(4);
   return (
     <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px]">
       <div className="flex items-center gap-[4px]">
@@ -25,87 +26,97 @@ const WuscaBadge = () => {
           Whatuni Student Choice Awards 2025
         </span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-[16px]">
-        <div className="flex items-center gap-[8px]">
-          <Image
-            src="/static/assets/images/gold-university-of-the-year.png"
-            alt="gold-university-of-the-year"
-            width="135"
-            height="117"
-          />
-          <div className="flex flex-col gap-[4px] grow">
-            <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-              Winner
+      <div
+        className={`grid grid-cols-1 gap-[16px] ${wuscabadge == 4 ? "md:grid-cols-2" : wuscabadge === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}
+      >
+        {wuscabadge >= 1 && (
+          <div className="flex items-center gap-[8px]">
+            <Image className="shrink-0"
+              src="/static/assets/images/gold-university-of-the-year.png"
+              alt="gold-university-of-the-year"
+              width="135"
+              height="117"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                Winner
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">1st</span>
+                <span className="small">/ 101</span>
+              </div>
+              <a href="#" className="small font-semibold underline">
+                University of the Year
+              </a>
             </div>
-            <div className="flex items-center gap-[8px]">
-              <span className="text-heading2 font-farro font-bold">1st</span>
-              <span className="small">/ 101</span>
-            </div>
-            <a href="#" className="small font-semibold underline">
-              University of the Year
-            </a>
           </div>
-        </div>
-        <div className="flex items-center gap-[8px]">
-          <Image
-            src="/static/assets/images/gold-university-of-the-year.png"
-            alt="gold-university-of-the-year"
-            width="135"
-            height="117"
-          />
-          <div className="flex flex-col gap-[4px] grow">
-            <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-              Winner
+        )}
+        {wuscabadge >= 2 && (
+          <div className="flex items-center gap-[8px]">
+            <Image className="shrink-0"
+              src="/static/assets/images/gold-university-of-the-year.png"
+              alt="gold-university-of-the-year"
+              width="135"
+              height="117"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                Winner
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">1st</span>
+                <span className="small">/ 101</span>
+              </div>
+              <a href="#" className="small font-semibold underline">
+                Halls and student accommodation
+              </a>
             </div>
-            <div className="flex items-center gap-[8px]">
-              <span className="text-heading2 font-farro font-bold">1st</span>
-              <span className="small">/ 101</span>
-            </div>
-            <a href="#" className="small font-semibold underline">
-              Halls and student accommodation
-            </a>
           </div>
-        </div>
-        <div className="flex items-center gap-[8px]">
-          <Image
-            src="/static/assets/images/bronze-student-life.png"
-            alt="bronze-student-life"
-            width="135"
-            height="117"
-          />
-          <div className="flex flex-col gap-[4px] grow">
-            <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-              THird place
+        )}
+        {wuscabadge >= 3 && (
+          <div className="flex items-center gap-[8px]">
+            <Image className="shrink-0"
+              src="/static/assets/images/bronze-student-life.png"
+              alt="bronze-student-life"
+              width="135"
+              height="117"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                THird place
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">3rd</span>
+                <span className="small">/ 101</span>
+              </div>
+              <a href="#" className="small font-semibold underline">
+                Student life
+              </a>
             </div>
-            <div className="flex items-center gap-[8px]">
-              <span className="text-heading2 font-farro font-bold">3rd</span>
-              <span className="small">/ 101</span>
-            </div>
-            <a href="#" className="small font-semibold underline">
-              Student life
-            </a>
           </div>
-        </div>
-        <div className="flex items-center gap-[8px]">
-          <Image
-            src="/static/assets/images/gold-university-of-the-year.png"
-            alt="gold-university-of-the-year"
-            width="135"
-            height="117"
-          />
-          <div className="flex flex-col gap-[4px] grow">
-            <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-              Winner
+        )}
+        {wuscabadge >= 4 && (
+          <div className="flex items-center gap-[8px]">
+            <Image className="shrink-0"
+              src="/static/assets/images/gold-university-of-the-year.png"
+              alt="gold-university-of-the-year"
+              width="135"
+              height="117"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                Winner
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">1st</span>
+                <span className="small">/ 101</span>
+              </div>
+              <a href="#" className="small font-semibold underline">
+                University of the Year
+              </a>
             </div>
-            <div className="flex items-center gap-[8px]">
-              <span className="text-heading2 font-farro font-bold">1st</span>
-              <span className="small">/ 101</span>
-            </div>
-            <a href="#" className="small font-semibold underline">
-              University of the Year
-            </a>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

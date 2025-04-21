@@ -78,7 +78,19 @@
 
 @layer components {
   .btn {
-    @apply font-semibold small text-white rounded-[20px] px-[20px] py-[10px] cursor-pointer;
+    @apply font-semibold small text-white rounded-[20px] px-[16px] py-[8px] cursor-pointer;
+  }
+  .btn-large {
+    @apply px-[24px] py-[10px];
+  }
+  .btn-medium {
+    @apply px-[20px] py-[10px];
+  }
+  .btn-small {
+    @apply px-[16px] py-[8px];
+  }
+  .btn-xsmall {
+    @apply px-[10px] py-[6px];
   }
 
   .btn-primary {
