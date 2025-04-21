@@ -13,7 +13,7 @@ import StudentReviews from "@packages/shared-components/common-utilities/student
 import TabSwtichButton from "@packages/shared-components/common-utilities/tab-swtich-button/tab-swtich-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents"
-
+import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents"
 
 const page = () => {
   return (
@@ -86,6 +86,7 @@ const page = () => {
               />
               <Ctabanner />
               <Reviewthumbgalleryslidercomponents />
+              <Keystatscomponents />
               <Findoutmore />
               <Pullquote />
 
