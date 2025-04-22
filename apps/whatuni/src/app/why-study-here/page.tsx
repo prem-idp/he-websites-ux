@@ -15,6 +15,7 @@ import RedirectionButton from "@packages/shared-components/common-utilities/redi
 import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents"
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 import PopularSubjectSlider from "@packages/shared-components/common-utilities/popular-subject-slider/popular-subject-slider";
+import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 
 const page = () => {
   const skiplinkLabel = [
@@ -113,6 +114,7 @@ const page = () => {
               <Ctabanner />
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents />
+              <Costoflivingratingcomponents />
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
               <Pullquote />
