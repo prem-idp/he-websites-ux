@@ -39,7 +39,7 @@ const Keystatscomponents = () => {
                 </div>
               </div>
               <div className='keystats-inner-row'>                
-                <div className='flex flex-col md:flex-row justify-between gap-[16px] w-full *:text-small *:text-grey300'>
+                <div className='grid grid-cols-1 md:grid-cols-2 justify-between gap-[20px] w-full *:text-small *:text-grey300'>
                   <div className='w-full flex flex-col justify-between gap-[4px]'>
                     <div className='*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between'>
                             <div className='items-start'>
@@ -56,27 +56,48 @@ const Keystatscomponents = () => {
                     </div>
                   </div>
                   <div className='w-full flex flex-col justify-between gap-[4px]'>
-                    <div className='flex items-center justify-between'>
-                      <div>
-                        <span>Employment rate</span>
+                    <div className='*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between'>
+                      <div className='items-start'>
+                          <div className='h3'>74%</div>
+                          <div className='line-clamp-1'>School leavers</div>
                       </div>
-                      <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>89%
-                      </span>
+                      <div className='items-end'>
+                          <div className='h3'>26%</div>
+                          <div className='line-clamp-1'>Mature students</div>
+                      </div>  
                     </div>
                     <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
-                      <div className="progess-bar__line transition-all duration-[3s] bg-primary-200 h-[8px] w-[40%]"></div>
+                      <div className="progess-bar__line transition-all duration-[3s] bg-primary-200 h-[8px]" style={{width: "80%"}}></div>
                     </div>
                   </div>
                   <div className='w-full flex flex-col justify-between gap-[4px]'>
-                    <div className='flex items-center justify-between'>
-                      <div>
-                        <span>Employment rate</span>
+                    <div className='*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between'>
+                      <div className='items-start'>
+                          <div className='h3'>68%</div>
+                          <div className='line-clamp-1'>Undergraduate</div>
                       </div>
-                      <span className='tooltip w-fit group/item small underline relative cursor-pointer pb-[6px] mb-[-6px]'>89%
-                      </span>
+                      <div className='items-end'>
+                          <div className='h3'>32%</div>
+                          <div className='line-clamp-1'>Postgraduate</div>
+                      </div>  
                     </div>
                     <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
-                      <div className="progess-bar__line transition-all duration-[3s] bg-primary-200 h-[8px] w-[40%]"></div>
+                      <div className="progess-bar__line transition-all duration-[3s] bg-primary-200 h-[8px]" style={{width: "80%"}}></div>
+                    </div>
+                  </div>
+                  <div className='w-full flex flex-col justify-between gap-[4px]'>
+                    <div className='*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between'>
+                      <div className='items-start'>
+                          <div className='h3'>88%</div>
+                          <div className='line-clamp-1'>UK students</div>
+                      </div>
+                      <div className='items-end'>
+                          <div className='h3'>12%</div>
+                          <div className='line-clamp-1'>International</div>
+                      </div>  
+                    </div>
+                    <div className=" progess-bar bg-primary-400 rounded-[8px] h-[8px] overflow-hidden">
+                      <div className="progess-bar__line transition-all duration-[3s] bg-primary-200 h-[8px]" style={{width: "80%"}}></div>
                     </div>
                   </div>
                 </div>
