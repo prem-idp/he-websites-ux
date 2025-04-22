@@ -12,7 +12,7 @@ import StudentRating from "@packages/shared-components/common-utilities/student-
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
-import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents"
+import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 import PopularSubjectSlider from "@packages/shared-components/common-utilities/popular-subject-slider/popular-subject-slider";
 
@@ -110,10 +110,9 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
                 bgColor={"bg-orange-200"}
               />
-              <Ctabanner />
+
+              {/* <Keystatscomponents /> */}
               <Reviewthumbgalleryslidercomponents />
-              <Keystatscomponents />
-              {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
               <Pullquote />
               <PopularSubjectSlider />

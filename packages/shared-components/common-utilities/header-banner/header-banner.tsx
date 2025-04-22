@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Visitwebsite from "../cards/interaction-button/visitwebsite";
@@ -11,6 +11,9 @@ const HeaderBanner = () => {
   const [btnHandler, setBtnHandler] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [height, setHeight] = useState(0);
+  const bannerHeader = useRef(null);
+  const btnHeight = useRef(null);
   // Get a value on scroll
   const handleScroll = useCallback(() => {
     const width = window.innerWidth;
@@ -18,21 +21,21 @@ const HeaderBanner = () => {
 
     if (width <= 767) {
       // Mobile
-      setScrolled(y > 520);
+      setScrolled(y > height);
     } else if (width > 767 && width < 1200) {
       // Tablet
-      setScrolled(y > 500);
+      setScrolled(y > height);
       setIsMobile(false);
       if (y > 500) {
-        document.body.classList.add("mb-[61px]");
+        document.body.classList.add("mb-[60px]");
       } else {
-        document.body.classList.remove("mb-[61px]");
+        document.body.classList.remove("mb-[60px]");
       }
     } else {
       // Desktop
-      setScrolled(y > 400);
+      setScrolled(y > height);
     }
-  }, []);
+  }, [height]);
 
   const handleResize = useCallback(() => {
     if (window.innerWidth < 768) {
@@ -67,12 +70,34 @@ const HeaderBanner = () => {
       document.body.classList.remove("mb-[220px]", "mb-[72px]");
     }
   }, [isMobile, scrolled, btnHandler]);
+  useEffect(() => {
+    const width = window.innerWidth;
+    if (typeof window === "undefined") return;
 
+    const updateHeight = () => {
+      if (width < 767) {
+        const mobbtnHeight = btnHeight.current;
+        if (bannerHeader.current) {
+          setHeight(bannerHeader.current.offsetHeight + mobbtnHeight + 112);
+        }
+      } else {
+        if (bannerHeader.current) {
+          setHeight(bannerHeader.current.offsetHeight + 121);
+        }
+      }
+    };
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
   return (
     <>
-      <section className={`${scrolled ? "xl:pt-[380px]" : ""}`}>
+      <section
+        ref={bannerHeader}
+        className={`${scrolled ? "xl:pt-[380px]" : ""}`}
+      >
         <div
-          className={`relative mt-[120px] md:mt-[0px] ${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
+          className={`relative mt-[114px] md:mt-[0px] ${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
         >
           <Image
             className={`w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente ${scrolled && "xl:hidden"}`}
@@ -156,7 +181,8 @@ const HeaderBanner = () => {
                     className={`flex xl:pt-[0] gap-[8px] ${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px] items-end"}`}
                   >
                     <div
-                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled ? "grid-rows-4 grid-cols-1" : "grid-cols-2"} ${scrolled ? "fixed md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full md:w-fit left-[0px] md:left-[0px] top-[-120px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:[grid-template-columns:repeat(4,minmax(0,auto))]"}`}
+                      ref={btnHeight}
+                      className={`bg-grey300 xl:bg-transparent grid items-end p-[16px] md:p-[0] gap-[8px] ${btnHandler && scrolled ? "grid-rows-4 grid-cols-1" : "grid-cols-2"} ${scrolled ? "fixed z-[5] md:relative bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full md:w-fit left-[0px] md:left-[0px] top-[-114px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2 md:[grid-template-columns:repeat(4,minmax(0,auto))]"}`}
                     >
                       {scrolled && isMobile && (
                         <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
@@ -220,6 +246,8 @@ const HeaderBanner = () => {
           </div>
         </div>
       </section>
+      <h1>{height} heigh</h1>
+      <h1>{window.scrollY} scroll</h1>
     </>
   );
 };
