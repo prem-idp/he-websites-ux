@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const WuscaBadge = () => {
+const WuscaBadge = ({wuscaCard = false}) => {
   const wuscabadge = Number(4);
+  
+  if (!wuscaCard) return null;
+
   return (
     <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px]">
       <div className="flex items-center gap-[4px]">
