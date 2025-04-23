@@ -9,7 +9,7 @@ const PopularSubject = ({
   return (
     <>
       <div
-        className={`${subjectBgColor} shrink-0 rounded-[8px] w-[167px] h-full p-[12px]`}
+        className={`${subjectBgColor} shrink-0 rounded-[8px]  h-full p-[12px]`}
       >
         <div className="flex flex-col gap-[32px] justify-between h-full">
           <div className="small font-semibold text-grey900">{subjectTitle}</div>
