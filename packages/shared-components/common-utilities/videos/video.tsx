@@ -19,6 +19,7 @@ const Video = () => {
       setIsPlaying(true);
     }
   };
+  
   return (
     <>
       <video
@@ -28,7 +29,7 @@ const Video = () => {
         preload="none"
         onPlay={onClickPlay}
         onPause={onClickPause}
-        poster="/static/assets/images/course-details/Frame_9351.jpg"
+        poster="/static/assets/images/course-details/Frame_9352.jpg"
       >
         <source
           src="https://player.vimeo.com/progressive_redirect/playback/899704911/rendition/720p/file.mp4?loc=external&oauth2_token_id=1255563299&signature=8eec76c77c81d1bf9ee9a1a7de4b147d341691ec131b46e043ad6371a7014284"
