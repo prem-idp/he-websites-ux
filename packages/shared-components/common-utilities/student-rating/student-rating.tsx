@@ -2,6 +2,13 @@ import React from "react";
 import Image from "next/image";
 
 const StudentRating = () => {
+  const ratingData = [
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Halls", value: "4.5", extra: "20th" },
+    { title: "City life", value: "4.1", extra: "20th" },
+  ];
+
   return (
     <div className="flex flex-col gap-[16px] p-[16px]">
       <div className="flex flex-col gap-[8px] items-start justify-between md:flex-row md:items-center">
@@ -27,68 +34,29 @@ const StudentRating = () => {
           </span>
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-[16px] md:grid-cols-4">
-        <div className="flex flex-col">
-          <div className="small font-semibold line-clamp-1">Overall rating</div>
-          <div className="flex items-center gap-[8px]">
-            <div className="flex items-center gap-[4px]">
-              <Image
-                src="/static/assets/icons/blue-star-icon.svg"
-                width="24"
-                height="24"
-                alt="Rating icon"
-              />
-              <span className="text-heading6 font-farro font-bold">4.2</span>
+        {ratingData.map((item, index) => (
+          <div className="flex flex-col">
+            <div className="small font-semibold line-clamp-1">{item.title}</div>
+            <div className="flex items-center gap-[8px]">
+              <div className="flex items-center gap-[4px]">
+                <Image
+                  src="/static/assets/icons/blue-star-icon.svg"
+                  width="24"
+                  height="24"
+                  alt="Rating icon"
+                />
+                <span className="text-heading6 font-farro font-bold">
+                  {item.value}
+                </span>
+              </div>
+              <span className="small">{item.extra}</span>
             </div>
-            <span className="small">20th</span>
           </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="small font-semibold line-clamp-1">Courses</div>
-          <div className="flex items-center gap-[8px]">
-            <div className="flex items-center gap-[4px]">
-              <Image
-                src="/static/assets/icons/blue-star-icon.svg"
-                width="24"
-                height="24"
-                alt="Rating icon"
-              />
-              <span className="text-heading6 font-farro font-bold">3.3</span>
-            </div>
-            <span className="small">20th</span>
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="small font-semibold line-clamp-1">Halls</div>
-          <div className="flex items-center gap-[8px]">
-            <div className="flex items-center gap-[4px]">
-              <Image
-                src="/static/assets/icons/blue-star-icon.svg"
-                width="24"
-                height="24"
-                alt="Rating icon"
-              />
-              <span className="text-heading6 font-farro font-bold">4.5</span>
-            </div>
-            <span className="small">20th</span>
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="small font-semibold line-clamp-1">City life</div>
-          <div className="flex items-center gap-[8px]">
-            <div className="flex items-center gap-[4px]">
-              <Image
-                src="/static/assets/icons/blue-star-icon.svg"
-                width="24"
-                height="24"
-                alt="Rating icon"
-              />
-              <span className="text-heading6 font-farro font-bold">4.1</span>
-            </div>
-            <span className="small">20th</span>
-          </div>
-        </div>
+        ))}
       </div>
+
       <div className="border-b border-grey-200 h-[1px]"></div>
     </div>
   );

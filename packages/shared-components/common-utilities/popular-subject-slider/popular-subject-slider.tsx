@@ -17,7 +17,7 @@ const PopularSubjectSlider = () => {
     <>
       <div className="lg:w-[650px] xl:w-[907px] ">
         <Swiper
-          slidesPerView={1}
+          slidesPerView={2}
           spaceBetween={8}
           freeMode={true}
           navigation={true}

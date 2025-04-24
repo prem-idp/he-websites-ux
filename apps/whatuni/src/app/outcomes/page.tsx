@@ -4,6 +4,7 @@ import HeaderBanner from "@packages/shared-components/common-utilities/header-ba
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
+import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 
 const page = () => {
   const skiplinkLabel = [
@@ -46,7 +47,8 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here      */}
-              <h1>Test Outcome</h1>
+              <div className="h1">Outcome</div>
+              <RedirectionButton />
             </div>
           </div>
         </div>
