@@ -1,12 +1,14 @@
 import React from 'react'
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
 
-const Opendaysvirtualadvertcomponents = () => {
+const Opendaysvirtualadvertcomponents = ({title,istitleVisible=true}:any) => {
   return (
     <>
     <div className='advert-container'>
         <div className='advert-card-container flex flex-col gap-[16px]'>
-          <div className='h5 text-grey300'>Open days and virtual visits</div>
+          { istitleVisible &&
+            <div className='h5 text-grey300'>{title}</div>
+          }
           <div className='advert-card-inner'>
             <div className='flex gap-[16px]'>
                 <Advertbannercard

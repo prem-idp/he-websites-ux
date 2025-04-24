@@ -18,7 +18,6 @@ const ReviewThumbGallerySliderComponents = () => {
     { type: "image", src: "/static/assets/images/course-details/Frame_9350.jpg" },
     { type: "image", src: "/static/assets/images/course-details/Frame_9351.jpg" },
     { type: "video", src: "/static/assets/images/course-details/Frame_9352.jpg" },
-    { type: "video", src: "/static/assets/images/course-details/Frame_9352.jpg" },
     { type: "image", src: "/static/assets/images/course-details/Frame_9353.jpg" },
     { type: "video", src: "/static/assets/images/course-details/Frame_9354.jpg" },
     { type: "image", src: "/static/assets/images/course-details/Frame_9355.jpg" },
@@ -27,7 +26,7 @@ const ReviewThumbGallerySliderComponents = () => {
     { type: "image", src: "/static/assets/images/course-details/Frame_9350.jpg" },
     { type: "image", src: "/static/assets/images/course-details/Frame_9351.jpg" },
     { type: "video", src: "/static/assets/videos/sample-video.mp4" },
-    { type: "video", src: "/static/assets/videos/sample-video.mp4" },
+    { type: "image", src: "/static/assets/images/course-details/Frame_9352.jpg" },
     { type: "video", src: "/static/assets/videos/sample-video2.mp4" },
     { type: "image", src: "/static/assets/images/course-details/Frame_9353.jpg" },
   ];
@@ -36,28 +35,23 @@ const ReviewThumbGallerySliderComponents = () => {
     setIsMobileView(window.innerWidth <= 767);
   }, []);
 
+
   const swiperWrapperRef = useRef<HTMLDivElement | null>(null);
   const handleSlideChange = (swiper: any) => {
-    console.log("Slide changed to index:", swiperWrapperRef.current);
-
     if (swiperWrapperRef.current) {
       const videos = swiperWrapperRef.current.querySelectorAll('video');
-      console.log("Videos found:", videos);
       videos.forEach((video) => {
         if (!video.paused) {
           video.pause();
         }
       });
   
-      // Optional: autoplay the current video
-      const currentSlide = swiper.slides[swiper.activeIndex];
-      const currentVideo = currentSlide.querySelector('video');
-      if (currentVideo) {
-        currentVideo.play();
-      }
+      // const currentSlide = swiper.slides[swiper.activeIndex];
+      // const currentVideo = currentSlide.querySelector('video');
+      // if (currentVideo) {
+      //   currentVideo.play();
+      // }
     }
-  
-    console.log("Slide changed to index:", swiper.activeIndex);
   };
 
   return (
