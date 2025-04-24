@@ -4,7 +4,7 @@ import Reviewscard from "../cards/reviews-card/reviewscard";
 const StudentReviews = () => {
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="flex flex-col gap-[8px] items-start justify-between md:flex-row md:items-center px-[16px]">
+      <div className="flex flex-col gap-[8px] items-start justify-between md:flex-row md:items-center mx-[16px] border-t border-grey-200 pt-[16px]">
         <div className="flex items-center gap-[4px]">
           <svg
             width="32"

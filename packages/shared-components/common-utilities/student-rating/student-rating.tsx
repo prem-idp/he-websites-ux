@@ -56,9 +56,7 @@ const StudentRating = () => {
           </div>
         ))}
       </div>
-
-      <div className="border-b border-grey-200 h-[1px]"></div>
-    </div>
+          </div>
   );
 };
 
