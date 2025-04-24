@@ -7,16 +7,16 @@ import Ctabanner from "@packages/shared-components/article-details/cta-banner/ct
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
-import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge/wusca-badge";
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
-import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
+import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
-import PopularSubjectSlider from "@packages/shared-components/common-utilities/popular-subject-slider/popular-subject-slider";
+import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
+import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 
 const page = () => {
   const skiplinkLabel = [
@@ -48,7 +48,7 @@ const page = () => {
       <TabSwitchButton />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0] py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -61,22 +61,17 @@ const page = () => {
               <h1>Why study here</h1>
 
               <Opendaysvirtualadvertcomponents />
-              {/* reviews */}
-              <div className="flex flex-col gap-[16px]">
-                <div className="flex flex-col gap-[8px]">
-                  <div className="text-heading5 font-farro font-bold">
-                    Is [University name] a good place to study?
-                  </div>
-                  <p>Read honest reviews from real students at this uni</p>
-                </div>
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <WuscaBadge />
-                  <StudentRating />
-                  <StudentReviews />
-                </div>
-              </div>
-              {/* reviews */}
 
+              {/* advertiser */}
+              <Advertiser
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+              />
+              {/* advertiser */}
+              <Opendaysvirtualadvertcomponents title={"Open days and virtual visits"} />
               <Ctabanner
                 title={"Student Cost of Living Calculator"}
                 description={
@@ -105,7 +100,7 @@ const page = () => {
                 bgColor={"bg-green-200"}
               />
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <StudentRating />
+                <StudentRating />
               </div>
               <Ctabanner
                 title={"See your future with your own eyes"}
@@ -125,12 +120,10 @@ const page = () => {
               <Findoutmore />
 
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <StudentRating />
+                <StudentRating />
               </div>
-              <div className="flex flex-col gap-[16px]">
-                <div className="para-lg font-semibold">Campus location</div>
-                <Image src="/static/assets/images/campus-location.jpg" width="907" height="283" alt="campus-location"/>
-              </div>
+
+              <CampusLocation />
 
               <Pullquote />
 
@@ -184,11 +177,7 @@ const page = () => {
                   like Aldus PageMaker including versions of Lorem Ipsum
                 </p>
               </div>
-              <div className="flex flex-col gap-[16px]">
-                <div className="text-heading5 font-bold font-farro">Courses at Portsmouth University</div>
-                <div className="text-para-lg font-semibold">Popular subjects</div>
-                <PopularSubjectSlider />
-              </div>
+              <PopularSubject />
               <RedirectionButton />
             </div>
           </div>

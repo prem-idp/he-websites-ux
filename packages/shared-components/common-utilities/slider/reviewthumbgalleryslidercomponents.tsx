@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs } from "swiper/modules";
 import Image from "next/image";
@@ -35,10 +35,30 @@ const ReviewThumbGallerySliderComponents = () => {
     setIsMobileView(window.innerWidth <= 767);
   }, []);
 
+
+  const swiperWrapperRef = useRef<HTMLDivElement | null>(null);
+  const handleSlideChange = (swiper: any) => {
+    if (swiperWrapperRef.current) {
+      const videos = swiperWrapperRef.current.querySelectorAll('video');
+      videos.forEach((video) => {
+        if (!video.paused) {
+          video.pause();
+        }
+      });
+  
+      // const currentSlide = swiper.slides[swiper.activeIndex];
+      // const currentVideo = currentSlide.querySelector('video');
+      // if (currentVideo) {
+      //   currentVideo.play();
+      // }
+    }
+  };
+
   return (
-    <div className="max-w-lg w-full lg:w-[907px] mx-auto">
+    <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto">
       {/* Main Swiper */}
       <Swiper
+      onSlideChange={handleSlideChange}
         spaceBetween={8}
         navigation={true}
         autoHeight={true}
