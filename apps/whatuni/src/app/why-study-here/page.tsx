@@ -121,7 +121,6 @@ const page = () => {
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
               <Pullquote />
-              
 
               <div className="flex flex-col">
                 <p className="mb-[14px]">
@@ -172,11 +171,9 @@ const page = () => {
                   passages, and more recently with desktop publishing software
                   like Aldus PageMaker including versions of Lorem Ipsum
                 </p>
-
               </div>
               <PopularSubjectSlider />
               <RedirectionButton />
-
             </div>
           </div>
         </div>

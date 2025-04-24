@@ -145,7 +145,7 @@ const HeaderBanner = () => {
                       <div
                         className={`h3 line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
                       >
-                        Middlesex University
+                        University of Oxford
                       </div>
 
                       <div
