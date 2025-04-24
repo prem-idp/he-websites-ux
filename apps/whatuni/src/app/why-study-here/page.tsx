@@ -104,6 +104,9 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                 bgColor={"bg-green-200"}
               />
+              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
+                  <StudentRating />
+              </div>
               <Ctabanner
                 title={"See your future with your own eyes"}
                 description={
@@ -120,6 +123,15 @@ const page = () => {
               <Costoflivingratingcomponents />
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
+
+              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
+                  <StudentRating />
+              </div>
+              <div className="flex flex-col gap-[16px]">
+                <div className="para-lg font-semibold">Campus location</div>
+                <Image src="/static/assets/images/campus-location.jpg" width="907" height="283" alt="campus-location"/>
+              </div>
+
               <Pullquote />
 
               <div className="flex flex-col">
@@ -172,7 +184,11 @@ const page = () => {
                   like Aldus PageMaker including versions of Lorem Ipsum
                 </p>
               </div>
-              <PopularSubjectSlider />
+              <div className="flex flex-col gap-[16px]">
+                <div className="text-heading5 font-bold font-farro">Courses at Portsmouth University</div>
+                <div className="text-para-lg font-semibold">Popular subjects</div>
+                <PopularSubjectSlider />
+              </div>
               <RedirectionButton />
             </div>
           </div>
