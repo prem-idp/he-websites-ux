@@ -1,6 +1,6 @@
 import React from "react";
 
-const PopularSubject = ({
+const PopularCard = ({
   subjectTitle,
   subjectBgColor,
   leafBgColor,
@@ -38,4 +38,4 @@ const PopularSubject = ({
   );
 };
 
-export default PopularSubject;
+export default PopularCard;
