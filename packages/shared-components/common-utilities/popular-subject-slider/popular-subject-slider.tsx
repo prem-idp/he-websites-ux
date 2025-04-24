@@ -1,5 +1,5 @@
 import React from "react";
-import PopularSubject from "../cards/popular-subject/popular-subject";
+import PopularCard from "../cards/popular-card/popular-card";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 // import required modules
 import { FreeMode, Pagination, Navigation } from "swiper/modules";
 
-const PopularSubjectSlider = () => {
+const PopularCardSlider = () => {
   return (
     <>
       <div className="lg:w-[650px] xl:w-[907px] ">
@@ -39,7 +39,7 @@ const PopularSubjectSlider = () => {
           className="MultiSwiper popular"
         >
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Architectural Engineering and Technology"}
               subjectBgColor={"bg-blue-100"}
               leafBgColor={"bg-blue-200"}
@@ -48,7 +48,7 @@ const PopularSubjectSlider = () => {
           </SwiperSlide>
 
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Wildlife and Conservation Biology"}
               subjectBgColor={"bg-green-100"}
               leafBgColor={"bg-green-200"}
@@ -56,7 +56,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Creative Arts and Design"}
               subjectBgColor={"bg-orange-100"}
               leafBgColor={"bg-orange-200"}
@@ -64,7 +64,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Aerospace Engineering"}
               subjectBgColor={"bg-grey-200"}
               leafBgColor={"bg-grey-300"}
@@ -72,7 +72,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Forensic Nursing"}
               subjectBgColor={"bg-blue-100"}
               leafBgColor={"bg-blue-200"}
@@ -80,7 +80,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Wildlife and Conservation Biology"}
               subjectBgColor={"bg-green-100"}
               leafBgColor={"bg-green-200"}
@@ -88,7 +88,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Creative Arts and Design"}
               subjectBgColor={"bg-orange-100"}
               leafBgColor={"bg-orange-200"}
@@ -96,7 +96,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Aerospace Engineering"}
               subjectBgColor={"bg-grey-200"}
               leafBgColor={"bg-grey-300"}
@@ -104,7 +104,7 @@ const PopularSubjectSlider = () => {
             />
           </SwiperSlide>
           <SwiperSlide>
-            <PopularSubject
+            <PopularCard
               subjectTitle={"Forensic Nursing"}
               subjectBgColor={"bg-blue-100"}
               leafBgColor={"bg-blue-200"}
@@ -117,4 +117,4 @@ const PopularSubjectSlider = () => {
   );
 };
 
-export default PopularSubjectSlider;
+export default PopularCardSlider;
