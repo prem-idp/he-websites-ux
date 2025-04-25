@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
-import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
@@ -16,7 +15,6 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
-import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 
 const page = () => {
   const skiplinkLabel = [
@@ -60,7 +58,7 @@ const page = () => {
               {/* page start from here */}
               <h1>Why study here</h1>
 
-              <Opendaysvirtualadvertcomponents />
+              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />
 
               {/* advertiser */}
               <Advertiser
@@ -71,47 +69,9 @@ const page = () => {
                 showWuscaCard={true}
               />
               {/* advertiser */}
-              <Opendaysvirtualadvertcomponents title={"Open days and virtual visits"} />
-              <Ctabanner
-                title={"Student Cost of Living Calculator"}
-                description={
-                  "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
-                }
-                buttonName={"Calculate my budget now"}
-                bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
-                bgColor={"bg-blue-200"}
-              />
-              <Ctabanner
-                title={"Get prospectus"}
-                description={
-                  "Interested? Order a prospectus to find out more about the uni and the courses on offer."
-                }
-                buttonName={"Get prospectus"}
-                bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
-                bgColor={"bg-grey-200"}
-              />
-              <Ctabanner
-                title={"Find a scholarship"}
-                description={
-                  "Find out more about the accommodation and facilities in person at the uni"
-                }
-                buttonName={"Find a scholarship"}
-                bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
-                bgColor={"bg-green-200"}
-              />
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
               </div>
-              <Ctabanner
-                title={"See your future with your own eyes"}
-                description={
-                  "Visit a university on a free open day and find out if it's the right place for you and your plans."
-                }
-                buttonName={"Book my spot now"}
-                bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
-                bgColor={"bg-orange-200"}
-              />
-
               {/* <Keystatscomponents /> */}
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents />
@@ -123,7 +83,7 @@ const page = () => {
                 <StudentRating />
               </div>
 
-              <CampusLocation />
+              
 
               <Pullquote />
 

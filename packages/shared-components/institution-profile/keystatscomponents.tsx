@@ -39,7 +39,7 @@ const Keystatscomponents = () => {
                 </div>
               </div>
               <div className='keystats-inner-row'>                
-                <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
+                <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(440px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
                   {/* --1-- */}
                   <div className='w-full flex flex-col justify-between gap-[4px]'>
                     <div className='*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between'>
