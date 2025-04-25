@@ -9,6 +9,7 @@ import Keystatscomponents from "@packages/shared-components/institution-profile/
 import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge/wusca-badge";
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
+import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 
 const page = () => {
   const skiplinkLabel = [
@@ -49,24 +50,17 @@ const page = () => {
                 activeLink={"Outcomes"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[40px]">
+            <div className="w-full flex flex-col gap-[16px]">
               {/* page start from here      */}
               <div className="h1">Outcome</div>
-              {/* reviews */}
-              <div className="flex flex-col gap-[16px]">
-                <div className="flex flex-col gap-[8px]">
-                  <div className="text-heading5 font-farro font-bold">
-                    Is [University name] a good place to study?
-                  </div>
-                  <p>Read honest reviews from real students at this uni</p>
-                </div>
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <WuscaBadge />
-                  <StudentRating />
-                  <StudentReviews />
-                </div>
-              </div>
-              {/* reviews */}
+              {/* advertiser */}
+              <Advertiser
+                advertiserTitle={"Career prospects"}
+                advertiserDescription={""}
+                showWuscaCard={false}
+                showreviewCard={false}
+              />
+              {/* advertiser */}
               <Keystatscomponents />
               <div>
                 <p>

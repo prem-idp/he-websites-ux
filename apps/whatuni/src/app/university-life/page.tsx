@@ -13,6 +13,7 @@ import TabSwitchButton from "@packages/shared-components/common-utilities/tab-sw
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
+import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 
 const page = () => {
   const skiplinkLabel = [
@@ -67,21 +68,15 @@ const page = () => {
                 bgColor={"bg-orange-200"}
               />
 
-              {/* reviews */}
-              <div className="flex flex-col gap-[16px]">
-                <div className="flex flex-col gap-[8px]">
-                  <div className="text-heading5 font-farro font-bold">
-                    Is [University name] a good place to study?
-                  </div>
-                  <p>Read honest reviews from real students at this uni</p>
-                </div>
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <WuscaBadge />
-                  <StudentRating />
-                  <StudentReviews />
-                </div>
-              </div>
-              {/* reviews */}
+              {/* advertiser */}
+              <Advertiser
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+              />
+              {/* advertiser */}
               <div>
                 <p>
                   Middlesex University campus is a short tube ride from central
