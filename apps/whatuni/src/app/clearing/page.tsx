@@ -14,7 +14,6 @@ import StudentReviews from "@packages/shared-components/common-utilities/student
 import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
 import MessageCard from "@packages/shared-components/institution-profile/messagecard";
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
-
 const page = () => {
   const skiplinkLabel = [
     {
@@ -65,6 +64,7 @@ const page = () => {
   ];
   return (
     <>
+    
       <Interested />
       <HeaderBanner />
       <TabSwitchButton />
