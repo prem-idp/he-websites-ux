@@ -52,7 +52,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[16px]">
               {/* page start from here      */}
-              <div className="h1">Outcome</div>
+              <h1 className="h4">Outcome</h1>
               {/* advertiser */}
               <Advertiser
                 advertiserTitle={"Career prospects"}

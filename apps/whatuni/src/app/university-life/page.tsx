@@ -57,10 +57,10 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[16px]">
               {/* page start from here      */}
-              <div className="h1">Univesity life</div>
+              <h1 className="h4">Univesity life</h1>
               {/* 360 degress  */}
               <div className="flex flex-col gap-[16px]">
-                <div className="h5">A day in the life</div>
+                <h1 className="h4">A day in the life</h1>
                 <span className="rounded-[8px] overflow-hidden">
                   <Image
                     src="/static/assets/images/ip/temp-360deg.png"

@@ -82,7 +82,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here */}
-              <h1>Virtual visits</h1>
+              <h1 className="h4">Virtual visits</h1>
               <Advertbannercard
                 tagline="Virtual tour"
                 title={"A day in the life"}

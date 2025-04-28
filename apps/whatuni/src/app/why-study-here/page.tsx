@@ -60,9 +60,11 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[40px]">
               {/* page start from here */}
-              <h1>Why study here</h1>
+              <h1 className="h4">Why study here</h1>
 
-              <Opendaysvirtualadvertcomponents />
+              <Opendaysvirtualadvertcomponents
+                title={"Open days and virtual visits"}
+              />
 
               {/* advertiser */}
               <Advertiser
@@ -71,11 +73,10 @@ const page = () => {
                   "Read honest reviews from real students at this uni"
                 }
                 showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={true}
               />
               {/* advertiser */}
-              <Opendaysvirtualadvertcomponents
-                title={"Open days and virtual visits"}
-              />
               <Ctabanner
                 title={"Student Cost of Living Calculator"}
                 description={
