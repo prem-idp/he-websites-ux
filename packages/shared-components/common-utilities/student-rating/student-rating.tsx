@@ -37,7 +37,7 @@ const StudentRating = () => {
 
       <div className="grid grid-cols-2 gap-[16px] md:grid-cols-4">
         {ratingData.map((item, index) => (
-          <div className="flex flex-col" key={index}>
+          <div className="flex flex-col">
             <div className="small font-semibold line-clamp-1">{item.title}</div>
             <div className="flex items-center gap-[8px]">
               <div className="flex items-center gap-[4px]">

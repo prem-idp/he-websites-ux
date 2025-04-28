@@ -1,43 +1,23 @@
 import React from 'react'
 import Image from 'next/image'
-import keyStatsIcon1 from "../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg"
-import keyStatsIcon2 from "../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg"
-import keyStatsIcon3 from "../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg"
-
-const Keystatscomponents = () => {
+const Keystatscomponents = ({ keyStatsData }:any) => {
   return (
     <>
       <div className='keystats-container'>
             <div className='keystats-inner-card flex flex-col gap-[16px]'>
               <div className='h5 text-grey300'>Keystats</div>
-              <div className='keystats-inner-row flex gap-[20px]'>
-                <div className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
-                    <Image className='self-center' src={keyStatsIcon1} alt="Keystats Icon1" width="48" height="48" />
-                    <div className="flex flex-col gap-[4px] *:text-white">
-                      <div className="text-x-small font-semibold line-clamp-2 uppercase">RANKing</div>
-                      <div className="h3">
-                        10th
-                       </div>
-                       <div className="text-small font-normal line-clamp-1">Complete University Guide</div>
-                    </div>
-                </div>
-                <div className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
-                    <Image className='self-center' src={keyStatsIcon2} alt="Keystats Icon1" width="48" height="48" />
-                    <div className="flex flex-col gap-[4px] *:text-white">
-                      <div className="text-x-small font-semibold line-clamp-2 uppercase">STUDENT POPULATION</div>
-                      <div className="h3">16,145</div>
-                      <div className="text-small font-normal line-clamp-1">Undergraduate students</div>
-                    </div>
-                </div>
-                <div className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
-                    <Image className='self-center' src={keyStatsIcon3} alt="Keystats Icon1" width="48" height="48" />
-                    <div className="flex flex-col gap-[4px] *:text-white">
-                      <div className="text-x-small font-semibold line-clamp-2 uppercase">STUDENT OUTCOMES</div>
-                      <div className="h3">68%</div>
-                      <div className="text-small font-normal line-clamp-1">In job or further study</div>
-                    </div>
-                </div>
-              </div>
+                    <div className='keystats-inner-row flex flex-col md:flex-row gap-[20px]'>
+                      {keyStatsData.map((data: any, index: number) => (
+                          <div key={index} className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
+                            <Image className='self-center' src={data.icon} alt="Keystats Icon1" width="48" height="48" />
+                            <div className="flex flex-col gap-[4px] *:text-white">
+                              <div className="text-x-small font-semibold line-clamp-2 uppercase">{data.label}</div>
+                              <div className="h3">{data.value}</div>
+                               <div className="text-small font-normal line-clamp-1">{data.description}</div>
+                            </div>
+                        </div>
+                        ))}
+                    </div> 
               <div className='keystats-inner-row'>                
                 <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(440px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
                   {/* --1-- */}

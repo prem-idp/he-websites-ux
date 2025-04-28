@@ -8,6 +8,7 @@ import TestimonialComponent from "@packages/shared-components/home/testimonials/
 import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomponents";
 import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
 import Articlegridcomponents from "@packages/shared-components/home/article-grid/articlegridcomponents";
+import Articlegridskeleton from "@packages/shared-components/common-utilities/skeleton/articlegridskeleton";
 
 const page = () => {
   return (
@@ -17,6 +18,7 @@ const page = () => {
       <Discovercomponents />
       <AdviceComponent />
       <Articlegridcomponents />
+      <Articlegridskeleton />
       <TestimonialComponent />
       <ReviewComponent />
       <OurPartnerComponent />
