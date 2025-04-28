@@ -6,6 +6,7 @@ import StudentReviews from "@packages/shared-components/common-utilities/student
 const Advertiser = ({
   advertiserTitle,
   advertiserDescription,
+  isWuscaBadge,
   showWuscaCard = false,
   showreviewCard,
 }: any) => {
@@ -20,7 +21,7 @@ const Advertiser = ({
           {advertiserDescription && <p> {advertiserDescription} </p>}
         </div>
         <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-          <WuscaBadge wuscaCard={showWuscaCard} />
+          {isWuscaBadge && <WuscaBadge wuscaCard={showWuscaCard} />}
           <StudentRating />
           {showreviewCard && <StudentReviews />}
         </div>

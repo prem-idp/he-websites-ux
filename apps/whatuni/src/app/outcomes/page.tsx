@@ -57,12 +57,13 @@ const page = () => {
               <Advertiser
                 advertiserTitle={"Career prospects"}
                 advertiserDescription={""}
-                showWuscaCard={false}
-                showreviewCard={false}
+                showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={false}
               />
               {/* advertiser */}
               <Keystatscomponents />
-              <div>
+              <div className="flex flex-col gap-[16px]">
                 <p>
                   Middlesex University has a strong track record of graduate
                   employability, and all courses are designed to equip students
