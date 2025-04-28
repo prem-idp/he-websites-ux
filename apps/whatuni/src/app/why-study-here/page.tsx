@@ -43,6 +43,14 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Halls", value: "4.5", extra: "20th" },
+    { title: "City life", value: "4.1", extra: "20th" },
+  ];
   const keyStatsData = [
     {
       icon: keyStatsIcon1,
@@ -82,18 +90,22 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[40px]">
               {/* page start from here */}
-              <h1>Why study here</h1>
-              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />
-              {/* advertiser */}
-              <Advertiser
-                advertiserTitle={" Is [University name] a good place to study?"}
-                advertiserDescription={""}
-                showWuscaCard={true}
-              />
-              {/* advertiser */}
+              <h1 className="h4">Why study here</h1>
+
               <Opendaysvirtualadvertcomponents
                 title={"Open days and virtual visits"}
               />
+
+              {/* advertiser */}
+              <Advertiser
+                rating={ratingData}
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={""}
+                showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={true}
+              />
+              {/* advertiser */}
               <Ctabanner
                 title={"Student Cost of Living Calculator"}
                 description={
@@ -134,7 +146,7 @@ const page = () => {
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
               </div>
-            
+
               <Pullquote />
 
               <div className="flex flex-col gap-[16px]">

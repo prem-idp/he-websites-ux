@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
@@ -38,6 +39,12 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Public transport ", value: "4.2", extra: "20th" },
+    { title: "Diversity ", value: "3.3", extra: "20th" },
+    { title: "Safety", value: "4.2", extra: "20th" },
+    { title: "Part time work ", value: "3.3", extra: "20th" },
+  ];
   return (
     <>
       <Interested />
@@ -54,9 +61,22 @@ const page = () => {
                 activeLink={"University life"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[40px]">
+            <div className="w-full flex flex-col gap-[16px]">
               {/* page start from here      */}
-              <div className="h1">univesity life</div>
+              <h1 className="h4">Univesity life</h1>
+              {/* 360 degress  */}
+              <div className="flex flex-col gap-[16px]">
+                <h1 className="h4">A day in the life</h1>
+                <span className="rounded-[8px] overflow-hidden">
+                  <Image
+                    src="/static/assets/images/ip/temp-360deg.png"
+                    height={567}
+                    width={907}
+                    alt="temp-360"
+                  />
+                </span>
+              </div>
+              {/* 360 degress  */}
 
               <Ctabanner
                 title={"See your future with your own eyes"}
@@ -70,14 +90,15 @@ const page = () => {
 
               {/* advertiser */}
               <Advertiser
-                advertiserTitle={" Is [University name] a good place to study?"}
-                advertiserDescription={
-                  "Read honest reviews from real students at this uni"
-                }
+                rating={ratingData}
+                advertiserTitle={"What is [City name] like?"}
+                advertiserDescription={false}
                 showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={false}
               />
               {/* advertiser */}
-              <div>
+              <div className="flex flex-col gap-[16px]">
                 <p>
                   Middlesex University campus is a short tube ride from central
                   London, offering easy access to world-class cultural, social,
@@ -118,6 +139,28 @@ const page = () => {
                   to join. If students don't see their passion represented, the
                   students’ union can help them to set up their own society,
                   ensuring a vibrant and active student life.
+                </p>
+              </div>
+              {/* advertiser */}
+              <Advertiser
+                advertiserTitle={"How is the student union?"}
+                advertiserDescription={false}
+                showWuscaCard={true}
+                showreviewCard={false}
+                isWuscaBadge={false}
+              />
+              {/* advertiser */}
+              <div className="flex flex-col gap-[16px]">
+                <p>
+                  The Middlesex University Students' Union (MDXSU) is central to
+                  student life, representing the interests of the student body,
+                  organising events, and providing a platform for voices to be
+                  heard.
+                </p>
+
+                <p>
+                  MDXSU ensures the university experience is engaging and
+                  supportive, fostering a strong student community.
                 </p>
               </div>
               <RedirectionButton />
