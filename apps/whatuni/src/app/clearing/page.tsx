@@ -65,6 +65,12 @@ const page = () => {
       pageURL: "#",
     },
   ];
+  const ratingData = [
+    { title: "Public transport ", value: "4.2", extra: "20th" },
+    { title: "Diversity ", value: "3.3", extra: "20th" },
+    { title: "Safety", value: "4.2", extra: "20th" },
+    { title: "Part time work ", value: "3.3", extra: "20th" },
+  ];
   return (
     <>
       <Interested />
@@ -89,6 +95,7 @@ const page = () => {
                 description={
                   "Discover some of the many places our students spend a typical day."
                 }
+                rating={ratingData}
                 buttonName={"Take a virtual tour"}
                 bannerSrc={"/static/assets/images/virtual_thumb_image.jpg"}
                 bgColor={"bg-green-200"}

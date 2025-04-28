@@ -32,6 +32,14 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Halls", value: "4.5", extra: "20th" },
+    { title: "City life", value: "4.1", extra: "20th" },
+  ];
   return (
     <>
       <Interested />
@@ -52,7 +60,10 @@ const page = () => {
               {/* page start from here      */}
               <h1 className="h4">Univesity details</h1>
               {/* advertiser */}
-              <Advertiser advertiserTitle={"[University name] facilities"} />
+              <Advertiser
+                rating={ratingData}
+                advertiserTitle={"[University name] facilities"}
+              />
               {/* advertiser */}
               <div className="flex flex-col gap-[16px]">
                 <p>

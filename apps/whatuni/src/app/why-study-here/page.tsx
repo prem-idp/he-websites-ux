@@ -42,6 +42,14 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Halls", value: "4.5", extra: "20th" },
+    { title: "City life", value: "4.1", extra: "20th" },
+  ];
   return (
     <>
       {/* <ClearingPopup/> */}
@@ -68,6 +76,7 @@ const page = () => {
 
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={" Is [University name] a good place to study?"}
                 advertiserDescription={
                   "Read honest reviews from real students at this uni"

@@ -34,6 +34,10 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Career prospects ", value: "4.3", extra: "20th" },
+    { title: "Work placements and internships", value: "4.3", extra: "20th" },
+  ];
   return (
     <>
       <Interested />
@@ -55,10 +59,11 @@ const page = () => {
               <h1 className="h4">Outcome</h1>
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={"Career prospects"}
                 advertiserDescription={""}
                 showWuscaCard={true}
-                showreviewCard={true}
+                showreviewCard={false}
                 isWuscaBadge={false}
               />
               {/* advertiser */}

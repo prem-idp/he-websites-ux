@@ -39,6 +39,12 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const ratingData = [
+    { title: "Public transport ", value: "4.2", extra: "20th" },
+    { title: "Diversity ", value: "3.3", extra: "20th" },
+    { title: "Safety", value: "4.2", extra: "20th" },
+    { title: "Part time work ", value: "3.3", extra: "20th" },
+  ];
   return (
     <>
       <Interested />
@@ -84,6 +90,7 @@ const page = () => {
 
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={"What is [City name] like?"}
                 advertiserDescription={false}
                 showWuscaCard={true}
