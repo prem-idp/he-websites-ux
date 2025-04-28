@@ -18,7 +18,9 @@ import Opendaysvirtualadvertcomponents from "@packages/shared-components/institu
 import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
+import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
+import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 
 const page = () => {
   const skiplinkLabel = [
@@ -93,6 +95,36 @@ const page = () => {
                 showWuscaCard={true}
               />
               {/* advertiser */}
+              <Opendaysvirtualadvertcomponents
+                title={"Open days and virtual visits"}
+              />
+              <Ctabanner
+                title={"Student Cost of Living Calculator"}
+                description={
+                  "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
+                }
+                buttonName={"Calculate my budget now"}
+                bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
+                bgColor={"bg-blue-200"}
+              />
+              <Ctabanner
+                title={"Get prospectus"}
+                description={
+                  "Interested? Order a prospectus to find out more about the uni and the courses on offer."
+                }
+                buttonName={"Get prospectus"}
+                bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
+                bgColor={"bg-grey-200"}
+              />
+              <Ctabanner
+                title={"Find a scholarship"}
+                description={
+                  "Find out more about the accommodation and facilities in person at the uni"
+                }
+                buttonName={"Find a scholarship"}
+                bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
+                bgColor={"bg-green-200"}
+              />
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
               </div>
