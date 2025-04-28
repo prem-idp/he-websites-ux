@@ -15,12 +15,10 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
+import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
-import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
-import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
-import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 
 const page = () => {
   const skiplinkLabel = [
@@ -89,9 +87,7 @@ const page = () => {
               {/* advertiser */}
               <Advertiser
                 advertiserTitle={" Is [University name] a good place to study?"}
-                advertiserDescription={
-                  "Read honest reviews from real students at this uni"
-                }
+                advertiserDescription={""}
                 showWuscaCard={true}
               />
               {/* advertiser */}

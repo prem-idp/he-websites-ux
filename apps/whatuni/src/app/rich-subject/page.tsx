@@ -1,12 +1,50 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Video from "@packages/shared-components/common-utilities/videos/video";
+import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
+import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 
 const page = () => {
+    const skiplinkLabel = [
+        {
+          key: 1,
+          pageName: "Overview",
+          pageURL: "#tabContent1",
+        },
+        {
+          key: 2,
+          pageName: "Facilities",
+          pageURL: "#tabContent2",
+        },
+        {
+          key: 3,
+          pageName: "Teaching excellence",
+          pageURL: "#tabContent3",
+        },
+        {
+          key: 4,
+          pageName: "Scholarships",
+          pageURL: "#tabContent4",
+        },
+        {
+            key: 5,
+            pageName: "Custom section",
+            pageURL: "#tabContent5",
+          },
+          {
+            key: 6,
+            pageName: "Contact us",
+            pageURL: "#tabContent6",
+          },
+          {
+            key: 7,
+            pageName: "Other academic departments",
+            pageURL: "#tabContent7",
+          },
+      ];
   return (
     <>
       <HeaderBanner />
@@ -15,13 +53,16 @@ const page = () => {
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
-              <Redirectlinkcomponent activeLink={"Why study here?"} />
+            <Redirectlinkcomponent
+                data={skiplinkLabel}
+                activeLink={"Why study here?"}
+              />
             </div>
             <div className="w-full xl:w-[907px]">
                 {/* page start from here */}
                 <div className="rich-subject-container flex flex-col gap-[40px]">
                     {/* -- */}
-                    <div className="rich-subject-inner-wrap flex flex-col gap-[16px]">
+                    <div id="tabContent1" className="rich-subject-inner-wrap flex flex-col gap-[16px]">
                         <div className="h5 text-grey300">Overview</div>
                         <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                             <Video />
@@ -35,7 +76,7 @@ const page = () => {
                     </div>
                     {/* -- */}
                     {/* -- */}
-                    <div className="rich-subject-inner-wrap flex flex-col gap-[16px]">
+                    <div id="tabContent2" className="rich-subject-inner-wrap flex flex-col gap-[16px]">
                         <div className="h5 text-grey300">Facilities</div>
                         <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                             <Video />
@@ -48,7 +89,7 @@ const page = () => {
                     </div>
                     {/* -- */}
                     {/* -- */}
-                    <div className="rich-subject-inner-wrap flex flex-col gap-[16px]">
+                    <div id="tabContent3" className="rich-subject-inner-wrap flex flex-col gap-[16px]">
                         <div className="h5 text-grey300">Teaching excellence</div>
                         <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                             <Video />
@@ -61,7 +102,7 @@ const page = () => {
                     </div>
                     {/* -- */}
                     {/* -- */}
-                    <div className="rich-subject-inner-wrap flex flex-col gap-[16px]">
+                    <div id="tabContent4" className="rich-subject-inner-wrap flex flex-col gap-[16px]">
                         <div className="h5 text-grey300">Scholarships</div>
                         <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                             <Video />
@@ -73,8 +114,14 @@ const page = () => {
                         </div>
                     </div>
                     {/* -- */}
+                    <div id="tabContent5">
+                        <Advertiser advertiserTitle={"Where is [University name] located?"} advertiserDescription={""} showWuscaCard={false} />                    
+                    </div>
+                    <div id="tabContent6">
+                        <CampusLocation />
+                    </div>
                     {/* -- */}
-                    <div className="explore-subject-card flex flex-col gap-[16px]">
+                    <div id="tabContent7" className="explore-subject-card flex flex-col gap-[16px]">
                         <div className="h5 text-grey300">Other academic departments</div>
                         {/* -explore subject card- */}
                             <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row">
@@ -109,7 +156,7 @@ const page = () => {
                             </div>
                          {/* -explore subject card- */}  
                         {/* -explore subject card- */}
-                        <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row">
+                            <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row">
                                 <div className="w-full min-h-[140px] md:w-[259px] shrink-0">
                                     <Image
                                     src="/static/assets/images/search-results/article2.jpg"
@@ -127,7 +174,6 @@ const page = () => {
                                 </div>
                             </div>
                          {/* -explore subject card- */}
-                                                
                     </div>
                     {/* -- */}                    
               </div>

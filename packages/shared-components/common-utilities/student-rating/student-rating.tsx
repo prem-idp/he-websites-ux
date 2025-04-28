@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const StudentRating = () => {
+const StudentRating = ({titleIsVisible = false}) => {
   const ratingData = [
     { title: "Overall rating", value: "4.2", extra: "20th" },
     { title: "Courses", value: "3.3", extra: "20th" },
@@ -59,7 +59,8 @@ const StudentRating = () => {
           </div>
         ))}
       </div>
-          </div>
+                      
+    </div>
   );
 };
 

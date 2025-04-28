@@ -8,6 +8,7 @@ const Advertiser = ({
   advertiserDescription,
   showWuscaCard = false,
   showreviewCard,
+  showTitle = true,
 }: any) => {
   return (
     <>
@@ -16,7 +17,7 @@ const Advertiser = ({
         <div className="flex flex-col gap-[8px]">
           <div className="text-heading5 font-farro font-bold">
             {advertiserTitle}
-          </div>{" "}
+          </div>
           {advertiserDescription && <p> {advertiserDescription} </p>}
         </div>
         <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
