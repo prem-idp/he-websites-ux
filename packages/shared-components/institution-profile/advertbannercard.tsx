@@ -20,7 +20,7 @@ const Advertbannercard = ({
           <div className="text-grey300 flex flex-col gap-[4px]">
             <div className='x-small font-semibold uppercase'>{tagline}</div>
             <div className="h5 font-semibold line-line-clamp-1">{title}</div>
-            <div className="small font-normal line-clamp-2">{description}</div>
+            <div className="small font-normal min-h-[42px] line-clamp-2">{description}</div>
           </div>
 
           <Link

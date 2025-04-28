@@ -10,7 +10,7 @@ const Opendaysvirtualadvertcomponents = ({title,istitleVisible=true}:any) => {
             <div className='h5 text-grey300'>{title}</div>
           }
           <div className='advert-card-inner'>
-            <div className='flex gap-[16px]'>
+            <div className='flex flex-col md:flex-row gap-[16px]'>
                 <Advertbannercard
                     tagline="NEXT OPEN DAY"
                     title={"13th February"}

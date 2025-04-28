@@ -40,7 +40,7 @@ const StudentRating = () => {
       {/* <div className="grid grid-cols-2 gap-[16px] md:grid-cols-4"> */}
       <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(205px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
         {ratingData.map((item, index) => (
-          <div className="flex flex-col" key={index}>
+          <div className="flex flex-col">
             <div className="small font-semibold line-clamp-1">{item.title}</div>
             <div className="flex items-center gap-[8px]">
               <div className="flex items-center gap-[4px]">

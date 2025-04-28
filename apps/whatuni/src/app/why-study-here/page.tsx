@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
-import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
 import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
@@ -16,8 +15,12 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
+import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
+import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
+import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
+import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 
 const page = () => {
   const skiplinkLabel = [
@@ -42,6 +45,27 @@ const page = () => {
       pageURL: "/outcomes",
     },
   ];
+  const keyStatsData = [
+    {
+      icon: keyStatsIcon1,
+      label: "Ranking",
+      value: "10th",
+      description: "Complete University Guide",
+    },
+    {
+      icon: keyStatsIcon2,
+      label: "Student Population",
+      value: "16,145",
+      description: "Undergraduate students",
+    },
+    {
+      icon: keyStatsIcon3,
+      label: "Student Outcomes",
+      value: "68%",
+      description: "In job or further study",
+    },
+  ];
+
   return (
     <>
       {/* <ClearingPopup/> */}
@@ -61,9 +85,7 @@ const page = () => {
             <div className="w-full flex flex-col flex-1 gap-[40px]">
               {/* page start from here */}
               <h1>Why study here</h1>
-
-              <Opendaysvirtualadvertcomponents />
-
+              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />
               {/* advertiser */}
               <Advertiser
                 advertiserTitle={" Is [University name] a good place to study?"}
@@ -106,19 +128,9 @@ const page = () => {
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
               </div>
-              <Ctabanner
-                title={"See your future with your own eyes"}
-                description={
-                  "Visit a university on a free open day and find out if it's the right place for you and your plans."
-                }
-                buttonName={"Book my spot now"}
-                bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
-                bgColor={"bg-orange-200"}
-              />
-
               {/* <Keystatscomponents /> */}
               <Reviewthumbgalleryslidercomponents />
-              <Keystatscomponents />
+              <Keystatscomponents keyStatsData={keyStatsData} />
               <Costoflivingratingcomponents />
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
@@ -126,9 +138,7 @@ const page = () => {
               <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
               </div>
-
-              <CampusLocation />
-
+            
               <Pullquote />
 
               <div className="flex flex-col gap-[16px]">
