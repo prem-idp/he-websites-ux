@@ -13,6 +13,7 @@ import TabSwitchButton from "@packages/shared-components/common-utilities/tab-sw
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
 
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
+import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 
 const page = () => {
   const skiplinkLabel = [
@@ -67,22 +68,36 @@ const page = () => {
                 bgColor={"bg-orange-200"}
               />
 
-              {/* reviews */}
-              <div className="flex flex-col gap-[16px]">
-                <div className="flex flex-col gap-[8px]">
-                  <div className="text-heading5 font-farro font-bold">
-                    Is [University name] a good place to study?
-                  </div>
-                  <p>Read honest reviews from real students at this uni</p>
-                </div>
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <WuscaBadge />
-                  <StudentRating />
-                  <StudentReviews />
-                </div>
+              {/* advertiser */}
+              <Advertiser
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+              />
+              {/* advertiser */}
+              <div>
+                <p>
+                  Middlesex University campus is a short tube ride from central
+                  London, offering easy access to world-class cultural, social,
+                  and professional opportunities.
+                </p>
+                <p>
+                  Students can explore the dynamic neighbourhoods of Camden’s
+                  Lock Market and Tottenham for food, drink, and shopping
+                  experiences, alongside clubs (including Drumsheds) and
+                  premiership sports teams. North London combines the excitement
+                  of city life with the tranquillity of suburban living.
+                </p>
+                <p>
+                  North London is also a great place to build connections and
+                  gain experience for a future career. From Google to Meta, the
+                  area is home to national and multinational companies, so
+                  students are in the right place to land placements,
+                  internships and graduate jobs.
+                </p>
               </div>
-              {/* reviews */}
-
               <Findoutmore />
               <Costoflivingratingcomponents />
               <Ctabanner
@@ -95,7 +110,16 @@ const page = () => {
                 bgColor={"bg-blue-200"}
               />
 
-              <Pullquote />
+              <div>
+                <div className="h5">Clubs and societies</div>
+                <p>
+                  Middlesex University boasts over 85 clubs and societies. From
+                  sports to arts and niche hobbies, there’s a group for everyone
+                  to join. If students don't see their passion represented, the
+                  students’ union can help them to set up their own society,
+                  ensuring a vibrant and active student life.
+                </p>
+              </div>
               <RedirectionButton />
             </div>
           </div>

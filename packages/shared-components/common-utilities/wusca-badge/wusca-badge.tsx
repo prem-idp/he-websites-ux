@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const WuscaBadge = ({wuscaCard = false}) => {
+const WuscaBadge = ({ wuscaCard = false }) => {
   const wuscabadge = Number(4);
-  
+
   if (!wuscaCard) return null;
 
   return (
@@ -34,7 +34,8 @@ const WuscaBadge = ({wuscaCard = false}) => {
       >
         {wuscabadge >= 1 && (
           <div className="flex items-center gap-[8px]">
-            <Image className="shrink-0"
+            <Image
+              className="shrink-0"
               src="/static/assets/images/gold-university-of-the-year.png"
               alt="gold-university-of-the-year"
               width="135"
@@ -56,7 +57,8 @@ const WuscaBadge = ({wuscaCard = false}) => {
         )}
         {wuscabadge >= 2 && (
           <div className="flex items-center gap-[8px]">
-            <Image className="shrink-0"
+            <Image
+              className="shrink-0"
               src="/static/assets/images/gold-university-of-the-year.png"
               alt="gold-university-of-the-year"
               width="135"
@@ -78,7 +80,8 @@ const WuscaBadge = ({wuscaCard = false}) => {
         )}
         {wuscabadge >= 3 && (
           <div className="flex items-center gap-[8px]">
-            <Image className="shrink-0"
+            <Image
+              className="shrink-0"
               src="/static/assets/images/bronze-student-life.png"
               alt="bronze-student-life"
               width="135"
@@ -100,7 +103,8 @@ const WuscaBadge = ({wuscaCard = false}) => {
         )}
         {wuscabadge >= 4 && (
           <div className="flex items-center gap-[8px]">
-            <Image className="shrink-0"
+            <Image
+              className="shrink-0"
               src="/static/assets/images/gold-university-of-the-year.png"
               alt="gold-university-of-the-year"
               width="135"

@@ -18,6 +18,7 @@ import Opendaysvirtualadvertcomponents from "@packages/shared-components/institu
 import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
+import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
 
 const page = () => {
   const skiplinkLabel = [
@@ -65,6 +66,7 @@ const page = () => {
 
   return (
     <>
+      {/* <ClearingPopup/> */}
       <Interested />
       <HeaderBanner />
       <TabSwitchButton />
@@ -107,55 +109,71 @@ const page = () => {
             
               <Pullquote />
 
-              <div className="flex flex-col">
-                <p className="mb-[14px]">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum
+              <div className="flex flex-col gap-[16px]">
+                <div className="text-heading5 font-farro font-bold">
+                  Overview
+                </div>
+                <p>
+                  Located in vibrant North London, Middlesex University is home
+                  to over 14,500 students who study a comprehensive range of
+                  undergraduate and postgraduate degrees, as well as short
+                  courses and degree apprenticeships, across 13 subject areas.
                 </p>
-                <p className="mb-[14px]">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum
+                <p>
+                  Middlesex University caters to every individual and encourages
+                  diversity. Faculty and support staff are on hand to facilitate
+                  and support every single student in achieving their unique
+                  ambitions and kickstarting their future, whether their dreams
+                  be creative, purpose-driven, or entrepreneurial.
                 </p>
-                <p className="mb-[14px]">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum
-                </p>
-                <p className="mb-[14px]">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum
-                </p>
+                <div className="font-semibold">
+                  10 Reasons to choose Middlesex University
+                </div>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
+                  <li>
+                    World-class courses: Specialist, practical courses designed
+                    with input from industry experts.
+                  </li>
+                  <li>
+                    Extensive industry links: Collaborations with over 1,000
+                    industry and employer partners, including Google, Apple,
+                    Amazon, and the NHS.
+                  </li>
+                  <li>
+                    Prime North London location: The campus offers easy access
+                    to all the social and professional opportunities of central
+                    London.
+                  </li>
+                  <li>
+                    World-class facilities: £200 million has been invested in
+                    state-of-the-art facilities, including high-tech labs and
+                    creative studios, ensuring access to the best resources
+                  </li>
+                  <li>
+                    Funding and financial aid: Numerous scholarships and
+                    financial support options available.
+                  </li>
+                  <li>
+                    Comprehensive student support: Wide-ranging support services
+                    include mental health resources, financial advice, and
+                    award-winning academic support.
+                  </li>
+                  <li>
+                    Award-winning employability service: Comprehensive career
+                    support includes internships, part-time jobs, and
+                    postgraduate employment opportunities.
+                  </li>
+                  <li>
+                    Diverse and inclusive community: The university is
+                    recognised for its commitment to equality, diversity, and
+                    inclusion and was named 'University of the Year' at the
+                    Queer Student Awards (2023).
+                  </li>
+                  <li>
+                    Flexible learning options: Part-time and online learning
+                    modes available.
+                  </li>
+                </ul>
               </div>
               <PopularSubject />
               <RedirectionButton />

@@ -58,6 +58,55 @@ const page = () => {
                 advertiserTitle={"[University name] facilities"}
               />
               {/* advertiser */}
+              <div className="flex flex-col gap-[16px]">
+                <p>
+                  The university’s Hendon campus is leafy, sustainable, and
+                  safe, but still holds the buzz of a London university.
+                </p>
+                <p>
+                  In recent years, Middlesex University has invested over £200
+                  million into its world-class facilities, equipment, and study
+                  resources, including:
+                </p>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
+                  <li>£23m health, sport, and science facility, built in</li>
+                  <li>collaboration with Saracens Rugby Club Augmented-reality</li>
+                  <li>teaching equipment for nursing and midwifery students</li>
+                  <li>Animation motion-capture suite Financial markets lab</li>
+                  <li>Specialist chambers and courtroom in Hendon Town Hall The</li>
+                  <li>Grove, an £80m industry-standard creative facility, including</li>
+                  <li>3D workshops and TV studios</li>
+                </ul>
+                <p>
+                  Students also enjoy a full range of unique and inspirational
+                  spaces for study and socialising, including the impressive
+                  Sheppard Library, open 24/7.
+                </p>
+              </div><div className="flex flex-col gap-[16px]">
+                <p>
+                  The university’s Hendon campus is leafy, sustainable, and
+                  safe, but still holds the buzz of a London university.
+                </p>
+                <p>
+                  In recent years, Middlesex University has invested over £200
+                  million into its world-class facilities, equipment, and study
+                  resources, including:
+                </p>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
+                  <li>£23m health, sport, and science facility, built in</li>
+                  <li>collaboration with Saracens Rugby Club Augmented-reality</li>
+                  <li>teaching equipment for nursing and midwifery students</li>
+                  <li>Animation motion-capture suite Financial markets lab</li>
+                  <li>Specialist chambers and courtroom in Hendon Town Hall The</li>
+                  <li>Grove, an £80m industry-standard creative facility, including</li>
+                  <li>3D workshops and TV studios</li>
+                </ul>
+                <p>
+                  Students also enjoy a full range of unique and inspirational
+                  spaces for study and socialising, including the impressive
+                  Sheppard Library, open 24/7.
+                </p>
+              </div>
               <Opendaysvirtualadvertcomponents istitleVisible={false} />
               <CampusLocation />
               <Ctabanner
