@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
@@ -10,6 +11,9 @@ import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
+import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
+import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
+import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 
 const page = () => {
   const skiplinkLabel = [
@@ -37,6 +41,20 @@ const page = () => {
   const ratingData = [
     { title: "Career prospects ", value: "4.3", extra: "20th" },
     { title: "Work placements and internships", value: "4.3", extra: "20th" },
+  ];
+  const keyStatsData = [
+    {
+      icon: keyStatsIcon1,
+      label: "Ranking",
+      value: "10th",
+      description: "Complete University Guide",
+    },
+    {
+      icon: keyStatsIcon2,
+      label: "Student Population",
+      value: "16,145",
+      description: "Undergraduate students",
+    },
   ];
   return (
     <>
@@ -67,8 +85,32 @@ const page = () => {
                 isWuscaBadge={false}
               />
               {/* advertiser */}
-              <Keystatscomponents />
-              <div className="flex flex-col gap-[16px]">
+              <div className="keystats-inner-row flex flex-col md:flex-row gap-[20px]">
+                {keyStatsData.map((data: any, index: number) => (
+                  <div
+                    key={index}
+                    className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]"
+                  >
+                    <Image
+                      className="self-center"
+                      src={data.icon}
+                      alt="Keystats Icon1"
+                      width="48"
+                      height="48"
+                    />
+                    <div className="flex flex-col gap-[4px] *:text-white">
+                      <div className="text-x-small font-semibold line-clamp-2 uppercase">
+                        {data.label}
+                      </div>
+                      <div className="h3">{data.value}</div>
+                      <div className="text-small font-normal line-clamp-1">
+                        {data.description}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
                 <p>
                   Middlesex University has a strong track record of graduate
                   employability, and all courses are designed to equip students
