@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PopularCard from "../cards/popular-card/popular-card";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,20 +10,24 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { FreeMode, Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
 
 const PopularCardSlider = () => {
+  const [isMobile, setIsMobile] = useState(true);
+  useEffect(() => {
+    const checkScreen = () => setIsMobile(window.innerWidth < 1024);
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
   return (
     <>
       <div className="lg:w-[650px] xl:w-[907px] ">
         <Swiper
           slidesPerView={2}
           spaceBetween={8}
-          freeMode={true}
           navigation={true}
-          pagination={{
-            clickable: true,
-          }}
+          pagination={isMobile ? { clickable: true } : false}
           breakpoints={{
             320: {
               slidesPerView: 2,
@@ -38,7 +42,7 @@ const PopularCardSlider = () => {
               slidesPerView: 5,
             },
           }}
-          modules={[FreeMode, Pagination, Navigation]}
+          modules={[Pagination, Navigation]}
           className="MultiSwiper popular"
         >
           <SwiperSlide>

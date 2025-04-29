@@ -71,7 +71,7 @@ const ReviewThumbGallerySliderComponents = () => {
             {item.type === "image" ? (
               <img src={item.src} alt={`Slide ${index}`} className="w-full rounded-[8px]" />
             ) : (
-              <div className="w-full rounded-[8px]">
+              <div className="w-full rounded-[8px] overflow-hidden">
               <Video />
               </div>
             )}

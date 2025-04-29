@@ -57,7 +57,7 @@ const page = () => {
       <TabSwitchButton />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto py-[40px]">
+        <div className="max-w-container mx-auto py-0 lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -73,56 +73,14 @@ const page = () => {
               <Advertiser
                 rating={ratingData}
                 advertiserTitle={" Is [University name] a good place to study?"}
-                advertiserDescription={""}
+                advertiserDescription={"Read honest reviews from real students at this uni"}
                 showWuscaCard={true}
                 showreviewCard={true}
                 isWuscaBadge={true}
               />
               {/* advertiser */}
-              <Ctabanner
-                title={"Student Cost of Living Calculator"}
-                description={
-                  "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
-                }
-                buttonName={"Calculate my budget now"}
-                bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
-                bgColor={"bg-blue-200"}
-              />
-              <Ctabanner
-                title={"Get prospectus"}
-                description={
-                  "Interested? Order a prospectus to find out more about the uni and the courses on offer."
-                }
-                buttonName={"Get prospectus"}
-                bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
-                bgColor={"bg-grey-200"}
-              />
-              <Ctabanner
-                title={"Find a scholarship"}
-                description={
-                  "Find out more about the accommodation and facilities in person at the uni"
-                }
-                buttonName={"Find a scholarship"}
-                bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
-                bgColor={"bg-green-200"}
-              />
-              <div className="px-[16px] md:px-[20px] lg:px-0">
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <StudentRating />
-                </div>
-              </div>
-              {/* <Keystatscomponents /> */}
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents keyStatsInnerData={true} />
-              <Costoflivingratingcomponents />
-
-              <Findoutmore />
-              <div className="px-[16px] md:px-[20px] lg:px-0">
-                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                  <StudentRating />
-                </div>
-              </div>
-              <Pullquote />
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   Overview
