@@ -29,13 +29,13 @@ const Keystatscomponents = ({ keyStatsInnerData }: any) => {
   return (
     <>
       <div className="keystats-container">
-        <div className="keystats-inner-card flex flex-col gap-[16px]">
+        <div className="keystats-inner-card flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
           <div className="h5 text-grey300">Keystats</div>
           <KeyStatsCard keyStatsData={keyStatsData} />
           {keyStatsInnerData && (
             <>
               <div className="keystats-inner-row">
-                <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(440px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300">
+                <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(340px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(440px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300">
                   {/* --1-- */}
                   <div className="w-full flex flex-col justify-between gap-[4px]">
                     <div className="*:flex *:flex-col gap-[16px] *:text-grey300 *:small flex items-center justify-between">

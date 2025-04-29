@@ -181,7 +181,7 @@ const HeaderBanner = () => {
                     </div>
                   </div>
                   <div
-                    className={`flex xl:pt-[0] gap-[8px] items-end lg:min-w-[630px] ${scrolled ? "md:fixed xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
+                    className={`flex xl:pt-[0] gap-[8px] items-end lg:min-w-[630px] ${scrolled ? "md:fixed md:z-[1] xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
                   >
                     <div
                       style={
@@ -226,7 +226,7 @@ const HeaderBanner = () => {
                         </>
                       )}
                     </div>
-                    <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
+                    <button className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                       <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                         <svg
                           width="20"
@@ -244,7 +244,7 @@ const HeaderBanner = () => {
                           />
                         </svg>
                       </div>
-                    </span>
+                    </button>
                   </div>
                 </div>
               </div>

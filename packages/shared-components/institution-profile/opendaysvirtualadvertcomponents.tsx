@@ -5,7 +5,7 @@ const Opendaysvirtualadvertcomponents = ({title,istitleVisible=true}:any) => {
   return (
     <>
     <div className='advert-container'>
-        <div className='advert-card-container flex flex-col gap-[16px]'>
+        <div className='advert-card-container flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0'>
           { istitleVisible &&
             <div className='h5 text-grey300'>{title}</div>
           }

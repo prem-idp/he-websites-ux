@@ -55,7 +55,7 @@ const ReviewThumbGallerySliderComponents = () => {
   };
 
   return (
-    <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto">
+    <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto md:px-[20px] lg:px-0">
       {/* Main Swiper */}
       <Swiper
       onSlideChange={handleSlideChange}
@@ -69,9 +69,11 @@ const ReviewThumbGallerySliderComponents = () => {
         {mediaItems.map((item, index) => (
           <SwiperSlide key={index}>
             {item.type === "image" ? (
-              <img src={item.src} alt={`Slide ${index}`} className="w-full rounded-lg" />
+              <img src={item.src} alt={`Slide ${index}`} className="w-full rounded-[8px]" />
             ) : (
+              <div className="w-full rounded-[8px] overflow-hidden">
               <Video />
+              </div>
             )}
           </SwiperSlide>
         ))}
@@ -86,13 +88,18 @@ const ReviewThumbGallerySliderComponents = () => {
         watchSlidesProgress={true}
         breakpoints={{
           320: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 8,
             slidesPerGroup: 3,
           },
           768: {
             slidesPerView: 5,
             spaceBetween: 10,
+            slidesPerGroup: 3,
+          },
+          993: {
+            slidesPerView: 5,
+            spaceBetween: 4,
             slidesPerGroup: 3,
           },
         }}

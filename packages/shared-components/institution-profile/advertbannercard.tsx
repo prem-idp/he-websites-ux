@@ -13,16 +13,15 @@ const Advertbannercard = ({
   return (
     <>
       <div className={`flex flex-1 ${bgColor} rounded-[8px] overflow-hidden`}>
-        <div className="flex min-w-[130px] max-w-[130px]">
+        <div className=" hidden md:flex min-w-[130px] max-w-[130px]">
           <Image className='h-fit' width="130" height="188" alt="banner" src={bannerSrc} />
         </div>
         <div className="flex flex-col flex-1 gap-[16px] p-[16px]">
           <div className="text-grey300 flex flex-col gap-[4px]">
             <div className='x-small font-semibold uppercase'>{tagline}</div>
             <div className="h5 font-semibold line-line-clamp-1">{title}</div>
-            <div className="small font-normal min-h-[42px] line-clamp-2">{description}</div>
+            <div className="small font-normal md:min-h-[42px] line-clamp-2">{description}</div>
           </div>
-
           <Link
             href="#"
             className="flex gap-[8px] justify-center items-center btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-full !no-underline">
