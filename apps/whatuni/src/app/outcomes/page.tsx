@@ -65,7 +65,7 @@ const page = () => {
 
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto pt-0 pb-[40px] lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -75,7 +75,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[16px]">
               {/* page start from here      */}
-              <h1 className="h4">Outcome</h1>
+              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Outcome</h1>
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
@@ -86,19 +86,21 @@ const page = () => {
                 isWuscaBadge={false}
               />
               {/* advertiser */}
-              <KeyStatsCard keyStatsData={keyStatsData} />
-              <div>
+              <div className="px-[16px] md:px-[20px] lg:px-0">
+                <KeyStatsCard keyStatsData={keyStatsData} />
+              </div>
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <p>
                   Middlesex University has a strong track record of graduate
                   employability, and all courses are designed to equip students
                   with the skills that employers value.
                 </p>
-                <div className="h5">Practical courses</div>
+                <div className="font-semibold">Practical courses</div>
                 <p>
                   The university’s practical learning approach ensures students
                   graduate ready to step into the job market with confidence.
                 </p>
-                <div className="h5">Lifetime career support</div>
+                <div className="font-semibold">Lifetime career support</div>
                 <p>
                   Lifetime career services support students and graduates every
                   step of the way, from internships to full-time employment and
@@ -106,7 +108,7 @@ const page = () => {
                   platform, or can make an appointment for bespoke one-to-one
                   careers advice.
                 </p>
-                <div className="h5">Global industry connections</div>
+                <div className="font-semibold">Global industry connections</div>
                 <p>
                   The university works with its extensive network of industry
                   connections to organise international work placements and
@@ -124,8 +126,7 @@ const page = () => {
                 <p>
                   Industry partners include Google, Apple, Amazon, and the NHS.
                 </p>
-                <div className="h5">Industry accredited courses</div>
-                <div className="h5"></div>
+                <div className="font-semibold">Industry accredited courses</div>
                 Middlesex University’s undergraduate courses are accredited by a
                 range of leading bodies, including CIPD, NMC and iED. These
                 accreditations prove to employers that students’ knowledge is
