@@ -143,6 +143,7 @@ const page = () => {
               </div>
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={"How is the student union?"}
                 advertiserDescription={false}
                 showWuscaCard={true}
