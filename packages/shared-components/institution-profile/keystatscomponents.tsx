@@ -4,20 +4,20 @@ const Keystatscomponents = ({ keyStatsData }:any) => {
   return (
     <>
       <div className='keystats-container'>
-            <div className='keystats-inner-card flex flex-col gap-[16px]'>
+            <div className='keystats-inner-card flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0'>
               <div className='h5 text-grey300'>Keystats</div>
-                    <div className='keystats-inner-row flex flex-col md:flex-row gap-[20px]'>
-                      {keyStatsData.map((data: any, index: number) => (
-                          <div key={index} className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
-                            <Image className='self-center' src={data.icon} alt="Keystats Icon1" width="48" height="48" />
-                            <div className="flex flex-col gap-[4px] *:text-white">
-                              <div className="text-x-small font-semibold line-clamp-2 uppercase">{data.label}</div>
-                              <div className="h3">{data.value}</div>
-                               <div className="text-small font-normal line-clamp-1">{data.description}</div>
-                            </div>
-                        </div>
-                        ))}
-                    </div> 
+              <div className='keystats-inner-row flex flex-col md:flex-row gap-[20px]'>
+                {keyStatsData.map((data: any, index: number) => (
+                  <div key={index} className="course-highlight__option flex flex-1 items-start gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">
+                    <Image className='self-center' src={data.icon} alt="Keystats Icon1" width="48" height="48" />
+                    <div className="flex flex-col gap-[4px] *:text-white">
+                      <div className="text-x-small font-semibold line-clamp-2 uppercase">{data.label}</div>
+                      <div className="h3">{data.value}</div>
+                       <div className="text-small font-normal line-clamp-1">{data.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div> 
               <div className='keystats-inner-row'>                
                 <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(440px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
                   {/* --1-- */}

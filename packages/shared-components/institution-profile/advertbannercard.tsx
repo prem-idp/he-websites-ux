@@ -22,7 +22,6 @@ const Advertbannercard = ({
             <div className="h5 font-semibold line-line-clamp-1">{title}</div>
             <div className="small font-normal min-h-[42px] line-clamp-2">{description}</div>
           </div>
-
           <Link
             href="#"
             className="flex gap-[8px] justify-center items-center btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-full !no-underline">

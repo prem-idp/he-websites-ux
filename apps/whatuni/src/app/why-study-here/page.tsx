@@ -72,7 +72,7 @@ const page = () => {
       <TabSwitchButton />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -82,7 +82,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[40px]">
               {/* page start from here */}
-              <h1>Why study here</h1>
+              <h1 className="px-[16px] md:px-[20px] lg:px-0">Why study here</h1>
               <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />
               {/* advertiser */}
               <Advertiser
@@ -121,8 +121,10 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                 bgColor={"bg-green-200"}
               />
-              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                <StudentRating />
+              <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
+                  <StudentRating />
+                </div>
               </div>
               {/* <Keystatscomponents /> */}
               <Reviewthumbgalleryslidercomponents />
@@ -130,14 +132,13 @@ const page = () => {
               <Costoflivingratingcomponents />
               {/* <Reviewthumbgalleryslidercomponents /> */}
               <Findoutmore />
-
-              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                <StudentRating />
+              <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
+                  <StudentRating />
+                </div>
               </div>
-            
               <Pullquote />
-
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   Overview
                 </div>
@@ -203,7 +204,7 @@ const page = () => {
                   </li>
                 </ul>
               </div>
-              <PopularSubject />
+              <PopularSubject uniTitle="Courses at Portsmouth University" subjectTitle="Popular subjects" />
               <RedirectionButton />
             </div>
           </div>

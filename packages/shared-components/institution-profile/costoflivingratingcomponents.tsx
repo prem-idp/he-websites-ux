@@ -6,7 +6,7 @@ const Costoflivingratingcomponents = () => {
   return (
     <>
         <div className='costliving-rating-container'>
-            <div className='costliving-rating-inner-card flex flex-col gap-[16px]'>
+            <div className='costliving-rating-inner-card flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0'>
               <div className='para-lg text-grey300 font-semibold'>Cost of living</div>
               <div className='costliving-rating-inner-row flex gap-[20px]'>
                     <div className="course-highlight__option flex flex-col md:flex-row flex-1 justify-between md:items-center gap-[16px] bg-grey-600 p-[16px] rounded-[8px]">

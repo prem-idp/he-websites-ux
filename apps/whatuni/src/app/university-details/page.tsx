@@ -8,9 +8,9 @@ import Interested from "@packages/shared-components/common-utilities/interested/
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
-import PopularSubjectSlider from "@packages/shared-components/common-utilities/popular-subject-slider/popular-subject-slider";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
+import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 
 const page = () => {
   const skiplinkLabel = [
@@ -128,7 +128,7 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                 bgColor={"bg-green-200"}
               />
-              <PopularSubjectSlider />
+              <PopularSubject uniTitle="" subjectTitle="Popular subjects" />
               <RedirectionButton />
             </div>
           </div>
