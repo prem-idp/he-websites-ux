@@ -1,15 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-const StudentRating = ({titleIsVisible = false}) => {
-  const ratingData = [
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Halls", value: "4.5", extra: "20th" },
-    { title: "City life", value: "4.1", extra: "20th" },
-  ];
+const StudentRating = ({ data = [] }: any) => {
+  const [ratingGrid, setRatingGrid] = useState(0);
+  useEffect(() => {
+    setRatingGrid(data.length);
+  }, []);
 
   return (
     <div className="flex flex-col gap-[16px] p-[16px]">
@@ -37,10 +33,20 @@ const StudentRating = ({titleIsVisible = false}) => {
         </div>
       </div>
 
-      {/* <div className="grid grid-cols-2 gap-[16px] md:grid-cols-4"> */}
-      <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(205px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300'>
-        {ratingData.map((item, index) => (
-          <div className="flex flex-col">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(205px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300 
+    ${
+      ratingGrid == 3
+        ? "md:grid-cols-3"
+        : ratingGrid === 4
+          ? "md:grid-cols-4"
+          : ratingGrid === 3
+            ? "md:grid-cols-3"
+            : ""
+    }`}
+      >
+        {data.map((item, index) => (
+          <div className="flex flex-col" key={index}>
             <div className="small font-semibold line-clamp-1">{item.title}</div>
             <div className="flex items-center gap-[8px]">
               <div className="flex items-center gap-[4px]">
@@ -59,7 +65,6 @@ const StudentRating = ({titleIsVisible = false}) => {
           </div>
         ))}
       </div>
-                      
     </div>
   );
 };

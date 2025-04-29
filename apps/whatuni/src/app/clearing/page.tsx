@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
@@ -15,6 +16,9 @@ import Keystatscomponents from "@packages/shared-components/institution-profile/
 import MessageCard from "@packages/shared-components/institution-profile/messagecard";
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
+import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
+import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
+import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 
 const page = () => {
   const skiplinkLabel = [
@@ -64,9 +68,34 @@ const page = () => {
       pageURL: "#",
     },
   ];
+  const ratingData = [
+    { title: "Public transport ", value: "4.2", extra: "20th" },
+    { title: "Diversity ", value: "3.3", extra: "20th" },
+    { title: "Safety", value: "4.2", extra: "20th" },
+    { title: "Part time work ", value: "3.3", extra: "20th" },
+  ];
+  const keyStatsData = [
+    {
+      icon: keyStatsIcon1,
+      label: "Ranking",
+      value: "10th",
+      description: "Complete University Guide",
+    },
+    {
+      icon: keyStatsIcon2,
+      label: "Student Population",
+      value: "16,145",
+      description: "Undergraduate students",
+    },
+    {
+      icon: keyStatsIcon3,
+      label: "Student Outcomes",
+      value: "68%",
+      description: "In job or further study",
+    },
+  ];
   return (
     <>
-    
       <Interested />
       <HeaderBanner />
       <TabSwitchButton />
@@ -82,29 +111,38 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here */}
-              <h1>Virtual visits</h1>
+              <h1 className="h4">Virtual visits</h1>
               <Advertbannercard
                 tagline="Virtual tour"
                 title={"A day in the life"}
                 description={
                   "Discover some of the many places our students spend a typical day."
                 }
+                rating={ratingData}
                 buttonName={"Take a virtual tour"}
                 bannerSrc={"/static/assets/images/virtual_thumb_image.jpg"}
                 bgColor={"bg-green-200"}
               />
               {/* advertiser */}
               <Advertiser
-                advertiserTitle={" Is [University name] a good place to study?"}
+                rating={ratingData}
+                advertiserTitle={
+                  "Why students choose [Provider name] in Clearing"
+                }
                 advertiserDescription={
                   "Read honest reviews from real students at this uni"
                 }
                 showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={false}
               />
               {/* advertiser */}
 
               <Reviewthumbgalleryslidercomponents />
-              <Keystatscomponents />
+              <Keystatscomponents
+                keyStatsInnerData={true}
+                keyStatsData={keyStatsData}
+              />
               <div className="flex flex-col gap-[16px]">
                 <div className="h5">[Provider Name] Clearing overview</div>
                 <p>
@@ -123,7 +161,7 @@ const page = () => {
                 <div className="h5">
                   10 Reasons to choose [Provider Name] in Clearing
                 </div>
-                <ul>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
                   <li>
                     World-class courses: Specialist, practical courses designed
                     with input from industry experts.
@@ -191,6 +229,73 @@ const page = () => {
                 />
               </div>
               <div className="flex flex-col gap-[16px]">
+                <div className="h5">[Provider Name] Clearing guide</div>
+                <p>
+                  Clearing is the system that matches applicants who don’t have
+                  an offer with universities that still have places available.
+                  You are able to use Clearing if you:
+                </p>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
+                  <li>
+                    Didn’t get the grades required for a conditional offer.
+                  </li>
+                  <li>Didn’t receive any offers.</li>
+                  <li>Declined all the offers received.</li>
+                  <li>
+                    Achieved the grades required but have changed your mind
+                    about where you want to study.
+                  </li>
+                  <li>Haven’t made any applications.</li>
+                </ul>
+
+                <p>
+                  You'll be able to find universities with vacancies and contact
+                  them directly to see if they will offer you a place. The
+                  Clearing period runs from the start of July to the end of
+                  September. If you’re waiting for A-level results you can start
+                  using Clearing as soon as you receive your grades on Thursday
+                  15th August 2024. If you already have your grades, you can
+                  start using Clearing from 5th July 2024. Although the
+                  intensive Clearing activity happens on Results Day and
+                  immediately afterwards, universities continue to advertise
+                  available spaces until term starts.
+                </p>
+
+                <p>
+                  Results Day can feel overwhelming, doing some research and
+                  preparation ahead of the day will really help you feel in
+                  control.
+                </p>
+                <ol className="list-decimal flex flex-col gap-[16px] pl-[40px]">
+                  <li>
+                    Do all your research beforehand so Results Day morning you
+                    can get straight on the phone. Make a list of alternative
+                    universities to contact.
+                  </li>
+                  <li>
+                    Make sure you have all the information you need and a note
+                    of relevant questions you might want to ask.
+                  </li>
+                  <li>
+                    Make sure your phone is charged and have a charger to hand,
+                    just in case.
+                  </li>
+                  <li>
+                    Have a note pad and pen close by so you can take any
+                    important notes down and come back to them later.
+                  </li>
+                  <li>
+                    You will be talking a lot so have a drink or a bottle of
+                    water to hand.
+                  </li>
+                </ol>
+                <p>
+                  We recommend getting an early night on Wednesday 14th August,
+                  so you are feeling awake and refreshed for Results Day on
+                  Thursday 15th August.
+                </p>
+              </div>
+              <div className="flex flex-col gap-[16px]">
                 <div className="h5">
                   What happens next when you choose [Provider name] through
                   Clearing
@@ -243,7 +348,7 @@ const page = () => {
                   I’d like to adjust my offer and choice to the University of
                   Plymouth, what should I do now?
                 </div>
-                <ul>
+                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
                   <li>
                     Check our Clearing course vacancies – see if your chosen
                     course, or a similar course that interests you, has
@@ -265,13 +370,31 @@ const page = () => {
                   </li>
                 </ul>
               </div>
+              {/* 360 degress  */}
+              <div className="flex flex-col gap-[16px]">
+                <div className="h5">A day in the life</div>
+                <span className="rounded-[8px] overflow-hidden">
+                  <Image
+                    src="/static/assets/images/ip/temp-360deg.png"
+                    height={567}
+                    width={907}
+                    alt="temp-360"
+                  />
+                </span>
+              </div>
+              {/* 360 degress  */}
               {/* advertiser */}
               <Advertiser
-                advertiserTitle={" Is [University name] a good place to study?"}
+                rating={ratingData}
+                advertiserTitle={
+                  "Why students choose [Provider name] in Clearing"
+                }
                 advertiserDescription={
                   "Read honest reviews from real students at this uni"
                 }
                 showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={false}
               />
               {/* advertiser */}
             </div>
