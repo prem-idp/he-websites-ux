@@ -16,9 +16,6 @@ import PopularSubject from "@packages/shared-components/common-utilities/popular
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
-import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
-import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
-import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 
 const page = () => {
   const skiplinkLabel = [
@@ -50,26 +47,6 @@ const page = () => {
     { title: "Courses", value: "3.3", extra: "20th" },
     { title: "Halls", value: "4.5", extra: "20th" },
     { title: "City life", value: "4.1", extra: "20th" },
-  ];
-  const keyStatsData = [
-    {
-      icon: keyStatsIcon1,
-      label: "Ranking",
-      value: "10th",
-      description: "Complete University Guide",
-    },
-    {
-      icon: keyStatsIcon2,
-      label: "Student Population",
-      value: "16,145",
-      description: "Undergraduate students",
-    },
-    {
-      icon: keyStatsIcon3,
-      label: "Student Outcomes",
-      value: "68%",
-      description: "In job or further study",
-    },
   ];
 
   return (
@@ -133,19 +110,16 @@ const page = () => {
                 bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                 bgColor={"bg-green-200"}
               />
-              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
-                <StudentRating />
-              </div>
-              {/* <Keystatscomponents /> */}
+
               <Reviewthumbgalleryslidercomponents />
-              <Keystatscomponents keyStatsData={keyStatsData} />
+              <Keystatscomponents keyStatsInnerData={true} />
               <Costoflivingratingcomponents />
-              {/* <Reviewthumbgalleryslidercomponents /> */}
+
               <Findoutmore />
 
-              <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
+              {/* <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
                 <StudentRating />
-              </div>
+              </div> */}
 
               <Pullquote />
 

@@ -16,6 +16,9 @@ import Keystatscomponents from "@packages/shared-components/institution-profile/
 import MessageCard from "@packages/shared-components/institution-profile/messagecard";
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
+import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
+import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
+import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 
 const page = () => {
   const skiplinkLabel = [
@@ -71,6 +74,26 @@ const page = () => {
     { title: "Safety", value: "4.2", extra: "20th" },
     { title: "Part time work ", value: "3.3", extra: "20th" },
   ];
+  const keyStatsData = [
+    {
+      icon: keyStatsIcon1,
+      label: "Ranking",
+      value: "10th",
+      description: "Complete University Guide",
+    },
+    {
+      icon: keyStatsIcon2,
+      label: "Student Population",
+      value: "16,145",
+      description: "Undergraduate students",
+    },
+    {
+      icon: keyStatsIcon3,
+      label: "Student Outcomes",
+      value: "68%",
+      description: "In job or further study",
+    },
+  ];
   return (
     <>
       <Interested />
@@ -102,6 +125,7 @@ const page = () => {
               />
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={
                   "Why students choose [Provider name] in Clearing"
                 }
@@ -115,7 +139,10 @@ const page = () => {
               {/* advertiser */}
 
               <Reviewthumbgalleryslidercomponents />
-              <Keystatscomponents />
+              <Keystatscomponents
+                keyStatsInnerData={true}
+                keyStatsData={keyStatsData}
+              />
               <div className="flex flex-col gap-[16px]">
                 <div className="h5">[Provider Name] Clearing overview</div>
                 <p>
@@ -358,6 +385,7 @@ const page = () => {
               {/* 360 degress  */}
               {/* advertiser */}
               <Advertiser
+                rating={ratingData}
                 advertiserTitle={
                   "Why students choose [Provider name] in Clearing"
                 }
