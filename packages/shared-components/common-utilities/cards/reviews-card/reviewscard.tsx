@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Reviewscard = () => {
   return (
-    <Link href="" className="reviews-card flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2">
+    <Link href="" className="reviews-card group/reviewItem flex flex-col bg-white p-[16px] rounded-[8px] bg-white border border-grey-200 hover:border-primary-400 shadow-custom-2">
     <div className="review-card-header flex items-center gap-[8px] border-b border-neutrale-200 pb-[16px]">
         <h6 className="review-box__avatar flex justify-center items-center text-white w-[48px] h-[48px] bg-primary-400 rounded-[100px]">MW</h6>
         <div className="review-box__details flex flex-col justify-center w-[calc(100%_-_48px)]">
@@ -32,7 +32,7 @@ const Reviewscard = () => {
       <div className="reviewed__date x-small text-grey-500">Reviewed: 01/01/23</div>
       <div className="reviewed__date font-semibold para line-clamp-1">Law/MLaw LLB (Hons)</div>
       <div className="reviewed__date small text-grey-500 line-clamp-3">it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less nor</div>
-      <div className="reviewed__date font-semibold small text-primary-400">Read full review</div>
+      <div className="reviewed__date font-semibold small text-primary-400 group-hover/reviewItem:underline">Read full review</div>
     </div>
   </Link>
 

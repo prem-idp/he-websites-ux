@@ -53,7 +53,7 @@ const page = () => {
 
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto py-0 lg:py-[40px]">
+        <div className="max-w-container mx-auto py-0 pb-[40px] lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -118,10 +118,8 @@ const page = () => {
                   students are in the right place to land placements,
                   internships and graduate jobs.
                 </p>
-              </div>
-              <div className="px-[16px] md:px-[20px] lg:px-0">
-                <Findoutmore />
-              </div>
+              </div>              
+              <Findoutmore />              
               <Costoflivingratingcomponents />
               <Ctabanner
                 title={"Student Cost of Living Calculator"}
@@ -166,7 +164,7 @@ const page = () => {
                   supportive, fostering a strong student community.
                 </p>
               </div>
-              <RedirectionButton />
+              <RedirectionButton btnState = {true} />
             </div>
           </div>
         </div>
