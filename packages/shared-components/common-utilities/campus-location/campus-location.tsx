@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const CampusLocation = () => {
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
       <div className="para-lg font-semibold">Campus location</div>
       <Image
         src="/static/assets/images/campus-location.jpg"

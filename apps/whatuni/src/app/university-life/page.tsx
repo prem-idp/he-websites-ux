@@ -61,44 +61,47 @@ const page = () => {
                 activeLink={"University life"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[16px]">
+            <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Univesity life</h1>
-              {/* 360 degress  */}
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <h2 className="h4">A day in the life</h2>
-                <span className="rounded-[8px] overflow-hidden">
-                  <Image
-                    src="/static/assets/images/ip/temp-360deg.png"
-                    height={567}
-                    width={907}
-                    alt="temp-360"
-                  />
-                </span>
+              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+                Univesity life
+              </h1>
+              <div className="flex flex-col gap-[16px]">
+                {/* 360 degress  */}
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  <h2 className="h4">A day in the life</h2>
+                  <span className="rounded-[8px] overflow-hidden">
+                    <Image
+                      src="/static/assets/images/ip/temp-360deg.png"
+                      height={567}
+                      width={907}
+                      alt="temp-360"
+                    />
+                  </span>
+                </div>
+                {/* 360 degress  */}
+
+                <Ctabanner
+                  title={"See your future with your own eyes"}
+                  description={
+                    "Visit a university on a free open day and find out if it's the right place for you and your plans."
+                  }
+                  buttonName={"Book my spot now"}
+                  bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
+                  bgColor={"bg-orange-200"}
+                />
               </div>
-              {/* 360 degress  */}
-
-              <Ctabanner
-                title={"See your future with your own eyes"}
-                description={
-                  "Visit a university on a free open day and find out if it's the right place for you and your plans."
-                }
-                buttonName={"Book my spot now"}
-                bannerSrc={"/static/assets/images/ip/yellow-cta-banner.png"}
-                bgColor={"bg-orange-200"}
-              />
-
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData}
-                advertiserTitle={"What is [City name] like?"}
-                advertiserDescription={false}
-                showWuscaCard={true}
-                showreviewCard={true}
-                isWuscaBadge={false}
-              />
-              {/* advertiser */}
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+              <div className="flex flex-col gap-[16px]">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData}
+                  advertiserTitle={"What is [City name] like?"}
+                  advertiserDescription={false}
+                  showWuscaCard={true}
+                  showreviewCard={true}
+                  isWuscaBadge={false}
+                />
+                {/* advertiser */}
                 <p>
                   Middlesex University campus is a short tube ride from central
                   London, offering easy access to world-class cultural, social,
@@ -118,20 +121,19 @@ const page = () => {
                   students are in the right place to land placements,
                   internships and graduate jobs.
                 </p>
-              </div>              
-              <Findoutmore />              
-              <Costoflivingratingcomponents />
-              <Ctabanner
-                title={"Student Cost of Living Calculator"}
-                description={
-                  "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
-                }
-                buttonName={"Calculate my budget now"}
-                bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
-                bgColor={"bg-blue-200"}
-              />
-
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                <Findoutmore />
+                <Costoflivingratingcomponents />
+                <Ctabanner
+                  title={"Student Cost of Living Calculator"}
+                  description={
+                    "From accommodation to groceries, it breaks down uni living costs to help plan your budget with confidence"
+                  }
+                  buttonName={"Calculate my budget now"}
+                  bannerSrc={"/static/assets/images/ip/budget-cta-banner.png"}
+                  bgColor={"bg-blue-200"}
+                />
+              </div>
+              <div className="flex flex-col gap-[16px]">
                 <div className="h5">Clubs and societies</div>
                 <p>
                   Middlesex University boasts over 85 clubs and societies. From
@@ -141,24 +143,23 @@ const page = () => {
                   ensuring a vibrant and active student life.
                 </p>
               </div>
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData}
-                advertiserTitle={"How is the student union?"}
-                advertiserDescription={false}
-                showWuscaCard={true}
-                showreviewCard={false}
-                isWuscaBadge={false}
-              />
-              {/* advertiser */}
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+              <div className="flex flex-col gap-[16px]">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData}
+                  advertiserTitle={"How is the student union?"}
+                  advertiserDescription={false}
+                  showWuscaCard={true}
+                  showreviewCard={false}
+                  isWuscaBadge={false}
+                />
+                {/* advertiser */}
                 <p>
                   The Middlesex University Students' Union (MDXSU) is central to
                   student life, representing the interests of the student body,
                   organising events, and providing a platform for voices to be
                   heard.
                 </p>
-
                 <p>
                   MDXSU ensures the university experience is engaging and
                   supportive, fostering a strong student community.

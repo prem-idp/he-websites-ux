@@ -73,66 +73,75 @@ const page = () => {
                 activeLink={"Outcomes"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[16px]">
+            <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here      */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Outcome</h1>
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData}
-                advertiserTitle={"Career prospects"}
-                advertiserDescription={""}
-                showWuscaCard={true}
-                showreviewCard={false}
-                isWuscaBadge={false}
-              />
-              {/* advertiser */}
-              <div className="px-[16px] md:px-[20px] lg:px-0">
-                <KeyStatsCard keyStatsData={keyStatsData} />
+              <div className="flex flex-col gap-[16px]">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData}
+                  advertiserTitle={"Career prospects"}
+                  advertiserDescription={""}
+                  showWuscaCard={true}
+                  showreviewCard={false}
+                  isWuscaBadge={false}
+                />
+                {/* advertiser */}
+                <div className="px-[16px] md:px-[20px] lg:px-0">
+                  <KeyStatsCard keyStatsData={keyStatsData} />
+                </div>
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    Middlesex University has a strong track record of graduate
+                    employability, and all courses are designed to equip
+                    students with the skills that employers value.
+                  </p>
+                  <div className="font-semibold">Practical courses</div>
+                  <p>
+                    The university’s practical learning approach ensures
+                    students graduate ready to step into the job market with
+                    confidence.
+                  </p>
+                  <div className="font-semibold">Lifetime career support</div>
+                  <p>
+                    Lifetime career services support students and graduates
+                    every step of the way, from internships to full-time
+                    employment and beyond. Students can access support 24/7
+                    through an online platform, or can make an appointment for
+                    bespoke one-to-one careers advice.
+                  </p>
+                  <div className="font-semibold">
+                    Global industry connections
+                  </div>
+                  <p>
+                    The university works with its extensive network of industry
+                    connections to organise international work placements and
+                    study trips, as well as gather an impressive selection of
+                    international academics and visiting industry speakers from
+                    around the world into the classroom.
+                  </p>
+                  <p>
+                    Many courses include global opportunities. For example,
+                    business and law students are able to transfer between
+                    international campuses. Meanwhile, creative students have
+                    the chance to take part in France’s renowned journalism and
+                    documentary filmmaking festival.
+                  </p>
+                  <p>
+                    Industry partners include Google, Apple, Amazon, and the
+                    NHS.
+                  </p>
+                  <div className="font-semibold">
+                    Industry accredited courses
+                  </div>
+                  Middlesex University’s undergraduate courses are accredited by
+                  a range of leading bodies, including CIPD, NMC and iED. These
+                  accreditations prove to employers that students’ knowledge is
+                  up-to-date and valuable, and make the university’s graduates a
+                  popular choice across industry.
+                </div>
               </div>
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <p>
-                  Middlesex University has a strong track record of graduate
-                  employability, and all courses are designed to equip students
-                  with the skills that employers value.
-                </p>
-                <div className="font-semibold">Practical courses</div>
-                <p>
-                  The university’s practical learning approach ensures students
-                  graduate ready to step into the job market with confidence.
-                </p>
-                <div className="font-semibold">Lifetime career support</div>
-                <p>
-                  Lifetime career services support students and graduates every
-                  step of the way, from internships to full-time employment and
-                  beyond. Students can access support 24/7 through an online
-                  platform, or can make an appointment for bespoke one-to-one
-                  careers advice.
-                </p>
-                <div className="font-semibold">Global industry connections</div>
-                <p>
-                  The university works with its extensive network of industry
-                  connections to organise international work placements and
-                  study trips, as well as gather an impressive selection of
-                  international academics and visiting industry speakers from
-                  around the world into the classroom.
-                </p>
-                <p>
-                  Many courses include global opportunities. For example,
-                  business and law students are able to transfer between
-                  international campuses. Meanwhile, creative students have the
-                  chance to take part in France’s renowned journalism and
-                  documentary filmmaking festival.
-                </p>
-                <p>
-                  Industry partners include Google, Apple, Amazon, and the NHS.
-                </p>
-                <div className="font-semibold">Industry accredited courses</div>
-                Middlesex University’s undergraduate courses are accredited by a
-                range of leading bodies, including CIPD, NMC and iED. These
-                accreditations prove to employers that students’ knowledge is
-                up-to-date and valuable, and make the university’s graduates a
-                popular choice across industry.
-              </div>
+
               <RedirectionButton />
             </div>
           </div>
