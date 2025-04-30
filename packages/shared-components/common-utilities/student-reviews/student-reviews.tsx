@@ -24,11 +24,11 @@ const StudentReviews = () => {
           </svg>
           <span className="para-lg font-semibold">What do students say?</span>
         </div>
-        <div className="xs-small font-semibold uppercase">
+        <div className="flex gap-[4px] xs-small font-semibold uppercase">
           Source:
-          <span className="text-primary-400">
+          <a href="#" className="text-primary-400 hover:underline">
             Whatuni student choice awards
-          </span>
+          </a>
         </div>
       </div>
 

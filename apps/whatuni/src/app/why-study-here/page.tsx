@@ -3,8 +3,6 @@ import React from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
-import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
-import Pullquote from "@packages/shared-components/article-details/pull-quote/pull-quote";
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
@@ -13,7 +11,6 @@ import RedirectionButton from "@packages/shared-components/common-utilities/redi
 import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
 import Reviewthumbgalleryslidercomponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
-import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 
@@ -57,7 +54,7 @@ const page = () => {
       <TabSwitchButton />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto py-0 lg:py-[40px]">
+        <div className="max-w-container mx-auto py-0 pb-[40px] lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -65,7 +62,7 @@ const page = () => {
                 activeLink={"Why study here?"}
               />
             </div>
-            <div className="w-full flex flex-col flex-1 gap-[40px]">
+            <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Why study here</h1>
               <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />

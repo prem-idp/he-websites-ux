@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-const StudentRating = ({ data = [] }: any) => {
+const StudentRating = ({ data }: any) => {
   const [ratingGrid, setRatingGrid] = useState(0);
   useEffect(() => {
     setRatingGrid(data.length);
@@ -25,11 +25,11 @@ const StudentRating = ({ data = [] }: any) => {
           </svg>
           <span className="para-lg font-semibold"> Student ratings </span>
         </div>
-        <div className="xs-small font-semibold uppercase">
-          Source:
-          <span className="text-primary-400">
+        <div className="flex xs-small font-semibold uppercase gap-[4px]">
+          Source: 
+          <a href="#" className="text-primary-400 hover:underline">
             Whatuni student choice awards
-          </span>
+          </a>
         </div>
       </div>
 
@@ -45,7 +45,7 @@ const StudentRating = ({ data = [] }: any) => {
             : ""
     }`}
       >
-        {data.map((item, index) => (
+        {data.map((item: any, index: any) => (
           <div className="flex flex-col" key={index}>
             <div className="small font-semibold line-clamp-1">{item.title}</div>
             <div className="flex items-center gap-[8px]">
