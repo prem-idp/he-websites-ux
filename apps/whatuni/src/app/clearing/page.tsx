@@ -19,6 +19,7 @@ import Advertiser from "@packages/shared-components/common-utilities/advertiser/
 import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
+import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 
 const page = () => {
   const skiplinkLabel = [
@@ -101,7 +102,7 @@ const page = () => {
       <TabSwitchButton />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -111,7 +112,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here */}
-              <h1 className="h4">Virtual visits</h1>
+              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+                Virtual visits
+              </h1>
               <Advertbannercard
                 tagline="Virtual tour"
                 title={"A day in the life"}
@@ -143,7 +146,7 @@ const page = () => {
                 keyStatsInnerData={true}
                 keyStatsData={keyStatsData}
               />
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">[Provider Name] Clearing overview</div>
                 <p>
                   Located in vibrant North London, Middlesex University is home
@@ -207,7 +210,7 @@ const page = () => {
                   </li>
                 </ul>
               </div>
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">Clearing fundamentals</div>
                 <MessageCard
                   title={"Stay calm:"}
@@ -228,7 +231,7 @@ const page = () => {
                   }
                 />
               </div>
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">[Provider Name] Clearing guide</div>
                 <p>
                   Clearing is the system that matches applicants who don’t have
@@ -295,7 +298,7 @@ const page = () => {
                   Thursday 15th August.
                 </p>
               </div>
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">
                   What happens next when you choose [Provider name] through
                   Clearing
@@ -371,7 +374,7 @@ const page = () => {
                 </ul>
               </div>
               {/* 360 degress  */}
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">A day in the life</div>
                 <span className="rounded-[8px] overflow-hidden">
                   <Image
@@ -393,10 +396,11 @@ const page = () => {
                   "Read honest reviews from real students at this uni"
                 }
                 showWuscaCard={true}
-                showreviewCard={true}
+                showreviewCard={false}
                 isWuscaBadge={false}
               />
               {/* advertiser */}
+              <CampusLocation />
             </div>
           </div>
         </div>

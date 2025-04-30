@@ -131,6 +131,7 @@ const HeaderBanner = () => {
                 <div className="flex md:flex-col xl:flex-row justify-between">
                   <div className="flex items-start flex-col xl:flex-row gap-[16px]">
                     <span
+                      tabIndex={0}
                       className={`p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px] ${scrolled && "xl:hidden"}`}
                     >
                       <Image
@@ -143,6 +144,7 @@ const HeaderBanner = () => {
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
                       <div
+                        tabIndex={0}
                         className={`h3 line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
                       >
                         University of Oxford
@@ -171,10 +173,16 @@ const HeaderBanner = () => {
                       <ul
                         className={`flex flex-wrap gap-[8px] mt-[4px] md:mt-[0]`}
                       >
-                        <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small">
+                        <li
+                          tabIndex={0}
+                          className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small"
+                        >
                           clearing
                         </li>
-                        <li className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small">
+                        <li
+                          tabIndex={0}
+                          className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small"
+                        >
                           VIRTUAL TOURS AVAILABLE
                         </li>
                       </ul>
