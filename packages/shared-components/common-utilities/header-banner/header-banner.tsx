@@ -14,8 +14,8 @@ const HeaderBanner = () => {
   const [height, setHeight] = useState(0);
   const [mobbtnheight, setMobBtnHeight] = useState(0);
   const [mobbtnposition, setMobBtnPosition] = useState(0);
-  const bannerHeader = useRef(null);
-  const btnHeight = useRef(null);
+  const bannerHeader = useRef<HTMLDivElement>(null);
+  const btnHeight = useRef<HTMLDivElement>(null);
   // Get a value on scroll
   const handleScroll = useCallback(() => {
     const width = window.innerWidth;
