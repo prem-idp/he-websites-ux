@@ -26,7 +26,7 @@ const StudentRating = ({ data }: any) => {
           <span className="para-lg font-semibold"> Student ratings </span>
         </div>
         <div className="flex xs-small font-semibold uppercase gap-[4px]">
-          Source: 
+          Source:
           <a href="#" className="text-primary-400 hover:underline">
             Whatuni student choice awards
           </a>
@@ -34,16 +34,17 @@ const StudentRating = ({ data }: any) => {
       </div>
 
       <div
-        className={`grid grid-cols-1 md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(205px,_1fr))] justify-between gap-[20px] w-full *:text-small *:text-grey300 
-    ${
-      ratingGrid == 3
-        ? "md:grid-cols-3"
-        : ratingGrid === 4
-          ? "md:grid-cols-4"
-          : ratingGrid === 3
+        className={`grid grid-cols-2 justify-between gap-[20px] w-full *:text-small *:text-grey300 
+    ${ratingGrid === 3
             ? "md:grid-cols-3"
-            : ""
-    }`}
+            : ratingGrid === 4
+              ? "md:grid-cols-4"
+              : ratingGrid === 5
+                ? "md:grid-cols-3"
+                : ratingGrid === 6
+                  ? "md:grid-cols-3"
+                  : ""
+          }`}
       >
         {data.map((item: any, index: any) => (
           <div className="flex flex-col" key={index}>
