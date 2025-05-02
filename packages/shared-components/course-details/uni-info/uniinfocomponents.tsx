@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
-import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
-import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
-import Viewprofile from '@/app/components/cards/interaction-button/viewprofile'
+// import Reviewscomponents from '@/app/home/reviews/reviewscomponents'
+// import Reviewslidercomponents from '@/app/components/slider/reviewslidercomponents'
+// import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
+// import Viewprofile from '@/app/components/cards/interaction-button/viewprofile'
 
 const Uniinfocomponents = () => {
   
