@@ -149,7 +149,12 @@ const HeaderBanner = () => {
                       >
                         University of Oxford
                       </div>
-
+                      <span
+                        tabIndex={0}
+                        className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}
+                      >
+                        School of Aerospace, Transport and Manufacturing
+                      </span>
                       <div
                         className={`flex flex-wrap items-center gap-[8px] small ${scrolled && "xl:hidden"}`}
                       >
