@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs } from "swiper/modules";
+import { Navigation, Pagination, Thumbs } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import Video from "../videos/video";
 
@@ -59,11 +60,12 @@ const ReviewThumbGallerySliderComponents = () => {
       {/* Main Swiper */}
       <Swiper
       onSlideChange={handleSlideChange}
+        pagination={true}
         spaceBetween={8}
         navigation={true}
         autoHeight={true}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[Navigation, Thumbs]}
+        modules={[Navigation, Pagination ,Thumbs]}
         className="reviewMainSwiper MultiSwiper"
       >
         {mediaItems.map((item, index) => (
