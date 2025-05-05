@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const Advertbannercard = ({keyIndex, tagline, title, description, buttonName, bannerSrc, bgColor, width = "100%"}: any) => {
+const Advertbannercard = ({keyIndex, tagline, title, description, buttonName, bannerSrc, bgColor, width}: any) => {
+  const widthUtils = `w-full lg:w-[${width}px]`;
   return (
     <>
             <div className={`flex flex-1 ${bgColor} rounded-[8px] overflow-hidden`}>
@@ -24,9 +25,8 @@ const Advertbannercard = ({keyIndex, tagline, title, description, buttonName, ba
                   </div>
                 </div>
                 <Link
-                  href="#"
-                  style={{ width: width }}
-                  className={`flex gap-[8px] justify-center items-center btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] !no-underline`}
+                  href="#"                 
+                  className={`${widthUtils} flex gap-[8px] justify-center items-center btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] !no-underline`}
                 >
                   {buttonName}
                   <svg

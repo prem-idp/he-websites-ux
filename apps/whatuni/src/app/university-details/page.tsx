@@ -99,7 +99,7 @@ const page = () => {
                   Sheppard Library, open 24/7.
                 </p>
               </div>
-              <Opendaysvirtualadvertcomponents istitleVisible={false} advertData = {advertOpendaysData} />
+              <Opendaysvirtualadvertcomponents istitleVisible={false} advertData = {advertOpendaysData} width={282}/>
               {/* advertiser */}
               <Advertiser rating={ratingData} advertiserTitle={"[University name] accommodation"} showreviewCard = {true} />
               {/* advertiser */}
