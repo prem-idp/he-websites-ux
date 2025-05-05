@@ -23,7 +23,7 @@ const config: Config = {
     "lg:col-span-7",
     "bg-success-400",
     "bg-success-700",
-    "lg:w-[188px]",
+    "lg:w-[282px]",
 
     // Blue colors
     "bg-blue-50",
