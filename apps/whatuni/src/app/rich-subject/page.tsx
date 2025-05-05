@@ -268,7 +268,7 @@ const page = () => {
                         width={259}
                         height={146}
                         alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] lg:rounded-tr-none"
+                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] md:rounded-tr-none"
                       />
                     </div>
                     <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
@@ -316,7 +316,7 @@ const page = () => {
                         width={259}
                         height={146}
                         alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] lg:rounded-tr-none"
+                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] md:rounded-tr-none"
                       />
                     </div>
                     <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">

@@ -445,6 +445,8 @@ p,
 .thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-primary-400 md:border-[4px]}
 .thumbSwiper{@apply !hidden md:!flex }
 .reviewMainSwiper {@apply !pb-0 md:!pb-[4px] !px-[16px] md:!px-[0]}
+.reviewMainSwiper .swiper-pagination{@apply md:!hidden}
+.reviewMainSwiper .swiper-wrapper{@apply max-md:pb-[30px]}
 /* Swiper Styles */
 /* Backgrop shadow */
 .backdrop-shadow {
