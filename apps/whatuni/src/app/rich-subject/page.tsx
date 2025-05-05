@@ -58,7 +58,7 @@ const page = () => {
       <HeaderBanner />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto  pt-0 pb-[40px] lg:py-[40px]">
+        <div className="max-w-container mx-auto">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -70,7 +70,10 @@ const page = () => {
               {/* page start from here */}
               <div className="rich-subject-container flex flex-col gap-[40px]">
                 {/* -- */}
-                <div id="tabContent1" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
+                <div
+                  id="tabContent1"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
+                >
                   <div className="h5 text-grey300">Overview</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
@@ -114,7 +117,10 @@ const page = () => {
                 </div>
                 {/* -- */}
                 {/* -- */}
-                <div id="tabContent2" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
+                <div
+                  id="tabContent2"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
+                >
                   <div className="h5 text-grey300">Facilities</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />

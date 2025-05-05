@@ -132,7 +132,7 @@ const HeaderBanner = () => {
                   <div className="flex items-start flex-col xl:flex-row gap-[16px]">
                     <span
                       tabIndex={0}
-                      className={`p-[4px] bg-white rounded-[12px] hidden md:block shadow-custom-1 min-w-[64px] h-[64px] md:min-w-[100px] md:h-[100px] ${scrolled && "xl:hidden"}`}
+                      className={`p-[4px] bg-white rounded-[12px] shadow-custom-1 w-[64px] md:min-w-[64px] h-[64px] md:w-[100px] md:h-[100px] ${scrolled && "xl:hidden"}`}
                     >
                       <Image
                         className="h-full"
