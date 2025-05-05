@@ -58,7 +58,7 @@ const page = () => {
       <HeaderBanner />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto  pt-0 pb-[40px] lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -66,14 +66,11 @@ const page = () => {
                 activeLink={"Why study here?"}
               />
             </div>
-            <div className="w-full xl:w-[907px]">
+            <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
               <div className="rich-subject-container flex flex-col gap-[40px]">
                 {/* -- */}
-                <div
-                  id="tabContent1"
-                  className="rich-subject-inner-wrap flex flex-col gap-[16px]"
-                >
+                <div id="tabContent1" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
                   <div className="h5 text-grey300">Overview</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
@@ -117,10 +114,7 @@ const page = () => {
                 </div>
                 {/* -- */}
                 {/* -- */}
-                <div
-                  id="tabContent2"
-                  className="rich-subject-inner-wrap flex flex-col gap-[16px]"
-                >
+                <div id="tabContent2" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
                   <div className="h5 text-grey300">Facilities</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
@@ -167,7 +161,7 @@ const page = () => {
                 {/* -- */}
                 <div
                   id="tabContent3"
-                  className="rich-subject-inner-wrap flex flex-col gap-[16px]"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
                   <div className="h5 text-grey300">Teaching excellence</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
@@ -209,7 +203,7 @@ const page = () => {
                 {/* -- */}
                 <div
                   id="tabContent4"
-                  className="rich-subject-inner-wrap flex flex-col gap-[16px]"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
                   <div className="h5 text-grey300">Scholarships</div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
@@ -261,7 +255,7 @@ const page = () => {
                 {/* -- */}
                 <div
                   id="tabContent7"
-                  className="explore-subject-card flex flex-col gap-[16px]"
+                  className="explore-subject-card flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
                   <div className="h5 text-grey300">
                     Other academic departments
