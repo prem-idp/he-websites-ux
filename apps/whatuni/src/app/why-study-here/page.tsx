@@ -13,6 +13,7 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
+import {advertOpendaysData} from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -65,7 +66,7 @@ const page = () => {
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Why study here</h1>
-              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" />
+              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" advertData = {advertOpendaysData} width={282} />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}

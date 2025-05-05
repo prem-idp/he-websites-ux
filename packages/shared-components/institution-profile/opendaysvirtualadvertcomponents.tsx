@@ -1,8 +1,8 @@
 import React from 'react'
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
 
-const Opendaysvirtualadvertcomponents = ({title,istitleVisible=true}:any) => {
-  return (
+const Opendaysvirtualadvertcomponents = ({advertData,title,istitleVisible=true,width}:any) => {
+   return (
     <>
     <div className='advert-container'>
         <div className='advert-card-container flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0'>
@@ -10,27 +10,10 @@ const Opendaysvirtualadvertcomponents = ({title,istitleVisible=true}:any) => {
             <div className='h5 text-grey300'>{title}</div>
           }
           <div className='advert-card-inner'>
-            <div className='flex flex-col md:flex-row gap-[16px]'>
-                <Advertbannercard
-                    tagline="NEXT OPEN DAY"
-                    title={"13th February"}
-                    description={
-                    "Undergraduate open day, Main campus"
-                    }
-                    buttonName={"Book your place"}
-                    bannerSrc={"/static/assets/images/opdays_thumb_image.jpg"}
-                    bgColor={"bg-blue-100"}
-                />
-                <Advertbannercard
-                tagline="Virtual tour"
-                title={"A day in the life"}
-                description={
-                  "Discover some of the many places our students spend a typical day."
-                }
-                buttonName={"Take a virtual tour"}
-                bannerSrc={"/static/assets/images/virtual_thumb_image.jpg"}
-                bgColor={"bg-green-200"}
-              />
+            <div className='flex flex-col lg:flex-row gap-[16px]'>
+              {advertData?.map((item:any, index:number) => (
+                <Advertbannercard {...item} keyIndex={index} width={width}/>     
+              ))}
             </div>
           </div>
             <div className='flex justify-center mt-[4px]'>

@@ -442,7 +442,7 @@ p,
 }
 .thumbSwiper{@apply !px-[16px] md:!px-[0]}
 .thumbSwiper .swiper-wrapper .swiper-slide{@apply rounded-[4px] } 
-.thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-medium-yellow md:border-[3px]}
+.thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-primary-400 md:border-[4px]}
 .thumbSwiper{@apply !hidden md:!flex }
 .reviewMainSwiper {@apply !pb-0 md:!pb-[4px] !px-[16px] md:!px-[0]}
 /* Swiper Styles */

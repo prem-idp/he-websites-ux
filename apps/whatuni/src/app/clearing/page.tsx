@@ -20,6 +20,8 @@ import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icon
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
+import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
+import {advertVirtualsData} from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -112,20 +114,10 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[40px]">
               {/* page start from here */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              {/* <h1 className="h5 px-[16px] md:px-[20px] lg:px-0">
                 Virtual visits
-              </h1>
-              <Advertbannercard
-                tagline="Virtual tour"
-                title={"A day in the life"}
-                description={
-                  "Discover some of the many places our students spend a typical day."
-                }
-                rating={ratingData}
-                buttonName={"Take a virtual tour"}
-                bannerSrc={"/static/assets/images/virtual_thumb_image.jpg"}
-                bgColor={"bg-green-200"}
-              />
+              </h1> */}
+              <Opendaysvirtualadvertcomponents title="Virtual visits" advertData = {advertVirtualsData} width={282} />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}

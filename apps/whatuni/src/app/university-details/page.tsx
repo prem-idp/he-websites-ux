@@ -12,6 +12,7 @@ import Advertiser from "@packages/shared-components/common-utilities/advertiser/
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
+import {advertOpendaysData} from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -98,7 +99,7 @@ const page = () => {
                   Sheppard Library, open 24/7.
                 </p>
               </div>
-              <Opendaysvirtualadvertcomponents istitleVisible={false} />
+              <Opendaysvirtualadvertcomponents istitleVisible={false} advertData = {advertOpendaysData} width={282}/>
               {/* advertiser */}
               <Advertiser rating={ratingData} advertiserTitle={"[University name] accommodation"} showreviewCard = {true} />
               {/* advertiser */}
