@@ -21,7 +21,7 @@ import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icon
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
-import {advertVirtualsData} from "@packages/constants/constants";
+import { advertVirtualsData } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -117,7 +117,11 @@ const page = () => {
               {/* <h1 className="h5 px-[16px] md:px-[20px] lg:px-0">
                 Virtual visits
               </h1> */}
-              <Opendaysvirtualadvertcomponents title="Virtual visits" advertData = {advertVirtualsData} width={282} />
+              <Opendaysvirtualadvertcomponents
+                title="Virtual visits"
+                advertData={advertVirtualsData}
+                width={282}
+              />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
@@ -156,7 +160,7 @@ const page = () => {
                 <div className="h5">
                   10 Reasons to choose [Provider Name] in Clearing
                 </div>
-                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
                   <li>
                     World-class courses: Specialist, practical courses designed
                     with input from industry experts.
@@ -230,7 +234,7 @@ const page = () => {
                   an offer with universities that still have places available.
                   You are able to use Clearing if you:
                 </p>
-                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
                   <li>
                     Didn’t get the grades required for a conditional offer.
                   </li>
@@ -261,7 +265,7 @@ const page = () => {
                   preparation ahead of the day will really help you feel in
                   control.
                 </p>
-                <ol className="list-decimal flex flex-col gap-[16px] pl-[40px]">
+                <ol className="list-decimal flex flex-col gap-[16px] pl-[20px]">
                   <li>
                     Do all your research beforehand so Results Day morning you
                     can get straight on the phone. Make a list of alternative
@@ -343,7 +347,7 @@ const page = () => {
                   I’d like to adjust my offer and choice to the University of
                   Plymouth, what should I do now?
                 </div>
-                <ul className="list-disc flex flex-col gap-[16px] pl-[40px]">
+                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
                   <li>
                     Check our Clearing course vacancies – see if your chosen
                     course, or a similar course that interests you, has

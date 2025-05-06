@@ -73,7 +73,7 @@ const page = () => {
                 activeLink={"Outcomes"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[40px]">
+            <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Outcome</h1>
               <div className="flex flex-col gap-[16px]">
