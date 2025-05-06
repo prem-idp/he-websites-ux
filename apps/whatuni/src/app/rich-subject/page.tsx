@@ -58,7 +58,7 @@ const page = () => {
       <HeaderBanner />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto">
+        <div className="max-w-container mx-auto my-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
