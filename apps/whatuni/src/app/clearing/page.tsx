@@ -265,7 +265,7 @@ const page = () => {
                   preparation ahead of the day will really help you feel in
                   control.
                 </p>
-                <ol className="list-decimal flex flex-col gap-[16px] pl-[20]">
+                <ol className="list-decimal flex flex-col gap-[16px] pl-[20px]">
                   <li>
                     Do all your research beforehand so Results Day morning you
                     can get straight on the phone. Make a list of alternative
