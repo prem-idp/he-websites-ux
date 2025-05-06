@@ -58,7 +58,7 @@ const page = () => {
       <HeaderBanner />
       {/* Skip links  */}
       <section>
-        <div className="max-w-container mx-auto">
+        <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
           <div className="flex flex-col lg:flex-row gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
@@ -268,7 +268,7 @@ const page = () => {
                         width={259}
                         height={146}
                         alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] md:rounded-tr-none"
+                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
                       />
                     </div>
                     <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
@@ -316,7 +316,7 @@ const page = () => {
                         width={259}
                         height={146}
                         alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] lg:rounded-l-[8px] md:rounded-tr-none"
+                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
                       />
                     </div>
                     <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
