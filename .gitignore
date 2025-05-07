@@ -21,14 +21,15 @@ coverage
 # Vercel
 .vercel
 
-# Build Outputs
+# Build outputs (Next.js, TypeScript, etc.)
 .next/
+dist/
 out/
-build
-dist
+build/
+
 
 # Un-ignore
-!.next/routes-manifest.json
+# !.next/routes-manifest.json
  
 # Debug
 npm-debug.log*
