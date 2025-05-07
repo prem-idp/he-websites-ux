@@ -144,7 +144,7 @@ const page = () => {
                   sports to arts and niche hobbies, there’s a group for everyone
                   to join. If students don't see their passion represented, the
                   students’ union can help them to set up their own society,
-                  ensuring a vibrant and active student life.
+                  ensuring a vibrant and active student lifee.
                 </p>
               </div>
               <div className="flex flex-col gap-[16px]">
