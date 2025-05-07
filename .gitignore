@@ -29,7 +29,7 @@ build/
 
 
 # Un-ignore
-# !.next/routes-manifest.json
+!.next/routes-manifest.json
  
 # Debug
 npm-debug.log*
