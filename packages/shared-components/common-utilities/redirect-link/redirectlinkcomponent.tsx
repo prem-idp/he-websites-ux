@@ -37,7 +37,7 @@ const Redirectlinkcomponent = ({
   return (
     <>
       {/* only for Mobile */}
-      <div className="px-[16px] md:px-[20px] lg:px-[0] py-[16px] border-b border-grey-200 lg:hidden mb-[32px]">
+      <div className="px-[16px] md:px-[20px] lg:px-[0] py-[16px] border-b border-grey-200 lg:hidden">
         <div
           className={`bg-blue-400 rounded-[4px] overflow-hidden border-b relative border-grey-200 skiplinkoption ${
             modelOpen ? "active" : ""

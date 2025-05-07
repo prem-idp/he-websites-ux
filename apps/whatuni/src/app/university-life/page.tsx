@@ -61,7 +61,7 @@ const page = () => {
                 activeLink={"University life"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[40px]">
+            <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
                 Univesity life
@@ -102,25 +102,29 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <p>
-                  Middlesex University campus is a short tube ride from central
-                  London, offering easy access to world-class cultural, social,
-                  and professional opportunities.
-                </p>
-                <p>
-                  Students can explore the dynamic neighbourhoods of Camden’s
-                  Lock Market and Tottenham for food, drink, and shopping
-                  experiences, alongside clubs (including Drumsheds) and
-                  premiership sports teams. North London combines the excitement
-                  of city life with the tranquillity of suburban living.
-                </p>
-                <p>
-                  North London is also a great place to build connections and
-                  gain experience for a future career. From Google to Meta, the
-                  area is home to national and multinational companies, so
-                  students are in the right place to land placements,
-                  internships and graduate jobs.
-                </p>
+                <div className="px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    Middlesex University campus is a short tube ride from
+                    central London, offering easy access to world-class
+                    cultural, social, and professional opportunities.
+                  </p>
+                  <p>
+                    Students can explore the dynamic neighbourhoods of Camden’s
+                    Lock Market and Tottenham for food, drink, and shopping
+                    experiences, alongside clubs (including Drumsheds) and
+                    premiership sports teams. North London combines the
+                    excitement of city life with the tranquillity of suburban
+                    living.
+                  </p>
+                  <p>
+                    North London is also a great place to build connections and
+                    gain experience for a future career. From Google to Meta,
+                    the area is home to national and multinational companies, so
+                    students are in the right place to land placements,
+                    internships and graduate jobs.
+                  </p>
+                </div>
+
                 <Findoutmore />
                 <Costoflivingratingcomponents />
                 <Ctabanner
@@ -133,7 +137,7 @@ const page = () => {
                   bgColor={"bg-blue-200"}
                 />
               </div>
-              <div className="flex flex-col gap-[16px]">
+              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="h5">Clubs and societies</div>
                 <p>
                   Middlesex University boasts over 85 clubs and societies. From
@@ -154,18 +158,20 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <p>
-                  The Middlesex University Students' Union (MDXSU) is central to
-                  student life, representing the interests of the student body,
-                  organising events, and providing a platform for voices to be
-                  heard.
-                </p>
-                <p>
-                  MDXSU ensures the university experience is engaging and
-                  supportive, fostering a strong student community.
-                </p>
+                <div className="px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    The Middlesex University Students' Union (MDXSU) is central
+                    to student life, representing the interests of the student
+                    body, organising events, and providing a platform for voices
+                    to be heard.
+                  </p>
+                  <p>
+                    MDXSU ensures the university experience is engaging and
+                    supportive, fostering a strong student community.
+                  </p>
+                </div>
               </div>
-              <RedirectionButton btnState = {true} />
+              <RedirectionButton btnState={true} />
             </div>
           </div>
         </div>
