@@ -5,9 +5,7 @@ const TabSwitchButton = () => {
     <section className="bg-white border-b border-grey-200 overflow-x-auto snap-x snap-mandatory px-[16px] py-[8px] md:px-[20px] xl:px-0 lg:overflow-hidden">
       <div className="max-w-container mx-auto">
         <div className="flex gap-[8px] whitespace-nowrap lg:flex-wrap">
-          <a href="#"
-            className="btn btn-black-outline active:bg-grey300 active:text-white"
-          >
+          <a href="#" className="btn btn-black-outline bg-grey300 text-white">
             University info
           </a>
           <a href="#" className="btn btn-black-outline">

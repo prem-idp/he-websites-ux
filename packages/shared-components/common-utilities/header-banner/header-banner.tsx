@@ -208,7 +208,7 @@ const HeaderBanner = () => {
                           {btnHandler ? (
                             <span
                               onClick={() => setBtnHandler(false)}
-                              className="bg-grey300 text-white rounded-l-[16px] rounded-r-[16px] x-small flex px-[12px] py-[8px]"
+                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small flex px-[12px] py-[8px]"
                             >
                               <Image
                                 alt="close icon"
@@ -222,7 +222,7 @@ const HeaderBanner = () => {
                           ) : (
                             <span
                               onClick={() => setBtnHandler(true)}
-                              className="bg-grey300 text-white rounded-l-[16px] rounded-r-[16px] x-small px-[12px] py-[8px]"
+                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small px-[12px] py-[8px]"
                             >
                               More
                             </span>

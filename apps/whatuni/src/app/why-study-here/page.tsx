@@ -13,7 +13,7 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
-import {advertOpendaysData} from "@packages/constants/constants";
+import { advertOpendaysData } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -41,8 +41,6 @@ const page = () => {
   const ratingData = [
     { title: "Overall rating", value: "4.2", extra: "20th" },
     { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
     { title: "Halls", value: "4.5", extra: "20th" },
     { title: "City life", value: "4.1", extra: "20th" },
   ];
@@ -65,13 +63,21 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Why study here</h1>
-              <Opendaysvirtualadvertcomponents title="Open days and virtual visits" advertData = {advertOpendaysData} width={282} />
+              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+                Why study here?
+              </h1>
+              <Opendaysvirtualadvertcomponents
+                title="Open days and virtual visits"
+                advertData={advertOpendaysData}
+                width={282}
+              />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
                 advertiserTitle={" Is [University name] a good place to study?"}
-                advertiserDescription={"Read honest reviews from real students at this uni"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
                 showWuscaCard={true}
                 showreviewCard={true}
                 isWuscaBadge={true}
@@ -145,7 +151,10 @@ const page = () => {
                   </li>
                 </ul>
               </div>
-              <PopularSubject uniTitle="Courses at Portsmouth University" subjectTitle="Popular subjects" />
+              <PopularSubject
+                uniTitle="Courses at Portsmouth University"
+                subjectTitle="Popular subjects"
+              />
               <RedirectionButton />
             </div>
           </div>

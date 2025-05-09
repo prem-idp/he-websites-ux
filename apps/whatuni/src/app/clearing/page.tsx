@@ -72,10 +72,10 @@ const page = () => {
     },
   ];
   const ratingData = [
-    { title: "Public transport ", value: "4.2", extra: "20th" },
-    { title: "Diversity ", value: "3.3", extra: "20th" },
-    { title: "Safety", value: "4.2", extra: "20th" },
-    { title: "Part time work ", value: "3.3", extra: "20th" },
+    { title: "Overall rating", value: "4.2", extra: "20th" },
+    { title: "Courses", value: "3.3", extra: "20th" },
+    { title: "Halls", value: "4.5", extra: "20th" },
+    { title: "City life", value: "4.1", extra: "20th" },
   ];
   const keyStatsData = [
     {
