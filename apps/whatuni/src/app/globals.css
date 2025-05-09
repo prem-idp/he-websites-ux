@@ -132,10 +132,6 @@
   .btn-black-outline {
     @apply bg-transparent border-grey300 text-grey300 border rounded-[20px] px-[12px] py-[8px] hover:bg-grey300 hover:text-white cursor-pointer;
   }
-  .btn-black-outline.active{
-    @apply bg-grey300 text-white;
-  }
-
   .btn-primary-outline {
     @apply bg-transparent border-primary-400 text-primary-400 border rounded-[20px] px-[20px] py-[10px] hover:border-primary-500 hover:bg-primary-500 hover:text-white font-semibold cursor-pointer;
   }

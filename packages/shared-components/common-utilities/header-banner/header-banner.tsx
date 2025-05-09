@@ -143,12 +143,12 @@ const HeaderBanner = () => {
                       />
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
-                      <div
+                      <h1
                         tabIndex={0}
                         className={`h3 line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
                       >
                         University of Oxford
-                      </div>
+                      </h1>
                       <span
                         tabIndex={0}
                         className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}

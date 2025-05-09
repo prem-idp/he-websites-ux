@@ -22,7 +22,7 @@ const Ctabanner = ({
 
           <Link
             href="#"
-            className="btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-fit !no-underline"
+            className="flex gap-[6px] items-center btn btn-primary rtfcustom-link hover:no-underline px-[20px] py-[10px] w-fit !no-underline"
           >
             {buttonName}
             <svg
