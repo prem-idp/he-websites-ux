@@ -40,10 +40,10 @@ const page = () => {
     },
   ];
   const ratingData = [
-    { title: "Public transport ", value: "4.2", extra: "20th" },
-    { title: "Diversity ", value: "3.3", extra: "20th" },
-    { title: "Safety", value: "4.2", extra: "20th" },
-    { title: "Part time work ", value: "3.3", extra: "20th" },
+    { title: "Public transport ", value: "4.3", extra: "20th" },
+    { title: "Diversity ", value: "4.3", extra: "20th" },
+    { title: "Safety", value: "4.3", extra: "20th" },
+    { title: "Part time work ", value: "4.3", extra: "20th" },
   ];
   return (
     <>
@@ -64,7 +64,7 @@ const page = () => {
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
-                Univesity life
+                University life
               </h1>
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}

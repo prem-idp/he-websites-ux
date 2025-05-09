@@ -38,12 +38,24 @@ const page = () => {
     },
   ];
   const ratingData = [
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Halls", value: "4.5", extra: "20th" },
-    { title: "City life", value: "4.1", extra: "20th" },
+    { title: "Facilities rating", value: "4.3", extra: "20th" },
+  ];
+  const ratingData2 = [
+    { title: "Location", value: "4.3", extra: "20th" },
+    { title: "Halls", value: "4.3", extra: "20th" },
+    { title: "Value", value: "4.3", extra: "20th" },
+    { title: "Internet and Wifi", value: "4.3", extra: "20th" },
+    { title: "Room allocation", value: "4.3", extra: "20th" },
+    { title: "Safety", value: "4.3", extra: "20th" },
+  ];
+  const ratingData3 = [
+    { title: "Campus look and feel", value: "4.3", extra: "20th" },
+    { title: "Location ", value: "4.3", extra: "20th" },
+  ];
+  const ratingData4 = [
+    { title: "Courses", value: "4.3", extra: "20th" },
+    { title: "Course content", value: "4.3", extra: "20th" },
+    { title: "Lecturers and teaching quality", value: "4.3", extra: "20th" },
   ];
   return (
     <>
@@ -64,7 +76,7 @@ const page = () => {
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
               <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
-                Univesity details
+                University details
               </h1>
               {/* advertiser */}
               <Advertiser
@@ -112,7 +124,7 @@ const page = () => {
               />
               {/* advertiser */}
               <Advertiser
-                rating={ratingData}
+                rating={ratingData2}
                 advertiserTitle={"[University name] accommodation"}
                 showreviewCard={true}
               />
@@ -135,7 +147,7 @@ const page = () => {
               <Findoutmore />
               {/* advertiser */}
               <Advertiser
-                rating={ratingData}
+                rating={ratingData3}
                 advertiserTitle={"Where is [University name] located?"}
                 showreviewCard={false}
               />
@@ -209,7 +221,7 @@ const page = () => {
               />
               {/* advertiser */}
               <Advertiser
-                rating={ratingData}
+                rating={ratingData4}
                 advertiserTitle={
                   "Whatuni Student Choice awards lecturer and teacher ratings"
                 }

@@ -143,12 +143,12 @@ const HeaderBanner = () => {
                       />
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
-                      <div
+                      <h1
                         tabIndex={0}
                         className={`h3 line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
                       >
                         University of Oxford
-                      </div>
+                      </h1>
                       <span
                         tabIndex={0}
                         className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}
@@ -208,7 +208,7 @@ const HeaderBanner = () => {
                           {btnHandler ? (
                             <span
                               onClick={() => setBtnHandler(false)}
-                              className="bg-grey300 text-white rounded-l-[16px] rounded-r-[16px] x-small flex px-[12px] py-[8px]"
+                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small flex px-[12px] py-[8px]"
                             >
                               <Image
                                 alt="close icon"
@@ -222,7 +222,7 @@ const HeaderBanner = () => {
                           ) : (
                             <span
                               onClick={() => setBtnHandler(true)}
-                              className="bg-grey300 text-white rounded-l-[16px] rounded-r-[16px] x-small px-[12px] py-[8px]"
+                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small px-[12px] py-[8px]"
                             >
                               More
                             </span>
