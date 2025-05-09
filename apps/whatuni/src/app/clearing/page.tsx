@@ -117,11 +117,7 @@ const page = () => {
               {/* <h1 className="h5 px-[16px] md:px-[20px] lg:px-0">
                 Virtual visits
               </h1> */}
-              <Opendaysvirtualadvertcomponents
-                title="Virtual visits"
-                advertData={advertVirtualsData}
-                width={282}
-              />
+              <Opendaysvirtualadvertcomponents title="Virtual visits" advertData={advertVirtualsData} width={282} />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
