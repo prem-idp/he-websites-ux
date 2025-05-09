@@ -68,8 +68,8 @@ const page = () => {
               </h1>
               <Opendaysvirtualadvertcomponents
                 title="Open days and virtual visits"
+                clearingWidth={false}
                 advertData={advertOpendaysData}
-                width={282}
               />
               {/* advertiser */}
               <Advertiser

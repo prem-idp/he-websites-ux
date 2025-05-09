@@ -1,7 +1,7 @@
 import React from 'react'
 import Advertbannercard from "@packages/shared-components/institution-profile/advertbannercard";
 
-const Opendaysvirtualadvertcomponents = ({advertData,title,istitleVisible=true,width}:any) => {
+const Opendaysvirtualadvertcomponents = ({advertData,title,istitleVisible=true,clearingWidth}:any) => {
    return (
     <>
     <div className='advert-container'>
@@ -12,7 +12,7 @@ const Opendaysvirtualadvertcomponents = ({advertData,title,istitleVisible=true,w
           <div className='advert-card-inner'>
             <div className='flex flex-col lg:flex-row gap-[16px]'>
               {advertData?.map((item:any, index:number) => (
-                <Advertbannercard {...item} keyIndex={index} width={width}/>     
+                <Advertbannercard {...item} keyIndex={index} clearingBtnWidth={clearingWidth} advertCount={advertData?.length}/>     
               ))}
             </div>
           </div>

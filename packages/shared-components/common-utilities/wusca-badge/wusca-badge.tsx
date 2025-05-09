@@ -6,6 +6,13 @@ const WuscaBadge = ({ wuscaCard = false }) => {
 
   if (!wuscaCard) return null;
 
+  const wuscaAward = [
+    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "University of the Year" },
+    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "Halls and student accommodation" },
+    { image: "/static/assets/images/bronze-student-life.svg", badge: "Third place", title: "3rd", titleDescrition: "101", description: "Student life" },
+    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "University of the Year" }
+  ]
+
   return (
     <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
       <div className="flex gap-[4px] md:items-center">
@@ -32,98 +39,30 @@ const WuscaBadge = ({ wuscaCard = false }) => {
       <div
         className={`grid grid-cols-1 gap-[16px] ${wuscabadge == 4 ? "md:grid-cols-2" : wuscabadge === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}
       >
-        {wuscabadge >= 1 && (
-          <div className="flex items-center gap-[16px]">
+        {wuscaAward.map((item, index) => (
+          <div className="flex items-center gap-[16px]" key={index}>
             <Image
               className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.svg"
+              src={item.image}
               alt="gold-university-of-the-year"
               width="124"
               height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-                Winner
+                {item.badge}
               </div>
               <div className="flex items-center gap-[8px]">
-                <span className="text-heading2 font-farro font-bold">1st</span>
-                <span className="small">/ 101</span>
+                <span className="text-heading2 font-farro font-bold">{item.title}</span>
+                <span className="small">/ {item.titleDescrition}</span>
               </div>
-              <a href="#" className="small font-semibold underline">
-                University of the Year
-              </a>
+              <div className="relative group small font-semibold underline">
+                <span> {item.description} </span>
+                <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[24px] shadow-custom-1 whitespace-normal rounded-[8px] w-[300px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"><div className="flex items-center justify-between"><span className="text-grey900 font-semibold">Why should you trust our uni reviews?</span><svg className="cursor-pointer" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 6L18 18" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p className="x-small text-grey300 font-normal">All our reviews are from real students, submitted using their verified university email address.</p></div>
+              </div>
             </div>
           </div>
-        )}
-        {wuscabadge >= 2 && (
-          <div className="flex items-center gap-[16px]">
-            <Image
-              className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.svg"
-              alt="gold-university-of-the-year"
-              width="124"
-              height="113"
-            />
-            <div className="flex flex-col gap-[4px] grow">
-              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-                Winner
-              </div>
-              <div className="flex items-center gap-[8px]">
-                <span className="text-heading2 font-farro font-bold">1st</span>
-                <span className="small">/ 101</span>
-              </div>
-              <a href="#" className="small font-semibold underline">
-                Halls and student accommodation
-              </a>
-            </div>
-          </div>
-        )}
-        {wuscabadge >= 3 && (
-          <div className="flex items-center gap-[16px]">
-            <Image
-              className="shrink-0"
-              src="/static/assets/images/bronze-student-life.svg"
-              alt="bronze-student-life"
-              width="124"
-              height="113"
-            />
-            <div className="flex flex-col gap-[4px] grow">
-              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-                THird place
-              </div>
-              <div className="flex items-center gap-[8px]">
-                <span className="text-heading2 font-farro font-bold">3rd</span>
-                <span className="small">/ 101</span>
-              </div>
-              <a href="#" className="small font-semibold underline">
-                Student life
-              </a>
-            </div>
-          </div>
-        )}
-        {wuscabadge >= 4 && (
-          <div className="flex items-center gap-[16px]">
-            <Image
-              className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.svg"
-              alt="gold-university-of-the-year"
-              width="124"
-              height="113"
-            />
-            <div className="flex flex-col gap-[4px] grow">
-              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-                Winner
-              </div>
-              <div className="flex items-center gap-[8px]">
-                <span className="text-heading2 font-farro font-bold">1st</span>
-                <span className="small">/ 101</span>
-              </div>
-              <a href="#" className="small font-semibold underline">
-                University of the Year
-              </a>
-            </div>
-          </div>
-        )}
+        ))}
       </div>
     </div>
   );
