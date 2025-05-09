@@ -21,7 +21,7 @@ const KeyStatsCard = ({ keyStatsData }: any) => {
               {item.label}
             </div>
             <div className="h3">{item.value}</div>
-            <div className="text-small font-normal line-clamp-1">
+            <div className="text-small font-normal line-clamp-2">
               {item.description}
             </div>
           </div>

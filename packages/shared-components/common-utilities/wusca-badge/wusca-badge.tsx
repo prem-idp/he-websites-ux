@@ -7,9 +7,9 @@ const WuscaBadge = ({ wuscaCard = false }) => {
   if (!wuscaCard) return null;
 
   return (
-    <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px]">
-      <div className="flex items-center gap-[4px]">
-        <svg
+    <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
+      <div className="flex gap-[4px] md:items-center">
+        <svg className="awards-icon"
           width="32"
           height="32"
           viewBox="0 0 32 32"
@@ -33,13 +33,13 @@ const WuscaBadge = ({ wuscaCard = false }) => {
         className={`grid grid-cols-1 gap-[16px] ${wuscabadge == 4 ? "md:grid-cols-2" : wuscabadge === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}
       >
         {wuscabadge >= 1 && (
-          <div className="flex items-center gap-[8px]">
+          <div className="flex items-center gap-[16px]">
             <Image
               className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.png"
+              src="/static/assets/images/gold-university-of-the-year.svg"
               alt="gold-university-of-the-year"
-              width="135"
-              height="117"
+              width="124"
+              height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
@@ -56,13 +56,13 @@ const WuscaBadge = ({ wuscaCard = false }) => {
           </div>
         )}
         {wuscabadge >= 2 && (
-          <div className="flex items-center gap-[8px]">
+          <div className="flex items-center gap-[16px]">
             <Image
               className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.png"
+              src="/static/assets/images/gold-university-of-the-year.svg"
               alt="gold-university-of-the-year"
-              width="135"
-              height="117"
+              width="124"
+              height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
@@ -79,13 +79,13 @@ const WuscaBadge = ({ wuscaCard = false }) => {
           </div>
         )}
         {wuscabadge >= 3 && (
-          <div className="flex items-center gap-[8px]">
+          <div className="flex items-center gap-[16px]">
             <Image
               className="shrink-0"
-              src="/static/assets/images/bronze-student-life.png"
+              src="/static/assets/images/bronze-student-life.svg"
               alt="bronze-student-life"
-              width="135"
-              height="117"
+              width="124"
+              height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
@@ -102,13 +102,13 @@ const WuscaBadge = ({ wuscaCard = false }) => {
           </div>
         )}
         {wuscabadge >= 4 && (
-          <div className="flex items-center gap-[8px]">
+          <div className="flex items-center gap-[16px]">
             <Image
               className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.png"
+              src="/static/assets/images/gold-university-of-the-year.svg"
               alt="gold-university-of-the-year"
-              width="135"
-              height="117"
+              width="124"
+              height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
