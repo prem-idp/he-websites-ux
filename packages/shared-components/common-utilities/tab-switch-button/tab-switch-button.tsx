@@ -6,7 +6,7 @@ const TabSwitchButton = () => {
       <div className="max-w-container mx-auto">
         <div className="flex gap-[8px] whitespace-nowrap lg:flex-wrap">
           <a href="#"
-            className="btn btn-black-outline active:bg-grey300 active:text-white"
+            className="btn btn-black-outline active"
           >
             University info
           </a>
