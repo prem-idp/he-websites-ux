@@ -18,6 +18,7 @@ import Examtypemodalcomponents from '@packages/shared-components/course-details/
 import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/locationmodalcomponents';
 import Courseinfomodalcomponents from '@packages/shared-components/course-details/Modal/courseinfomodalcomponents';
 import Yearofentrycomponents from '@packages/shared-components/course-details/year-of-entry/yearofentrycomponents';
+import { findacourseData } from '@packages/constants/constants';
 
 const page = () => {
   const [openModal, setOpenModal] = useState(null);
@@ -81,7 +82,7 @@ const page = () => {
     <Uniinfocomponents />
     {/* <Othercoursesmaylikecomponents /> */}
     <Similarcoursecomponents />
-    <Findacoursecomponents />
+    <Findacoursecomponents {...findacourseData}/>
     {/* <Subscribecomponents /> */}
     {openModal === "courseoption" && <Courseinfomodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
     {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen}  onClose={handleCloseModal} />}

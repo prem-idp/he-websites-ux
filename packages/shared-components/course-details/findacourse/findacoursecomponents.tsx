@@ -2,24 +2,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-
-const Findacoursecomponents = () => {
+const Findacoursecomponents = ({ title, description, image, isViewSearch  }:any) => {
   return (
-          <section className="bg-orange-100">
-            <div className="max-w-container mx-auto">
-              <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[0_20px_26px_20px] lg:py-0 xl:px-0 min-h-[194px]">
-                <div className="w-full flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
-                  <div className="flex flex-col gap-[4px]">
-                    <h1 className="text-heading1 md:text-heading-xl">Find a course</h1>
-                    {/* <p className="small">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Praesent a risus
-                    </p> */}
-                  </div>
-                  {/* -- */}
-                  <div className="w-full lg:max-w-[680px]">
-                              <div className="flex flex-col gap-[24px] min-h-[60px]">
-                                <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
+    <section className="bg-green-100">
+      <div className="max-w-container mx-auto">
+        <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[0_20px_26px_20px] lg:py-0 xl:px-0 min-h-[194px]">
+          <div className="w-full flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
+            <div className="flex flex-col gap-[4px]">
+              <h1 className="text-heading1 md:text-heading-xl">{title}</h1>
+               <p className="text-para md:text-para-lg">{description}</p> 
+            </div>
+            {/* -- */}
+            {isViewSearch && (
+            <div className="w-full lg:max-w-[680px]">
+                    <div className="flex flex-col gap-[24px] min-h-[60px]">
+                      <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
                                   <div className="flex flex-col items-stretch md:flex-row md:items-center">
                                     <div className="relative mt-[4px] mb-[20px] md:mb-[0] shrink-0">
                                       <button
@@ -28,7 +25,7 @@ const Findacoursecomponents = () => {
                                       >
                                         Access & foundation
                                         <Image
-                                          src="/assets/icons/arrow_down_black.svg"
+                                          src="/static/assets/icons/arrow_down_black.svg"
                                           width="20"
                                           height="20"
                                           alt="Search icon"
@@ -157,36 +154,25 @@ const Findacoursecomponents = () => {
                                         type="submit"
                                         className="btn btn-primary w-full flex items-center justify-center gap-[6px] px-[24px] py-[10px] para md:w-[138px] lg:para-lg"
                                       >
-                                        <Image
-                                          src="/assets/icons/search_icon.svg"
-                                          width="18"
-                                          height="18"
-                                          alt="Search icon"
-                                        />
+                                        <Image src="/static/assets/icons/search_icon.svg" width="18" height="18" alt="Search icon" />
                                         Search
                                       </button>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-                          </div>
-                  {/* -- */}
-                </div>
-                <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
-                  <div className="w-[108px] md:w-[205px]">
-                    <Image
-                      src="/assets/images/article/slice_1.png"
-                      className="w-full"
-                      width={205}
-                      height={260}
-                      priority
-                      alt="Colc Banner"
-                    />
-                  </div>
-                </div>
-              </div>
+                      </div>
+                    </div>
             </div>
-          </section>
+            )}
+            {/* -- */}
+          </div>
+          <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
+            <div className="w-[108px] md:w-[166px]">
+              <Image src={image} className="w-full" width={205} height={260} alt="Card banner" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
