@@ -75,9 +75,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 px-[16px] md:px-[20px] lg:px-0">
                 University details
-              </h1>
+              </h2>
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
@@ -122,29 +122,32 @@ const page = () => {
                 advertData={advertOpendaysData}
                 width={282}
               />
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData2}
-                advertiserTitle={"[University name] accommodation"}
-                showreviewCard={true}
-              />
-              {/* advertiser */}
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <p>
-                  Middlesex University is one of the few universities in London
-                  which boasts its own on-campus{" "}
-                  <Link href="#" className="text-primary-400 underline">
-                    accommodation
-                  </Link>
-                  . University-owned halls of residence are a popular choice
-                  with first-year students, with rooms starting at £160 per
-                  week. Residential support and guidance is available to any
-                  student, whether they choose to live in a property owned by
-                  the university, shared with other universities, or rent
-                  privately.
-                </p>
+
+              <div className="flex flex-col gap-[16px]">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData2}
+                  advertiserTitle={"[University name] accommodation"}
+                  showreviewCard={true}
+                />
+                {/* advertiser */}
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    Middlesex University is one of the few universities in
+                    London which boasts its own on-campus{" "}
+                    <Link href="#" className="text-primary-400 underline">
+                      accommodation
+                    </Link>
+                    . University-owned halls of residence are a popular choice
+                    with first-year students, with rooms starting at £160 per
+                    week. Residential support and guidance is available to any
+                    student, whether they choose to live in a property owned by
+                    the university, shared with other universities, or rent
+                    privately.
+                  </p>
+                </div>
+                <Findoutmore />
               </div>
-              <Findoutmore />
               {/* advertiser */}
               <Advertiser
                 rating={ratingData3}

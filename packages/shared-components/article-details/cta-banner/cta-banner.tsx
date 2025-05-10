@@ -42,8 +42,8 @@ const Ctabanner = ({
             </svg>
           </Link>
         </div>
-        <span className="md:min-w-[219px] w-full md:w-auto h-[187px] flex justify-center !m-0">
-          <Image width="219" height="187" alt="banner" src={bannerSrc} />
+        <span className="md:min-w-[219px] w-full md:w-auto flex justify-center !m-0">
+          <Image width="219" height="166" alt="banner" src={bannerSrc} />
         </span>
       </div>
     </div>

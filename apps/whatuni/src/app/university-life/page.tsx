@@ -63,9 +63,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 px-[16px] md:px-[20px] lg:px-0">
                 University life
-              </h1>
+              </h2>
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
@@ -102,7 +102,7 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     Middlesex University campus is a short tube ride from
                     central London, offering easy access to world-class
