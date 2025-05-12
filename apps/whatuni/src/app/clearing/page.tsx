@@ -115,7 +115,6 @@ const page = () => {
                 Virtual visits
               </h2> */}
               <div id="tabcontent1">
-                {" "}
                 <Opendaysvirtualadvertcomponents
                   title="Virtual visits"
                   advertData={advertVirtualsData}
@@ -139,18 +138,15 @@ const page = () => {
                 {/* advertiser */}
               </div>
               <div id="tabcontent3">
-                {" "}
                 <Reviewthumbgalleryslidercomponents />
               </div>
               <div id="tabcontent4">
-                {" "}
                 <Keystatscomponents
                   keyStatsInnerData={true}
                   keyStatsData={keyStatsData}
                 />
               </div>
-              <div id="tabcontent5">
-                {" "}
+              <div id="tabcontent5" className="flex flex-col gap-[40px]">
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">[Provider Name] Clearing overview</div>
                   <p>
@@ -239,7 +235,6 @@ const page = () => {
                 </div>
               </div>
               <div id="tabcontent6">
-                {" "}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">[Provider Name] Clearing guide</div>
                   <p>
@@ -306,8 +301,8 @@ const page = () => {
                     August, so you are feeling awake and refreshed for Results
                     Day on Thursday 15th August.
                   </p>
-                </div>
-                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  {/* </div>
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0"> */}
                   <div className="h5">
                     What happens next when you choose [Provider name] through
                     Clearing
@@ -386,7 +381,6 @@ const page = () => {
               </div>
 
               <div id="tabcontent7">
-                {" "}
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">A day in the life</div>
@@ -402,7 +396,6 @@ const page = () => {
                 {/* 360 degress  */}
               </div>
               <div id="tabcontent8">
-                {" "}
                 {/* advertiser */}
                 <Advertiser
                   rating={ratingData1}
@@ -415,7 +408,6 @@ const page = () => {
                 {/* advertiser */}
               </div>
               <div id="tabcontent9">
-                {" "}
                 <CampusLocation />
               </div>
             </div>

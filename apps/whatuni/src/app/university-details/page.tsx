@@ -134,7 +134,7 @@ const page = () => {
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     Middlesex University is one of the few universities in
-                    London which boasts its own on-campus{" "}
+                    London which boasts its own on-campus
                     <Link href="#" className="text-primary-400 underline">
                       accommodation
                     </Link>
