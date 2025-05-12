@@ -17,7 +17,7 @@ const Seasonlandingcomponents = () => {
               <div className="video-inner-right flex flex-col flex-1 justify-center  px-[16px] md:px-[0] max-md:pb-[24px]">
                 <div className='flex flex-col gap-[16px]'>
                   <div className='flex flex-col gap-[4px]'>
-                    <div className='text-heading-lg md"text-heading-xl font-farro font-bold' aria-labelledby="header" aria-label="heading">
+                    <div className='text-heading-lg md:text-heading-xl font-farro font-bold' aria-labelledby="header" aria-label="heading">
                       Heading
                     </div>
                     <p className="para-lg" aria-label="description">
