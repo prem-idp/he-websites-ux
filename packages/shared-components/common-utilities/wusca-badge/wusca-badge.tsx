@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const WuscaBadge = ({ wuscaCard = false }) => {
   const wuscabadge = Number(4);
 
   if (!wuscaCard) return null;
+  const tooltipQuestion: string = "Why should you trust our uni reviews?";
+  const tooltipAnswer: string =
+    "All our reviews are from real students, submitted using their verified university email address.";
 
+  const tooltipStyles: string = `z-[5] absolute select-none hidden group-hover:flex border border-grey-200 
+                                    top-[25px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] 
+                                    md:min-w-[215px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col 
+                                    gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white 
+                                    after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 
+                                    after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0`;
   return (
     <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
       <div className="flex gap-[4px] md:items-center">
-        <svg className="awards-icon"
+        <svg
+          className="awards-icon"
           width="32"
           height="32"
           viewBox="0 0 32 32"
@@ -49,9 +60,19 @@ const WuscaBadge = ({ wuscaCard = false }) => {
                 <span className="text-heading2 font-farro font-bold">1st</span>
                 <span className="small">/ 101</span>
               </div>
-              <a href="#" className="small font-semibold underline">
-                University of the Year
-              </a>
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    University of the Year
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -72,9 +93,20 @@ const WuscaBadge = ({ wuscaCard = false }) => {
                 <span className="text-heading2 font-farro font-bold">1st</span>
                 <span className="small">/ 101</span>
               </div>
-              <a href="#" className="small font-semibold underline">
-                Halls and student accommodation
-              </a>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    Halls and student accommodation
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -95,9 +127,20 @@ const WuscaBadge = ({ wuscaCard = false }) => {
                 <span className="text-heading2 font-farro font-bold">3rd</span>
                 <span className="small">/ 101</span>
               </div>
-              <a href="#" className="small font-semibold underline">
-                Student life
-              </a>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    Student life
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -118,9 +161,20 @@ const WuscaBadge = ({ wuscaCard = false }) => {
                 <span className="text-heading2 font-farro font-bold">1st</span>
                 <span className="small">/ 101</span>
               </div>
-              <a href="#" className="small font-semibold underline">
-                University of the Year
-              </a>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    University of the Year
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         )}
