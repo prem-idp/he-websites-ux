@@ -69,7 +69,7 @@ const page = () => {
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <h2 className="h4">A day in the life</h2>
+                  <div className="text-heading5">A day in the life</div>
                   <span className="rounded-[8px] overflow-hidden">
                     <Image
                       src="/static/assets/images/ip/temp-360deg.png"
@@ -158,7 +158,7 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     The Middlesex University Students' Union (MDXSU) is central
                     to student life, representing the interests of the student
