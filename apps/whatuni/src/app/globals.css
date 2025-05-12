@@ -419,6 +419,7 @@ p,
   @apply !h-auto
 }
 
+
 .MultiSwiper .swiper-pagination {
   @apply !bottom-[0];
 }
