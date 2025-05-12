@@ -15,7 +15,11 @@ const Opendaysvirtualadvertcomponents = ({
           <div className="advert-card-inner">
             <div className="flex flex-col lg:flex-row gap-[16px]">
               {advertData?.map((item: any, index: number) => (
-                <Advertbannercard {...item} keyIndex={index} width={width} />
+                <Advertbannercard
+                  {...item}
+                  keyIndex={index}
+                  dataLength={advertData.length}
+                />
               ))}
             </div>
           </div>
