@@ -3,7 +3,7 @@ import Seasonlandingcomponents from '@packages/shared-components/common-utilitie
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents'
 import Subjectstatscomponents from '@packages/shared-components/CPC-landing/subject-stats/Subjectstatscomponents'
 import React from 'react'
-import { searchLandingData,  statsSubjectData, statsRegionData, popularUniData, popularCourseData} from '@packages/constants/constants';
+import { searchLandingData,  statsSubjectData, statsRegionData, popularUniData, popularCourseData, openDaysData} from '@packages/constants/constants';
 import Faqcomponents from '@packages/shared-components/common-utilities/faq/faqcomponents'
 import Othercoursesmaylikecomponents from '@packages/shared-components/common-utilities/other-courses-you-may-like/othercoursesmaylikecomponents'
 
@@ -18,7 +18,7 @@ const landingPage = () => {
       <Subjectstatscomponents {...statsSubjectData} />
       <Othercoursesmaylikecomponents {...popularUniData} bgColor={bgColor} />
       <Othercoursesmaylikecomponents {...popularCourseData} bgColor={bgColor1} />
-      <Othercoursesmaylikecomponents {...popularCourseData} bgColor={bgColor} openDays={true} />
+      <Othercoursesmaylikecomponents {...openDaysData} bgColor={bgColor} openDays={true} />
       <Subjectstatscomponents {...statsRegionData} />
       <Faqcomponents />
     </>

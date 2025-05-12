@@ -128,7 +128,18 @@ export const popularCourseData = {
   {courseName: 'University of Wales Trinity Saint David', uniName: 'Management with Digital Innovation and Analytics (Year in Business)'},
 ]
 }
-
+export const openDaysData = {
+  title: 'Heading',
+  description: 'Unsure which scholarship to consider? Take a look at some popular ones',
+  data: [
+  {uniName: 'University of London', opendaysType: 'Undergraduate open day'},
+  {uniName: 'University of Leeds', opendaysType: 'Undergraduate open day'},
+  {uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day'},  
+  {uniName: 'University of Northampton', opendaysType: 'Undergraduate open day'},
+  {uniName: 'University of Chester', opendaysType: 'Undergraduate open day'},
+  {uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day'},
+]
+}
 
 
 
