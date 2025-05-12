@@ -18,7 +18,7 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
                 </div>
                 {seasonWusca ? (
                     <>
-                    <div className="absolute left-[16px] bottom-[16px] x-small font-semibold text-grey-500 bg-grey-100 p-[3px_10px] rounded-[4px] z-0">IN-PERSON</div>
+                    <div className="absolute left-[16px] bottom-[16px] x-small font-bold text-grey-500 bg-grey-100 p-[0_8px] rounded-[4px] z-0">IN-PERSON</div>
                     </>
                 ):(
                     <>
@@ -46,7 +46,7 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
             <>   
             {openDays ? (
                 <>
-                <div className='flex flex-1'>
+                <div className='flex'>
                     <div className='opd-calendar bg-grey-100 border-r border-grey-200'>
                         <div className='flex flex-col items-center p-[16px_18px]'>
                             <div className='small font-semibold'>NOV</div>
@@ -54,7 +54,7 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
                             <div className='small font-semibold'>2024</div>
                         </div>
                     </div>
-                    <div className='card-body flex flex-col justify-between gap-[16px] p-[16px] min-h-[192px]'>
+                    <div className='card-body flex flex-1 flex-col justify-between gap-[16px] p-[16px] min-h-[192px]'>
                         <div className='flex flex-col gap-[8px] w-full'>
                             {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
                             <div className='card-title font-farro para-lg font-bold text-grey300 line-clamp-1'>{uniName}</div>
