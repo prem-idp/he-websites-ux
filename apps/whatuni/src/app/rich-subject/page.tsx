@@ -75,7 +75,7 @@ const page = () => {
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield is a specialist postgraduate university that is
                       a global leader for education and transformational
@@ -122,7 +122,7 @@ const page = () => {
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Our history and heritage in aircraft research and design
                       over the last 70 years is extending into the future with
@@ -170,7 +170,7 @@ const page = () => {
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield has over 65 years’ experience in transport,
                       including the aviation, automotive, motorsport, military
@@ -244,20 +244,18 @@ const page = () => {
                   </div>
                 </div>
                 {/* -- */}
-                <div id="tabContent5">
+                <div id="tabContent5" className="flex flex-col gap-[16px]">
                   <Advertiser
                     advertiserTitle={"Where is [University name] located?"}
                     rating={ratingData}
                     advertiserDescription={""}
                     showWuscaCard={false}
                   />
-                </div>
-                <div id="tabContent6">
                   <CampusLocation />
                 </div>
                 {/* -- */}
                 <div
-                  id="tabContent7"
+                  id="tabContent6"
                   className="explore-subject-card flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
                   <div className="h5 text-grey300">
