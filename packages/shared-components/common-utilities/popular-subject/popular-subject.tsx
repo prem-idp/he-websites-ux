@@ -6,7 +6,9 @@ const PopularSubject = ({ uniTitle, subjectTitle }: any) => {
     <div className="flex flex-col gap-[16px]">
       <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
         {uniTitle && (
-          <div className="text-heading5 font-bold font-farro">{uniTitle}</div>
+          <div className="h5 md:text-heading5 font-bold font-farro">
+            {uniTitle}
+          </div>
         )}
         <div className="text-para-lg font-semibold">{subjectTitle}</div>
       </div>

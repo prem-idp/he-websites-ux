@@ -71,7 +71,9 @@ const page = () => {
                   id="tabContent1"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Overview</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Overview
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -118,7 +120,9 @@ const page = () => {
                   id="tabContent2"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Facilities</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Facilities
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -166,7 +170,9 @@ const page = () => {
                   id="tabContent3"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Teaching excellence</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Teaching excellence
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -208,7 +214,9 @@ const page = () => {
                   id="tabContent4"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Scholarships</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Scholarships
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -258,7 +266,7 @@ const page = () => {
                   id="tabContent6"
                   className="explore-subject-card flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">
+                  <div className="h5 md:text-heading5 text-grey300">
                     Other academic departments
                   </div>
                   {/* -explore subject card- */}

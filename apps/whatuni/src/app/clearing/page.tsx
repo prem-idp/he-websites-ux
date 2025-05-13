@@ -111,7 +111,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
-              {/* <h2 className="h5 px-[16px] md:px-[20px] lg:px-0">
+              {/* <h2 className="h5 md:text-heading5 px-[16px] md:px-[20px] lg:px-0">
                 Virtual visits
               </h2> */}
               <div id="tabcontent1">
@@ -151,7 +151,9 @@ const page = () => {
                 className="flex flex-col gap-[32px] lg:gap-[40px]"
               >
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">[Provider Name] Clearing overview</div>
+                  <div className="h5 md:text-heading5">
+                    [Provider Name] Clearing overview
+                  </div>
                   <p>
                     Located in vibrant North London, Middlesex University is
                     home to over 14,500 students who study a comprehensive range
@@ -216,7 +218,9 @@ const page = () => {
                   </ul>
                 </div>
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">Clearing fundamentals</div>
+                  <div className="h5 md:text-heading5">
+                    Clearing fundamentals
+                  </div>
                   <MessageCard
                     title={"Stay calm:"}
                     description={
@@ -242,7 +246,9 @@ const page = () => {
                 className="flex flex-col gap-[32px] lg:gap-[40px]"
               >
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">[Provider Name] Clearing guide</div>
+                  <div className="h5 md:text-heading5">
+                    [Provider Name] Clearing guide
+                  </div>
                   <p>
                     Clearing is the system that matches applicants who don’t
                     have an offer with universities that still have places
@@ -309,7 +315,7 @@ const page = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">
+                  <div className="h5 md:text-heading5">
                     What happens next when you choose [Provider name] through
                     Clearing
                   </div>
@@ -389,7 +395,7 @@ const page = () => {
               <div id="tabcontent7">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">A day in the life</div>
+                  <div className="h5 md:text-heading5">A day in the life</div>
                   <span className="rounded-[8px] overflow-hidden">
                     <Image
                       src="/static/assets/images/ip/temp-360deg.png"

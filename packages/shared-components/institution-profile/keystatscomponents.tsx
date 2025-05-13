@@ -30,7 +30,7 @@ const Keystatscomponents = ({ keyStatsInnerData }: any) => {
     <>
       <div className="keystats-container">
         <div className="keystats-inner-card flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-          <div className="h5 text-grey300">Keystats</div>
+          <div className="h5 md:text-heading5 text-grey300">Keystats</div>
           <KeyStatsCard keyStatsData={keyStatsData} />
           {keyStatsInnerData && (
             <>
