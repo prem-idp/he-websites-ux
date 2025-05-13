@@ -75,7 +75,7 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h2 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 University details
               </h2>
               <div className="flex flex-col gap-[16px]">
@@ -220,6 +220,9 @@ const page = () => {
                   practical or legal challenges, like advice on debt, housing
                   costs, or students’ rights.
                 </p>
+              </div>
+
+              <div className="flex flex-col gap-[16px]">
                 <Ctabanner
                   title={"Find a scholarship"}
                   description={
@@ -229,9 +232,6 @@ const page = () => {
                   bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                   bgColor={"bg-green-200"}
                 />
-              </div>
-
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 {/* advertiser */}
                 <Advertiser
                   rating={ratingData4}
@@ -241,36 +241,41 @@ const page = () => {
                   showreviewCard={false}
                 />
                 {/* advertiser */}
-                <p>
-                  Middlesex University boasts close to 145 years of experience
-                  in career-driven teaching, ensuring learners graduate with a
-                  real advantage when it comes to entering the workplace.
-                  Innovative teaching methods and high graduate employment rates
-                  prepare students for success in the real world.
-                </p>
-                <p>
-                  In the Teaching Excellence Framework (2023), Middlesex
-                  University received an overall Silver rating, which noted the
-                  very high quality of student outcomes.
-                </p>
-                <p>
-                  Course content and curricula are constantly reviewed in line
-                  with modern industry standards, ensuring students receive an
-                  up-to-the-minute and well-rounded education that will hold its
-                  value for years to come. All courses at Middlesex University
-                  are designed with extensive input from industry experts,
-                  providing all the essential knowledge and skills needed for
-                  students to embark on successful careers after graduation.
-                </p>
-                <p>
-                  Students learn from experts and professionals, and practise
-                  their knowledge in the real world from the start of their
-                  course – whether by tackling briefs set by creative agencies
-                  to visiting the offices of top finance companies. An extensive
-                  range of work placement opportunities and the provision of
-                  world-class equipment and facilities further ensure the
-                  employability of Middlesex University’s graduates.
-                </p>
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    Middlesex University boasts close to 145 years of experience
+                    in career-driven teaching, ensuring learners graduate with a
+                    real advantage when it comes to entering the workplace.
+                    Innovative teaching methods and high graduate employment
+                    rates prepare students for success in the real world.
+                  </p>
+                  <p>
+                    In the Teaching Excellence Framework (2023), Middlesex
+                    University received an overall Silver rating, which noted
+                    the very high quality of student outcomes.
+                  </p>
+                  <p>
+                    Course content and curricula are constantly reviewed in line
+                    with modern industry standards, ensuring students receive an
+                    up-to-the-minute and well-rounded education that will hold
+                    its value for years to come. All courses at Middlesex
+                    University are designed with extensive input from industry
+                    experts, providing all the essential knowledge and skills
+                    needed for students to embark on successful careers after
+                    graduation.
+                  </p>
+                  <p>
+                    Students learn from experts and professionals, and practise
+                    their knowledge in the real world from the start of their
+                    course – whether by tackling briefs set by creative agencies
+                    to visiting the offices of top finance companies. An
+                    extensive range of work placement opportunities and the
+                    provision of world-class equipment and facilities further
+                    ensure the employability of Middlesex University’s
+                    graduates.
+                  </p>
+                </div>
+
                 <Ctabanner
                   title={"Get prospectus"}
                   description={

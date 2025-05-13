@@ -63,13 +63,13 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h2 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 University life
               </h2>
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <div className="h5">A day in the life</div>
+                  <div className="h5 md:text-heading5">A day in the life</div>
                   <span className="rounded-[8px] overflow-hidden">
                     <Image
                       src="/static/assets/images/ip/temp-360deg.png"
@@ -138,7 +138,7 @@ const page = () => {
                 />
               </div>
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <div className="h5">Clubs and societies</div>
+                <div className="h5 md:text-heading5">Clubs and societies</div>
                 <p>
                   Middlesex University boasts over 85 clubs and societies. From
                   sports to arts and niche hobbies, there’s a group for everyone
