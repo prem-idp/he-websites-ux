@@ -109,7 +109,7 @@ const page = () => {
                 activeLink={"Virtual visits"}
               />
             </div>
-            <div className="w-full flex flex-col gap-[40px]">
+            <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
               {/* <h2 className="h5 px-[16px] md:px-[20px] lg:px-0">
                 Virtual visits
@@ -146,7 +146,10 @@ const page = () => {
                   keyStatsData={keyStatsData}
                 />
               </div>
-              <div id="tabcontent5" className="flex flex-col gap-[40px]">
+              <div
+                id="tabcontent5"
+                className="flex flex-col gap-[32px] lg:gap-[40px]"
+              >
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">[Provider Name] Clearing overview</div>
                   <p>
@@ -234,7 +237,10 @@ const page = () => {
                   />
                 </div>
               </div>
-              <div id="tabcontent6">
+              <div
+                id="tabcontent6"
+                className="flex flex-col gap-[32px] lg:gap-[40px]"
+              >
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">[Provider Name] Clearing guide</div>
                   <p>
@@ -301,14 +307,14 @@ const page = () => {
                     August, so you are feeling awake and refreshed for Results
                     Day on Thursday 15th August.
                   </p>
-                  {/* </div>
-                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0"> */}
+                </div>
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <div className="h5">
                     What happens next when you choose [Provider name] through
                     Clearing
                   </div>
                   <div className="para-lg font-semibold">Student finance</div>
-                  <div className="para-lg font-semibold">
+                  <div className="para font-semibold">
                     Already applied for a loan but your details have changed due
                     to Clearing?
                   </div>
@@ -317,7 +323,7 @@ const page = () => {
                     have changed, your application details will need to be
                     updated by logging in to your account from your provider.
                   </p>
-                  <div className="para-lg font-semibold">
+                  <div className="para font-semibold">
                     Applying to university through Clearing but haven’t applied
                     for a loan yet?
                   </div>
@@ -327,7 +333,7 @@ const page = () => {
                     beginning of your course, but they will make sure you have
                     some money as close to your start date as possible.
                   </p>
-                  <div className="para-lg font-semibold">
+                  <div className="para font-semibold">
                     Student maintenance loan
                   </div>
                   <p>
@@ -336,7 +342,7 @@ const page = () => {
                     their parts too, so make sure you do it as early as
                     possible.
                   </p>
-                  <div className="para-lg font-semibold">
+                  <div className="para font-semibold">
                     Clearing Accommodation
                   </div>
                   <p>
@@ -352,7 +358,7 @@ const page = () => {
                     student accommodation, provided you meet their terms and
                     conditions.  
                   </p>
-                  <div className="para-lg font-semibold">
+                  <div className="para font-semibold">
                     I’d like to adjust my offer and choice to the University of
                     Plymouth, what should I do now?
                   </div>
@@ -395,7 +401,7 @@ const page = () => {
                 </div>
                 {/* 360 degress  */}
               </div>
-              <div id="tabcontent8">
+              <div id="tabcontent8" className="flex flex-col gap-[16px]">
                 {/* advertiser */}
                 <Advertiser
                   rating={ratingData1}
@@ -405,10 +411,8 @@ const page = () => {
                   showreviewCard={false}
                   isWuscaBadge={false}
                 />
-                {/* advertiser */}
-              </div>
-              <div id="tabcontent9">
                 <CampusLocation />
+                {/* advertiser */}
               </div>
             </div>
           </div>

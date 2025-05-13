@@ -78,50 +78,57 @@ const page = () => {
               <h2 className="h4 px-[16px] md:px-[20px] lg:px-0">
                 University details
               </h2>
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData}
-                advertiserTitle={"[University name] facilities"}
-                showreviewCard={true}
-              />
-              {/* advertiser */}
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <p>
-                  The university’s Hendon campus is leafy, sustainable, and
-                  safe, but still holds the buzz of a London university.
-                </p>
-                <p>
-                  In recent years, Middlesex University has invested over £200
-                  million into its world-class facilities, equipment, and study
-                  resources, including:
-                </p>
-                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
-                  <li>£23m health, sport, and science facility, built in</li>
-                  <li>
-                    collaboration with Saracens Rugby Club Augmented-reality
-                  </li>
-                  <li>teaching equipment for nursing and midwifery students</li>
-                  <li>Animation motion-capture suite Financial markets lab</li>
-                  <li>
-                    Specialist chambers and courtroom in Hendon Town Hall The
-                  </li>
-                  <li>
-                    Grove, an £80m industry-standard creative facility,
-                    including
-                  </li>
-                  <li>3D workshops and TV studios</li>
-                </ul>
-                <p>
-                  Students also enjoy a full range of unique and inspirational
-                  spaces for study and socialising, including the impressive
-                  Sheppard Library, open 24/7.
-                </p>
+              <div className="flex flex-col gap-[16px]">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData}
+                  advertiserTitle={"[University name] facilities"}
+                  showreviewCard={true}
+                />
+                {/* advertiser */}
+                <div className="px-[16px] md:px-[20px] lg:px-0">
+                  <p>
+                    The university’s Hendon campus is leafy, sustainable, and
+                    safe, but still holds the buzz of a London university.
+                  </p>
+                  <p>
+                    In recent years, Middlesex University has invested over £200
+                    million into its world-class facilities, equipment, and
+                    study resources, including:
+                  </p>
+                  <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
+                    <li>£23m health, sport, and science facility, built in</li>
+                    <li>
+                      collaboration with Saracens Rugby Club Augmented-reality
+                    </li>
+                    <li>
+                      teaching equipment for nursing and midwifery students
+                    </li>
+                    <li>
+                      Animation motion-capture suite Financial markets lab
+                    </li>
+                    <li>
+                      Specialist chambers and courtroom in Hendon Town Hall The
+                    </li>
+                    <li>
+                      Grove, an £80m industry-standard creative facility,
+                      including
+                    </li>
+                    <li>3D workshops and TV studios</li>
+                  </ul>
+                  <p>
+                    Students also enjoy a full range of unique and inspirational
+                    spaces for study and socialising, including the impressive
+                    Sheppard Library, open 24/7.
+                  </p>
+                </div>
+
+                <Opendaysvirtualadvertcomponents
+                  istitleVisible={false}
+                  advertData={advertOpendaysData}
+                  width={282}
+                />
               </div>
-              <Opendaysvirtualadvertcomponents
-                istitleVisible={false}
-                advertData={advertOpendaysData}
-                width={282}
-              />
 
               <div className="flex flex-col gap-[16px]">
                 {/* advertiser */}
@@ -147,15 +154,16 @@ const page = () => {
                   </p>
                 </div>
                 <Findoutmore />
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData3}
+                  advertiserTitle={"Where is [University name] located?"}
+                  showreviewCard={false}
+                />
+                {/* advertiser */}
+                <CampusLocation />
               </div>
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData3}
-                advertiserTitle={"Where is [University name] located?"}
-                showreviewCard={false}
-              />
-              {/* advertiser */}
-              <CampusLocation />
+
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   What scholarships and funding are available?
@@ -212,26 +220,27 @@ const page = () => {
                   practical or legal challenges, like advice on debt, housing
                   costs, or students’ rights.
                 </p>
+                <Ctabanner
+                  title={"Find a scholarship"}
+                  description={
+                    "Find out more about the accommodation and facilities in person at the uni"
+                  }
+                  buttonName={"Find a scholarship"}
+                  bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
+                  bgColor={"bg-green-200"}
+                />
               </div>
-              <Ctabanner
-                title={"Find a scholarship"}
-                description={
-                  "Find out more about the accommodation and facilities in person at the uni"
-                }
-                buttonName={"Find a scholarship"}
-                bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
-                bgColor={"bg-green-200"}
-              />
-              {/* advertiser */}
-              <Advertiser
-                rating={ratingData4}
-                advertiserTitle={
-                  "Whatuni Student Choice awards lecturer and teacher ratings"
-                }
-                showreviewCard={false}
-              />
-              {/* advertiser */}
+
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                {/* advertiser */}
+                <Advertiser
+                  rating={ratingData4}
+                  advertiserTitle={
+                    "Whatuni Student Choice awards lecturer and teacher ratings"
+                  }
+                  showreviewCard={false}
+                />
+                {/* advertiser */}
                 <p>
                   Middlesex University boasts close to 145 years of experience
                   in career-driven teaching, ensuring learners graduate with a
@@ -262,17 +271,18 @@ const page = () => {
                   world-class equipment and facilities further ensure the
                   employability of Middlesex University’s graduates.
                 </p>
+                <Ctabanner
+                  title={"Get prospectus"}
+                  description={
+                    "Interested? Order a prospectus to find out more about the uni and the courses on offer."
+                  }
+                  buttonName={"Get prospectus"}
+                  bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
+                  bgColor={"bg-grey-200"}
+                />
+                <PopularSubject uniTitle="" subjectTitle="Popular subjects" />
               </div>
-              <Ctabanner
-                title={"Get prospectus"}
-                description={
-                  "Interested? Order a prospectus to find out more about the uni and the courses on offer."
-                }
-                buttonName={"Get prospectus"}
-                bannerSrc={"/static/assets/images/ip/grey-cta-banner.png"}
-                bgColor={"bg-grey-200"}
-              />
-              <PopularSubject uniTitle="" subjectTitle="Popular subjects" />
+
               <RedirectionButton btnState={true} />
             </div>
           </div>
