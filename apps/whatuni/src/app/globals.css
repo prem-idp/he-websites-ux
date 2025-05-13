@@ -654,6 +654,7 @@ p,
   }
 }
 
+
 @media only screen and (min-width: 1170px) {
   .article-details-aside {
     @apply w-[804px];
