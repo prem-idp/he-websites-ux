@@ -654,9 +654,6 @@ p,
   }
 }
 
-
-
-
 @media only screen and (min-width: 1170px) {
   .article-details-aside {
     @apply w-[804px];
@@ -725,7 +722,6 @@ h6 {
 }
 
 .rtf-innerstyle table ul li {
-
   @apply small list-inside list-disc;
 }
 
@@ -745,8 +741,9 @@ h6 {
   @apply hidden;
 }
 
-/* RTF END */
 
+
+/* RTF END */
 .form_radio .form-check-input:checked+label,
 .form_radio .form-check-input:hover+label {
   @apply text-white bg-primary-500 border-primary-500 cursor-pointer
