@@ -56,7 +56,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
@@ -71,11 +71,13 @@ const page = () => {
                   id="tabContent1"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Overview</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Overview
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield is a specialist postgraduate university that is
                       a global leader for education and transformational
@@ -118,11 +120,13 @@ const page = () => {
                   id="tabContent2"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Facilities</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Facilities
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Our history and heritage in aircraft research and design
                       over the last 70 years is extending into the future with
@@ -166,11 +170,13 @@ const page = () => {
                   id="tabContent3"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Teaching excellence</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Teaching excellence
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield has over 65 years’ experience in transport,
                       including the aviation, automotive, motorsport, military
@@ -208,7 +214,9 @@ const page = () => {
                   id="tabContent4"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Scholarships</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Scholarships
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -244,23 +252,21 @@ const page = () => {
                   </div>
                 </div>
                 {/* -- */}
-                <div id="tabContent5">
+                <div id="tabContent5" className="flex flex-col gap-[16px]">
                   <Advertiser
                     advertiserTitle={"Where is [University name] located?"}
                     rating={ratingData}
                     advertiserDescription={""}
                     showWuscaCard={false}
                   />
-                </div>
-                <div id="tabContent6">
                   <CampusLocation />
                 </div>
                 {/* -- */}
                 <div
-                  id="tabContent7"
+                  id="tabContent6"
                   className="explore-subject-card flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">
+                  <div className="h5 md:text-heading5 text-grey300">
                     Other academic departments
                   </div>
                   {/* -explore subject card- */}

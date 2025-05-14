@@ -403,6 +403,8 @@ p,
   visibility: hidden;
 }
 
+
+
 .MultiSwiper .swiper-button-prev,
 .MultiSwiper .swiper-button-next {
   @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!flex;
@@ -419,6 +421,9 @@ p,
 .popular .swiper-slide {
   @apply !h-auto
 }
+
+
+
 
 .MultiSwiper .swiper-pagination {
   @apply !bottom-[0];
@@ -718,7 +723,6 @@ h6 {
 }
 
 .rtf-innerstyle table ul li {
-
   @apply small list-inside list-disc;
 }
 
@@ -738,8 +742,9 @@ h6 {
   @apply hidden;
 }
 
-/* RTF END */
 
+
+/* RTF END */
 .form_radio .form-check-input:checked+label,
 .form_radio .form-check-input:hover+label {
   @apply text-white bg-primary-500 border-primary-500 cursor-pointer
@@ -839,6 +844,7 @@ h6 {
     box-shadow: 0 0 0 0 rgba(15, 189, 253, 0), 0 0 0 0 rgba(15,189,253,0);
   }
 }
+
 
 .awards-icon path{
   @apply fill-grey300 md:fill-orange-200

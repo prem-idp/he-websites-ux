@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const WuscaBadge = ({ wuscaCard = false }) => {
   const wuscabadge = Number(4);
@@ -12,11 +13,21 @@ const WuscaBadge = ({ wuscaCard = false }) => {
     { image: "/static/assets/images/bronze-student-life.svg", badge: "Third place", title: "3rd", titleDescrition: "101", description: "Student life" },
     { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "University of the Year" }
   ]
+  const tooltipQuestion: string = "Why should you trust our uni reviews?";
+  const tooltipAnswer: string =
+    "All our reviews are from real students, submitted using their verified university email address.";
 
+  const tooltipStyles: string = `z-[5] absolute select-none hidden group-hover:flex border border-grey-200 
+                                    top-[25px] shadow-custom-1 whitespace-normal normal-case rounded-[8px] max-w-[100%] 
+                                    md:min-w-[215px] min-w-[200px] left-[-16px] md:left-0  bg-white p-[12px] flex-col 
+                                    gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white 
+                                    after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 
+                                    after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0`;
   return (
     <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
       <div className="flex gap-[4px] md:items-center">
-        <svg className="awards-icon"
+        <svg
+          className="awards-icon"
           width="32"
           height="32"
           viewBox="0 0 32 32"
@@ -56,9 +67,18 @@ const WuscaBadge = ({ wuscaCard = false }) => {
                 <span className="text-heading2 font-farro font-bold">{item.title}</span>
                 <span className="small">/ {item.titleDescrition}</span>
               </div>
-              <div className="relative group small font-semibold underline">
-                <span> {item.description} </span>
-                <div className="absolute z-[1] select-none hidden group-hover:flex border border-grey-200 top-[24px] shadow-custom-1 whitespace-normal rounded-[8px] w-[300px] left-[-16px] md:left-0 bg-white p-[12px] flex-col gap-[4px] after:content-[''] after:absolute after:w-[8px] after:h-[8px] after:bg-white after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0"><div className="flex items-center justify-between"><span className="text-grey900 font-semibold">Why should you trust our uni reviews?</span><svg className="cursor-pointer" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 6L18 18" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p className="x-small text-grey300 font-normal">All our reviews are from real students, submitted using their verified university email address.</p></div>
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    University of the Year
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

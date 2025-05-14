@@ -54,7 +54,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[40px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
@@ -63,13 +63,13 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 University life
-              </h1>
+              </h2>
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                  <h2 className="h4">A day in the life</h2>
+                  <div className="h5 md:text-heading5">A day in the life</div>
                   <span className="rounded-[8px] overflow-hidden">
                     <Image
                       src="/static/assets/images/ip/temp-360deg.png"
@@ -102,7 +102,7 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     Middlesex University campus is a short tube ride from
                     central London, offering easy access to world-class
@@ -138,7 +138,7 @@ const page = () => {
                 />
               </div>
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <div className="h5">Clubs and societies</div>
+                <div className="h5 md:text-heading5">Clubs and societies</div>
                 <p>
                   Middlesex University boasts over 85 clubs and societies. From
                   sports to arts and niche hobbies, there’s a group for everyone
@@ -158,7 +158,7 @@ const page = () => {
                   isWuscaBadge={false}
                 />
                 {/* advertiser */}
-                <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     The Middlesex University Students' Union (MDXSU) is central
                     to student life, representing the interests of the student

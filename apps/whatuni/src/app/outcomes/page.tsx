@@ -66,7 +66,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto pt-0 pb-[40px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
@@ -75,7 +75,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">Outcome</h1>
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
+                Outcomes
+              </h2>
               <div className="flex flex-col gap-[16px]">
                 {/* advertiser */}
                 <Advertiser

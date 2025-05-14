@@ -54,7 +54,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
@@ -63,9 +63,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 Why study here?
-              </h1>
+              </h2>
               <Opendaysvirtualadvertcomponents
                 title="Open days and virtual visits"
                 clearingWidth={false}

@@ -99,6 +99,7 @@ const config: Config = {
         neutral200: '#E2E8F0',
         neutral300: '#CBD5E1',
         neutral400: '#94A3B8',
+        neutral500: '#64748B',
         neutral600: '#475569',
         neutral700: '#334155',
         green200: '#B4E646',

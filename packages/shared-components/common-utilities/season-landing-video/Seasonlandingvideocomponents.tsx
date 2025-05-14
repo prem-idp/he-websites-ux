@@ -1,110 +1,10 @@
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
-import Homesearchcomponents from '@packages/shared-components/home/home-search/Homesearchcomponents';
+"use client";
+import React from 'react';
+import Link from 'next/link';
 import Video from '@packages/shared-components/common-utilities/videos/video';
+import Searchcomponents from '@packages/shared-components/home/home-search/Searchcomponents';
 
 const Seasonlandingcomponents = () => {
-  // course tab
-  const [activeTab, setActiveTab] = useState('tab0');
-  const searchTabClick = (tabName: any) => {
-    setActiveTab(tabName);
-  };
-
-  // course tab actions
-  const [isUndergratuateClicked, setIsUndergratuateClicked] = useState(false);
-  const [isSubjectClicked, setIsSubjectClicked] = useState(false);
-  const [isLocationClicked, setIsLocationClicked] = useState(false);
-  const [isUniversityClicked, setIsUniversityClicked] = useState(false);
-  const [isAdviceClicked, setIsAdviceClicked] = useState(false);
-  const [isPgsUniversityClicked, setIsPgsUniversityClicked] = useState(false);
-  const [isPgsSearched, setIsPgsSearched] = useState(false);
-
-  const courseActions = (tabName: string) => {
-    if (tabName == 'UG') {
-      setIsUndergratuateClicked(!isUndergratuateClicked);
-      setIsSubjectClicked(false);
-      setIsLocationClicked(false);
-      setIsUniversityClicked(false);
-      setIsAdviceClicked(false);
-    } else if (tabName == 'Subject') {
-      setIsSubjectClicked(!isSubjectClicked);
-      setIsUndergratuateClicked(false);
-      setIsLocationClicked(false);
-      setIsUniversityClicked(false);
-      setIsAdviceClicked(false);
-    } else if (tabName == 'Location') {
-      setIsLocationClicked(!isLocationClicked);
-      setIsUndergratuateClicked(false);
-      setIsSubjectClicked(false);
-      setIsUniversityClicked(false);
-      setIsAdviceClicked(false);
-    } else if (tabName == 'University') {
-      setIsUniversityClicked(!isUniversityClicked);
-      setIsUndergratuateClicked(false);
-      setIsSubjectClicked(false);
-      setIsLocationClicked(false);
-      setIsAdviceClicked(false);
-    } else if (tabName == 'Advice') {
-      setIsAdviceClicked(!isAdviceClicked);
-      setIsUndergratuateClicked(false);
-      setIsSubjectClicked(false);
-      setIsLocationClicked(false);
-      setIsUniversityClicked(false);
-    } else if (tabName == 'PGSUniversity') {
-      setIsPgsUniversityClicked(!isPgsUniversityClicked);
-      setIsAdviceClicked(false);
-      setIsUndergratuateClicked(false);
-      setIsSubjectClicked(false);
-      setIsLocationClicked(false);
-      setIsUniversityClicked(false);
-    }
-  };
-
-  // ucas calculate
-  const [isUcasPopupOpen, setIsUcasPopupOpen] = useState(false);
-  const ucasClick = () => {
-    setIsUcasPopupOpen(true);
-    const body = document.body;
-    body.classList.add('overflow-y-hidden');
-  };
-
-  const ucasClose = () => {
-    const body = document.body;
-    setIsUcasPopupOpen(false);
-    body.classList.remove('overflow-y-hidden');
-  };
-
-  // PGS SearchBox
-  const search = ['Masters', 'PhD', 'PGCert', 'PGDip', 'MBA', 'PGCE'];
-
-  const handleKeyUp = (event: any) => {
-    if (event.key === 'Enter') {
-      setIsPgsSearched(!isPgsSearched);
-    }
-  };
-
-  const searchKey = [
-    {
-      name: 'Law',
-      course: '1124 courses',
-    },
-    {
-      name: 'Law / Legal Studies',
-      course: '1124 courses',
-    },
-    {
-      name: 'Law (Specific Statutes)',
-      course: '1124 courses ',
-    },
-    {
-      name: 'Asian Law',
-      course: '1124 courses',
-    },
-    {
-      name: 'Civil Law',
-      course: '1124 courses',
-    },
-  ];
   return (
     <>
       <section className="season-landing-container bg-primary-100">
@@ -114,45 +14,31 @@ const Seasonlandingcomponents = () => {
               <div className="video-inner-left relative w-full lg:w-[598px] min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                 <Video />
               </div>
-              <div className="video-inner-right flex flex-col flex-1 justify-center px-[16px] md:px-[0]">
-                <div
-                  className='text-heading-lg md"text-heading-xl font-farro font-bold'
-                  aria-labelledby="header"
-                  aria-label="heading"
-                >
-                  Heading
+              <div className="video-inner-right flex flex-col flex-1 justify-center  px-[16px] md:px-[0] max-md:pb-[24px]">
+                <div className='flex flex-col gap-[16px]'>
+                  <div className='flex flex-col gap-[4px]'>
+                    <div className='text-heading-lg md:text-heading-xl font-farro font-bold' aria-labelledby="header" aria-label="heading">
+                      Heading
+                    </div>
+                    <p className="para-lg" aria-label="description">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          Praesent a risus dolor sit amet, consectetur adipiscing elit.
+                          Praesent a risus
+                    </p>
+                  </div>
+                  <Link href="#" className="flex items-center gap-[6px] w-fit bg-primary-400 hover:bg-primary-500 text-white rounded-[20px] font-semibold text-small px-[20px] py-[10px] cursor-pointer">
+                    Learn more
+                    <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999" stroke="#fff" strokeWidth="1.67"
+                        strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
                 </div>
-                <p className="para-lg" aria-label="description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Praesent a risus dolor sit amet, consectetur adipiscing elit.
-                  Praesent a risus{' '}
-                </p>
               </div>
+              {/* <Searchcomponents /> */}
             </div>
-            <Homesearchcomponents
-              season={true}
-              isUndergratuateClicked={isUndergratuateClicked}
-              isSubjectClicked={isSubjectClicked}
-              isLocationClicked={isLocationClicked}
-              isUniversityClicked={isUniversityClicked}
-              isAdviceClicked={isAdviceClicked}
-              isPgsSearched={isPgsSearched}
-              isUcasPopupOpen={isUcasPopupOpen}
-              ucasClose={ucasClose}
-              activeTab={activeTab}
-              searchTab0Click={() => searchTabClick('tab0')}
-              searchTab1Click={() => searchTabClick('tab1')}
-              searchTab2Click={() => searchTabClick('tab2')}
-              searchTab3Click={() => searchTabClick('tab3')}
-              courseActions1={() => courseActions('UG')}
-              courseActions2={() => courseActions('Subject')}
-              courseActions3={() => courseActions('Location')}
-              courseActions4={() => courseActions('University')}
-              courseActions5={() => courseActions('Advice')}
-              courseActions6={() => courseActions('PGSUniversity')}
-            />
-          </div>
         </div>
+      </div>  
       </section>
     </>
   );

@@ -144,8 +144,7 @@ const HeaderBanner = () => {
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
                       <h1
-                        tabIndex={0}
-                        className={`h3 line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
+                        className={`h3 text-white line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
                       >
                         University of Oxford
                       </h1>
