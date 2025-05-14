@@ -56,7 +56,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}

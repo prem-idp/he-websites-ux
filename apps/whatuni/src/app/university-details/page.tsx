@@ -66,7 +66,7 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[40px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
@@ -154,6 +154,8 @@ const page = () => {
                   </p>
                 </div>
                 <Findoutmore />
+              </div>
+              <div className="flex flex-col gap-[16px]">
                 {/* advertiser */}
                 <Advertiser
                   rating={ratingData3}
@@ -163,7 +165,6 @@ const page = () => {
                 {/* advertiser */}
                 <CampusLocation />
               </div>
-
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   What scholarships and funding are available?
