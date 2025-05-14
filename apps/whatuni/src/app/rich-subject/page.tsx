@@ -6,6 +6,7 @@ import Redirectlinkcomponent from "@packages/shared-components/common-utilities/
 import Video from "@packages/shared-components/common-utilities/videos/video";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
+import Link from "next/link";
 
 const page = () => {
   const skiplinkLabel = [
@@ -46,12 +47,8 @@ const page = () => {
     },
   ];
   const ratingData = [
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Overall rating", value: "4.2", extra: "20th" },
-    { title: "Courses", value: "3.3", extra: "20th" },
-    { title: "Halls", value: "4.5", extra: "20th" },
-    { title: "City life", value: "4.1", extra: "20th" },
+    { title: "Campus look and feel", value: "4.3", extra: "20th" },
+    { title: "Location ", value: "4.3", extra: "20th" },
   ];
   return (
     <>
@@ -59,23 +56,28 @@ const page = () => {
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
-          <div className="flex flex-col lg:flex-row gap-[20px]">
+          <div className="flex flex-col lg:flex-row gap-[32px] lg:gap-[20px]">
             <div className="min-w-[289px] flex flex-col  relative max-w-[100%]">
               <Redirectlinkcomponent
                 data={skiplinkLabel}
-                activeLink={"Why study here?"}
+                activeLink={"Overview"}
               />
             </div>
             <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
               {/* page start from here */}
               <div className="rich-subject-container flex flex-col gap-[40px]">
                 {/* -- */}
-                <div id="tabContent1" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
-                  <div className="h5 text-grey300">Overview</div>
+                <div
+                  id="tabContent1"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
+                >
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Overview
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield is a specialist postgraduate university that is
                       a global leader for education and transformational
@@ -114,12 +116,17 @@ const page = () => {
                 </div>
                 {/* -- */}
                 {/* -- */}
-                <div id="tabContent2" className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0">
-                  <div className="h5 text-grey300">Facilities</div>
+                <div
+                  id="tabContent2"
+                  className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
+                >
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Facilities
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Our history and heritage in aircraft research and design
                       over the last 70 years is extending into the future with
@@ -163,11 +170,13 @@ const page = () => {
                   id="tabContent3"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Teaching excellence</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Teaching excellence
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
-                  <div className="rich-subject-content flex flex-col gap-[24px]">
+                  <div className="rich-subject-content flex flex-col gap-[16px]">
                     <p>
                       Cranfield has over 65 years’ experience in transport,
                       including the aviation, automotive, motorsport, military
@@ -205,7 +214,9 @@ const page = () => {
                   id="tabContent4"
                   className="rich-subject-inner-wrap flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">Scholarships</div>
+                  <div className="h5 md:text-heading5 text-grey300">
+                    Scholarships
+                  </div>
                   <div className="video-card relative w-full min-h-[210px] md:min-h-[300x] bg-grey-400 md:rounded-[8px] md:overflow-hidden">
                     <Video />
                   </div>
@@ -241,100 +252,107 @@ const page = () => {
                   </div>
                 </div>
                 {/* -- */}
-                <div id="tabContent5">
+                <div id="tabContent5" className="flex flex-col gap-[16px]">
                   <Advertiser
                     advertiserTitle={"Where is [University name] located?"}
                     rating={ratingData}
                     advertiserDescription={""}
                     showWuscaCard={false}
                   />
-                </div>
-                <div id="tabContent6">
                   <CampusLocation />
                 </div>
                 {/* -- */}
                 <div
-                  id="tabContent7"
+                  id="tabContent6"
                   className="explore-subject-card flex flex-col gap-[16px] px-[16px] md:px-[20px] xl:px-0"
                 >
-                  <div className="h5 text-grey300">
+                  <div className="h5 md:text-heading5 text-grey300">
                     Other academic departments
                   </div>
                   {/* -explore subject card- */}
-                  <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row">
-                    <div className="w-full min-h-[140px] md:w-[259px] shrink-0">
-                      <Image
-                        src="/static/assets/images/search-results/article1.png"
-                        width={259}
-                        height={146}
-                        alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
-                      />
-                    </div>
-                    <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
-                      <div className="para font-semibold text-grey300">
-                        Department name
+                  <Link className="hover:border-primary-400" href="#">
+                    <div className="flex flex-col item-center border-[1px] border-grey-200 hover:border-primary-400 rounded-[8px] md:flex-row">
+                      <div className="w-full min-h-[140px] md:w-[259px] shrink-0">
+                        <Image
+                          src="/static/assets/images/search-results/article1.png"
+                          width={259}
+                          height={146}
+                          alt="Article"
+                          className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
+                        />
                       </div>
-                      <div className="small text-grey300 line-clamp-4">
-                        Cranfield University is one of the world’s leading
-                        universities for defence, security and forensic
-                        education, research and consultancy. Our academics’
-                        expertise ranges from energetics and forensic sciences
-                        to internationa academics’ expertise ranges from
-                        energetics and forensic sciences to internationa one of
-                        the world’s leading universities for defence, security
-                        and forensic education
+                      <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
+                        <div className="para font-semibold text-grey300">
+                          Department name
+                        </div>
+                        <div className="small text-grey300 line-clamp-4">
+                          Cranfield University is one of the world’s leading
+                          universities for defence, security and forensic
+                          education, research and consultancy. Our academics’
+                          expertise ranges from energetics and forensic sciences
+                          to internationa academics’ expertise ranges from
+                          energetics and forensic sciences to internationa one
+                          of the world’s leading universities for defence,
+                          security and forensic education
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+
                   {/* -explore subject card- */}
                   {/* -explore subject card- */}
-                  <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row overflow-hidden">
-                    <div className="w-full min-h-[146px] md:w-[259px] shrink-0 bg-grey-200"></div>
-                    <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
-                      <div className="para font-semibold text-grey300">
-                        Department name
-                      </div>
-                      <div className="small text-grey300 line-clamp-4">
-                        Cranfield University is one of the world’s leading
-                        universities for defence, security and forensic
-                        education, research and consultancy. Our academics’
-                        expertise ranges from energetics and forensic sciences
-                        to internationa academics’ expertise ranges from
-                        energetics and forensic sciences to internationa one of
-                        the world’s leading universities for defence, security
-                        and forensic education
+                  <Link href="#">
+                    <div className="flex flex-col item-center border-[1px] border-grey-200 hover:border-primary-400 rounded-[8px] md:flex-row overflow-hidden">
+                      <div className="w-full min-h-[146px] md:w-[259px] shrink-0 bg-grey-200"></div>
+                      <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
+                        <div className="para font-semibold text-grey300">
+                          Department name
+                        </div>
+                        <div className="small text-grey300 line-clamp-4">
+                          Cranfield University is one of the world’s leading
+                          universities for defence, security and forensic
+                          education, research and consultancy. Our academics’
+                          expertise ranges from energetics and forensic sciences
+                          to internationa academics’ expertise ranges from
+                          energetics and forensic sciences to internationa one
+                          of the world’s leading universities for defence,
+                          security and forensic education
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+
                   {/* -explore subject card- */}
                   {/* -explore subject card- */}
-                  <div className="flex flex-col item-center border-[1px] border-grey-200 rounded-[8px] md:flex-row">
-                    <div className="w-full min-h-[140px] md:w-[259px] shrink-0">
-                      <Image
-                        src="/static/assets/images/search-results/article2.jpg"
-                        width={259}
-                        height={146}
-                        alt="Article"
-                        className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
-                      />
-                    </div>
-                    <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
-                      <div className="para font-semibold text-grey300">
-                        Department name
+                  <Link href="#">
+                    <div className="flex flex-col item-center border-[1px] border-grey-200 hover:border-primary-400 rounded-[8px] md:flex-row">
+                      <div className="w-full min-h-[140px] md:w-[259px] shrink-0">
+                        <Image
+                          src="/static/assets/images/search-results/article2.jpg"
+                          width={259}
+                          height={146}
+                          alt="Article"
+                          className="w-full h-full object-cover rounded-t-[8px] lg:w-[392px] md:rounded-l-[8px] md:rounded-tr-none"
+                        />
                       </div>
-                      <div className="small text-grey300 line-clamp-4">
-                        Cranfield University is one of the world’s leading
-                        universities for defence, security and forensic
-                        education, research and consultancy. Our academics’
-                        expertise ranges from energetics and forensic sciences
-                        to internationa academics’ expertise ranges from
-                        energetics and forensic sciences to internationa one of
-                        the world’s leading universities for defence, security
-                        and forensic education
+                      <div className="flex flex-col flex-1 gap-[16px] text-grey300 p-[16px] shadow-custom-2">
+                        <div className="para font-semibold text-grey300">
+                          Department name
+                        </div>
+                        <div className="small text-grey300 line-clamp-4">
+                          Cranfield University is one of the world’s leading
+                          universities for defence, security and forensic
+                          education, research and consultancy. Our academics’
+                          expertise ranges from energetics and forensic sciences
+                          to internationa academics’ expertise ranges from
+                          energetics and forensic sciences to internationa one
+                          of the world’s leading universities for defence,
+                          security and forensic education
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+
                   {/* -explore subject card- */}
                 </div>
                 {/* -- */}

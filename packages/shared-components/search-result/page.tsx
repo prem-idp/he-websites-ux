@@ -509,7 +509,9 @@ const SearchResult = ({ title, content }: any) => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-[4px] text-white">
-                    <div className="h5">University of Kent</div>
+                    <div className="h5 md:text-heading5">
+                      University of Kent
+                    </div>
                     <div className="x-small font-semibold">
                       12 engineering courses
                     </div>

@@ -17,9 +17,7 @@ const Advertiser = ({
       {/* reviews */}
       <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
         <div className="flex flex-col gap-[8px]">
-          <div className="text-heading5 font-farro font-bold">
-            {advertiserTitle}
-          </div>
+          <div className="h5 md:text-heading5">{advertiserTitle}</div>
           {advertiserDescription && <p> {advertiserDescription} </p>}
         </div>
         <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">

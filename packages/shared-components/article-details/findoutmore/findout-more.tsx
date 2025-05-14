@@ -8,10 +8,10 @@ const Findoutmore = () => {
         <span className="x-small uppercase tracking-[1px] font-semibold grey300">
           FIND OUT MORE
         </span>
-        <Link className="para text-blue-400" href="#">
+        <Link className="para hover:underline text-blue-400" href="#">
           Link text goes here
         </Link>
-        <Link className="para text-blue-400" href="#">
+        <Link className="para hover:underline text-blue-400" href="#">
           Link text goes here
         </Link>
       </div>

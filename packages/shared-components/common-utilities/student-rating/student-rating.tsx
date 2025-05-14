@@ -34,17 +34,18 @@ const StudentRating = ({ data }: any) => {
       </div>
 
       <div
-        className={`grid grid-cols-2 justify-between gap-[20px] w-full *:text-small *:text-grey300 
-    ${ratingGrid === 3
+        className={`grid grid-cols-1 md:grid-cols-2 justify-between gap-[20px] w-full *:text-small *:text-grey300 
+    ${
+      ratingGrid === 3
+        ? "md:grid-cols-3"
+        : ratingGrid === 4
+          ? "md:grid-cols-4"
+          : ratingGrid === 5
             ? "md:grid-cols-3"
-            : ratingGrid === 4
-              ? "md:grid-cols-4"
-              : ratingGrid === 5
-                ? "md:grid-cols-3"
-                : ratingGrid === 6
-                  ? "md:grid-cols-3"
-                  : ""
-          }`}
+            : ratingGrid === 6
+              ? "md:grid-cols-3"
+              : ""
+    }`}
       >
         {data.map((item: any, index: any) => (
           <div className="flex flex-col" key={index}>
