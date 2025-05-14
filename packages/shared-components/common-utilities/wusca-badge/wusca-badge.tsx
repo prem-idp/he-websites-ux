@@ -6,13 +6,6 @@ const WuscaBadge = ({ wuscaCard = false }) => {
   const wuscabadge = Number(4);
 
   if (!wuscaCard) return null;
-
-  const wuscaAward = [
-    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "University of the Year" },
-    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "Halls and student accommodation" },
-    { image: "/static/assets/images/bronze-student-life.svg", badge: "Third place", title: "3rd", titleDescrition: "101", description: "Student life" },
-    { image: "/static/assets/images/gold-university-of-the-year.svg", badge: "Winner", title: "1st", titleDescrition: "101", description: "University of the Year" }
-  ]
   const tooltipQuestion: string = "Why should you trust our uni reviews?";
   const tooltipAnswer: string =
     "All our reviews are from real students, submitted using their verified university email address.";
@@ -82,7 +75,109 @@ const WuscaBadge = ({ wuscaCard = false }) => {
               </div>
             </div>
           </div>
-        ))}
+        )}
+        {wuscabadge >= 2 && (
+          <div className="flex items-center gap-[16px]">
+            <Image
+              className="shrink-0"
+              src="/static/assets/images/gold-university-of-the-year.svg"
+              alt="gold-university-of-the-year"
+              width="124"
+              height="113"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                Winner
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">1st</span>
+                <span className="small">/ 101</span>
+              </div>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    Halls and student accommodation
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+        {wuscabadge >= 3 && (
+          <div className="flex items-center gap-[16px]">
+            <Image
+              className="shrink-0"
+              src="/static/assets/images/bronze-student-life.svg"
+              alt="bronze-student-life"
+              width="124"
+              height="113"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                THird place
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">3rd</span>
+                <span className="small">/ 101</span>
+              </div>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    Student life
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+        {wuscabadge >= 4 && (
+          <div className="flex items-center gap-[16px]">
+            <Image
+              className="shrink-0"
+              src="/static/assets/images/gold-university-of-the-year.svg"
+              alt="gold-university-of-the-year"
+              width="124"
+              height="113"
+            />
+            <div className="flex flex-col gap-[4px] grow">
+              <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
+                Winner
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-heading2 font-farro font-bold">1st</span>
+                <span className="small">/ 101</span>
+              </div>
+
+              <div className="relative group">
+                <Link href="#">
+                  <span className="small underline font-semibold underline">
+                    University of the Year
+                  </span>
+                  <div className={tooltipStyles}>
+                    <span className="x-small text-grey900 font-semibold">
+                      {tooltipQuestion}
+                    </span>
+                    <p className="x-small text-grey300">{tooltipAnswer}</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
