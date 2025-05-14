@@ -43,22 +43,22 @@ const WuscaBadge = ({ wuscaCard = false }) => {
       <div
         className={`grid grid-cols-1 gap-[16px] ${wuscabadge == 4 ? "md:grid-cols-2" : wuscabadge === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}
       >
-        {wuscabadge >= 1 && (
-          <div className="flex items-center gap-[16px]">
+        {wuscaAward.map((item, index) => (
+          <div className="flex items-center gap-[16px]" key={index}>
             <Image
               className="shrink-0"
-              src="/static/assets/images/gold-university-of-the-year.svg"
+              src={item.image}
               alt="gold-university-of-the-year"
               width="124"
               height="113"
             />
             <div className="flex flex-col gap-[4px] grow">
               <div className="bg-positive-default text-white uppercase rounded-[4px] x-small font-bold px-[8px] w-fit">
-                Winner
+                {item.badge}
               </div>
               <div className="flex items-center gap-[8px]">
-                <span className="text-heading2 font-farro font-bold">1st</span>
-                <span className="small">/ 101</span>
+                <span className="text-heading2 font-farro font-bold">{item.title}</span>
+                <span className="small">/ {item.titleDescrition}</span>
               </div>
               <div className="relative group">
                 <Link href="#">
