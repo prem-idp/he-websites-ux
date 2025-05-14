@@ -86,7 +86,7 @@ const page = () => {
                   showreviewCard={true}
                 />
                 {/* advertiser */}
-                <div className="px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                   <p>
                     The university’s Hendon campus is leafy, sustainable, and
                     safe, but still holds the buzz of a London university.
@@ -165,65 +165,80 @@ const page = () => {
                 {/* advertiser */}
                 <CampusLocation />
               </div>
-              <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
-                <div className="text-heading5 font-farro font-bold">
-                  What scholarships and funding are available?
-                </div>
-                <p>
-                  Middlesex University offers a variety of scholarships and
-                  financial support options, including:
-                </p>
-                <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
-                  <li>
-                    <Link href="#" className="text-primary-400 hover:underline">
-                      MDX Student Starter Kit
-                    </Link>
-                    , providing tech and a grant worth up to £1,000 for new UK
-                    undergraduate students joining in September 2024
-                  </li>
-                  <li>
-                    <Link href="#" className="text-primary-400 hover:underline">
-                      MDX Excellence Scholarship
-                    </Link>
-                    , awarding £2,000 per academic year (up to £6,000) to
-                    students with outstanding academic potential
-                  </li>
-                  <li>
-                    <Link href="#" className="text-primary-400 hover:underline">
-                      Care Leaver and Estranged Student Bursaries
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-primary-400 hover:underline">
-                      Living Costs Fund
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-primary-400 hover:underline">
-                      Emergency funds
-                    </Link>
-                  </li>
-                </ul>
-                <div className="font-semibold">Learning Materials</div>
-                <p>
-                  All students receive free personal learning materials,
-                  including core textbooks as e-books, free access to Adobe
-                  Creative Suite, and free printing for course-related
-                  materials.
-                </p>
-                <p>
-                  The laptop loan scheme ensures all students have access to a
-                  personal laptop.
-                </p>
-                <div className="font-semibold">Financial advice</div>
-                <p>
-                  The student welfare team can provide advice on financial,
-                  practical or legal challenges, like advice on debt, housing
-                  costs, or students’ rights.
-                </p>
-              </div>
-
               <div className="flex flex-col gap-[16px]">
+                <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
+                  <div className="h5 md:text-heading5 font-farro font-bold">
+                    Scholarships and funding
+                  </div>
+                  <p>
+                    Middlesex University offers a variety of scholarships and
+                    financial support options, including:
+                  </p>
+                  <ul className="list-disc flex flex-col gap-[16px] pl-[20px]">
+                    <li>
+                      <Link
+                        href="#"
+                        className="text-primary-400 hover:underline"
+                      >
+                        MDX Student Starter Kit
+                      </Link>
+                      , providing tech and a grant worth up to £1,000 for new UK
+                      undergraduate students joining in September 2024
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="text-primary-400 hover:underline"
+                      >
+                        MDX Excellence Scholarship
+                      </Link>
+                      , awarding £2,000 per academic year (up to £6,000) to
+                      students with outstanding academic potential
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="text-primary-400 hover:underline"
+                      >
+                        Care Leaver and Estranged Student Bursaries
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="text-primary-400 hover:underline"
+                      >
+                        Living Costs Fund
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="text-primary-400 hover:underline"
+                      >
+                        Emergency funds
+                      </Link>
+                    </li>
+                  </ul>
+                  <div className="font-semibold">Learning Materials</div>
+                  <p>
+                    All students receive free personal learning materials,
+                    including core textbooks as e-books, free access to Adobe
+                    Creative Suite, and free printing for course-related
+                    materials.
+                  </p>
+                  <p>
+                    The laptop loan scheme ensures all students have access to a
+                    personal laptop.
+                  </p>
+                  <div className="font-semibold">Financial advice</div>
+                  <p>
+                    The student welfare team can provide advice on financial,
+                    practical or legal challenges, like advice on debt, housing
+                    costs, or students’ rights.
+                  </p>
+                </div>
+
                 <Ctabanner
                   title={"Find a scholarship"}
                   description={
@@ -233,6 +248,9 @@ const page = () => {
                   bannerSrc={"/static/assets/images/ip/green-cta-banner.png"}
                   bgColor={"bg-green-200"}
                 />
+              </div>
+
+              <div className="flex flex-col gap-[16px]">
                 {/* advertiser */}
                 <Advertiser
                   rating={ratingData4}
