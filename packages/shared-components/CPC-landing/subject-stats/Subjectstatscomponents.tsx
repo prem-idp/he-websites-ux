@@ -16,7 +16,7 @@ const SubjectStatsComponents = ({ title, stats }: any) => {
                       <div className="small font-semibold text-white">
                         {item.topCitiesData.title}
                       </div>
-                      <ul className="list-disc pl-5 space-y-1 text-black">
+                      <ul className="list-disc pl-[24px] space-y-1 text-black">
                         {item.topCitiesData.cities.map((city: string, cityIndex: number) => (
                           <li key={cityIndex} className='small text-white'>{city}</li>
                         ))}
