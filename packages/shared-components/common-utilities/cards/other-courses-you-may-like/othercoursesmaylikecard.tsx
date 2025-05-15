@@ -98,13 +98,13 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
             <>
             <div className='card-body flex flex-col justify-between gap-[16px] p-[16px] min-h-[192px]'>
                     <div className='flex flex-col gap-[8px] w-full'>
-                        {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
+                        <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div>
                         <div className='card-title font-farro para-lg font-bold text-grey300 line-clamp-1'>{uniName}</div>
                         <div className='flex flex-col gap-[8px]'>
                             <div className='card-subtitle small font-semibold line-clamp-1'>{courseName}</div>
-                            <div className="flex items-center flex-wrap gap-[8px] x-small font-semibold text-neutral500 uppercase">
-                                <div className="bg-neutral100 p-[3px_10px] rounded-[4px]">REGION / CITY</div>
-                                <div className="bg-neutral100 p-[3px_10px] rounded-[4px]">NExt open day: TUE 30 NOV</div>
+                            <div className="flex items-center flex-wrap gap-[8px] x-small font-semibold uppercase">
+                                <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">REGION / CITY</div>
+                                <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">NExt open day: TUE 30 NOV</div>
                             </div>
                         </div>
                         <div className='flex flex-col gap-[8px]'>
