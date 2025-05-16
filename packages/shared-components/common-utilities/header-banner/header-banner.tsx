@@ -6,6 +6,7 @@ import Getprospectus from "../cards/interaction-button/getprospectus";
 import RequestInfo from "../cards/interaction-button/requestinfo";
 import BookOpenDay from "../cards/interaction-button/bookopenday";
 import RecommendedUnis from "../cards/interaction-button/recommendedunis";
+import HeaderBannerSkeleton from "../skeleton/ip/header-banner-skeleton";
 
 const HeaderBanner = () => {
   const [btnHandler, setBtnHandler] = useState(false);
@@ -264,6 +265,7 @@ const HeaderBanner = () => {
           </div>
         </div>
       </section>
+      <HeaderBannerSkeleton/>
     </>
   );
 };

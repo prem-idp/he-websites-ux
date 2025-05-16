@@ -195,7 +195,7 @@ html {
 }
 
 body {
-  @apply font-inter font-normal text-para text-grey300;
+  @apply font-inter font-normal text-[14px] text-grey300;
 }
 a:focus,button:focus{@apply outline-[3px] outline-gray-900 outline-offset-0}
 
