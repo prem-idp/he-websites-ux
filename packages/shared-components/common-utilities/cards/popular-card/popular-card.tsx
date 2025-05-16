@@ -8,10 +8,10 @@ const PopularCard = ({
 }: any) => {
   return (
     <>
-      <div
-        className={`${subjectBgColor} shrink-0 rounded-[8px] h-full p-[12px] border border-transparent hover:border-primary-400  `}
+      <a href="#"
+        className={`${subjectBgColor} flex shrink-0 rounded-[8px] h-full p-[12px] border border-transparent hover:border-primary-400  `}
       >
-        <div className="flex flex-col gap-[32px] justify-between h-full">
+        <div className="flex flex-col gap-[32px] justify-between w-full h-full">
           <div className="small font-semibold text-grey900">{subjectTitle}</div>
           <div
             className={`${leafBgColor} size-[48px] rounded-[0_24px_0_24px] flex items-center justify-center self-end`}
@@ -33,7 +33,7 @@ const PopularCard = ({
             </svg>
           </div>
         </div>
-      </div>
+      </a>
     </>
   );
 };
