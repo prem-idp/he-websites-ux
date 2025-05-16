@@ -3,18 +3,20 @@ import Seasonlandingcomponents from '@packages/shared-components/common-utilitie
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents'
 import Subjectstatscomponents from '@packages/shared-components/CPC-landing/subject-stats/Subjectstatscomponents'
 import React from 'react'
-import { searchLandingData,  statsSubjectData, statsRegionData, popularUniData, popularCourseData, openDaysData} from '@packages/constants/constants';
+import { searchLandingData,  statsSubjectData, statsRegionData, popularUniData, popularCourseData, openDaysData, searchWULandingData} from '@packages/constants/constants';
 import Faqcomponents from '@packages/shared-components/common-utilities/faq/faqcomponents'
 import Othercoursesmaylikecomponents from '@packages/shared-components/common-utilities/other-courses-you-may-like/othercoursesmaylikecomponents'
 
 const landingPage = () => {
   const bgColor="white";
   const bgColor1="grey-50";
-  const openDays = true;
+  const bgColor2="green-100";
+  const bgColor3="blue-100";
   return (
     <>
       <Seasonlandingcomponents />
-      <Findacoursecomponents {...searchLandingData} />
+      <Findacoursecomponents {...searchLandingData} bgColor={bgColor2}/>
+      <Findacoursecomponents {...searchWULandingData} bgColor={bgColor3}/>
       <Subjectstatscomponents {...statsSubjectData} />
       <Othercoursesmaylikecomponents {...popularUniData} bgColor={bgColor} />
       <Othercoursesmaylikecomponents {...popularCourseData} bgColor={bgColor1} />

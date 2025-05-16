@@ -97,6 +97,14 @@ export const searchLandingData = {
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a risus dolor sit amet, consectetur adipiscing elit. Praesent a risus ',
   image: '/static/assets/images/slice_1.png',
   isViewSearch: false,
+  isImageVisible: true,
+}
+export const searchWULandingData = {
+  title: 'Heading',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a risus dolor sit amet, consectetur adipiscing elit. Praesent a risus ',
+  image: '',
+  isViewSearch: false,
+  isImageVisible: false,
 }
 export const findacourseData = {
   title: 'Find a course',

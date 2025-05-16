@@ -2,15 +2,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const Findacoursecomponents = ({ title, description, image, isViewSearch  }:any) => {
+const Findacoursecomponents = ({ title, description, image, isViewSearch, bgColor, isImageVisible }:any) => {
   return (
-    <section className="bg-green-100">
+    <section className={`bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
-        <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[16px]  md:p-[0_20px_26px_20px] lg:py-0 xl:px-0 min-h-[194px]">
+        <div className="flex flex-col-reverse md:flex-row justify-between gap-[16px] p-[24px_16px_24px]  md:p-[0_20px_26px_20px] lg:py-0 xl:px-0 min-h-[194px]">
           <div className="w-full flex flex-col flex-grow gap-[16px] self-center md:self-end lg:p-[16px_0_38px]">
             <div className="flex flex-col gap-[4px]">
-              <h1 className="text-heading1 md:text-heading-xl">{title}</h1>
-               <p className="text-para md:text-para-lg">{description}</p> 
+              <div className="text-heading-lg md:text-heading-xl font-farro font-bold">{title}</div>
+               <p className="text-para-lg">{description}</p> 
             </div>
             {/* -- */}
             {isViewSearch && (
@@ -165,11 +165,13 @@ const Findacoursecomponents = ({ title, description, image, isViewSearch  }:any)
             )}
             {/* -- */}
           </div>
-          <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-[12px]">
+          {isImageVisible && (
+          <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-0 md:pt-[12px]">
             <div className="w-[108px] md:w-[166px]">
               <Image src={image} className="w-full" width={205} height={260} alt="Card banner" />
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>
