@@ -146,6 +146,14 @@ const page = () => {
                   keyStatsData={keyStatsData}
                 />
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-[8px] md:gap-[20px] px-[16px] md:px-[20px] lg:px-0">
+                <div className="flex items-center gap-[4px] p-[16px] bg-grey-50 border border-grey-200 rounded-[8px] small font-semibold">
+                  <Image src="/static/assets/icons/green_tick_icon.svg" width={24} height={24} alt="Green Tick Icon" />
+                  Scholarships available</div>
+                <div className="flex items-center gap-[4px] p-[16px] bg-grey-50 border border-grey-200 rounded-[8px] small font-semibold">
+                  <Image src="/static/assets/icons/red-delete-icon.svg" width={24} height={24} alt="Green Tick Icon" />
+                  Accommodation available</div>
+              </div>
               <div
                 id="tabcontent5"
                 className="flex flex-col gap-[32px] lg:gap-[40px]"
