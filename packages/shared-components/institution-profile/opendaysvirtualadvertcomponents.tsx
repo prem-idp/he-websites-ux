@@ -23,7 +23,6 @@ const Opendaysvirtualadvertcomponents = ({
                   keyIndex={index}
                   dataLength={advertData.length}
                 />
-                  {/* <AdvertbannercardSkeleton/> */}
                 </>
               ))}
             </div>

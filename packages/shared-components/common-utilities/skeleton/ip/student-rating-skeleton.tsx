@@ -22,10 +22,10 @@ const StudentRatingSkeleton = ({ data }: any) => {
                             fill="#d4d4d4"
                         />
                     </svg>
-                    <div className="skeleton skeleton-text-animated descrip !w-[100px]"></div>	
+                    <div className="skeleton skeleton-text-animated descrip !w-[100px]"></div>
                 </div>
                 <div className="flex xs-small font-semibold uppercase gap-[4px]">
-                <div className="skeleton skeleton-text-animated descrip !w-[100px]"></div>	
+                    <div className="skeleton skeleton-text-animated descrip !w-[300px]"></div>
                 </div>
             </div>
 
@@ -42,23 +42,24 @@ const StudentRatingSkeleton = ({ data }: any) => {
                                     : ""
                     }`}
             >
+                {Array.from({ length: 4 }).map((_, index) => (
                     <div className="flex flex-col">
-                        <div className="small font-semibold line-clamp-1">w</div>
+                        <div className="small font-semibold line-clamp-1">
+                            <div className="skeleton skeleton-text-animated descrip !w-[100px]"></div>
+                        </div>
                         <div className="flex items-center gap-[8px]">
                             <div className="flex items-center gap-[4px]">
-                                {/* <Image
-                                    src="/static/assets/icons/blue-star-icon.svg"
-                                    width="24"
-                                    height="24"
-                                    alt="Rating icon"
-                                /> */}
+
                                 <span className="text-heading6 font-farro font-bold">
-                                   ew
+                                    <div className="skeleton skeleton-text-animated page_heading !w-[30px]"></div>
+
                                 </span>
                             </div>
-                            <span className="small">d</span>
+                            <div className="skeleton skeleton-text-animated descrip !w-[100px]"></div>
+
                         </div>
                     </div>
+                ))}
             </div>
         </div>
     );

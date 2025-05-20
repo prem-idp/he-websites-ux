@@ -1,7 +1,8 @@
 import React from "react";
-import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import WuscaBadgeSkeleton from "./wusca-badge-skeleton";
+import StudentRatingSkeleton from "./student-rating-skeleton";
+import StudentReviewsSkeleton from "./student-reviews-skeleton";
 
 const AdvertiserSkeleton =  ({
   rating,
@@ -22,8 +23,8 @@ const AdvertiserSkeleton =  ({
         </div>
         <div className="border border-grey-200 bg-grey-50 rounded-[8px] overflow-hidden">
           {isWuscaBadge && <WuscaBadgeSkeleton wuscaCard={showWuscaCard} />}
-          <StudentRating data={rating} />
-          {showreviewCard && <StudentReviews />}
+          <StudentRatingSkeleton data={rating} />
+          {showreviewCard && <StudentReviewsSkeleton />}
         </div>
       </div>
       {/* reviews */}

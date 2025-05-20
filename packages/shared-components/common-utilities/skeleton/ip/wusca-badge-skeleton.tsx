@@ -21,7 +21,7 @@ const WuscaBadgeSkeleton = ({ wuscaCard = false }) => {
                                       after:left-[30px] after:z-0 after:top-[-5px] after:border after:translate-x-2/4 
                                       after:translate-y-0 after:rotate-45 after:border-b-0 after:border-r-0`;
     return (
-        <div className="bg-primary-50 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
+        <div className="bg-neutral-100 flex flex-col gap-[16px] p-[16px] border-b border-grey-200">
             <div className="flex gap-[4px] md:items-center">
                 <svg
                     width="32"

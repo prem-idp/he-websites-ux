@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import StudentRatingSkeleton from "../skeleton/ip/student-rating-skeleton";
 
 const StudentRating = ({ data }: any) => {
   const [ratingGrid, setRatingGrid] = useState(0);
@@ -70,7 +69,6 @@ const StudentRating = ({ data }: any) => {
         ))}
       </div>
     </div>
-    <StudentRatingSkeleton/>
     </>
   );
 };

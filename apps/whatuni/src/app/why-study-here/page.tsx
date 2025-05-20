@@ -16,6 +16,9 @@ import Ctabanner from "@packages/shared-components/article-details/cta-banner/ct
 import { advertOpendaysData } from "@packages/constants/constants";
 import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/opendaysvirtualadvert-skeleton"
 import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton"
+import KeystatscomponentsSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/keystatscomponents-skeleton";
+import PopularSubjectSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/popular-subject-skeleton";
+
 const page = () => {
   const skiplinkLabel = [
     {
@@ -62,7 +65,7 @@ const page = () => {
                 activeLink={"Why study here?"}
               />
             </div>
-            <div className="w-full flex flex-col flex-1 gap-[32px] lg:gap-[40px]">
+            <div className="w-full flex flex-col flex-1 gap-[32px] shrink-0 lg:gap-[40px]">
               {/* page start from here */}
               <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 Why study here?
@@ -87,19 +90,20 @@ const page = () => {
                 isWuscaBadge={true}
               />
               <AdvertiserSkeleton
-              rating={ratingData}
-              advertiserTitle={" Is [University name] a good place to study?"}
-              advertiserDescription={
-                "Read honest reviews from real students at this uni"
-              }
-              showWuscaCard={true}
-              showreviewCard={true}
-              isWuscaBadge={true}
-              
+                rating={ratingData}
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={true}
+
               />
               {/* advertiser */}
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents keyStatsInnerData={true} />
+              <KeystatscomponentsSkeleton keyStatsInnerData={true} />
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   Overview
@@ -170,6 +174,7 @@ const page = () => {
                 uniTitle="Courses at Portsmouth University"
                 subjectTitle="Popular subjects"
               />
+              <PopularSubjectSkeleton />
               <RedirectionButton />
             </div>
           </div>
