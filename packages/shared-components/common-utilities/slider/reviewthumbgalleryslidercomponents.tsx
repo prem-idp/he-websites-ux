@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import Video from "../videos/video";
+import ReviewthumbgallerysliderSkeleton from "../skeleton/ip/reviewthumbgalleryslider-skeleton";
 
 const ReviewThumbGallerySliderComponents = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
@@ -56,6 +57,7 @@ const ReviewThumbGallerySliderComponents = () => {
   };
 
   return (
+    <>
     <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto md:px-[20px] lg:px-0">
       {/* Main Swiper */}
       <Swiper
@@ -123,6 +125,8 @@ const ReviewThumbGallerySliderComponents = () => {
         ))}
       </Swiper>
     </div>
+    <ReviewthumbgallerysliderSkeleton/>
+    </>
   );
 };
 

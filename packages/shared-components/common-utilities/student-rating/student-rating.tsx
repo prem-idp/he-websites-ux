@@ -8,6 +8,7 @@ const StudentRating = ({ data }: any) => {
   }, []);
 
   return (
+    <>
     <div className="flex flex-col gap-[16px] p-[16px]">
       <div className="flex flex-col gap-[8px] items-start justify-between md:flex-row md:items-center">
         <div className="flex items-center gap-[4px]">
@@ -68,6 +69,7 @@ const StudentRating = ({ data }: any) => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 

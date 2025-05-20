@@ -64,7 +64,7 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
                                     <div className='x-small text-grey-900'>Main campus, CV23 8DY</div>
                                     <div className='flex items-center gap-[4px]'>
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#333333" stroke-width="1.13" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#333333" strokeWidth="1.13" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>
                                         <span className='xs-small font-semibold text-grey300'>08:30-16:30</span>
                                         </div>

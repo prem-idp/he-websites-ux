@@ -773,9 +773,9 @@ const SearchResult = ({ title, content }: any) => {
                     <path
                       d="M7 5.61377L12 10.6138L7 15.6138"
                       stroke="#4664DC"
-                      stroke-width="1.67"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </Link>
@@ -818,9 +818,9 @@ const SearchResult = ({ title, content }: any) => {
                     <path
                       d="M7 5.61377L12 10.6138L7 15.6138"
                       stroke="#4664DC"
-                      stroke-width="1.67"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </Link>

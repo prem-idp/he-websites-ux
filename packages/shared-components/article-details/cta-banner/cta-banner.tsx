@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import CtaBannerSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/cta-banner-skeleton";
 
 const Ctabanner = ({
   title,
@@ -10,6 +11,7 @@ const Ctabanner = ({
   bgColor,
 }: any) => {
   return (
+    <>
     <div className="px-[16px] md:px-[20px] lg:px-0">
       <div
         className={`${bgColor} p-[16px] md:py-[0] gap-[20px] md:gap-[0]  md:px-[20px] rounded-[8px] flex md:flex-row flex-col-reverse justify-between items-end !m-0`}
@@ -47,6 +49,8 @@ const Ctabanner = ({
         </span>
       </div>
     </div>
+    <CtaBannerSkeleton/>
+    </>
   );
 };
 
