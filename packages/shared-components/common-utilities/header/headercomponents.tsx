@@ -239,7 +239,7 @@ const Header = () => {
                       <div className="max-w-container w-full mx-auto flex flex-col px-[16px] pt-[8px] pb-[56px] md:pt-[16px] md:pb-[32px]">
                         <button className="modal_search_close flex self-end relative cursor-pointer">
                         <svg className="cursor-pointer" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M3 29L29 3M3 3L29 29" stroke="#333F48" stroke-width="2.67" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M3 29L29 3M3 3L29 29" stroke="#333F48" strokeWidth="2.67" strokeLinecap="round" strokeLinejoin="round"></path>
                         </svg>
                         </button>
                         <div className="flex flex-col items-center justify-center gap-y-[16px] mt-[16px] md:mt-[-16px]">

@@ -14,7 +14,8 @@ import PopularSubject from "@packages/shared-components/common-utilities/popular
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import { advertOpendaysData } from "@packages/constants/constants";
-
+import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/opendaysvirtualadvert-skeleton"
+import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton"
 const page = () => {
   const skiplinkLabel = [
     {
@@ -66,11 +67,14 @@ const page = () => {
               <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 Why study here?
               </h2>
-              <Opendaysvirtualadvertcomponents
+              {/* <Opendaysvirtualadvertcomponents
                 title="Open days and virtual visits"
                 clearingWidth={false}
                 advertData={advertOpendaysData}
-              />
+              /> */}
+              {/* <OpendaysvirtualadvertSkeleton title="Open days and virtual visits"
+                clearingWidth={false}
+                advertData={advertOpendaysData} /> */}
               {/* advertiser */}
               <Advertiser
                 rating={ratingData}
@@ -81,6 +85,17 @@ const page = () => {
                 showWuscaCard={true}
                 showreviewCard={true}
                 isWuscaBadge={true}
+              />
+              <AdvertiserSkeleton
+              rating={ratingData}
+              advertiserTitle={" Is [University name] a good place to study?"}
+              advertiserDescription={
+                "Read honest reviews from real students at this uni"
+              }
+              showWuscaCard={true}
+              showreviewCard={true}
+              isWuscaBadge={true}
+              
               />
               {/* advertiser */}
               <Reviewthumbgalleryslidercomponents />
