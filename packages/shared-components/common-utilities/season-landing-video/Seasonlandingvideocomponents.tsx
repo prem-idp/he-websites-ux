@@ -35,8 +35,8 @@ const Seasonlandingcomponents = () => {
                   </Link>
                 </div>
               </div>
-              {/* <Searchcomponents /> */}
             </div>
+            <Searchcomponents />
         </div>
       </div>  
       </section>
