@@ -192,7 +192,7 @@ html {
   font-size: 62.5%;
   scroll-behavior: smooth;
 }
-button, input, optgroup, select, textarea{@apply text-size-[16px] touch-manipulation}
+button, input, optgroup, select, textarea{@apply text-[16px] touch-manipulation}
 body {
   @apply font-inter font-normal text-para text-grey300;
 }
