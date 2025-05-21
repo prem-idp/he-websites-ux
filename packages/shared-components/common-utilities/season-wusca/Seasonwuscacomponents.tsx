@@ -1,7 +1,7 @@
 import Othercoursesslidercomponents from '@packages/shared-components/common-utilities/slider/othercoursesslidercomponents'
 import React from 'react'
 
-const Seasonwuscacomponents = () => {
+const Seasonwuscacomponents = ({bgColor, data}: any) => {
   return (
     <div className='maincard-container bg-white'> 
     <div className="max-w-container mx-auto">
@@ -12,7 +12,7 @@ const Seasonwuscacomponents = () => {
             </div>
             <div className='card-course-container '>
               <div className="card-inner-wrap"> 
-                <Othercoursesslidercomponents seasonWusca={true} />
+                <Othercoursesslidercomponents data={data} bgColor={bgColor} seasonWusca={true} />
               </div>
             </div>
           </div>

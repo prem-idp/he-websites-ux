@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Seasonlandingvideocomponents from "@packages/shared-components/common-utilities/season-landing-video/Seasonlandingvideocomponents";
 import Seasonwuscacomponents from "@packages/shared-components/common-utilities//season-wusca/Seasonwuscacomponents";
 import Articlesnippetcomponents from "@packages/shared-components/common-utilities/article-snippet/articlesnippetcomponents";
+import { popularUniData} from '@packages/constants/constants';
 
 const page = () => {
   // course tab
@@ -105,11 +106,12 @@ const page = () => {
       name: "Civil Law",
       course: "1124 courses",
     },
-  ];
+  ];  
+  const bgColor="white";
   return (
     <>
       <Seasonlandingvideocomponents />
-      <Seasonwuscacomponents />
+      <Seasonwuscacomponents {...popularUniData} bgColor={bgColor}/>
       <Articlesnippetcomponents />
     </>
   );
