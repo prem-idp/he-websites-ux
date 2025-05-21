@@ -14,8 +14,16 @@ const Articlesnippetcomponents = () => {
 
                             <p className='para font-normal'>Aliquam a sapien sed orci tempor egestas sed faucibus diam. Donec ut metus quis tortor feugiat aliquam. Phasellus odio nunc, fringilla sit amet elit et, molestie commodo quam. Vivamus scelerisque aliquet varius. Proin imperdiet molestie ex ut egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fermentum eleifend pharetra. Sed fringilla vestibulum dolor eleifend congue. Aenean fermentum, leo vitae pellentesque dignissim, metus tellus molestie purus, et dictum turpis augue id nunc. Integer et scelerisque arcu.</p>
                         </div>
-                        <button className='small font-semibold text-primary-400 hover:underline cursor-pointer'>- Read less</button>
+                        <button className='w-fit small font-semibold text-primary-400 hover:underline cursor-pointer'>- Read less</button>
                     </div>
+                    <button type='button' className='btn btn-primary-outline group flex items-center justify-center gap-[8px] w-fit'>
+                        Label 
+                            <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path 
+                            className='group-hover:stroke-white'
+                            d="M12.2797 4.55566L17.7241 10.0001M17.7241 10.0001L12.2797 15.4446M17.7241 10.0001L3.72412 10.0001" stroke="#4664dc" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                    </button>
                 </div>
                 <button type='button' className='btn btn-primary-outline group flex items-center justify-center gap-[8px] w-fit'>
                     Label 
