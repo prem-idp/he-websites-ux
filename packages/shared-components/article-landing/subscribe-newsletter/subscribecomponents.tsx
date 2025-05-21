@@ -14,12 +14,12 @@ const Subscribecomponents = () => {
             </div>
             <div className='successfull_cont w-full md:w-[714px] flex  gap-[8px] bg-positive-light border border-positive-dark rounded-[6px] p-[16px]'>                
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 11L7 15L17 5" stroke="#106519" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 11L7 15L17 5" stroke="#106519" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <div className='flex flex-grow small font-semibold text-positive-dark'>Thanks, we’ll be in touch soon</div>
                     <div className='close_icon cursor-pointer'>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 15L15 5M5 5L15 15" stroke="#106519" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 15L15 5M5 5L15 15" stroke="#106519" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </div>
                 </div>

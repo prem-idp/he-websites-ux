@@ -193,7 +193,7 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
-
+button, input, optgroup, select, textarea{@apply !text-[16px] touch-manipulation}
 body {
   @apply font-inter font-normal text-[14px] text-grey300;
 }

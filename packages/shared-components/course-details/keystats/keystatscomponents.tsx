@@ -11,7 +11,7 @@ const Keystatscomponents = ({onOpenModal}:any) => {
             <div className='h4 text-white'>Key stats</div>
             <div onClick={onOpenModal} className='flex items-center gap-[8px] para font-semibold text-white underline cursor-pointer'>Art & design 
               <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11 1.38477L6 6.38477L1 1.38477" stroke="#fff" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </div>
