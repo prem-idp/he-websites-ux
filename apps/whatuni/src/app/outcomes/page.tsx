@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
@@ -57,8 +57,33 @@ const page = () => {
       description: "Undergraduate students",
     },
   ];
+  const [enabled, setEnabled] = useState(false);
+
+  const toggle = () => {
+    setEnabled(!enabled);
+  };
+
   return (
     <>
+      {/* clearing */}
+      {/* <div className="bg-green200 py-[12px] flex item-center justify-center gap-[14px]">
+        <div className="x-small">Show Clearing 2024 courses</div>
+        <div className="flex items-center">
+          <button
+            onClick={toggle}
+            className={`relative inline-flex items-center w-[42px] h-[24px] rounded-full transition-colors focus:outline-none ${
+              enabled ? "bg-secondary-500" : "bg-gray-300"
+            }`}
+          > 
+            <span
+              className={`translate-x-0 transform transition ease-in-out duration-200 absolute inset-y-0 left-[2px] top-[2px] flex items-center justify-center h-[20px] w-[20px] rounded-full bg-white shadow-custom-13 ${
+                enabled ? "translate-x-[18px]" : "translate-x-0"
+              }`}
+            />
+          </button>
+        </div>
+      </div> */}
+      {/* clearing */}
       <Interested />
       <HeaderBanner />
       <TabSwitchButton />
