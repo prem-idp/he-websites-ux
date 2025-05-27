@@ -1,8 +1,12 @@
+import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents'
+import { findacourseData } from '@packages/constants/constants';
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+      <Findacoursecomponents {...findacourseData} bgColor="primary-100"/>
+    </>
   )
 }
 
