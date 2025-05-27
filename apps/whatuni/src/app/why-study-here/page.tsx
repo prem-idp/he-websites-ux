@@ -89,7 +89,7 @@ const page = () => {
                 showreviewCard={true}
                 isWuscaBadge={true}
               />
-              <AdvertiserSkeleton
+              {/* <AdvertiserSkeleton
                 rating={ratingData}
                 advertiserTitle={" Is [University name] a good place to study?"}
                 advertiserDescription={
@@ -99,11 +99,11 @@ const page = () => {
                 showreviewCard={true}
                 isWuscaBadge={true}
 
-              />
+              /> */}
               {/* advertiser */}
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents keyStatsInnerData={true} />
-              <KeystatscomponentsSkeleton keyStatsInnerData={true} />
+              {/* <KeystatscomponentsSkeleton keyStatsInnerData={true} /> */}
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   Overview
@@ -174,7 +174,7 @@ const page = () => {
                 uniTitle="Courses at Portsmouth University"
                 subjectTitle="Popular subjects"
               />
-              <PopularSubjectSkeleton />
+              {/* <PopularSubjectSkeleton /> */}
               <RedirectionButton />
             </div>
           </div>

@@ -125,7 +125,7 @@ const ReviewThumbGallerySliderComponents = () => {
         ))}
       </Swiper>
     </div>
-    <ReviewthumbgallerysliderSkeleton/>
+    {/* <ReviewthumbgallerysliderSkeleton/> */}
     </>
   );
 };

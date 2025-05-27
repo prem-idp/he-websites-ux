@@ -28,7 +28,7 @@ const TabSwitchButton = () => {
         </div>
       </div>
     </section>
-    <TabSwitchButtonSkeleton/>
+    {/* <TabSwitchButtonSkeleton/> */}
     </>
   );
 };
