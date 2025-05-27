@@ -111,6 +111,7 @@ export const findacourseData = {
   description: '',
   image: '/static/assets/images/slice_1.png',
   isViewSearch: true,
+  isImageVisible: true,
 }
 export const popularUniData = {
   title: 'Heading',

@@ -1,8 +1,11 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-
+import { usePathname } from 'next/navigation';
 const Findacoursecomponents = ({ title, description, image, isViewSearch, bgColor, isImageVisible }:any) => {
+    const pathname = usePathname();
+  const pathName = pathname === '/cpc-landing';
   return (
     <section className={`bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
@@ -14,13 +17,13 @@ const Findacoursecomponents = ({ title, description, image, isViewSearch, bgColo
             </div>
             {/* -- */}
             {isViewSearch && (
-            <div className="w-full lg:max-w-[680px]">
+            <div className="w-full lg:min-w-[680px] lg:max-w-[825px]">
                     <div className="flex flex-col gap-[24px] min-h-[60px]">
                       <div className="bg-white rounded-[32px] p-[16px] border border-neutral300 hover:border-primary-500 shadow-custom-1 md:pl-[24px] md:p-[10px]">
                                   <div className="flex flex-col items-stretch md:flex-row md:items-center">
                                     <div className="relative mt-[4px] mb-[20px] md:mb-[0] shrink-0">
                                       <button
-                                         className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:w-[160px] md:mr-[16px]"
+                                         className="flex items-center justify-between gap-[4px] mr-0 w-full small text-black md:min-w-[176px] md:w-fit md:mr-[16px]"
                                         type="button"
                                       >
                                         Access & foundation
@@ -167,7 +170,7 @@ const Findacoursecomponents = ({ title, description, image, isViewSearch, bgColo
           </div>
           {isImageVisible && (
           <div className="flex self-end justify-center w-full shrink-0 md:w-[219px] lg:w-[392px] pt-0 md:pt-[12px]">
-            <div className="w-[108px] md:w-[166px]">
+            <div className={`${pathName ? 'w-[108px] md:w-[166px]':'w-[108px] md:w-[186px] lg:w-[205px]'}`}>              
               <Image src={image} className="w-full" width={205} height={260} alt="Card banner" />
             </div>
           </div>
