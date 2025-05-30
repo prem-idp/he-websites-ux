@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
@@ -18,6 +18,7 @@ import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-ut
 import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton"
 import KeystatscomponentsSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/keystatscomponents-skeleton";
 import PopularSubjectSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/popular-subject-skeleton";
+import ReviewThumbGallerySliderComponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 
 const page = () => {
   const skiplinkLabel = [
@@ -48,6 +49,25 @@ const page = () => {
     { title: "Halls", value: "4.5", extra: "20th" },
     { title: "City life", value: "4.1", extra: "20th" },
   ];
+
+    const [openModal, setOpenModal] = useState(null);
+    const [isOpen, setIsOpen] = useState<any>(null);
+
+  const handleOpenModal = (modalName: any) => {
+    setOpenModal(modalName);
+    setIsOpen(true);
+    document.body.classList.add("overflow-y-hidden");
+  };
+  const handleCloseModal = (modalName: any) => {
+    setIsOpen(null);
+    setOpenModal(null);
+    document.body.classList.remove("overflow-y-hidden");
+    const validModals = ["subject", "examType", "location", "courseoption", "reviewfilter", "reviewgallery"];   
+    
+    if (validModals.includes(modalName)) {
+      setOpenModal(null);
+    }
+  };
 
   return (
     <>
@@ -181,6 +201,23 @@ const page = () => {
         </div>
       </section>
       {/* Skip links END */}
+        <div className='modal modal-container fixed top-0 right-0 bottom-0 z-[11]'>   
+            <div className={`transition-all duration-300 modal-box shadow-custom-6 w-full p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 right-0 mx-auto h-[100dvh]`}>
+                <div onClick={handleCloseModal} className='modal_close flex items-center justify-center absolute top-[24px] right-[16px] lg:right-[20px] z-[1] cursor-pointer'>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path className='stroke-grey-600' d="M1 13L13 1M1 1L13 13"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div className='review-modal-container flex flex-col gap-[16px]'>                    
+                  <div className='review-modal-card flex flex-col lg:flex-row gap-[16px] md:gap-[20px] max-md:pr-[0] max-md:h-[calc(100vh-24px)] max-lg:pr-[20px] max-lg:custom-scrollbar-2 max-lg:overflow-y-auto max-lg:h-[calc(100vh-168px)]'>                      
+                      <div className='review-gallery mx-auto pt-[60px] md:pt-[0] '>
+                          <Reviewthumbgalleryslidercomponents />
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
     </>
   );
 };

@@ -58,7 +58,7 @@ const ReviewThumbGallerySliderComponents = () => {
 
   return (
     <>
-    <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto md:px-[20px] lg:px-0">
+    <div ref={swiperWrapperRef} className="max-w-lg w-full md:w-[720px]  lg:w-[907px] xl:w-[840px] xxl2:w-[907px] mx-auto md:px-[20px] lg:px-0">
       {/* Main Swiper */}
       <Swiper
       onSlideChange={handleSlideChange}
