@@ -12,7 +12,7 @@ import Advertiser from "@packages/shared-components/common-utilities/advertiser/
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Findoutmore from "@packages/shared-components/article-details/findoutmore/findout-more";
-import { advertOpendaysData } from "@packages/constants/constants";
+import { advertOpendaysData, tabDataStudy } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -61,7 +61,7 @@ const page = () => {
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwitchButton />
+      <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
 
       {/* Skip links  */}
       <section>

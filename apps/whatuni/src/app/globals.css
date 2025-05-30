@@ -191,11 +191,9 @@
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
 }
-button, input, optgroup, select, textarea{@apply !text-[16px] touch-manipulation}
 body {
-  @apply font-inter font-normal text-[14px] text-grey300;
+  @apply font-inter font-normal text-para text-grey300;
 }
 a:focus,button:focus{@apply outline-[3px] outline-gray-900 outline-offset-0}
 

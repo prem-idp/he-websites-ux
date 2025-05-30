@@ -265,7 +265,7 @@ const HeaderBanner = () => {
           </div>
         </div>
       </section>
-      <HeaderBannerSkeleton/>
+      {/* <HeaderBannerSkeleton/> */}
     </>
   );
 };
