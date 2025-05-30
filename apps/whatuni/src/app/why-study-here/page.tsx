@@ -174,13 +174,29 @@ const page = () => {
                 uniTitle="Courses at Portsmouth University"
                 subjectTitle="Popular subjects"
               />
-              <PopularSubjectSkeleton />
+              {/* <PopularSubjectSkeleton /> */}
               <RedirectionButton />
             </div>
           </div>
         </div>
       </section>
       {/* Skip links END */}
+<<<<<<< Updated upstream
+=======
+            <div className={`modal modal-container modal-box transition-all duration-300 shadow-custom-6 w-screen h-screen p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 z-[5]`}>
+                <button onClick={handleCloseModal} className='modal_close flex items-center justify-center gap-[8px] absolute top-[24px] max-lg:right-[20px] lg:left-[20px] z-[1] cursor-pointer'>
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path className='stroke-primary-400' d="M1 13L13 1M1 1L13 13"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span className="small font-semibold text-primary-400">Close</span>
+                </button>
+                <div className='review-modal-container flex flex-col gap-[16px] max-lg:justify-center max-lg:h-screen'>                                       
+                      <div className='review-gallery review-modal-card w-full flex justify-center lg:items-center lg:h-screen'>
+                          <Reviewthumbgalleryslidercomponents />
+                      </div>
+                </div>
+            </div>
+>>>>>>> Stashed changes
     </>
   );
 };

@@ -58,14 +58,18 @@ const ReviewThumbGallerySliderComponents = () => {
 
   return (
     <>
+<<<<<<< Updated upstream
     <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto md:px-[20px] lg:px-0">
+=======
+    <div ref={swiperWrapperRef} className="max-w-lg w-full md:w-[728px]  lg:w-[907px] xl:w-[840px] xxl2:w-[907px] mx-auto">
+>>>>>>> Stashed changes
       {/* Main Swiper */}
       <Swiper
       onSlideChange={handleSlideChange}
         pagination={true}
         spaceBetween={8}
         navigation={true}
-        autoHeight={true}
+        autoHeight= {true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[Navigation, Pagination ,Thumbs]}
         className="reviewMainSwiper MultiSwiper"
