@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-const Paginations = () => {
+const Paginations = ({removeSpace}:any) => {
   return (
     <>
-    <div className="py-[24px] md:py-[40px]">
+    <div className={`${removeSpace ? "py-0 md:py-0": "py-[24px] md:py-[40px]"}`}>
         <nav aria-label="navigation">
           <ul className="pagination flex justify-center items-center gap-[8px]">
             <li>

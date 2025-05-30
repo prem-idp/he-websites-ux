@@ -12,9 +12,9 @@ import StudentRating from "@packages/shared-components/common-utilities/student-
 import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
-
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
+import { tabDataStudy } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -49,7 +49,7 @@ const page = () => {
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwitchButton />
+      <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
 
       {/* Skip links  */}
       <section>

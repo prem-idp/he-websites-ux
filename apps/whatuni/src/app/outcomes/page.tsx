@@ -15,6 +15,7 @@ import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icon
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import KeyStatsCard from "@packages/shared-components/institution-profile/keystatscard";
+import { tabDataStudy } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -86,7 +87,7 @@ const page = () => {
       {/* clearing */}
       <Interested />
       <HeaderBanner />
-      <TabSwitchButton />
+      <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
 
       {/* Skip links  */}
       <section>
