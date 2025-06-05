@@ -41,9 +41,6 @@ const Advicecourseslidercomponents = () => {
             <AdviceCourseCard />
           </SwiperSlide>
           <SwiperSlide>
-            <AdviceCourseCardSkeleton />
-          </SwiperSlide>
-          <SwiperSlide>
             <AdviceCourseCard />
           </SwiperSlide>
           <SwiperSlide>

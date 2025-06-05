@@ -7,7 +7,7 @@ const PopularDegree = () => {
         <section className='bg-grey-50 px-[16px] py-[40px] md:px-[20px] md:py-[64px] xl:px-[0]'>
             <div className='max-w-container mx-auto'>
                 <div className='flex flex-col gap-[32px]'>
-                    <div className='text-heading3 font-farro font-bold md:text-heading3'>Popular degree subjects</div>
+                    <div className='text-heading3 font-farro font-bold md:text-heading2'>Popular degree subjects</div>
                     <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px] w-full'>
                         {popularDegree.map((item, index) => (
                             <li key={index}>
