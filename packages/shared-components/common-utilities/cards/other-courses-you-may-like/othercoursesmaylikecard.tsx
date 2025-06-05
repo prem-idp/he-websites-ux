@@ -8,7 +8,7 @@ import Visitwebsite from '../interaction-button/visitwebsite'
 import BookOpenDay from '../interaction-button/bookopenday'
 import RequestInfo from '../interaction-button/requestinfo'
 
-const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, opendaysType}:any) => {
+const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, opendaysType, featureOpd}:any) => {
   return (
     <div className={`card flex flex-col bg-white border border-grey-200 ${seasonWusca ? "":"lg:hover:border-primary-400"} rounded-[8px] shadow-custom-2 overflow-hidden`}>
         <div className='card-header relative min-h-[190px] bg-grey-200'>
@@ -47,7 +47,7 @@ const Othercoursesmaylikecard = ({seasonWusca, uniName, courseName, openDays, op
             {openDays ? (
                 <>
                 <div className='flex'>
-                    <div className='opd-calendar bg-grey-100 border-r border-grey-200'>
+                    <div className={`opd-calendar ${featureOpd ? 'bg-primary-100':'bg-grey-100'} border-r border-grey-200`}>
                         <div className='flex flex-col items-center p-[16px_18px]'>
                             <div className='small font-semibold'>NOV</div>
                             <div className='h2 font-bold'>12</div>
