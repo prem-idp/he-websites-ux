@@ -13,7 +13,7 @@ const page = () => {
 
   return (
     <>
-      <Findacoursecomponents {...findacourseData} bgColor="primary-100" />
+      <Findacoursecomponents {...findacourseData} bgColor="primary-100" removebtnDropdown = {false} description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent"/>
       <TabSwitchButton tabSwitchButtonData={tabDataDegree} />
       <Articlesnippetcomponents />
       <PopularDegree />

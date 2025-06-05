@@ -10,7 +10,7 @@ const DegreeSubject = () => {
             <div className='max-w-container mx-auto'>
                 <div className='flex flex-col gap-[24px] lg:gap-[32px]'>
                     <div>
-                        <div className='text-heading3 font-farro font-bold md:text-heading3'>Degree subject areas</div>
+                        <div className='text-heading3 font-farro font-bold md:text-heading2 mb-[4px]'>Degree subject areas</div>
                         <div className="flex gap-[8px] whitespace-nowrap lg:flex-wrap">
                             {degreeSubjectTab.map((item, index) => (
                                 <a href="#" className={`btn btn-black-outline ${item.isActive ? "bg-grey300 text-white" : ""}`} key={index}>
@@ -19,6 +19,7 @@ const DegreeSubject = () => {
                             ))}
                         </div>
                     </div>
+                    <div className='flex flex-col gap-[24px]'>
                     {degreeSubjectData.map((item, index) => (
                         <div className='flex flex-col border border-grey-200 rounded-[8px] md:flex-row' key={index}>
                             <div className='bg-blue-50 md:w-[232px] lg:w-[392px] shrink-0'>
@@ -51,7 +52,7 @@ const DegreeSubject = () => {
                                         </li>
                                     ))}
                                 </ul>
-                                <button className='btn btn-primary-outline flex items-center justify-center gap-[6px] group'>
+                                <button className='btn btn-primary-outline flex items-center justify-center gap-[6px] group small'>
                                     <svg
                                         width="16"
                                         height="16"
@@ -71,6 +72,7 @@ const DegreeSubject = () => {
                             </div>
                         </div>
                     ))}
+                    </div>
                     <Paginations removeSpace/>
                 </div>
             </div>
