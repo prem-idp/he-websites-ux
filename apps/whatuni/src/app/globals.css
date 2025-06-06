@@ -808,6 +808,7 @@ h6 {
   border-2 border-primary-400
 } 
 /* sr */
+
 .ripple-circle:active{
   animation-name: ripple-circle;
   animation-duration: 1s;
