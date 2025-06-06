@@ -11,9 +11,11 @@ const TabSwitchButton = ({ tabSwitchButtonData, reviewCount = false }: any) => {
             {tabSwitchButtonData?.map((item: any, index: number) => (
               <a href="#" className={`btn btn-black-outline ${item.isActive ? "bg-grey300 text-white" : ""}`} key={index}>
                 {item.name}
+                {tabSwitchButtonData.length-1 == index && reviewCount &&
                  <span className="bg-negative-default text-white rounded-[24px] p-[2px] ml-[8px]"> 
-                  00
+                  768
                 </span>
+                }
               </a>
             ))}
           </div>
