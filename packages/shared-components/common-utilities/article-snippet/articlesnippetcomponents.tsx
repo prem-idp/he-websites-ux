@@ -35,8 +35,7 @@ const Articlesnippetcomponents = () => {
                 </button>
             </div>
         </div>
-    </div>    
-  )
+    )
 }
 
 export default Articlesnippetcomponents

@@ -14,7 +14,7 @@ import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icon
 import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import CampusLocation from "@packages/shared-components/common-utilities/campus-location/campus-location";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
-import { advertVirtualsData } from "@packages/constants/constants";
+import { advertVirtualsData, tabDataStudy } from "@packages/constants/constants";
 
 const page = () => {
   const skiplinkLabel = [
@@ -98,7 +98,7 @@ const page = () => {
     <>
       <Interested />
       <HeaderBanner />
-      <TabSwitchButton />
+      <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
@@ -370,7 +370,7 @@ const page = () => {
                     a place in halls (either University-managed or with an
                     accredited private halls provider) or in other suitable
                     student accommodation, provided you meet their terms and
-                    conditions.  
+                    conditions.
                   </p>
                   <div className="para font-semibold">
                     I’d like to adjust my offer and choice to the University of

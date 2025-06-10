@@ -82,7 +82,7 @@ const page = () => {
     <Uniinfocomponents />
     {/* <Othercoursesmaylikecomponents /> */}
     <Similarcoursecomponents />
-    <Findacoursecomponents {...findacourseData}/>
+    <Findacoursecomponents {...findacourseData} bgColor="orange-100" />
     {/* <Subscribecomponents /> */}
     {openModal === "courseoption" && <Courseinfomodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
     {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen}  onClose={handleCloseModal} />}

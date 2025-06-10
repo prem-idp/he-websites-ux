@@ -193,7 +193,6 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
-button, input, optgroup, select, textarea{@apply !text-[16px] touch-manipulation}
 body {
   @apply font-inter font-normal text-[14px] text-grey300;
 }
@@ -810,6 +809,7 @@ h6 {
   border-2 border-primary-400
 } 
 /* sr */
+
 .ripple-circle:active{
   animation-name: ripple-circle;
   animation-duration: 1s;
@@ -844,6 +844,8 @@ h6 {
     box-shadow: 0 0 0 0 rgba(15, 189, 253, 0), 0 0 0 0 rgba(15,189,253,0);
   }
 }
+
+
 .awards-icon path{
   @apply fill-grey300 md:fill-orange-200
 }

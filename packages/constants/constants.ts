@@ -6,6 +6,17 @@ import statsDataIcon3 from '../../apps/whatuni/public/static/assets/icons/univ_s
 import statsDataIcon4 from '../../apps/whatuni/public/static/assets/icons/course_stats_icon.svg';
 import statsDataIcon5 from '../../apps/whatuni/public/static/assets/icons/students_stats_icon.svg';
 import travelIconBlue from '../../apps/whatuni/public/static/assets/icons/travel_icon_blue.svg';
+import degreeSubject1 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject1.png';
+import degreeSubject2 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject2.png';
+import degreeSubject3 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject3.png';
+import degreeSubject4 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject4.png';
+import degreeSubject5 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject5.png';
+import degreeSubject6 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject6.png';
+import degreeSubject7 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject7.png';
+import degreeSubject8 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject8.png';
+import degreeSubject9 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject9.png';
+import degreeSubject10 from '../../apps/whatuni/public/static/assets/images/degree-subject/degree-subject10.png';
+import { title } from "process";
 
 export const advertOpendaysData = [
   {

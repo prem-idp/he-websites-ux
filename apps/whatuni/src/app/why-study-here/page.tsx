@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import Redirectlinkcomponent from "@packages/shared-components/common-utilities/redirect-link/redirectlinkcomponent";
@@ -13,11 +13,12 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
-import { advertOpendaysData } from "@packages/constants/constants";
+import { advertOpendaysData, tabDataStudy } from "@packages/constants/constants";
 import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/opendaysvirtualadvert-skeleton"
 import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton"
 import KeystatscomponentsSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/keystatscomponents-skeleton";
 import PopularSubjectSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/popular-subject-skeleton";
+import ReviewThumbGallerySliderComponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
 
 const page = () => {
   const skiplinkLabel = [
@@ -49,12 +50,31 @@ const page = () => {
     { title: "City life", value: "4.1", extra: "20th" },
   ];
 
+  const [openModal, setOpenModal] = useState(null);
+  const [isOpen, setIsOpen] = useState<any>(null);
+
+  const handleOpenModal = (modalName: any) => {
+    setOpenModal(modalName);
+    setIsOpen(true);
+    document.body.classList.add("overflow-y-hidden");
+  };
+  const handleCloseModal = (modalName: any) => {
+    setIsOpen(null);
+    setOpenModal(null);
+    document.body.classList.remove("overflow-y-hidden");
+    const validModals = ["subject", "examType", "location", "courseoption", "reviewfilter", "reviewgallery"];
+
+    if (validModals.includes(modalName)) {
+      setOpenModal(null);
+    }
+  };
+
   return (
     <>
       {/* <ClearingPopup/> */}
       <Interested />
-      <HeaderBanner />
-      <TabSwitchButton />
+      <HeaderBanner openvepple={true}/>
+      <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
       {/* Skip links  */}
       <section>
         <div className="max-w-container mx-auto py-0 pb-[32px] lg:py-[40px]">
@@ -100,10 +120,20 @@ const page = () => {
                 isWuscaBadge={true}
 
               />
+              {/* <AdvertiserSkeleton
+                rating={ratingData}
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={true}
+
+              /> */}
               {/* advertiser */}
               <Reviewthumbgalleryslidercomponents />
               <Keystatscomponents keyStatsInnerData={true} />
-              <KeystatscomponentsSkeleton keyStatsInnerData={true} />
               <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
                 <div className="text-heading5 font-farro font-bold">
                   Overview
@@ -181,22 +211,6 @@ const page = () => {
         </div>
       </section>
       {/* Skip links END */}
-<<<<<<< Updated upstream
-=======
-            <div className={`modal modal-container modal-box transition-all duration-300 shadow-custom-6 w-screen h-screen p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 z-[5]`}>
-                <button onClick={handleCloseModal} className='modal_close flex items-center justify-center gap-[8px] absolute top-[24px] max-lg:right-[20px] lg:left-[20px] z-[1] cursor-pointer'>
-                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path className='stroke-primary-400' d="M1 13L13 1M1 1L13 13"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span className="small font-semibold text-primary-400">Close</span>
-                </button>
-                <div className='review-modal-container flex flex-col gap-[16px] max-lg:justify-center max-lg:h-screen'>                                       
-                      <div className='review-gallery review-modal-card w-full flex justify-center lg:items-center lg:h-screen'>
-                          <Reviewthumbgalleryslidercomponents />
-                      </div>
-                </div>
-            </div>
->>>>>>> Stashed changes
     </>
   );
 };

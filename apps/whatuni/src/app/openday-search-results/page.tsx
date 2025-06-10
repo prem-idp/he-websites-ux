@@ -15,7 +15,7 @@ const OpendaySRComponents = () => {
       <Advicecomponents />
       <Faqcomponents />
     </>
-  )
-}
+  );
+};
 
-export default OpendaySRComponents
+export default OpendaySRComponents;

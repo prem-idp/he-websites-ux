@@ -53,7 +53,7 @@ const Interested = () => {
           courses
         </div>
       </section>
-      <InterestedSkeleton />
+      {/* <InterestedSkeleton /> */}
     </>
   );
 };

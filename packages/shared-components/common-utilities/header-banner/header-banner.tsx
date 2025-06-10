@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import BookOpenDay from "../cards/interaction-button/bookopenday";
 import RecommendedUnis from "../cards/interaction-button/recommendedunis";
 import HeaderBannerSkeleton from "../skeleton/ip/header-banner-skeleton";
 
-const HeaderBanner = () => {
+const HeaderBanner = ({ openvepple }: any) => {
   const [btnHandler, setBtnHandler] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -149,12 +150,14 @@ const HeaderBanner = () => {
                       >
                         University of Oxford
                       </h1>
-                      <span
-                        tabIndex={0}
-                        className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}
-                      >
-                        School of Aerospace, Transport and Manufacturing
-                      </span>
+                      {openvepple &&
+                        <span
+                          tabIndex={0}
+                          className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}
+                        >
+                          School of Aerospace, Transport and Manufacturing
+                        </span>
+                      }
                       <div
                         className={`flex flex-wrap items-center gap-[8px] small ${scrolled && "xl:hidden"}`}
                       >
@@ -178,67 +181,88 @@ const HeaderBanner = () => {
                       <ul
                         className={`flex flex-wrap gap-[8px] mt-[4px] md:mt-[0]`}
                       >
-                        <li
-                          tabIndex={0}
-                          className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small"
-                        >
-                          clearing
-                        </li>
+                        {openvepple &&
+
+                          <li
+                            tabIndex={0}
+                            className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small"
+                          >
+                            clearing
+                          </li>
+                        }
                         <li
                           tabIndex={0}
                           className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small"
                         >
                           VIRTUAL TOURS AVAILABLE
                         </li>
+                        <li>
+                          <Link
+                            className="small flex gap-[8px] underline whitespace-nowrap"
+                            href="#"
+                          >
+                            View Clearing courses
+                            <Image
+                              className="mt-[3px]"
+                              alt="right arrow"
+                              width={10}
+                              height={8}
+                              src="/static/assets/icons/arrow-right-white.svg"
+                            />
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>
                   <div
-                    className={`flex xl:pt-[0] gap-[8px] items-end lg:min-w-[630px] ${scrolled ? "md:fixed md:z-[1] xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
+                    className={`flex xl:pt-[0] gap-[8px] justify-end items-end lg:min-w-[630px] ${scrolled ? "md:fixed md:z-[1] xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
                   >
-                    <div
-                      style={
-                        !scrolled ? { top: `-${mobbtnposition}px` } : undefined
-                      }
-                      ref={btnHeight}
-                      className={`bg-grey300 xl:bg-transparent flex items-end p-[16px] md:p-[0] gap-[8px] flex-[1] ${btnHandler && scrolled ? "grid grid-cols-1" : "grid md:flex grid-cols-2"} ${scrolled ? "fixed z-[5] md:relative top-[unset] bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full  left-[0px] md:left-[0px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2"}`}
-                    >
-                      {scrolled && isMobile && (
-                        <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
-                          {btnHandler ? (
-                            <span
-                              onClick={() => setBtnHandler(false)}
-                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small flex px-[12px] py-[8px]"
-                            >
-                              <Image
-                                alt="close icon"
-                                width={20}
-                                className="p-[4px] mt-[-2px]"
-                                height={20}
-                                src="\static\assets\icons\search-result\close-white.svg"
-                              />
-                              Close
-                            </span>
-                          ) : (
-                            <span
-                              onClick={() => setBtnHandler(true)}
-                              className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small px-[12px] py-[8px]"
-                            >
-                              More
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      <Getprospectus />
-                      <Visitwebsite />
-                      {/* <RecommendedUnis /> */}
-                      {(!isMobile || !scrolled || btnHandler) && (
-                        <>
-                          <BookOpenDay />
-                          <RequestInfo />
-                        </>
-                      )}
-                    </div>
+                    {openvepple &&
+
+                      <div
+                        style={
+                          !scrolled ? { top: `-${mobbtnposition}px` } : undefined
+                        }
+                        ref={btnHeight}
+                        className={`bg-grey300 xl:bg-transparent flex items-end p-[16px] md:p-[0] gap-[8px] flex-[1] ${btnHandler && scrolled ? "grid grid-cols-1" : "grid md:flex grid-cols-2"} ${scrolled ? "fixed z-[5] md:relative top-[unset] bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full  left-[0px] md:left-[0px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2"}`}
+                      >
+                        {scrolled && isMobile && (
+                          <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
+                            {btnHandler ? (
+                              <span
+                                onClick={() => setBtnHandler(false)}
+                                className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small flex px-[12px] py-[8px]"
+                              >
+                                <Image
+                                  alt="close icon"
+                                  width={20}
+                                  className="p-[4px] mt-[-2px]"
+                                  height={20}
+                                  src="\static\assets\icons\search-result\close-white.svg"
+                                />
+                                Close
+                              </span>
+                            ) : (
+                              <span
+                                onClick={() => setBtnHandler(true)}
+                                className="bg-grey300 text-white rounded-tl-[18px] rounded-tr-[18px] x-small px-[12px] py-[8px]"
+                              >
+                                More
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <Getprospectus />
+                        <Visitwebsite />
+                        {/* <RecommendedUnis /> */}
+                        {(!isMobile || !scrolled || btnHandler) && (
+                          <>
+                            <BookOpenDay />
+                            <RequestInfo />
+                          </>
+                        )}
+                      </div>
+                    }
                     <button className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                       <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                         <svg
@@ -265,7 +289,7 @@ const HeaderBanner = () => {
           </div>
         </div>
       </section>
-      <HeaderBannerSkeleton/>
+      {/* <HeaderBannerSkeleton/> */}
     </>
   );
 };
