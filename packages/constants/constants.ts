@@ -335,15 +335,21 @@ export const degreeSubjectTab = [
 
 export const tabDataStudy = [
   { name: "University info", isActive: true },
-  { name: "Courses", isActive: false },
-  { name: "Open days", isActive: false },
-  { name: "Scholarships", isActive: false },
-  { name: "Reviews", isActive: false }
+  { name: "Courses" },
+  { name: "Open days" },
+  { name: "Scholarships" },
+  { name: "Reviews" }
 ]
 export const tabDataDegree = [
   { name: "Undergraduate" },
-  { name: "HND / HNC" },
+  { name: "HND / HNC", isActive: true },
   { name: "Foundation degree" },
   { name: "Access & Foundation" },
   { name: "Postgraduate" },
+]
+export const tabDataOpendays = [
+  { name: "University info" },
+  { name: "Open days", isActive: true },
+  { name: "Courses" },
+  { name: "Scholarships" },
 ]
