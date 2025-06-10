@@ -73,7 +73,7 @@ const page = () => {
     <>
       {/* <ClearingPopup/> */}
       <Interested />
-      <HeaderBanner />
+      <HeaderBanner openvepple={true}/>
       <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
       {/* Skip links  */}
       <section>
