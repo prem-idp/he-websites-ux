@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -189,6 +190,21 @@ const HeaderBanner = () => {
                           className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small"
                         >
                           VIRTUAL TOURS AVAILABLE
+                        </li>
+                        <li>
+                          <Link
+                            className="small flex gap-[8px] underline whitespace-nowrap"
+                            href="#"
+                          >
+                            View Clearing courses
+                            <Image
+                              className="mt-[3px]"
+                              alt="right arrow"
+                              width={10}
+                              height={8}
+                              src="/static/assets/icons/arrow-right-white.svg"
+                            />
+                          </Link>
                         </li>
                       </ul>
                     </div>
