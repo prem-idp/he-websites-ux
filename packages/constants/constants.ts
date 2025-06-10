@@ -137,21 +137,83 @@ export const popularCourseData = {
 ]
 }
 export const openDaysData = {
-  title: 'Heading',
-  description: 'Unsure which scholarship to consider? Take a look at some popular ones',
+  title: 'Featured open days',
+  description: '',
   data: [
-  {uniName: 'University of London', opendaysType: 'Undergraduate open day'},
-  {uniName: 'University of Leeds', opendaysType: 'Undergraduate open day'},
-  {uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day'},  
-  {uniName: 'University of Northampton', opendaysType: 'Undergraduate open day'},
-  {uniName: 'University of Chester', opendaysType: 'Undergraduate open day'},
-  {uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day'},
-]
+    { studyType: 'IN-PERSON', uniName: 'University of London', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30'},
+    { studyType: 'Virtual event', uniName: 'University of Leeds', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual tour', uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day', location: '', time: '' },
+    { studyType: 'Virtual event', uniName: 'University of Northampton', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON',uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+  ]
 }
-
-
-
-
+export const AllOpenDaysData = {
+  title: 'All undergraduate open days',
+  description: 'Search for [NUMBER] available open days on the dates of your choice. Allowing you to plan your university visits in advance.',
+  data: [
+    { studyType: 'IN-PERSON', uniName: 'University of London', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30'},
+    { studyType: 'Virtual event', uniName: 'University of Leeds', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'University of Northampton', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'University of London', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30'},
+    { studyType: 'Virtual event', uniName: 'University of Leeds', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'University of Northampton', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+  ]
+}
+export const ProviderOpenDaysData = {
+  title: '[PROVIDER NAME] open days',
+  description: 'Search for [NUMBER] available open days on the dates of your choice. Allowing you to plan your university visits in advance.',
+  data: [
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30'},
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30'},
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'Liverpool Hope University', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: 'Main campus, CV23 8DY', time: '08:30-16:30' },
+  ]
+}
+export const AnyEventsOpenDaysData = {
+  title: 'Anytime events',
+  description: 'Access university open days online from the comfort of your computer.',
+  data: [
+    { studyType: 'IN-PERSON', uniName: 'University of London', opendaysType: 'Undergraduate open day', location: '', time: ''},
+    { studyType: 'Virtual event', uniName: 'University of Leeds', opendaysType: 'Undergraduate open day', location: '', time: '' },
+    { studyType: 'Virtual tour', uniName: 'Liverpool Hope University', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'University of Northampton', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: 'Undergraduate open day', location: '', time: '' },
+    { studyType: 'Virtual event', uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'University of Chester', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '' },
+    { studyType: 'Virtual event', uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'University of Wales Trinity Saint David', opendaysType: 'Undergraduate open day', location: 'Main campus, CV23 8DY', time: '' },
+  ]
+}
+export const OnlineOpenDaysData = {
+  title: '[Provider name] online open days',
+  description: 'Access university open days online from the comfort of your computer.',
+  data: [
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: ''},
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'Virtual tour', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+  ]
+}
 
 export const temp = {
     title: "Open days and virtual visits",

@@ -844,8 +844,6 @@ h6 {
     box-shadow: 0 0 0 0 rgba(15, 189, 253, 0), 0 0 0 0 rgba(15,189,253,0);
   }
 }
-
-
 .awards-icon path{
   @apply fill-grey300 md:fill-orange-200
 }
