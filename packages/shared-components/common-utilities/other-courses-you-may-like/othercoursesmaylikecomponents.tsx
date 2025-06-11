@@ -2,7 +2,7 @@
 import Othercoursesslidercomponents from '@packages/shared-components/common-utilities/slider/othercoursesslidercomponents'
 import React from 'react'
 
-const Othercoursesmaylikecomponents = ({title, description, data, bgColor, openDays, featureOpd}: any) => {
+const Othercoursesmaylikecomponents = ({title, description, data, bgColor, openDays}: any) => {
   return (
     <div className={`other-courses-container bg-${bgColor}`}> 
     <div className="max-w-container mx-auto">
@@ -13,7 +13,7 @@ const Othercoursesmaylikecomponents = ({title, description, data, bgColor, openD
             </div>
             <div className='other-courses-course-container '>
               <div className="other-courses-inner-wrap"> 
-                <Othercoursesslidercomponents data={data} bgColor={bgColor} openDays={openDays} featureOpd={featureOpd}/>
+                <Othercoursesslidercomponents data={data} bgColor={bgColor} openDays={openDays} />
               </div>
             </div>
           </div>

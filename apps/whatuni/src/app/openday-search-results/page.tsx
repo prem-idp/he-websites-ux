@@ -1,23 +1,21 @@
-import Othercoursesmaylikecomponents from "@packages/shared-components/common-utilities/other-courses-you-may-like/othercoursesmaylikecomponents";
-import Opendaysrgridcomponents from "@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents";
-import { openDaysData } from "@packages/constants/constants";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
-import React from "react";
+import Opendaysrgridcomponents from '@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents';
+import OpendaysSREliteComponents from '@packages/shared-components/common-utilities/opendays-sr-elite/OpendaysSREliteComponents';
+import { openDaysData, AllOpenDaysData, AnyEventsOpenDaysData } from '@packages/constants/constants';
+import Advicecomponents from '@packages/shared-components/home/advice/advicecomponents';
+import Faqcomponents from '@packages/shared-components/common-utilities/faq/faqcomponents';
 
 const OpendaySRComponents = () => {
-  const bgColor = "white";
-
+  const bgColor="white";
+  const bgColor1="grey-50";
   return (
     <>
-      <HeaderBanner />
-      <Othercoursesmaylikecomponents
-        {...openDaysData}
-        bgColor={bgColor}
-        openDays={true}
-        featureOpd={true}
-      />
-      <Opendaysrgridcomponents />
+      <OpendaysSREliteComponents {...openDaysData} bgColor={bgColor} featureOpd={true} />
+      <Opendaysrgridcomponents {...AllOpenDaysData} bgColor={bgColor1} />
+      <Opendaysrgridcomponents {...AnyEventsOpenDaysData} anyTimeEvents={true} bgColor={bgColor} />
+      <Advicecomponents />
+      <Faqcomponents />
     </>
   );
 };

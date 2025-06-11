@@ -1,9 +1,18 @@
 import React from 'react'
 
 const 
-BookOpenDay = () => {
+BookOpenDay = ({studyType}: any) => {
+  let buttonText = 'Book Now';
+
+  if (studyType === 'IN-PERSON') {
+    buttonText = 'Book open day';
+  } else if (studyType === 'Virtual event') {
+    buttonText = 'Book virtual event';
+  } else if (studyType === 'Virtual tour') {
+    buttonText = 'Book virtual Tour';
+  }
   return (
-    <button type='button' className='btn btn-green w-full'>Book open day</button>
+    <button type='button' className='btn btn-green w-full'>{buttonText}</button>
   )
 }
 

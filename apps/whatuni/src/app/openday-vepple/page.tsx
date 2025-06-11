@@ -7,6 +7,8 @@ import TabSwitchButton from "@packages/shared-components/common-utilities/tab-sw
 import { tabDataOpendays } from "@packages/constants/constants";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import ContactDetails from "@packages/shared-components/institution-profile/contactdetails";
+import { openDaysData, AllOpenDaysData, AnyEventsOpenDaysData, ProviderOpenDaysData, OnlineOpenDaysData } from '@packages/constants/constants';
+import Opendaysrgridcomponents from '@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents';
 
 const OpendayVepple = () => {
   const breadcrumbData = [
@@ -27,6 +29,8 @@ const OpendayVepple = () => {
       label: "Search results",
     },
   ];
+  const bgColor="white";
+  const bgColor1="grey-50";
   return (
     <>
       <section className="px-[16px] md:px-[20px] xl:px-0 md:py-[16px] hidden md:block">
@@ -75,6 +79,8 @@ const OpendayVepple = () => {
           </ul>
         </div>
       </section>
+       <Opendaysrgridcomponents {...ProviderOpenDaysData} providerOpenDays={true} bgColor={bgColor1} />
+      <Opendaysrgridcomponents {...OnlineOpenDaysData} onlineOpendays={true} anyTimeEvents={true} bgColor={bgColor} />
       <div className="max-w-container mx-auto">
         <ContactDetails />
       </div>

@@ -30,12 +30,12 @@ const Advicecomponents = () => {
           <div className="advice-course-container">
             <div className="advice-inner-wrap">
               <Advicecourseslidercomponents />
-              <div className="flex justify-center mt-[16px] lg:mt-[28px]">
+              <div className="flex justify-center mt-[16px] lg:mt-[24px]">
                 <a
                   href="#"
                   className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
                 >
-                  View more
+                  View more open days advice
                   <svg
                     width="16"
                     height="12"

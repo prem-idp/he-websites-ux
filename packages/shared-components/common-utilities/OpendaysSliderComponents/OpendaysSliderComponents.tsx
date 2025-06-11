@@ -6,11 +6,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { FreeMode, Navigation, Pagination} from 'swiper/modules';
-import Othercoursesmaylikecard from '@packages/shared-components/common-utilities/cards/other-courses-you-may-like/othercoursesmaylikecard'
-const Othercoursesslidercomponents = ({seasonWusca, data, openDays}:any) => {
+import Opendayscard from '../cards/opendays-card/Opendayscard';
+
+const OpendaysSliderComponents = ({seasonWusca, data, openDays, featureOpd}:any) => {
   return (
     <>
-      <div className="slider-container">
+    <div className="slider-container">
         <Swiper
         pagination={true}
         navigation={true}
@@ -32,13 +33,13 @@ const Othercoursesslidercomponents = ({seasonWusca, data, openDays}:any) => {
         className="MultiSwiper">
           {data?.map((item: any, index: number) => (
           <SwiperSlide key={index} className="swiper-slide">
-            <Othercoursesmaylikecard {...item} seasonWusca ='true' openDays={openDays} />
+            <Opendayscard {...item} seasonWusca ='true' openDays={openDays} featureOpd={featureOpd} />
           </SwiperSlide>
         ))}          
           </Swiper>
-      </div>
+    </div>
     </>
-  );
-};
+  )
+}
 
-export default Othercoursesslidercomponents;
+export default OpendaysSliderComponents

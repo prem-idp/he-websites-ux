@@ -109,6 +109,17 @@ const page = () => {
                 showreviewCard={true}
                 isWuscaBadge={true}
               />
+              <AdvertiserSkeleton
+                rating={ratingData}
+                advertiserTitle={" Is [University name] a good place to study?"}
+                advertiserDescription={
+                  "Read honest reviews from real students at this uni"
+                }
+                showWuscaCard={true}
+                showreviewCard={true}
+                isWuscaBadge={true}
+
+              />
               {/* <AdvertiserSkeleton
                 rating={ratingData}
                 advertiserTitle={" Is [University name] a good place to study?"}

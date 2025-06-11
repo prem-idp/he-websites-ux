@@ -15,7 +15,7 @@ const Articlesnippetcomponents = () => {
                                     With loads of unis and undergraduate courses in the UK, finding your perfect course can be a hassle. Luckily, we've got plenty of ways to help you in your search to find a university course.
                                 </p>
                                     <ul className="list-disc flex flex-col gap-[16px] pl-[26px] line-clamp-1">
-                                        <li>Know what sort of course you want? Pop it into the search bar up there and check out all the unis across the count...</li>
+                                        <li>Know what sort of course you want?�Pop it into the search bar up there and check out all the unis across the count...</li>
                                     </ul>
                                 </div>
                             </div>

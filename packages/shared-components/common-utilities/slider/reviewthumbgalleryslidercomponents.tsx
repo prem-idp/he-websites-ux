@@ -65,7 +65,7 @@ const ReviewThumbGallerySliderComponents = () => {
         pagination={true}
         spaceBetween={8}
         navigation={true}
-        autoHeight={true}
+        autoHeight= {true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[Navigation, Pagination ,Thumbs]}
         className="reviewMainSwiper MultiSwiper"
