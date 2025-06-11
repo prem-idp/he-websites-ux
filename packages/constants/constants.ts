@@ -122,6 +122,7 @@ export const findacourseData = {
   description: '',
   image: '/static/assets/images/slice_1.png',
   isViewSearch: true,
+  isImageVisible: true,
 }
 export const popularUniData = {
   title: 'Heading',
@@ -248,3 +249,173 @@ export const temp = {
     ],
     isViewAll: true
 }
+
+export const switchButton = [
+  { name: "Courses" },
+  { name: "Open days" },
+  { name: "Scholarships" },
+]
+// find a course
+export const popularDegree = [
+  { title: "Link" },
+  { title: "Link" },
+  { title: "Link" },
+  { title: "Link" },
+  { title: "Link" },
+  { title: "Link" },
+]
+export const subjectIncludes = [
+
+]
+
+export const degreeSubjectData = [
+  {
+    src: degreeSubject1, title: "Agriculture and Related subjects",
+    subjectIncludes: [
+      { title: "Agricultural Sciences" },
+      { title: "Agricultural Technology" },
+      { title: "Crop Science" },
+      { title: "Horticultural Science" },
+      { title: "Pest and Weed Control" },
+      { title: "Soil Science" },
+      { title: "Agribusiness" },
+      { title: "Agricultural Economics" },]
+  },
+  {
+    src: degreeSubject2, title: "Architecture, Building, and Planning",
+    subjectIncludes: [
+      { title: "Architectural Design" },
+      { title: "Architectural Engineering and Technology" },
+      { title: "Architectural History" },
+      { title: "Architecture" },
+      { title: "Interior Architecture" },
+      { title: "Interior Design" },
+      { title: "Building" },
+      { title: "Building and Construction Economics" },]
+  },
+  {
+    src: degreeSubject3, title: "Biological and Life Sciences",
+    subjectIncludes: [
+      { title: "Animal Behaviour and Ethology" },
+      { title: "Animal Biology" },
+      { title: "Applied Zoology" },
+      { title: "Entomology" },
+      { title: "Primatology" },
+      { title: "Wildlife and Conservation Biology" },
+      { title: "Zoo biology" },
+      { title: "Zoology" },]
+  },
+  {
+    src: degreeSubject4, title: "Business, Commerce and Management",
+    subjectIncludes: [
+      { title: "Accountancy" },
+      { title: "Management Accounting" },
+      { title: "Accounting" },
+      { title: "Agribusiness" },
+      { title: "Credit Control" },
+      { title: "Business Administration" },
+      { title: "Forensic Accounting" },
+      { title: "Business Communication Skills" },]
+  },
+  {
+    src: degreeSubject5, title: "Creative Arts and Design",
+    subjectIncludes: [
+      { title: "Applied Art" },
+      { title: "Design and Applied Arts" },
+      { title: "Art" },
+      { title: "Digital Arts" },
+      { title: "Creative Arts and Design" },
+      { title: "Fine Arts" },
+      { title: "Creative Practice" },
+      { title: "Painting" },]
+  },
+  {
+    src: degreeSubject6, title: "Earth Sciences",
+    subjectIncludes: [
+      { title: "Atmospheric Physics" },
+      { title: "Earth Science" },
+      { title: "Atmospheric Science" },
+      { title: "Exploration Geophysics" },
+      { title: "Climatology" },
+      { title: "Geochemistry" },
+      { title: "Meteorology" },
+      { title: "Geophysics and Seismology" },]
+  },
+  {
+    src: degreeSubject7, title: "Education and Teaching",
+    subjectIncludes: [
+      { title: "Education Research" },
+      { title: "Education Studies" },
+      { title: "Educational Psychology" },
+      { title: "Educational Technology" },
+      { title: "History of Education" },
+      { title: "Montessori Education" },
+      { title: "Pedagogy" },
+      { title: "Professional Practice in Education" },]
+  },
+  {
+    src: degreeSubject8, title: "Engineering and Technology",
+    subjectIncludes: [
+      { title: "Navigation" },
+      { title: "Aerodynamics" },
+      { title: "Aeronautical Engineering" },
+      { title: "Aerospace Engineering" },
+      { title: "Aircraft Maintenance Engineering" },
+      { title: "Avionics" },
+      { title: "Space Technology" },
+      { title: "Automotive Engineering" },]
+  },
+  {
+    src: degreeSubject9, title: "Food and Hospitality",
+    subjectIncludes: [
+      { title: "Baking" },
+      { title: "Cookery" },
+      { title: "Culinary Arts" },
+      { title: "Patisserie" },
+      { title: "Brewing" },
+      { title: "Drinks Processing" },
+      { title: "Food Hygiene" },
+      { title: "Food Manufacturing" },]
+  },
+  {
+    src: degreeSubject10, title: "Forensic Sciences",
+    subjectIncludes: [
+      { title: "Forensic Accounting" },
+      { title: "Forensic Medicine" },
+      { title: "Forensic Archaeology" },
+      { title: "Forensic Nursing" },
+      { title: "Computer Forensics" },
+      { title: "Forensic Pathology" },
+      { title: "Forensic Dentistry and Odontology" },
+      { title: "Forensic Psychiatry" },]
+  },
+]
+
+export const degreeSubjectTab = [
+  { name: "A-D", isActive: true },
+  { name: "E-G", isActive: false },
+  { name: "H-L", isActive: false },
+  { name: "M-P", isActive: false },
+  { name: "R-W", isActive: false }
+]
+
+export const tabDataStudy = [
+  { name: "University info", isActive: true },
+  { name: "Courses" },
+  { name: "Open days" },
+  { name: "Scholarships" },
+  { name: "Reviews" }
+]
+export const tabDataDegree = [
+  { name: "Undergraduate" },
+  { name: "HND / HNC", isActive: true },
+  { name: "Foundation degree" },
+  { name: "Access & Foundation" },
+  { name: "Postgraduate" },
+]
+export const tabDataOpendays = [
+  { name: "University info" },
+  { name: "Open days", isActive: true },
+  { name: "Courses" },
+  { name: "Scholarships" },
+]

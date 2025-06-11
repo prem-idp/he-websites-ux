@@ -58,15 +58,7 @@ const ReviewThumbGallerySliderComponents = () => {
 
   return (
     <>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    <div ref={swiperWrapperRef} className="max-w-lg w-full lg:w-[907px] mx-auto md:px-[20px] lg:px-0">
-=======
-    <div ref={swiperWrapperRef} className="max-w-lg w-full md:w-[728px]  lg:w-[907px] xl:w-[840px] xxl2:w-[907px] mx-auto">
->>>>>>> Stashed changes
-=======
     <div ref={swiperWrapperRef} className="max-w-lg w-full md:w-[720px]  lg:w-[907px] xl:w-[840px] xxl2:w-[907px] mx-auto md:px-[20px] lg:px-0">
->>>>>>> he-websites-ux
       {/* Main Swiper */}
       <Swiper
       onSlideChange={handleSlideChange}
@@ -133,11 +125,7 @@ const ReviewThumbGallerySliderComponents = () => {
         ))}
       </Swiper>
     </div>
-<<<<<<< HEAD
-    <ReviewthumbgallerysliderSkeleton/>
-=======
     {/* <ReviewthumbgallerysliderSkeleton/> */}
->>>>>>> he-websites-ux
     </>
   );
 };
