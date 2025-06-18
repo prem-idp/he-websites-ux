@@ -5,7 +5,7 @@ const Testimonialcardskeleton = () => {
   return (
     <div className='testimonials-container bg-white'> 
     <div className="max-w-container mx-auto"> 
-        <div className='testimonials-card-container px-[16px] md:px-[20px] py-[34px] lg:py-[64px] lg:px-[0]'>
+        <div className='testimonials-card-container px-[16px] md:px-[20px] py-[34px] xl:py-[64px] xl:px-[0]'>
             <div className='testimonials-header mb-[26px] md:mb-[32px]'>
                 <h2 className='font-bold'><div className="skeleton skeleton-text skeleton-text-animated large_heading !w-[20%]"></div></h2>
                 <div className='font-normal small mt-[8px]'><div className="skeleton skeleton-text skeleton-text-animated page_heading !w-[40%]"></div></div>

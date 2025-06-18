@@ -15,6 +15,7 @@ import RedirectionButton from "@packages/shared-components/common-utilities/redi
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import { tabDataStudy } from "@packages/constants/constants";
+import Vepple360degreeskeleton from "@packages/shared-components/common-utilities/skeleton/Vepple360degreeskeleton"
 
 const page = () => {
   const skiplinkLabel = [
@@ -66,6 +67,7 @@ const page = () => {
               <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
                 University life
               </h2>
+              <Vepple360degreeskeleton />
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
