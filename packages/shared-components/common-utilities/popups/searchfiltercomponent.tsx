@@ -146,6 +146,12 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
     "Small and specialist",
     "Distance or online learning",
   ];
+
+  // range
+  const range = [
+    "Specific dates",
+    "Month",
+  ];
   return (
     <>
       <div
@@ -192,7 +198,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
           <Accordion title="Subject">
             {/* subject */}
             <div className="flex flex-col gap-[24px] pt-[24px]">
-              <div className="flex flex-col gap-[4px]">
+              {/* <div className="flex flex-col gap-[4px]">
                 <div className="text-para-lg font-semibold">Study Method</div>
                 <div className="x-small font-semibold text-black uppercase">
                   Choose one or more
@@ -267,7 +273,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex flex-col gap-[4px]">
                 <div className="text-para-lg font-semibold">Study level</div>
                 <div className="x-small font-semibold text-black uppercase">
@@ -291,7 +297,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-[16px]">
+              {/* <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-col gap-[4px]">
                   <div className="text-para-lg font-semibold">Subject area</div>
                   <div className="x-small font-semibold text-black uppercase">
@@ -522,17 +528,43 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </Accordion>
 
-          <Accordion title="Intake year">
-            <main className="p-8">
-      <h1 className="text-xl font-semibold mb-4">Select Date Range</h1>
-      <DateRangePicker />
-    </main>
+          <Accordion title="When">
+            <div className="flex flex-col gap-[16px] pt-[24px]">
+              <div className="flex flex-col gap-[4px]">
+                <div className="text-para-lg font-semibold">
+                  Open day date
+                </div>
+                <div className="x-small font-semibold text-black uppercase">
+                  Choose range
+                </div>
+                <div className="flex flex-wrap gap-[8px]">
+                  {range.map((item, index) => (
+                    <div className="form-black flex relative" key={index}>
+                      <input
+                        defaultValue={"Specific dates"}
+                        type="radio"
+                        name="studylevel"
+                        id={item}
+                        value={item}
+                        className="rounded-[4px] outline-none absolute opacity-0"
+                      />
+                      <label htmlFor={item} className="btn btn-black-outline">
+                        {item}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="date-range">
+              <DateRangePicker />
+            </div>
+            </div>
             {/* intake */}
-            <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+            {/* <div className="flex flex-col gap-[8px] p-[8px_0_0]">
               <div className="x-small font-semibold text-black uppercase">
                 Choose YEAR & MONTH
               </div>
@@ -571,8 +603,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   </div>
                 ))}
               </div>
-            </div>
-
+            </div> */}
           </Accordion>
 
           <Accordion title="University">

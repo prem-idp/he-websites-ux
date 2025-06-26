@@ -102,7 +102,7 @@ const HeaderBanner = ({ openvepple }: any) => {
       >
         <div
           style={isMobile ? { marginTop: `${mobbtnposition}px` } : undefined}
-          className={`relative md:mt-[0px] ${scrolled && "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
+          className={`relative md:mt-[0px] ${scrolled && "xl:z-[4] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
         >
           <Image
             className={`w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente ${scrolled && "xl:hidden"}`}
