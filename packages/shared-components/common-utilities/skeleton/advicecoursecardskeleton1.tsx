@@ -81,12 +81,7 @@ const AdviceCourseCardSkeleton = () => {
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-
-    
+    </div>   
   )
 }
 
