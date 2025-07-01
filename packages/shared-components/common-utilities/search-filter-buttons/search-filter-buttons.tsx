@@ -19,9 +19,9 @@ const SearchFilterButtons = () => {
   return (
     <>
       <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
-      <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
-          <div className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] lg:grow-0 lg:shrink-0">
+          <button
+            type="button" className="hidden items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] md:px-[16px] lg:grow-0 lg:shrink-0">
             <svg
               width="20"
               height="20"
@@ -163,8 +163,6 @@ const SearchFilterButtons = () => {
           </div>
           <button
             type="button" className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0">
-          <button
-            type="button" className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0">
             <svg
               width="16"
               height="16"
@@ -180,7 +178,6 @@ const SearchFilterButtons = () => {
               />
             </svg>
             Reset
-          </button>
           </button>
         </div>
       </section>
