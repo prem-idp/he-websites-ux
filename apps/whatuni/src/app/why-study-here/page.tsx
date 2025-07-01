@@ -212,7 +212,7 @@ const page = () => {
         </div>
       </section>
       {/* Skip links END */}
-      {/* Modal container */}
+      {/* Modal container 
       <div className='modal modal-container fixed top-0 right-0 bottom-0 z-[11]'>
         <div className={`transition-all duration-300 modal-box shadow-custom-6 w-full p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 right-0 mx-auto h-[100dvh]`}>
           <div onClick={handleCloseModal} className='modal_close flex items-center justify-center absolute top-[24px] right-[16px] lg:right-[20px] z-[1] cursor-pointer'>

@@ -64,9 +64,9 @@ const page = () => {
             </div>
             <div className="w-full flex flex-col gap-[32px] lg:gap-[40px]">
               {/* page start from here      */}
-              <h1 className="h4 px-[16px] md:px-[20px] lg:px-0">
-                Univesity life
-              </h1>
+              <h2 className="h4 md:text-heading4 px-[16px] md:px-[20px] lg:px-0">
+                University life
+              </h2>
               <div className="flex flex-col gap-[16px]">
                 {/* 360 degress  */}
                 <div className="flex flex-col gap-[16px] px-[16px] md:px-[20px] lg:px-0">
