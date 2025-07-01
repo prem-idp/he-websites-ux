@@ -90,18 +90,6 @@
   .btn-xsmall {
     @apply px-[10px] py-[6px];
   }
-  .btn-large {
-    @apply px-[24px] py-[10px];
-  }
-  .btn-medium {
-    @apply px-[20px] py-[10px];
-  }
-  .btn-small {
-    @apply px-[16px] py-[8px];
-  }
-  .btn-xsmall {
-    @apply px-[10px] py-[6px];
-  }
 
   .btn-primary {
     @apply bg-primary-400 hover:bg-primary-500;
