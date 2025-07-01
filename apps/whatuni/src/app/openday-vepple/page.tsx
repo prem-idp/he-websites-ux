@@ -2,13 +2,21 @@
 import React from "react";
 import Link from "next/link";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
-import HeaderBanner from '@packages/shared-components/common-utilities/header-banner/header-banner';
+import HeaderBanner from "@packages/shared-components/common-utilities/header-banner/header-banner";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import { tabDataOpendays } from "@packages/constants/constants";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import ContactDetails from "@packages/shared-components/institution-profile/contactdetails";
-import { openDaysData, AllOpenDaysData, AnyEventsOpenDaysData, ProviderOpenDaysData, OnlineOpenDaysData } from '@packages/constants/constants';
-import Opendaysrgridcomponents from '@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents';
+import UniversityRating from "@packages/shared-components/common-utilities/university-rating/university-rating";
+import CategroryRanking from "@packages/shared-components/common-utilities/categrory-ranking/categrory-ranking";
+import {
+  openDaysData,
+  AllOpenDaysData,
+  AnyEventsOpenDaysData,
+  ProviderOpenDaysData,
+  OnlineOpenDaysData,
+} from "@packages/constants/constants";
+import Opendaysrgridcomponents from "@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents";
 
 const OpendayVepple = () => {
   const breadcrumbData = [
@@ -42,8 +50,12 @@ const OpendayVepple = () => {
       <TabSwitchButton tabSwitchButtonData={tabDataOpendays} />
       <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
         <div className="max-w-container mx-auto">
-          <div className="py-[16px]"><div className="h5 mb-[4px]">Top Law, Engineering  Architecture subjects for you</div>
-            <p>000 universities offer 1563 courses</p></div>
+          <div className="py-[16px]">
+            <div className="h5 mb-[4px]">
+              Top Law, Engineering Architecture subjects for you
+            </div>
+            <p>000 universities offer 1563 courses</p>
+          </div>
         </div>
       </section>
       <SearchFilterButtons />
@@ -79,13 +91,36 @@ const OpendayVepple = () => {
           </ul>
         </div>
       </section>
-      <Opendaysrgridcomponents {...ProviderOpenDaysData} providerOpenDays={true} bgColor={bgColor1} />
-      <Opendaysrgridcomponents {...OnlineOpenDaysData} onlineOpendays={true} anyTimeEvents={true} bgColor={bgColor} />
+      <Opendaysrgridcomponents
+        {...ProviderOpenDaysData}
+        providerOpenDays={true}
+        bgColor={bgColor1}
+      />
+
+      <Opendaysrgridcomponents
+        {...OnlineOpenDaysData}
+        onlineOpendays={true}
+        anyTimeEvents={true}
+        bgColor={bgColor}
+      />
+      {/* Reviews  */}
+      <section className="px-[16px] md:px-[20px] xl:px-0">
+        <div className="max-w-container mx-auto">
+          <div className="flex flex-col gap-[16px] mb-[24px]">
+            <div className="h5">Reviews</div>
+            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
+              <UniversityRating />
+              <CategroryRanking />
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Reviews END */}
       <div className="max-w-container mx-auto">
         <ContactDetails />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default OpendayVepple
+export default OpendayVepple;
