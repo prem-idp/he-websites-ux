@@ -18,9 +18,9 @@ import customFont from "next/font/local";
 //   variable: "--farro",
 // });
 
-const Advicecomponents = () => {
+const Advicecomponents = ({bgColor}:any) => {
   return (
-    <div className="advice-container bg-grey-50">
+    <div className={` advice-container bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
         <div className="advice-card-container px-[0] py-[34px] lg:py-[64px]">
           <div className="advice-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">

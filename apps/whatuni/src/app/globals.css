@@ -175,8 +175,12 @@
     @apply bg-grey-200 rounded-[4px];
   }
 
-  .review-modal-card.custom-scrollbar-2::-webkit-scrollbar-track,.review-gallery-scroll.custom-scrollbar-2::-webkit-scrollbar-track,.oneclick-container.custom-scrollbar-2::-webkit-scrollbar-track {
-    @apply mt-[30px]
+  .review-modal-card.custom-scrollbar-2::-webkit-scrollbar-track,
+  .review-gallery-scroll.custom-scrollbar-2::-webkit-scrollbar-track,
+  .oneclick-container.custom-scrollbar-2::-webkit-scrollbar-track,
+  .review-modal-card
+    .review-gallery-scroll.custom-scrollbar-2::-webkit-scrollbar-track {
+    @apply mt-[30px];
   }
 
   .custom-scrollbar-2::-webkit-scrollbar-thumb {
@@ -384,7 +388,12 @@ p,
 .MultiSwiper {
   @apply !px-[16px] md:!px-[20px] xl2:!px-[0] !pb-[30px];
 }
-
+.MultiSwiper.singleReview {
+  @apply !pb-[0];
+}
+.MultiSwiper.multiReview {
+  @apply lg:!pb-[0];
+}
 .MultiSwiper .swiper-button-prev:after,
 .MultiSwiper .swiper-button-next:after {
   @apply !hidden;
@@ -669,6 +678,10 @@ p,
 .checkbox_card .form-checkbox:checked + label svg {
   @apply block;
 }
+.checkbox_card .form-checkbox:disabled + label  {
+  @apply cursor-default
+}
+
 
 /* Article landing END  */
 /* RTF  */
@@ -740,9 +753,18 @@ h6 {
 .rtf-innerstyle p:empty {
   @apply hidden;
 }
-
-
-
+.rtf-sr p{
+  @apply small 
+}
+.rtf-sr b,.rtf-sr p b, .rtf-sr strong, .rtf-sr p strong{
+  @apply para
+}
+.rtf-sr p:nth-child(2), .rtf-sr p:nth-child(1){
+  @apply line-clamp-2 
+}
+.rtf-sr p:nth-child(n+3) {
+  @apply hidden
+}
 /* RTF END */
 .form_radio .form-check-input:checked+label,
 .form_radio .form-check-input:hover+label {
@@ -797,17 +819,17 @@ h6 {
     @apply appearance-none
   }
   .custom-radio input[type="radio"] + label{
-    @apply relative inline-block pl-[28px] cursor-pointer 
+  @apply relative inline-block pl-[28px] small;
   }
   
 .custom-radio input[type="radio"] + label:before {
-  @apply absolute top-[3px] left-0 w-[17px] h-[17px] text-center rounded-full content-[''] border-2 border-grey500
+  @apply absolute top-[3px] left-0 w-[17px] h-[17px] text-center rounded-full content-[''] border-2 border-grey500 cursor-pointer;
 }
 
 .custom-radio input[type="radio"]:checked + label:before {
   @apply transition-all duration-300 ease-in-out shadow-[inset_0_0_0_0.2em_white,inset_0_0_0_1em_#4664dc] 
-  border-2 border-primary-400
-} 
+  border-2 border-primary-400;
+}
 /* sr */
 
 .ripple-circle:active{

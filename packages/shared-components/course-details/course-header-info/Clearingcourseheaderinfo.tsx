@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useRef} from 'react'
 import Image from 'next/image'
-import Callnowbutton from '@/app/components/cards/interaction-button/callnow'
-import Clearingvisitewebsite from '@/app/components/cards/interaction-button/clearingvisitewebsite'
+import Callnowbutton from '@packages/shared-components/common-utilities/cards/interaction-button/callnow'
+import Clearingvisitewebsite from '@packages/shared-components/common-utilities/cards/interaction-button/clearingvisitewebsite'
 
 const Clearingcourseheaderinfo = () => {
       const [isSticky, setIsSticky] = useState(false);

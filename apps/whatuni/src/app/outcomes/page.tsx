@@ -6,14 +6,9 @@ import Redirectlinkcomponent from "@packages/shared-components/common-utilities/
 import Interested from "@packages/shared-components/common-utilities/interested/interested";
 import TabSwitchButton from "@packages/shared-components/common-utilities/tab-switch-button/tab-switch-button";
 import RedirectionButton from "@packages/shared-components/common-utilities/redirect-button/redirection-button";
-import Keystatscomponents from "@packages/shared-components/institution-profile/keystatscomponents";
-import WuscaBadge from "@packages/shared-components/common-utilities/wusca-badge/wusca-badge";
-import StudentRating from "@packages/shared-components/common-utilities/student-rating/student-rating";
-import StudentReviews from "@packages/shared-components/common-utilities/student-reviews/student-reviews";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import keyStatsIcon1 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon1.svg";
 import keyStatsIcon2 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon2.svg";
-import keyStatsIcon3 from "../../../../../apps/whatuni/public/static/assets/icons/keystats_icon3.svg";
 import KeyStatsCard from "@packages/shared-components/institution-profile/keystatscard";
 import { tabDataStudy } from "@packages/constants/constants";
 

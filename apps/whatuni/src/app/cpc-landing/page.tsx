@@ -9,6 +9,8 @@ import Seasonlandingvideoskeleton from '@packages/shared-components/common-utili
 import Contentwithimagebannerskeleton from '@packages/shared-components/common-utilities/skeleton/Contentwithimagebannerskeleton'
 import Eligibilitycriteriacardskeleton from '@packages/shared-components/common-utilities/skeleton/eligibilitycriteriacardskeleton';
 import Statscpclandingskeleton from '@packages/shared-components/common-utilities/skeleton/Statscpclandingskeleton';
+import Articlegridcomponents from '@packages/shared-components/home/article-grid/articlegridcomponents';
+import CPCpopularskeleton from '@packages/shared-components/common-utilities/skeleton/CPCpopularskeleton';
 
 
 const landingPage = () => {
@@ -25,6 +27,7 @@ const landingPage = () => {
       <Findacoursecomponents {...searchWULandingData} bgColor={bgColor3}/>
       <Subjectstatscomponents {...statsSubjectData} />
       <Statscpclandingskeleton />
+      <CPCpopularskeleton />
       <Othercoursesmaylikecomponents {...popularUniData} bgColor={bgColor} />
       <Othercoursesmaylikecomponents {...popularCourseData} bgColor={bgColor1} />
       <Othercoursesmaylikecomponents {...openDaysData} bgColor={bgColor} openDays={true} />

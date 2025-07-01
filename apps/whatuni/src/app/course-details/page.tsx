@@ -13,6 +13,8 @@ import Uniinfocomponents from '@packages/shared-components/course-details/uni-in
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import Similarcoursecomponents from '@packages/shared-components/course-details/similar-course/similarcoursecomponents';
 import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
+import Courseheaderinfoskeleton from '@packages/shared-components/common-utilities/skeleton/courseheaderinfoskeleton';
+import Clearingcourseheaderinfo from '@packages/shared-components/course-details/course-header-info/Clearingcourseheaderinfo';
 import Subjectmodalcomponents from '@packages/shared-components/course-details/Modal/subjectmodalcomponents';
 import Examtypemodalcomponents from '@packages/shared-components/course-details/Modal/examtypemodalcomponents';
 import Locationmodalcomponents from '@packages/shared-components/course-details/Modal/locationmodalcomponents';
@@ -62,9 +64,9 @@ const page = () => {
           {/* <Breadcrumblayoutcomponent data={breadcrumbData} /> */}
         </div>
     </section>
-    {/* <Courseheaderinfoskeleton /> */}
-    <Courseheaderinfocomponents onOpenModal={() => handleOpenModal("oneclick")} />
-    {/* <Clearingcourseheaderinfo /> */}
+    <Courseheaderinfoskeleton />
+    {/* <Courseheaderinfocomponents onOpenModal={() => handleOpenModal("oneclick")} /> */}
+    <Clearingcourseheaderinfo />
     {/* <Yearofentryskeleton /> */}
     <Yearofentrycomponents />
     {/* <Courseoptionsskeleton />  */}

@@ -212,8 +212,8 @@ const page = () => {
         </div>
       </section>
       {/* Skip links END */}
-      {/* Modal container */}
-      {/* <div className='modal modal-container fixed top-0 right-0 bottom-0 z-[11]'>
+      {/* Modal container 
+      <div className='modal modal-container fixed top-0 right-0 bottom-0 z-[11]'>
         <div className={`transition-all duration-300 modal-box shadow-custom-6 w-full p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 right-0 mx-auto h-[100dvh]`}>
           <div onClick={handleCloseModal} className='modal_close flex items-center justify-center absolute top-[24px] right-[16px] lg:right-[20px] z-[1] cursor-pointer'>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,14 +221,14 @@ const page = () => {
             </svg>
           </div>
           <div className='review-modal-container flex flex-col gap-[16px]'>
-            <div className='review-modal-card flex flex-col lg:flex-row gap-[16px] md:gap-[20px] max-md:pr-[0] max-md:h-[calc(100vh-24px)] max-lg:pr-[20px] max-lg:custom-scrollbar-2 max-lg:overflow-y-auto max-lg:h-[calc(100vh-168px)]'>
-              <div className='review-gallery mx-auto pt-[60px] md:pt-[0] '>
+            <div className='review-gallery review-modal-card w-full flex justify-center lg:items-center lg:overflow-y-auto lg:custom-scrollbar-2 lg:h-[calc(100vh-40px)]'>
+              <div className='max-w-lg w-full md:w-[728px]  lg:w-[907px] xl:w-[840px] xxl2:w-[907px] mx-auto'>
                 <Reviewthumbgalleryslidercomponents />
               </div>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* Modal container */}
     </>
   );

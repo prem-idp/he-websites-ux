@@ -6,7 +6,7 @@ const Discovercardskeleton = () => {
   return (
     <div className='discover-container bg-white'> 
     <div className="max-w-container mx-auto">
-        <div className='discover-card-container px-[0] py-[34px] md:py-[64px]'>
+        <div className='discover-card-container px-[0] md:px-[20px] py-[34px] md:py-[64px]'>
             <div className='discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]'>
             <h2 className='font-bold'><div className="skeleton skeleton-text skeleton-text-animated large_heading !w-[20%]"></div></h2>
             <div className='font-normal small mt-[8px]'><div className="skeleton skeleton-text skeleton-text-animated page_heading !w-[40%]"></div></div>

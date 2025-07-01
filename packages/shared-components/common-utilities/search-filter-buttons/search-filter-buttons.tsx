@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import SearchFilterComponent from "../popups/searchfiltercomponent";
 
@@ -20,7 +21,7 @@ const SearchFilterButtons = () => {
       <section className="bg-grey-600 px-[12px] py-[16px] fixed bottom-0 w-full lg:sticky lg:top-0 z-[4]">
         <div className="max-w-container mx-auto flex gap-[8px] small">
           <button
-            type="button" className="flex items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] md:px-[16px] lg:grow-0 lg:shrink-0">
+            type="button" className="hidden items-center justify-center gap-[8px] btn btn-primary grow w-fit px-[12px] md:px-[16px] lg:grow-0 lg:shrink-0">
             <svg
               width="20"
               height="20"
@@ -66,7 +67,7 @@ const SearchFilterButtons = () => {
           <div className="hidden lg:flex items-center justify-center gap-[8px] lg:shrink-0">
             <button
               type="button" className="flex items-center gap-[8px] btn w-fit px-[12px] md:px-[16px] bg-grey-100 hover:bg-grey-200 text-grey300">
-              Study level
+              When
               <svg
                 width="20"
                 height="20"
@@ -85,7 +86,7 @@ const SearchFilterButtons = () => {
             </button>
             <button
               type="button" className="flex items-center gap-[8px] btn w-fit px-[12px] md:px-[16px] bg-grey-100 hover:bg-grey-200 text-grey300">
-              Subject (1)
+              Region
               <svg
                 width="20"
                 height="20"
@@ -104,7 +105,7 @@ const SearchFilterButtons = () => {
             </button>
             <button
               type="button" className="flex items-center gap-[8px] btn w-fit px-[12px] md:px-[16px] bg-grey-100 hover:bg-grey-200 text-grey300">
-              Year
+              City
               <svg
                 width="20"
                 height="20"
@@ -123,7 +124,7 @@ const SearchFilterButtons = () => {
             </button>
             <button
               type="button" className="flex items-center gap-[8px] btn w-fit px-[12px] md:px-[16px] bg-grey-100 hover:bg-grey-200 text-grey300">
-              University
+              Open day type
               <svg
                 width="20"
                 height="20"
@@ -140,7 +141,7 @@ const SearchFilterButtons = () => {
                 />
               </svg>
             </button>
-            <button
+            {/* <button
               type="button" className="flex items-center gap-[8px] btn w-fit px-[12px] md:px-[16px] bg-grey-100 hover:bg-grey-200 text-grey300">
               Location (1)
               <svg
@@ -158,7 +159,7 @@ const SearchFilterButtons = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </button> */}
           </div>
           <button
             type="button" className="flex items-center justify-center gap-[4px] cursor-pointer px-0 text-grey-50 hover:underline xl:px-[16px] lg:shrink-0">

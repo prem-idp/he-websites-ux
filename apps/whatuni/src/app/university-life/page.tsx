@@ -15,6 +15,7 @@ import RedirectionButton from "@packages/shared-components/common-utilities/redi
 import Costoflivingratingcomponents from "@packages/shared-components/institution-profile/costoflivingratingcomponents";
 import Advertiser from "@packages/shared-components/common-utilities/advertiser/advertiser";
 import { tabDataStudy } from "@packages/constants/constants";
+import Vepple360degreeskeleton from "@packages/shared-components/common-utilities/skeleton/Vepple360degreeskeleton"
 
 const page = () => {
   const skiplinkLabel = [
