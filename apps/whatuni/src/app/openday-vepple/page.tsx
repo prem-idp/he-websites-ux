@@ -57,7 +57,7 @@ const OpendayVepple = () => {
               2025 - 2026
             </li>
             <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small">
-              University of Portsmouth
+              Full time
             </li>
             <li className="bg-secondary-50 text-blue-500 whitespace-nowrap rounded-[4px] px-[10px] py-[3px] font-semibold x-small flex items-center gap-[2px]">
               <Link href="" aria-label="Plus Icon">
@@ -81,9 +81,9 @@ const OpendayVepple = () => {
       </section>
        <Opendaysrgridcomponents {...ProviderOpenDaysData} providerOpenDays={true} bgColor={bgColor1} />
       <Opendaysrgridcomponents {...OnlineOpenDaysData} onlineOpendays={true} anyTimeEvents={true} bgColor={bgColor} />
-      <div className="max-w-container mx-auto">
+      {/* <div className="max-w-container mx-auto">
         <ContactDetails />
-      </div>
+      </div> */}
     </>
   )
 }
