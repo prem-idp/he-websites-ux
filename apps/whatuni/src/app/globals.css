@@ -413,18 +413,14 @@ p,
 
 
 
-
-
 .MultiSwiper .swiper-button-prev,
 .MultiSwiper .swiper-button-next {
-  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!flex;
   @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!flex;
 }
 
 .MultiSwiper.popular .swiper-button-prev,
 .MultiSwiper.popular .swiper-button-next {
-  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[1px] translate-y-[32%] !hidden lg:!flex ;
-  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[1px] translate-y-[32%] !hidden lg:!flex ;
+  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[0%] !hidden lg:!block;
 } 
 .MultiSwiper.popular{
   @apply !px-[16px] md:!px-[20px] lg:!px-0 lg:!pb-0
@@ -433,9 +429,6 @@ p,
 .popular .swiper-slide {
   @apply !h-auto
 }
-
-
-
 
 
 
@@ -463,13 +456,8 @@ p,
 .thumbSwiper{@apply !px-[16px] md:!px-[0]}
 .thumbSwiper .swiper-wrapper .swiper-slide{@apply rounded-[4px] } 
 .thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-primary-400 md:border-[4px]}
-.thumbSwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active{@apply md:border-primary-400 md:border-[4px]}
 .thumbSwiper{@apply !hidden md:!flex }
 .reviewMainSwiper {@apply !pb-0 md:!pb-[4px] !px-[16px] md:!px-[0]}
-.reviewMainSwiper .swiper-pagination{@apply md:!hidden}
-.reviewMainSwiper .swiper-wrapper{@apply max-md:pb-[30px]}
-.reviewMainSwiper .swiper-pagination{@apply md:!hidden}
-.reviewMainSwiper .swiper-wrapper{@apply max-md:pb-[30px]}
 /* Swiper Styles */
 /* Backgrop shadow */
 .backdrop-shadow {
@@ -842,7 +830,6 @@ h6 {
 }
 /* sr */
 
-
 .ripple-circle:active{
   animation-name: ripple-circle;
   animation-duration: 1s;
@@ -877,12 +864,79 @@ h6 {
     box-shadow: 0 0 0 0 rgba(15, 189, 253, 0), 0 0 0 0 rgba(15,189,253,0);
   }
 }
-
-
-.awards-icon path{
+.awards-icon path {
   @apply fill-grey300 md:fill-orange-200
 }
 
-.awards-icon path{
-  @apply fill-grey300 md:fill-orange-200
+.date-range label {
+  @apply font-semibold text-grey300
+}
+
+.date-range input {
+  @apply text-grey300 border-grey-500 px-[12px] py-[10px] w-[263px]
+}
+
+.react-datepicker {
+  border: none !important;
+  width: 100%;
+  height: 100%;
+}
+
+.react-datepicker-popper {
+  background: #f70;
+  width: 352px;
+  height: 260px;
+  box-shadow: 0px 25px 50px -12px rgba(16, 24, 40, 0.25);
+  border-radius: 8px;
+  left: 45px !important;
+  padding: 10px;
+}
+
+.react-datepicker-popper svg {
+  display: none;
+}
+
+.react-datepicker__header {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+h2.react-datepicker__current-month {
+  margin: 0 0 4px 0;
+  line-height: normal;
+}
+
+.react-datepicker__month-container {
+  float: left;
+  width: 100%;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 41px !important;
+  margin: 2px !important;
+  line-height: 30px !important;
+}
+
+.react-datepicker__day--selected {
+  color: #fff;
+  background-color: #4664DC !important;
+  border-radius: 50% !important;
+}
+
+.react-datepicker__day:not([aria-disabled="true"]):hover,
+.react-datepicker__month-text:not([aria-disabled="true"]):hover,
+.react-datepicker__quarter-text:not([aria-disabled="true"]):hover,
+.react-datepicker__year-text:not([aria-disabled="true"]):hover {
+  background-color: #0657AD !important;
+  border-radius: 50% !important;
+  color: #fff !important;
 }

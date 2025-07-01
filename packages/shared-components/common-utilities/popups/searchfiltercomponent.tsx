@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Accordion from "@packages/shared-components/common-utilities/accordion/accordion";
+import DateRangePicker from "@packages/shared-components/common-utilities/date-range-picker/date-range-picker";
 
 
 
@@ -146,18 +147,22 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
     "Small and specialist",
     "Distance or online learning",
   ];
+
+  // range
+  const range = [
+    "Specific dates",
+    "Month",
+  ];
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${
-          isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
-        }`}
+        className={`fixed top-0 left-0 w-full h-full bg-grey-600 backdrop-blur-custom-1 opacity-[80%] z-10  ${isFilterOpen ? "animate-fadeIn block" : "animate-fadeOut hidden"
+          }`}
       ></div>
 
       <div
-        className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${
-          isFilterOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`bg-white fixed top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out md:w-[768px] ${isFilterOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <div className="p-[16px] md:p-[16px_32px_0]">
           <svg
@@ -187,14 +192,14 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
           <h6 className="h2 mt-[-8px]">Filter</h6>
           <p className="m-[8px_0_24px]">
             Use these filters to narrow down your search options based on your
-            preferred criteria 
+            preferred criteria
           </p>
         </div>
         <div className="h-[calc(100%-265px)] overflow-y-auto custom-scrollbar-2 md:h-[calc(100%-230px)]">
           <Accordion title="Subject">
             {/* subject */}
             <div className="flex flex-col gap-[24px] pt-[24px]">
-              <div className="flex flex-col gap-[4px]">
+              {/* <div className="flex flex-col gap-[4px]">
                 <div className="text-para-lg font-semibold">Study Method</div>
                 <div className="x-small font-semibold text-black uppercase">
                   Choose one or more
@@ -269,7 +274,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex flex-col gap-[4px]">
                 <div className="text-para-lg font-semibold">Study level</div>
                 <div className="x-small font-semibold text-black uppercase">
@@ -293,7 +298,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-[16px]">
+              {/* <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-col gap-[4px]">
                   <div className="text-para-lg font-semibold">Subject area</div>
                   <div className="x-small font-semibold text-black uppercase">
@@ -344,9 +349,8 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   </div>
                   {isSubjectOpen && (
                     <div
-                      className={`bg-white absolute top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out ${
-                        isSubjectOpen ? "translate-x-0" : "-translate-x-full"
-                      }`}
+                      className={`bg-white absolute top-0 left-0 w-full h-full z-10 transition-all duration-300 ease-in-out ${isSubjectOpen ? "translate-x-0" : "-translate-x-full"
+                        }`}
                     >
                       <div className="flex flex-col gap-[16px]">
                         <ul className="flex flex-wrap gap-[8px] uppercase">
@@ -525,13 +529,43 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </Accordion>
 
-          <Accordion title="Intake year">
+          <Accordion title="When">
+            <div className="flex flex-col gap-[16px] pt-[24px]">
+              <div className="flex flex-col gap-[4px]">
+                <div className="text-para-lg font-semibold">
+                  Open day date
+                </div>
+                <div className="x-small font-semibold text-black uppercase">
+                  Choose range
+                </div>
+                <div className="flex flex-wrap gap-[8px]">
+                  {range.map((item, index) => (
+                    <div className="form-black flex relative" key={index}>
+                      <input
+                        defaultValue={"Specific dates"}
+                        type="radio"
+                        name="studylevel"
+                        id={item}
+                        value={item}
+                        className="rounded-[4px] outline-none absolute opacity-0"
+                      />
+                      <label htmlFor={item} className="btn btn-black-outline">
+                        {item}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="date-range">
+              <DateRangePicker />
+            </div>
+            </div>
             {/* intake */}
-            <div className="flex flex-col gap-[8px] p-[8px_0_0]">
+            {/* <div className="flex flex-col gap-[8px] p-[8px_0_0]">
               <div className="x-small font-semibold text-black uppercase">
                 Choose YEAR & MONTH
               </div>
@@ -570,7 +604,7 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </Accordion>
 
           <Accordion title="University">
@@ -627,9 +661,8 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                 </div>
                 {isUniversityOpen && (
                   <div
-                    className={`bg-white absolute top-0 left-0 w-full  z-10 transition-all duration-300 ease-in-out ${
-                      isUniversityOpen ? "translate-x-0" : "-translate-x-full"
-                    }`}
+                    className={`bg-white absolute top-0 left-0 w-full  z-10 transition-all duration-300 ease-in-out ${isUniversityOpen ? "translate-x-0" : "-translate-x-full"
+                      }`}
                   >
                     <div className="flex flex-col gap-[16px]">
                       <ul className="flex flex-wrap gap-[8px] uppercase">
@@ -887,55 +920,55 @@ const SearchFilterComponent = ({ onClose, isFilterOpen }: any) => {
                               </div>
                             </div>
                             <ul>
-                             { (index == 0 && (
-                              <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
-                                {region.map((item, index) => (
-                                  <div
-                                    className="form_check relative m-[0_0_12px_40px]"
-                                    key={index}
-                                  >
-                                    <div className="flex items-start gap-[8px]">
-                                      <div className="checkbox_card">
-                                        <input
-                                          type="checkbox"
-                                          className="form-checkbox hidden"
-                                          id={item}
-                                        />
+                              {(index == 0 && (
+                                <li className="grid grid-flow-row md:grid-rows-8 md:grid-flow-col">
+                                  {region.map((item, index) => (
+                                    <div
+                                      className="form_check relative m-[0_0_12px_40px]"
+                                      key={index}
+                                    >
+                                      <div className="flex items-start gap-[8px]">
+                                        <div className="checkbox_card">
+                                          <input
+                                            type="checkbox"
+                                            className="form-checkbox hidden"
+                                            id={item}
+                                          />
+                                          <label
+                                            htmlFor={item}
+                                            className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                          >
+                                            <svg
+                                              width="10"
+                                              height="8"
+                                              viewBox="0 0 10 8"
+                                              fill="none"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <path
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
+                                                d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                                                fill="white"
+                                                stroke="white"
+                                                strokeWidth="0.666667"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              />
+                                            </svg>
+                                          </label>
+                                        </div>
                                         <label
                                           htmlFor={item}
-                                          className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[2px] group-checked:bg-primary-400"
+                                          className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
                                         >
-                                          <svg
-                                            width="10"
-                                            height="8"
-                                            viewBox="0 0 10 8"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                                              fill="white"
-                                              stroke="white"
-                                              strokeWidth="0.666667"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            />
-                                          </svg>
+                                          {item}
                                         </label>
                                       </div>
-                                      <label
-                                        htmlFor={item}
-                                        className="check-label small font-normal text-grey300 w-[calc(100%_-_28px)]"
-                                      >
-                                        {item}
-                                      </label>
                                     </div>
-                                  </div>
-                                ))}
-                              </li>
-                           ) )}
+                                  ))}
+                                </li>
+                              ))}
                             </ul>
                           </>
                         ))}
