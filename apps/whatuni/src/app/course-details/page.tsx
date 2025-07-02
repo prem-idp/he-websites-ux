@@ -12,7 +12,6 @@ import Latestreviewscomponents from '@packages/shared-components/course-details/
 import Uniinfocomponents from '@packages/shared-components/course-details/uni-info/uniinfocomponents';
 import Findacoursecomponents from '@packages/shared-components/course-details/findacourse/findacoursecomponents';
 import Similarcoursecomponents from '@packages/shared-components/course-details/similar-course/similarcoursecomponents';
-import Courseheaderinfocomponents from '@packages/shared-components/course-details/course-header-info/courseheaderinfocomponents';
 import Courseheaderinfoskeleton from '@packages/shared-components/common-utilities/skeleton/courseheaderinfoskeleton';
 import Clearingcourseheaderinfo from '@packages/shared-components/course-details/course-header-info/Clearingcourseheaderinfo';
 import Subjectmodalcomponents from '@packages/shared-components/course-details/Modal/subjectmodalcomponents';

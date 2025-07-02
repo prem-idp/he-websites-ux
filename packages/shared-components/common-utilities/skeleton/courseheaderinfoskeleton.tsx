@@ -1,11 +1,5 @@
 
-import Getprospectus from '@/app/components/cards/interaction-button/getprospectus'
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import Visitwebsite from '@/app/components/cards/interaction-button/visitwebsite'
-import RequestInfo from '@/app/components/cards/interaction-button/requestinfo'
-import BookEvent from '@/app/components/cards/interaction-button/bookevent'
 
 const Courseheaderinfoskeleton = () => {
   return (

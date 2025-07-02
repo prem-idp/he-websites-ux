@@ -189,7 +189,7 @@
 .custom-scrollbar-2::-webkit-scrollbar-thumb:hover {
   @apply bg-grey-400;
 }
-
+}
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;
