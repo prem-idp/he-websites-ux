@@ -411,10 +411,9 @@ p,
 .MultiSwiper .swiper-button-disabled {
   visibility: hidden;
 }
-
 .MultiSwiper .swiper-button-prev,
 .MultiSwiper .swiper-button-next {
-  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!flex;
+  @apply flex !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[0] translate-y-[-32%] !hidden lg:!block;
 }
 
 .MultiSwiper.popular .swiper-button-prev,
@@ -453,7 +452,10 @@ p,
   @apply !bg-blue-300;
 }
 
-.reviewMainSwiper .swiper-button-prev, .reviewMainSwiper .swiper-button-next{@apply md:!block !w-[40px] !h-[40px] !top-[50%] translate-y-[-50%]}
+.reviewMainSwiper .swiper-button-prev,
+.reviewMainSwiper .swiper-button-next {
+  @apply md:!block !w-[40px] !h-[40px] !top-[50%] translate-y-[-50%];
+}
 .MultiSwiper .swiper-button-prev {
   @apply !left-[0];
 }
@@ -756,7 +758,6 @@ h6 {
 }
 
 .rtf-innerstyle table ul li {
-
   @apply small list-inside list-disc;
 }
 
@@ -863,7 +864,7 @@ h6 {
   border-2 border-primary-400;
 }
 /* sr */
-.ripple-circle:active{
+.ripple-circle:active {
   animation-name: ripple-circle;
   animation-duration: 1s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
