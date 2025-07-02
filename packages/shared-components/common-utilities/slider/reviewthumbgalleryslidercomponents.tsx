@@ -73,7 +73,7 @@ const ReviewThumbGallerySliderComponents = () => {
         {mediaItems.map((item, index) => (
           <SwiperSlide key={index}>
             {item.type === "image" ? (
-              <img src={item.src} alt={`Slide ${index}`} className="w-full rounded-[8px]" />
+              <Image src={item.src} alt={`Slide ${index}`} className="w-full rounded-[8px]" width={840} height={597} />
             ) : (
               <div className="w-full rounded-[8px] overflow-hidden">
               <Video />
@@ -113,12 +113,12 @@ const ReviewThumbGallerySliderComponents = () => {
         {thumbItems.map((item, index) => (
           <SwiperSlide key={index} className="cursor-pointer">
             {item.type === "image" ? (
-              <img src={item.src} alt={`Thumbnail ${index}`} className="w-full h-auto object-cover rounded-[4px]" />
+              <Image src={item.src} alt={`Thumbnail ${index}`} className="w-full h-auto object-cover rounded-[4px]" width={157} height={112} />
             ) : (
               <>
               <button className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] cursor-pointer">
                 <Image alt="video_play_icon" loading="lazy" width="52" height="52" decoding="async" data-nimg="1" src="/static/assets/icons/video_play_icon.svg" /></button>
-              <img src={item.src} alt={`Thumbnail ${index}`} className="w-full h-auto object-cover rounded-[4px]" />
+              <Image src={item.src} alt={`Thumbnail ${index}`} className="w-full h-auto object-cover rounded-[4px]" width={157} height={112} />
               </>
             )}
           </SwiperSlide>

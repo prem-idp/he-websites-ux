@@ -4,7 +4,7 @@ import SearchFilterComponent from "../popups/searchfiltercomponent";
 
 const SearchFilterButtons = () => {
   // search filter
-  const [isSearchFilterOpen, setIsSearchFilterOpen] = useState(true);
+  const [isSearchFilterOpen, setIsSearchFilterOpen] = useState(false);
   const searchClick = () => {
     setIsSearchFilterOpen(true);
     const body = document.body;

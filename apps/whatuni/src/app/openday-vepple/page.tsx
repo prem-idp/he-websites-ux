@@ -17,6 +17,8 @@ import {
   OnlineOpenDaysData,
 } from "@packages/constants/constants";
 import Opendaysrgridcomponents from "@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents";
+import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 
 const OpendayVepple = () => {
   const breadcrumbData = [
@@ -59,9 +61,7 @@ const OpendayVepple = () => {
         </div>
       </section>
       <SearchFilterButtons />
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-0">
-        <div className="max-w-container mx-auto"></div>
-      </section>
+
       <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[10px] md:px-[20px] xl:px-0 lg:py-[8px]">
         <div className="max-w-container mx-auto">
           <ul className="flex items-start gap-[8px] uppercase">
@@ -91,19 +91,6 @@ const OpendayVepple = () => {
           </ul>
         </div>
       </section>
-      {/* Reviews  */}
-      <section className="px-[16px] md:px-[20px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <div className="flex flex-col gap-[16px] mb-[24px]">
-            <div className="h5">Reviews</div>
-            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
-              <UniversityRating />
-              <CategroryRanking />
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Reviews END */}
       <Opendaysrgridcomponents
         {...ProviderOpenDaysData}
         providerOpenDays={true}
@@ -116,6 +103,24 @@ const OpendayVepple = () => {
         anyTimeEvents={true}
         bgColor={bgColor}
       />
+
+            {/* Reviews  */}
+      <section className="px-[16px] md:px-[20px] xl:px-0">
+        <div className="max-w-container mx-auto">
+          <div className="flex flex-col gap-[16px] mb-[24px]">
+            <div className="h5">Reviews</div>
+            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
+              <UniversityRating />
+              <CategroryRanking />
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Reviews END */}
+
+      <Advicecomponents bgColor={bgColor1} />
+
+    
 
       {/* <div className="max-w-container mx-auto">
         <ContactDetails />
