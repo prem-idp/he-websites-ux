@@ -17,8 +17,6 @@ import {
   OnlineOpenDaysData,
 } from "@packages/constants/constants";
 import Opendaysrgridcomponents from "@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents";
-import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
-import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 
 const OpendayVepple = () => {
   const breadcrumbData = [
@@ -91,20 +89,7 @@ const OpendayVepple = () => {
           </ul>
         </div>
       </section>
-      <Opendaysrgridcomponents
-        {...ProviderOpenDaysData}
-        providerOpenDays={true}
-        bgColor={bgColor1}
-      />
-
-      <Opendaysrgridcomponents
-        {...OnlineOpenDaysData}
-        onlineOpendays={true}
-        anyTimeEvents={true}
-        bgColor={bgColor}
-      />
-
-            {/* Reviews  */}
+      {/* Reviews  */}
       <section className="px-[16px] md:px-[20px] xl:px-0">
         <div className="max-w-container mx-auto">
           <div className="flex flex-col gap-[16px] mb-[24px]">
@@ -117,10 +102,18 @@ const OpendayVepple = () => {
         </div>
       </section>
       {/* Reviews END */}
+      <Opendaysrgridcomponents
+        {...ProviderOpenDaysData}
+        providerOpenDays={true}
+        bgColor={bgColor1}
+      />
 
-      <Advicecomponents bgColor={bgColor1} />
-
-    
+      <Opendaysrgridcomponents
+        {...OnlineOpenDaysData}
+        onlineOpendays={true}
+        anyTimeEvents={true}
+        bgColor={bgColor}
+      />
 
       {/* <div className="max-w-container mx-auto">
         <ContactDetails />
