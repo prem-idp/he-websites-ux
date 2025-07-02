@@ -1,4 +1,3 @@
-"use server";
 import Advicecourseslidercomponents from "@packages/shared-components/common-utilities/slider/advicecourseslidercomponents";
 import customFont from "next/font/local";
 // const farroMedium = customFont({
