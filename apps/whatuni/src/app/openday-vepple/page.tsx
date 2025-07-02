@@ -8,7 +8,6 @@ import UniversityRating from "@packages/shared-components/common-utilities/unive
 import CategroryRanking from "@packages/shared-components/common-utilities/categrory-ranking/categrory-ranking";
 import { tabDataOpendays } from "@packages/constants/constants";
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
-import ContactDetails from "@packages/shared-components/institution-profile/contactdetails";
 import {
   openDaysData,
   AllOpenDaysData,
@@ -17,6 +16,10 @@ import {
   OnlineOpenDaysData,
 } from "@packages/constants/constants";
 import Opendaysrgridcomponents from "@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents";
+import ReviewThumbGallerySliderComponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
+import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
+import Reviewslidercomponents from "@packages/shared-components/common-utilities/slider/reviewslidercomponents";
 
 const OpendayVepple = () => {
   const breadcrumbData = [
@@ -89,19 +92,7 @@ const OpendayVepple = () => {
           </ul>
         </div>
       </section>
-      {/* Reviews  */}
-      <section className="px-[16px] md:px-[20px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <div className="flex flex-col gap-[16px] mb-[24px]">
-            <div className="h5">Reviews</div>
-            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
-              <UniversityRating />
-              <CategroryRanking />
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Reviews END */}
+
       <Opendaysrgridcomponents
         {...ProviderOpenDaysData}
         providerOpenDays={true}
@@ -115,9 +106,28 @@ const OpendayVepple = () => {
         bgColor={bgColor}
       />
 
-      {/* <div className="max-w-container mx-auto">
-        <ContactDetails />
-      </div> */}
+      {/* Reviews  */}
+      <section className="px-[16px] md:px-[20px] xl:px-0 py-[64px]">
+        <div className="max-w-container mx-auto">
+          <div className="flex flex-col gap-[16px] mb-[24px]">
+            <div className="h5">Reviews</div>
+            <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
+              <UniversityRating />
+              <CategroryRanking />
+            </div>
+          </div>
+          <Reviewslidercomponents />
+        </div>
+      </section>
+      {/* Reviews END */}
+      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-0 py-[64px]">
+        <div className="max-w-container mx-auto">
+          <ReviewThumbGallerySliderComponents />
+        </div>
+      </section>
+      
+     <Advicecomponents bgColor={bgColor} />
+     <Subscribecomponents />
     </>
   );
 };
