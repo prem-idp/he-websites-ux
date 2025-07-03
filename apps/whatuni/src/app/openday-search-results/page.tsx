@@ -6,6 +6,7 @@ import Advicecomponents from '@packages/shared-components/home/advice/advicecomp
 import Faqcomponents from '@packages/shared-components/common-utilities/faq/faqcomponents';
 import SearchFilterButtons from "@packages/shared-components/common-utilities/search-filter-buttons/search-filter-buttons";
 import Link from "next/link";
+import Uniinfocomponents from "@packages/shared-components/course-details/uni-info/uniinfocomponents";
 
 const OpendaySRComponents = () => {
 
@@ -68,6 +69,7 @@ const OpendaySRComponents = () => {
           </ul>
         </div>
       </section>
+      <Uniinfocomponents />
       <OpendaysSREliteComponents {...openDaysData} bgColor={bgColor} featureOpd={true} />
       <Opendaysrgridcomponents {...AllOpenDaysData} bgColor={bgColor1} />
       <Opendaysrgridcomponents {...AnyEventsOpenDaysData} anyTimeEvents={true} bgColor={bgColor} />
