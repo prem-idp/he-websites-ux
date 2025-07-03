@@ -13,7 +13,7 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                 <div className='absolute z-[1] top-[16px] left-[16px] rounded-[8px] overflow-hidden'>
                     <Image src='/static/assets/images/uni_logo_tile1.jpg' width="64" height="64" alt="University logo" />
                 </div>
-                <div className="absolute left-[16px] bottom-[16px] x-small font-bold text-grey-500 bg-grey-100 p-[0_8px] rounded-[4px] z-0 uppercase">{studyType}</div>
+                <div className="absolute left-[16px] bottom-[16px] x-small font-bold text-grey-500 bg-grey-100 border-b border-dotted p-[0_8px] rounded-[4px] z-0 uppercase">{studyType}</div>
                 <div className='absolute top-[16px] right-[16px] z-[1]'>
                     <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                         <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
@@ -47,7 +47,8 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                 <div className='flex flex-col gap-[8px] w-full'>
                     {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
                     {providerOpenDays || onlineOpendays ? (
-                    <div className="w-fit x-small font-bold text-grey-500 bg-grey-100 p-[0_8px] rounded-[4px] z-0 uppercase0">{studyType}</div>
+                    <div className="w-fit x-small font-bold text-grey-500 bg-grey-100 p-[0_8px_1px] rounded-[4px] z-0 uppercase">
+                        <span className='border-b border-dotted border-grey-500'>{studyType}</span></div>
                     ) : ''}
                     <div className='card-title font-farro para-lg font-bold text-grey300 line-clamp-1'>{uniName}</div>
                     <div className='flex flex-col gap-[8px]'>

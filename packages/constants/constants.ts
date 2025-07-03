@@ -224,6 +224,9 @@ export const OnlineOpenDaysData = {
     { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
     { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
     { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'Virtual event', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'Virtual tour', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
+    { studyType: 'IN-PERSON', uniName: 'Open day type', opendaysType: '', location: '', time: '' },
   ]
 }
 
