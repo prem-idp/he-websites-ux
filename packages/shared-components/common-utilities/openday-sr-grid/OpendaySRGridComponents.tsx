@@ -14,13 +14,13 @@ const Opendaysrgridcomponents = ({title, description, data, bgColor, anyTimeEven
                             <p className="font-normal small mt-[8px]">{description}</p>
                         ) }                        
                     </div>
-                    <div className='advice-inner-wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>                        
+                    <div className='advice-inner-wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[16px]'>                        
                         {data?.map((item: any, index: number) => (
                             <Opendayscard {...item} providerOpenDays={providerOpenDays} onlineOpendays={onlineOpendays} key={index} />
                         ))}
                     </div>
                     {anyTimeEvents ? (
-                        <div className='flex justify-center py-[24px] pb-[0]'>
+                        <div className='flex justify-center py-[24px] md:py-[40px] !pb-[0]'>
                             <button type='button' className='btn btn-primary-outline para-lg group flex items-center justify-center gap-[8px] p-[11px_24px] rounded-[40px] w-fit'>
                                 <span>View more</span><span>+</span>                            
                             </button>

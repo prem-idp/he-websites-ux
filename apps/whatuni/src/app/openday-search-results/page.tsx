@@ -69,11 +69,10 @@ const OpendaySRComponents = () => {
           </ul>
         </div>
       </section>
-      <Uniinfocomponents />
       <OpendaysSREliteComponents {...openDaysData} bgColor={bgColor} featureOpd={true} />
       <Opendaysrgridcomponents {...AllOpenDaysData} bgColor={bgColor1} />
       <Opendaysrgridcomponents {...AnyEventsOpenDaysData} anyTimeEvents={true} bgColor={bgColor} />
-      <Advicecomponents bgColor={bgColor1} />
+      <Advicecomponents bgColor={bgColor1} heading={"Open days advice and articles"} subheading={""} />
       <Faqcomponents />
     </>
   );
