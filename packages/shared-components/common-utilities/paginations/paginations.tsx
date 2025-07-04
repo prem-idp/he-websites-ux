@@ -4,7 +4,7 @@ import React from "react";
 const Paginations = ({removeSpace, openDays}:any) => {
   return (
     <>
-    <div className={`${removeSpace ? "py-0 md:py-0": openDays ? "py-[24px] pb-[0]" : "py-[24px] md:py-[40px]"}`}>
+    <div className={`${removeSpace ? "py-0 md:py-0": openDays ? "py-[24px] pb-[0] md:py-[40px] !pb-[0]" : "py-[24px] md:py-[40px]"}`}>
         <nav aria-label="navigation">
           <ul className="pagination flex justify-center items-center gap-[8px]">
             <li>

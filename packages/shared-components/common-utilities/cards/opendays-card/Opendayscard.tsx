@@ -43,7 +43,7 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
             </div>
             )}
 
-            <div className={`card-body flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? 'min-h-[141px]' : 'min-h-[192px]'}`}>
+            <div className={`card-body flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? 'min-h-[141px]' : 'min-h-[184px]'}`}>
                 <div className='flex flex-col gap-[8px] w-full'>
                     {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
                     {providerOpenDays || onlineOpendays ? (
