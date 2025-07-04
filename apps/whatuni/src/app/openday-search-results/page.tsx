@@ -39,7 +39,9 @@ const OpendaySRComponents = () => {
           </div>
         </div>
       </section>
+
       <SearchFilterButtons />
+      
       <section className="overflow-x-auto snap-x snap-mandatory bg-white px-[16px] py-[10px] md:px-[20px] xl:px-0 lg:py-[8px]">
         <div className="max-w-container mx-auto">
           <ul className="flex items-start gap-[8px] uppercase">
