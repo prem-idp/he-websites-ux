@@ -50,7 +50,11 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                     <div className="w-fit x-small font-bold text-grey-500 bg-grey-100 p-[0_8px_1px] rounded-[4px] z-0 uppercase">
                         <span className='border-b border-dotted border-grey-500'>{studyType}</span></div>
                     ) : ''}
+                    {onlineOpendays ? 
                     <div className='card-title font-farro para-lg font-bold text-grey300 line-clamp-1'>{uniName}</div>
+                    : (
+                        <>
+                  <div className='card-title font-farro para-lg font-bold text-grey300 line-clamp-1'>{uniName}</div>
                     <div className='flex flex-col gap-[8px]'>
                         <div className='card-subtitle small font-semibold line-clamp-1'>{opendaysType}</div>
                         <div className=''>
@@ -67,6 +71,10 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                             )}
                         </div>
                     </div>
+                    </>
+                    )
+                    }
+
                     {/* <div className='flex flex-col gap-[8px]'>
                         <div>
                             <div className='para small font-semibold line-clamp-1'>WUSCA overall ranking</div>

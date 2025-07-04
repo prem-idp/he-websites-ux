@@ -6,8 +6,8 @@ const Unilocationmapcomponents = () => {
   return (
     <>
             {/* -- */}
-                  <div className='flex flex-col md:flex-row border border-grey-200 rounded-b-[8px] md:rounded-r-[8px] overflow-hidden'>
-                    <div className='card-map w-full md:w-[288px] md:min-w-[288px] lg:w-[758px] lg:min-w-[758px]'>
+                  <div className='flex flex-col md:flex-row border border-grey-200 rounded-l-[8px] rounded-b-[8px] rounded-r-[8px] overflow-hidden'>
+                    <div className='card-map w-full md:w-[288px] md:min-w-[288px] lg:w-[758px] lg:min-w-[758px] max-md:rounded-r-[8px]'>
                       <Image className='block w-full object-cover md:h-full lg:h-auto' layout='fixed' src="/static/assets/images/location-map.jpg" width={758} height={316} alt="Map"/>
                     </div>
                     <div className='course-card flex flex-col flex-1 gap-[16px] bg-white p-[16px] md:p-[24px] w-full'>                  
@@ -29,7 +29,7 @@ const Unilocationmapcomponents = () => {
                               </span>
                           </div>
                         </div>
-                        <div className="course-highlight__details w-full flex bg-blue-50 rounded-[4px] p-[16px]">
+                        <div className="course-highlight__details w-full flex bg-blue-100 rounded-[4px] p-[16px]">
                           <div className="course-highlight__option  flex flex-col items-start gap-[16px]">                      
                             <div className="flex flex-col">
                               <div className="para font-semibold text-black">Thinking of studying in Norwich?</div>

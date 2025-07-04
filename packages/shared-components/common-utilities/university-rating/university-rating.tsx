@@ -92,7 +92,7 @@ const UniversityRating = () => {
       {/* -- */}
       <div className="w-full flex flex-col gap-[8px]">
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]">
-          <div className="w-fit md:w-[64px] order-1 md:order-none small text-grey300">
+          <div className="w-fit md:w-[70px] lg:w-[64px] order-1 md:order-none small text-grey300">
             5 stars
           </div>
           <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">
@@ -103,7 +103,7 @@ const UniversityRating = () => {
           </div>
         </div>
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]">
-          <div className="w-fit md:w-[64px] order-1 md:order-none small text-grey300">
+          <div className="w-fit md:w-[70px] lg:w-[64px] order-1 md:order-none small text-grey300">
             4 stars
           </div>
           <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">
@@ -114,7 +114,7 @@ const UniversityRating = () => {
           </div>
         </div>
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]">
-          <div className="w-fit md:w-[64px] order-1 md:order-none small text-grey300">
+          <div className="w-fit md:w-[70px] lg:w-[64px] order-1 md:order-none small text-grey300">
             3 stars
           </div>
           <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">
@@ -125,7 +125,7 @@ const UniversityRating = () => {
           </div>
         </div>
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]">
-          <div className="w-fit md:w-[64px] order-1 md:order-none small text-grey300">
+          <div className="w-fit md:w-[70px] lg:w-[64px] order-1 md:order-none small text-grey300">
             2 stars
           </div>
           <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">
@@ -136,7 +136,7 @@ const UniversityRating = () => {
           </div>
         </div>
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-[8px] md:gap-[16px]">
-          <div className="w-fit md:w-[64px] order-1 md:order-none small text-grey300">
+          <div className="w-fit md:w-[70px] lg:w-[64px] order-1 md:order-none small text-grey300">
             1 stars
           </div>
           <div className="progess-bar flex items-center order-3 md:order-none w-full bg-grey-200 rounded-[2px] h-[4px]">
