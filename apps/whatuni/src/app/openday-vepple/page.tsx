@@ -123,9 +123,9 @@ const OpendayVepple = () => {
       </section>
 
       {/* Reviews  */}
-      <section className="bg-white p-[16px] md:px-[20px] md:py-[40px] lg:px-[0]">
+      <section className="bg-white py-[16px] md:py-[40px]">
         <div className="max-w-container mx-auto">
-          <div className="flex flex-col gap-[16px] mb-[24px]">
+          <div className="flex flex-col gap-[16px] mb-[24px] px-[16px] md:px-[20px]">
             <div className="h5">Reviews</div>
             <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
               <UniversityRating />
