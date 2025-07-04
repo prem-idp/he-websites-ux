@@ -107,7 +107,7 @@ const OpendayVepple = () => {
         anyTimeEvents={true}
         bgColor={bgColor}
       />
-      <div className="uni-locationmap-container px-[16px] md:px-[20px] py-[34px] lg:py-[64px] lg:px-[0]">
+      <div className="uni-locationmap-container p-[16px] md:px-[20px] md:py-[40px] lg:px-[0]">
         <div className="max-w-container mx-auto">
           <div className="flex flex-col gap-[16px]">
           <div className='h5 w-full'>How to get to your open day?</div>
@@ -116,14 +116,14 @@ const OpendayVepple = () => {
         </div>
       </div>      
 
-      <section className="bg-grey-50 md:px-[20px] xl:px-0 py-[34px] lg:py-[64px]">
+      <section className="bg-grey-50 md:px-[20px] md:py-[40px] xl:px-[0]">
         <div className="max-w-container mx-auto">
           <ReviewThumbGallerySliderComponents />
         </div>
       </section>
 
       {/* Reviews  */}
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-0 py-[34px] lg:py-[64px]">
+      <section className="bg-white p-[16px] md:px-[20px] md:py-[40px] lg:px-[0]">
         <div className="max-w-container mx-auto">
           <div className="flex flex-col gap-[16px] mb-[24px]">
             <div className="h5">Reviews</div>

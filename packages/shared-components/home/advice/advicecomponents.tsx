@@ -21,7 +21,7 @@ const Advicecomponents = ({bgColor, heading,subHeading}:any) => {
   return (
     <div className={` advice-container bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
-        <div className="advice-card-container px-[0] py-[34px] lg:py-[64px]">
+        <div className="advice-card-container px-[0] md:py-[40px]">
           <div className="advice-header px-[20px] lg:px-[0] mb-[16px]">
             {heading && <h4 className="font-bold">{heading}</h4>}
             {subHeading && <p className="font-normal small mt-[8px]">{subHeading}</p>}
