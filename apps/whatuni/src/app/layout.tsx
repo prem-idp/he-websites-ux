@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@packages/shared-components/common-utilities/header/headercomponents";
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
+import Tickertape from "@packages/shared-components/common-utilities/tickertape/tickertape";
+
 import { usePathname } from 'next/navigation';
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
@@ -36,6 +38,7 @@ export default function RootLayout({
         {!hideLayout && <Header />}
         {children}
         {!hideLayout && <Footer />}
+        {/* <Tickertape /> */}
       </body>
     </html>
   );
