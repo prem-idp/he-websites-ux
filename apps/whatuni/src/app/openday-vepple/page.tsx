@@ -107,7 +107,7 @@ const OpendayVepple = () => {
         anyTimeEvents={true}
         bgColor={bgColor}
       />
-      <div className="uni-locationmap-container p-[16px] md:px-[20px] md:py-[40px] lg:px-[0]">
+      <div className="uni-locationmap-container p-[16px] md:px-[20px] md:py-[40px] xl:px-[0]">
         <div className="max-w-container mx-auto">
           <div className="flex flex-col gap-[16px]">
           <div className='h5 w-full'>How to get to your open day?</div>
@@ -125,7 +125,7 @@ const OpendayVepple = () => {
       {/* Reviews  */}
       <section className="bg-white py-[16px] md:py-[40px]">
         <div className="max-w-container mx-auto">
-          <div className="flex flex-col gap-[16px] mb-[24px] px-[16px] md:px-[20px]">
+          <div className="flex flex-col gap-[16px] mb-[24px] px-[16px] md:px-[20px] xl:px-0">
             <div className="h5">Reviews</div>
             <div className="flex flex-col md:flex-row gap-[16px] md:gap-[24px]">
               <UniversityRating />
