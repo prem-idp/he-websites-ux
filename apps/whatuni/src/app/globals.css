@@ -74,6 +74,7 @@
 /* svg hover white color icon END */
 
 @layer components {
+/* TODO: Components start */
   .btn {
     @apply font-semibold small text-neutral-50 rounded-[24px] px-[16px] py-[8px] cursor-pointer;
   }
@@ -140,6 +141,11 @@
   .btn-white {
     @apply bg-white text-primary-400 hover:bg-primary-400 hover:text-white;
   }
+  
+/* TODO: Components end */
+
+
+
   /* scrollbar styles */
   .scrollbar-hidden {
     scrollbar-width: none;
