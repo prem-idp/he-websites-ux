@@ -7,18 +7,17 @@
   @font-face {
     font-family: "Farro";
     src:
-      url("./fonts/Farro-Medium.woff2") format("woff2"),
-      url("./fonts/Farro-Medium.woff") format("woff");
+      url("/static/assets/fonts/Farro-Medium.woff2") format("woff2"),
+      url("/static/assets/fonts/Farro-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
   }
-
   @font-face {
     font-family: "Farro";
     src:
-      url("./fonts/Farro-Bold.woff2") format("woff2"),
-      url("./fonts/Farro-Bold.woff") format("woff");
+      url("/static/assets/fonts/Farro-Bold.woff2") format("woff2"),
+      url("/static/assets/fonts/Farro-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
@@ -29,8 +28,8 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-Regular.woff2") format("woff2"),
-      url("./fonts/Inter-Regular.woff") format("woff");
+      url("/static/assets/fonts/Inter-Regular.woff2") format("woff2"),
+      url("/static/assets/fonts/Inter-Regular.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 400;
@@ -38,8 +37,7 @@
 
   @font-face {
     font-family: "Inter";
-    src:
-      url("./fonts/Inter-Medium.woff") format("woff");
+    src: url("/static/assets/fonts/Inter-Medium.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 500;
@@ -48,18 +46,17 @@
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-SemiBold.woff2") format("woff2"),
-      url("./fonts/Inter-SemiBold.woff") format("woff");
+      url("/static/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
+      url("/static/assets/fonts/Inter-SemiBold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 600;
   }
-
   @font-face {
     font-family: "Inter";
     src:
-      url("./fonts/Inter-Bold.woff2") format("woff2"),
-      url("./fonts/Inter-Bold.woff") format("woff");
+      url("/static/assets/fonts/Inter-Bold.woff2") format("woff2"),
+      url("/static/assets/fonts/Inter-Bold.woff") format("woff");
     font-display: swap;
     font-style: normal;
     font-weight: 700;
@@ -463,6 +460,7 @@ p,
 .reviewMainSwiper {@apply !pb-0 md:!pb-[4px] !px-[16px] md:!px-[0]}
 .reviewMainSwiper .swiper-pagination{@apply md:!hidden}
 .reviewMainSwiper .swiper-wrapper{@apply max-md:pb-[30px]}
+.elite-carousal .swiper-slide, .elite-auto-carousal .swiper-slide{height: auto}
 /* Swiper Styles */
 /* Backgrop shadow */
 .backdrop-shadow {
@@ -996,19 +994,30 @@ h2.react-datepicker__current-month {
   color: #333 !important;
   border-radius: 0 !important;
 }
-
 @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(10%);
   }
-
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-80%);
   }
 }
-
+@media (max-width: 1024px) {
+  @keyframes marquee {
+    0% {
+      transform: translateX(10%);
+    }
+    100% {
+      transform: translateX(-80%);
+    }
+  }
+}
 .marquee {
-  animation: marquee 30s linear infinite;
+  display: inline-flex;
+  width: max-content;
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .marquee-container:hover .marquee {
