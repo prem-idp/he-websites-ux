@@ -7,9 +7,9 @@ interface CheckboxComponentProps {
 }
 
 const CheckboxComponent = ({
-  title,
-  description,
-  id,
+  title = "Checkbox title dummy content",
+  description = "Checkbox descripton dummy content",
+  id = "checkbox-1",
 }: CheckboxComponentProps) => {
   return (
     <div className="group flex gap-[12px]">
