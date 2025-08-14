@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
 import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
-
+import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
 const page = () => {
   const listData = [
     {
@@ -32,17 +32,19 @@ const page = () => {
           onSelectTab={setSelectedTab}
         />
       </ProfileUpdates>
-      <div className="w-full flex py-[40px]">
-        <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
-          {/* Favourites */}
-          {selectedTab === listData[0].title && <div>Favourites Content</div>}
-          {/* Profile */}
-          {selectedTab === listData[1].title && <div>Profile Content</div>}
-          {/* Activity */}
-          {selectedTab === listData[2].title && <div>Activity Content</div>}
-          {/* Settings */}
-          {selectedTab === listData[3].title && <div>Settings Content</div>}
-        </div>
+      <div className="container">
+        {/* Favourites */}
+        {selectedTab === listData[0].title && (
+          <>
+            <Favourites />
+          </>
+        )}
+        {/* Profile */}
+        {selectedTab === listData[1].title && <div>Profile Content</div>}
+        {/* Activity */}
+        {selectedTab === listData[2].title && <div>Activity Content</div>}
+        {/* Settings */}
+        {selectedTab === listData[3].title && <div>Settings Content</div>}
       </div>
     </div>
   );
