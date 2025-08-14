@@ -34,9 +34,13 @@ const page = () => {
       </ProfileUpdates>
       <div className="w-full flex py-[40px]">
         <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
+          {/* Favourites */}
           {selectedTab === listData[0].title && <div>Favourites Content</div>}
+          {/* Profile */}
           {selectedTab === listData[1].title && <div>Profile Content</div>}
+          {/* Activity */}
           {selectedTab === listData[2].title && <div>Activity Content</div>}
+          {/* Settings */}
           {selectedTab === listData[3].title && <div>Settings Content</div>}
         </div>
       </div>
