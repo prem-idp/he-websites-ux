@@ -7,9 +7,9 @@ interface CheckboxComponentProps {
 }
 
 const CheckboxComponent = ({
-  title,
-  description,
-  id,
+  title = "Checkbox title dummy content",
+  description = "Checkbox descripton dummy content",
+  id = "checkbox-1",
 }: CheckboxComponentProps) => {
   return (
     <div className="group flex gap-[12px]">
@@ -17,7 +17,7 @@ const CheckboxComponent = ({
         <input type="checkbox" className="sr-only peer" id={id} />
         <label
           htmlFor={id}
-          className="flex justify-center items-center peer-checked:border-primary-400 peer-checked:bg-primary-400 w-[16px] h-[16px] rounded-[3px] border-2 border-grey-600 my-[4px]"
+          className="flex justify-center items-center peer-checked:border-primary-400 peer-checked:bg-primary-400 size-[16px] rounded-[3px] border border-grey-400 mt-[4px]"
         >
           <svg
             width="10"
