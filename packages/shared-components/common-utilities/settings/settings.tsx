@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import AccountData from "@packages/shared-components/common-utilities/account-data/account-data";
-
+import ToggleComponent from "../form-variations/ToggleComponent";
+import DeleteAccount from "@packages/shared-components/user-profile/delete-account/delete-account";
 const Settings = () => {
   const downloadData = [
     {
@@ -38,15 +39,33 @@ const Settings = () => {
     },
   ];
   return (
-    <div className="max-w-container my-[40px] mx-auto px-[16px] md:px-[20px] xl:px-0">
-      <div className="max-w-[800px] mx-auto flex flex-col gap-[32px]">
-        <div className="h4">Settings</div>
-        <span className="border-t border-grey-300"></span>
-        <AccountData data={downloadData} />
-        <span className="border-t border-grey-300"></span>
-        <AccountData data={deleteAccount} />
+    <>
+      <div className="max-w-container my-[40px] mx-auto px-[16px] md:px-[20px] xl:px-0">
+        <div className="max-w-[800px] mx-auto flex flex-col gap-[32px]">
+          <div className="h4">Settings</div>
+          <div className="flex flex-col gap-[16px]">
+            <div className="h6">Mailing preferences</div>
+            <ToggleComponent
+              label="Control button heading"
+              description="Description of what this control will do"
+            />
+            <ToggleComponent
+              label="Control button heading"
+              description="Description of what this control will do"
+            />
+            <ToggleComponent
+              label="Control button heading"
+              description="Description of what this control will do"
+            />
+          </div>
+          <span className="border-t border-grey-300"></span>
+          <AccountData data={downloadData} />
+          <span className="border-t border-grey-300"></span>
+          <AccountData data={deleteAccount} />
+        </div>
       </div>
-    </div>
+      <DeleteAccount />
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 
 interface CheckboxComponentProps {
   title?: string;
-  description?: string;
+  description?: string | ReactNode;
   id?: string;
 }
 
@@ -40,8 +40,10 @@ const CheckboxComponent = ({
         </label>
       </div>
       <label htmlFor={id} className="flex flex-col cursor-pointer select-none">
-        <p className="font-semibold">{title}</p>
-        <span className="small">{description}</span>
+        {title && <p className="font-semibold">{title}</p>}
+        {description && (
+          <span className="text-x-small text-grey-600">{description}</span>
+        )}
       </label>
     </div>
   );

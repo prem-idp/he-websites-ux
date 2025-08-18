@@ -14,12 +14,15 @@ const AccountData = ({ data }: AccountDataProps) => {
   const { title, description, buttonText, popupBlocker } = data[0] || {};
 
   return (
-    <div className="flex flex-col items-start gap-[16px]">
-      <div className="h6">{title}</div>
-      <div className="para">{description}</div>
-      <button className="btn btn-primary">{buttonText}</button>
-      {popupBlocker && <span className="pb-[8px]">{popupBlocker}</span>}
-    </div>
+    <>
+      <div className="flex flex-col items-start gap-[16px]">
+        <div className="h6">{title}</div>
+        <div className="para">{description}</div>
+        <button className="btn btn-primary">{buttonText}</button>
+        {popupBlocker && <span className="pb-[8px]">{popupBlocker}</span>}
+      </div>
+      {/* <DeleteAccount /> */}
+    </>
   );
 };
 
