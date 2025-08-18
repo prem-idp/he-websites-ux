@@ -109,8 +109,8 @@ const Subscribecomponents = () => {
                   title=""
                 >
                   terms and conditions
-                </Link>{" "}
-                and{" "}
+                </Link>
+                and
                 <Link
                   href=""
                   className="text-primary-400 hover:text-primary-500 hover:underline"
