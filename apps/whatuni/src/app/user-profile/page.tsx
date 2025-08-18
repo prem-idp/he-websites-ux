@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
 import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
 import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
+import Settings from "@packages/shared-components/common-utilities/settings/settings";
+import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 const page = () => {
   const listData = [
     {
@@ -22,7 +24,7 @@ const page = () => {
       id: 4,
     },
   ];
-  const [selectedTab, setSelectedTab] = useState(listData[0].title);
+  const [selectedTab, setSelectedTab] = useState(listData[3].title);
   return (
     <div>
       <ProfileUpdates>
@@ -32,19 +34,16 @@ const page = () => {
           onSelectTab={setSelectedTab}
         />
       </ProfileUpdates>
-      <div className="container">
+      <div>
         {/* Favourites */}
-        {selectedTab === listData[0].title && (
-          <>
-            <Favourites />
-          </>
-        )}
+        {selectedTab === listData[0].title && <Favourites />}
         {/* Profile */}
         {selectedTab === listData[1].title && <div>Profile Content</div>}
         {/* Activity */}
         {selectedTab === listData[2].title && <div>Activity Content</div>}
         {/* Settings */}
-        {selectedTab === listData[3].title && <div>Settings Content</div>}
+        {selectedTab === listData[3].title && <Settings />}
+        <Subscribecomponents />
       </div>
     </div>
   );
