@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
 import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
-import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
 import Settings from "@packages/shared-components/common-utilities/settings/settings";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 import UserProfileComponents from "@packages/shared-components/common-utilities/form-variations/UserProfileComponents";
+import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
+import ManageFavourites from "@packages/shared-components/common-utilities/manage-favourites/managefavourites";
+import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
+
 const page = () => {
   const listData = [
     {
@@ -26,6 +29,8 @@ const page = () => {
     },
   ];
   const [selectedTab, setSelectedTab] = useState(listData[3].title);
+  const bgColor1 = "white";
+
   return (
     <div>
       <ProfileUpdates>
@@ -37,7 +42,17 @@ const page = () => {
       </ProfileUpdates>
       <div>
         {/* Favourites */}
-        {selectedTab === listData[0].title && <Favourites />}
+        {selectedTab === listData[0].title && (
+          <>
+            <Favourites />
+            <ManageFavourites />
+            <Advicecomponents
+              bgColor={bgColor1}
+              heading={"Open days advice and articles"}
+              subheading={""}
+            />
+          </>
+        )}
         {/* Profile */}
         {selectedTab === listData[1].title && <UserProfileComponents />}
         {/* Activity */}
