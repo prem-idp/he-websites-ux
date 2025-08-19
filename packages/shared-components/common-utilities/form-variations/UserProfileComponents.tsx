@@ -1,8 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import RadioSingleLabelComponent from './RadioSingleLabelComponent';
+
 
 const UserProfileComponents = () => {
+
+  const roleBest = ['Student', 'My child is going to uni', 'Teacher', 'Career advisor', 'I work in the sector' ]
+
   // selectMonth
   const [selectMonth, setSelectMonth] = useState('Nationality');
 
@@ -27,7 +32,6 @@ const UserProfileComponents = () => {
     // TODO: handle form submission
     console.log('Classes registration submitted:', data);
   };
-
   // validation
 
   return (
@@ -42,7 +46,7 @@ const UserProfileComponents = () => {
           name="userProfile"
           onSubmit={handleSubmit(getData)}
         >
-            <div className="form-inner-wrap form-card flex flex-col flex-1 gap-6">
+            <div className="form-inner-wrap form-card flex flex-col flex-1 gap-[24px]">
               <div className='form-group flex gap-4'>
                 <div className="form-col">
                   <label>
@@ -132,29 +136,18 @@ const UserProfileComponents = () => {
                     </div>
                   )}
                 </div>       
-              </div>
-
-              
-
-
-
-
-
-
-
-
-
-            <div className="form-row">
+              </div>           
+              <div className="form-row">
               <div className="form-col flex flex-col gap-1">
                 <label className="small font-semibold text-gray-800">
                   Nationality
                   <span className="mandatory text-gray-500 pl-1">*</span>
                 </label>
                 <select
-                  {...register('birthMonth', { required: true })}
+                  {...register('month', { required: true })}
                   className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100"
-                  id="birthMonth"
-                  name="birthMonth"
+                  id="month"
+                  name="month"
                   value={selectMonth}
                   //onChange={(e) => setSelectMonth(e.target.value)}
                 >
@@ -165,107 +158,30 @@ const UserProfileComponents = () => {
                     </option>
                   ))}
                 </select>
-                {errors?.birthMonth?.type === 'required' && (
+                {errors?.month?.type === 'required' && (
                   <div className="error x-small text-error-primary">
-                    Please select your birth month.
+                    Please select your nth.
                   </div>
                 )}
               </div>
-            </div>
-            <div className="form-row">
-              <div className="form-col flex flex-col gap-3">
-                <label className="small font-semibold text-gray-800">
-                  Please choose your preferred venue
-                  <span className="mandatory text-gray-500 pl-1">*</span>
-                </label>
-                <div className="flex flex-col items-start gap-4">
-                  <div className="flex gap-2">
-                    <input
-                      id="fap"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="fap"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Friday at Orpington
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      id="faf"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="faf"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Friday at Falconwood
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      id="saf"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="saf"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Saturday at Falconwood
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      id="sao"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="sao"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Sunday at Orpington
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      id="to"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="to"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Tuesday ONLINE
-                    </label>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      id="venueOthers"
-                      type="radio"
-                      name="childsGender"
-                      className="input-checked input-radio"
-                    />
-                    <label
-                      htmlFor="venueOthers"
-                      className="small text-gray-700 cursor-pointer"
-                    >
-                      Other
-                    </label>
+              </div>
+              <div className="form-row flex">
+                <div className="role-card form-col flex flex-col gap-[16px] bg-grey-50 border border-grey-200 p-[16px] rounded-[8px]">
+                  <label className="small font-semibold text-grey-300">
+                    What description fits you best? 
+                    <span className="optional font-normal x-small text-grey-700 pl-1">(optional)</span>
+                  </label>
+                  <div className="flex flex-col items-start gap-[8px]">
+                    {roleBest.map((roleData, index) => (
+                      <RadioSingleLabelComponent
+                        id={index}
+                        label={roleData}
+                        description={''}
+                      />
+                    ))}                    
                   </div>
                 </div>
               </div>
-            </div>
             <div className="form-row">
               <div className="form-col flex flex-col gap-3">
                 <label className="small font-semibold text-gray-800">

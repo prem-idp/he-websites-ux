@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
 import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
 import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
+import UserProfileComponents from "@packages/shared-components/common-utilities/form-variations/UserProfileComponents";
 const page = () => {
   const listData = [
     {
@@ -40,7 +41,9 @@ const page = () => {
           </>
         )}
         {/* Profile */}
-        {selectedTab === listData[1].title && <div>Profile Content</div>}
+        {selectedTab === listData[1].title && <>
+        <UserProfileComponents />
+        </>}
         {/* Activity */}
         {selectedTab === listData[2].title && <div>Activity Content</div>}
         {/* Settings */}
