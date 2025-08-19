@@ -109,6 +109,7 @@
     "react-dom": "^19.0.0",
     "react-error-boundary": "^5.0.0",
     "react-facebook-pixel": "^1.0.4",
+    "react-hook-form": "^7.62.0",
     "run": "^1.5.0",
     "source-map-support": "^0.5.21",
     "swiper": "^11.1.14",

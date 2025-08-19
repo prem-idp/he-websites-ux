@@ -2,9 +2,10 @@ import React from "react";
 import Image from "next/image";
 
 const Favourites = () => {
+  const bgColor1 = "white";
   return (
     <>
-      <section className="bg-yellow-50 px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
+      <section className="bg-white px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
         <div className="max-w-container mx-auto flex flex-col gap-[16px]">
           <div className="font-farro font-bold text-black text-heading4 lg:text-heading3">
             Your Favourites
@@ -27,26 +28,6 @@ const Favourites = () => {
             <button className="px-[16px] py-[8px] bg-white border border-primary-500 text-primary-500 rounded-[18px] hover:bg-primary-600 transition small font-semibold">
               Get started
             </button>
-          </div>
-        </div>
-      </section>
-      <section className="bg-green-50 px-[16px] md:px-[20px] xl:px-0">
-        <div className="max-w-container mx-auto">
-          <div className="grid grid-cols-2 gap-[20px]">
-            <div className="flex items-end justify-center bg-red-300">
-              <Image
-                width={385}
-                height={384}
-                src="/static/assets/images/user-profile/favourites-device.png"
-                alt="favourites"
-              />
-            </div>
-            <div className="flex flex-col justify-center gap-[16px] bg-violet-300">
-              <div>Manage your favourites on the go</div>
-              <div>Manage your favourites on the go</div>
-              <div>Manage your favourites on the go</div>
-              <div>Manage your favourites on the go</div>
-            </div>
           </div>
         </div>
       </section>
