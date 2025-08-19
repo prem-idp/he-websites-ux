@@ -19,7 +19,7 @@ const SettingTabs = ({ data, selectedTab, onSelectTab }: SettingTabsProps) => {
         <button
           key={item.id}
           onClick={() => onSelectTab(item.title)}
-          className={`px-[12px] py-[8px] text-small rounded-[20px] ${selectedTab === item.title ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`px-[10px] xs:px-[12px] py-[8px] text-x-small xs:text-small rounded-[20px] ${selectedTab === item.title ? "bg-black text-white" : "bg-white text-black"}`}
         >
           {item.title}
         </button>

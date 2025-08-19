@@ -10,7 +10,6 @@ const page = () => {
       <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-0 py-10 flex flex-col gap-10">
         <h2 className="text-2xl font-bold mb-4">Radio Button Example</h2>
         <RadioComponent
-          id={1}
           label="Control button heading"
           description="Description of what this control will do"
         />
