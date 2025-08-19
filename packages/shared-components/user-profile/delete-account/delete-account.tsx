@@ -3,12 +3,19 @@ import Link from "next/link";
 import CheckboxComponent from "@packages/shared-components/common-utilities/form-variations/CheckboxComponent";
 import Image from "next/image";
 
-const DeleteAccount = () => {
+interface DeleteAccountProps {
+  accountPop: boolean;
+  onAccountPop: (value: boolean) => void;
+}
+const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
   const [confirmpopup, setConfirmPopup] = useState(false);
   return (
     <div className="fixed top-0 left-0 w-full h-full backdrop-shadow flex items-center justify-center z-50">
       <div className="relative bg-white shadow-custom-6 w-full md:w-[575px] py-[40px] pl-[40px] pr-[25px] rounded-[8px] mx-[16px]">
-        <span className="absolute top-[16px] right-[16px] cursor-pointer">
+        <span
+          onClick={() => onAccountPop(false)}
+          className="absolute top-[16px] right-[16px] cursor-pointer"
+        >
           <Image
             alt="close icon"
             width={20}
@@ -208,7 +215,7 @@ const DeleteAccount = () => {
               {/* divider  */}
               <span className="border-t border-grey-300 my-[24px]"></span>
               <button
-                onClick={() => setConfirmPopup(false)}
+                onClick={() => onAccountPop(false)}
                 className="btn btn-primary"
               >
                 Close
