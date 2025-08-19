@@ -5,6 +5,7 @@ import SettingTabs from "@packages/shared-components/common-utilities/setting-ta
 import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
 import Settings from "@packages/shared-components/common-utilities/settings/settings";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
+import UserProfileComponents from "@packages/shared-components/common-utilities/form-variations/UserProfileComponents";
 const page = () => {
   const listData = [
     {
@@ -38,7 +39,7 @@ const page = () => {
         {/* Favourites */}
         {selectedTab === listData[0].title && <Favourites />}
         {/* Profile */}
-        {selectedTab === listData[1].title && <div>Profile Content</div>}
+        {selectedTab === listData[1].title && <UserProfileComponents />}
         {/* Activity */}
         {selectedTab === listData[2].title && <div>Activity Content</div>}
         {/* Settings */}
