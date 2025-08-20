@@ -8,7 +8,7 @@ import UserProfileComponents from "@packages/shared-components/common-utilities/
 import Favourites from "@packages/shared-components/common-utilities/favourites/favourites";
 import ManageFavourites from "@packages/shared-components/common-utilities/manage-favourites/managefavourites";
 import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
-
+import Activity from "@packages/shared-components/common-utilities/activity/activity";
 const page = () => {
   const listData = [
     {
@@ -28,7 +28,7 @@ const page = () => {
       id: 4,
     },
   ];
-  const [selectedTab, setSelectedTab] = useState(listData[3].title);
+  const [selectedTab, setSelectedTab] = useState(listData[2].title);
   const bgColor1 = "white";
 
   return (
@@ -56,7 +56,11 @@ const page = () => {
         {/* Profile */}
         {selectedTab === listData[1].title && <UserProfileComponents />}
         {/* Activity */}
-        {selectedTab === listData[2].title && <div>Activity Content</div>}
+        {selectedTab === listData[2].title && (
+          <>
+            <Activity />
+          </>
+        )}
         {/* Settings */}
         {selectedTab === listData[3].title && <Settings />}
         <Subscribecomponents />
