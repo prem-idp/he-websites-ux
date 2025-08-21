@@ -2,13 +2,15 @@ import React from "react";
 
 interface CheckboxComponentProps {
   title?: string;
-  description?: string;
+  descriptionStyle?: string;
+  description?: string | ReactNode;
   id?: string;
 }
 
 const CheckboxComponent = ({
   title = "Checkbox title dummy content",
   description = "Checkbox descripton dummy content",
+  descriptionStyle = "text-x-small",
   id = "checkbox-1",
 }: CheckboxComponentProps) => {
   return (
@@ -40,8 +42,12 @@ const CheckboxComponent = ({
         </label>
       </div>
       <label htmlFor={id} className="flex flex-col cursor-pointer select-none">
-        <p className="font-semibold">{title}</p>
-        <span className="small">{description}</span>
+        {title && <p className=" font-semibold">{title}</p>}
+        {description && (
+          <span className={`text-grey-600 ${descriptionStyle}`}>
+            {description}
+          </span>
+        )}
       </label>
     </div>
   );
