@@ -39,7 +39,6 @@ const Enquiries = () => {
               >
                 {item.description}
               </div>
-
               <button className="flex justify-end items-center gap-[4px] text-primary-400 x-small group shrink-0">
                 University Info
                 <RightBlueArrowIcon />
