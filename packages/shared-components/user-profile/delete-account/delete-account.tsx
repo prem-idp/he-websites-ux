@@ -11,8 +11,8 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
   const [confirmpopup, setConfirmPopup] = useState(false);
   return (
     <div className="fixed top-0 left-0 w-full h-full backdrop-shadow flex items-center justify-center z-50">
-      <div className="relative bg-white shadow-custom-6 w-full md:w-[575px] py-[40px] pl-[40px] pr-[25px] rounded-[8px] mx-[16px]">
-        <span
+      <div className="relative bg-white shadow-custom-6 w-full md:w-[575px] px-[16px] pb-[16px] pt-[40px] md:p-[40px] rounded-[8px] mx-[16px]">
+        <button
           onClick={() => onAccountPop(false)}
           className="absolute top-[16px] right-[16px] cursor-pointer"
         >
@@ -22,7 +22,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
             height={20}
             src="/static/assets/icons/close_icon.svg"
           />
-        </span>
+        </button>
         <div className="overflow-y-auto max-h-[calc(100vh_-_150px)] md:max-h-[calc(100vh_-_100px)]">
           {/* set 1 */}
           {!confirmpopup && (
@@ -46,17 +46,17 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                 <div className="flex flex-col gap-[4px] text-small text-tertiary-600">
                   <span className="font-semibold">Attention</span>
                   <div className="flex flex-col gap-[16px]">
-                    <p>
+                    <span className="small">
                       If you confirm your request, your data from IDP, Whatuni
                       and Postgraduate Search will be removed from our central
                       systems and your accounts will be deactivated. This will
                       include deleting your account from the Whatuni App.
-                    </p>
-                    <p>
+                    </span>
+                    <span className="small">
                       If you delete your account and request prospectus [and a
                       list of actions, which will lead to a new registration]
                       within 48 hours, a new account will be created.
-                    </p>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -151,9 +151,10 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                   Please review our privacy notice regarding the right to
                   erasure or personal information
                 </div>
-                <div className="">
+                <div className="flex flex-col gap-[16px]">
                   <CheckboxComponent
                     title={""}
+                    descriptionStyle={"para"}
                     description={
                       <>
                         I have read and understood the {""}
@@ -173,6 +174,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                     description={
                       "I understand that my details associated with this email address will be removed from IDP, Whatuni, Whatuni App and Postgraduate Search"
                     }
+                    descriptionStyle={"para"}
                     id={"checkbox-2"}
                   />
                 </div>

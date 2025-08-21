@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import AccountData from "@packages/shared-components/common-utilities/account-data/account-data";
 import ToggleComponent from "../form-variations/ToggleComponent";
-import DeleteAccount from "@packages/shared-components/user-profile/delete-account/delete-account";
+import SwitchToggleComponent from "../form-variations/SwitchToggleComponent";
 const Settings = () => {
   const [accountpop, setAccountPop] = useState(false);
   const downloadData = [
@@ -45,17 +45,21 @@ const Settings = () => {
         <div className="h4">Settings</div>
         <div className="flex flex-col gap-[16px]">
           <div className="h6">Mailing preferences</div>
-          <ToggleComponent
-            label="Control button heading"
-            description="Description of what this control will do"
+
+          <SwitchToggleComponent
+            stateEnable={true}
+            label="Newsletters"
+            description="Emails from us providing you the latest university news, tips and guides"
           />
-          <ToggleComponent
-            label="Control button heading"
-            description="Description of what this control will do"
+          <SwitchToggleComponent
+            stateEnable={true}
+            label="University updates"
+            description="Emails on behalf of universities and carefully selected third-party partners"
           />
-          <ToggleComponent
-            label="Control button heading"
-            description="Description of what this control will do"
+          <SwitchToggleComponent
+            stateEnable={false}
+            label="Surveys"
+            description="Have your say on important education issues and the services you receive from us and our partners"
           />
         </div>
         <span className="border-t border-grey-300"></span>

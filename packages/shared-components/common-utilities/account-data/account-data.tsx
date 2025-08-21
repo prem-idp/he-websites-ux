@@ -26,12 +26,15 @@ const AccountData = ({ data }: AccountDataProps) => {
         {buttonText === "Delete my account" ? (
           <button
             onClick={() => setSettingPopup(true)}
-            className="btn btn-primary"
+            className="btn btn-primary w-full md:w-auto"
           >
-            {buttonText}1
+            {buttonText}
           </button>
         ) : (
-          <button onClick={handleNavigation} className="btn btn-primary">
+          <button
+            onClick={handleNavigation}
+            className="btn btn-primary w-full md:w-auto"
+          >
             {buttonText}
           </button>
         )}
