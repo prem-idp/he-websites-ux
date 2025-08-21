@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import AccountData from "@packages/shared-components/common-utilities/account-data/account-data";
-
+import ToggleComponent from "../form-variations/ToggleComponent";
+import SwitchToggleComponent from "../form-variations/SwitchToggleComponent";
 const Settings = () => {
+  const [accountpop, setAccountPop] = useState(false);
   const downloadData = [
     {
       title: "Download my data",
@@ -41,6 +43,25 @@ const Settings = () => {
     <div className="max-w-container my-[40px] mx-auto px-[16px] md:px-[20px] xl:px-0">
       <div className="max-w-[800px] mx-auto flex flex-col gap-[32px]">
         <div className="h4">Settings</div>
+        <div className="flex flex-col gap-[16px]">
+          <div className="h6">Mailing preferences</div>
+
+          <SwitchToggleComponent
+            stateEnable={true}
+            label="Newsletters"
+            description="Emails from us providing you the latest university news, tips and guides"
+          />
+          <SwitchToggleComponent
+            stateEnable={true}
+            label="University updates"
+            description="Emails on behalf of universities and carefully selected third-party partners"
+          />
+          <SwitchToggleComponent
+            stateEnable={false}
+            label="Surveys"
+            description="Have your say on important education issues and the services you receive from us and our partners"
+          />
+        </div>
         <span className="border-t border-grey-300"></span>
         <AccountData data={downloadData} />
         <span className="border-t border-grey-300"></span>
