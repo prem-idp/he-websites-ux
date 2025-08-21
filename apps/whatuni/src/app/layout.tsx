@@ -6,7 +6,7 @@ import Header from "@packages/shared-components/common-utilities/header/headerco
 import Footer from "@packages/shared-components/common-utilities/footer/footercomponents";
 import Tickertape from "@packages/shared-components/common-utilities/tickertape/tickertape";
 
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 const farroBold = localFont({
   src: "./fonts/Farro-Bold.woff",
   variable: "--font-geist-sans",
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const hideLayout = pathname === '/cpc-landing';
+  const hideLayout = pathname === "/cpc-landing";
   return (
     <html lang="en">
       <body
