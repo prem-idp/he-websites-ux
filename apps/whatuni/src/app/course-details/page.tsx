@@ -86,7 +86,7 @@ const page = () => {
     <Findacoursecomponents {...findacourseData} bgColor="orange-100" />
     {/* <Subscribecomponents /> */}
     {openModal === "courseoption" && <Courseinfomodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
-    {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen}  onClose={handleCloseModal} />}
+    {openModal === "subject" && <Subjectmodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
     {openModal === "examType" && <Examtypemodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
     {openModal === "location" && <Locationmodalcomponents isOpen={isOpen} onClose={handleCloseModal} />}
     {/* {(openModal === "reviewfilter" || openModal === "reviewgallery") && <Reviewfiltermodalcomponents isOpen={isOpen} onOpenReviewGalleryModal={()=> handleOpenModal("reviewgallery")} onClose={handleCloseModal} />}

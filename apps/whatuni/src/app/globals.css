@@ -135,20 +135,17 @@
     @apply bg-transparent border-primary-400 text-primary-400 border rounded-[20px] px-[20px] py-[10px] hover:border-primary-500 hover:bg-primary-500 hover:text-white font-semibold cursor-pointer;
   }
 
-  .btn-secondary-outline {
-    @apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold;
-  }
+  .btn-secondary-outline {@apply bg-transparent border-secondary-500 text-secondary-500 border rounded-[24px] px-[16px] py-[7px] hover:bg-secondary-500 hover:text-white font-semibold }
   .btn-white {@apply bg-white text-primary-400 hover:bg-primary-400 hover:text-white}
   .form-card .form-col{@apply flex flex-col flex-1 gap-[8px]}
   .form-card .form-col label{@apply small font-semibold text-grey300}
   .form-card .form-col label .mandatory{@apply text-negative-default pl-[1px]}
-  .input-textbox{@apply small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:border-grey-500 shadow-custom-14 placeholder:text-grey-700}
+  .input-textbox{@apply small text-grey-600 border border-grey-500 rounded-[4px] p-[9px_12px] focus:outline-none focus:border-blue-400 active:border-grey-500 shadow-custom-14 placeholder:text-grey-700}
 
 
   .form-card .typing-disabled label{@apply text-grey-400}
   .form-card .typing-disabled .input-textbox{@apply border border-grey-400 bg-grey-50 text-grey-400 pointer-events-none}
-  .error-text{@apply hidden x-small text-negative-default}
-  .error .error-text{@apply block}
+  .error-text{@apply x-small text-negative-default}
   .error .input-textbox{@apply border border-negative-default}
   
 /* TODO: Components end */
