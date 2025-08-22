@@ -91,7 +91,7 @@ const ProfileUpdates = ({ children }: any) => {
               </div>
             ) : null}
 
-            <div className="h3">Daniel Finnegan</div>
+            <div className="h3 text-black">Daniel Finnegan</div>
           </div>
           {children}
         </div>
