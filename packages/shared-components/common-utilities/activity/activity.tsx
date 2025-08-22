@@ -20,9 +20,11 @@ const Activity = ({ children }: ActivityProps) => {
     { name: "Prospectuses", path: "/user-profile/activity/prospectuses" },
     { name: "Open days", path: "/user-profile/activity/opendays" },
     { name: "Enquiries", path: "/user-profile/activity/enquiries" },
-    { name: "Cost of living calculator", path: "/user-profile/activity/cost-of-living" },
+    {
+      name: "Cost of living calculator",
+      path: "/user-profile/activity/cost-of-living",
+    },
   ];
-
 
   const pathname = usePathname();
 
@@ -44,9 +46,7 @@ const Activity = ({ children }: ActivityProps) => {
             </Link>
           ))}
         </aside>
-        <div className="flex-1">
-          {children}
-        </div>
+        <div className="flex-1">{children}</div>
       </div>
     </section>
   );

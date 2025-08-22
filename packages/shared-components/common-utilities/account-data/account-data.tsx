@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import DeleteAccount from "@packages/shared-components/user-profile/delete-account/delete-account";
