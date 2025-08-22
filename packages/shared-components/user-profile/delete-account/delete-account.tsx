@@ -129,7 +129,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                     Reason for leaving
                   </label>
                   <select
-                    className="w-full rounded-[4px] cursor-pointer border border-grey-500 bg-grey-100 py-[10px] px-[12px] rounded-[4px] text-small text-grey-600"
+                    className="w-full dropdown-grey dropdown-regular"
                     name="Reason for leaving"
                     id="reason-leaving"
                   >
