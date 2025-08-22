@@ -60,10 +60,10 @@ const UserProfileComponents = () => {
   };
 
   const getEmailError = () => {
-    if (errors?.onlyGmail?.type === "required") {
+    if (errors?.email?.type === "required") {
       return "Please enter your email address.";
     }
-    if (errors?.onlyGmail?.type === "pattern") {
+    if (errors?.email?.type === "pattern") {
       return "Please enter a valid email address.";
     }
     return null;
@@ -109,7 +109,9 @@ const UserProfileComponents = () => {
           <form name="userProfile" onSubmit={handleSubmit(getData)}>
             <div className="form-inner-wrap form-card flex flex-col flex-1 gap-[24px]">
               <div className="form-group flex flex-col lg:flex-row gap-[24px] md:gap-[8px]">
-                <div className="form-col">
+                <div
+                  className={`form-col ${getFirstNameError() ? "error" : ""} `}
+                >
                   <label>
                     First name
                     <span className="mandatory">*</span>
@@ -121,16 +123,18 @@ const UserProfileComponents = () => {
                       minLength: 2,
                       pattern: /^[A-Za-z\s]+$/,
                     })}
-                    className="input-textbox"
+                    className={`input-textbox ${getFirstNameError() ? "border-negative-default" : ""}`}
                     placeholder="Eg: Paul"
                   />
                   {getFirstNameError() && (
-                    <div className="error-text x-small text-error-primary">
+                    <div className="x-small text-negative-default">
                       {getFirstNameError()}
                     </div>
                   )}
                 </div>
-                <div className="form-col flex flex-col flex-1 gap-1">
+                <div
+                  className={`form-col flex flex-col flex-1 gap-1 ${getLastNameError() ? "error" : ""}`}
+                >
                   <label>
                     Last name
                     <span className="mandatory">*</span>
@@ -142,37 +146,39 @@ const UserProfileComponents = () => {
                       minLength: 2,
                       pattern: /^[A-Za-z\s]+$/,
                     })}
-                    className="input-textbox"
+                    className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
                     placeholder="Eg: Paul"
                   />
                   {getLastNameError() && (
-                    <div className="error-text x-small text-error-primary">
+                    <div className="x-small text-negative-default">
                       {getLastNameError()}
                     </div>
                   )}
                 </div>
               </div>
               <div className="form-row typing-disabled">
-                <div className="form-col flex flex-col gap-1">
+                <div
+                  className={`form-col flex flex-col gap-1 ${getEmailError() ? "error" : ""}`}
+                >
                   <label className="small font-semibold text-gray-800">
                     Email Address
                     <span className="mandatory text-gray-500 pl-1">*</span>
                   </label>
                   <input
                     type="email"
-                    {...register("onlyGmail", {
+                    {...register("email", {
                       required: true,
                       pattern:
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     })}
-                    name="onlyGmail"
-                    className="input-textbox small text-grey-600 border border-grey-500  rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700"
+                    name="email"
+                    className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
                     value="paul.atreides@Arrakis.com"
                     placeholder="Eg: paul.atreides@Arrakis.com"
                     autoComplete="off"
                   />
                   {getEmailError() && (
-                    <div className="error x-small text-error-primary">
+                    <div className="x-small text-negative-default">
                       {getEmailError()}
                     </div>
                   )}
@@ -193,13 +199,18 @@ const UserProfileComponents = () => {
                     <span className="font-normal">(optional)</span>
                   </label>
                   <div className="flex flex-col md:flex-row gap-[8px]">
-                    <input
-                      type="textbox"
-                      name="mobileNumber"
-                      className="input-textbox flex-1 small text-grey-600 border border-grey-500  rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700"
-                      placeholder=""
-                      autoComplete="off"
-                    />
+                    <div className="relative flex items-center flex-1">
+                      <input
+                        type="textbox"
+                        name="mobileNumber"
+                        className="input-textbox w-full pl-[60px]"
+                        placeholder=""
+                        autoComplete="off"
+                      />
+                      <span className="small text-grey-700 absolute left-[16px]">
+                        (+44)
+                      </span>
+                    </div>
                     <button className="btn btn-primary max-w-[136px]">
                       Submit number
                     </button>
@@ -356,7 +367,6 @@ const UserProfileComponents = () => {
                       className="input-textbox"
                       placeholder="Enter town/city"
                     />
-                    <div className="error-text">Helper text.</div>
                   </div>
                   <div className="form-col flex flex-col flex-1 gap-1">
                     <label>Postcode</label>
