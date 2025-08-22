@@ -4,7 +4,7 @@ import {
   RightBlueArrowIcon,
 } from "../../../../../apps/whatuni/src/app/media-utilities/mediautilities";
 
-interface ResultItem {
+export interface ResultItem {
   heading: string;
   date: string;
   university: string;
