@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 type TabItem = {
   id: string | number;
   title: string;
-  // add other properties as needed
 };
 
 interface SettingTabsProps {
@@ -43,7 +42,7 @@ const SettingTabs = ({ data, selectedTab, onSelectTab }: SettingTabsProps) => {
         <button
           key={item.id}
           onClick={() => handleTabClick(item.title)}
-          className={`px-[10px] xs:px-[12px] py-[8px] text-x-small xs:text-small rounded-[20px] ${selectedTab === item.title ? "bg-black text-white" : "bg-white text-black"}`}
+          className={`px-[10px] xs:px-[12px] py-[8px] border border-grey300 text-x-small xs:text-small rounded-[20px] ${selectedTab === item.title ? "bg-grey300 text-white" : "bg-white text-grey300"}`}
         >
           {item.title}
         </button>
