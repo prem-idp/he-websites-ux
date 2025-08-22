@@ -2,14 +2,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const UserProfilePage = () => {
+const ActivityPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/user-profile/favourites");
+    router.replace("/user-profile/activity/enquiries");
   }, [router]);
 
   return null;
 };
 
-export default UserProfilePage;
+export default ActivityPage;
