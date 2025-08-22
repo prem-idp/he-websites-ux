@@ -524,6 +524,9 @@ p,
   animation: fadeIn 0.2s ease-in;
 }
 
+.dropdown-grey {@apply appearance-none bg-no-repeat bg-[calc(100%_-12px)_center] h-[41px] bg-[url('/static/assets/icons/arrow_down_black.svg')] rounded-[4px] cursor-pointer border border-grey-500 bg-grey-100 text-small text-grey-600}
+.dropdown-regular {@apply py-[10px] px-[12px]}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
