@@ -3,7 +3,7 @@ import React from "react";
 interface CheckboxComponentProps {
   title?: string;
   descriptionStyle?: string;
-  description?: string | ReactNode;
+  description?: string | React.ReactNode;
   id?: string;
 }
 
