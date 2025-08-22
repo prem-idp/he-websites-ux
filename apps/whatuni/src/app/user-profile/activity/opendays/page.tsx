@@ -1,7 +1,12 @@
 import React from "react";
+import ResultDetails from "@packages/shared-components/user-profile/activity/result-details/resultdetails";
 
-const page = () => {
-  return <div>page open</div>;
+const OpenDaysPage = () => {
+  return (
+    <>
+      <ResultDetails pageTitle={"Open Days"} resultDataInfo={[]} />
+    </>
+  );
 };
 
-export default page;
+export default OpenDaysPage;

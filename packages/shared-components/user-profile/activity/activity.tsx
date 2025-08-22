@@ -29,9 +29,9 @@ const Activity = ({ children }: ActivityProps) => {
   const pathname = usePathname();
 
   return (
-    <section className="bg-yellow-300 px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
-      <div className="max-w-container mx-auto px-[16px] md:px-[20px] lg:px-[100px] flex flex-col gap-[20px] md:flex-row bg-violet-200">
-        <aside className="w-64 border-r bg-white p-4 flex flex-col gap-3">
+    <section className="px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
+      <div className="max-w-container mx-auto px-[16px] md:px-[20px] lg:px-[100px] flex flex-col gap-[20px] md:flex-row">
+        <aside className="w-full md:w-[200px] flex flex-col gap-[12px]">
           {sideMenu.map((item) => (
             <Link
               key={item.path}
