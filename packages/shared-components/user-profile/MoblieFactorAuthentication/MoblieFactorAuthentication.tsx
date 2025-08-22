@@ -26,28 +26,40 @@ const MoblieFactorAuthentication = () => {
                 : " Type your phone number and we will send you a code"}
             </span>
           </div>
-          {verify ? (
-            <div className="flex">
-              {/* <input
-                type="texxt"
-                value="tr"
-                placeholder="enter your phone sssnumber"
-              /> */}
-            </div>
-          ) : (
-            <div className="flex">
-              <select name="" id="">
-                <option value="">+44</option>
-                <option value="">+43</option>
-                <option value="">+23</option>
-              </select>
-              {/* <input
-                type="phone"
-                value=""
-                placeholder="enter your phone number"
-              /> */}
-            </div>
-          )}
+          <div className="flex justify-center mx-auto w-full max-w-[350px] gap-[4px]">
+            {verify ? (
+              Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <input
+                    key={index}
+                    type="number"
+                    className="appearance-none appearance-textfield py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-grey-100 w-[40px] text-center text-small text-grey-600"
+                    value="0"
+                    placeholder="0"
+                    maxLength={1}
+                  />
+                ))
+            ) : (
+              <>
+                <select
+                  name=""
+                  id=""
+                  className="max-w-[85px] w-full dropdown-grey dropdown-regular"
+                >
+                  <option value="">+44</option>
+                  <option value="">+43</option>
+                  <option value="">+23</option>
+                </select>
+                <input
+                  type="phone"
+                  className="py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-grey-100 w-full text-small text-grey-600"
+                  value=""
+                  placeholder="enter your phone number"
+                />
+              </>
+            )}
+          </div>
 
           <span className="text-x-small">
             This is to protect you from anyone trying to steal your data/login
@@ -62,13 +74,21 @@ const MoblieFactorAuthentication = () => {
         </div>
       </div>
       {verify && (
-        <div className="flex w-[550px] max-w-[100%]  flex-col gap-[4px]">
-          <span className="">Didn’t receive a code?</span>
-          <span>
-            50 Secs <Link href="#">Resend code</Link>
+        <div className="flex w-[550px] max-w-[100%] flex-col gap-[4px]">
+          <span className="text-small text-grey-900 font-semibold">
+            Didn’t receive a code?
           </span>
-          <span>
-            Or<Link href="#">Edit number</Link>
+          <span className="text-x-small">
+            50 Secs{" "}
+            <Link className="text-blue-500" href="#">
+              Resend code
+            </Link>
+          </span>
+          <span className="text-x-small">
+            Or{" "}
+            <Link className="text-blue-500" href="#">
+              Edit number
+            </Link>
           </span>
         </div>
       )}

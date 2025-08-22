@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 const SwitchToggleComponent = ({ label, description, stateEnable }: any) => {

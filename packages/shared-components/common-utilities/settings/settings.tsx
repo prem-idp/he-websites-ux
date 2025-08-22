@@ -1,7 +1,7 @@
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import AccountData from "@packages/shared-components/common-utilities/account-data/account-data";
-import ToggleComponent from "../form-variations/ToggleComponent";
 import SwitchToggleComponent from "../form-variations/SwitchToggleComponent";
 const Settings = () => {
   const [accountpop, setAccountPop] = useState(false);

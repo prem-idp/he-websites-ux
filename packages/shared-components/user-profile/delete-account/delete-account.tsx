@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import CheckboxComponent from "@packages/shared-components/common-utilities/form-variations/CheckboxComponent";
@@ -8,7 +9,7 @@ interface DeleteAccountProps {
   onAccountPop: (value: boolean) => void;
 }
 const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
-  const [confirmpopup, setConfirmPopup] = useState(false);
+  const [confirmpopup, setConfirmPopup] = useState<boolean>(false);
   return (
     <div className="fixed top-0 left-0 w-full h-full backdrop-shadow flex items-center justify-center z-50">
       <div className="relative bg-white shadow-custom-6 w-full md:w-[575px] px-[16px] pb-[16px] pt-[40px] md:p-[40px] rounded-[8px] mx-[16px]">
@@ -129,7 +130,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                     Reason for leaving
                   </label>
                   <select
-                    className="w-full rounded-[4px] cursor-pointer border border-grey-500 bg-grey-100 py-[10px] px-[12px] rounded-[4px] text-small text-grey-600"
+                    className="w-full dropdown-grey dropdown-regular"
                     name="Reason for leaving"
                     id="reason-leaving"
                   >

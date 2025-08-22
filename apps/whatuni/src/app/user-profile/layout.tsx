@@ -1,14 +1,13 @@
 "use client";
+import { ReactNode, useState } from "react";
+import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
+import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
-
-const topMenu = [
-  { name: "Favourites", path: "/user-profile/favourites" },
-  { name: "Profile", path: "/user-profile/profile" },
-  { name: "Activity", path: "/user-profile/activity/prospectuses" },
-  { name: "Settings", path: "/user-profile/settings" },
+const listData = [
+  { title: "Favourites", id: 1 },
+  { title: "Profile", id: 2 },
+  { title: "Activity", id: 3 },
+  { title: "Settings", id: 4 },
 ];
 
 export default function UserProfileLayout({
@@ -16,12 +15,19 @@ export default function UserProfileLayout({
 }: {
   children: ReactNode;
 }) {
-  const pathname = usePathname();
+  const [selectedTab, setSelectedTab] = useState(listData[0].title);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="flex flex-col">
+      <ProfileUpdates>
+        <SettingTabs
+          data={listData}
+          selectedTab={selectedTab}
+          onSelectTab={setSelectedTab}
+        />
+      </ProfileUpdates>
       {/* Main Content (no sidebar here) */}
-      <div className="flex-1">{children}</div>
+      {children}
     </div>
   );
 }
