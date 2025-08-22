@@ -39,7 +39,7 @@ const ProfileUpdates = ({ children }: any) => {
               </span>
             </div>
             {uploadpop ? (
-              <div className="select-none before:absolute before:content-[''] before:-z-[-1] before:left-[50px] before:size-[16px] before:bg-white before:rotate-45 before:top-[-8px] left-[50px] absolute top-[100px] min-w-[316px] shadow-custom-3 p-[12px] bg-white rounded-[8px] flex flex-col gap-[12px]">
+              <div className="select-none before:absolute before:content-[''] before:-z-[-1] before:left-[0] before:right-[0] before:md:right-auto before:mx-[auto]  before:md:left-[50px] before:size-[16px] before:bg-white before:rotate-45 before:top-[-8px] left[-50px] md:left-[50px] absolute top-[105px] min-w-[300px] md:min-w-[316px] shadow-custom-3 p-[12px] bg-white rounded-[8px] flex flex-col gap-[12px]">
                 <div className="flex flex-col gap-[8px]">
                   <span className="x-small font-semibold">
                     Upload your profile photo
