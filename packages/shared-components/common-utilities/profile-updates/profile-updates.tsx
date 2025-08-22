@@ -2,9 +2,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const ProfileUpdates = ({ children }: any) => {
-  const [imagepath, setImagePath] = useState(
-    "/static/assets/icons/user-profile/avatar.png"
-  );
+  // const [imagepath, setImagePath] = useState(
+  //   "/static/assets/icons/user-profile/avatar.png"
+  // );
   const [uploadpop, setUploadPop] = useState(false);
   return (
     <div className="w-full flex shadow-custom-1">
@@ -18,7 +18,12 @@ const ProfileUpdates = ({ children }: any) => {
               className="select-none relative cursor-pointer"
             >
               <span className="relative size-[96px] flex overflow-hidden rounded-full">
-                <Image alt="profile" src={imagepath} width={96} height={96} />
+                <Image
+                  alt="profile"
+                  src="/static/assets/icons/user-profile/avatar.png"
+                  width={96}
+                  height={96}
+                />
 
                 <span className="absolute left-[0] flex items-center justify-center size-[96px] top-[0] bg-grey-600 bg-opacity-70 rounded-full">
                   <Image
