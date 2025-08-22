@@ -54,11 +54,11 @@ const ProfileUpdates = ({ children }: any) => {
                     <input
                       type="file"
                       id="file uploader"
-                      onChange={(event) => {
-                        if (event.target.files && event.target.files[0]) {
-                          setImagePath(event.target.files[0].name);
-                        }
-                      }}
+                      // onChange={(event) => {
+                      //   if (event.target.files && event.target.files[0]) {
+                      //     setImagePath(event.target.files[0].name);
+                      //   }
+                      // }}
                       className="hidden"
                     />
                     <div className="flex gap-[8px] items-center relative border bg-grey-100 h-[34px] border-grey-300 rounded-full">
