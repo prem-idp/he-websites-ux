@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 
 const Accordion = ({ title, children }: any) => {
@@ -49,7 +49,7 @@ const Accordion = ({ title, children }: any) => {
       <div
         className={`transition-all duration-300 ease-in-out ${
           isOpen ? "" : "max-h-0"
-        }  ${ isOpen && title === 'Nationality' ? "" : "overflow-hidden"}`}
+        }  ${isOpen && title === "Nationality" ? "" : "overflow-hidden"}`}
       >
         {children}
       </div>

@@ -1,11 +1,11 @@
 "use client";
-import { ReactNode } from "react";
+import React from "react";
 import ProfileUpdates from "@packages/shared-components/common-utilities/profile-updates/profile-updates";
 import SettingTabs from "@packages/shared-components/common-utilities/setting-tabs/setting-tabs";
-import Activity from "@packages/shared-components/common-utilities/activity/activity";
+import UserProfileComponents from "@packages/shared-components/common-utilities/form-variations/UserProfileComponents";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
 
-export default function ActivityLayout({ children }: { children: ReactNode }) {
+const ProfileDetailsPage = () => {
   const listData = [
     { title: "Favourites", id: 1 },
     { title: "Profile", id: 2 },
@@ -18,12 +18,16 @@ export default function ActivityLayout({ children }: { children: ReactNode }) {
       <ProfileUpdates>
         <SettingTabs
           data={listData}
-          selectedTab="Activity"
+          selectedTab="Profile"
           onSelectTab={() => {}}
         />
       </ProfileUpdates>
-      <Activity>{children}</Activity>
-      <Subscribecomponents />
+      <div>
+        <UserProfileComponents />
+        <Subscribecomponents />
+      </div>
     </div>
   );
-}
+};
+
+export default ProfileDetailsPage;
