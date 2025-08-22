@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import RadioSingleLabelComponent from "./RadioSingleLabelComponent";
 import CheckboxSingleLabelComponents from "./CheckboxSingleLabelComponents";
-import { log } from "console";
 
 const UserProfileComponents = () => {
   const roleBest = [
@@ -13,17 +12,20 @@ const UserProfileComponents = () => {
     "Career advisor",
     "I work in the sector",
   ];
-  // selectMonth
-  const [selectMonth, setSelectMonth] = useState("Nationality");
+  const [selectNationality, setSelectNationality] = useState("");
 
-  const months = Array.from({ length: 12 }, (_: unknown, i: number) => {
-    const date = new Date(0, i);
-    return {
-      value: String(i + 1).padStart(2, "0"),
-      label: date.toLocaleString("default", { month: "long" }),
-    };
-  });
-  // selectMonth
+  const countries = [
+    { value: "GB", label: "United Kingdom" },
+    { value: "US", label: "United States" },
+    { value: "CA", label: "Canada" },
+    { value: "AU", label: "Australia" },
+    { value: "DE", label: "Germany" },
+    { value: "FR", label: "France" },
+    { value: "IN", label: "India" },
+    { value: "CN", label: "China" },
+    { value: "JP", label: "Japan" },
+    { value: "BR", label: "Brazil" },
+  ];
   // validation
   const {
     register,
@@ -223,16 +225,32 @@ const UserProfileComponents = () => {
                     Nationality
                   </label>
                   <select
-                    className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100"
-                    id="month"
-                    name="month"
-                    value={selectMonth}
-                    //onChange={(e) => setSelectMonth(e.target.value)}
+                    className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] pr-[40px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100 appearance-none w-full"
+                    style={{
+                      backgroundImage:
+                        "url(/static/assets/icons/arrow_down_black.svg)",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 12px center",
+                      backgroundSize: "20px 20px",
+                    }}
+                    id="nationality"
+                    name="nationality"
+                    value={selectNationality}
+                    onChange={(e) => setSelectNationality(e.target.value)}
                   >
-                    <option value="">Nationality</option>
-                    {months.map((month) => (
-                      <option key={month.value} value={month.value}>
-                        {month.label}
+                    <option
+                      value=""
+                      className="w-full text-grey-600 bg-white outline-0"
+                    >
+                      Select nationality
+                    </option>
+                    {countries.map((country) => (
+                      <option
+                        key={country.value}
+                        value={country.value}
+                        className="w-full text-grey-600 bg-white outline-0"
+                      >
+                        {country.label}
                       </option>
                     ))}
                   </select>
