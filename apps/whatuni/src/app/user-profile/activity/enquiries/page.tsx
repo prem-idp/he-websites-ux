@@ -1,14 +1,8 @@
 import React from "react";
 import Enquiries from "@packages/shared-components/common-utilities/enquiries/enquiries";
 
-const page = () => {
-  return (
-    <>
-      <div className="flex-1">
-        <Enquiries />
-      </div>
-    </>
-  );
+const EnquiriesPage = () => {
+  return <Enquiries />;
 };
 
-export default page;
+export default EnquiriesPage;
