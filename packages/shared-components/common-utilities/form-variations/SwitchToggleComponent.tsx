@@ -13,13 +13,13 @@ const SwitchToggleComponent = ({ label, description, stateEnable }: any) => {
       </div>
       <button
         onClick={() => setEnabled(!enabled)}
-        className={`w-[42px] min-h-[24px] max-h-[24px] relative inline-flex reve items-center mt-[4px] rounded-full transition-colors focus:outline-none ${
+        className={`w-[42px] h-[24px] relative inline-flex reve items-center mt-[4px] rounded-full transition-colors focus:outline-none ${
           enabled ? "bg-positive-default" : "bg-grey-400"
         } 
         `}
       >
         <span
-          className={` transform transition ease-in-out duration-200 absolute translate-y-[1px] inset-y-[1] left-[1px] top-[1] flex items-center justify-center rounded-full bg-white shadow-custom-13 size-[20px] ${enabled ? "translate-x-[19px]" : " translate-x-[2px]"} `}
+          className={` transform transition ease-in-out duration-200 absolute inset-y-[1] left-[1px] top-[2px] flex items-center justify-center rounded-full bg-white shadow-custom-13 size-[20px] ${enabled ? "translate-x-[19px]" : " translate-x-[2px]"} `}
         />
       </button>
     </div>
