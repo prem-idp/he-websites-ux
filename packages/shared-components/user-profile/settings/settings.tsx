@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import AccountData from "@packages/shared-components/common-utilities/account-data/account-data";
-import SwitchToggleComponent from "../form-variations/SwitchToggleComponent";
+import AccountData from "@packages/shared-components/user-profile/account-data/account-data";
+import SwitchToggleComponent from "../../common-utilities/form-variations/SwitchToggleComponent";
 const Settings = () => {
   const [accountpop, setAccountPop] = useState(false);
   const downloadData = [
