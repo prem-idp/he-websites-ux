@@ -98,14 +98,14 @@ const HeaderBanner = ({ openvepple }: any) => {
     <>
       <section
         ref={bannerHeader}
-        className={`${scrolled ? "xl:pt-[380px]" : ""}`}
+        className={`${scrolled ? "xl:pt-[380px]" : "lg:pb-[74px] lg:bg-white"}`}
       >
         <div
           style={isMobile ? { marginTop: `${mobbtnposition}px` } : undefined}
-          className={`relative md:mt-[0px] ${scrolled && "xl:z-[4] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full"} `}
+          className={`relative md:mt-[0px] ${scrolled ? "xl:z-[5] xl:fixed xl:bg-grey300 xl:top-[0] xl:left-[0] xl:w-full" : ""}`}
         >
           <Image
-            className={`w-full min-h-[330px] md:min-h-[380px] xl:max-h-[320px] object-cover object-cente ${scrolled && "xl:hidden"}`}
+            className={`w-full h-[330px] md:h-[380px] xl:h-[320px] object-cover object-center ${scrolled ? "xl:hidden" : ""}`}
             loading="lazy"
             width={800}
             height={320}
@@ -113,12 +113,12 @@ const HeaderBanner = ({ openvepple }: any) => {
             alt="header-banner"
           />
           <div
-            className={`absolute top-[0] w-full py-[16px] md:py-[24px] bg-gradient14 h-full ${scrolled ? "md:bg-grey300 xl:h-fit xl:py-[10px]" : "h-full"}`}
+            className={`absolute top-[0] w-full py-[16px] md:py-[24px] h-full bg-gradient16 lg:bg-none ${scrolled ? "md:bg-grey300 xl:h-fit xl:py-[12px] xl:relative" : "h-full"}`}
           >
             <div className="max-w-container mx-auto h-full px-[16px] md:px-[24px] xl:px-[0]">
               <div className="flex flex-col h-full w-full justify-between">
                 <div
-                  className={`flex justify-end w-full ${scrolled && "xl:hidden"}`}
+                  className={`flex justify-end w-full ${scrolled ? "xl:hidden" : ""}`}
                 >
                   <button className="small font-semibold hover:underline flex gap-[6px] px-[10px] py-[6px] rounded-[16px] bg-grey-100 text-grey-500">
                     <Image
@@ -130,8 +130,12 @@ const HeaderBanner = ({ openvepple }: any) => {
                     Show gallery
                   </button>
                 </div>
-                <div className="flex md:flex-col xl:flex-row justify-between">
-                  <div className="flex items-start flex-col xl:flex-row gap-[16px]">
+                <div
+                  className={`flex justify-between w-full ${scrolled ? "" : "lg:p-[24px] lg:bg-white lg:rounded-[16px] lg:border lg:border-grey200 lg:shadow-custom-2 lg:absolute lg:bottom-[-74px] lg:w-[calc(100%_-_48px)] xl:w-[1216px] lg:max-w-[100%]"}`}
+                >
+                  <div
+                    className={`flex items-start flex-col lg:flex-row gap-[16px] ${scrolled ? "xl:items-center" : ""}`}
+                  >
                     <span
                       tabIndex={0}
                       className={`p-[4px] bg-white rounded-[12px] shadow-custom-1 w-[64px] md:min-w-[64px] h-[64px] md:w-[100px] md:h-[100px] ${scrolled && "xl:hidden"}`}
@@ -146,20 +150,20 @@ const HeaderBanner = ({ openvepple }: any) => {
                     </span>
                     <div className="text-white flex flex-col gap-[4px]">
                       <h1
-                        className={`h3 text-white line-clamp-3 md:line-clamp-2 ${scrolled && "md:text-small md:font-semibold"}`}
+                        className={`h3 text-white line-clamp-3 md:line-clamp-2 ${scrolled ? "md:text-small md:font-semibold" : "lg:text-grey300"}`}
                       >
                         University of Oxford
                       </h1>
-                      {openvepple &&
+                      {openvepple && (
                         <span
                           tabIndex={0}
                           className={`para font-semibold text-white ${scrolled && "xl:hidden"}`}
                         >
                           School of Aerospace, Transport and Manufacturing
                         </span>
-                      }
+                      )}
                       <div
-                        className={`flex flex-wrap items-center gap-[8px] small ${scrolled && "xl:hidden"}`}
+                        className={`flex flex-wrap items-center gap-[8px] small ${scrolled ? "xl:hidden" : "lg:text-grey300"}`}
                       >
                         <span className="flex items-center">
                           <Image
@@ -179,35 +183,41 @@ const HeaderBanner = ({ openvepple }: any) => {
                         </Link>
                       </div>
                       <ul
-                        className={`flex flex-wrap gap-[8px] mt-[4px] md:mt-[0]`}
+                        className={`flex flex-wrap gap-[8px] mt-[4px] md:mt-[0] ${scrolled ? "xl:hidden" : "lg:text-grey300"}`}
                       >
-                        {openvepple &&
-
+                        {openvepple && (
                           <li
                             tabIndex={0}
                             className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-200 text-positive-dark xs-small"
                           >
                             clearing
                           </li>
-                        }
+                        )}
                         <li
                           tabIndex={0}
-                          className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-green-100 text-positive-dark xs-small"
+                          className="flex text-nowrap select-none rounded-[4px] font-bold uppercase px-[8px] bg-positive-light text-positive-dark xs-small"
                         >
                           VIRTUAL TOURS AVAILABLE
                         </li>
                         <li>
                           <Link
-                            className="small flex gap-[8px] underline whitespace-nowrap"
+                            className="small flex gap-[8px] underline whitespace-nowrap lg:text-primary-400"
                             href="#"
                           >
                             View Clearing courses
                             <Image
-                              className="mt-[3px]"
+                              className="mt-[3px] lg:hidden"
                               alt="right arrow"
                               width={10}
                               height={8}
                               src="/static/assets/icons/arrow-right-white.svg"
+                            />
+                            <Image
+                              className="mt-[3px] hidden lg:block"
+                              alt="right arrow"
+                              width={10}
+                              height={8}
+                              src="/static/assets/icons/arrow-right.svg"
                             />
                           </Link>
                         </li>
@@ -215,16 +225,17 @@ const HeaderBanner = ({ openvepple }: any) => {
                     </div>
                   </div>
                   <div
-                    className={`flex xl:pt-[0] gap-[8px] justify-end items-end lg:min-w-[630px] ${scrolled ? "md:fixed md:z-[1] xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
+                    className={`flex xl:pt-[0] gap-[8px] items-end ${scrolled ? "md:fixed md:z-[4] xl:relative md:bottom-[0px] xl:bottom-[unset] md:left-[0px] xl:left-[unset] md:px-[20px] xl:px-[0px] md:py-[10px] xl:py-[0px] md:w-full xl:w-fit md:bg-grey300 xl:bg-transparent xl:items-center " : "md:pt-[12px]"}`}
                   >
-                    {openvepple &&
-
+                    {openvepple && (
                       <div
                         style={
-                          !scrolled ? { top: `-${mobbtnposition}px` } : undefined
+                          !scrolled
+                            ? { top: `-${mobbtnposition}px` }
+                            : undefined
                         }
                         ref={btnHeight}
-                        className={`bg-grey300 xl:bg-transparent flex items-end p-[16px] md:p-[0] gap-[8px] flex-[1] ${btnHandler && scrolled ? "grid grid-cols-1" : "grid md:flex grid-cols-2"} ${scrolled ? "fixed z-[5] md:relative top-[unset] bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 w-full xl:w-fit" : "w-full  left-[0px] md:left-[0px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2"}`}
+                        className={`bg-grey300 md:bg-transparent flex items-end p-[16px] md:p-[0] gap-[8px] w-full ${btnHandler && scrolled ? "grid grid-cols-1" : "grid md:flex grid-cols-2"} ${scrolled ? "fixed z-[5] md:relative top-[unset] bottom-[0px] md:bottom-[unset] left-[0] md:left-[unset] md:grid-cols-4 xl:w-fit" : "left-[0px] md:left-[0px] md:top-[unset] absolute md:relative md:p-[0px] grid-cols-2"}`}
                       >
                         {scrolled && isMobile && (
                           <div className="absolute flex justify-center top-[-27px] left-[0] w-full md:hidden">
@@ -262,7 +273,7 @@ const HeaderBanner = ({ openvepple }: any) => {
                           </>
                         )}
                       </div>
-                    }
+                    )}
                     <button className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
                       <div className="heart min-w-[40px] w-[40px] h-[40px] bg-white border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100">
                         <svg
