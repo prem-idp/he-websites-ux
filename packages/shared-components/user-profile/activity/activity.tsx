@@ -1,26 +1,32 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import Enquiries from "@packages/shared-components/common-utilities/enquiries/enquiries";
 
 interface ActivityProps {
   children?: React.ReactNode;
 }
 
 const Activity = ({ children }: ActivityProps) => {
-  const activityMenu = [
-    { title: "Prospectuses", icon: "activity-icon" },
-    { title: "Open days", icon: "activity-icon" },
-    { title: "Enquiries", icon: "activity-icon" },
-    { title: "Cost of living calculator", icon: "activity-icon" },
-  ];
-
   const sideMenu = [
-    { name: "Prospectuses", path: "/user-profile/activity/prospectuses" },
-    { name: "Open days", path: "/user-profile/activity/opendays" },
-    { name: "Enquiries", path: "/user-profile/activity/enquiries" },
     {
+      icon: "/static/assets/icons/activity/prospectuses.svg",
+      name: "Prospectuses",
+      path: "/user-profile/activity/prospectuses",
+    },
+    {
+      icon: "/static/assets/icons/activity/opendays.svg",
+      name: "Open days",
+      path: "/user-profile/activity/opendays",
+    },
+    {
+      icon: "/static/assets/icons/activity/enquiries.svg",
+      name: "Enquiries",
+      path: "/user-profile/activity/enquiries",
+    },
+    {
+      icon: "/static/assets/icons/activity/colc.svg",
       name: "Cost of living calculator",
       path: "/user-profile/activity/cost-of-living",
     },
@@ -29,24 +35,33 @@ const Activity = ({ children }: ActivityProps) => {
   const pathname = usePathname();
 
   return (
-    <section className="px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
+    <section className="bg-grey-50 py-[32px] md:py-[40px]">
       <div className="max-w-container mx-auto px-[16px] md:px-[20px] lg:px-[100px] flex flex-col gap-[20px] md:flex-row">
-        <aside className="w-full md:w-[200px] flex flex-col gap-[12px]">
+        <aside className="bg-grey-50 w-full md:w-[200] flex flex-col gap-[12px] sticky top-0">
           {sideMenu.map((item) => (
             <Link
               key={item.path}
               href={item.path}
-              className={`px-3 py-2 rounded-md transition ${
-                pathname === item.path
-                  ? "text-blue-600 font-semibold"
-                  : "text-gray-600 hover:text-blue-600"
+              className={`font-semibold small flex items-center gap-[8px] group hover:text-grey300 ${
+                pathname === item.path ? "text-grey300" : "text-primary-400"
               }`}
             >
+              <Image
+                className={`transition-all duration-200 ${
+                  pathname === item.path
+                    ? "custom-filter-icon"
+                    : "group-hover:custom-filter-icon"
+                }`}
+                width={24}
+                height={24}
+                src={item.icon}
+                alt={item.name}
+              />
               {item.name}
             </Link>
           ))}
         </aside>
-        <div className="flex-1">{children}</div>
+        <main className="flex-1">{children}</main>
       </div>
     </section>
   );
