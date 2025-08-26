@@ -8,10 +8,11 @@ export interface ResultItem {
   heading: string;
   date: string;
   university: string;
-  hasHearIcon: boolean;
+  hasHearIcon?: boolean;
   description: string;
-  textLink?: string;
+  textLink: string;
   showHighlight?: boolean;
+  activeHeart?: boolean;
 }
 
 const Resultcard = ({ data }: { data: ResultItem[] }) => {
@@ -22,28 +23,33 @@ const Resultcard = ({ data }: { data: ResultItem[] }) => {
           key={index}
           className="bg-white p-[16px] rounded-[8px] shadow-custom-3 flex flex-col gap-[8px]"
         >
-          <div className="flex justify-between items-center">
-            <div className="xs-small font-semibold uppercase">
-              {item.heading} {item.date}
+          <div className="flex justify-between items-start">
+            <div className="space-y-[4px]">
+              <div className="xs-small font-semibold uppercase">
+                {item.heading} {item.date}
+              </div>
+              <div className="small font-semibold">{item.university}</div>
             </div>
             {item.hasHearIcon && (
               <button className="group">
-                <HeartBlue hover={"group-hover:fill-blue-500"} />
+                <HeartBlue
+                  hover={`group-hover:fill-primary-400 ${item.activeHeart ? "fill-primary-400" : ""}`}
+                />
               </button>
             )}
           </div>
-          <div className="small font-semibold">{item.university}</div>
+
           <div
-            className={`flex gap-[16px] ${item.showHighlight ? "md:flex-col" : "md:flex-row md:justify-between md:items-center"}`}
+            className={`flex gap-[16px] ${item.showHighlight ? "flex-col" : "flex-row justify-between items-end"}`}
           >
             <div
-              className={`text-neutral600 x-small line-clamp-8 md:line-clamp-4 ${item.showHighlight ? "bg-grey-100 p-[8px] rounded-[8px] " : "bg-white"}`}
+              className={`text-neutral600 x-small line-clamp-8 md:line-clamp-4 ${item.showHighlight ? "bg-grey-100 p-[8px] rounded-[8px]" : ""}`}
             >
               {item.description}
             </div>
-            <button className="flex justify-end items-center gap-[4px] text-primary-400 x-small group shrink-0">
+            <button className="flex justify-end items-center gap-[4px] text-primary-400 x-small group shrink-0 hover:underline">
               {item.textLink}
-              <RightBlueArrowIcon />
+              <RightBlueArrowIcon hover="group-hover:stroke-blue-500" />
             </button>
           </div>
         </div>

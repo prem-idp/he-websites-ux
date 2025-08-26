@@ -1,23 +1,21 @@
 import React from "react";
-import ResultDetails from "@packages/shared-components/user-profile/activity/result-details/resultdetails";
+import Resultcard from "@packages/shared-components/user-profile/activity/result-card/resultcard";
 
-const resultMockData = [1, 2, 3, 4, 5].map(() => ({
-  heading: "BOOKED ON",
+const resultMockData = [1, 2, 3, 4, 5].map((i) => ({
+  heading: "ORDERED ON",
   date: "29 JUL 2024",
   university: "University of Bristol",
-  description: "Open day 11th September 2024",
-  showHighlight: false,
+  description: "Undergraduate prospectus",
   hasHearIcon: true,
   textLink: "University Info",
+  activeHeart: i == 2 ? true : false,
 }));
 
 const ProspectusesPage = () => {
   return (
     <>
-      <ResultDetails
-        pageTitle={"Prospectuses"}
-        resultDataInfo={resultMockData}
-      />
+      <div className="h5 mb-[16px]">Prospectuses</div>
+      <Resultcard data={resultMockData} />
     </>
   );
 };

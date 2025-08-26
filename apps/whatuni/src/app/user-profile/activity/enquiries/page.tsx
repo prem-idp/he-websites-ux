@@ -1,5 +1,5 @@
 import React from "react";
-import ResultDetails from "@packages/shared-components/user-profile/activity/result-details/resultdetails";
+import Resultcard from "@packages/shared-components/user-profile/activity/result-card/resultcard";
 
 const resultMockData = [1, 2, 3, 4, 5].map(() => ({
   heading: "Enquired ON",
@@ -15,7 +15,8 @@ const resultMockData = [1, 2, 3, 4, 5].map(() => ({
 const EnquiryPage = () => {
   return (
     <>
-      <ResultDetails pageTitle={"Enquiries"} resultDataInfo={resultMockData} />
+      <div className="h5 mb-[16px]">Enquiries</div>
+      <Resultcard data={resultMockData} />
     </>
   );
 };
