@@ -36,8 +36,8 @@ const Activity = ({ children }: ActivityProps) => {
 
   return (
     <section className="bg-grey-50 py-[32px] md:py-[40px]">
-      <div className="max-w-container mx-auto px-[16px] md:px-[20px] lg:px-[100px] flex flex-col gap-[20px] md:flex-row">
-        <aside className="bg-grey-50 w-full md:w-[200] flex flex-col gap-[12px] sticky top-0">
+      <div className="max-w-container mx-auto lg:px-[100px] flex flex-col gap-[20px] lg:flex-row">
+        <aside className="bg-grey-50 w-full h-full p-[16px] lg:w-[225px] flex flex-col gap-[12px] sticky top-0">
           {sideMenu.map((item) => (
             <Link
               key={item.path}
@@ -61,7 +61,9 @@ const Activity = ({ children }: ActivityProps) => {
             </Link>
           ))}
         </aside>
-        <main className="flex-1">{children}</main>
+        <main className="px-[16px] md:px-[20px] xl:px-0 flex-1">
+          {children}
+        </main>
       </div>
     </section>
   );
