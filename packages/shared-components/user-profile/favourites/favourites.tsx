@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 const Favourites = () => {
-  const bgColor1 = "white";
   return (
     <section className="px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
       <div className="max-w-container mx-auto flex flex-col gap-[16px]">
