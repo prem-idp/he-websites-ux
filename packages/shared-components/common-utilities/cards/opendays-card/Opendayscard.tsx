@@ -3,13 +3,13 @@ import Image from 'next/image'
 import BookOpenDay from '../interaction-button/bookopenday'
 import Link from 'next/link'
 
-const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysType, featureOpd, providerOpenDays, onlineOpendays}:any) => {
+const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysType, featureOpd, providerOpenDays, onlineOpendays, activityOpendays = false}:any) => {
   return (
     <>
     <div className={`card flex flex-col bg-white border border-grey-200 rounded-[8px] shadow-custom-2 overflow-hidden`}>
         {providerOpenDays || onlineOpendays ? '': (
-            <div className='card-header relative min-h-[190px] bg-grey-200'>
-                <Image src="/static/assets/images/article_image1.jpg" width="392" height="221" className='block w-full h-auto min-h-[185px]' alt='Article_image' />
+            <div className='card-header relative min-h-min bg-grey-200'>
+                <Image src="/static/assets/images/article_image1.jpg" width="392" height="221" className='block w-full h-auto' alt='Article_image' />
                 <div className='absolute z-[1] top-[16px] left-[16px] rounded-[8px] overflow-hidden'>
                     <Image src='/static/assets/images/uni_logo_tile1.jpg' width="64" height="64" alt="University logo" />
                 </div>
@@ -32,7 +32,7 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                 </div>                              
             </div>
         )}
-        <div className='flex'>
+        <div className='flex h-full'>
             {onlineOpendays ? '' : (
             <div className={`opd-calendar ${featureOpd ? 'bg-primary-100':'bg-grey-100'} border-r border-grey-200`}>
                 <div className='flex flex-col items-center p-[16px_18px]'>
@@ -43,7 +43,7 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
             </div>
             )}
 
-            <div className={`card-body flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? 'min-h-[141px]' : 'min-h-[184px]'}`}>
+            <div className={`card-body flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? 'min-h-[141px]' : activityOpendays ? 'min-h-[133px]':'min-h-[184px]'}`}>
                 <div className='flex flex-col gap-[8px] w-full'>
                     {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
                     {providerOpenDays || onlineOpendays ? (
@@ -58,9 +58,12 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                     <div className='flex flex-col gap-[8px]'>
                         <div className='card-subtitle small font-semibold line-clamp-1'>{opendaysType}</div>
                         <div className=''>
-                            {location && (
+                            {activityOpendays ?
+                                (<div className='xs-small font-semibold text-grey-900 uppercase'>booked ON 29 JUL 2024</div>)
+                            :
+                            location && (
                                 <div className='x-small text-grey-900'>{location}</div>
-                            )}
+                            )}                            
                             {time && (
                                 <div className='flex items-center gap-[4px]'>
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,14 +91,20 @@ const Opendayscard = ({studyType, uniName, courseName, location, time, opendaysT
                         </div>
                     </div> */}
                 </div>
+                {activityOpendays ? '' : ( 
                 <div className={`flex gap-[8px] w-full flex-col md:flex-row"}`}>
                   <BookOpenDay studyType={studyType} />
                 </div>
+                )}
             </div>
         </div>
         {providerOpenDays || onlineOpendays ? '': (
         <div className='flex justify-center items-center w-full p-[16px] border-t border-t-grey-200'>
-            <Link href="#" className='small font-semibold text-primary-400 text-center block hover:underline'>View XX open days</Link>
+            {activityOpendays ?
+            <Link href="#" className='small font-semibold text-primary-400 text-center block hover:underline'>University info</Link>              
+            : <Link href="#" className='small font-semibold text-primary-400 text-center block hover:underline'>View XX open days</Link>
+            }
+            
         </div>
         )}
      </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const BookOpenDay = ({ studyType }: any) => {
   let buttonText = "Book Now";

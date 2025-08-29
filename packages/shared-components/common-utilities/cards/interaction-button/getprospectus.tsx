@@ -8,7 +8,7 @@ const Getprospectus = ({ pageName }: any) => {
       :
       <button type='button' className='btn btn-orange w-full'>Get Prospectus {pageName}</button> 
     } */}
-      <button type="button" className="btn btn-tertiary-700 w-full">
+      <button type="button" className="btn btn-tertiary w-full">
         Get prospectus
       </button>
     </>

@@ -1,7 +1,8 @@
 import React from 'react'
 import OpendaysSliderComponents from '../OpendaysSliderComponents/OpendaysSliderComponents'
+import { log } from 'node:console'
 
-const OpendaysSREliteComponents = ({title, description, data, bgColor, openDays, featureOpd}: any) => {
+const OpendaysSREliteComponents = ({title, description, data, bgColor, openDays, featureOpd}: any) => {  
   return (
     <>
         <div className={`other-courses-container bg-${bgColor}`}> 

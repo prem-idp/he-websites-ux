@@ -1,9 +1,12 @@
 import React from "react";
-
+import Opendaysrgridcomponents from '@packages/shared-components/common-utilities/openday-sr-grid/OpendaySRGridComponents';
+import { AllOpenDaysData } from '@packages/constants/constants';
 const OpenDaysPage = () => {
+  const bgColor1="transparent"
   return (
     <>
-      <div className="h5 mb-[16px]">Open Days</div>
+      {/* <ActivityOpendayGridComponents /> */}
+      <Opendaysrgridcomponents {...AllOpenDaysData} activityOpendays={true} bgColor={bgColor1} />
     </>
   );
 };

@@ -110,6 +110,7 @@ const UserProfileComponents = () => {
         <div className="form-inner-container bg-white border border-grey-200 rounded-[8px] p-[24px_16px] md:p-[32px]">
           <form name="userProfile" onSubmit={handleSubmit(getData)}>
             <div className="form-inner-wrap form-card flex flex-col flex-1 gap-[24px]">
+              <h5 className="text-heading5">Personal details</h5>
               <div className="form-group flex flex-col lg:flex-row gap-[24px] md:gap-[8px]">
                 <div
                   className={`form-col ${getFirstNameError() ? "error" : ""} `}

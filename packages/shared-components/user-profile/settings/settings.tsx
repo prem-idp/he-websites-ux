@@ -40,7 +40,7 @@ const Settings = () => {
     },
   ];
   return (
-    <div className="max-w-container my-[40px] mx-auto px-[16px] md:px-[20px] xl:px-0">
+    <div className="max-w-container py-[24px] md:py-[40px] mx-auto px-[16px] md:px-[20px] xl:px-0">
       <div className="max-w-[800px] mx-auto flex flex-col gap-[32px]">
         <div className="h4">Settings</div>
         <div className="flex flex-col gap-[16px]">

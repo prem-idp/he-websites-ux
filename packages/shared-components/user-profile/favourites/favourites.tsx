@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Favourites = () => {
   return (
-    <section className="px-[16px] md:px-[20px] xl:px-0 py-[32px] md:py-[40px]">
+    <section className="px-[16px] md:px-[20px] xl:px-0 py-[24px] md:py-[40px]">
       <div className="max-w-container mx-auto flex flex-col gap-[16px]">
         <div className="font-farro font-bold text-black text-heading4 lg:text-heading3">
           Your Favourites
