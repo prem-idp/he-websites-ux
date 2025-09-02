@@ -4,7 +4,7 @@ import ProfileUpdates from "@packages/shared-components/user-profile/profile-upd
 import SettingTabs from "@packages/shared-components/user-profile/setting-tabs/setting-tabs";
 
 const listData = [
-  // { title: "Favourites", id: 1 },
+  { title: "Favourites", id: 1 },
   { title: "Profile", id: 2 },
   { title: "Activity", id: 3 },
   { title: "Settings", id: 4 },

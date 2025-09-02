@@ -17,14 +17,16 @@ import customFont from "next/font/local";
 //   variable: "--farro",
 // });
 
-const Advicecomponents = ({bgColor, heading,subHeading}:any) => {
+const Advicecomponents = ({ bgColor, heading, subHeading }: any) => {
   return (
     <div className={` advice-container bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
-        <div className="advice-card-container px-[0] md:py-[40px]">
+        <div className="advice-card-container px-[0] py-[32px] md:py-[40px]">
           <div className="advice-header px-[20px] xl:px-[0] mb-[16px]">
             {heading && <h4 className="font-bold">{heading}</h4>}
-            {subHeading && <p className="font-normal small mt-[8px]">{subHeading}</p>}
+            {subHeading && (
+              <p className="font-normal small mt-[8px]">{subHeading}</p>
+            )}
           </div>
           <div className="advice-course-container">
             <div className="advice-inner-wrap">
