@@ -17,10 +17,10 @@ const MoblieFactorAuthentication = () => {
               : "To download your data we require two factor authentication so we can verify it is really you"}
           </span>
         </div>
-        <div className="flex flex-col gap-[8px] ">
+        <div className="flex flex-col gap-[8px] items-center">
           <div className="flex flex-col gap-[4px] items-center">
             <div className="h6">Two factor authentication</div>
-            <span className="text-x-small">
+            <span className="text-x-small text-center">
               {verify
                 ? "Please enter the 6 digit pin"
                 : " Type your phone number and we will send you a code"}
@@ -61,13 +61,13 @@ const MoblieFactorAuthentication = () => {
             )}
           </div>
 
-          <span className="text-x-small">
+          <span className="text-x-small text-center">
             This is to protect you from anyone trying to steal your data/login
             details
           </span>
           <button
             onClick={() => setVerify(!verify)}
-            className="btn btn-primary"
+            className="btn btn-primary btn-xsmall min-w-[150px]"
           >
             {!verify ? "Verify" : "Confirm code"}
           </button>

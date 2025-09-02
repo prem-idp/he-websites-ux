@@ -23,24 +23,26 @@ const AccountData = ({ data }: AccountDataProps) => {
     <>
       <div className="flex flex-col items-start gap-[16px]">
         <div className="h6">{title}</div>
-        <div className="para">{description}</div>
+        <div className="text-x-small">{description}</div>
         {buttonText === "Delete my account" ? (
           <button
             onClick={() => setSettingPopup(true)}
-            className="btn btn-primary w-full md:w-auto"
+            className="btn btn-primary min-w-[150px] btn-xsmall text-x-small w-full md:w-auto"
           >
             {buttonText}
           </button>
         ) : (
           <button
             onClick={handleNavigation}
-            className="btn btn-primary w-full md:w-auto"
+            className="btn btn-primary min-w-[150px] btn-xsmall text-x-small w-full md:w-auto"
           >
             {buttonText}
           </button>
         )}
 
-        {popupBlocker && <span className="pb-[8px]">{popupBlocker}</span>}
+        {popupBlocker && (
+          <span className="text-x-small pb-[8px]">{popupBlocker}</span>
+        )}
       </div>
       {settingPopup && (
         <DeleteAccount
