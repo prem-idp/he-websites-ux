@@ -110,179 +110,184 @@ const UserProfileComponents = () => {
         <div className="form-inner-container bg-white border border-grey-200 rounded-[8px] p-[24px_16px] md:p-[32px]">
           <form name="userProfile" onSubmit={handleSubmit(getData)}>
             <div className="form-inner-wrap form-card flex flex-col flex-1 gap-[24px]">
-              <h5 className="text-heading5">Personal details</h5>
-              <div className="form-group flex flex-col lg:flex-row gap-[24px] md:gap-[8px]">
-                <div
-                  className={`form-col ${getFirstNameError() ? "error" : ""} `}
-                >
-                  <label>
-                    First name
-                    <span className="mandatory">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    {...register("firstName", {
-                      required: true,
-                      minLength: 2,
-                      pattern: /^[A-Za-z\s]+$/,
-                    })}
-                    className={`input-textbox ${getFirstNameError() ? "border-negative-default" : ""}`}
-                    placeholder="Eg: Paul"
-                  />
-                  {getFirstNameError() && (
-                    <div className="x-small text-negative-default">
-                      {getFirstNameError()}
-                    </div>
-                  )}
-                </div>
-                <div
-                  className={`form-col flex flex-col flex-1 gap-1 ${getLastNameError() ? "error" : ""}`}
-                >
-                  <label>
-                    Last name
-                    <span className="mandatory">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    {...register("lastName", {
-                      required: true,
-                      minLength: 2,
-                      pattern: /^[A-Za-z\s]+$/,
-                    })}
-                    className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
-                    placeholder="Eg: Paul"
-                  />
-                  {getLastNameError() && (
-                    <div className="x-small text-negative-default">
-                      {getLastNameError()}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="form-row typing-disabled">
-                <div
-                  className={`form-col flex flex-col gap-1 ${getEmailError() ? "error" : ""}`}
-                >
-                  <label className="small font-semibold text-gray-800">
-                    Email Address
-                    <span className="mandatory text-gray-500 pl-1">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    {...register("email", {
-                      required: true,
-                      pattern:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                    })}
-                    name="email"
-                    className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
-                    value="paul.atreides@Arrakis.com"
-                    placeholder="Eg: paul.atreides@Arrakis.com"
-                    autoComplete="off"
-                  />
-                  {getEmailError() && (
-                    <div className="x-small text-negative-default">
-                      {getEmailError()}
-                    </div>
-                  )}
-                  <div className="reset-password">
-                    <a
-                      href="#"
-                      className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
-                    >
-                      Reset Password
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-col flex flex-col flex-1 gap-1">
-                  <label className="small font-semibold text-gray-800">
-                    Mobile number{" "}
-                    <span className="font-normal">(optional)</span>
-                  </label>
-                  <div className="flex flex-col md:flex-row gap-[8px]">
-                    <div className="relative flex items-center flex-1">
-                      <input
-                        type="textbox"
-                        name="mobileNumber"
-                        className="input-textbox w-full pl-[60px]"
-                        placeholder=""
-                        autoComplete="off"
-                      />
-                      <span className="small text-grey-700 absolute left-[16px]">
-                        (+44)
-                      </span>
-                    </div>
-                    <button className="btn btn-primary max-w-[136px]">
-                      Submit number
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-col flex flex-col gap-1">
-                  <label className="small font-semibold text-gray-800">
-                    Nationality
-                  </label>
-                  <select
-                    className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] pr-[40px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100 appearance-none w-full"
-                    style={{
-                      backgroundImage:
-                        "url(/static/assets/icons/arrow_down_black.svg)",
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 12px center",
-                      backgroundSize: "20px 20px",
-                    }}
-                    id="nationality"
-                    name="nationality"
-                    value={selectNationality}
-                    onChange={(e) => setSelectNationality(e.target.value)}
+              {/* -- Personal details  -- */}
+              <div className="personal-details flex flex-col gap-[24px]">
+                <h5 className="text-heading5">Personal details</h5>
+                <div className="form-group flex flex-col lg:flex-row gap-[24px] md:gap-[8px]">
+                  <div
+                    className={`form-col ${getFirstNameError() ? "error" : ""} `}
                   >
-                    <option
-                      value=""
-                      className="w-full text-grey-600 bg-white outline-0"
+                    <label>
+                      First name
+                      <span className="mandatory">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      {...register("firstName", {
+                        required: true,
+                        minLength: 2,
+                        pattern: /^[A-Za-z\s]+$/,
+                      })}
+                      className={`input-textbox ${getFirstNameError() ? "border-negative-default" : ""}`}
+                      placeholder="Eg: Paul"
+                    />
+                    {getFirstNameError() && (
+                      <div className="x-small text-negative-default">
+                        {getFirstNameError()}
+                      </div>
+                    )}
+                  </div>
+                  <div
+                    className={`form-col flex flex-col flex-1 gap-1 ${getLastNameError() ? "error" : ""}`}
+                  >
+                    <label>
+                      Last name
+                      <span className="mandatory">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      {...register("lastName", {
+                        required: true,
+                        minLength: 2,
+                        pattern: /^[A-Za-z\s]+$/,
+                      })}
+                      className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
+                      placeholder="Eg: Paul"
+                    />
+                    {getLastNameError() && (
+                      <div className="x-small text-negative-default">
+                        {getLastNameError()}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="form-row typing-disabled">
+                  <div
+                    className={`form-col flex flex-col gap-1 ${getEmailError() ? "error" : ""}`}
+                  >
+                    <label className="small font-semibold text-gray-800">
+                      Email Address
+                      <span className="mandatory text-gray-500 pl-1">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      {...register("email", {
+                        required: true,
+                        pattern:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      })}
+                      name="email"
+                      className={`input-textbox ${getLastNameError() ? "border-negative-default" : ""}`}
+                      value="paul.atreides@Arrakis.com"
+                      placeholder="Eg: paul.atreides@Arrakis.com"
+                      autoComplete="off"
+                    />
+                    {getEmailError() && (
+                      <div className="x-small text-negative-default">
+                        {getEmailError()}
+                      </div>
+                    )}
+                    <div className="reset-password">
+                      <a
+                        href="#"
+                        className="flex items-center w-fit font-semibold small text-primary-400 hover:underline gap-[8px]"
+                      >
+                        Reset Password
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-col flex flex-col flex-1 gap-1">
+                    <label className="small font-semibold text-gray-800">
+                      Mobile number{" "}
+                      <span className="font-normal">(optional)</span>
+                    </label>
+                    <div className="flex flex-col md:flex-row gap-[8px]">
+                      <div className="relative flex items-center flex-1">
+                        <input
+                          type="textbox"
+                          name="mobileNumber"
+                          className="input-textbox w-full pl-[60px]"
+                          placeholder=""
+                          autoComplete="off"
+                        />
+                        <span className="small text-grey-700 absolute left-[16px]">
+                          (+44)
+                        </span>
+                      </div>
+                      <button className="btn btn-primary max-w-[136px]">
+                        Submit number
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-col flex flex-col gap-1">
+                    <label className="small font-semibold text-gray-800">
+                      Nationality
+                    </label>
+                    <select
+                      className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] pr-[40px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100 appearance-none w-full"
+                      style={{
+                        backgroundImage:
+                          "url(/static/assets/icons/arrow_down_black.svg)",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 12px center",
+                        backgroundSize: "20px 20px",
+                      }}
+                      id="nationality"
+                      name="nationality"
+                      value={selectNationality}
+                      onChange={(e) => setSelectNationality(e.target.value)}
                     >
-                      Select nationality
-                    </option>
-                    {countries.map((country) => (
                       <option
-                        key={country.value}
-                        value={country.value}
+                        value=""
                         className="w-full text-grey-600 bg-white outline-0"
                       >
-                        {country.label}
+                        Select nationality
                       </option>
-                    ))}
-                  </select>
+                      {countries.map((country) => (
+                        <option
+                          key={country.value}
+                          value={country.value}
+                          className="w-full text-grey-600 bg-white outline-0"
+                        >
+                          {country.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="form-row flex">
-                <div className="role-card form-col flex flex-col gap-[16px] bg-grey-50 border border-grey-200 p-[16px] rounded-[8px]">
-                  <label className="small font-semibold text-grey-300">
-                    What description fits you best?
-                    <span className="optional font-normal x-small text-grey-700 pl-1">
-                      (optional)
-                    </span>
-                  </label>
-                  <div className="flex flex-col items-start gap-[8px]">
-                    {roleBest.map((roleData, index) => (
-                      <RadioSingleLabelComponent
-                        id={index}
-                        label={roleData}
-                        description={""}
-                      />
-                    ))}
+                <div className="form-row flex">
+                  <div className="role-card form-col flex flex-col gap-[16px] bg-grey-50 border border-grey-200 p-[16px] rounded-[8px]">
+                    <label className="small font-semibold text-grey-300">
+                      What description fits you best?
+                      <span className="optional font-normal x-small text-grey-700 pl-1">
+                        (optional)
+                      </span>
+                    </label>
+                    <div className="flex flex-col items-start gap-[8px]">
+                      {roleBest.map((roleData, index) => (
+                        <RadioSingleLabelComponent
+                          id={index}
+                          label={roleData}
+                          description={""}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="persoanl-info-details flex flex-col gap-[24px] border-t border-t-grey-200 pt-[24px]">
+              {/* -- Personal details  -- */}
+              {/* -- Address details  -- */}
+              <div className="address-details flex flex-col gap-[24px] border-t border-t-grey-200 pt-[24px]">
                 <h5 className="text-heading5">Address details</h5>
                 <div className="form-row form_radio flex flex-col gap-[4px]">
                   <label className="check-label small font-semibold text-grey300">
                     Country of residence
                   </label>
-                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px]">
+                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+16px)] max-md:pr-[16px] max-md:scrollbar-hidden">
                     <div className="col flex relative">
                       <input
                         type="radio"
@@ -292,7 +297,7 @@ const UserProfileComponents = () => {
                       />
                       <label
                         htmlFor="UK"
-                        className="check-label small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
                       >
                         United Kingdom
                       </label>
@@ -306,7 +311,7 @@ const UserProfileComponents = () => {
                       />
                       <label
                         htmlFor="RoW"
-                        className="check-label small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
                       >
                         Rest of the World
                       </label>
@@ -397,7 +402,9 @@ const UserProfileComponents = () => {
                   </div>
                 </div>
               </div>
-              <div className="persoanl-info-details flex flex-col gap-[24px] border-t border-t-grey-200 pt-[24px]">
+              {/* -- Address details  -- */}
+              {/* -- Education details  -- */}
+              <div className="education-details flex flex-col gap-[24px] border-t border-t-grey-200 pt-[24px]">
                 <h5 className="text-heading5">Education details</h5>
                 <div className="form-row form_radio flex flex-col gap-[4px]">
                   <label className="check-label small font-semibold text-grey300">
@@ -406,7 +413,7 @@ const UserProfileComponents = () => {
                   <span className="xs-small font-semibold text-grey300">
                     CHOOSE ONE
                   </span>
-                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px]">
+                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+32px)] max-md:-ml-[16px] max-md:pl-[16px] max-md:pr-[16px] max-md:scrollbar-hidden">
                     <div className="col flex relative">
                       <input
                         type="radio"
@@ -470,7 +477,7 @@ const UserProfileComponents = () => {
                   <label className="check-label small font-semibold text-grey300">
                     Study level
                   </label>
-                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+16px)] max-md:pr-[16px] max-md:scrollbar-hidden">
+                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+32px)] max-md:-ml-[16px] max-md:pl-[16px] max-md:pr-[16px] max-md:scrollbar-hidden">
                     <div className="col flex relative">
                       <input
                         type="radio"
@@ -481,7 +488,7 @@ const UserProfileComponents = () => {
                       />
                       <label
                         htmlFor="UG"
-                        className="check-label small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
                       >
                         Undergradute
                       </label>
@@ -495,7 +502,7 @@ const UserProfileComponents = () => {
                       />
                       <label
                         htmlFor="Postgraduate"
-                        className="check-label small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
                       >
                         Postgraduate
                       </label>
@@ -509,7 +516,7 @@ const UserProfileComponents = () => {
                       />
                       <label
                         htmlFor="Foundation"
-                        className="check-label small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
                       >
                         Foundation
                       </label>
@@ -533,7 +540,210 @@ const UserProfileComponents = () => {
                   </div>
                   <CheckboxSingleLabelComponents />
                 </div>
+                <div className="flex flex-col gap-[8px]">
+                  <div className="form-row">
+                    <div className="form-col flex flex-col flex-1 gap-1">
+                      <label className="small font-semibold text-gray-800">
+                        Course
+                      </label>
+                      <input
+                        type="textbox"
+                        name="courseName"
+                        className="input-textbox small text-grey-600 border border-grey-500  rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700"
+                        placeholder="Please enter your course name"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-col flex flex-col gap-1">
+                    <label className="small font-semibold text-gray-800">
+                      Year completed/expected
+                    </label>
+                    <select
+                      className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] pr-[40px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100 appearance-none w-full"
+                      style={{
+                        backgroundImage:
+                          "url(/static/assets/icons/arrow_down_black.svg)",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 12px center",
+                        backgroundSize: "20px 20px",
+                      }}
+                      id="selectYear"
+                      name="selectYear"
+                      value=""
+                    >
+                      <option
+                        value=""
+                        className="w-full text-grey-600 bg-white outline-0"
+                      >
+                        Select year
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-col flex flex-col gap-1">
+                    <label className="small font-semibold text-gray-800">
+                      Award classification
+                    </label>
+                    <select
+                      className="select-dropdown small text-grey-600 border border-grey-500 rounded-[4px] p-[10px_12px] pr-[40px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700 bg-grey-100 appearance-none w-full"
+                      style={{
+                        backgroundImage:
+                          "url(/static/assets/icons/arrow_down_black.svg)",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 12px center",
+                        backgroundSize: "20px 20px",
+                      }}
+                      id="selectClassification"
+                      name="selectClassification"
+                      value=""
+                    >
+                      <option
+                        value=""
+                        className="w-full text-grey-600 bg-white outline-0"
+                      >
+                        Select classification
+                      </option>
+                    </select>
+                  </div>
+                </div>
               </div>
+              {/* -- Education details  -- */}
+              {/* -- Study preferences  -- */}
+              <div className="study-preferences flex flex-col gap-[24px] border-t border-t-grey-200 pt-[24px]">
+                <h5 className="text-heading5">Study preferences</h5>
+                {/* -- */}
+                <div className="form-row form_radio flex flex-col gap-[4px]">
+                  <label className="check-label small font-semibold text-grey300">
+                    Qualification
+                  </label>
+                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+32px)] max-md:-ml-[16px] max-md:pl-[16px] max-md:pr-[16px] max-md:scrollbar-hidden">
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="qualification"
+                        defaultChecked
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="taught"
+                      />
+                      <label
+                        htmlFor="taught"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Taught
+                      </label>
+                    </div>
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="qualification"
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="research"
+                      />
+                      <label
+                        htmlFor="research"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Research
+                      </label>
+                    </div>
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="qualification"
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="taught&research"
+                      />
+                      <label
+                        htmlFor="taught&research"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Taught & Research
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                {/* -- */}
+                {/* -- */}
+                <div className="form-row form_radio flex flex-col gap-[4px]">
+                  <label className="check-label small font-semibold text-grey300">
+                    Study mode
+                  </label>
+                  <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px] max-md:overflow-x-auto max-md:w-[calc(100%_+32px)] max-md:-ml-[16px] max-md:pl-[16px] max-md:pr-[16px] max-md:scrollbar-hidden">
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="studyMode"
+                        defaultChecked
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="fullTime"
+                      />
+                      <label
+                        htmlFor="fullTime"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Full-time
+                      </label>
+                    </div>
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="studyMode"
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="partTime"
+                      />
+                      <label
+                        htmlFor="partTime"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Part-time
+                      </label>
+                    </div>
+                    <div className="col flex relative">
+                      <input
+                        type="radio"
+                        name="studyMode"
+                        className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
+                        id="online/distance"
+                      />
+                      <label
+                        htmlFor="online/distance"
+                        className="check-label w-max small font-semibold text-primary-400 bg-white border border-primary-400 rounded-[18px] px-[16px] py-[7px]"
+                      >
+                        Online / distance
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                {/* -- */}
+                {/* -- */}
+                <div className="flex flex-col gap-[8px]">
+                  <div className="form-row">
+                    <div className="form-col flex flex-col flex-1 gap-1">
+                      <label className="small font-semibold text-gray-800">
+                        Research interests
+                      </label>
+                      <p className="x-small text-grey300">
+                        If you have specific research interests, please enter
+                        them here.
+                      </p>
+                      <input
+                        type="textbox"
+                        name="researchInterest"
+                        className="input-textbox small text-grey-600 border border-grey-500  rounded-[4px] p-[10px_12px] focus:outline-none focus:border-blue-400 active:grey-500 custom-14 placeholder:text-grey-700"
+                        placeholder="Please enter research interest"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                  <CheckboxSingleLabelComponents description="I am not interested in a particular area of research at this time" />
+                </div>
+                {/* -- */}
+              </div>
+              {/* -- Study preferences  -- */}
               <div className="predicted_grades flex flex-col gap-[4px]">
                 <div className="small font-semibold text-grey300">
                   Predicted grades
@@ -566,27 +776,31 @@ const UserProfileComponents = () => {
                 </div>
               </div>
             </div>
-            <div className="sticky-btn-card w-full fixed bottom-0 left-0 z-[5] flex justify-end bg-grey-600 p-[16px_24px]">
-              <button className="btn flex justify-center items-center gap-[4px] min-w-[107px] max-w-[120px] hover:underline">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M1.8173 1.8173C2.24037 1.39423 2.9263 1.39423 3.34937 1.8173L8 6.46794L12.6506 1.8173C13.0737 1.39423 13.7596 1.39423 14.1827 1.8173C14.6058 2.24037 14.6058 2.9263 14.1827 3.34937L9.53206 8L14.1827 12.6506C14.6058 13.0737 14.6058 13.7596 14.1827 14.1827C13.7596 14.6058 13.0737 14.6058 12.6506 14.1827L8 9.53206L3.34937 14.1827C2.9263 14.6058 2.24037 14.6058 1.8173 14.1827C1.39423 13.7596 1.39423 13.0737 1.8173 12.6506L6.46794 8L1.8173 3.34937C1.39423 2.9263 1.39423 2.24037 1.8173 1.8173Z"
-                    fill="white"
-                  />
-                </svg>
-                Reset
-              </button>
-              <button className="btn btn-primary min-w-[150px] max-w-[180px]">
-                Save changes
-              </button>
+            <div className="sticky-btn-card w-full fixed bottom-0 left-0 z-[5] bg-grey-600">
+              <div className="max-w-container mx-auto">
+                <div className="flex justify-end p-[16px_24px]">
+                  <button className="btn flex justify-center items-center gap-[4px] min-w-[107px] max-w-[120px] hover:underline">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.8173 1.8173C2.24037 1.39423 2.9263 1.39423 3.34937 1.8173L8 6.46794L12.6506 1.8173C13.0737 1.39423 13.7596 1.39423 14.1827 1.8173C14.6058 2.24037 14.6058 2.9263 14.1827 3.34937L9.53206 8L14.1827 12.6506C14.6058 13.0737 14.6058 13.7596 14.1827 14.1827C13.7596 14.6058 13.0737 14.6058 12.6506 14.1827L8 9.53206L3.34937 14.1827C2.9263 14.6058 2.24037 14.6058 1.8173 14.1827C1.39423 13.7596 1.39423 13.0737 1.8173 12.6506L6.46794 8L1.8173 3.34937C1.39423 2.9263 1.39423 2.24037 1.8173 1.8173Z"
+                        fill="white"
+                      />
+                    </svg>
+                    Reset
+                  </button>
+                  <button className="btn btn-primary w-full min-w-[150px] sm:max-w-[180px]">
+                    Save changes
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
         </div>
