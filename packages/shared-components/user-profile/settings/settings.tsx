@@ -12,7 +12,7 @@ const Settings = () => {
         <>
           When you register and use our services, we collect certain information
           from you, like your full name and email address. Check out our{" "}
-          <Link className="text-primary-400 cursor-pointer pr-[4px]" href="#">
+          <Link className="text-primary-400 cursor-pointer pr-[4px] hover:underline" href="#">
             Privacy Notice
           </Link>
           for more details about the information that we collect and retain. You

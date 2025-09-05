@@ -80,7 +80,7 @@ const ProfileUpdates = ({ children }: any) => {
                     onClick={() => {
                       setUploadPop(false);
                     }}
-                    className="btn-xsmall btn text-primary-400"
+                    className="hover:underline btn-xsmall btn text-primary-400"
                   >
                     Cancel
                   </button>

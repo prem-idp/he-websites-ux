@@ -34,7 +34,7 @@ const MoblieFactorAuthentication = () => {
                   <input
                     key={index}
                     type="number"
-                    className="appearance-none appearance-textfield py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-grey-100 w-[40px] text-center text-small text-grey-600"
+                    className="appearance-none appearance-textfield bg-white py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-grey-100 w-[40px] text-center text-small text-grey-600"
                     value="0"
                     placeholder="0"
                     maxLength={1}
@@ -53,7 +53,7 @@ const MoblieFactorAuthentication = () => {
                 </select>
                 <input
                   type="phone"
-                  className="py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-grey-100 w-full text-small text-grey-600"
+                  className="py-[10px] px-[12px] rounded-[4px] h-[41px] border border-grey-500 bg-white w-full text-small text-grey-600"
                   value=""
                   placeholder="enter your phone number"
                 />

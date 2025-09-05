@@ -6,7 +6,7 @@ const UserProfilePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/user-profile/profile-details");
+    router.replace("/user-profile/favourites");
   }, [router]);
 
   return null;
