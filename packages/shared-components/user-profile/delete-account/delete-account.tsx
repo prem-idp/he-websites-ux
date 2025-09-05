@@ -15,16 +15,16 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
       <div className="relative bg-white shadow-custom-6 w-full md:w-[575px] px-[16px] pb-[16px] pt-[40px] md:p-[40px] rounded-[8px] mx-[16px]">
         <button
           onClick={() => onAccountPop(false)}
-          className="absolute top-[16px] right-[16px] cursor-pointer"
+          className="absolute top-[16px] p-[4px] right-[16px] cursor-pointer"
         >
           <Image
             alt="close icon"
-            width={20}
-            height={20}
-            src="/static/assets/icons/close_icon.svg"
+            width={14}
+            height={14}
+            src="/static/assets/icons/modal_close.svg"
           />
         </button>
-        <div className="overflow-y-auto max-h-[calc(100vh_-_150px)] md:max-h-[calc(100vh_-_100px)]">
+        <div className="overflow-y-auto max-h-[calc(100vh_-_150px)] scrollbar-hidden md:max-h-[calc(100vh_-_100px)]">
           {/* set 1 */}
           {!confirmpopup && (
             <div className="review-modal-container flex flex-col gap-[24px]">
@@ -102,7 +102,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                   If you wish to opt out of marketing related to this app,
                   please unsubscribe
                 </span>
-                <button className="flex font-semibold para items-center gap-[10px] text-primary-400">
+                <button className="hover:underline flex font-semibold para items-center gap-[10px] text-primary-400">
                   Unsubscribe
                   <Image
                     height={10}
@@ -160,7 +160,7 @@ const DeleteAccount = ({ accountPop, onAccountPop }: DeleteAccountProps) => {
                       <>
                         I have read and understood the {""}
                         <Link
-                          className="text-primary-400 cursor-pointer pr-[4px]"
+                          className="hover:underline text-primary-400 cursor-pointer pr-[4px]"
                           href="#"
                         >
                           Privacy Notice

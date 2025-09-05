@@ -6,7 +6,7 @@ const ActivityPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/user-profile/activity/enquiries");
+    router.replace("/user-profile/activity/prospectuses");
   }, [router]);
 
   return null;
