@@ -778,8 +778,8 @@ const UserProfileComponents = () => {
             </div>
             <div className="sticky-btn-card w-full fixed bottom-0 left-0 z-[5] bg-grey-600">
               <div className="max-w-container mx-auto">
-                <div className="flex justify-end p-[16px_24px]">
-                  <button className="btn flex justify-center items-center gap-[4px] min-w-[107px] max-w-[120px] hover:underline">
+                <div className="flex justify-end p-[16px] md:p-[16px_20px] lg:p-[16px_24px] max-md:gap-[16px]">
+                  <button className="btn flex justify-center items-center gap-[4px] md:min-w-[107px] md:max-w-[120px] max-md:p-0 hover:underline">
                     <svg
                       width="16"
                       height="16"
