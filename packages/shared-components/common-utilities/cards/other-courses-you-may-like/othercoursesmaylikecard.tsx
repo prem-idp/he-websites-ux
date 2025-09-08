@@ -17,6 +17,8 @@ const Othercoursesmaylikecard = ({
   featureOpd,
   opendaySR,
   userFavourites,
+  uniFavourites,
+  activityProspectuses,
 }: any) => {
   return (
     <div
@@ -38,13 +40,13 @@ const Othercoursesmaylikecard = ({
             alt="University logo"
           />
         </div>
-        {seasonWusca || userFavourites ? (
+        {seasonWusca ? (
           <>
             <div className="absolute left-[16px] bottom-[16px] x-small font-bold text-grey-500 bg-grey-100 p-[0_8px] rounded-[4px] z-0">
-              IN-PERSON
+              {userFavourites ? "" : "IN-PERSON"}
             </div>
           </>
-        ) : (
+        ) : userFavourites ? (
           <>
             <div className="absolute top-[16px] right-[16px] z-[1]">
               <span className="favorite group items-center justify-center flex min-w-[40px] w-[40px] h-[40px]  border border-primary-400 hover:bg-primary-400 rounded-[48px] cursor-pointer">
@@ -67,8 +69,9 @@ const Othercoursesmaylikecard = ({
                 </div>
               </span>
             </div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/50 z-0"></div>
           </>
+        ) : (
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/50 z-0"></div>
         )}
       </div>
       {seasonWusca || userFavourites ? (
@@ -89,36 +92,38 @@ const Othercoursesmaylikecard = ({
                     <div className="card-title font-farro para-lg font-bold text-grey300 line-clamp-2">
                       {uniName}
                     </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <div className="card-subtitle small font-semibold line-clamp-2">
-                        {opendaysType}
-                      </div>
-                      <div className="">
-                        <div className="x-small text-grey-900">
-                          Main campus, CV23 8DY
+                    {opendaysType && (
+                      <div className="flex flex-col gap-[8px]">
+                        <div className="card-subtitle small font-semibold line-clamp-2">
+                          {opendaysType}
                         </div>
-                        <div className="flex items-center gap-[4px]">
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
-                              stroke="#333333"
-                              stroke-width="1.13"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                          <span className="xs-small font-semibold text-grey300">
-                            08:30-16:30
-                          </span>
+                        <div className="">
+                          <div className="x-small text-grey-900">
+                            Main campus, CV23 8DY
+                          </div>
+                          <div className="flex items-center gap-[4px]">
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
+                                stroke="#333333"
+                                stroke-width="1.13"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>
+                            <span className="xs-small font-semibold text-grey300">
+                              08:30-16:30
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                     <div className="flex flex-col gap-[8px]">
                       <div>
                         <div className="para small font-semibold ">
@@ -163,7 +168,9 @@ const Othercoursesmaylikecard = ({
             </>
           ) : (
             <>
-              <div className="card-body min-h-[215px] h-full flex flex-col justify-between gap-[16px] p-[16px]">
+              <div
+                className={`card-body h-full flex flex-col justify-between gap-[16px] p-[16px] ${activityProspectuses ? "min-h-[116px]" : uniFavourites ? "min-h-[376px]" : "min-h-[215px]"}`}
+              >
                 <div className="flex flex-col gap-[8px] w-full">
                   {userFavourites ? (
                     ""
@@ -175,23 +182,31 @@ const Othercoursesmaylikecard = ({
                   <div className="card-title font-farro para-lg font-bold text-grey300 line-clamp-2">
                     {uniName}
                   </div>
-                  <div className="flex flex-col gap-[8px]">
-                    <div className="card-subtitle small font-semibold line-clamp-2">
-                      {courseName}
+                  {userFavourites ? (
+                    ""
+                  ) : (
+                    <div className="flex flex-col gap-[8px]">
+                      {uniFavourites ? (
+                        ""
+                      ) : (
+                        <div className="card-subtitle small font-semibold line-clamp-2">
+                          {courseName}
+                        </div>
+                      )}
+                      {userFavourites ? (
+                        ""
+                      ) : (
+                        <div className="flex items-center flex-wrap gap-[8px] x-small font-semibold uppercase">
+                          <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">
+                            REGION / CITY
+                          </div>
+                          <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">
+                            Next open day: TUE 30 NOV
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    {userFavourites ? (
-                      ""
-                    ) : (
-                      <div className="flex items-center flex-wrap gap-[8px] x-small font-semibold uppercase">
-                        <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">
-                          REGION / CITY
-                        </div>
-                        <div className="bg-neutral100 text-neutral600 p-[3px_10px] rounded-[4px]">
-                          NExt open day: TUE 30 NOV
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  )}
                   {userFavourites ? (
                     <div className="rating-pod flex items-center gap-[8px]">
                       <div className="rating-card flex items-center gap-[4px]">
@@ -339,12 +354,47 @@ const Othercoursesmaylikecard = ({
                       </div>
                     </div>
                   )}
+                  {uniFavourites ? (
+                    <div className="flex flex-col gap-[4px]">
+                      <div className="flex items-center gap-[4px] small font-semibold">
+                        <Image
+                          src="/static/assets/icons/green_tick_icon.svg"
+                          width={24}
+                          height={24}
+                          alt="Green Tick Icon"
+                        />
+                        Open day booked
+                      </div>
+                      <div className="flex items-center gap-[4px] small font-semibold">
+                        <Image
+                          src="/static/assets/icons/red-delete-icon.svg"
+                          width={24}
+                          height={24}
+                          alt="Cross Icon"
+                        />
+                        Prospectus ordered
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div
                   className={`flex gap-[8px] w-full ${seasonWusca || userFavourites ? "flex-col " : "flex-col md:flex-row"}`}
                 >
                   {userFavourites ? (
-                    <Getprospectus />
+                    activityProspectuses ? (
+                      ""
+                    ) : uniFavourites ? (
+                      <>
+                        <Getprospectus />
+                        <Visitwebsite />
+                        <BookOpenDay />
+                        <RequestInfo />
+                      </>
+                    ) : (
+                      <Getprospectus />
+                    )
                   ) : (
                     <>
                       <Visitwebsite />
@@ -357,7 +407,7 @@ const Othercoursesmaylikecard = ({
                   {/* <Clearingvisitewebsite /> */}
                   {/* <Callnowbutton /> */}
                   {/* <Clearingvisitewebsite />
-                        <Callnowbutton /> */}
+                    <Callnowbutton /> */}
                 </div>
               </div>
               {userFavourites ? (

@@ -81,7 +81,7 @@ const Opendayscard = ({
               </div>
             )}
             <div
-              className={`flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? "min-h-[141px]" : activityOpendays ? "min-h-[133px]" : "min-h-[184px]"}`}
+              className={`flex flex-1 flex-col justify-between gap-[16px] p-[16px] ${onlineOpendays ? "min-h-[141px]" : activityOpendays ? "min-h-[133px]" : "min-h-[216px]"}`}
             >
               <div className="flex flex-col gap-[8px] w-full">
                 {/* <div className='clearing-tag xs-small font-bold text-positive-dark bg-green-200 uppercase w-fit rounded-[4px] p-[0_8px]'>Clearing</div> */}
@@ -141,6 +141,22 @@ const Opendayscard = ({
                             </span>
                           </div>
                         )}
+                      </div>
+                      <div className="rating-pod flex items-center gap-[8px]">
+                        <div className="rating-card flex items-center gap-[4px]">
+                          <Image
+                            src="/static/assets/icons/blue-star-icon.svg"
+                            width="24"
+                            height="24"
+                            alt="Rating icon"
+                          />
+                          <span className="font-normal small text-grey300">
+                            4.6 / 5
+                          </span>
+                        </div>
+                        <span className="block font-normal small text-grey-700">
+                          20th
+                        </span>
                       </div>
                     </div>
                   </>

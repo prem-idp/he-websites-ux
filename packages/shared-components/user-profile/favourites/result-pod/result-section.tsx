@@ -1,0 +1,356 @@
+"use client";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import ClickAndShow from "@packages/shared-components/common-utilities/click-show/click-show";
+import Getprospectus from "@packages/shared-components/common-utilities/cards/interaction-button/getprospectus";
+import Visitwebsite from "@packages/shared-components/common-utilities/cards/interaction-button/visitwebsite";
+import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
+import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
+import { CourseListData } from "@packages/lib/types/interfaces";
+
+type ResultPodProps = {
+  favouritesCourseStudentReview: any;
+  clickShowModule: any;
+  viewCourse: any;
+  courseData: CourseListData[];
+};
+
+const ResultPod = ({
+  favouritesCourseStudentReview,
+  clickShowModule,
+  viewCourse,
+  courseData,
+}: ResultPodProps) => {
+  return (
+    <>
+      <div className="flex flex-col gap-[16px] md:gap-[24px]">
+        {courseData.map((item, index) => (
+          <div className="flex flex-col md:flex-row" key={index}>
+            <div className="w-full h-[292px] relative bg-grey200 bg-gradient11 shrink-0 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none md:w-[310px] md:h-[316px] lg:w-[500px] lg:h-[376px] cursor-pointer">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient14 rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none"></div>
+              <div className="absolute top-0 left-0 p-[16px] w-full h-full bg-gradient14 lg:p-[24px] flex flex-col justify-between rounded-t-[16px] md:rounded-l-[16px] md:rounded-tr-none">
+                <div className="flex justify-between">
+                  <div className="flex items-start gap-[8px]">
+                    <Link
+                      href="#"
+                      className="w-[64px] h-[64px] p-[4px] rounded-[4px] bg-white shadow-custom-4"
+                    >
+                      <Image
+                        src="/static/assets/icons/search-result/kent.png"
+                        alt="University logo"
+                        width={56}
+                        height={56}
+                      />
+                    </Link>
+                    {item.sponsored ? (
+                      <div className="bg-grey-100 text-grey-500 uppercase rounded-[4px] px-[8px] xs-small font-semibold">
+                        sponsored
+                      </div>
+                    ) : null}
+                  </div>
+                  <button className="ripple-circle-blue heart  min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
+                        stroke="#4664DC"
+                        stroke-width="1.67"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex flex-col gap-[4px] text-white">
+                  <div className="h5">{item.uniName}</div>
+                  <div className="x-small font-semibold">
+                    {item.description}
+                  </div>
+                  <div className="flex items-center gap-[8px] text-grey-50 small">
+                    <div className="flex items-center gap-[2px]">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.8586 4.71248C11.2178 3.60691 12.7819 3.60691 13.1412 4.71248L14.4246 8.66264C14.5853 9.15706 15.046 9.49182 15.5659 9.49182H19.7193C20.8818 9.49182 21.3651 10.9794 20.4247 11.6626L17.0645 14.104C16.6439 14.4095 16.4679 14.9512 16.6286 15.4456L17.912 19.3958C18.2713 20.5013 17.0059 21.4207 16.0654 20.7374L12.7052 18.2961C12.2846 17.9905 11.7151 17.9905 11.2945 18.2961L7.93434 20.7374C6.99388 21.4207 5.72851 20.5013 6.08773 19.3958L7.37121 15.4456C7.53186 14.9512 7.35587 14.4095 6.93529 14.104L3.57508 11.6626C2.63463 10.9794 3.11796 9.49182 4.28043 9.49182H8.43387C8.95374 9.49182 9.41448 9.15706 9.57513 8.66264L10.8586 4.71248Z"
+                          fill="#0FBEFD"
+                        />
+                      </svg>
+                      {item.rating}
+                    </div>
+                    <Link href="" className="underline">
+                      {item.reviews} reviews
+                    </Link>
+                  </div>
+                  <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                    <div className="bg-grey-100 text-grey-500 px-[8px] rounded-[4px]">
+                      {item.region}
+                    </div>
+                    <div className="flex items-center justify-center gap-[2px] bg-green-100 text-positive-dark px-[8px] rounded-[4px]">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.929 10.0711C10.5878 10.4122 9.98482 11.0152 9.41426 11.5858C8.63321 12.3668 7.36696 12.3669 6.58591 11.5859C6.02667 11.0266 5.43232 10.4323 5.07111 10.0711C3.45351 8.45346 3.45351 5.83081 5.07111 4.2132C6.68872 2.5956 9.31137 2.5956 10.929 4.2132C12.5466 5.83081 12.5466 8.45346 10.929 10.0711Z"
+                          stroke="#168721"
+                          strokeWidth="1.13"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M9.55335 7.14214C9.55335 8 8.85791 8.69544 8.00005 8.69544C7.14218 8.69544 6.44675 8 6.44675 7.14214C6.44675 6.28427 7.14218 5.58884 8.00005 5.58884C8.85791 5.58884 9.55335 6.28427 9.55335 7.14214Z"
+                          stroke="#168721"
+                          strokeWidth="1.13"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {item.miles} Miles from you
+                    </div>
+                  </div>
+                  <Link
+                    href=""
+                    className="x-small underline w-fit relative group"
+                  >
+                    WUSCA rank: {item.wuscaranking}
+                  </Link>
+                  <div className="flex items-center gap-[4px] font-bold uppercase xs-small">
+                    <div className="flex items-center gap-[2px] bg-green-100 text-positive-dark px-[8px] rounded-[4px]">
+                      <Image
+                        src="/static/assets/icons/search-result/lectures-green.svg"
+                        alt="Lecturers and Teaching"
+                        width={12}
+                        height={12}
+                      />
+                      <span className="line-clamp-1">
+                        Lecturers and Teaching
+                      </span>
+                    </div>
+                    <div className="bg-green-100 text-positive-dark px-[8px] rounded-[4px] shrink-0">
+                      + 2 more
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                {item.showImage ? (
+                  <Image
+                    src="/static/assets/images/search-results/university.jpg"
+                    alt="University"
+                    width={529}
+                    height={376}
+                    className="w-full h-full rounded-t-[16px] object-cover md:rounded-l-[16px] md:rounded-tr-none"
+                  />
+                ) : null}
+              </div>
+            </div>
+            <div className="flex flex-col grow">
+              <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
+                <div
+                  className={`border-b-[1px] border-grey-200 p-[16px] lg:p-[20px] ${favouritesCourseStudentReview ? "block md:hidden" : ""}`}
+                >
+                  <div className="bg-grey-100 p-[12px] rounded-[8px]">
+                    <div className="flex gap-[4px]">
+                      <div className="text-[40px] relative font-farro font-normal w-[22px]">
+                        <span className="absolute top-[50%]">“</span>
+                      </div>
+                      <div className="flex flex-col w-full">
+                        <div className="relative group x-small">
+                          <span className="text-primary-400 underline font-semibold">
+                            What students think
+                          </span>
+                        </div>
+                        <div className="relative x-small">
+                          <div className="inline text-grey300 line-clamp-2 break-words">
+                            I never thought I’f find myself in a position where
+                            I would feel empowered to be a lawyer, I wanted to
+                            go into teaching but then realised after visiting
+                            Kent’s facilities this would be the right plac
+                            <div className="inline text-right w-[113px] bg-gradient12">
+                              <span>... </span>
+                              <button className="text-blue-400 cursor-pointer hover:underline">
+                                Read full review
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {item.course.map((chitem, index) => (
+                  <>
+                    <div
+                      className="flex flex-col gap-[16px] border-b-[1px] border-grey-200 p-[16px] lg:p-[20px] last:border-none"
+                      key={index}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex flex-col gap-[8px]">
+                          <div className="text-primary-400 font-semibold cursor-pointer hover:underline">
+                            {chitem.courseName}
+                          </div>
+                          <div className="flex gap-[4px] text-grey-500">
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/calender-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {chitem.ucasPonits} ucas points
+                            </div>
+                            <div className="flex items-center justify-center uppercase gap-[2px] bg-grey-100 rounded-[4px] px-[8px] xs-small font-semibold">
+                              <Image
+                                className="hidden md:block"
+                                src="/static/assets/icons/search-result/time-grey.svg"
+                                alt="Lecturers and Teaching"
+                                width={16}
+                                height={16}
+                              />
+                              {chitem.duration} years full time
+                            </div>
+                          </div>
+                        </div>
+
+                        <button className="ripple-circle-blue heart  min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
+                              stroke="#4664DC"
+                              stroke-width="1.67"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="flex flex-col gap-[4px] md:flex-row md:gap-[16px]">
+                        <div className="flex items-center gap-[4px] small font-semibold">
+                          <Image
+                            src="/static/assets/icons/green_tick_icon.svg"
+                            width={24}
+                            height={24}
+                            alt="Green Tick Icon"
+                          />
+                          Open day booked
+                        </div>
+                        <div className="flex items-center gap-[4px] small font-semibold">
+                          <Image
+                            src="/static/assets/icons/red-delete-icon.svg"
+                            width={24}
+                            height={24}
+                            alt="Cross Icon"
+                          />
+                          Prospectus ordered
+                        </div>
+                      </div>
+                      {clickShowModule && (
+                        <ClickAndShow>
+                          <div className="text-black x-small">
+                            <div className="font-semibold">Year 1</div>
+                            <ul className="list-disc pl-[20px] flex flex-col gap-[4px]">
+                              <li>Becoming a Criminologist</li>
+                              <li>Introduction to Law and its Study</li>
+                              <li>Social Research in Practice</li>
+                              <li>Criminology in Late Modernity</li>
+                              <li>Criminal Law</li>
+                            </ul>
+                            <Link
+                              href="#"
+                              className="flex items-center gap-[4px] w-fit mt-[4px] text-primary-400 small font-semibold hover:underline"
+                            >
+                              View all modules
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M8.23441 2.63471C8.54683 2.32229 9.05336 2.32229 9.36578 2.63471L14.1658 7.43471C14.4782 7.74713 14.4782 8.25366 14.1658 8.56608L9.36578 13.3661C9.05336 13.6785 8.54683 13.6785 8.23441 13.3661C7.92199 13.0537 7.92199 12.5471 8.23441 12.2347L11.6687 8.80039L2.4001 8.80039C1.95827 8.80039 1.6001 8.44222 1.6001 8.00039C1.6001 7.55856 1.95827 7.20039 2.4001 7.20039H11.6687L8.23441 3.76608C7.92199 3.45366 7.92199 2.94712 8.23441 2.63471Z"
+                                  fill="#3460DC"
+                                />
+                              </svg>
+                            </Link>
+                          </div>
+                        </ClickAndShow>
+                      )}
+                      <div
+                        className={`grid grid-cols-1 justify-items-stretch gap-[8px] auto-cols-fr xl:grid-rows-1 xl:grid-flow-col ${
+                          chitem.buttonCount == 4
+                            ? "lg:grid-rows-2 lg:grid-flow-col"
+                            : "lg:grid-cols-1"
+                        }`}
+                      >
+                        {chitem.showprospect ? <Getprospectus /> : null}
+
+                        {chitem.showvisit ? <Visitwebsite /> : null}
+
+                        {chitem.showBooking ? (
+                          <BookOpenDay studyType={"IN-PERSON"} />
+                        ) : null}
+
+                        {chitem.showRequest ? (
+                          <RequestInfo showCount={chitem.buttonCount} />
+                        ) : null}
+                      </div>
+                    </div>
+                  </>
+                ))}
+              </div>
+              {viewCourse && (
+                <Link
+                  href="#"
+                  className="flex items-center mx-auto gap-[4px] text-primary-400 small font-semibold mt-[16px] cursor-pointer hover:underline"
+                >
+                  View 99 related courses
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M8.23798 2.55048C8.55528 2.23317 9.06972 2.23317 9.38702 2.55048L14.262 7.42548C14.5793 7.74278 14.5793 8.25722 14.262 8.57452L9.38702 13.4495C9.06972 13.7668 8.55528 13.7668 8.23798 13.4495C7.92067 13.1322 7.92067 12.6178 8.23798 12.3005L11.726 8.8125L2.3125 8.8125C1.86377 8.8125 1.5 8.44873 1.5 8C1.5 7.55127 1.86377 7.1875 2.3125 7.1875H11.726L8.23798 3.69952C7.92067 3.38222 7.92067 2.86778 8.23798 2.55048Z"
+                      fill="#4664DC"
+                    />
+                  </svg>
+                </Link>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default ResultPod;

@@ -27,6 +27,7 @@ const OpendaysSREliteComponents = ({
                   bgColor={bgColor}
                   openDays={openDays}
                   featureOpd={featureOpd}
+                  studyType={"IN-PERSON"}
                 />
                 <div className="flex justify-center mt-[16px] lg:mt-[24px]">
                   <a

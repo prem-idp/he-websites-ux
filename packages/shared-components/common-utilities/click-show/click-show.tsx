@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from 'react'
+"use client";
+import React, { useState } from "react";
 
 const ClickAndShow = ({ children }: any) => {
   // module
@@ -10,7 +10,7 @@ const ClickAndShow = ({ children }: any) => {
   };
   return (
     <div className="flex flex-col gap-[4px]">
-      <div
+      <button
         onClick={moduleToggle}
         className="flex items-center gap-[4px] text-primary-400 small font-semibold cursor-pointer hover:underline"
       >
@@ -46,7 +46,7 @@ const ClickAndShow = ({ children }: any) => {
           </svg>
         )}
         Modules
-      </div>
+      </button>
       {isModuleOpen && (
         <div
           className={`transition-all duration-300 ease-in-out ${
