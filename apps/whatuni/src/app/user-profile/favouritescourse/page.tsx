@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import ManageFavourites from "@packages/shared-components/user-profile/favourites/manage-favourites/managefavourites";
 import Advicecomponents from "@packages/shared-components/home/advice/advicecomponents";
 import Subscribecomponents from "@packages/shared-components/article-landing/subscribe-newsletter/subscribecomponents";
@@ -46,6 +48,31 @@ const FavouritesCoursePage = () => {
         subheading={""}
       />
       <Subscribecomponents />
+      <div className="bg-white p-[12px] fixed bottom-0 w-[284px] rounded-[8px] shadow-custom-3">
+        <button className="cursor-pointer ml-auto flex">
+          <Image
+            alt="close icon"
+            width={14}
+            height={14}
+            src="/static/assets/icons/modal_close.svg"
+          />
+        </button>
+        <div className="flex items-center gap-[12px]">
+          <Image
+            src="/static/assets/icons/search-result/kent.png"
+            alt="University logo"
+            width={56}
+            height={56}
+          />
+          <div className="font-semibold x-small">
+            Prospectus
+            <Link href="#" className="text-primary-400">
+              University of
+            </Link>
+            Downloaded
+          </div>
+        </div>
+      </div>
     </>
   );
 };
