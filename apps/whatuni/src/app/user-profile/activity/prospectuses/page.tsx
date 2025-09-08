@@ -10,7 +10,7 @@ const ProspectusesPage = () => {
         {userFavCourseData.data.map((item, index) => (
           <Othercoursesmaylikecard
             {...item}
-            seasonWusca={true}
+            seasonWusca={false}
             openDays={false}
             userFavourites={true}
             activityProspectuses={true}

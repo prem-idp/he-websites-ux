@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ManageFavourites = () => {
   return (
-    <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-0">
+    <section className="bg-primary-50 px-[16px] md:px-[20px] xl:px-0">
       <div className="max-w-container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-[20px]">
           <div className="flex items-end justify-center md:overflow-hidden">
@@ -21,12 +21,11 @@ const ManageFavourites = () => {
           <div className="flex flex-col justify-center gap-[16px] py-[24px] py-[40px] md:py-[64px]">
             <div>
               <div className="font-farro font-bold text-black text-heading3 md:text-heading2">
-                Manage your favourites on the go
+                Actual uni tips. From real students.
               </div>
-              <p className="mt-[16px] md:mt-[8px]">
-                Compare, manage and edit your favourites on the go on our free
-                app! Download now to take your favourites on the go so you can
-                prepare for the next stage of your uni journey the smart way.
+              <p className="mt-[16px] md:mt-[8px] line-clamp-2">
+                Use the Ambassador Chat in the Whatuni App to hear it straight
+                from students living it.
               </p>
             </div>
             <Image
