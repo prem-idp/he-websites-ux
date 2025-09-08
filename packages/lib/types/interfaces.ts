@@ -115,3 +115,29 @@ export interface dropdownProps {
 export interface logoSliderProps {
   imgSrc: string[];
 }
+
+export type Course = {
+  buttonCount: number;
+  courseName: string;
+  ucasPonits: string;
+  duration: string;
+  showprospect: boolean;
+  showvisit: boolean;
+  showBooking: boolean;
+  showRequest: boolean;
+};
+
+export type CourseListData = {
+  img: string;
+  uniName: string;
+  description: string;
+  rating: string;
+  reviews: string;
+  region: string;
+  miles: string;
+  wuscaranking: string;
+  courseName: string;
+  showImage?: boolean;
+  sponsored?: boolean;
+  course: Course[];
+};

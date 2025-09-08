@@ -5,11 +5,11 @@ const OpenDaysPage = () => {
   const bgColor1 = "transparent";
   return (
     <>
-      {/* <ActivityOpendayGridComponents /> */}
       <Opendaysrgridcomponents
         {...AllOpenDaysData}
         activityOpendays={true}
         bgColor={bgColor1}
+        title={"Open days"}
       />
     </>
   );

@@ -1,23 +1,23 @@
 import React from "react";
-import Resultcard from "@packages/shared-components/user-profile/activity/result-card/resultcard";
-
-const resultMockData = [1, 2, 3, 4, 5].map((i) => ({
-  heading: "ORDERED ON",
-  date: "29 JUL 2024",
-  university: "University of Bristol",
-  description: "Undergraduate prospectus",
-  hasHearIcon: true,
-  textLink: "University Info",
-  activeHeart: i == 2 ? true : false,
-}));
-
+import { userFavCourseData } from "@packages/constants/constants";
+import Othercoursesmaylikecard from "@packages/shared-components/common-utilities/cards/other-courses-you-may-like/othercoursesmaylikecard";
 const ProspectusesPage = () => {
+  const bgColor1 = "transparent";
+
   return (
     <>
-      <div className="h5 mb-[16px]">Prospectuses</div>
-      <Resultcard data={resultMockData} />
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-[16px]">
+        {userFavCourseData.data.map((item, index) => (
+          <Othercoursesmaylikecard
+            {...item}
+            seasonWusca={true}
+            openDays={false}
+            userFavourites={true}
+            activityProspectuses={true}
+          />
+        ))}
+      </div>
     </>
   );
 };
-
 export default ProspectusesPage;

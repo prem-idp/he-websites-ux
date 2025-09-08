@@ -225,7 +225,9 @@ a:focus,
 button:focus {
   @apply outline-[3px] outline-gray-900 outline-offset-0;
 }
-
+a:hover{@apply underline}
+a.btn:hover{@apply no-underline
+}
 /* typograpy */
 h1,
 h2,

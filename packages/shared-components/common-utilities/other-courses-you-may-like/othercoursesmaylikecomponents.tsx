@@ -8,13 +8,14 @@ const Othercoursesmaylikecomponents = ({
   bgColor,
   openDays,
   userFavourites,
+  uniFavourites,
 }: any) => {
   return (
     <div className={`other-courses-container bg-${bgColor}`}>
       <div className="max-w-container mx-auto">
         <div className="other-courses-card-container px-[0] py-[32px] md:py-[40px]">
           <div
-            className={`}other-courses-header  flex flex-col gap-[4px] px-[16px] md:px-[20px] xl:px-[0] ${userFavourites ? "mb-[16px] md:mb-[16px]" : "mb-[26px] md:mb-[32px]"} `}
+            className={`other-courses-header  flex flex-col gap-[4px] px-[16px] md:px-[20px] xl:px-[0] ${userFavourites ? "mb-[16px] md:mb-[16px]" : "mb-[26px] md:mb-[32px]"}`}
           >
             {userFavourites ? (
               <div className="h5 font-bold">{title}</div>
@@ -31,6 +32,7 @@ const Othercoursesmaylikecomponents = ({
                 bgColor={bgColor}
                 openDays={openDays}
                 userFavourites={userFavourites}
+                uniFavourites={uniFavourites}
               />
               <div className="flex justify-center mt-[16px] lg:mt-[24px]">
                 <a

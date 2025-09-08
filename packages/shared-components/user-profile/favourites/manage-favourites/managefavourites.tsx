@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const ManageFavourites = () => {
   return (
@@ -28,41 +29,30 @@ const ManageFavourites = () => {
                 prepare for the next stage of your uni journey the smart way.
               </p>
             </div>
-            <button className="btn btn-primary btn-large w-fit flex gap-[6px] items-center">
-              Find out more
-              <svg
-                width="16"
-                height="14"
-                viewBox="0 0 16 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.55556 1.55554L15 6.99999M15 6.99999L9.55555 12.4444M15 6.99999L1 6.99999"
-                  stroke="#fff"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <Image
+              className="hidden lg:block cursor-pointer"
+              src="/static/assets/images/user-profile/favourites-qrcode.svg"
+              alt="QR Code"
+              width={107}
+              height={107}
+            />
             <div className="flex gap-[16px]">
-              <a href="" target="_blank">
+              <Link href="#">
                 <Image
                   width={120}
                   height={40}
                   src="/static/assets/images/app_store.svg"
                   alt="App Store"
                 />
-              </a>
-              <a href="" target="_blank">
+              </Link>
+              <Link href="#">
                 <Image
                   width={135}
                   height={40}
                   src="/static/assets/images/google_play_store.svg"
                   alt="Google Play"
                 />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

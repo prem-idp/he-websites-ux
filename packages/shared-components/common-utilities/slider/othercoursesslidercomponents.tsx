@@ -12,6 +12,7 @@ const Othercoursesslidercomponents = ({
   data,
   openDays,
   userFavourites,
+  uniFavourites,
 }: any) => {
   return (
     <>
@@ -44,6 +45,7 @@ const Othercoursesslidercomponents = ({
                 seasonWusca={false}
                 openDays={openDays}
                 userFavourites={userFavourites}
+                uniFavourites={uniFavourites}
               />
             </SwiperSlide>
           ))}
