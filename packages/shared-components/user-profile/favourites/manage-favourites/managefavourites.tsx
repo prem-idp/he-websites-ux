@@ -8,9 +8,8 @@ const ManageFavourites = () => {
       <div className="max-w-container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-[20px]">
           <div className="flex items-end justify-center md:overflow-hidden">
-            <div className="w-[200px] pt-[40px] md:w-[384px] md:mb-[-100px] lg:mb-[-225px]">
+            <div className="w-[200px] pt-[40px] md:w-[384px] md:mb-[-100px] lg:mb-[-233px]">
               <Image
-                className="grow"
                 width={385}
                 height={344}
                 src="/static/assets/images/user-profile/favourites-device.png"
@@ -18,23 +17,24 @@ const ManageFavourites = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col justify-center gap-[16px] py-[24px] py-[40px] md:py-[64px]">
-            <div>
+          <div className="flex flex-col justify-center gap-[16px] py-[24px] py-[40px] md:gap-[24px] md:py-[64px]">
+            <div className="md:space-y-[8px]">
               <div className="font-farro font-bold text-black text-heading3 md:text-heading2">
                 Actual uni tips. From real students.
               </div>
-              <p className="mt-[16px] md:mt-[8px] line-clamp-2">
+              <p className="mt-[16px] md:mt-0 line-clamp-2">
                 Use the Ambassador Chat in the Whatuni App to hear it straight
                 from students living it.
               </p>
+              <Image
+                className="hidden md:block cursor-pointer"
+                src="/static/assets/images/user-profile/favourites-qrcode.svg"
+                alt="QR Code"
+                width={107}
+                height={107}
+              />
             </div>
-            <Image
-              className="hidden lg:block cursor-pointer"
-              src="/static/assets/images/user-profile/favourites-qrcode.svg"
-              alt="QR Code"
-              width={107}
-              height={107}
-            />
+
             <div className="flex gap-[16px]">
               <Link href="#">
                 <Image

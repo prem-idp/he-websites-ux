@@ -10,6 +10,7 @@ import Othercoursesmaylikecomponents from "@packages/shared-components/common-ut
 import { userFavCourseData } from "@packages/constants/constants";
 import ResultPod from "@packages/shared-components/user-profile/favourites/result-pod/result-section";
 import { favouritesCourseData } from "@packages/constants/constants";
+// import FavouritesPopup from "@packages/shared-components/common-utilities/popups/FavouritesPopup";
 const FavouritesCoursePage = () => {
   const bgColor = "grey-50";
   const bgColor1 = "white";
@@ -17,6 +18,7 @@ const FavouritesCoursePage = () => {
 
   return (
     <>
+      {/* <FavouritesPopup /> */}
       <section className="bg-white p-[16px] md:px-[20px] lg:py-[40px] xl:px-0">
         <div className="max-w-container mx-auto">
           <div className="text-heading5 font-farro font-semibold mb-[16px] md:text-heading4">
@@ -48,8 +50,8 @@ const FavouritesCoursePage = () => {
         subheading={""}
       />
       <Subscribecomponents />
-      <div className="bg-white p-[12px] fixed bottom-0 w-[284px] rounded-[8px] shadow-custom-3">
-        <button className="cursor-pointer ml-auto flex">
+      {/* <div className="bg-white p-[12px] fixed bottom-0 w-[284px] rounded-[8px] shadow-custom-3">
+        <button className="absolute right-[8px] top-[8px] cursor-pointer ">
           <Image
             alt="close icon"
             width={14}
@@ -59,10 +61,11 @@ const FavouritesCoursePage = () => {
         </button>
         <div className="flex items-center gap-[12px]">
           <Image
+            className="rounded-[8px] shadow-custom-3"
             src="/static/assets/icons/search-result/kent.png"
             alt="University logo"
-            width={56}
-            height={56}
+            width={64}
+            height={64}
           />
           <div className="font-semibold x-small">
             Prospectus
@@ -72,7 +75,7 @@ const FavouritesCoursePage = () => {
             Downloaded
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

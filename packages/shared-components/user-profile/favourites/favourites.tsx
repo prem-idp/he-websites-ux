@@ -23,7 +23,7 @@ const Favourites = () => {
               Start searching now to find fantastic unis and courses
             </p>
           </div>
-          <button className="px-[16px] py-[8px] bg-white border border-primary-500 text-primary-500 rounded-[18px] hover:bg-primary-600 transition small font-semibold">
+          <button className="btn btn-small btn-primary-outline bg-white">
             Get started
           </button>
         </div>
