@@ -1,6 +1,6 @@
 import React from "react";
 
-const Getprospectus = ({ pageName }: any) => {
+const Getprospectus = ({ pageName, onOpen }: any) => {
   return (
     <>
       {/* {pageName == 'courseDetails'  ? 
@@ -8,7 +8,11 @@ const Getprospectus = ({ pageName }: any) => {
       :
       <button type='button' className='btn btn-orange w-full'>Get Prospectus {pageName}</button> 
     } */}
-      <button type="button" className="btn btn-tertiary w-full">
+      <button
+        type="button"
+        className="btn btn-tertiary w-full"
+        onClick={onOpen}
+      >
         Get prospectus
       </button>
     </>

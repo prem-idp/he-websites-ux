@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
 
-const FavouritesPopup = (onClose: any) => {
+const FavouritesPopup = ({ isOpen, onClose, title }: any) => {
+  if (!isOpen) return null;
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full backdrop-shadow flex items-center justify-center z-50">
@@ -30,10 +31,17 @@ const FavouritesPopup = (onClose: any) => {
             <div className="heading6 font-farro font-semibold">
               Are you sure?
             </div>
-            <div className="small">
-              You've recently ordered a prospectus from this uni, do you want to
-              continue with this order?
-            </div>
+            {title == "prospectus" && (
+              <div className="small">
+                You've recently ordered a prospectus from this uni, do you want
+                to continue with this order?
+              </div>
+            )}
+
+            {title == "shortlist" && (
+              <div className="small">Shortlist info</div>
+            )}
+
             <button
               type="button"
               className="btn btn-medium btn-primary font-semibold w-full flex items-center justify-center gap-[6px]"

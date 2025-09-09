@@ -1078,4 +1078,5 @@ h2.react-datepicker__current-month {
 
 .marquee-container:hover .marquee {
   animation-play-state: paused;
-}
+} 
+div:empty, p:empty {@apply hidden}
