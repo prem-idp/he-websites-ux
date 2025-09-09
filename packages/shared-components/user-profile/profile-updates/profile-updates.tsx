@@ -64,7 +64,7 @@ const ProfileUpdates = ({ children }: any) => {
                     <div className="flex gap-[8px] items-center relative border bg-grey-100 h-[34px] border-grey-300 rounded-full">
                       <label
                         htmlFor="file uploader"
-                        className="font-semibold small text-primary-400 h-[34px] border border-primary-400 rounded-full
+                        className="font-semibold small text-primary-400 bg-white h-[34px] border border-primary-400 rounded-full
                        px-[10px] py-[6px] cursor-pointer"
                       >
                         Choose file
