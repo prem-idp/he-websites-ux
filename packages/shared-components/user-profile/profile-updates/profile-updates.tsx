@@ -20,7 +20,7 @@ const ProfileUpdates = ({ children }: any) => {
               <span className="relative size-[96px] flex overflow-hidden rounded-full">
                 <Image
                   alt="profile"
-                  src="/static/assets/icons/user-profile/Avatar.png"
+                  src="/static/assets/icons/user-profile/user-profile.png"
                   width={96}
                   height={96}
                 />
