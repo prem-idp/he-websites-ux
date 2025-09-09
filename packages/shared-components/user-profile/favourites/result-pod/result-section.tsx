@@ -8,6 +8,7 @@ import Visitwebsite from "@packages/shared-components/common-utilities/cards/int
 import BookOpenDay from "@packages/shared-components/common-utilities/cards/interaction-button/bookopenday";
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import { CourseListData } from "@packages/lib/types/interfaces";
+import FavouritesPopup from "@packages/shared-components/common-utilities/popups/FavouritesPopup";
 
 type ResultPodProps = {
   favouritesCourseStudentReview: any;
@@ -22,6 +23,12 @@ const ResultPod = ({
   viewCourse,
   courseData,
 }: ResultPodProps) => {
+  const [openModal, setOpenModal] = useState<null | "prospectus" | "shortlist">(
+    null
+  );
+  const openProspectus = () => setOpenModal("prospectus");
+  const openShortList = () => setOpenModal("shortlist");
+  const closeModal = () => setOpenModal(null);
   return (
     <>
       <div className="flex flex-col gap-[16px] md:gap-[24px]">
@@ -228,7 +235,10 @@ const ResultPod = ({
                           </div>
                         </div>
 
-                        <button className="ripple-circle-blue heart  min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative">
+                        <button
+                          onClick={openShortList}
+                          className="ripple-circle-blue heart  min-w-[40px] w-[40px] h-[40px] bg-white x-small border border-blue-500 rounded-[24px] flex items-center justify-center cursor-pointer hover:bg-blue-100 relative"
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -245,6 +255,11 @@ const ResultPod = ({
                             ></path>
                           </svg>
                         </button>
+                        <FavouritesPopup
+                          isOpen={openModal === "shortlist"}
+                          onClose={closeModal}
+                          title={openModal}
+                        />
                       </div>
                       <div className="flex flex-col gap-[4px] md:flex-row md:gap-[16px]">
                         <div className="flex items-center gap-[4px] small font-semibold">
@@ -307,7 +322,16 @@ const ResultPod = ({
                             : "lg:grid-cols-1"
                         }`}
                       >
-                        {chitem.showprospect ? <Getprospectus /> : null}
+                        {chitem.showprospect ? (
+                          <>
+                            <Getprospectus onOpen={openProspectus} />
+                            <FavouritesPopup
+                              isOpen={openModal === "prospectus"}
+                              onClose={closeModal}
+                              title={openModal}
+                            />
+                          </>
+                        ) : null}
 
                         {chitem.showvisit ? <Visitwebsite /> : null}
 
