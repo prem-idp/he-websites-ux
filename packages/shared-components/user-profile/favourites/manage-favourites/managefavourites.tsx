@@ -19,7 +19,7 @@ const ManageFavourites = () => {
           </div>
           <div className="flex flex-col justify-center gap-[16px] py-[24px] py-[40px] md:gap-[24px] md:py-[64px]">
             <div className="md:space-y-[8px]">
-              <div className="font-farro font-bold text-black text-heading3 md:text-heading2">
+              <div className="font-farro font-bold text-grey300 text-heading3 md:text-heading2">
                 Actual uni tips. From real students.
               </div>
               <p className="mt-[16px] md:mt-0 line-clamp-2">
