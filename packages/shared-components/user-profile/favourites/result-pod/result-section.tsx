@@ -9,6 +9,7 @@ import BookOpenDay from "@packages/shared-components/common-utilities/cards/inte
 import RequestInfo from "@packages/shared-components/common-utilities/cards/interaction-button/requestinfo";
 import { CourseListData } from "@packages/lib/types/interfaces";
 import FavouritesPopup from "@packages/shared-components/common-utilities/popups/FavouritesPopup";
+import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
 
 type ResultPodProps = {
   favouritesCourseStudentReview: any;
@@ -23,12 +24,25 @@ const ResultPod = ({
   viewCourse,
   courseData,
 }: ResultPodProps) => {
-  const [openModal, setOpenModal] = useState<null | "prospectus" | "shortlist">(
-    null
-  );
+  const [pageTitle, setOpenModal] = useState<null | string>(null);
   const openProspectus = () => setOpenModal("prospectus");
   const openShortList = () => setOpenModal("shortlist");
   const closeModal = () => setOpenModal(null);
+
+  const popupData = {
+    prospectus: {
+      header: "Are you Sure",
+      description:
+        "You've recently ordered a prospectus from this uni, do you want to continue with this order?",
+      showList: false,
+    },
+    shortlist: {
+      header: "You have added too many favourites",
+      description:
+        "You can have up to 17 favourites saved, please remove one to add more",
+      showList: true,
+    },
+  };
   return (
     <>
       <div className="flex flex-col gap-[16px] md:gap-[24px]">
@@ -255,11 +269,6 @@ const ResultPod = ({
                             ></path>
                           </svg>
                         </button>
-                        <FavouritesPopup
-                          isOpen={openModal === "shortlist"}
-                          onClose={closeModal}
-                          title={openModal}
-                        />
                       </div>
                       <div className="flex flex-col gap-[4px] md:flex-row md:gap-[16px]">
                         <div className="flex items-center gap-[4px] small font-semibold">
@@ -325,11 +334,6 @@ const ResultPod = ({
                         {chitem.showprospect ? (
                           <>
                             <Getprospectus onOpen={openProspectus} />
-                            <FavouritesPopup
-                              isOpen={openModal === "prospectus"}
-                              onClose={closeModal}
-                              title={openModal}
-                            />
                           </>
                         ) : null}
 
@@ -373,6 +377,14 @@ const ResultPod = ({
           </div>
         ))}
       </div>
+      <FavouritesPopup
+        isOpen={pageTitle}
+        onClose={closeModal}
+        pageTitle={pageTitle}
+        popupData={
+          pageTitle == "prospectus" ? popupData.prospectus : popupData.shortlist
+        }
+      />
     </>
   );
 };

@@ -24,20 +24,14 @@ const PopularCardSlider = () => {
     <>
       <div className="lg:w-[650px] xl:w-[907px] ">
         <Swiper
-          slidesPerView={2}
+          slidesPerView="auto"
           spaceBetween={8}
           navigation={true}
           pagination={isMobile ? { clickable: true } : false}
           breakpoints={{
-            320: {
-              slidesPerView: 2,
-            },
-            768: {
-              slidesPerView: 4,
-            },
-            1024: {
-              slidesPerView: 5,
-            },
+            320: {},
+            768: {},
+            1024: {},
           }}
           modules={[Pagination, Navigation]}
           className="MultiSwiper popular"
