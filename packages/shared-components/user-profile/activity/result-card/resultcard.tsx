@@ -33,7 +33,7 @@ const Resultcard = ({ data }: { data: ResultItem[] }) => {
             {item.hasHearIcon && (
               <button className="group">
                 <HeartBlue
-                  hover={`group-hover:fill-primary-400 ${item.activeHeart ? "fill-primary-400" : ""}`}
+                  hover={`group-hover:fill-primary-400 ${item.activeHeart ? "fill-green-400" : ""}`}
                 />
               </button>
             )}

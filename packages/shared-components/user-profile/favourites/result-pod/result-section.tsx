@@ -81,9 +81,9 @@ const ResultPod = ({
                       <path
                         d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
                         stroke="#4664DC"
-                        stroke-width="1.67"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                     </svg>
                   </button>
@@ -182,7 +182,7 @@ const ResultPod = ({
             <div className="flex flex-col grow">
               <div className="bg-white border border-grey-200 rounded-b-[16px] shadow-custom-3 md:rounded-tr-[16px]">
                 <div
-                  className={`border-b-[1px] border-grey-200 p-[16px] lg:p-[20px] ${favouritesCourseStudentReview ? "block md:hidden" : ""}`}
+                  className={`border-b-[1px] border-grey-200 p-[16px] lg:p-[20px] ${favouritesCourseStudentReview ? "hidden" : "block"}`}
                 >
                   <div className="bg-grey-100 p-[12px] rounded-[8px]">
                     <div className="flex gap-[4px]">
@@ -263,9 +263,9 @@ const ResultPod = ({
                             <path
                               d="M4.02513 5.05027C2.65829 6.41711 2.65829 8.63318 4.02513 10L10 15.9749L15.9749 10C17.3417 8.63318 17.3417 6.41711 15.9749 5.05027C14.608 3.68344 12.392 3.68344 11.0251 5.05027L10 6.07544L8.97487 5.05027C7.60804 3.68344 5.39196 3.68344 4.02513 5.05027Z"
                               stroke="#4664DC"
-                              stroke-width="1.67"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="1.67"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             ></path>
                           </svg>
                         </button>

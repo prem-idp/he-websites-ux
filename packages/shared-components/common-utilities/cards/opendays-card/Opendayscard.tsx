@@ -131,9 +131,9 @@ const Opendayscard = ({
                               <path
                                 d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
                                 stroke="#333333"
-                                stroke-width="1.13"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.13"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                             <span className="xs-small font-semibold text-grey300">

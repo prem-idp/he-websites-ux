@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Clearingvisitewebsite from "../interaction-button/clearingvisitewebsite";
@@ -7,6 +9,7 @@ import Getprospectus from "../interaction-button/getprospectus";
 import Visitwebsite from "../interaction-button/visitwebsite";
 import BookOpenDay from "../interaction-button/bookopenday";
 import RequestInfo from "../interaction-button/requestinfo";
+import { Tick } from "../../../../../apps/whatuni/src/app/media-utilities/mediautilities";
 
 const Othercoursesmaylikecard = ({
   seasonWusca,
@@ -19,7 +22,13 @@ const Othercoursesmaylikecard = ({
   userFavourites,
   uniFavourites,
   activityProspectuses,
+  openDaysCount = 0,
+  coursesCount = 0,
+  onOpen,
+  buttonText,
 }: any) => {
+  const [prosClicked, setProsClicked] = useState(false);
+
   return (
     <div
       className={`card h-full flex flex-col bg-white border border-grey-200 ${seasonWusca ? "" : "lg:hover:border-primary-400"} rounded-[8px] shadow-custom-2 overflow-hidden`}
@@ -111,9 +120,9 @@ const Othercoursesmaylikecard = ({
                             <path
                               d="M6 3.77778V6L7.66667 7.66667M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z"
                               stroke="#333333"
-                              stroke-width="1.13"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="1.13"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                           <span className="xs-small font-semibold text-grey300">
@@ -160,7 +169,7 @@ const Othercoursesmaylikecard = ({
                   href="#"
                   className="small font-semibold text-primary-400 text-center block hover:underline"
                 >
-                  View XX open days
+                  View {openDaysCount} open days
                 </Link>
               </div>
             </>
@@ -388,7 +397,16 @@ const Othercoursesmaylikecard = ({
                           <RequestInfo />
                         </>
                       ) : (
-                        <Getprospectus />
+                        <>
+                          {prosClicked ? (
+                            <div className="flex items-center justify-center gap-[4px] group text-positive-default small font-semibold">
+                              <Tick hover="group-hover:stroke-positive-default" />
+                              Prospectus Ordered
+                            </div>
+                          ) : (
+                            <Getprospectus onOpen={setProsClicked} />
+                          )}
+                        </>
                       )
                     ) : (
                       <>
@@ -408,7 +426,7 @@ const Othercoursesmaylikecard = ({
                     href="#"
                     className="small font-semibold text-primary-400 text-center block hover:underline"
                   >
-                    View XX courses
+                    View {coursesCount} courses
                   </Link>
                 </div>
               )}

@@ -13,9 +13,12 @@ import Reviewthumbgalleryslidercomponents from "@packages/shared-components/comm
 import PopularSubject from "@packages/shared-components/common-utilities/popular-subject/popular-subject";
 import Opendaysvirtualadvertcomponents from "@packages/shared-components/institution-profile/opendaysvirtualadvertcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
-import { advertOpendaysData, tabDataStudy } from "@packages/constants/constants";
-import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/opendaysvirtualadvert-skeleton"
-import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton"
+import {
+  advertOpendaysData,
+  tabDataStudy,
+} from "@packages/constants/constants";
+import OpendaysvirtualadvertSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/opendaysvirtualadvert-skeleton";
+import AdvertiserSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/advertiser-skeleton";
 import KeystatscomponentsSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/keystatscomponents-skeleton";
 import PopularSubjectSkeleton from "@packages/shared-components/common-utilities/skeleton/ip/popular-subject-skeleton";
 import ReviewThumbGallerySliderComponents from "@packages/shared-components/common-utilities/slider/reviewthumbgalleryslidercomponents";
@@ -62,7 +65,14 @@ const page = () => {
     setIsOpen(null);
     setOpenModal(null);
     document.body.classList.remove("overflow-y-hidden");
-    const validModals = ["subject", "examType", "location", "courseoption", "reviewfilter", "reviewgallery"];
+    const validModals = [
+      "subject",
+      "examType",
+      "location",
+      "courseoption",
+      "reviewfilter",
+      "reviewgallery",
+    ];
 
     if (validModals.includes(modalName)) {
       setOpenModal(null);
@@ -73,7 +83,7 @@ const page = () => {
     <>
       {/* <ClearingPopup/> */}
       <Interested />
-      <HeaderBanner openvepple={true}/>
+      <HeaderBanner openvepple={true} />
       <TabSwitchButton tabSwitchButtonData={tabDataStudy} reviewCount={true} />
       {/* Skip links  */}
       <section>
@@ -118,7 +128,6 @@ const page = () => {
                 showWuscaCard={true}
                 showreviewCard={true}
                 isWuscaBadge={true}
-
               />
               {/* <AdvertiserSkeleton
                 rating={ratingData}
@@ -217,7 +226,7 @@ const page = () => {
         <div className={`transition-all duration-300 modal-box shadow-custom-6 w-full p-[0] md:p-[20px] lg:p-[24px] bg-white fixed top-0 left-0 right-0 mx-auto h-[100dvh]`}>
           <div onClick={handleCloseModal} className='modal_close flex items-center justify-center absolute top-[24px] right-[16px] lg:right-[20px] z-[1] cursor-pointer'>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path className='stroke-grey-600' d="M1 13L13 1M1 1L13 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path className='stroke-grey-600' d="M1 13L13 1M1 1L13 13" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
           <div className='review-modal-container flex flex-col gap-[16px]'>

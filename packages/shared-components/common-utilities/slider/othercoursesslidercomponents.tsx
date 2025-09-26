@@ -13,6 +13,7 @@ const Othercoursesslidercomponents = ({
   openDays,
   userFavourites,
   uniFavourites,
+  onOpen,
 }: any) => {
   return (
     <>
