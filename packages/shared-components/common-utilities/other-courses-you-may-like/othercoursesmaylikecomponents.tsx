@@ -9,6 +9,7 @@ const Othercoursesmaylikecomponents = ({
   openDays,
   userFavourites,
   uniFavourites,
+  onOpen,
 }: any) => {
   return (
     <div className={`other-courses-container bg-${bgColor}`}>

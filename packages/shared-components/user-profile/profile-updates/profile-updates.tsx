@@ -7,7 +7,7 @@ const ProfileUpdates = ({ children }: any) => {
   // );
   const [uploadpop, setUploadPop] = useState(false);
   return (
-    <div className="w-full flex shadow-custom-1">
+    <div className="w-full flex shadow-custom-1 mb-[3px]">
       <div className="max-w-container mx-auto px-[16px] md:px-[24px] xl:px-[0]">
         <div className="flex flex-col gap-[32px] items-center justify-center pt-[32px] pb-[12px]">
           <div className="flex flex-col gap-[16px] items-center justify-center relative">

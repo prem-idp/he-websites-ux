@@ -186,30 +186,15 @@ export const popularCourseData = {
   ],
 };
 export const userFavCourseData = {
-  title: "Recommended courses for you",
+  title: "Your unis",
   description: "",
   data: [
-    { courseName: "University of London", uniName: "Computer Science" },
-    {
-      courseName: "University of Leeds",
-      uniName: "Business Studies with Foundation Year",
-    },
-    {
-      courseName: "Liverpool Hope University",
-      uniName:
-        "Business Management and Conservation Biology (with Foundation Year) BA (Hons)",
-    },
-    { courseName: "University of Northampton", uniName: "Computer Science" },
-    {
-      courseName: "University of Chester",
-      uniName:
-        "Business Management and International Tourism Management (with Professional Placement Year) BA (Hons)",
-    },
-    {
-      courseName: "University of Wales Trinity Saint David",
-      uniName:
-        "Management with Digital Innovation and Analytics (Year in Business)",
-    },
+    { uniName: "Uni name" },
+    { uniName: "Uni name" },
+    { uniName: "Uni name" },
+    { uniName: "Uni name" },
+    { uniName: "Uni name" },
+    { uniName: "Uni name" },
   ],
 };
 export const openDaysData = {
