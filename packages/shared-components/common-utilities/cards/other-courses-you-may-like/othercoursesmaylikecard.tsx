@@ -399,8 +399,8 @@ const Othercoursesmaylikecard = ({
                       ) : (
                         <>
                           {prosClicked ? (
-                            <div className="flex items-center justify-center gap-[4px] group p-[8px_16px] text-positive-default small font-semibold">
-                              <Tick hover="group-hover:stroke-positive-default" />
+                            <div className="flex items-center justify-center gap-[4px] p-[8px_16px] text-positive-default small font-semibold">
+                              <Tick hover="stroke-positive-default" />
                               Prospectus Ordered
                             </div>
                           ) : (
