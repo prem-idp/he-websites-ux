@@ -30,12 +30,23 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const hideLayout = pathname === "/cpc-landing";
+  const hideLayoutsignupsignin = pathname === "/registration/signup-signin";
+  const hideLayoutregisterclearing =
+    pathname === "/registration/register-clearing";
+  const hideLayoutregistersuccess =
+    pathname === "/registration/registersuccess";
+  const hideLayoutforgotpassword = pathname === "/registration/forgotpassword";
+
   return (
     <html lang="en">
       <body
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
-        {!hideLayout && <Header />}
+        {!hideLayout &&
+          !hideLayoutsignupsignin &&
+          !hideLayoutregisterclearing &&
+          !hideLayoutregistersuccess &&
+          !hideLayoutforgotpassword && <Header />}
         {children}
         {!hideLayout && <Footer />}
         {/* <Tickertape /> */}

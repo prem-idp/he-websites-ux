@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ToggleComponent = ({ label, description }: any) => {
+const ToggleComponent = ({ label, description, unsubscribe }: any) => {
   const [enabled, setEnabled] = useState(false);
 
   const toggle = () => {
@@ -10,8 +10,9 @@ const ToggleComponent = ({ label, description }: any) => {
     <>
       <div className="flex gap-[12px]">
         <button
+          type="button"
           onClick={toggle}
-          className={`relative inline-flex items-center w-[26px] h-[16px] mt-[4px] rounded-full transition-colors focus:outline-none ${
+          className={`relative inline-flex shrink-0 items-center w-[26px] h-[16px] mt-[4px] rounded-full transition-colors focus:outline-none ${
             enabled ? "bg-positive-default" : "bg-grey-400"
           }`}
         >
@@ -23,8 +24,14 @@ const ToggleComponent = ({ label, description }: any) => {
         </button>
         {/* Text Content */}
         <div>
-          <p className="font-semibold text-gray-600">{label}</p>
-          <p className="small text-gray-600">{description}</p>
+          <p
+            className={`font-semibold text-gray-600 ${unsubscribe ? "" : "x-small"}`}
+          >
+            {label}
+          </p>
+          <p className={`small text-gray-600 ${unsubscribe ? "" : "x-small"}`}>
+            {description}
+          </p>
         </div>
       </div>
     </>
