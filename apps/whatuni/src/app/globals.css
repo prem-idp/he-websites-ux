@@ -659,7 +659,7 @@ p,
 }
 
 .err_msg {
-  display: none;
+  display: block;
 }
 .error .err_msg {
   display: block;
