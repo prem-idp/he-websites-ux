@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import EmailPreferences from "@packages/shared-components/common-utilities/register/emailpreferences";
 
 const RegisterSuccess = () => {
@@ -25,7 +26,7 @@ const RegisterSuccess = () => {
               />
             </svg>
             <p className="small font-semibold text-positive-dark flex w-[calc(100%_-_24px)]">
-              You have successfully signed up
+              You have successfully signed up to Whatuni
             </p>
           </div>
           <div className="flex flex-col gap-[4px]">
@@ -51,10 +52,10 @@ const RegisterSuccess = () => {
                         type="radio"
                         name="descrip"
                         className="form-radio hidden"
-                        id="parents"
+                        id="Student"
                       />
                       <label
-                        htmlFor="parents"
+                        htmlFor="Student"
                         className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
                       >
                         <svg
@@ -78,10 +79,49 @@ const RegisterSuccess = () => {
                       </label>
                     </div>
                     <label
-                      htmlFor="parents"
+                      htmlFor="Student"
                       className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
                     >
-                      Parents
+                      Student
+                    </label>
+                  </div>
+                  <div className="col flex items-center gap-[12px]">
+                    <div className="radio_card">
+                      <input
+                        type="radio"
+                        name="descrip"
+                        className="form-radio hidden"
+                        id="child"
+                      />
+                      <label
+                        htmlFor="child"
+                        className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
+                      >
+                        <svg
+                          width="10"
+                          height="8"
+                          viewBox="0 0 10 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+                            fill="white"
+                            stroke="white"
+                            strokeWidth="0.666667"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </label>
+                    </div>
+                    <label
+                      htmlFor="child"
+                      className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
+                    >
+                      My child is going to uni
                     </label>
                   </div>
                   <div className="col flex items-center gap-[12px]">
@@ -198,7 +238,7 @@ const RegisterSuccess = () => {
                       htmlFor="sector"
                       className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
                     >
-                      Work in the sector
+                      I Work in the sector
                     </label>
                   </div>
                 </div>
@@ -214,6 +254,12 @@ const RegisterSuccess = () => {
                   Submit
                 </button>
               </div>
+              <Link
+                href="#"
+                className="text-primary-400 hover:text-primary-500 hover:underline small font-semibold"
+              >
+                Skip - I’m researching for myself
+              </Link>
             </div>
           </div>
         </div>
