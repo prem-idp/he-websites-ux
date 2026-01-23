@@ -58,7 +58,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                   Nice to meet you! Great name
                 </p>
                 {/* <p className="x-small font-normal text-negative-default">
-                          We still don’t know your name, Remind us?
+                          We still don't know your name. Remind us?
                         </p> */}
               </div>
               <div className="flex flex-col basis-6/12 gap-[4px]">
@@ -77,7 +77,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                 />
                 <div className="err_msg">
                   <p className="x-small font-normal text-negative-default">
-                    We still don’t know your name, Remind us?
+                    We still don't know your name. Remind us?
                   </p>
                 </div>
               </div>
@@ -120,7 +120,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                   />
                   <div className="err_msg">
                     <p className="x-small font-normal text-negative-default">
-                      We still don’t know your password. Remind us?
+                      We still don't know your password. Remind us?
                     </p>
                   </div>
                   <button
@@ -364,7 +364,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                   className="text-primary-400 hover:text-primary-500 hover:underline"
                 >
                   terms and conditions{" "}
-                </Link>{" "}
+                </Link>
                 and{" "}
                 <Link
                   href=""
@@ -380,19 +380,19 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                 className="btn btn-primary w-full flex items-center justify-center gap-[8px]"
               >
                 Sign up{" "}
-                {/* <svg
-                          className="animate-spin"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4.5 12C4.5 7.875 7.875 4.5 12 4.5C16.125 4.5 19.5 7.875 19.5 12H22C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22V19.5C7.875 19.5 4.5 16.125 4.5 12Z"
-                            fill="white"
-                          />
-                        </svg> */}
+                <svg
+                  className="animate-spin"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.5 12C4.5 7.875 7.875 4.5 12 4.5C16.125 4.5 19.5 7.875 19.5 12H22C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22V19.5C7.875 19.5 4.5 16.125 4.5 12Z"
+                    fill="white"
+                  />
+                </svg>
                 <Image
                   src="/static/assets/icons/right_white_arrow.svg"
                   width="17"

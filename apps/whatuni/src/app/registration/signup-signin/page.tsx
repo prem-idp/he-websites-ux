@@ -245,7 +245,7 @@ const Registration = () => {
                     className="text-primary-400 hover:text-primary-500 hover:underline"
                   >
                     Join us
-                  </Link>{" "}
+                  </Link>
                 </div>
               </div>
             </>
