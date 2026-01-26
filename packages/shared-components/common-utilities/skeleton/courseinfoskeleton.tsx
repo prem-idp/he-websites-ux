@@ -42,7 +42,7 @@ const Courseinfoskeleton = () => {
                         <path
                           d="M11 1.38477L6 6.38477L1 1.38477"
                           stroke="#fff"
-                          stroke-width="1.67"
+                          strokeWidth="1.67"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />

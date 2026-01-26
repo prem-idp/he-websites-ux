@@ -25,7 +25,7 @@ const Courseoptionsskeleton = ({ onOpenModal }: any) => {
                   <path
                     d="M11 1.38477L6 6.38477L1 1.38477"
                     stroke="#d4d4d4"
-                    stroke-width="1.67"
+                    strokeWidth="1.67"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
