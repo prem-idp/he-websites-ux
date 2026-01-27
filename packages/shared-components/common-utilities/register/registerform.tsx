@@ -412,7 +412,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
               href="/registeration/signin"
               className="text-primary-400 hover:text-primary-500 hover:underline"
             >
-              Sign in yes
+              Sign in
             </Link>
           </div>
         </div>
