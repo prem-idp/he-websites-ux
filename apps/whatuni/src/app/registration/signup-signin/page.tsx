@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import SocialSigninButtons from "@packages/shared-components/common-utilities/register/social-signin-buttons";
-import RegisterClearingUpdates from "@packages/shared-components/common-utilities/register/registerclearingupdates";
+import RegisterForm from "@packages/shared-components/common-utilities/register/registerform";
 
 const Registration = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -12,7 +12,7 @@ const Registration = () => {
   return (
     <>
       <section className="bg-grey-50 pt-[28px] md:py-[64px]">
-        <div className="w-full md:w-[598px] mx-auto md:border md:border-grey-200 md:rounded-[8px] bg-white">
+        <div className="w-full md:w-[598px] mx-auto md:border md:border-grey-200 md:rounded-[8px] bg-white overflow-hidden">
           {/* Tabs Header */}
           <div className="flex border-b border-gray-200 text-center small font-semibold mb-[-2px]">
             <button
@@ -50,7 +50,7 @@ const Registration = () => {
               {/* social signin buttons */}
 
               {/* form details */}
-              <RegisterClearingUpdates signupVisible={true} />
+              <RegisterForm signupVisible={true} />
               {/* form details */}
             </>
           )}
@@ -101,7 +101,7 @@ const Registration = () => {
                           </p>
                         </div>
                         <button
-                          className="cursor-pointer absolute top-[12px] right-[11px] w-[20px] h-[20px]"
+                          className="cursor-pointer absolute top-[8px] right-[11px] w-[20px] h-[20px]"
                           aria-label="hide password"
                           role="button"
                           type="button"
@@ -237,7 +237,7 @@ const Registration = () => {
                 <SocialSigninButtons title="or" isVisible={false} />
                 {/* social signin buttons */}
               </div>
-              <div className="py-[16px] w-full border-t border-t-grey-200">
+              <div className="py-[16px] w-full border-t border-t-grey-200 bg-grey-50">
                 <div className="small font-semibold text-grey300 text-center">
                   Don’t have an account?{" "}
                   <Link

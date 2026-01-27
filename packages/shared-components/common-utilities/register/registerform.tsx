@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import EmailPreferences from "@packages/shared-components/common-utilities/register/emailpreferences";
 
-const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
+const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
   const region = [
     "East Midlands",
     "East of England",
@@ -20,7 +20,6 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
     "West Midlands",
     "Yorkshire and the Humber",
   ];
-  //che
   return (
     <>
       <div className="flex flex-col gap-[16px] p-[32px_16px] md:gap-[24px] md:p-[32px] border-t border-t-grey-200">
@@ -124,7 +123,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                     </p>
                   </div>
                   <button
-                    className="cursor-pointer absolute top-[12px] right-[11px] w-[20px] h-[20px]"
+                    className="cursor-pointer absolute top-[8px] right-[11px] w-[20px] h-[20px]"
                     aria-label="hide password"
                     role="button"
                     type="button"
@@ -250,7 +249,7 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                 />
               </div>
               <div className="flex flex-col basis-6/12 justify-end gap-[4px]">
-                <div className="postalcode hints">
+                <div className="postalcode hints md:mb-[12px]">
                   <Link
                     href=""
                     className="tooltip group/item relative small font-normal text-primary-400 underline"
@@ -372,7 +371,8 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
                 >
                   privacy notice
                 </Link>
-                , and to become a member of the Whatuni community*
+                , and to become a member of the Whatuni community
+                <span className="text-negative-default">*</span>
               </div>
 
               <button
@@ -405,14 +405,14 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
         </form>
       </div>
       {signupVisible && (
-        <div className="py-[16px] w-full border-t border-t-grey-200">
+        <div className="py-[16px] w-full border-t border-t-grey-200 bg-grey-50">
           <div className="small font-semibold text-grey300 text-center">
             Already have an account?{" "}
             <Link
               href="/registeration/signin"
               className="text-primary-400 hover:text-primary-500 hover:underline"
             >
-              Sign in
+              Sign in yes
             </Link>
           </div>
         </div>
@@ -421,4 +421,4 @@ const RegisterClearingUpdates = ({ signupVisible, clearingVisible }: any) => {
   );
 };
 
-export default RegisterClearingUpdates;
+export default RegisterFrom;
