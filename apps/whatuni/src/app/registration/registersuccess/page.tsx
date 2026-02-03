@@ -41,9 +41,7 @@ const RegisterSuccess = () => {
               <div className="form_radio flex flex-col gap-[8px]">
                 <label className="check-label small font-semibold text-grey300">
                   What description fits you best?{" "}
-                  <span className="x-small font-normal text-grey-700">
-                    (optional)
-                  </span>
+                  <span className="x-small font-normal">(optional)</span>
                 </label>
                 <div className="form-radio-group flex flex-col gap-[10px]">
                   <div className="col flex items-center gap-[12px]">
