@@ -69,9 +69,7 @@ const ClearingUniversity = () => {
             <div className="flex flex-col gap-[8px]">
               <div className="font-semibold">
                 Add a university{" "}
-                <span className="x-small font-normal text-grey-700">
-                  (optional)
-                </span>
+                <span className="x-small font-normal">(optional)</span>
               </div>
 
               <div className="bg-white rounded-[32px] p-[19px_24px] border border-grey-300 hover:border-primary-500 ">

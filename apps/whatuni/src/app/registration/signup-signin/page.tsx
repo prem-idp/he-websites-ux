@@ -14,14 +14,14 @@ const Registration = () => {
       <section className="bg-grey-50 pt-[28px] md:py-[64px]">
         <div className="w-full md:w-[598px] mx-auto md:border md:border-grey-200 md:rounded-[8px] bg-white overflow-hidden">
           {/* Tabs Header */}
-          <div className="flex border-b border-gray-200 text-center small font-semibold mb-[-2px]">
+          <div className="flex  border-gray-200 text-center small font-semibold">
             <button
               onClick={() => setActiveTab("tab1")}
               className={`flex-1 py-[12px] 
             ${
               activeTab === "tab1"
                 ? "border-b-2 border-primary-400 text-primary-400"
-                : "text-black"
+                : "text-black hover:border-primary-400 hover:text-primary-400 border-b-2"
             }`}
             >
               Join us
@@ -33,7 +33,7 @@ const Registration = () => {
             ${
               activeTab === "tab2"
                 ? "border-b-2 border-primary-400 text-primary-400"
-                : "text-black"
+                : "text-black hover:border-primary-400 hover:text-primary-400 border-b-2"
             }`}
             >
               Sign in
@@ -101,7 +101,7 @@ const Registration = () => {
                           </p>
                         </div>
                         <button
-                          className="cursor-pointer absolute top-[8px] right-[11px] w-[20px] h-[20px]"
+                          className="cursor-pointer absolute top-[8px] right-[11px] w-[24px] h-[24px]"
                           aria-label="hide password"
                           role="button"
                           type="button"
@@ -186,7 +186,7 @@ const Registration = () => {
                           >
                             <span className="x-small text-grey-600">
                               Remember me {""}
-                              <span className="x-small font-normal text-grey-700">
+                              <span className="x-small font-normal">
                                 (Don’t use this on a public computer)
                               </span>
                             </span>
@@ -224,7 +224,7 @@ const Registration = () => {
                     <div className="small font-semibold text-grey300 text-center">
                       <Link
                         href="/registeration/signin"
-                        className="text-primary-400 hover:text-primary-500 hover:underline"
+                        className="text-primary-400 underline hover:text-primary-500"
                       >
                         Forgot password?
                       </Link>
@@ -242,7 +242,7 @@ const Registration = () => {
                   Don’t have an account?{" "}
                   <Link
                     href="/registeration/signin"
-                    className="text-primary-400 hover:text-primary-500 hover:underline"
+                    className="text-primary-400 underline hover:text-primary-500"
                   >
                     Join us
                   </Link>

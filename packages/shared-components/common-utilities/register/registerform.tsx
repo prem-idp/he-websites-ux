@@ -123,7 +123,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                     </p>
                   </div>
                   <button
-                    className="cursor-pointer absolute top-[8px] right-[11px] w-[20px] h-[20px]"
+                    className="cursor-pointer absolute top-[8px] right-[11px] w-[24px] h-[24px]"
                     aria-label="hide password"
                     role="button"
                     type="button"
@@ -238,9 +238,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                   className="small font-semibold text-grey300"
                 >
                   Postcode{" "}
-                  <span className="x-small font-normal text-grey-700">
-                    (optional)
-                  </span>
+                  <span className="x-small font-normal">(optional)</span>
                 </label>
                 <input
                   type="text"
@@ -279,6 +277,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                 <div className="form-radio-group flex flex-row gap-[6px] md:gap-[8px]">
                   <div className="flex relative">
                     <input
+                      defaultChecked
                       type="radio"
                       name="yoe"
                       className="form-check-input rounded-[4px] outline-none absolute opacity-0 pointer-events-none"
@@ -360,14 +359,14 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                 By continuing, I confirm I’m over 13 and agree to the{" "}
                 <Link
                   href=""
-                  className="text-primary-400 hover:text-primary-500 hover:underline"
+                  className="text-primary-400 underline hover:text-primary-500"
                 >
                   terms and conditions{" "}
                 </Link>
                 and{" "}
                 <Link
                   href=""
-                  className="text-primary-400 hover:text-primary-500 hover:underline"
+                  className="text-primary-400 underline hover:text-primary-500"
                 >
                   privacy notice
                 </Link>
@@ -380,7 +379,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                 className="btn btn-primary w-full flex items-center justify-center gap-[8px]"
               >
                 Sign up{" "}
-                <svg
+                {/* <svg
                   className="animate-spin"
                   width="24"
                   height="24"
@@ -392,7 +391,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
                     d="M4.5 12C4.5 7.875 7.875 4.5 12 4.5C16.125 4.5 19.5 7.875 19.5 12H22C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22V19.5C7.875 19.5 4.5 16.125 4.5 12Z"
                     fill="white"
                   />
-                </svg>
+                </svg> */}
                 <Image
                   src="/static/assets/icons/right_white_arrow.svg"
                   width="17"
@@ -410,7 +409,7 @@ const RegisterFrom = ({ signupVisible, clearingVisible }: any) => {
             Already have an account?{" "}
             <Link
               href="/registeration/signin"
-              className="text-primary-400 hover:text-primary-500 hover:underline"
+              className="text-primary-400 underline hover:text-primary-500"
             >
               Sign in
             </Link>

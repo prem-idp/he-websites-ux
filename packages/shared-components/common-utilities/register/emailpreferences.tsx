@@ -5,7 +5,7 @@ const EmailPreferences = () => {
     <div className="form_check flex flex-col gap-[4px]">
       <label className="check-label small font-semibold text-grey300">
         Stay up to date via email{" "}
-        <span className="x-small font-normal text-grey-700">(optional)</span>
+        <span className="x-small font-normal">(optional)</span>
       </label>
       <div className="form-check-group flex flex-col gap-[8px]">
         <div className="flex items-start gap-[12px] relative">
@@ -45,9 +45,7 @@ const EmailPreferences = () => {
           >
             <span className="x-small font-semibold text-grey-600">
               Newsletters and uni updates{" "}
-              <span className="x-small font-normal text-grey-700">
-                (tick to opt in)
-              </span>
+              <span className="x-small font-normal">(tick to opt in)</span>
             </span>
             <p className="x-small font-normal text-grey-600">
               Emails from us and our carefully selected third party providers
@@ -92,9 +90,7 @@ const EmailPreferences = () => {
           >
             <span className="x-small font-semibold text-grey-600">
               Surveys{" "}
-              <span className="x-small font-normal text-grey-700">
-                (tick to opt in)
-              </span>
+              <span className="x-small font-normal">(tick to opt in)</span>
             </span>
             <p className="x-small font-normal text-grey-600">
               Have your say on important education issues and the services you

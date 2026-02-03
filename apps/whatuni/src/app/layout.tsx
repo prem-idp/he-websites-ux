@@ -38,6 +38,7 @@ export default function RootLayout({
   const hideLayoutforgotpassword = pathname === "/registration/forgotpassword";
   const hideLayoutclearinguni =
     pathname === "/registration/clearing-university";
+  const unsubscribe = pathname === "/registration/unsubscribe";
 
   return (
     <html lang="en">
@@ -49,7 +50,8 @@ export default function RootLayout({
           !hideLayoutregisterclearing &&
           !hideLayoutregistersuccess &&
           !hideLayoutforgotpassword &&
-          !hideLayoutclearinguni && <Header />}
+          !hideLayoutclearinguni &&
+          !unsubscribe && <Header />}
         {children}
         {!hideLayout && <Footer />}
         {/* <Tickertape /> */}

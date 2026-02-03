@@ -5,7 +5,7 @@ import Link from "next/link";
 const Headercomponent = () => {
   return (
     <>
-      <header className="bg-blue-100 md:bg-white shadow-custom-3 px-[16px] md:px-[20px] xl2:px-0 relative">
+      <header className="bg-grey-50 md:bg-white shadow-custom-3 px-[16px] md:px-[20px] xl2:px-0 relative">
         <div className="flex items-center justify-center">
           <div className="logo py-[4px] lg:py-[8px] w-[51px] lg:w-[54px]">
             <Link href="#">
