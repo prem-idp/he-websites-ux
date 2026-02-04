@@ -1,22 +1,16 @@
-"use client";
-import React, { useEffect } from "react";
-import dynamic from "next/dynamic";
+import React from "react";
+import Headercomponent from "@packages/shared-components/common-utilities/campaign/header/Headercomponent";
 
-const Headercomponent = dynamic(
-  () =>
-    import("@packages/shared-components/common-utilities/campaign/header/Headercomponent"),
-  { ssr: false },
-);
+export const metadata = {
+  title: "Registration",
+  description: "",
+};
 
 export default function RegistrationLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    document.title = "Registration";
-  }, []);
-
   return (
     <>
       <Headercomponent />
