@@ -30,6 +30,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const hideLayout = pathname === "/cpc-landing";
+  const hideLayoutregister = pathname === "/register";
   const hideLayoutsignupsignin = pathname === "/registration/signup-signin";
   const hideLayoutregisterclearing =
     pathname === "/registration/register-clearing";
@@ -46,6 +47,7 @@ export default function RootLayout({
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
         {!hideLayout &&
+          !hideLayoutregister &&
           !hideLayoutsignupsignin &&
           !hideLayoutregisterclearing &&
           !hideLayoutregistersuccess &&

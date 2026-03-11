@@ -185,3 +185,22 @@ export const SettingsBlueIcon = ({ hover }: any) => (
     />
   </svg>
 );
+
+export const EmailGreenIcon = ({ hover }: any) => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      className={`${hover}`}
+      d="M3 10.224L14.3975 17.8223C15.3679 18.4692 16.6321 18.4692 17.6025 17.8223L29 10.224M5.88889 26.1128H26.1111C27.7066 26.1128 29 24.8194 29 23.224V8.77951C29 7.18402 27.7066 5.89062 26.1111 5.89062H5.88889C4.2934 5.89062 3 7.18402 3 8.77951V23.224C3 24.8194 4.2934 26.1128 5.88889 26.1128Z"
+      stroke="#1E8782"
+      stroke-width="2.67"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
