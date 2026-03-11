@@ -14,8 +14,7 @@ const LoginForm = () => {
           htmlFor="emailAddress"
           className="small font-semibold text-grey-700"
         >
-          Email address
-          <span className="text-negative-default">*</span>
+          Email address <span className="text-negative-default">*</span>
         </label>
         <input
           type="email"
