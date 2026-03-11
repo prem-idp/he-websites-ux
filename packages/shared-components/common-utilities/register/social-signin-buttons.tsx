@@ -1,6 +1,6 @@
 import React from "react";
 
-const SocialSigninButtons = ({ title, isVisible }: any) => {
+const SocialSigninButtons = ({ title, isVisible, isRegisterVisible }: any) => {
   return (
     <div className="flex flex-col items-center text-center gap-[16px] p-[32px_16px] md:gap-[24px] md:p-[32px]">
       <div className="flex flex-col gap-[8px]">
@@ -9,6 +9,12 @@ const SocialSigninButtons = ({ title, isVisible }: any) => {
           <div className="x-small">
             Create your Whatuni account – you'll also get access to all the
             features of the Whatuni App and Postgraduate Search
+          </div>
+        )}
+        {isRegisterVisible && (
+          <div className="x-small">
+            You’re registering with Whatuni. Your account also works on Complete
+            University Guide and Postgraduate Search
           </div>
         )}
       </div>
