@@ -31,6 +31,8 @@ export default function RootLayout({
   const pathname = usePathname();
   const hideLayout = pathname === "/cpc-landing";
   const hideLayoutregister = pathname === "/register";
+  const unsubscribes = pathname === "/register/unsubscribe";
+
   const hideLayoutsignupsignin = pathname === "/registration/signup-signin";
   const hideLayoutregisterclearing =
     pathname === "/registration/register-clearing";
@@ -48,6 +50,7 @@ export default function RootLayout({
       >
         {!hideLayout &&
           !hideLayoutregister &&
+          !unsubscribes &&
           !hideLayoutsignupsignin &&
           !hideLayoutregisterclearing &&
           !hideLayoutregistersuccess &&

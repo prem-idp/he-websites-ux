@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 const ToggleComponent = ({ label, description, unsubscribe }: any) => {

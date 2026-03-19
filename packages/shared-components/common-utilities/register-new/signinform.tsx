@@ -1,103 +1,139 @@
-import React from "react";
-import Link from "next/link";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
+import Forgotpassword from "./forgotpassword";
 
-const LoginForm = () => {
+const LoginForm = ({
+  email = "",
+  onUseDifferentEmail,
+}: {
+  email?: string;
+  onUseDifferentEmail?: () => void;
+}) => {
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!password.trim()) {
+      setPasswordError("Please enter your password");
+      return;
+    }
+
+    setPasswordError(
+      "Incorrect password. Please try again or reset your password",
+    );
+  };
+
+  if (showForgotPassword) return <Forgotpassword />;
+
   return (
-    <form className="flex flex-col gap-[24px]">
+    <form className="flex flex-col gap-[24px]" onSubmit={handleSubmit}>
       <div className="flex flex-col text-center gap-[8px]">
         <h5>Welcome back!</h5>
         <div className="small">Enter your password to continue</div>
       </div>
-      <div className="flex flex-col basis-full gap-[4px] error">
+
+      <div className="flex flex-col basis-full gap-[4px]">
         <label
           htmlFor="emailAddress"
           className="small font-semibold text-grey-700"
         >
-          Email address <span className="text-negative-default">*</span>
+          Email address
+          <span className="text-negative-default">*</span>
         </label>
         <input
           type="email"
           className="w-full small font-normal px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
           id="emailAddress"
-          placeholder="Eg: paul.atreides@arrakis.com"
+          placeholder="neil.burgess@idp.com"
+          defaultValue={email}
         />
         <div className="flex x-small gap-[2px]">
           Not you?
-          <Link href="#" className="text-primary-400 underline">
+          <button
+            type="button"
+            onClick={onUseDifferentEmail}
+            className="text-primary-400 underline"
+          >
             Use a different email
-          </Link>
-        </div>
-        <div className="err_msg">
-          <p className="x-small font-normal text-negative-default">
-            Please enter a valid email address
-          </p>
+          </button>
         </div>
       </div>
+
       <div className="flex flex-col basis-full gap-[4px]">
         <label htmlFor="password" className="small font-semibold">
           Password
           <span className="text-negative-default">*</span>
         </label>
-        <div className="relative space-y-[4px]">
+        <div className="relative">
           <input
-            type="password"
-            className="w-full small font-normal px-[12px] py-[10px] pr-[40px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
+            type={showPassword ? "text" : "password"}
+            className={`w-full small font-normal px-[12px] py-[10px] pr-[40px] border rounded-[4px] outline-none shadow-custom-2 ${passwordError ? "border-negative-default" : "border-grey-500"}`}
             id="password"
-            placeholder="6 characters or more"
+            placeholder="Please enter your password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordError("");
+            }}
           />
-          <div className="err_msg">
-            <p className="x-small font-normal text-negative-default">
-              Please enter your password
-            </p>
-          </div>
+
           <button
-            className="cursor-pointer absolute top-[8px] right-[11px] w-[24px] h-[24px]"
-            aria-label="hide password"
-            role="button"
+            className="cursor-pointer absolute inset-y-0 right-[12px] flex items-center text-gray-500"
+            aria-label={showPassword ? "Hide password" : "Show password"}
             type="button"
+            onClick={() => setShowPassword(!showPassword)}
           >
-            <svg
-              width="16"
-              height="15"
-              viewBox="0 0 16 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1.39742 0.897461L4.03037 3.53041M14.6019 14.102L11.9692 11.4693M9.37504 12.5061C8.92964 12.5906 8.46999 12.6348 8.00001 12.6348C4.71527 12.6348 1.93477 10.4759 1 7.49969C1.25448 6.68947 1.64574 5.93983 2.14672 5.27782M6.4435 5.94355C6.84176 5.54529 7.39195 5.29896 7.99967 5.29896C9.21511 5.29896 10.2004 6.28427 10.2004 7.49971C10.2004 8.10743 9.95409 8.65762 9.55584 9.05588M6.4435 5.94355L9.55584 9.05588M6.4435 5.94355L4.03037 3.53041M9.55584 9.05588L4.03037 3.53041M9.55584 9.05588L11.9692 11.4693M4.03037 3.53041C5.17463 2.79271 6.53732 2.36463 7.99999 2.36463C11.2847 2.36463 14.0652 4.5235 15 7.49974C14.4814 9.15081 13.3948 10.5503 11.9692 11.4693"
-                stroke="#5C656E"
-                strokeWidth="1.67"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <svg
-              className="hidden"
-              width="16"
-              height="13"
-              viewBox="0 0 16 13"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.2004 6.50032C10.2004 7.71576 9.21511 8.70107 7.99967 8.70107C6.78423 8.70107 5.79892 7.71576 5.79892 6.50032C5.79892 5.28488 6.78423 4.29957 7.99967 4.29957C9.21511 4.29957 10.2004 5.28488 10.2004 6.50032Z"
-                stroke="#5C656E"
-                strokeWidth="1.67"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M1 6.5003C1.93479 3.52408 4.71528 1.36523 7.99999 1.36523C11.2847 1.36523 14.0652 3.52411 15 6.50035C14.0652 9.47656 11.2847 11.6354 8.00001 11.6354C4.71527 11.6354 1.93477 9.47654 1 6.5003Z"
-                stroke="#5C656E"
-                strokeWidth="1.67"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {showPassword ? (
+              <svg
+                width="16"
+                height="13"
+                viewBox="0 0 16 13"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.2004 6.50032C10.2004 7.71576 9.21511 8.70107 7.99967 8.70107C6.78423 8.70107 5.79892 7.71576 5.79892 6.50032C5.79892 5.28488 6.78423 4.29957 7.99967 4.29957C9.21511 4.29957 10.2004 5.28488 10.2004 6.50032Z"
+                  stroke="#5C656E"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M1 6.5003C1.93479 3.52408 4.71528 1.36523 7.99999 1.36523C11.2847 1.36523 14.0652 3.52411 15 6.50035C14.0652 9.47656 11.2847 11.6354 8.00001 11.6354C4.71527 11.6354 1.93477 9.47654 1 6.5003Z"
+                  stroke="#5C656E"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3.39742 3.39844L6.03037 6.03139M16.6019 16.6029L13.9692 13.9703M11.375 15.0071C10.9296 15.0916 10.47 15.1358 10 15.1358C6.71527 15.1358 3.93477 12.9769 3 10.0007C3.25448 9.19045 3.64574 8.4408 4.14672 7.7788M8.4435 8.44452C8.84176 8.04627 9.39195 7.79994 9.99967 7.79994C11.2151 7.79994 12.2004 8.78525 12.2004 10.0007C12.2004 10.6084 11.9541 11.1586 11.5558 11.5569M8.4435 8.44452L11.5558 11.5569M8.4435 8.44452L6.03037 6.03139M11.5558 11.5569L6.03037 6.03139M11.5558 11.5569L13.9692 13.9703M6.03037 6.03139C7.17463 5.29368 8.53732 4.86561 9.99999 4.86561C13.2847 4.86561 16.0652 7.02448 17 10.0007C16.4814 11.6518 15.3948 13.0513 13.9692 13.9703"
+                  stroke="#5C656E"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
           </button>
         </div>
+        {passwordError && (
+          <div className="x-small text-negative-default">{passwordError}</div>
+        )}
       </div>
+
       <div className="form_check flex flex-col gap-[4px]">
         <div className="form-check-group flex flex-col gap-[8px]">
           <div className="flex items-center gap-[12px] relative">
@@ -138,7 +174,7 @@ const LoginForm = () => {
               <span className="x-small text-grey-600">
                 Remember me {""}
                 <span className="x-small font-normal">
-                  (Don’t use this on a public computer)
+                  (Don't use this on a public computer)
                 </span>
               </span>
             </label>
@@ -171,12 +207,13 @@ const LoginForm = () => {
           alt="arrow icon"
         />
       </button>
-      <Link
-        href="/registeration/signin"
+      <button
+        type="button"
+        onClick={() => setShowForgotPassword(true)}
         className="small font-semibold text-center text-primary-400 underline hover:text-primary-500"
       >
         Forgot password?
-      </Link>
+      </button>
     </form>
   );
 };
