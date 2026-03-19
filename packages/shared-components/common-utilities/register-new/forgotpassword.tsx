@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import SocialSigninButtons from "./social-signin-buttons";
-import RegisterFrom from "./signupform";
-import LoginForm from "./signinform";
+import ForgotpasswordOtp from "./forgotpassword-otp";
 
-const SocialSignup = () => {
-  const [showSignupForm, setShowSignupForm] = useState(false);
-  const [showSigninForm, setShowSigninForm] = useState(false);
+const Forgotpassword = () => {
+  const [showOtp, setShowOtp] = useState(false);
   const [email, setEmail] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -15,57 +13,26 @@ const SocialSignup = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleContinue = () => {
-    if (!email.trim()) {
-      setShowSignupForm(true);
-      return;
-    }
-    if (!isValidEmail(email)) {
+  const handleResetPassword = () => {
+    if (!email.trim() || !isValidEmail(email)) {
       setShowError(true);
       return;
     }
-    setShowSigninForm(true);
+    setShowOtp(true);
   };
 
-  if (showSignupForm) {
-    return <RegisterFrom email={email} />;
-  }
-
-  if (showSigninForm) {
-    return (
-      <LoginForm
-        email={email}
-        onUseDifferentEmail={() => {
-          setShowSigninForm(false);
-          setEmail("");
-        }}
-      />
-    );
-  }
+  if (showOtp) return <ForgotpasswordOtp />;
 
   return (
-    <div className="flex flex-col gap-[24px]">
-      {/* Heading Section */}
+    <form className="flex flex-col gap-[24px]">
       <div className="flex flex-col text-center gap-[8px]">
-        <h5>Sign in or create an account</h5>
+        <h5>Forgotton your password?</h5>
         <div className="small">
-          One account. Three websites. All the support you need to choose a
-          university. Sign up to Whatuni, Complete University Guide and
-          Postgraduate Search.
+          Your new password will work across Whatuni, Postgraduate Search and
+          Complete University Guide, keeping your account consistent on all
+          three sites
         </div>
       </div>
-
-      {/* Social Signin Section */}
-
-      <SocialSigninButtons />
-      <div className="py-[10px]">
-        <div className="relative w-full border-b border-gray-200">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-[8px] small font-semibold">
-            OR
-          </div>
-        </div>
-      </div>
-
       <div className="flex flex-col basis-full gap-[4px]">
         <label htmlFor="emailAddress" className="small font-semibold">
           Email address
@@ -89,22 +56,27 @@ const SocialSignup = () => {
         )}
       </div>
 
-      {/* Button */}
       <button
         type="button"
+        onClick={handleResetPassword}
         className="btn btn-primary w-full flex items-center justify-center gap-[8px]"
-        onClick={handleContinue}
       >
-        Continue
+        Reset password{" "}
         <Image
           src="/static/assets/icons/right_white_arrow.svg"
-          width={17}
-          height={14}
+          width="17"
+          height="14"
           alt="arrow icon"
         />
       </button>
-    </div>
+      <Link
+        href="/registeration/signin"
+        className="bg-grey-50 border-t border-grey-200 mx-[-32px] pt-[16px] mb-[-16px] small font-semibold text-center text-primary-400 hover:text-primary-500"
+      >
+        Return to log in
+      </Link>
+    </form>
   );
 };
 
-export default SocialSignup;
+export default Forgotpassword;

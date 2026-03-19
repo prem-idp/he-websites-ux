@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SigninBenefits from "./signinbenefits";
 
-const RegisterFrom = () => {
+const RegisterFrom = ({ email = "" }: { email?: string }) => {
   const [showBenefits, setShowBenefits] = useState(false);
 
   const handleSignup = () => {
@@ -41,7 +41,7 @@ const RegisterFrom = () => {
               id="firstName"
               placeholder="Eg: Paul"
             />
-            <p className="x-small font-normal text-positive-default">
+            <p className="x-small text-positive-default">
               Nice to meet you! Great name
             </p>
           </div>
@@ -56,14 +56,12 @@ const RegisterFrom = () => {
               id="lastName"
               placeholder="Eg: Atreides"
             />
-            <div className="err_msg">
-              <p className="x-small font-normal text-negative-default">
-                We still don't know your name. Remind us?
-              </p>
-            </div>
+            <p className="x-small text-negative-default">
+              We still don't know your name. Remind us?
+            </p>
           </div>
         </div>
-        <div className="flex flex-col basis-full gap-[4px] error">
+        <div className="flex flex-col basis-full gap-[4px]">
           <label
             htmlFor="emailAddress"
             className="small font-semibold text-grey-700"
@@ -76,6 +74,7 @@ const RegisterFrom = () => {
             className="w-full small font-normal px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
             id="emailAddress"
             placeholder="neil.burgess@idp.com"
+            defaultValue={email}
           />
           <div className="flex x-small gap-[2px]">
             Not you?
@@ -83,12 +82,9 @@ const RegisterFrom = () => {
               Use a different email
             </Link>
           </div>
-
-          <div className="err_msg">
-            <p className="x-small font-normal text-negative-default">
-              Please enter a valid email address
-            </p>
-          </div>
+          <p className="x-small text-negative-default">
+            Please enter a valid email address
+          </p>
         </div>
 
         <div className="flex flex-col basis-full gap-[4px]">
@@ -96,39 +92,36 @@ const RegisterFrom = () => {
             Password
             <span className="text-negative-default">*</span>
           </label>
-          <div className="relative space-y-[4px]">
+          <div className="relative">
             <input
               type="password"
               className="w-full small font-normal px-[12px] py-[10px] pr-[40px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
               id="password"
               placeholder="8 characters or more"
             />
-            <div className="err_msg">
-              <p className="x-small font-normal text-negative-default">
-                We still don't know your password. Remind us?
-              </p>
-            </div>
+
             <button
-              className="cursor-pointer absolute top-[8px] right-[11px] w-[24px] h-[24px]"
+              className="cursor-pointer absolute inset-y-0 right-[12px] flex items-center text-gray-500"
               aria-label="hide password"
               role="button"
               type="button"
             >
               <svg
-                width="16"
-                height="15"
-                viewBox="0 0 16 15"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M1.39742 0.897461L4.03037 3.53041M14.6019 14.102L11.9692 11.4693M9.37504 12.5061C8.92964 12.5906 8.46999 12.6348 8.00001 12.6348C4.71527 12.6348 1.93477 10.4759 1 7.49969C1.25448 6.68947 1.64574 5.93983 2.14672 5.27782M6.4435 5.94355C6.84176 5.54529 7.39195 5.29896 7.99967 5.29896C9.21511 5.29896 10.2004 6.28427 10.2004 7.49971C10.2004 8.10743 9.95409 8.65762 9.55584 9.05588M6.4435 5.94355L9.55584 9.05588M6.4435 5.94355L4.03037 3.53041M9.55584 9.05588L4.03037 3.53041M9.55584 9.05588L11.9692 11.4693M4.03037 3.53041C5.17463 2.79271 6.53732 2.36463 7.99999 2.36463C11.2847 2.36463 14.0652 4.5235 15 7.49974C14.4814 9.15081 13.3948 10.5503 11.9692 11.4693"
+                  d="M3.39742 3.39844L6.03037 6.03139M16.6019 16.6029L13.9692 13.9703M11.375 15.0071C10.9296 15.0916 10.47 15.1358 10 15.1358C6.71527 15.1358 3.93477 12.9769 3 10.0007C3.25448 9.19045 3.64574 8.4408 4.14672 7.7788M8.4435 8.44452C8.84176 8.04627 9.39195 7.79994 9.99967 7.79994C11.2151 7.79994 12.2004 8.78525 12.2004 10.0007C12.2004 10.6084 11.9541 11.1586 11.5558 11.5569M8.4435 8.44452L11.5558 11.5569M8.4435 8.44452L6.03037 6.03139M11.5558 11.5569L6.03037 6.03139M11.5558 11.5569L13.9692 13.9703M6.03037 6.03139C7.17463 5.29368 8.53732 4.86561 9.99999 4.86561C13.2847 4.86561 16.0652 7.02448 17 10.0007C16.4814 11.6518 15.3948 13.0513 13.9692 13.9703"
                   stroke="#5C656E"
                   strokeWidth="1.67"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
+
               <svg
                 className="hidden"
                 width="16"
@@ -154,12 +147,17 @@ const RegisterFrom = () => {
               </svg>
             </button>
           </div>
-          <div className="flex justify-center divide-x divide-grey-200 small text-positive-default">
-            <div className="px-[8px]">ABC</div>
-            <div className="px-[8px]"> abc</div>
-            <div className="px-[8px]"> 123</div>
-            <div className="px-[8px]"> !@%</div>
-            <div className="px-[8px]"> 8 characters</div>
+
+          <p className="x-small font-normal text-negative-default">
+            We still don't know your password. Remind us?
+          </p>
+
+          <div className="flex justify-center divide-x divide-grey-200 small [&>*]:px-[8px]">
+            <div> ABC</div>
+            <div> abc</div>
+            <div> 123</div>
+            <div> !@%</div>
+            <div> 8 characters</div>
           </div>
         </div>
 
