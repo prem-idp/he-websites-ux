@@ -108,7 +108,7 @@ const RegisterSuccess = () => {
             </label>
             <input
               type="text"
-              className="w-full small font-normal text-grey300 px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
+              className="w-full small text-grey300 px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
               id="postcode"
             />
             <div className="x-small">Used only to understand our audience</div>

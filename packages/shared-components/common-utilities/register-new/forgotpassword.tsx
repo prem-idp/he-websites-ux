@@ -40,7 +40,7 @@ const Forgotpassword = () => {
         </label>
         <input
           type="email"
-          className={`w-full small font-normal px-[12px] py-[10px] border rounded-[4px] outline-none shadow-custom-2 ${showError ? "border-negative-default" : "border-grey-500"}`}
+          className={`w-full small px-[12px] py-[10px] border rounded-[4px] outline-none shadow-custom-2 ${showError ? "border-negative-default" : "border-grey-500"}`}
           id="emailAddress"
           placeholder="neil.burgess@idp.com"
           value={email}

@@ -31,9 +31,9 @@ const Unsubscribe = () => {
         You can make changes to you subscription preferences by swiping the on
         and off buttons
       </div>
-      <div className="flex flex-col gap-[16px]">
-        <UnsubscribeAccordion title="Whatuni">
-          <div className="flex flex-col gap-[8px]">
+      <div className="flex flex-col gap-[8px]">
+        <UnsubscribeAccordion title="Whatuni" defaultOpen>
+          <div className="flex flex-col gap-[8px] py-[8px]">
             <div className="small font-semibold">Please choose</div>
             <ToggleComponent
               label="Newsletters and uni updates"
@@ -50,10 +50,38 @@ const Unsubscribe = () => {
           </div>
         </UnsubscribeAccordion>
         <UnsubscribeAccordion title="Complete University Guide">
-          <p>Content goes here</p>
+          <div className="flex flex-col gap-[8px] py-[8px]">
+            <div className="small font-semibold">Please choose</div>
+            <ToggleComponent
+              label="Newsletters and uni updates"
+              description="Emails from us and our carefully selected third party providers providing you with the latest uni news, tips and guides."
+            />
+            <ToggleComponent
+              label="Reminders"
+              description="To remind you about upcoming course start dates, your shortlisted courses and any courses you emailed about."
+            />
+            <ToggleComponent
+              label="Surveys"
+              description="Have your say on important education issues and the services you recieve from us and our partners"
+            />
+          </div>
         </UnsubscribeAccordion>
         <UnsubscribeAccordion title="Postgraduate Search">
-          <p>Content goes here</p>
+          <div className="flex flex-col gap-[8px] py-[8px]">
+            <div className="small font-semibold">Please choose</div>
+            <ToggleComponent
+              label="Newsletters and uni updates"
+              description="Emails from us and our carefully selected third party providers providing you with the latest uni news, tips and guides."
+            />
+            <ToggleComponent
+              label="Reminders"
+              description="To remind you about upcoming course start dates, your shortlisted courses and any courses you emailed about."
+            />
+            <ToggleComponent
+              label="Surveys"
+              description="Have your say on important education issues and the services you recieve from us and our partners"
+            />
+          </div>
         </UnsubscribeAccordion>
       </div>
       <button

@@ -38,7 +38,7 @@ const UnsubscribeAccordion = ({
         </svg>
       </button>
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-[500px] mt-[16px]" : "max-h-0"}`}
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? "max-h-[500px]" : "max-h-0"}`}
       >
         {children}
       </div>
