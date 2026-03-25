@@ -9,6 +9,7 @@ import Wuscascomponents from "@packages/shared-components/home/wuscas/wuscascomp
 import OurPartnerComponent from "@packages/shared-components/common-utilities/our-partners/ourpartnercomponent";
 import Articlegridcomponents from "@packages/shared-components/home/article-grid/articlegridcomponents";
 import Articlegridskeleton from "@packages/shared-components/common-utilities/skeleton/articlegridskeleton";
+import ClearingPopup from "@packages/shared-components/common-utilities/popups/clearing";
 
 const page = () => {
   return (
@@ -22,6 +23,7 @@ const page = () => {
       <TestimonialComponent />
       <ReviewComponent />
       <OurPartnerComponent />
+      <ClearingPopup />
     </>
   );
 };

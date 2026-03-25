@@ -5,7 +5,11 @@ import SocialSigninButtons from "./social-signin-buttons";
 import RegisterFrom from "./signupform";
 import LoginForm from "./signinform";
 
-const SocialSignup = () => {
+const SocialSignup = ({
+  registerModal = false,
+}: {
+  registerModal?: boolean;
+}) => {
   const [showSignupForm, setShowSignupForm] = useState(false);
   const [showSigninForm, setShowSigninForm] = useState(false);
   const [email, setEmail] = useState("");
@@ -28,7 +32,7 @@ const SocialSignup = () => {
   };
 
   if (showSignupForm) {
-    return <RegisterFrom email={email} />;
+    return <RegisterFrom email={email} registerModal={registerModal} />;
   }
 
   if (showSigninForm) {

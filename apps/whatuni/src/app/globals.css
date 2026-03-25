@@ -187,14 +187,37 @@
     @apply bg-neutral-200 hover:bg-neutral-200 rounded-[10px] border-primary-400;
   }
 
-  .custom-scrollbar-2::-webkit-scrollbar {
-    @apply w-[8px] h-[8px];
-  }
-
-  .custom-scrollbar-2::-webkit-scrollbar-track {
-    @apply bg-grey-200 rounded-[4px];
-  }
-
+    .custom-scrollbar-2::-webkit-scrollbar {
+      @apply w-[8px] h-[8px];
+    }
+  
+    .custom-scrollbar-2::-webkit-scrollbar-track {
+      @apply bg-grey-200 rounded-[4px];
+    }
+  
+    .custom-scrollbar-2::-webkit-scrollbar-thumb {
+      @apply bg-grey-300 rounded-[4px];
+    }
+  
+    .custom-scrollbar-2::-webkit-scrollbar-thumb:hover {
+      @apply bg-grey-400;
+    }
+  
+    .custom-scrollbar-3::-webkit-scrollbar {
+      @apply w-[8px] h-[8px];
+    }
+  
+    .custom-scrollbar-3::-webkit-scrollbar-track {
+      @apply bg-white rounded-[4px];
+    }
+  
+    .custom-scrollbar-3::-webkit-scrollbar-thumb {
+      @apply bg-grey-200 rounded-[4px];
+    }
+  
+    .custom-scrollbar-3::-webkit-scrollbar-thumb:hover {
+      @apply bg-grey-300;
+    }
   .review-modal-card.custom-scrollbar-2::-webkit-scrollbar-track,
   .review-gallery-scroll.custom-scrollbar-2::-webkit-scrollbar-track,
   .oneclick-container.custom-scrollbar-2::-webkit-scrollbar-track,
@@ -203,13 +226,7 @@
     @apply mt-[30px];
   }
 
-  .custom-scrollbar-2::-webkit-scrollbar-thumb {
-    @apply bg-grey-300 rounded-[4px];
-  }
-
-  .custom-scrollbar-2::-webkit-scrollbar-thumb:hover {
-    @apply bg-grey-400;
-  }
+  
 }
 
 html {
@@ -659,7 +676,7 @@ p,
 }
 
 .err_msg {
-  display: block;
+  display: none;
 }
 .error .err_msg {
   display: block;
