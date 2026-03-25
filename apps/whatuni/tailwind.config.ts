@@ -229,7 +229,7 @@ const config: Config = {
           "0px 1px 2px -1px rgba(16, 24, 40, 0.1), 0px -2px 3px 0px rgba(16, 24, 40, 0.1)",
         "custom-11":
           "0px 2px 3px 0px rgba(0, 0, 0, 0.168), 0px 0px 3px 0px rgba(0, 0, 0, 0.084)",
-        "custom-12": "0 10px 15px -3px rgba(16, 24, 40, 0.102",
+        "custom-12": "0 10px 15px -3px rgba(16, 24, 40, 0.102)",
         "custom-13": "0px 4px 6px -1px rgba(0, 0, 0, 0.05)",
         "custom-14": "0 1px 2px 0 rgba(16, 24, 40, 0.05)",
       },

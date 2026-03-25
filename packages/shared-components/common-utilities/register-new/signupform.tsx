@@ -8,7 +8,13 @@ import {
   ShowEyeIcon,
 } from "../../../../apps/whatuni/src/app/media-utilities/mediautilities";
 
-const RegisterFrom = ({ email = "" }: { email?: string }) => {
+const RegisterFrom = ({
+  email = "",
+  registerModal = false,
+}: {
+  email?: string;
+  registerModal?: boolean;
+}) => {
   const [showBenefits, setShowBenefits] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,7 +40,9 @@ const RegisterFrom = ({ email = "" }: { email?: string }) => {
             Whatuni, Complete University Guide and Postgraduate Search.
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-[8px]">
+        <div
+          className={`flex flex-col gap-[8px] ${registerModal ? "md:flex-col" : "md:flex-row"}`}
+        >
           <div className="flex flex-col basis-full md:basis-6/12 gap-[4px]">
             <label htmlFor="firstName" className="small font-semibold">
               First name
@@ -158,7 +166,7 @@ const RegisterFrom = ({ email = "" }: { email?: string }) => {
             <div
               className="w-[16px] h-[16px] border border-grey-400 rounded flex items-center justify-center
     peer-checked:bg-blue-600 peer-checked:border-blue-600
-    [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100"
+    [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100 flex-shrink-0"
             >
               <svg
                 width="10"
