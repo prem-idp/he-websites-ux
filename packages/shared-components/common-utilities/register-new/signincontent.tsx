@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import Logo from "./logo";
 
 const SigninContent = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-[24px] small w-[261px] mx-auto">
+    <div className="flex flex-col items-center justify-center gap-[24px] small">
       <Image
         className="block"
         src="/static/assets/images/registeration/regist_hero_image.png"
@@ -12,9 +13,7 @@ const SigninContent = () => {
         alt="hero image"
       />
       <div className="flex flex-col gap-[8px]">
-        <h5 className="text-center max-w-[216px] mx-auto">
-          Why create an account?
-        </h5>
+        <h5 className="text-center">Why create an account?</h5>
         <ul className="flex flex-col gap-[16px] list-disc pl-[20px]">
           <li>
             <span className="font-semibold">Save your results:</span>
@@ -35,27 +34,7 @@ const SigninContent = () => {
         </ul>
       </div>
       <div className="flex gap-[12px] justify-center items-center">
-        <Image
-          src="/static/assets/images/whatunisign-logo.svg"
-          alt="Logo"
-          width={36}
-          height={40}
-          className="h-[40px]"
-        />
-        <Image
-          src="/static/assets/images/cug-logo.svg"
-          alt="Logo"
-          width={89}
-          height={29}
-          className="h-[40px]"
-        />
-        <Image
-          src="/static/assets/images/pgs-logo.svg"
-          alt="Logo"
-          width={110}
-          height={29}
-          className="h-[40px]"
-        />
+        <Logo />
       </div>
     </div>
   );

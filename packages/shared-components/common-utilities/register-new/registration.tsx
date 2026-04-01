@@ -8,7 +8,9 @@ const Registration = ({}) => {
         <div className="p-[32px_16px] border-b-[1px] border-t-[1px] md:p-[32px] md:border md:border-b-[2px] md:border-grey-200 md:rounded-[8px]  bg-white overflow-hidden">
           <SocialSignup />
         </div>
-        <Logo />
+        <div className="flex px-[16px] gap-[16px] md:gap-[24px] justify-center items-center">
+          <Logo />
+        </div>
       </div>
     </section>
   );

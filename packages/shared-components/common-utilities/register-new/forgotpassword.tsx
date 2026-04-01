@@ -6,9 +6,11 @@ import ForgotpasswordOtp from "./forgotpassword-otp";
 
 const Forgotpassword = ({
   email = "",
+  registerModal = false,
   onUseDifferentEmail,
 }: {
   email?: string;
+  registerModal?: boolean;
   onUseDifferentEmail?: () => void;
 }) => {
   const [showOtp, setShowOtp] = useState(false);
@@ -17,7 +19,7 @@ const Forgotpassword = ({
     setShowOtp(true);
   };
 
-  if (showOtp) return <ForgotpasswordOtp />;
+  if (showOtp) return <ForgotpasswordOtp registerModal={registerModal} />;
 
   return (
     <form className="flex flex-col gap-[24px]">
@@ -73,7 +75,7 @@ const Forgotpassword = ({
           alt="arrow icon"
         />
       </button>
-      <div className="bg-grey-50 border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center">
+      <div className={`${registerModal ? "bg-white" : "bg-grey-50"} border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center`}>
         <Link
           href="#"
           className="w-fit mx-auto small font-semibold  text-primary-400 hover:text-primary-500"

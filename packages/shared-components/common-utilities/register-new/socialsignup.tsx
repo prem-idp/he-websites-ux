@@ -48,6 +48,7 @@ const SocialSignup = ({
     return (
       <LoginForm
         email={email}
+        registerModal={registerModal}
         onUseDifferentEmail={() => {
           setShowSigninForm(false);
           setEmail("");

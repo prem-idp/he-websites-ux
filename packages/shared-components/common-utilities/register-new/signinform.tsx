@@ -9,9 +9,11 @@ import {
 
 const LoginForm = ({
   email = "",
+  registerModal = false,
   onUseDifferentEmail,
 }: {
   email?: string;
+  registerModal?: boolean;
   onUseDifferentEmail?: () => void;
 }) => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -31,7 +33,7 @@ const LoginForm = ({
     );
   };
 
-  if (showForgotPassword) return <Forgotpassword email={email} onUseDifferentEmail={onUseDifferentEmail} />;
+  if (showForgotPassword) return <Forgotpassword email={email} registerModal={registerModal} onUseDifferentEmail={onUseDifferentEmail} />;
 
   return (
     <form
