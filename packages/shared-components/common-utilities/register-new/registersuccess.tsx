@@ -1,7 +1,20 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 const RegisterSuccess = () => {
+  const options = [
+    { id: "firstdegree", label: "I\u2019m looking for my first degree" },
+    { id: "postgraduate", label: "I\u2019m looking for a postgraduate course" },
+    {
+      id: "parent",
+      label: "I\u2019m a parent or guardian of a prospective student",
+    },
+    { id: "teacher", label: "Teacher" },
+    { id: "advisor", label: "Career Advisor" },
+    { id: "higheredu", label: "I work in higher education" },
+  ];
+  const [selected, setSelected] = useState(options[0].id);
   return (
     <>
       <div className="flex flex-col gap-[24px]">
@@ -30,8 +43,8 @@ const RegisterSuccess = () => {
         <div className="flex flex-col gap-[8px]">
           <h5>Personalise your information</h5>
           <p className="small font-normal">
-            Help us make sure we’re sending useful advice at the right time for
-            you.
+            Help us make sure we\u2019re sending useful advice at the right time
+            for you.
           </p>
         </div>
         <div className="form_radio flex flex-col gap-[4px]">
@@ -121,241 +134,28 @@ const RegisterSuccess = () => {
               What description fits you best?{" "}
               <span className="x-small font-normal">(optional)</span>
             </label>
-            <div className="form-radio-group flex flex-col gap-[10px]">
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
+
+            <div className="flex flex-col gap-[8px]">
+              {options.map((option) => (
+                <label
+                  key={option.id}
+                  htmlFor={option.id}
+                  className="flex items-center gap-[12px] cursor-pointer"
+                >
                   <input
                     type="radio"
+                    id={option.id}
                     name="descrip"
-                    className="form-radio hidden"
-                    id="firstdegree"
+                    value={option.id}
+                    checked={selected === option.id}
+                    onChange={() => setSelected(option.id)}
+                    className="w-[16px] h-[20px] accent-primary-400 cursor-pointer"
                   />
-                  <label
-                    htmlFor="firstdegree"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="firstdegree"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  I’m looking for my first degree
+                  <span className="x-small font-semibold text-grey-600">
+                    {option.label}
+                  </span>
                 </label>
-              </div>
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
-                  <input
-                    type="radio"
-                    name="descrip"
-                    className="form-radio hidden"
-                    id="postgraduatecourse"
-                  />
-                  <label
-                    htmlFor="postgraduatecourse"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="postgraduatecourse"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  I’m looking for a postgraduate course
-                </label>
-              </div>
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
-                  <input
-                    type="radio"
-                    name="descrip"
-                    className="form-radio hidden"
-                    id="prospectivestudent"
-                  />
-                  <label
-                    htmlFor="prospectivestudent"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="prospectivestudent"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  I’m a parent or guardian of a prospective student
-                </label>
-              </div>
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
-                  <input
-                    type="radio"
-                    name="descrip"
-                    className="form-radio hidden"
-                    id="teacher"
-                  />
-                  <label
-                    htmlFor="teacher"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="teacher"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  Teacher
-                </label>
-              </div>
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
-                  <input
-                    type="radio"
-                    name="descrip"
-                    className="form-radio hidden"
-                    id="advisor"
-                  />
-                  <label
-                    htmlFor="advisor"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="advisor"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  Career Advisor
-                </label>
-              </div>
-              <div className="flex items-center gap-[12px]">
-                <div className="radio_card">
-                  <input
-                    type="radio"
-                    name="descrip"
-                    className="form-radio hidden"
-                    id="higher education"
-                  />
-                  <label
-                    htmlFor="higher education"
-                    className="flex justify-center items-center w-[16px] h-[16px] rounded-[16px] border border-grey-400"
-                  >
-                    <svg
-                      width="10"
-                      height="8"
-                      viewBox="0 0 10 8"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
-                        fill="white"
-                        stroke="white"
-                        strokeWidth="0.666667"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                </div>
-                <label
-                  htmlFor="higher education"
-                  className="check-label x-small font-semibold text-grey-600 w-[calc(100%_-_28px)]"
-                >
-                  I work in higher education
-                </label>
-              </div>
+              ))}
             </div>
           </div>
         </div>
