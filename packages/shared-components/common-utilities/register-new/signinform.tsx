@@ -31,10 +31,14 @@ const LoginForm = ({
     );
   };
 
-  if (showForgotPassword) return <Forgotpassword />;
+  if (showForgotPassword) return <Forgotpassword email={email} onUseDifferentEmail={onUseDifferentEmail} />;
 
   return (
-    <form className="flex flex-col gap-[24px]" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-[24px]"
+      onSubmit={handleSubmit}
+      aria-label="Sign in"
+    >
       <div className="flex flex-col text-center gap-[8px]">
         <h5>Welcome back!</h5>
         <div className="small">Enter your password to continue</div>
@@ -46,14 +50,18 @@ const LoginForm = ({
           className="small font-semibold text-grey-700"
         >
           Email address
-          <span className="text-negative-default">*</span>
+          <span className="text-negative-default" aria-hidden="true">
+            *
+          </span>
         </label>
         <input
           type="email"
-          className="w-full small px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
+          className="w-full small px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2 cursor-not-allowed read-only:text-grey500"
           id="emailAddress"
-          placeholder="neil.burgess@idp.com"
-          defaultValue={email}
+          value={email}
+          readOnly
+          aria-readonly="true"
+          aria-required="true"
         />
         <div className="flex x-small gap-[2px]">
           Not you?
@@ -70,15 +78,20 @@ const LoginForm = ({
       <div className="flex flex-col basis-full gap-[4px]">
         <label htmlFor="password" className="small font-semibold">
           Password
-          <span className="text-negative-default">*</span>
+          <span className="text-negative-default" aria-hidden="true">
+            *
+          </span>
         </label>
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
-            className={`w-full small px-[12px] py-[10px] pr-[40px] border rounded-[4px] outline-none shadow-custom-2 ${passwordError ? "border-negative-default" : "border-grey-500"}`}
+            className={`w-full small px-[12px] py-[10px] pr-[40px] border rounded-[4px] outline-none shadow-custom-2 placeholder-grey500 ${passwordError ? "border-negative-default" : "border-grey-500"}`}
             id="password"
             placeholder="Please enter your password"
             value={password}
+            aria-required="true"
+            aria-invalid={!!passwordError}
+            aria-describedby={passwordError ? "password-error" : undefined}
             onChange={(e) => {
               setPassword(e.target.value);
               setPasswordError("");
@@ -95,7 +108,13 @@ const LoginForm = ({
           </button>
         </div>
         {passwordError && (
-          <div className="x-small text-negative-default">{passwordError}</div>
+          <div
+            id="password-error"
+            className="x-small text-negative-default"
+            role="alert"
+          >
+            {passwordError}
+          </div>
         )}
       </div>
 
@@ -105,11 +124,11 @@ const LoginForm = ({
             <div className="checkbox_card">
               <input
                 type="checkbox"
-                className="form-checkbox hidden"
-                id="newsletters"
+                className="form-checkbox sr-only"
+                id="rememberMe"
               />
               <label
-                htmlFor="newsletters"
+                htmlFor="rememberMe"
                 className="flex justify-center items-center w-[16px] h-[16px] rounded-[3px] border border-grey-400 my-[6px]"
               >
                 <svg
@@ -133,7 +152,7 @@ const LoginForm = ({
               </label>
             </div>
             <label
-              htmlFor="Remember me"
+              htmlFor="rememberMe"
               className="check-label small w-[calc(100%_-_28px)]"
             >
               <span className="x-small text-grey-600">
@@ -159,6 +178,7 @@ const LoginForm = ({
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
           <path
             d="M4.5 12C4.5 7.875 7.875 4.5 12 4.5C16.125 4.5 19.5 7.875 19.5 12H22C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22V19.5C7.875 19.5 4.5 16.125 4.5 12Z"
@@ -172,10 +192,11 @@ const LoginForm = ({
           alt="arrow icon"
         />
       </button>
+
       <button
         type="button"
         onClick={() => setShowForgotPassword(true)}
-        className="small font-semibold text-center text-primary-400 underline hover:text-primary-500"
+        className="w-fit mx-auto small font-semibold text-primary-400 underline hover:text-primary-500"
       >
         Forgot password?
       </button>

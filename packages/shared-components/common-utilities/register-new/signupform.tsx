@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import SigninBenefits from "./signinbenefits";
 import {
   HideEyeIcon,
@@ -11,9 +11,11 @@ import {
 const RegisterFrom = ({
   email = "",
   registerModal = false,
+  onUseDifferentEmail,
 }: {
   email?: string;
   registerModal?: boolean;
+  onUseDifferentEmail?: () => void;
 }) => {
   const [showBenefits, setShowBenefits] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +54,6 @@ const RegisterFrom = ({
               type="text"
               className="w-full small px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
               id="firstName"
-              placeholder="Eg: Paul"
             />
             <p className="x-small text-positive-default">
               Nice to meet you! Great name
@@ -67,7 +68,6 @@ const RegisterFrom = ({
               type="text"
               className="w-full small px-[12px] py-[10px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
               id="lastName"
-              placeholder="Eg: Atreides"
             />
             <p className="x-small text-negative-default">
               We still don't know your name. Remind us?
@@ -84,20 +84,21 @@ const RegisterFrom = ({
           </label>
           <input
             type="email"
-            className="w-full small px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
+            className="w-full small px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2 cursor-not-allowed read-only:text-grey500"
             id="emailAddress"
-            placeholder="neil.burgess@idp.com"
-            defaultValue={email}
+            value="test@gmail.com"
+            readOnly
           />
           <div className="flex x-small gap-[2px]">
             Not you?
-            <Link href="#" className="text-primary-400 underline">
+            <button
+              type="button"
+              onClick={onUseDifferentEmail}
+              className="text-primary-400 underline"
+            >
               Use a different email
-            </Link>
+            </button>
           </div>
-          <p className="x-small text-negative-default">
-            Please enter a valid email address
-          </p>
         </div>
 
         <div className="flex flex-col basis-full gap-[4px]">
@@ -108,9 +109,9 @@ const RegisterFrom = ({
           <div className="relative">
             <input
               type="password"
-              className="w-full small px-[12px] py-[10px] pr-[40px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2"
+              className="w-full small px-[12px] py-[10px] pr-[40px] border border-grey-500 rounded-[4px] outline-none shadow-custom-2 placeholder-grey500"
               id="password"
-              placeholder="8 characters or more"
+              placeholder="Please enter your password"
             />
 
             <button

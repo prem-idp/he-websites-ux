@@ -48,8 +48,8 @@ const SigninBenefits = () => {
           />
         </button>
         <Link
-          href=""
-          className="block py-[8px] text-primary-400 hover:text-primary-500 hover:underline font-semibold"
+          href="#"
+          className="block w-fit mx-auto py-[8px] text-primary-400 hover:text-primary-500 hover:underline font-semibold"
         >
           Skip
         </Link>

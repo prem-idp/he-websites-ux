@@ -4,20 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import ForgotpasswordOtp from "./forgotpassword-otp";
 
-const Forgotpassword = () => {
+const Forgotpassword = ({
+  email = "",
+  onUseDifferentEmail,
+}: {
+  email?: string;
+  onUseDifferentEmail?: () => void;
+}) => {
   const [showOtp, setShowOtp] = useState(false);
-  const [email, setEmail] = useState("");
-  const [showError, setShowError] = useState(false);
-
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
 
   const handleResetPassword = () => {
-    if (!email.trim() || !isValidEmail(email)) {
-      setShowError(true);
-      return;
-    }
     setShowOtp(true);
   };
 
@@ -34,26 +30,34 @@ const Forgotpassword = () => {
         </div>
       </div>
       <div className="flex flex-col basis-full gap-[4px]">
-        <label htmlFor="emailAddress" className="small font-semibold">
+        <label
+          htmlFor="emailAddress"
+          className="small font-semibold text-grey-700"
+        >
           Email address
-          <span className="text-negative-default">*</span>
+          <span className="text-negative-default" aria-hidden="true">
+            *
+          </span>
         </label>
         <input
           type="email"
-          className={`w-full small px-[12px] py-[10px] border rounded-[4px] outline-none shadow-custom-2 ${showError ? "border-negative-default" : "border-grey-500"}`}
+          className="w-full small px-[12px] py-[10px] bg-grey-50 border border-grey-500 rounded-[4px] outline-none shadow-custom-2 cursor-not-allowed read-only:text-grey500"
           id="emailAddress"
-          placeholder="neil.burgess@idp.com"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setShowError(false);
-          }}
+          readOnly
+          aria-readonly="true"
+          aria-required="true"
         />
-        {showError && (
-          <div className="x-small text-negative-default">
-            Please enter a valid email address
-          </div>
-        )}
+        <div className="flex x-small gap-[2px]">
+          Not you?
+          <button
+            type="button"
+            onClick={onUseDifferentEmail}
+            className="text-primary-400 underline"
+          >
+            Use a different email
+          </button>
+        </div>
       </div>
 
       <button
@@ -69,12 +73,14 @@ const Forgotpassword = () => {
           alt="arrow icon"
         />
       </button>
-      <Link
-        href="/registeration/signin"
-        className="bg-grey-50 border-t border-grey-200 mx-[-32px] pt-[16px] mb-[-16px] small font-semibold text-center text-primary-400 hover:text-primary-500"
-      >
-        Return to log in
-      </Link>
+      <div className="bg-grey-50 border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center">
+        <Link
+          href="#"
+          className="w-fit mx-auto small font-semibold  text-primary-400 hover:text-primary-500"
+        >
+          Return to log in
+        </Link>
+      </div>
     </form>
   );
 };

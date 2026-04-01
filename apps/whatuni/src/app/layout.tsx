@@ -58,7 +58,7 @@ export default function RootLayout({
           !hideLayoutclearinguni &&
           !unsubscribe && <Header />}
         {children}
-        {!hideLayout && <Footer />}
+        {!hideLayout && !hideLayoutregister && !unsubscribes && <Footer />}
         {/* <Tickertape /> */}
       </body>
     </html>

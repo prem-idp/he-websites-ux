@@ -114,7 +114,7 @@ const ForgotpasswordOtp = () => {
 
       <div className="flex flex-col basis-full gap-[4px]">
         <label htmlFor="password" className="small font-semibold">
-          New Password
+          New password
           <span className="text-negative-default">*</span>
         </label>
         <div className="relative">
@@ -152,7 +152,7 @@ const ForgotpasswordOtp = () => {
 
       <div className="flex flex-col basis-full gap-[4px]">
         <label htmlFor="confirmpassword" className="small font-semibold">
-          Confirm Password
+          Confirm password
           <span className="text-negative-default">*</span>
         </label>
         <div className="relative">
@@ -222,12 +222,14 @@ const ForgotpasswordOtp = () => {
           Too many attempts! Please try again in 24 hours.
         </p>
       </div>
-      <Link
-        href="/registeration/signin"
-        className="bg-grey-50 pt-[16px] mb-[-16px] small font-semibold text-center text-primary-400 hover:text-primary-500 hover:underline"
-      >
-        Return to log in
-      </Link>
+      <div className="bg-grey-50 border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center">
+        <Link
+          href="#"
+          className="w-fit mx-auto small font-semibold  text-primary-400 hover:text-primary-500"
+        >
+          Return to log in
+        </Link>
+      </div>
     </form>
   );
 };
