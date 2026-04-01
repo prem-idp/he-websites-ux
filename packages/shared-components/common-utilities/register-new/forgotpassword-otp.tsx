@@ -6,7 +6,11 @@ import {
   ShowEyeIcon,
 } from "../../../../apps/whatuni/src/app/media-utilities/mediautilities";
 
-const ForgotpasswordOtp = () => {
+const ForgotpasswordOtp = ({
+  registerModal = false,
+}: {
+  registerModal?: boolean;
+}) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -222,7 +226,7 @@ const ForgotpasswordOtp = () => {
           Too many attempts! Please try again in 24 hours.
         </p>
       </div>
-      <div className="bg-grey-50 border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center">
+      <div className={`${registerModal ? "bg-white" : "bg-grey-50"} border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center`}>
         <Link
           href="#"
           className="w-fit mx-auto small font-semibold  text-primary-400 hover:text-primary-500"
