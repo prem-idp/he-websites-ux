@@ -1,10 +1,7 @@
+"use client";
 import React from "react";
+import { usePathname } from "next/navigation";
 import Headercomponent from "@packages/shared-components/common-utilities/campaign/header/Headercomponent";
-
-export const metadata = {
-  title: "Registration",
-  description: "",
-};
 
 export default function RegistrationLayout({
   children,
@@ -13,7 +10,7 @@ export default function RegistrationLayout({
 }) {
   return (
     <>
-      <Headercomponent />
+      {<Headercomponent />}
       {children}
     </>
   );
