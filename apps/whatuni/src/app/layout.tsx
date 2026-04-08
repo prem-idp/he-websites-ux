@@ -32,6 +32,7 @@ export default function RootLayout({
   const hideLayout = pathname === "/cpc-landing";
   const hideLayoutregister = pathname === "/register";
   const unsubscribes = pathname === "/register/unsubscribe";
+  const hideLayoutforgotpasswordOtp = pathname === "/register/forgotpassword-otp";
 
   const hideLayoutsignupsignin = pathname === "/registration/signup-signin";
   const hideLayoutregisterclearing =
@@ -56,9 +57,10 @@ export default function RootLayout({
           !hideLayoutregistersuccess &&
           !hideLayoutforgotpassword &&
           !hideLayoutclearinguni &&
-          !unsubscribe && <Header />}
+          !unsubscribe &&
+          !hideLayoutforgotpasswordOtp && <Header />}
         {children}
-        {!hideLayout && !hideLayoutregister && !unsubscribes && <Footer />}
+        {!hideLayout && !hideLayoutregister && !unsubscribes && !hideLayoutforgotpasswordOtp && <Footer />}
         {/* <Tickertape /> */}
       </body>
     </html>

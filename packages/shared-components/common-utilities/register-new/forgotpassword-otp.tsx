@@ -8,8 +8,10 @@ import {
 
 const ForgotpasswordOtp = ({
   registerModal = false,
+  onConfirm,
 }: {
   registerModal?: boolean;
+  onConfirm?: () => void;
 }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -58,11 +60,10 @@ const ForgotpasswordOtp = ({
   };
   return (
     <form className="flex flex-col gap-[24px]">
-      <div className="flex flex-col text-center gap-[8px]">
+      <div className="flex flex-col text-center items-center justify-center gap-[8px]">
         <h5>Please enter your 6-digit code</h5>
-        <div className="small">
-          We’ve sent your reset password code to:
-          <br />
+        <div className="small w-full w-[406px]">
+          We’ve sent your reset password code to:{" "}
           <span className="font-semibold">neil.burgess@idp.com</span>
         </div>
 
@@ -110,6 +111,9 @@ const ForgotpasswordOtp = ({
             className="w-[41px] h-[41px] text-center border border-grey-500 rounded-[4px] focus:outline-none focus:ring-1 focus:ring-grey-500"
           />
         </div>
+        <p className="text-negative-default x-small">
+          Please enter the correct code
+        </p>
         <p className="small">
           This is to protect you from anyone trying to steal your data/login
           details
@@ -203,12 +207,15 @@ const ForgotpasswordOtp = ({
       </div>
 
       <button
-        type="submit"
+        type="button"
+        onClick={onConfirm}
         className="btn btn-primary w-full flex items-center justify-center gap-[8px]"
       >
         Confirm code
       </button>
+
       <hr className="border-t border-grey-200" />
+
       <div className="flex flex-col items-center justify-center gap-[8px]">
         <div className="small font-semibold">Didn’t receive a code?</div>
         <div className="x-small">
@@ -226,7 +233,9 @@ const ForgotpasswordOtp = ({
           Too many attempts! Please try again in 24 hours.
         </p>
       </div>
-      <div className={`${registerModal ? "bg-white" : "bg-grey-50"} border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center`}>
+      <div
+        className={`${registerModal ? "bg-white" : "bg-grey-50"} border-t border-grey-200 mx-[-32px] py-[16px] mb-[-32px] text-center`}
+      >
         <Link
           href="#"
           className="w-fit mx-auto small font-semibold  text-primary-400 hover:text-primary-500"
