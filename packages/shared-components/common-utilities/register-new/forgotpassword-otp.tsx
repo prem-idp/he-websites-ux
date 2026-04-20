@@ -214,7 +214,7 @@ const ForgotpasswordOtp = ({
         Confirm code
       </button>
 
-      <hr className="border-t border-grey-200" />
+      <hr className="border-grey-200" />
 
       <div className="flex flex-col items-center justify-center gap-[8px]">
         <div className="small font-semibold">Didn’t receive a code?</div>

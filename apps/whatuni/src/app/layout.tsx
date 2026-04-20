@@ -30,19 +30,9 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const hideLayout = pathname === "/cpc-landing";
-  const hideLayoutregister = pathname === "/register";
-  const unsubscribes = pathname === "/register/unsubscribe";
-  const hideLayoutforgotpasswordOtp = pathname === "/register/forgotpassword-otp";
-
-  const hideLayoutsignupsignin = pathname === "/registration/signup-signin";
-  const hideLayoutregisterclearing =
-    pathname === "/registration/register-clearing";
-  const hideLayoutregistersuccess =
-    pathname === "/registration/registersuccess";
-  const hideLayoutforgotpassword = pathname === "/registration/forgotpassword";
-  const hideLayoutclearinguni =
-    pathname === "/registration/clearing-university";
-  const unsubscribe = pathname === "/registration/unsubscribe";
+  const hideLayoutRegister = pathname.startsWith("/register");
+  // const hideLayoutRegistration = pathname.startsWith("/registration");
+  const hideLayoutLeadform = pathname.startsWith("/leadform");
 
   return (
     <html lang="en">
@@ -50,17 +40,13 @@ export default function RootLayout({
         className={`${farroBold.variable} ${interBold.variable} antialiased`}
       >
         {!hideLayout &&
-          !hideLayoutregister &&
-          !unsubscribes &&
-          !hideLayoutsignupsignin &&
-          !hideLayoutregisterclearing &&
-          !hideLayoutregistersuccess &&
-          !hideLayoutforgotpassword &&
-          !hideLayoutclearinguni &&
-          !unsubscribe &&
-          !hideLayoutforgotpasswordOtp && <Header />}
+          !hideLayoutRegister &&
+          !hideLayoutLeadform && <Header />}
+
         {children}
-        {!hideLayout && !hideLayoutregister && !unsubscribes && !hideLayoutforgotpasswordOtp && <Footer />}
+        {!hideLayout && !hideLayoutRegister && !hideLayoutLeadform && (
+          <Footer />
+        )}
         {/* <Tickertape /> */}
       </body>
     </html>
