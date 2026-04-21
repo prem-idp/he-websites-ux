@@ -205,6 +205,43 @@ export const EmailGreenIcon = ({ hover }: any) => (
   </svg>
 );
 
+export const StarIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10.8586 4.71248C11.2178 3.60691 12.7819 3.60691 13.1412 4.71248L14.4246 8.66264C14.5853 9.15706 15.046 9.49182 15.5659 9.49182H19.7193C20.8818 9.49182 21.3651 10.9794 20.4247 11.6626L17.0645 14.104C16.6439 14.4095 16.4679 14.9512 16.6286 15.4456L17.912 19.3958C18.2713 20.5013 17.0059 21.4207 16.0654 20.7374L12.7052 18.2961C12.2846 17.9905 11.7151 17.9905 11.2945 18.2961L7.93434 20.7374C6.99388 21.4207 5.72851 20.5013 6.08773 19.3958L7.37121 15.4456C7.53186 14.9512 7.35587 14.4095 6.93529 14.104L3.57508 11.6626C2.63463 10.9794 3.11796 9.49182 4.28043 9.49182H8.43387C8.95374 9.49182 9.41448 9.15706 9.57513 8.66264L10.8586 4.71248Z"
+      fill="#0FBEFD"
+    />
+  </svg>
+);
+
+export const CheckIcon = () => (
+  <svg
+    width="10"
+    height="8"
+    viewBox="0 0 10 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="transition"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M9.2534 0.723569C9.40607 0.863517 9.41638 1.10073 9.27643 1.2534L3.77643 7.2534C3.70732 7.3288 3.6104 7.37269 3.50815 7.37491C3.40589 7.37714 3.30716 7.33749 3.23483 7.26517L0.734835 4.76517C0.588388 4.61872 0.588388 4.38128 0.734835 4.23484C0.881282 4.08839 1.11872 4.08839 1.26517 4.23484L3.48822 6.45789L8.72357 0.746605C8.86351 0.593936 9.10073 0.583622 9.2534 0.723569Z"
+      fill="white"
+      stroke="white"
+      strokeWidth="0.666667"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const HideEyeIcon = () => (
   <svg
     width="20"
@@ -216,6 +253,24 @@ export const HideEyeIcon = () => (
     <path
       d="M3.39742 3.39844L6.03037 6.03139M16.6019 16.6029L13.9692 13.9703M11.375 15.0071C10.9296 15.0916 10.47 15.1358 10 15.1358C6.71527 15.1358 3.93477 12.9769 3 10.0007C3.25448 9.19045 3.64574 8.4408 4.14672 7.7788M8.4435 8.44452C8.84176 8.04627 9.39195 7.79994 9.99967 7.79994C11.2151 7.79994 12.2004 8.78525 12.2004 10.0007C12.2004 10.6084 11.9541 11.1586 11.5558 11.5569M8.4435 8.44452L11.5558 11.5569M8.4435 8.44452L6.03037 6.03139M11.5558 11.5569L6.03037 6.03139M11.5558 11.5569L13.9692 13.9703M6.03037 6.03139C7.17463 5.29368 8.53732 4.86561 9.99999 4.86561C13.2847 4.86561 16.0652 7.02448 17 10.0007C16.4814 11.6518 15.3948 13.0513 13.9692 13.9703"
       stroke="#5C656E"
+      strokeWidth="1.67"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const CloseGreenIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 15L15 5M5 5L15 15"
+      stroke="#106519"
       strokeWidth="1.67"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -244,6 +299,23 @@ export const ShowEyeIcon = () => (
       stroke-width="1.67"
       stroke-linecap="round"
       stroke-linejoin="round"
+    />
+  </svg>
+);
+export const PlusIcon = ({ hover }: any) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      className={hover || "stroke-primary-400"}
+      d="M10 5V15M15 10L5 10"
+      strokeWidth="1.67"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

@@ -209,6 +209,8 @@ const config: Config = {
           "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #333333 58.78%)",
         gradient16:
           "linear-gradient(180deg, rgba(0, 0, 0, 0), rgb(0 0 0) 58.78%)",
+        gradient17:
+          "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(51, 51, 51, 0.8) 58.78%)",
       },
       boxShadow: {
         "custom-1":
@@ -232,6 +234,7 @@ const config: Config = {
         "custom-12": "0 10px 15px -3px rgba(16, 24, 40, 0.102)",
         "custom-13": "0px 4px 6px -1px rgba(0, 0, 0, 0.05)",
         "custom-14": "0 1px 2px 0 rgba(16, 24, 40, 0.05)",
+        "custom-15": "0px 0px 0px 4px #E1E1FE",
       },
       backdropBlur: {
         "custom-1": "261px",
