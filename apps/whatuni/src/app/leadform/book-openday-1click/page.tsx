@@ -5,6 +5,7 @@ import UniversityCard from "@packages/shared-components/common-utilities/leadfor
 import CustomCheckbox from "@packages/shared-components/common-utilities/leadform/custom-checkbox";
 import SuccessNotification from "@packages/shared-components/common-utilities/leadform/success-notification";
 import Logo from "@packages/shared-components/common-utilities/register-new/logo";
+import { PlusIcon } from "@/app/media-utilities/mediautilities";
 
 const BookOpenday1Click = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -25,10 +26,10 @@ const BookOpenday1Click = () => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-shadow">
-      <div className="bg-white rounded-[8px] shadow-custom-6 max-w-[798px] w-full mx-[16px] max-h-[90vh] overflow-y-auto flex flex-col lg:flex-row">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-shadow-white bg-white">
+      <div className="shadow-custom-6 w-full md:w-[798px] md:mx-[16px] bg-white md:rounded-[8px] overflow-y-auto md:overflow-x-hidden md:custom-scrollbar-3 max-h-[100vh] md:max-h-[90vh] flex flex-col md:flex-row">
         {/* Left side - University Card */}
-        <div className="w-full lg:w-[375px] shrink-0">
+        <div className="w-full md:w-[375px] shrink-0 order-2 md:order-1">
           <UniversityCard
             logoSrc="/static/assets/icons/search-result/kent.png"
             name="University of Kent"
@@ -39,17 +40,17 @@ const BookOpenday1Click = () => {
             sliderClassName="leadform-slider"
             noRoundedRight
           />
-          <div className="flex items-center justify-center py-[16px]">
+          <div className="flex items-center justify-center gap-[12px] p-[16px] w-full md:w-[240px] mx-auto">
             <Logo />
           </div>
         </div>
 
         {/* Right side - Book open day form */}
-        <div className="flex-1 p-[16px] md:p-[32px] relative">
+        <div className="flex-1 p-[56px_16px] md:p-[72px_40px] relative order-1 md:order-2">
           {/* Close button */}
           <button
             type="button"
-            className="absolute top-[16px] right-[16px] cursor-pointer"
+            className="absolute top-[8px] right-[12px] cursor-pointer"
             onClick={() => setIsOpen(false)}
             aria-label="Close"
           >
@@ -88,10 +89,11 @@ const BookOpenday1Click = () => {
             ) : (
               <button
                 type="button"
-                className="group btn-neutral-outline w-full flex items-center justify-center gap-[6px] small font-semibold"
+                className="group btn-primary-outline bg-white p-[8px_10px] w-full flex items-center justify-center gap-[4px] small"
                 onClick={() => setProspectusOrdered(true)}
               >
-                <span>+</span> Get prospectus
+                <PlusIcon hover="stroke-primary-400 group-hover:stroke-white" />
+                Get prospectus
               </button>
             )}
           </div>
@@ -100,11 +102,19 @@ const BookOpenday1Click = () => {
           <div className="space-y-[8px] mb-[24px]">
             <label className="small font-semibold">Stay in the know</label>
             <CustomCheckbox>
-              We&apos;ll send helpful updates and occasionally invite you to share your views.
+              We&apos;ll send helpful updates and occasionally invite you to
+              share your views.
             </CustomCheckbox>
             <CustomCheckbox>
-              Receive newsletters from this uni. Contact the uni directly to update your email preferences.{" "}
-              <a href="#" className="text-primary-400">Privacy Policy</a>
+              Receive newsletters from this uni. Contact the uni directly to
+              update your email preferences.{" "}
+              <a href="#" className="text-primary-400">
+                Privacy Policy
+              </a>
+            </CustomCheckbox>
+            <CustomCheckbox>
+              Don’t show this again, I’m happy for this data to be sent each
+              time I order a prospectus.
             </CustomCheckbox>
           </div>
 
@@ -115,7 +125,12 @@ const BookOpenday1Click = () => {
             onClick={() => setIsOpen(false)}
           >
             Book open day
-            <Image src="/static/assets/icons/right_white_arrow.svg" width={17} height={14} alt="arrow icon" />
+            <Image
+              src="/static/assets/icons/right_white_arrow.svg"
+              width={17}
+              height={14}
+              alt="arrow icon"
+            />
           </button>
         </div>
       </div>
