@@ -449,8 +449,13 @@ p,
 .MultiSwiper {
   @apply !px-[16px] md:!px-[20px] xl:!px-[0] !pb-[30px];
 }
+
+.MultiSwiper.leadform-1click-slider {
+  @apply !px-[16px];
+}
+
 .MultiSwiper.leadform-slider {
-  @apply !pl-[16px];
+  @apply !px-[16px] md:!px-[0];
 }
 
 .MultiSwiper.singleReview {

@@ -57,7 +57,7 @@ const LeadFormFeilds = ({
         {/* Open Day Type */}
         {pageType === "opendays" && (
           <div className="bg-grey-50 border border-grey-200 rounded-[8px] p-[16px]">
-            <div className="flex flex-col gap-[8px]">
+            <div className="flex flex-col gap-[16px]">
               <label className="small font-semibold">
                 What open day type do you want to attend?
               </label>
@@ -85,14 +85,13 @@ const LeadFormFeilds = ({
                 ))}
               </div>
               {selectedStudyType === 1 ? (
-                <div className="bg-white border border-grey-200 rounded-[8px] p-[16px] text-center">
+                <div className="bg-white border border-grey-500 rounded-[8px] p-[10px_12px] shadow-custom-2">
                   <p className="small">
-                    There are currently no postgraduate open days
-                    <br />
-                    available to book at this university.
+                    There are no upcoming undergraduate open days at this
+                    university.
                   </p>
                   <Link href="#" className="small text-primary-400">
-                    Take a look at open days at unis across the UK.
+                    Browse Undergraduate universities
                   </Link>
                 </div>
               ) : (

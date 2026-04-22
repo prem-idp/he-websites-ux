@@ -24,6 +24,11 @@ const PhysicalProspectusPage = () => {
             reviewCount="400"
             backgroundImage="/static/assets/images/universityofkent.png"
             maxSlidesPerView={1}
+            sliderClassName="leadform-slider"
+            autoplay
+            hideNavigation
+            hideReadMore
+            mobileSpaceBetween={16}
           />
         </div>
 

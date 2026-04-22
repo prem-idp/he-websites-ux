@@ -33,7 +33,7 @@ const LeadFormSection = ({
 }: LeadFormSectionProps) => {
   return (
     <div className="border-y md:border border-grey-200 md:rounded-[8px] overflow-hidden">
-      <div className="bg-white p-[16px] md:p-[32px] flex flex-col gap-[24px]">
+      <div className="bg-white p-[32px_16px] md:p-[32px] flex flex-col gap-[24px]">
         {/* {notificationMessage && <SuccessNotification message={notificationMessage} />} */}
         <LeadFormHeader title={title} description={description} />
         <SignInSection
