@@ -24,6 +24,11 @@ const OpenDaysPage = () => {
             reviewCount="400"
             backgroundImage="/static/assets/images/universityofkent.png"
             maxSlidesPerView={1}
+            sliderClassName="leadform-slider"
+            autoplay
+            hideNavigation
+            hideReadMore
+            mobileSpaceBetween={16}
           />
         </div>
         <div className="w-full md:w-[598px] md:mx-auto lg:flex-1 lg:w-auto order-1 lg:order-2">

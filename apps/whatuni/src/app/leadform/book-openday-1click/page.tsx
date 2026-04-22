@@ -29,7 +29,7 @@ const BookOpenday1Click = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-shadow-white bg-white">
       <div className="shadow-custom-6 w-full md:w-[798px] md:mx-[16px] bg-white md:rounded-[8px] overflow-y-auto md:overflow-x-hidden md:custom-scrollbar-3 max-h-[100vh] md:max-h-[90vh] flex flex-col md:flex-row">
         {/* Left side - University Card */}
-        <div className="w-full md:w-[375px] shrink-0 order-2 md:order-1">
+        <div className="w-full h-full md:w-[375px] shrink-0 order-2 bg-grey-50 md:order-1 md:border-r md:border-grey-200">
           <UniversityCard
             logoSrc="/static/assets/icons/search-result/kent.png"
             name="University of Kent"
@@ -37,8 +37,13 @@ const BookOpenday1Click = () => {
             reviewCount="400"
             backgroundImage="/static/assets/images/universityofkent.png"
             maxSlidesPerView={1}
-            sliderClassName="leadform-slider"
+            sliderClassName="leadform-1click-slider"
             noRoundedRight
+            headingClassName="px-[16px]"
+            autoplay
+            hideNavigation
+            hideReadMore
+            mobileSpaceBetween={16}
           />
           <div className="flex items-center justify-center gap-[12px] p-[16px] w-full md:w-[240px] mx-auto">
             <Logo />

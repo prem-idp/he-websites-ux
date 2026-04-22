@@ -7,11 +7,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { FreeMode, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 
 import Reviewscard from "../cards/reviews-card/reviewscard";
 
-const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards }: { maxSlidesPerView?: number; className?: string; totalCards?: number }) => {
+const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards, autoplay = false, hideNavigation = false, hideReadMore = false, mobileSpaceBetween = 8 }: { maxSlidesPerView?: number; className?: string; totalCards?: number; autoplay?: boolean; hideNavigation?: boolean; hideReadMore?: boolean; mobileSpaceBetween?: number }) => {
   const max = maxSlidesPerView || 3;
   const cardCount = totalCards || 6;
   return (
@@ -19,11 +19,12 @@ const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards }: { m
       <div className="slider-container">
         <Swiper
           pagination={true}
-          navigation={true}
+          navigation={!hideNavigation}
+          autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
           breakpoints={{
             320: {
               slidesPerView: 1,
-              spaceBetween: 8,
+              spaceBetween: mobileSpaceBetween,
             },
             768: {
               slidesPerView: Math.min(2, max),
@@ -34,12 +35,12 @@ const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards }: { m
               spaceBetween: 20,
             },
           }}
-          modules={[FreeMode, Pagination, Navigation]}
+          modules={[FreeMode, Pagination, Navigation, Autoplay]}
           className={`MultiSwiper ${className || ""}`}
         >
           {Array.from({ length: cardCount }).map((_, index) => (
             <SwiperSlide key={index}>
-              <Reviewscard />
+              <Reviewscard hideReadMore={hideReadMore} />
             </SwiperSlide>
           ))}
         </Swiper>
