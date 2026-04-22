@@ -79,7 +79,7 @@ const BookOpenday1Click = () => {
           </div>
 
           {/* Get prospectus card */}
-          <div className="border border-grey-200 rounded-[8px] p-[16px] flex flex-col gap-[12px] mb-[24px]">
+          <div className="bg-grey-50 border border-grey-200 rounded-[8px] p-[16px] flex flex-col gap-[12px] mb-[24px]">
             <div className="flex flex-col gap-[4px]">
               <p className="small font-semibold">
                 Get a free [uni] prospectus (optional)
