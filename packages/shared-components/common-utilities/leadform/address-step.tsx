@@ -7,7 +7,10 @@ interface AddressStepProps {
   showExtraCheckbox?: boolean;
 }
 
-const AddressStep = ({ onSubmit, showExtraCheckbox = false }: AddressStepProps) => {
+const AddressStep = ({
+  onSubmit,
+  showExtraCheckbox = false,
+}: AddressStepProps) => {
   const years = ["2024", "2025", "2026", "2027"];
   const [selectedYear, setSelectedYear] = useState("2024");
   const countries = ["United Kingdom", "Rest of the world"];
@@ -144,21 +147,21 @@ const AddressStep = ({ onSubmit, showExtraCheckbox = false }: AddressStepProps) 
           {selectedCountry === "United Kingdom" && (
             <>
               <div className="flex flex-col gap-[4px]">
-                <div className="flex w-full">
-                  <div className="flex flex-col md:flex-row justify-between w-full md:w-[397px]">
-                    <label className="small font-semibold">
-                      Postcode finder
-                      <span className="text-negative-default">*</span>
-                    </label>
-                    {!addressFound && (
-                      <div
-                        className="small font-normal text-primary-400 cursor-pointer"
-                        onClick={handleEnterManually}
-                      >
-                        Enter manually
-                      </div>
-                    )}
-                  </div>
+                <div
+                  className={`flex flex-col md:flex-row justify-between w-full ${showManualFields ? "" : "md:w-[calc(100%-140px)]"}`}
+                >
+                  <label className="small font-semibold">
+                    Postcode finder
+                    <span className="text-negative-default">*</span>
+                  </label>
+                  {!addressFound && (
+                    <div
+                      className="small font-normal text-primary-400 cursor-pointer"
+                      onClick={handleEnterManually}
+                    >
+                      Enter manually
+                    </div>
+                  )}
                 </div>
 
                 {/* State 1: Postcode search input + Find address */}
@@ -193,9 +196,9 @@ const AddressStep = ({ onSubmit, showExtraCheckbox = false }: AddressStepProps) 
                               <path
                                 d="M17 17L12.3333 12.3333M13.8889 8.44444C13.8889 11.4513 11.4513 13.8889 8.44444 13.8889C5.43756 13.8889 3 11.4513 3 8.44444C3 5.43756 5.43756 3 8.44444 3C11.4513 3 13.8889 5.43756 13.8889 8.44444Z"
                                 stroke="#5C656E"
-                                stroke-width="1.67"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.67"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </button>
@@ -451,13 +454,13 @@ const AddressStep = ({ onSubmit, showExtraCheckbox = false }: AddressStepProps) 
               </a>
             </CustomCheckbox>
             {showExtraCheckbox && (
-            <CustomCheckbox>
-              Receive newsletters from this University of Kent. Contact the uni
-              directly to update your email preferences.{" "}
-              <a href="#" className="text-primary-400">
-                Privacy Policy
-              </a>
-            </CustomCheckbox>
+              <CustomCheckbox>
+                Receive newsletters from this University of Kent. Contact the
+                uni directly to update your email preferences.{" "}
+                <a href="#" className="text-primary-400">
+                  Privacy Policy
+                </a>
+              </CustomCheckbox>
             )}
           </div>
         </div>
