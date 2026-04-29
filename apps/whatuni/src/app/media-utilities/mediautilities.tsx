@@ -198,9 +198,9 @@ export const EmailGreenIcon = ({ hover }: any) => (
       className={`${hover}`}
       d="M3 10.224L14.3975 17.8223C15.3679 18.4692 16.6321 18.4692 17.6025 17.8223L29 10.224M5.88889 26.1128H26.1111C27.7066 26.1128 29 24.8194 29 23.224V8.77951C29 7.18402 27.7066 5.89062 26.1111 5.89062H5.88889C4.2934 5.89062 3 7.18402 3 8.77951V23.224C3 24.8194 4.2934 26.1128 5.88889 26.1128Z"
       stroke="#1E8782"
-      stroke-width="2.67"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2.67"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -289,16 +289,16 @@ export const ShowEyeIcon = () => (
     <path
       d="M12.2004 9.99837C12.2004 11.2138 11.2151 12.1991 9.99967 12.1991C8.78423 12.1991 7.79892 11.2138 7.79892 9.99837C7.79892 8.78293 8.78423 7.79762 9.99967 7.79762C11.2151 7.79762 12.2004 8.78293 12.2004 9.99837Z"
       stroke="#5C656E"
-      stroke-width="1.67"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.67"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M3 9.99834C3.93479 7.02213 6.71528 4.86328 9.99999 4.86328C13.2847 4.86328 16.0652 7.02216 17 9.99839C16.0652 12.9746 13.2847 15.1335 10 15.1335C6.71527 15.1335 3.93477 12.9746 3 9.99834Z"
       stroke="#5C656E"
-      stroke-width="1.67"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.67"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

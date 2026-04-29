@@ -23,7 +23,8 @@ const config: Config = {
     "lg:col-span-7",
     "bg-success-400",
     "bg-success-700",
-    "lg:w-[282px]",
+    "md:w-[56px]",
+    "md:w-[205px]",
 
     // Blue colors
     "bg-blue-50",
@@ -89,6 +90,7 @@ const config: Config = {
         //"blue-200": "#0FBEFD",
         //"blue-300": "#0086F8",
         //"blue-500": "#3460DC",
+        grey200: "#C4C4C4",
         grey300: "#333",
         grey400: "#707070",
         grey500: "#767676",
@@ -104,7 +106,7 @@ const config: Config = {
         neutral700: "#334155",
         green200: "#B4E646",
         "medium-yellow": "#FCD34D",
-        // only for Contentful team
+        "green-light": "#d4ffca",
         blue: {
           50: "#EDFCFF",
           100: "#C8F0F5",
@@ -200,11 +202,11 @@ const config: Config = {
         gradient9: "linear-gradient(98.41deg, #0A28A3 0%, #00A4DD 100%)",
         gradient10: "linear-gradient(98.41deg, #34D399 0%, #059669 100%)",
         gradient11:
-          "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)",
+          "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #333333 58.78%)",
         gradient12: "linear-gradient(to right, #ffffff00, #f2f2f2 10%)",
         gradient13: "linear-gradient(to right, #ffffff00, #fff 10%)",
         gradient14:
-          "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgb(51 51 51) 59.06%)",
+          "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 58.78%)",
         gradient15:
           "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #333333 58.78%)",
         gradient16:
