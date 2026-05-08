@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import FeatureCard from "./FeatureCard";
 
 interface FeatureItem {
   title: string;
@@ -18,7 +18,7 @@ const Wuscauniquefeatures = ({
   features,
 }: WuscaUniqueFeaturesProps) => {
   return (
-    <section className="bg-white pb-[40px] md:pb-[64px] px-[16px] md:px-[20px] xl:px-[112px]">
+    <section className="bg-white pb-[40px] md:pb-[64px] px-[16px] md:px-[20px] xl:px-[0]">
       <div className="max-w-container mx-auto flex flex-col gap-[24px]">
         {/* Header */}
         <div className="flex flex-col gap-[4px]">
@@ -29,77 +29,17 @@ const Wuscauniquefeatures = ({
             {subheading}
           </p>
         </div>
-
-        {/* Feature Cards - Desktop (3 cols) */}
-        <div className="hidden lg:grid grid-cols-3 gap-[20px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px] md:gap-[16px] lg:gap-[20px]">
           {features.map((feature, index) => (
-            <FeatureCard key={index} {...feature} />
-          ))}
-        </div>
-
-        {/* Feature Cards - Tablet (2 cols) */}
-        <div className="hidden md:grid lg:hidden grid-cols-2 gap-[20px]">
-          {features.map((feature, index) => (
-            <FeatureCard key={index} {...feature} />
-          ))}
-        </div>
-
-        {/* Feature Cards - Mobile (1 col, border-bottom style) */}
-        <div className="flex flex-col md:hidden">
-          {features.map((feature, index) => (
-            <div
+            <FeatureCard
               key={index}
-              className="flex flex-row items-start gap-[8px] py-[16px] border-b border-grey-200 last:border-b-0"
-            >
-              <Image
-                src="/static/assets/icons/green_tick_icon.svg"
-                alt="check"
-                width={20}
-                height={20}
-                className="shrink-0 mt-[2px]"
-              />
-              <div className="flex flex-col gap-[4px]">
-                <p className="font-inter font-semibold text-para text-grey300">
-                  {feature.title}
-                </p>
-                <p className="font-inter font-normal text-para text-grey500">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
+              title={feature.title}
+              description={feature.description}
+            />
           ))}
         </div>
       </div>
     </section>
-  );
-};
-
-// Feature Card for Desktop/Tablet
-const FeatureCard = ({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) => {
-  return (
-    <div className="flex flex-row items-start gap-[8px] p-[16px] bg-grey-50 border border-grey-200 rounded-[8px]">
-      <Image
-        src="/static/assets/icons/green_tick_icon.svg"
-        alt="check"
-        width={20}
-        height={20}
-        className="shrink-0 mt-[2px]"
-      />
-      <div className="flex flex-col gap-[4px]">
-        <p className="font-inter font-semibold text-para text-grey300">
-          {title}
-        </p>
-        <p className="font-inter font-normal text-para text-grey500">
-          {description}
-        </p>
-      </div>
-    </div>
   );
 };
 

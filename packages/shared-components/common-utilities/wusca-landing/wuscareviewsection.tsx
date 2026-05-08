@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Wuscareviewsection = () => {
   return (
-    <section className="relative bg-primary-50 py-[40px] md:py-[64px] px-[16px] md:px-[24px] xl:px-[112px] overflow-hidden">
+    <section className="relative bg-primary-50 py-[40px] md:py-[64px] px-[16px] md:px-[24px] xl:px-[0] overflow-hidden">
       <div className="max-w-container mx-auto flex flex-col items-center gap-[24px] relative z-10">
         {/* WUSCA Logo */}
         <div className="w-[200px] md:w-[392px] h-auto">

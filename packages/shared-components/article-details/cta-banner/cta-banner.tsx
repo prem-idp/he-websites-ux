@@ -9,36 +9,14 @@ const Ctabanner = ({
   buttonName,
   bannerSrc,
   bgColor,
-  hideSkeleton = false,
-  variant = "default",
 }: any) => {
-  const isCompact = variant === "compact";
-
   return (
     <>
-      <div className={isCompact ? "" : "px-[16px] md:px-[20px] lg:px-0"}>
+      <div className="px-[16px] md:px-[20px] lg:px-0">
         <div
-          className={`${bgColor} rounded-[8px] flex justify-between ${
-            isCompact
-              ? "flex-col md:flex-row items-start px-[16px] md:px-[20px] gap-[16px] md:gap-[20px] md:h-[166px] overflow-hidden"
-              : "p-[16px] md:py-[0] gap-[20px] md:gap-[0] md:px-[20px] md:flex-row flex-col-reverse items-end !m-0"
-          }`}
+          className={`${bgColor} p-[16px] md:py-[0] gap-[20px] md:gap-[0]  md:px-[20px] rounded-[8px] flex md:flex-row flex-col-reverse justify-between items-end !m-0`}
         >
-          {/* Image - shows on top for compact mobile */}
-          {isCompact && (
-            <span className="md:hidden w-full flex justify-center pt-[16px]">
-              <Image
-                width={120}
-                height={120}
-                alt="banner"
-                src={bannerSrc}
-                className="object-contain"
-              />
-            </span>
-          )}
-          <div
-            className={`flex flex-col gap-[16px] ${isCompact ? "py-[0] pb-[16px] md:py-[24px]" : "py-[0] md:py-[24px] !m-0"}`}
-          >
+          <div className="flex flex-col gap-[16px] py-[0] md:py-[24px] !m-0">
             <div className="text-grey300 flex flex-col gap-[4px]">
               <div className="h4 heading4 font-semibold font-farro">
                 {title}
@@ -68,19 +46,12 @@ const Ctabanner = ({
               </svg>
             </Link>
           </div>
-          {/* Image - shows on right for desktop/tablet */}
-          <span
-            className={
-              isCompact
-                ? "hidden md:flex min-w-[219px] h-[166px] items-end shrink-0"
-                : "md:min-w-[219px] w-full md:w-auto flex justify-center !m-0"
-            }
-          >
-            <Image width={219} height={166} alt="banner" src={bannerSrc} />
+          <span className="md:min-w-[219px] w-full md:w-auto flex justify-center !m-0">
+            <Image width="219" height="166" alt="banner" src={bannerSrc} />
           </span>
         </div>
       </div>
-      {!hideSkeleton && !isCompact && <CtaBannerSkeleton />}
+      {/* <CtaBannerSkeleton /> */}
     </>
   );
 };

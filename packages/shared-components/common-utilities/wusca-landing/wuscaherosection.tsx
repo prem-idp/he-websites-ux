@@ -15,7 +15,7 @@ const Wuscaherosection = () => {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(15,23,42,0.8)_0%,rgba(0,0,0,0)_41.67%)]"></div>
       {/* Content */}
-      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[20px] xl:px-[166px] py-[40px] gap-[10px]">
+      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[20px] py-[40px] gap-[10px]">
         {/* WUSCA Logo */}
         <div className="w-[120px] h-[120px] bg-blue-300 rounded-full flex items-center justify-center">
           <Image

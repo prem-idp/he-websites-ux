@@ -6,103 +6,117 @@ import Tagcloudcomponents from "@packages/shared-components/home/tag-cloud/tagcl
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Wuscauniquefeatures from "@packages/shared-components/common-utilities/wusca-landing/wuscauniquefeatures";
 import Wuscareviewsection from "@packages/shared-components/common-utilities/wusca-landing/wuscareviewsection";
+import Discovercomponents from "@packages/shared-components/home/discover/discovercomponents";
+import { DiscoverCardData } from "@packages/shared-components/common-utilities/slider/discovercard";
 
-// Mock data for category cards
-const categoryCards = [
+// Discover cards for this page (12 cards)
+const discoverCards: DiscoverCardData[] = [
   {
+    label: "TOP 10",
     title: "University of the year",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-blue-100",
-    badgeBgColor: "bg-primary-50",
-    badgeTextColor: "text-primary-500",
+    tagColor: "text-primary-500",
+    tagBg: "bg-primary-50",
     image: "/static/assets/images/wusca/wusca_university.png",
   },
   {
+    label: "TOP 10",
     title: "Career prospects",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-orange-100",
-    badgeBgColor: "bg-orange-50",
-    badgeTextColor: "text-negative-dark",
+    tagColor: "text-negative-dark",
+    tagBg: "bg-orange-50",
     image: "/static/assets/images/wusca/wusca_career.png",
   },
   {
+    label: "TOP 10",
     title: "Facilities",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-green-200",
-    badgeBgColor: "bg-positive-light",
-    badgeTextColor: "text-positive-dark",
+    tagColor: "text-positive-dark",
+    tagBg: "bg-positive-light",
     image: "/static/assets/images/wusca/wusca_facilities.png",
   },
   {
+    label: "TOP 10",
     title: "International",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-grey-200",
-    badgeBgColor: "bg-grey-100",
-    badgeTextColor: "text-grey-500",
+    tagColor: "text-grey-500",
+    tagBg: "bg-grey-100",
     image: "/static/assets/images/wusca/wusca_international.png",
   },
   {
+    label: "TOP 10",
     title: "Lecturers and teaching quality",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-blue-100",
-    badgeBgColor: "bg-primary-50",
-    badgeTextColor: "text-primary-500",
+    tagColor: "text-primary-500",
+    tagBg: "bg-primary-50",
     image: "/static/assets/images/wusca/wusca_lecturers.png",
   },
   {
+    label: "TOP 10",
     title: "Postgraduate",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-orange-100",
-    badgeBgColor: "bg-orange-50",
-    badgeTextColor: "text-negative-dark",
+    tagColor: "text-negative-dark",
+    tagBg: "bg-orange-50",
     image: "/static/assets/images/wusca/wusca_postgraduate.png",
   },
   {
+    label: "TOP 10",
     title: "Small or specialist institution",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-green-200",
-    badgeBgColor: "bg-positive-light",
-    badgeTextColor: "text-positive-dark",
+    tagColor: "text-positive-dark",
+    tagBg: "bg-positive-light",
     image: "/static/assets/images/wusca/wusca_small_institution.png",
   },
   {
+    label: "TOP 10",
     title: "Student life",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-grey-200",
-    badgeBgColor: "bg-grey-100",
-    badgeTextColor: "text-grey-500",
+    tagColor: "text-grey-500",
+    tagBg: "bg-grey-100",
     image: "/static/assets/images/wusca/wusca_student_life.png",
   },
   {
+    label: "TOP 10",
     title: "Student support",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-blue-100",
-    badgeBgColor: "bg-primary-50",
-    badgeTextColor: "text-primary-500",
+    tagColor: "text-primary-500",
+    tagBg: "bg-primary-50",
     image: "/static/assets/images/wusca/wusca_students_support.png",
   },
   {
+    label: "TOP 10",
     title: "Students' Union",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-orange-100",
-    badgeBgColor: "bg-orange-50",
-    badgeTextColor: "text-negative-dark",
+    tagColor: "text-negative-dark",
+    tagBg: "bg-orange-50",
     image: "/static/assets/images/wusca/wusca_students_union.png",
   },
   {
+    label: "TOP 10",
     title: "University halls",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-green-200",
-    badgeBgColor: "bg-positive-light",
-    badgeTextColor: "text-positive-dark",
+    tagColor: "text-positive-dark",
+    tagBg: "bg-positive-light",
     image: "/static/assets/images/wusca/wusca_university_halls.png",
   },
   {
+    label: "TOP 10",
     title: "Submission award",
-    badge: "TOP 10",
+    href: "",
     bgColor: "bg-grey-200",
-    badgeBgColor: "bg-grey-100",
-    badgeTextColor: "text-grey-500",
+    tagColor: "text-grey-500",
+    tagBg: "bg-grey-100",
     image: "/static/assets/images/wusca/wusca_submission_award.png",
   },
 ];
@@ -153,25 +167,22 @@ const StudentAwardsWinnersPage = () => {
       {/* Category Cards Section */}
       <section className="bg-white py-[40px] md:py-[64px]">
         <div className="max-w-container mx-auto px-[0] md:px-[0] xl:px-[0]">
-          <h2 className="font-farro font-bold text-heading2 text-grey300 mb-[26px] md:mb-[32px] px-[16px] md:px-[20px] xl:px-[0]">
-            Best of the best 2025
-          </h2>
-          <Wuscacategorygrid cards={categoryCards} />
-
-          {/* Tag Cloud */}
-          <Tagcloudcomponents />
+          <Discovercomponents
+            title="Best of the best 2025"
+            subtitle=""
+            showViewMore={false}
+            wuscaLanding={true}
+            cards={discoverCards}
+          />
 
           {/* CTA Pod */}
-          <div className="mt-[32px] px-[16px] md:px-[20px] xl:px-[0]">
-            <Ctabanner
-              title="WUSCA full rankings 2025"
-              description="Check out the winners of the 2024 Whatuni Student Choice Awards"
-              buttonName="View full table"
-              bannerSrc="/static/assets/images/wusca/wusca_cta_image.png"
-              bgColor="bg-blue-200"
-              variant="compact"
-            />
-          </div>
+          <Ctabanner
+            title="WUSCA full rankings 2025"
+            description="Check out the winners of the 2024 Whatuni Student Choice Awards"
+            buttonName="View full table"
+            bannerSrc="/static/assets/images/wusca/wusca_cta_image.png"
+            bgColor="bg-blue-200"
+          />
         </div>
       </section>
 
