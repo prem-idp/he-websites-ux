@@ -1,4 +1,5 @@
 import React from "react";
+import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import Wuscarankingsherosection from "@packages/shared-components/common-utilities/wusca-landing/wuscarankingsherosection";
 import Wuscacategoryfiltertabs from "@packages/shared-components/common-utilities/wusca-landing/wuscacategoryfiltertabs";
 import Wuscarankinglistitem from "@packages/shared-components/common-utilities/wusca-landing/wuscarankinglistitem";
@@ -237,51 +238,57 @@ const rankingsSecondSet = [
 // Category cards for "Explore more award categories"
 const categoryCards = [
   {
+    label: "TOP 10",
     title: "University of the year",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-blue-100",
-    badgeBgColor: "bg-primary-50",
-    badgeTextColor: "text-primary-500",
+    tagColor: "text-primary-500",
+    tagBg: "bg-primary-50",
     image: "/static/assets/images/wusca/wusca_university.png",
   },
   {
+    label: "TOP 10",
     title: "Career prospects",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-orange-100",
-    badgeBgColor: "bg-orange-50",
-    badgeTextColor: "text-negative-dark",
+    tagColor: "text-negative-dark",
+    tagBg: "bg-orange-50",
     image: "/static/assets/images/wusca/wusca_career.png",
   },
   {
+    label: "TOP 10",
     title: "Facilities",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-green-200",
-    badgeBgColor: "bg-positive-light",
-    badgeTextColor: "text-positive-dark",
+    tagColor: "text-positive-dark",
+    tagBg: "bg-positive-light",
     image: "/static/assets/images/wusca/wusca_facilities.png",
   },
   {
+    label: "TOP 10",
     title: "International",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-grey-200",
-    badgeBgColor: "bg-grey-100",
-    badgeTextColor: "text-grey-500",
+    tagColor: "text-grey-500",
+    tagBg: "bg-grey-100",
     image: "/static/assets/images/wusca/wusca_international.png",
   },
   {
+    label: "TOP 10",
     title: "Lecturers and teaching quality",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-blue-100",
-    badgeBgColor: "bg-primary-50",
-    badgeTextColor: "text-primary-500",
+    tagColor: "text-primary-500",
+    tagBg: "bg-primary-50",
     image: "/static/assets/images/wusca/wusca_lecturers.png",
   },
   {
+    label: "TOP 10",
     title: "Postgraduate",
-    badge: "TOP 10",
+    href: "#",
     bgColor: "bg-orange-100",
-    badgeBgColor: "bg-orange-50",
-    badgeTextColor: "text-negative-dark",
+    tagColor: "text-negative-dark",
+    tagBg: "bg-orange-50",
     image: "/static/assets/images/wusca/wusca_postgraduate.png",
   },
 ];
@@ -289,21 +296,29 @@ const categoryCards = [
 const WuscaRankingsPage = () => {
   return (
     <>
-      {/* Hero Section with Breadcrumbs */}
-      <Wuscarankingsherosection
-        title="Overall rankings 2025"
-        breadcrumbs={breadcrumbData}
-      />
+      {/* Breadcrumb */}
+      <div className="bg-blue-100 px-[16px] md:px-[20px] xl:px-[112px] pt-[24px]">
+        <div className="max-w-container mx-auto">
+          <Breadcrumblayoutcomponent data={breadcrumbData} />
+        </div>
+      </div>
 
-      {/* Category Filters + Title Section */}
+      {/* Hero Section */}
+      <Wuscarankingsherosection title="Overall rankings 2025" />
+
+      {/* Sticky Category Filter Tabs */}
+      <div className="sticky top-0 z-20 bg-white px-[16px] md:px-[20px] xl:px-[112px] py-[16px]">
+        <div className="max-w-container mx-auto">
+          <Wuscacategoryfiltertabs categories={categoryTabs} />
+        </div>
+      </div>
+
+      {/* Title Section */}
       <section className="bg-white px-[16px] md:px-[20px] xl:px-[112px] py-[24px]">
         <div className="max-w-container mx-auto flex flex-col gap-[24px]">
-          {/* Category Filter Tabs */}
-          <Wuscacategoryfiltertabs categories={categoryTabs} />
-
           {/* Title + Description + Quick Links */}
           <div className="flex flex-col justify-center gap-[16px]">
-            <h2 className="font-farro font-bold text-heading5 md:text-heading4 text-grey-900">
+            <h2 className="font-farro font-bold text-heading5 md:text-heading2 text-grey-900">
               University of the year 2024 – all UK
             </h2>
             <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[80px] items-start w-full">

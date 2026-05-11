@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import {
   RightBlueArrowIcon,
   LeftBlueArrowIcon,
-} from "@/app/media-utilities/mediautilities";
+} from "../../../../apps/whatuni/src/app/media-utilities/mediautilities";
 
 interface CategoryTab {
   label: string;
@@ -23,7 +23,6 @@ const Wuscacategoryfiltertabs = ({
     categories.findIndex((c) => c.active) ?? 0,
   );
   const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [selectedDropdownValue, setSelectedDropdownValue] = useState<string>(
     categories.find((c) => c.isDropdown)?.label || "",
@@ -32,9 +31,8 @@ const Wuscacategoryfiltertabs = ({
 
   const checkScrollPosition = () => {
     if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      const { scrollLeft } = scrollRef.current;
       setShowLeftArrow(scrollLeft > 0);
-      setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 1);
     }
   };
 
@@ -48,7 +46,7 @@ const Wuscacategoryfiltertabs = ({
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = () => {
       if (openDropdown !== null) {
         setOpenDropdown(null);
       }
@@ -72,20 +70,8 @@ const Wuscacategoryfiltertabs = ({
   };
 
   return (
-    <div className="flex flex-row items-center gap-[18px] relative">
-      {/* Left Arrow */}
-      {showLeftArrow && (
-        <button
-          type="button"
-          onClick={scrollLeftFn}
-          className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 flex items-center justify-center hover:bg-primary-50 cursor-pointer"
-          aria-label="Scroll left"
-        >
-          <LeftBlueArrowIcon />
-        </button>
-      )}
-
-      {/* Dropdown Button - outside scroll container */}
+    <div className="flex flex-col md:flex-row md:items-center gap-[12px] md:gap-[18px]">
+      {/* Dropdown Button */}
       {categories.map((category, index) =>
         category.isDropdown ? (
           <div key={index} className="relative shrink-0">
@@ -95,7 +81,7 @@ const Wuscacategoryfiltertabs = ({
                 e.stopPropagation();
                 setOpenDropdown(openDropdown === index ? null : index);
               }}
-              className="whitespace-nowrap small font-semibold rounded-[20px] py-[8px] border border-grey-300 bg-white text-grey300 hover:border-grey300 cursor-pointer flex items-center gap-[10px] h-[37px] w-[220px] justify-center"
+              className="whitespace-nowrap small font-semibold rounded-[20px] py-[8px] border border-grey-300 bg-white text-grey300 hover:border-grey300 cursor-pointer flex items-center gap-[10px] h-[37px] w-full md:w-[220px] justify-center"
             >
               {selectedDropdownValue}
               <svg
@@ -117,7 +103,7 @@ const Wuscacategoryfiltertabs = ({
 
             {/* Dropdown Menu */}
             {openDropdown === index && (
-              <div className="absolute top-[42px] left-0 z-20 bg-white shadow-custom-3 rounded-[8px] min-w-[220px] py-[8px] border border-grey-200">
+              <div className="absolute top-[42px] left-0 z-20 bg-white shadow-custom-3 rounded-[8px] min-w-[220px] w-full md:w-auto py-[8px] border border-grey-200">
                 {category.dropdownOptions?.map((option, optIndex) => (
                   <button
                     key={optIndex}
@@ -140,6 +126,21 @@ const Wuscacategoryfiltertabs = ({
             )}
           </div>
         ) : null,
+      )}
+
+      {/* Vertical Separator - tablet only */}
+      <div className="hidden md:block lg:hidden w-[1px] h-[36px] bg-neutral-300 shrink-0"></div>
+
+      {/* Left Arrow - desktop only */}
+      {showLeftArrow && (
+        <button
+          type="button"
+          onClick={scrollLeftFn}
+          className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer"
+          aria-label="Scroll left"
+        >
+          <LeftBlueArrowIcon />
+        </button>
       )}
 
       {/* Tabs Container - scrollable */}
@@ -167,17 +168,15 @@ const Wuscacategoryfiltertabs = ({
         </div>
       </div>
 
-      {/* Right Arrow */}
-      {showRightArrow && (
-        <button
-          type="button"
-          onClick={scrollRightFn}
-          className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 flex items-center justify-center hover:bg-primary-50 cursor-pointer"
-          aria-label="Scroll right"
-        >
-          <RightBlueArrowIcon />
-        </button>
-      )}
+      {/* Right Arrow - desktop only, always visible */}
+      <button
+        type="button"
+        onClick={scrollRightFn}
+        className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer"
+        aria-label="Scroll right"
+      >
+        <RightBlueArrowIcon />
+      </button>
     </div>
   );
 };
