@@ -1,12 +1,11 @@
 import React from "react";
 import Breadcrumblayoutcomponent from "@packages/shared-components/common-utilities/breadcrumb-layout/breadcrumblayoutcomponent";
 import Wuscarankingsherosection from "@packages/shared-components/common-utilities/wusca-landing/wuscarankingsherosection";
-import Wuscacategoryfiltertabs from "@packages/shared-components/common-utilities/wusca-landing/wuscacategoryfiltertabs";
+import Wuscarankingfilterwithtitle from "@packages/shared-components/common-utilities/wusca-landing/wuscarankingfilterwithtitle";
 import Wuscarankinglistitem from "@packages/shared-components/common-utilities/wusca-landing/wuscarankinglistitem";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Wuscareviewsection from "@packages/shared-components/common-utilities/wusca-landing/wuscareviewsection";
-import Wuscarankingcategorygrid from "@packages/shared-components/common-utilities/wusca-landing/wuscarankingcategorygrid";
-import Tagcloudcomponents from "@packages/shared-components/home/tag-cloud/tagcloudcomponents";
+import Wuscarankingexplorecategorieswrapper from "@packages/shared-components/common-utilities/wusca-landing/wuscarankingexplorecategorieswrapper";
 
 // Breadcrumb data
 const breadcrumbData = [
@@ -306,44 +305,13 @@ const WuscaRankingsPage = () => {
       {/* Hero Section */}
       <Wuscarankingsherosection title="Overall rankings 2025" />
 
-      {/* Sticky Category Filter Tabs */}
-      <div className="sticky top-0 z-20 bg-white px-[16px] md:px-[20px] xl:px-[0] py-[24px]">
-        <div className="max-w-container mx-auto">
-          <Wuscacategoryfiltertabs categories={categoryTabs} />
-        </div>
-      </div>
-
-      {/* Title Section */}
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-[0] pb-[24px]">
-        <div className="max-w-container mx-auto">
-          {/* Title + Description + Quick Links */}
-          <div className="flex flex-col justify-center gap-[8px]">
-            <h2 className="font-farro font-bold text-heading3 md:text-heading2 text-grey-900">
-              University of the year 2024 – all UK
-            </h2>
-            <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[130px] items-start w-full">
-              <p className="font-inter font-normal text-small">
-                Want to know what our student reviewers thought about a
-                university? Then you&apos;ve come to the right place! Check out
-                the ranking table below to see how all the unis [in region] in
-                the Whatuni Student Choice Awards stacked up for the massively
-                exciting University of the Year category.
-              </p>
-              <div className="flex flex-col gap-[4px] shrink-0 md:w-[390px]">
-                <span className="x-small font-bold text-grey-900 uppercase">
-                  QUICK LINKS
-                </span>
-                <a
-                  href="#"
-                  className="small font-normal text-primary-400 hover:underline"
-                >
-                  Previous years rankings
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Sticky Category Filter + Title Section */}
+      <Wuscarankingfilterwithtitle
+        categories={categoryTabs}
+        title="University of the year 2024 – all UK"
+        description="Want to know what our student reviewers thought about a university? Then you've come to the right place! Check out the ranking table below to see how all the unis [in region] in the Whatuni Student Choice Awards stacked up for the massively exciting University of the Year category."
+        quickLinks={[{ label: "Previous years rankings", href: "#" }]}
+      />
 
       {/* Rankings Section - grey-50 background */}
       <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] md:py-[40px]">
@@ -411,18 +379,10 @@ const WuscaRankingsPage = () => {
       <Wuscareviewsection />
 
       {/* Explore More Award Categories */}
-      <section className="bg-grey-50 py-[40px] md:py-[64px]">
-        <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-          <h2 className="font-farro font-bold text-heading2 mb-[26px] md:mb-[32px]">
-            Explore more award categories
-          </h2>
-          <div className="discover-card-slide">
-            <Wuscarankingcategorygrid cards={categoryCards} />
-          </div>
-          {/* Tag Cloud */}
-          <Tagcloudcomponents />
-        </div>
-      </section>
+      <Wuscarankingexplorecategorieswrapper
+        title="Explore more award categories"
+        cards={categoryCards}
+      />
     </>
   );
 };
