@@ -305,12 +305,12 @@ const categoryCards = [
 const BestUnisPage = () => {
   return (
     <>
-      {/* Breadcrumb - separate from hero */}
-      <section className="bg-blue-100 px-[16px] md:px-[20px] xl:px-[112px] pt-[24px]">
+      {/* Breadcrumb */}
+      <div className="bg-blue-100 px-[16px] md:px-[20px] xl:px-[0] pt-[24px] hidden lg:block">
         <div className="max-w-container mx-auto">
           <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
-      </section>
+      </div>
 
       {/* Hero Section */}
       <Wuscarankingsherosection
@@ -318,34 +318,36 @@ const BestUnisPage = () => {
         badgeImage="/static/assets/images/wusca/wusca_best_uni_hero_image.png"
       />
 
-      {/* Category Filters + Title Section */}
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-[112px] py-[24px]">
-        <div className="max-w-container mx-auto flex flex-col gap-[24px]">
-          {/* Category Filter Tabs */}
+      {/* Sticky Category Filter Tabs */}
+      <div className="sticky top-0 z-20 bg-white px-[16px] md:px-[20px] xl:px-[0] py-[24px]">
+        <div className="max-w-container mx-auto">
           <Wuscacategoryfiltertabs categories={categoryTabs} />
+        </div>
+      </div>
 
+      {/* Title Section */}
+      <section className="bg-white px-[16px] md:px-[20px] xl:px-[0] pb-[24px]">
+        <div className="max-w-container mx-auto">
           {/* Title + Description + Quick Links */}
-          <div className="flex flex-col justify-center gap-[16px]">
-            <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[90px] items-start">
-              <div className="flex flex-col gap-[8px] flex-1">
-                <h2 className="font-farro font-bold text-heading4 lg:text-heading2 text-grey-900">
-                  University of the year 2026 – all UK
-                </h2>
-                <p className="font-inter font-normal text-small text-grey-900 lg:max-w-[699px]">
-                  Want to know what our student reviewers thought about a
-                  university? Then you&apos;ve come to the right place! Check
-                  out the ranking table below to see how all the unis in the
-                  Whatuni Student Choice Awards stacked up for the massively
-                  exciting University of the Year category.
-                </p>
-              </div>
-              <div className="flex flex-col gap-[4px] shrink-0">
-                <span className="font-inter font-semibold text-x-small text-grey-700 uppercase tracking-[1px]">
+          <div className="flex flex-col justify-center gap-[8px]">
+            <h2 className="font-farro font-bold text-heading3 md:text-heading2 text-grey-900">
+              University of the year 2024 – all UK
+            </h2>
+            <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[130px] items-start w-full">
+              <p className="font-inter font-normal text-small">
+                Want to know what our student reviewers thought about a
+                university? Then you&apos;ve come to the right place! Check out
+                the ranking table below to see how all the unis [in region] in
+                the Whatuni Student Choice Awards stacked up for the massively
+                exciting University of the Year category.
+              </p>
+              <div className="flex flex-col gap-[4px] shrink-0 md:w-[390px]">
+                <span className="x-small font-bold text-grey-900 uppercase">
                   QUICK LINKS
                 </span>
                 <a
                   href="#"
-                  className="font-inter font-normal text-small text-primary-400 hover:underline"
+                  className="small font-normal text-primary-400 hover:underline"
                 >
                   Previous years rankings
                 </a>
@@ -355,24 +357,19 @@ const BestUnisPage = () => {
         </div>
       </section>
 
-      {/* Frame 143: Winner Showcase + Reviews */}
-      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[112px] pt-[40px] md:pt-[64px] pb-[0]">
+      {/* Winner Showcase + Reviews */}
+      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] pt-[40px] md:pt-[64px] pb-[0]">
         <div className="max-w-container mx-auto flex flex-col gap-[24px]">
           {/* 1st Place Winner Showcase */}
           <WuscaWinnerShowcase {...winnerData} />
 
           {/* Review Cards Slider (reusing existing home page component) */}
-          <Reviewslidercomponents
-            maxSlidesPerView={3}
-            totalCards={3}
-            hideNavigation={false}
-            hideReadMore={false}
-          />
+          <Reviewslidercomponents maxSlidesPerView={3} totalCards={7} />
         </div>
       </section>
 
-      {/* Frame 127: Result Pods (2nd - 10th) */}
-      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[112px] py-[40px] md:py-[64px]">
+      {/*  Result Pods */}
+      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] py-[40px] md:py-[64px]">
         <div className="max-w-container mx-auto flex flex-col gap-[24px]">
           {resultPods.map((pod, index) => (
             <WuscaResultPod key={index} {...pod} />
@@ -386,11 +383,12 @@ const BestUnisPage = () => {
       {/* Explore More Award Categories */}
       <section className="bg-grey-50 py-[40px] md:py-[64px]">
         <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-          <h2 className="font-farro font-bold text-heading2 text-grey300 mb-[26px] md:mb-[32px]">
+          <h2 className="font-farro font-bold text-heading2 mb-[26px] md:mb-[32px]">
             Explore more award categories
           </h2>
-          <Wuscarankingcategorygrid cards={categoryCards} />
-
+          <div className="discover-card-slide">
+            <Wuscarankingcategorygrid cards={categoryCards} />
+          </div>
           {/* Tag Cloud */}
           <Tagcloudcomponents />
         </div>

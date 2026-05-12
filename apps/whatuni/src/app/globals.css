@@ -438,6 +438,10 @@ p,
   @apply !pt-[2px];
 }
 
+.discover-card-slide .swiper {
+  @apply !p-[2px_2px_30px_2px];
+}
+
 .MultiSwiper {
   @apply !px-[16px] md:!px-[20px] xl:!px-[0] !pb-[30px];
 }
@@ -1285,3 +1289,21 @@ h2.react-datepicker__current-month {
 .reviewMainSwiper .swiper-button-next svg {
   display: none;
 }
+/* .MultiSwiper.unislider {
+@apply !px-0
+}
+
+.MultiSwiper.unislider .swiper-pagination{
+@apply !mb-[36px]
+}
+.MultiSwiper.unislider .swiper-pagination-bullet.swiper-pagination-bullet-active{
+  @apply !bg-white !w-[8px] !h-[8px]
+}
+.MultiSwiper.unislider .swiper-pagination-bullet{
+   @apply !bg-grey400 !w-[6px] !h-[6px]
+}
+
+.MultiSwiper.unislider .swiper-button-prev,
+.MultiSwiper.unislider .swiper-button-next {
+  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[40%] !m-[0_16px] translate-y-[40%] !hidden lg:!flex;
+} */

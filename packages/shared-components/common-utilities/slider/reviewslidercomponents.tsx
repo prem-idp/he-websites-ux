@@ -11,7 +11,23 @@ import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
 
 import Reviewscard from "../cards/reviews-card/reviewscard";
 
-const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards, autoplay = false, hideNavigation = false, hideReadMore = false, mobileSpaceBetween = 8 }: { maxSlidesPerView?: number; className?: string; totalCards?: number; autoplay?: boolean; hideNavigation?: boolean; hideReadMore?: boolean; mobileSpaceBetween?: number }) => {
+const Reviewslidercomponents = ({
+  maxSlidesPerView,
+  className,
+  totalCards,
+  autoplay = false,
+  hideNavigation = false,
+  hideReadMore = false,
+  mobileSpaceBetween = 8,
+}: {
+  maxSlidesPerView?: number;
+  className?: string;
+  totalCards?: number;
+  autoplay?: boolean;
+  hideNavigation?: boolean;
+  hideReadMore?: boolean;
+  mobileSpaceBetween?: number;
+}) => {
   const max = maxSlidesPerView || 3;
   const cardCount = totalCards || 6;
   return (
@@ -20,7 +36,9 @@ const Reviewslidercomponents = ({ maxSlidesPerView, className, totalCards, autop
         <Swiper
           pagination={true}
           navigation={!hideNavigation}
-          autoplay={autoplay ? { delay: 3000, disableOnInteraction: false } : false}
+          autoplay={
+            autoplay ? { delay: 3000, disableOnInteraction: false } : false
+          }
           breakpoints={{
             320: {
               slidesPerView: 1,

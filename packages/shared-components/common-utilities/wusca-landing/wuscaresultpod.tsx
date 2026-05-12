@@ -33,7 +33,7 @@ const WuscaResultPod = ({
     <div className="flex flex-col md:flex-row border border-grey-200 rounded-[16px] overflow-hidden shadow-custom-1 bg-white">
       {/* Left: Campus Image - stretches to full card height */}
       <div
-        className="relative w-full md:w-[500px] h-[200px] md:h-auto md:self-stretch shrink-0 bg-cover bg-center"
+        className="relative w-full md:w-[500px] h-[332px] shrink-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${campusImage})` }}
       >
         {/* Top Row: Logo + Shortlist */}
@@ -58,7 +58,7 @@ const WuscaResultPod = ({
       </div>
 
       {/* Right: Content */}
-      <div className="flex flex-col justify-between p-[24px] gap-[16px] flex-1">
+      <div className="flex flex-col justify-between p-[24px] gap-[20px] flex-1">
         {/* University Info */}
         <div className="flex flex-col gap-[4px]">
           {/* Rank */}

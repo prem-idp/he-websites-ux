@@ -70,7 +70,7 @@ const Wuscacategoryfiltertabs = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-[12px] md:gap-[18px]">
+    <div className="flex flex-col md:flex-row md:items-center gap-[16px] md:gap-0">
       {/* Dropdown Button */}
       {categories.map((category, index) =>
         category.isDropdown ? (
@@ -81,7 +81,7 @@ const Wuscacategoryfiltertabs = ({
                 e.stopPropagation();
                 setOpenDropdown(openDropdown === index ? null : index);
               }}
-              className="whitespace-nowrap small font-semibold rounded-[20px] py-[8px] border border-grey-300 bg-white text-grey300 hover:border-grey300 cursor-pointer flex items-center gap-[10px] h-[37px] w-full md:w-[220px] justify-center"
+              className="whitespace-nowrap small font-semibold rounded-[20px] p-[8px_12px] border border-neutral-900 bg-white cursor-pointer flex items-center gap-[10px] w-full md:w-[220px] justify-center"
             >
               {selectedDropdownValue}
               <svg
@@ -129,14 +129,14 @@ const Wuscacategoryfiltertabs = ({
       )}
 
       {/* Vertical Separator - tablet only */}
-      <div className="hidden md:block lg:hidden w-[1px] h-[36px] bg-neutral-300 shrink-0"></div>
+      <div className="hidden md:block w-[1px] h-[36px] bg-neutral-300 shrink-0 mx-[18px]"></div>
 
       {/* Left Arrow - desktop only */}
       {showLeftArrow && (
         <button
           type="button"
           onClick={scrollLeftFn}
-          className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer"
+          className="shrink-0 w-[40px] h-[40px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer shadow-custom-2"
           aria-label="Scroll left"
         >
           <LeftBlueArrowIcon />
@@ -155,7 +155,7 @@ const Wuscacategoryfiltertabs = ({
                   setActiveIndex(index);
                   setOpenDropdown(null);
                 }}
-                className={`whitespace-nowrap small font-semibold rounded-[20px] px-[16px] py-[8px] border transition-colors cursor-pointer h-[37px] ${
+                className={`whitespace-nowrap small font-semibold rounded-[20px] p-[8px_12px] border transition-colors cursor-pointer h-[37px] ${
                   activeIndex === index
                     ? "bg-grey300 text-white border-grey300"
                     : "bg-white text-grey300 border-grey-500 hover:border-grey300"
@@ -172,7 +172,7 @@ const Wuscacategoryfiltertabs = ({
       <button
         type="button"
         onClick={scrollRightFn}
-        className="shrink-0 w-[37px] h-[37px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer"
+        className="shrink-0 w-[40px] h-[40px] rounded-full border border-primary-400 hidden lg:flex items-center justify-center hover:bg-primary-50 cursor-pointer"
         aria-label="Scroll right"
       >
         <RightBlueArrowIcon />

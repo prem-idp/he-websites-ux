@@ -53,7 +53,7 @@ const rankingsFirstSet = [
     rank: "1st",
     movement: "10",
     movementDirection: "up" as const,
-    logo: "/static/assets/images/uni_logo_tile1.jpg",
+    logo: "/static/assets/images/uni_logo_tile1.png",
     name: "University of Portsmouth",
     rating: 4.6,
     category: "University of the year",
@@ -62,7 +62,7 @@ const rankingsFirstSet = [
     rank: "2nd",
     movement: "6",
     movementDirection: "up" as const,
-    logo: "/static/assets/images/uni_logo_tile1.jpg",
+    logo: "/static/assets/images/uni_logo_tile2.jpg",
     name: "University of Kent",
     rating: 4.5,
     category: "University of the year",
@@ -71,7 +71,7 @@ const rankingsFirstSet = [
     rank: "3rd",
     movement: "1",
     movementDirection: "down" as const,
-    logo: "/static/assets/images/uni_logo_tile1.jpg",
+    logo: "/static/assets/images/uni_logo_tile3.png",
     name: "Roehampton University",
     rating: 4.5,
     category: "University of the year",
@@ -297,7 +297,7 @@ const WuscaRankingsPage = () => {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="bg-blue-100 px-[16px] md:px-[20px] xl:px-[112px] pt-[24px]">
+      <div className="bg-blue-100 px-[16px] md:px-[20px] xl:px-[0] pt-[24px] hidden lg:block">
         <div className="max-w-container mx-auto">
           <Breadcrumblayoutcomponent data={breadcrumbData} />
         </div>
@@ -307,29 +307,29 @@ const WuscaRankingsPage = () => {
       <Wuscarankingsherosection title="Overall rankings 2025" />
 
       {/* Sticky Category Filter Tabs */}
-      <div className="sticky top-0 z-20 bg-white px-[16px] md:px-[20px] xl:px-[112px] py-[16px]">
+      <div className="sticky top-0 z-20 bg-white px-[16px] md:px-[20px] xl:px-[0] py-[24px]">
         <div className="max-w-container mx-auto">
           <Wuscacategoryfiltertabs categories={categoryTabs} />
         </div>
       </div>
 
       {/* Title Section */}
-      <section className="bg-white px-[16px] md:px-[20px] xl:px-[112px] py-[24px]">
-        <div className="max-w-container mx-auto flex flex-col gap-[24px]">
+      <section className="bg-white px-[16px] md:px-[20px] xl:px-[0] pb-[24px]">
+        <div className="max-w-container mx-auto">
           {/* Title + Description + Quick Links */}
-          <div className="flex flex-col justify-center gap-[16px]">
-            <h2 className="font-farro font-bold text-heading5 md:text-heading2 text-grey-900">
+          <div className="flex flex-col justify-center gap-[8px]">
+            <h2 className="font-farro font-bold text-heading3 md:text-heading2 text-grey-900">
               University of the year 2024 – all UK
             </h2>
-            <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[80px] items-start w-full">
-              <p className="font-inter font-normal text-small text-grey300 lg:max-w-[580px]">
+            <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[130px] items-start w-full">
+              <p className="font-inter font-normal text-small">
                 Want to know what our student reviewers thought about a
                 university? Then you&apos;ve come to the right place! Check out
                 the ranking table below to see how all the unis [in region] in
                 the Whatuni Student Choice Awards stacked up for the massively
                 exciting University of the Year category.
               </p>
-              <div className="flex flex-col gap-[4px] shrink-0">
+              <div className="flex flex-col gap-[4px] shrink-0 md:w-[390px]">
                 <span className="x-small font-bold text-grey-900 uppercase">
                   QUICK LINKS
                 </span>
@@ -346,44 +346,48 @@ const WuscaRankingsPage = () => {
       </section>
 
       {/* Rankings Section - grey-50 background */}
-      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[112px] py-[24px] md:py-[32px]">
+      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] md:py-[40px]">
         <div className="max-w-container mx-auto flex flex-col gap-[24px]">
           {/* Search Bar */}
-          <div>
-            <div className="relative w-full md:w-[343px]">
-              <svg
-                className="absolute left-[16px] top-1/2 -translate-y-1/2"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14 14L10.5 10.5M12 7C12 9.76142 9.76142 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7Z"
-                  stroke="#767676"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Find a university below"
-                className="w-full h-[40px] pl-[40px] pr-[16px] border border-neutral-300 rounded-[32px] text-small text-grey300 placeholder:text-grey-500 bg-white shadow-[0px_4px_6px_-1px_rgba(16,24,40,0.1),0px_2px_4px_-2px_rgba(16,24,40,0.1)] focus:outline-none focus:border-primary-400"
+          <div className="relative w-full md:w-[343px]">
+            <svg
+              className="absolute left-[16px] top-1/2 -translate-y-1/2"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 14L10.5 10.5M12 7C12 9.76142 9.76142 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7Z"
+                stroke="#767676"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
+            </svg>
+            <input
+              type="text"
+              placeholder="Find a university below"
+              className="w-full h-[40px] pl-[40px] pr-[16px] border border-neutral-300 rounded-[32px] text-small text-grey300 placeholder:text-grey-500 bg-white shadow-custom-5 focus:outline-none focus:border-primary-400"
+            />
+          </div>
+          <div>
+            <div className="flex gap-[16px]  uppercase x-small font-semibold bg-green-100 p-[12px_16px] md:hidden">
+              <div className="w-[60px]">Rank</div>
+              <div>University</div>
+            </div>
+
+            {/* Rankings List - First Set (1-10) */}
+            <div className="flex flex-col border border-grey-200 bg-white">
+              {rankingsFirstSet.map((item, index) => (
+                <Wuscarankinglistitem key={index} {...item} />
+              ))}
             </div>
           </div>
 
-          {/* Rankings List - First Set (1-10) */}
-          <div className="flex flex-col border border-grey-200 rounded-[8px] bg-white">
-            {rankingsFirstSet.map((item, index) => (
-              <Wuscarankinglistitem key={index} {...item} />
-            ))}
-          </div>
-
           {/* CTA Banner - Mid page */}
-          <div className="px-[0]">
+          <div className="mx-[-16px] md:mx-[-20px] lg:mx-0">
             <Ctabanner
               title="Check out the best of the best"
               description="Find out which unis won each WUSCA category"
@@ -395,7 +399,7 @@ const WuscaRankingsPage = () => {
           </div>
 
           {/* Rankings List - Second Set (11-20) */}
-          <div className="flex flex-col border border-grey-200 rounded-[8px] bg-white">
+          <div className="flex flex-col border border-grey-200 bg-white">
             {rankingsSecondSet.map((item, index) => (
               <Wuscarankinglistitem key={index} {...item} />
             ))}
@@ -409,11 +413,12 @@ const WuscaRankingsPage = () => {
       {/* Explore More Award Categories */}
       <section className="bg-grey-50 py-[40px] md:py-[64px]">
         <div className="max-w-container mx-auto px-[16px] md:px-[20px] xl:px-[0]">
-          <h2 className="font-farro font-bold text-heading2 text-grey300 mb-[26px] md:mb-[32px]">
+          <h2 className="font-farro font-bold text-heading2 mb-[26px] md:mb-[32px]">
             Explore more award categories
           </h2>
-          <Wuscarankingcategorygrid cards={categoryCards} />
-
+          <div className="discover-card-slide">
+            <Wuscarankingcategorygrid cards={categoryCards} />
+          </div>
           {/* Tag Cloud */}
           <Tagcloudcomponents />
         </div>

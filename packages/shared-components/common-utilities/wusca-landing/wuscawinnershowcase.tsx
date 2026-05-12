@@ -49,7 +49,7 @@ const WuscaWinnerShowcase = ({
           navigation={true}
           pagination={{ clickable: true }}
           modules={[Navigation, Pagination]}
-          className="w-full h-full MultiSwiper"
+          className="w-full h-full MultiSwiper unislider"
         >
           {heroImages.map((img, index) => (
             <SwiperSlide key={index}>
@@ -87,7 +87,7 @@ const WuscaWinnerShowcase = ({
       {/* Content Section */}
       <div className="p-[24px] md:p-[32px] lg:px-[64px] lg:py-[32px] flex flex-col gap-[10px]">
         {/* Top Row: University Info + Review Breakdown */}
-        <div className="flex flex-col lg:flex-row gap-[24px] lg:gap-[40px] items-start lg:items-end">
+        <div className="flex flex-col lg:flex-row gap-[24px] lg:gap-[40px] items-start">
           {/* Left: University Info */}
           <div className="flex flex-col gap-[4px] flex-1 min-w-0">
             {/* Rank */}
