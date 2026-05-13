@@ -22,7 +22,9 @@ const Wuscarankingexplorecategorieswrapper = ({
           <Wuscarankingcategorygrid cards={cards} />
         </div>
         {/* Tag Cloud */}
-        <Tagcloudcomponents />
+        <div className="mx-[-16px] md:mx-[-20px] lg:mx-0">
+          <Tagcloudcomponents />
+        </div>
       </div>
     </section>
   );

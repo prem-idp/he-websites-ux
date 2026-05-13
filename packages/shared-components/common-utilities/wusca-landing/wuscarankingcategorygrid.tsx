@@ -19,7 +19,7 @@ const Wuscarankingcategorygrid = ({ cards }: { cards: DiscoverCardData[] }) => (
       992: { slidesPerView: 3, spaceBetween: 20 },
     }}
     modules={[FreeMode, Navigation, Pagination]}
-    className="MultiSwiper !px-[0]"
+    className="MultiSwiper"
   >
     {cards.map((card, index) => (
       <SwiperSlide key={index}>

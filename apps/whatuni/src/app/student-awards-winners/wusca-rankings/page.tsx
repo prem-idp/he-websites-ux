@@ -314,8 +314,8 @@ const WuscaRankingsPage = () => {
       />
 
       {/* Rankings Section - grey-50 background */}
-      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] md:py-[40px]">
-        <div className="max-w-container mx-auto flex flex-col gap-[24px]">
+      <section className="bg-grey-50 px-[16px] md:px-[20px] xl:px-[0] py-[40px]">
+        <div className="max-w-container mx-auto flex flex-col gap-[16px] md:gap-[24px]">
           {/* Search Bar */}
           <div className="relative w-full md:w-[343px]">
             <svg
@@ -341,7 +341,7 @@ const WuscaRankingsPage = () => {
             />
           </div>
           <div>
-            <div className="flex gap-[16px]  uppercase x-small font-semibold bg-green-100 p-[12px_16px] md:hidden">
+            <div className="flex gap-[16px] uppercase x-small font-semibold p-[12px_16px] md:hidden">
               <div className="w-[60px]">Rank</div>
               <div>University</div>
             </div>

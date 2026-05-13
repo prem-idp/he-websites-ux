@@ -24,7 +24,7 @@ const Wuscarankinglistitem = ({
   return (
     <>
       <div className="flex items-center border-b border-grey-200 last:border-b-0">
-        <div className="flex gap-[8px] w-[92px] md:w-[124px] px-[16px] md:px-[24px]">
+        <div className="flex gap-[8px] w-[92px] md:w-[124px] px-[16px] md:px-[24px] shrink-0">
           {/* Rank */}
           <div className="w-[28px] md:w-[36px]">
             <span className="font-inter font-normal text-x-small md:text-small">

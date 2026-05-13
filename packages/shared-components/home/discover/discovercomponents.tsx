@@ -23,7 +23,7 @@ const Discovercomponents = ({
     <div className="discover-container bg-white">
       <div className="max-w-container mx-auto">
         <div
-          className={`discover-card-container px-[0] ${wuscaLanding ? "md:pb-[32px]" : "py-[34px] md:py-[64px]"}`}
+          className={`discover-card-container px-[0] ${wuscaLanding ? "pb-[32px]" : "py-[34px] md:py-[64px]"}`}
         >
           <div className="discover-header px-[20px] lg:px-[0] mb-[26px] md:mb-[32px]">
             <h2 className={`font-bold`}>{title}</h2>

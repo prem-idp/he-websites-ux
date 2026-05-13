@@ -187,7 +187,7 @@ const WuscaWinnerShowcase = ({
         </div>
 
         {/* Bottom Row: What students love most + Get Prospectus */}
-        <div className="flex flex-row gap-[16px] items-end mt-[16px]">
+        <div className="flex flex-col md:flex-row gap-[16px] items-end mt-[16px]">
           {/* Left: Badges (wrapped into rows) */}
           <div className="flex flex-col gap-[8px] flex-1 min-w-0">
             <span className="font-inter font-semibold text-small text-grey300">
@@ -208,7 +208,7 @@ const WuscaWinnerShowcase = ({
           {/* Right: Get Prospectus Button */}
           <Link
             href="#"
-            className="shrink-0 font-inter font-semibold text-small text-primary-400 border border-primary-400 rounded-[20px] px-[20px] py-[10px] hover:bg-primary-400 hover:text-white transition-colors whitespace-nowrap shadow-custom-1"
+            className="w-full md:w-fit shrink-0 btn btn-primary-outline text-center shadow-custom-1"
           >
             Get prospectus
           </Link>

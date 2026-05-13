@@ -40,22 +40,17 @@ const Wuscarankingfilterwithtitle = ({
             </h2>
             <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[130px] items-start w-full">
               <p className="font-inter font-normal text-small">{description}</p>
-              {quickLinks && quickLinks.length > 0 && (
-                <div className="flex flex-col gap-[4px] shrink-0 md:w-[390px]">
-                  <span className="x-small font-bold text-grey-900 uppercase">
-                    QUICK LINKS
-                  </span>
-                  {quickLinks.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.href}
-                      className="small font-normal text-primary-400 hover:underline"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-col gap-[4px] shrink-0 md:w-[390px]">
+                <span className="x-small font-bold text-grey-900 uppercase">
+                  QUICK LINKS
+                </span>
+                <a
+                  href="#"
+                  className="small font-normal text-primary-400 hover:underline"
+                >
+                  Previous years rankings
+                </a>
+              </div>
             </div>
           </div>
         </div>

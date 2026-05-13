@@ -213,6 +213,8 @@ const config: Config = {
           "linear-gradient(180deg, rgba(0, 0, 0, 0), rgb(0 0 0) 58.78%)",
         gradient17:
           "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(51, 51, 51, 0.8) 58.78%)",
+        gradient18:
+          "linear-gradient(0deg, rgba(15, 23, 42, 0.8) 0%, rgba(0, 0, 0, 0) 41.67%)",
       },
       boxShadow: {
         "custom-1":
