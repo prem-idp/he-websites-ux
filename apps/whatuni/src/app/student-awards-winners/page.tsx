@@ -1,7 +1,6 @@
 import React from "react";
 import Wuscaherosection from "@packages/shared-components/common-utilities/wusca-landing/wuscaherosection";
 import Wuscacontentsection from "@packages/shared-components/common-utilities/wusca-landing/wuscacontentsection";
-import Wuscacategorygrid from "@packages/shared-components/common-utilities/wusca-landing/wuscacategorygrid";
 import Tagcloudcomponents from "@packages/shared-components/home/tag-cloud/tagcloudcomponents";
 import Ctabanner from "@packages/shared-components/article-details/cta-banner/cta-banner";
 import Wuscauniquefeatures from "@packages/shared-components/common-utilities/wusca-landing/wuscauniquefeatures";
