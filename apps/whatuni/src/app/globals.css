@@ -493,12 +493,12 @@ p,
 .MultiSwiper .swiper-button-next,
 .centered-gallery .swiper-button-prev,
 .centered-gallery .swiper-button-next {
-  @apply flex !w-[46px] !h-[46px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[28%] !m-[0] translate-y-[-28%] !hidden lg:!block;
+  @apply flex !w-[46px] !h-[46px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[35%] !m-[0] translate-y-[-35%] !hidden lg:!block;
 }
 
 .MultiSwiper.popular .swiper-button-prev,
 .MultiSwiper.popular .swiper-button-next {
-  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[28%] !m-[1px] translate-y-[28%] !hidden lg:!flex;
+  @apply !w-[48px] !h-[48px] !rounded-[24px] !p-[10px] !border-[1px] !border-solid !border-grey-500 !bg-white hover:!bg-primary-500 hover:!border-primary-500 !bg-no-repeat !bg-center z-[2] !top-[32%] !m-[1px] translate-y-[32%] !hidden lg:!flex;
 }
 
 .MultiSwiper.popular {
@@ -1318,15 +1318,15 @@ h2.react-datepicker__current-month {
 }
 
 .discover-card-slide .swiper {
-  @apply !p-[2px_2px_30px_2px];
+  @apply !p-[2px_16px_30px_16px] mx-[-16px] md:!p-[2px_20px_30px_20px] md:mx-[-20px] lg:!p-[2px_2px_30px_2px] lg:mx-0;
 }
 
 .MultiSwiper.unislider {
-  @apply !px-0
+  @apply !px-0 !pb-0
 }
 
 .MultiSwiper.unislider .swiper-pagination {
-  @apply !mb-[36px]
+  @apply !mb-[16px]
 }
 
 .MultiSwiper.unislider .swiper-pagination-bullet.swiper-pagination-bullet-active {

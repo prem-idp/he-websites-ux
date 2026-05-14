@@ -166,7 +166,7 @@ const StudentAwardsWinnersPage = () => {
 
       {/* Category Cards Section */}
       <section className="bg-white py-[40px] md:py-[64px]">
-        <div className="max-w-container mx-auto md:px-[20px] xl:px-[0]">
+        <div className="max-w-container mx-auto lg:px-[20px] xl:px-[0]">
           <Discovercomponents
             title="Best of the best 2025"
             subtitle=""

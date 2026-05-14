@@ -331,7 +331,9 @@ const BestUnisPage = () => {
           <WuscaWinnerShowcase {...winnerData} />
 
           {/* Review Cards Slider (reusing existing home page component) */}
-          <Reviewslidercomponents maxSlidesPerView={3} totalCards={7} />
+          <div className="mx-[-16px] md:mx-[-20px] lg:mx-0">
+            <Reviewslidercomponents maxSlidesPerView={3} totalCards={7} />
+          </div>
         </div>
       </section>
 
