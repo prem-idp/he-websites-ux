@@ -33,17 +33,12 @@ const WuscaResultPod = ({
     <div className="flex flex-col md:flex-row border border-grey-200 rounded-[16px] overflow-hidden shadow-custom-2 bg-white">
       {/* Left: Campus Image */}
       <div className="relative w-full h-[200px] md:min-h-[392px] lg:md:min-h-[332px] md:w-[280px] lg:w-[500px] shrink-0 overflow-hidden">
-        <Image
-          src="/static/assets/images/wusca/wusca_result_pod_image.png"
-          alt={universityName}
-          fill
-          className="object-cover"
-        />
+        <Image src={logo} alt={universityName} fill className="object-cover" />
         {/* Logo */}
         <div className="absolute top-[16px] left-[16px] md:top-[24px] md:left-[24px]">
           <div className="w-[56px] h-[56px] md:w-[64px] md:h-[64px] rounded-[8px] overflow-hidden shadow-custom-3 bg-white">
             <Image
-              src="/static/assets/images/wusca/wusca_result_pod_logo.png"
+              src={campusImage}
               alt={universityName}
               width={64}
               height={64}
